@@ -1,0 +1,26 @@
+<UserControl x:Class="SukiUI.Theme.TextEraserButton"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:content="clr-namespace:SukiUI.Content"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Button Width="25"
+            Height="25"
+            Margin="0,-5,-5,-5"
+            Padding="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            BorderThickness="0"
+            Classes="Void"
+            Click="Button_OnClick">
+
+        <PathIcon Width="16"
+                  Height="16"
+                  Margin="0"
+                  Data="{x:Static content:Icons.CircleClose}"
+                  Foreground="{DynamicResource SukiControlBorderBrush}" />
+    </Button>
+</UserControl>

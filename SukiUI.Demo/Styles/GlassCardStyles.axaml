@@ -1,0 +1,7 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI">
+    <Style Selector="controls|GlassCard.HeaderCard">
+        <Setter Property="Margin" Value="30,30,30,1" />
+    </Style>
+</Styles>

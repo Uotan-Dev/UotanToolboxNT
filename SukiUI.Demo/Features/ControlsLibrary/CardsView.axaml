@@ -1,0 +1,86 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.CardsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:CardsViewModel"
+             mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="WrapPanel &gt; controls|GlassCard">
+            <Setter Property="IsOpaque" Value="{Binding IsOpaque}" />
+            <Setter Property="IsInteractive" Value="{Binding IsInteractive}" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto,*">
+        <controls:GlassCard Classes="HeaderCard">
+            <controls:GroupBox Header="Cards">
+                <StackPanel Classes="HeaderContent">
+                    <TextBlock>
+                        SukiUI provides a simple GlassCard control which has some basic customisation built in.
+                    </TextBlock>
+                    <TextBlock>
+                        The GlassCard can be opaque and interactive, those properties can be toggled for all cards below.
+                    </TextBlock>
+                    <TextBlock>
+                        It's also possible to override the Color/Opacity via correctly named keyed values, this can be done at any level of the visual tree.
+                    </TextBlock>
+                    <TextBlock>
+                        If you'd like to override these values app-wide then simply override the keys in App.axaml
+                    </TextBlock>
+                    <DockPanel>
+                        <ToggleSwitch DockPanel.Dock="Left" IsChecked="{Binding IsOpaque}" />
+                        <TextBlock VerticalAlignment="Center" Text="Is Opaque" />
+                    </DockPanel>
+                    <DockPanel>
+                        <ToggleSwitch DockPanel.Dock="Left" IsChecked="{Binding IsInteractive}" />
+                        <TextBlock VerticalAlignment="Center" Text="Is Interactive" />
+                    </DockPanel>
+                </StackPanel>
+            </controls:GroupBox>
+        </controls:GlassCard>
+        <ScrollViewer Grid.Row="1">
+            <WrapPanel Classes="PageContainer">
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Standard">
+                        <TextBlock Classes="h3">A standard GlassCard</TextBlock>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard Classes="Primary">
+                    <controls:GroupBox Header="Primary">
+                        <TextBlock Classes="h3">A primary colored GlassCard</TextBlock>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard Classes="Accent">
+                    <controls:GroupBox Header="Accent">
+                        <TextBlock Classes="h3">An accent colored GlassCard</TextBlock>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GlassCard.Resources>
+                        <system:Double x:Key="GlassOpacity">0.2</system:Double>
+                    </controls:GlassCard.Resources>
+                    <controls:GroupBox Header="Overriden Opacity">
+                        <TextBlock Classes="h3">This card's resources sets the double resource of "GlassOpacity" to 0.2</TextBlock>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GlassCard.Resources>
+                        <Color x:Key="SukiGlassCardBackground">DarkRed</Color>
+                        <Color x:Key="SukiGlassCardOpaqueBackground">DarkRed</Color>
+                    </controls:GlassCard.Resources>
+                    <controls:GroupBox Header="Overriden Color">
+                        <StackPanel>
+                            <TextBlock Classes="h3">This card's resources sets the color resource of</TextBlock>
+                            <TextBlock Classes="h3">"SukiGlassCardBackground" and "SukiGlassCardOpaqueBackground to Red.</TextBlock>
+                        </StackPanel>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

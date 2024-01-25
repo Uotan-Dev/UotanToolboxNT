@@ -1,0 +1,26 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:SukiUI.Controls">
+    <ControlTheme x:Key="SukiStackPageStyle" TargetType="controls:SukiStackPage">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel Margin="40,20">
+                    <StackPanel DockPanel.Dock="Top">
+                        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                            <StackPanel Name="StackHeader"
+                                        HorizontalAlignment="Left"
+                                        Orientation="Horizontal" />
+                        </ScrollViewer>
+                        <Border Height="1"
+                                Margin="0,-20,0,0"
+                                Background="{DynamicResource SukiControlBorderBrush}" />
+                    </StackPanel>
+                    <ContentPresenter Content="{TemplateBinding Content}" />
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type controls:SukiStackPage}"
+                  BasedOn="{StaticResource SukiStackPageStyle}"
+                  TargetType="controls:SukiStackPage" />
+</ResourceDictionary>

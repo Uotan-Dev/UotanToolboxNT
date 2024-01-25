@@ -1,0 +1,64 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.ToastsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:ToastsViewModel"
+             mc:Ignorable="d">
+    <Grid RowDefinitions="Auto,*">
+        <controls:GlassCard Classes="HeaderCard">
+            <controls:GroupBox>
+                <StackPanel Classes="HeaderContent">
+                    <TextBlock>
+                        SukiUI contains an API for creating and dismissing toasts, with the ability to set limits on the number of toasts.
+                    </TextBlock>
+                    <TextBlock>
+                        It is also possible to set the toasts to appear in the bottom right (default) or in the bottom left.
+                    </TextBlock>
+                    <TextBlock>
+                        Toasts by default will be automatically dismissed after 4 seconds, this can be set as required, Toasts can also be dismissed by simply clicking on them.
+                    </TextBlock>
+                    <TextBlock>
+                        A callback can be provided also which will be invoked if a toast is closed by being clicked by a user.
+                    </TextBlock>
+                    <TextBlock>
+                        As the API for this resides entirely in C#, the source for the examples can be viewed on GitHub at the URL below.
+                    </TextBlock>
+                    <Button Classes="Hyperlink"
+                            Command="{Binding OpenSourceURLCommand}"
+                            Content="Source Here." />
+                </StackPanel>
+            </controls:GroupBox>
+        </controls:GlassCard>
+        <ScrollViewer Grid.Row="1">
+            <WrapPanel Classes="PageContainer">
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Single Standard Toast">
+                        <Button Margin="15,10,15,0"
+                                Command="{Binding ShowSingleStandardToastCommand}"
+                                Content="Show Toast" />
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="3 Standard Toasts">
+                        <Button Margin="15,10,15,0"
+                                Command="{Binding ShowThreeStandardToastsCommand}"
+                                Content="Show Toasts" />
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Callback Toast">
+                        <Button Margin="15,10,15,0"
+                                Command="{Binding ShowToastWithCallbackCommand}"
+                                Content="Show Toast" />
+                    </controls:GroupBox>
+                </controls:GlassCard>
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

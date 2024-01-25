@@ -1,0 +1,58 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.PropertyGridView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:showMeTheXaml="clr-namespace:ShowMeTheXaml;assembly=ShowMeTheXaml.Avalonia"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             d:DesignHeight="1050"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:PropertyGridViewModel"
+             mc:Ignorable="d">
+
+    <WrapPanel Classes="PageContainer" Orientation="Horizontal">
+        <controls:GlassCard Width="500" >
+            <ScrollViewer>
+                <controls:PropertyGrid Item="{Binding Form}">
+                    <controls:PropertyGrid.DataTemplates>
+                        <!--
+                            replace the PropertyGridTemplateSelector with your own type or subclass it,
+                            if you want to customize the datatemplates being used
+                        -->
+                        <controls:PropertyGridTemplateSelector  />
+                    </controls:PropertyGrid.DataTemplates>
+                </controls:PropertyGrid>
+            </ScrollViewer>
+        </controls:GlassCard>
+
+        <controls:GlassCard Width="400"  >
+            <controls:GroupBox Header="Form Output">
+                <ScrollViewer>
+                    <ScrollViewer.Styles>
+                        <Style Selector="TextBox">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </Style>
+                    </ScrollViewer.Styles>
+                    <StackPanel DataContext="{Binding Form}" Orientation="Vertical">
+                        <TextBox theme:TextBoxExtensions.Prefix="NullableName:  " Text="{Binding NullableName}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="NullableDescription:  " Text="{Binding NullableDescription}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="NullableBoolean:  " Text="{Binding NullableBoolean}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="NullableDateTime:  " Text="{Binding NullableDateTime}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="NullableInteger:  " Text="{Binding NullableInteger}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="NullableLong:  " Text="{Binding NullableLong}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="NullableDecimal:  " Text="{Binding NullableDecimal}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="NullableFloat:  " Text="{Binding NullableFloat}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="NullableDouble:  " Text="{Binding NullableDouble}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="Name:  " Text="{Binding Name}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="Integer:  " Text="{Binding Integer}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="Decimal:  " Text="{Binding Decimal}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="Boolean:  " Text="{Binding Boolean}" />
+                        <TextBox theme:TextBoxExtensions.Prefix="DateTime:  " Text="{Binding DateTime}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:GroupBox>
+        </controls:GlassCard>
+    </WrapPanel>
+</UserControl>

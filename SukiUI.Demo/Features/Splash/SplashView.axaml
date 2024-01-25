@@ -1,0 +1,41 @@
+<UserControl x:Class="SukiUI.Demo.Features.Splash.SplashView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:splash="clr-namespace:SukiUI.Demo.Features.Splash"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="splash:SplashViewModel"
+             mc:Ignorable="d">
+    <controls:GlassCard Margin="40"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+        <controls:GroupBox Header="Welcome to the SukiUI Demo App.">
+            <StackPanel Classes="HeaderContent">
+                <Image Width="135"
+                       Height="135"
+                       Margin="30"
+                       HorizontalAlignment="Center"
+                       Source="../../Assets/OIG.N5o-removebg-preview.png" />
+                <TextBlock Name="TextBlockWithInline">
+                    In this app you'll find a sample page
+                    (<InlineUIContainer>
+                        <Button Classes="Hyperlink"
+                                Command="{Binding OpenDashboardCommand}"
+                                Content="Dashboard"
+                                FontSize="16" />
+                    </InlineUIContainer>
+                    )
+                    with a variety of controls used together, as well as a control library for testing and demonstration purposes.</TextBlock>
+                <TextBlock>
+                    You'll also find in the menu above toggles and other options to control the theme of the app.
+                </TextBlock>
+                <TextBlock>
+                    If you see a control on one of the demo pages and would like to see how to use it in your own app, simply press the small tag icon to the bottom right of the control.
+                </TextBlock>
+            </StackPanel>
+        </controls:GroupBox>
+    </controls:GlassCard>
+</UserControl>

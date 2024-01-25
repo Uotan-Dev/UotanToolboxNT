@@ -1,0 +1,100 @@
+<Window x:Class="SukiUI.MessageBox.MessageBox"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:content="clr-namespace:SukiUI.Content"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+        Width="500"
+        Height="150"
+        MaxWidth="500"
+        MaxHeight="150"
+        d:DesignHeight="200"
+        d:DesignWidth="500"
+        Background="{DynamicResource SukiBackground}"
+        Classes="NakedWindow"
+        ExtendClientAreaToDecorationsHint="True"
+        mc:Ignorable="d">
+    <Grid>
+        <Grid.Styles>
+            <Style Selector="Grid.AnimatedGrid">
+                <Style.Animations>
+                    <Animation Duration="0:0:4">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                            <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        </KeyFrame>
+                        <KeyFrame Cue="80%">
+                            <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                            <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        </KeyFrame>
+                        <KeyFrame Cue="84%">
+                            <Setter Property="ScaleTransform.ScaleX" Value="0.99" />
+                            <Setter Property="ScaleTransform.ScaleY" Value="0.99" />
+                        </KeyFrame>
+                        <KeyFrame Cue="88%">
+                            <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                            <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        </KeyFrame>
+                        <KeyFrame Cue="94%">
+                            <Setter Property="ScaleTransform.ScaleX" Value="0.99" />
+                            <Setter Property="ScaleTransform.ScaleY" Value="0.99" />
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                            <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+        </Grid.Styles>
+        <Grid Background="{DynamicResource SukiBackground}" IsHitTestVisible="False" />
+        <Button Width="23"
+                Height="23"
+                Margin="12"
+                Padding="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                BorderThickness="0"
+                Classes="ZoomOnHover"
+                Click="Close">
+            <PathIcon Data="{x:Static content:Icons.CircleOutlineClose}" Foreground="DarkRed" />
+        </Button>
+
+        <Grid Classes="AnimatedGrid">
+            <PathIcon Name="InfoIcon"
+                      Width="50"
+                      Height="50"
+                      Margin="25,35,0,0"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Top"
+                      Data="{x:Static content:Icons.CircleInformation}"
+                      DockPanel.Dock="Left"
+                      Foreground="{DynamicResource SukiPrimaryColor}" />
+        </Grid>
+
+        <TextBlock Name="Title"
+                   Margin="100,45,0,-45"
+                   HorizontalAlignment="Left"
+                   Classes="h3"
+                   DockPanel.Dock="Top" />
+        <ScrollViewer Margin="102,45,14,10"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Center">
+            <TextBlock Name="Message"
+                       FontWeight="Light"
+                       TextWrapping="Wrap" />
+        </ScrollViewer>
+
+        <Button Width="80"
+                Margin="0,0,0,7"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Classes="Basic"
+                Click="Close"
+                DockPanel.Dock="Bottom">
+            <TextBlock />
+        </Button>
+    </Grid>
+</Window>

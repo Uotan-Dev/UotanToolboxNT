@@ -1,0 +1,47 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.ExpanderView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:ExpanderViewModel"
+             mc:Ignorable="d">
+    <Grid RowDefinitions="Auto, *">
+        <controls:GlassCard Classes="HeaderCard">
+            <controls:GroupBox Header="Expander">
+                <StackPanel Classes="HeaderContent">
+                    <TextBlock>
+                        Expanders explanation.
+                    </TextBlock>
+                </StackPanel>
+            </controls:GroupBox>
+        </controls:GlassCard>
+        <ScrollViewer Grid.Row="1">
+            <WrapPanel Classes="PageContainer">
+                <controls:GlassCard>
+                    <Expander ExpandDirection="Down" Header="Down Expander">
+                        <TextBlock>Some Down Content</TextBlock>
+                    </Expander>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <Expander ExpandDirection="Up" Header="Up Expander">
+                        <TextBlock>Some Up Content</TextBlock>
+                    </Expander>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <Expander ExpandDirection="Right" Header="Right Expander">
+                        <TextBlock>Some Right Content</TextBlock>
+                    </Expander>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <Expander ExpandDirection="Left" Header="Left Expander">
+                        <TextBlock>Some Left Content</TextBlock>
+                    </Expander>
+                </controls:GlassCard>
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

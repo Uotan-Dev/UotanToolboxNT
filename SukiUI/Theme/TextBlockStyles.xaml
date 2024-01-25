@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="SukiTextBlockStyle" TargetType="TextBlock">
+
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
+        <Setter Property="FontSize" Value="14" />
+
+
+        <Style Selector="^.h4">
+            <Setter Property="Margin" Value="0 7 0 10" />
+
+            <Setter Property="FontSize" Value="20" />
+        </Style>
+        <Style Selector="^.h3">
+
+            <Setter Property="Margin" Value="0 10 0 15" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="25" />
+        </Style>
+        <Style Selector="^.h2">
+            <Setter Property="Margin" Value="0 12 0 20" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="30" />
+        </Style>
+        <Style Selector="^.h1">
+            <Setter Property="Margin" Value="0 20 0 30" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="FontSize" Value="40" />
+        </Style>
+        <Style Selector="^.Caption">
+            <Setter Property="Foreground" Value="{DynamicResource ThemeControlHighBrush}" />
+        </Style>
+        <Style Selector="^.Primary">
+            <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+        </Style>
+        <Style Selector="^.Accent">
+            <Setter Property="Foreground" Value="{DynamicResource SukiAccentColor}" />
+        </Style>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type TextBlock}"
+                  BasedOn="{StaticResource SukiTextBlockStyle}"
+                  TargetType="TextBlock" />
+</ResourceDictionary>

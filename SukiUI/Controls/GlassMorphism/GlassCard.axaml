@@ -1,0 +1,70 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:suki="clr-namespace:SukiUI.Controls">
+    <ControlTheme x:Key="SukiGlassCardStyle" TargetType="suki:GlassCard">
+        <Setter Property="BorderBrush" Value="{DynamicResource GlassBorderBrush}" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Border Name="PART_BorderCard"
+                            Background="{DynamicResource SukiGlassCardBackground}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            ClipToBounds="{TemplateBinding ClipToBounds}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Opacity="{DynamicResource GlassOpacity}">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="0:0:0.15" />
+                                <BrushTransition Property="BorderBrush" Duration="0:0:0.15" />
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+                            </Transitions>
+                        </Border.Transitions>
+                    </Border>
+                    <Border Name="PART_ClipBorder"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource SukiPrimaryColor0}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            ClipToBounds="{TemplateBinding ClipToBounds}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="BorderBrush" Duration="0:0:0.15" />
+                            </Transitions>
+                        </Border.Transitions>
+                        <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^.Primary /template/ Border#PART_ClipBorder">
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiAccentColor0}" />
+        </Style>
+        <Style Selector="^[IsOpaque=True] /template/ Border#PART_BorderCard">
+            <Setter Property="Opacity" Value="1" />
+            <Setter Property="Background" Value="{DynamicResource SukiGlassCardOpaqueBackground}" />
+        </Style>
+        <Style Selector="^[IsInteractive=True]:pointerover /template/ Border#PART_ClipBorder">
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor50}" />
+        </Style>
+        <Style Selector="^.Primary[IsInteractive=True]:pointerover /template/ Border#PART_ClipBorder">
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiAccentColor50}" />
+        </Style>
+        <Style Selector="^[IsInteractive=True]:pointerdown /template/ Border#PART_ClipBorder">
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+        </Style>
+        <Style Selector="^.Primary[IsInteractive=True]:pointerdown /template/ Border#PART_ClipBorder">
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiAccentColor}" />
+        </Style>
+        <Style Selector="^.Accent /template/ Border#PART_BorderCard">
+            <Setter Property="Background" Value="{DynamicResource SukiAccentColor}" />
+        </Style>
+        <Style Selector="^.Primary /template/ Border#PART_BorderCard">
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
+        </Style>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type suki:GlassCard}"
+                  BasedOn="{StaticResource SukiGlassCardStyle}"
+                  TargetType="suki:GlassCard" />
+</ResourceDictionary>

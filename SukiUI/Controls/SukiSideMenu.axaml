@@ -1,0 +1,111 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:content="clr-namespace:SukiUI.Content"
+                    xmlns:suki="clr-namespace:SukiUI.Controls"
+                    xmlns:sukiUi="clr-namespace:SukiUI"
+                    xmlns:theme="clr-namespace:SukiUI.Theme">
+    <ControlTheme x:Key="SukiSideMenuStyle" TargetType="suki:SukiSideMenu">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <SplitView DisplayMode="CompactInline"
+                           IsPaneOpen="{TemplateBinding IsMenuExpanded}"
+                           OpenPaneLength="220">
+                    <SplitView.Pane>
+                        <Border>
+                            <Grid Background="Transparent">
+                                <suki:GlassCard Name="Glass"
+                                                BorderThickness="0"
+                                                CornerRadius="0" />
+
+                                <!--  This sidebar toggle button is used when header content can overlap it  -->
+                                <Button Name="PART_SidebarToggleButtonOverlay"
+                                        Margin="7"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Classes="Basic"
+                                        IsVisible="{TemplateBinding HeaderContentOverlapsToggleButton}">
+                                    <Grid>
+                                        <PathIcon Width="12"
+                                                  Height="12"
+                                                  Data="{x:Static content:Icons.ChevronLeft}"
+                                                  Foreground="{DynamicResource SukiText}"
+                                                  IsVisible="{TemplateBinding IsMenuExpanded}" />
+                                        <PathIcon Width="12"
+                                                  Height="12"
+                                                  Data="{x:Static content:Icons.ChevronRight}"
+                                                  Foreground="{DynamicResource SukiText}"
+                                                  IsVisible="{Binding !IsMenuExpanded, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </Grid>
+                                </Button>
+
+                                <DockPanel>
+                                    <!--  This sidebar toggle button can't be overlapped by header content  -->
+                                    <Button Name="PART_SidebarToggleButton"
+                                            Margin="7"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Classes="Basic"
+                                            DockPanel.Dock="Top"
+                                            IsVisible="{Binding !HeaderContentOverlapsToggleButton, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <Grid>
+                                            <PathIcon Width="12"
+                                                      Height="12"
+                                                      Data="{x:Static content:Icons.ChevronLeft}"
+                                                      Foreground="{DynamicResource SukiText}"
+                                                      IsVisible="{TemplateBinding IsMenuExpanded}" />
+                                            <PathIcon Width="12"
+                                                      Height="12"
+                                                      Data="{x:Static content:Icons.ChevronRight}"
+                                                      Foreground="{DynamicResource SukiText}"
+                                                      IsVisible="{Binding !IsMenuExpanded, RelativeSource={RelativeSource TemplatedParent}}" />
+                                        </Grid>
+                                    </Button>
+
+                                    <Grid MinHeight="{TemplateBinding HeaderMinHeight}"
+                                          DockPanel.Dock="Top"
+                                          IsVisible="{TemplateBinding IsMenuExpanded}">
+                                        <ContentControl Content="{TemplateBinding HeaderContent}" />
+                                    </Grid>
+
+                                    <!--  Used to move menu icons down when sidebar is closed  -->
+                                    <Grid Name="PART_Spacer"
+                                          Height="40"
+                                          DockPanel.Dock="Top" />
+
+                                    <ContentControl Margin="0,0,0,12"
+                                                    Content="{TemplateBinding FooterContent}"
+                                                    DockPanel.Dock="Bottom"
+                                                    IsVisible="{TemplateBinding IsMenuExpanded}" />
+
+                                    <ScrollViewer Name="PART_ScrollViewer"
+                                                  AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+                                                  Background="{TemplateBinding Background}"
+                                                  BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
+                                                  HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                                  HorizontalSnapPointsType="{TemplateBinding (ScrollViewer.HorizontalSnapPointsType)}"
+                                                  IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                                                  VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                                                  VerticalSnapPointsType="{TemplateBinding (ScrollViewer.VerticalSnapPointsType)}">
+                                        <ItemsPresenter theme:ItemsPresenterExtensions.AnimatedScroll="True" Name="PART_ItemsPresenter"
+                                                        Margin="{TemplateBinding Padding}"
+                                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                    </ScrollViewer>
+                                </DockPanel>
+                            </Grid>
+                        </Border>
+                    </SplitView.Pane>
+                    <Border Name="ContentBorder"
+                            Margin="0,0,0,0"
+                            Background="{DynamicResource SukiBackground}"
+                            BorderBrush="{DynamicResource SukiBorderBrush}"
+                            BorderThickness="1,0,0,0">
+                        <suki:SukiTransitioningContentControl Name="PART_TransitioningContentControl" />
+                    </Border>
+                </SplitView>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type suki:SukiSideMenu}"
+                  BasedOn="{StaticResource SukiSideMenuStyle}"
+                  TargetType="suki:SukiSideMenu" />
+</ResourceDictionary>

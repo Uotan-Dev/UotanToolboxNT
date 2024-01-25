@@ -1,0 +1,30 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:suki="clr-namespace:SukiUI.Controls">
+    <ControlTheme x:Key="SukiToastTheme" TargetType="suki:SukiToast">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_ToastCard"
+                        Width="250"
+                        Margin="30,5,30,10"
+                        Padding="0"
+                        BoxShadow="{DynamicResource SukiPopupShadow}"
+                        Classes="Card"
+                        CornerRadius="6">
+                    <DockPanel Margin="0,-7" LastChildFill="True">
+                        <TextBlock DockPanel.Dock="Top"
+                                   FontSize="15"
+                                   FontWeight="DemiBold"
+                                   Text="{TemplateBinding Title}" />
+                        <ContentPresenter Margin="0,10,0,0"
+                                          Content="{TemplateBinding Content}"
+                                          TextWrapping="Wrap" />
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type suki:SukiToast}"
+                  BasedOn="{StaticResource SukiToastTheme}"
+                  TargetType="suki:SukiToast" />
+</ResourceDictionary>

@@ -1,0 +1,140 @@
+<UserControl x:Class="SukiUI.Controls.SettingsLayout"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:theme="clr-namespace:SukiUI.Theme"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="RadioButton.MenuChip">
+
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <ThicknessTransition Property="Margin" Duration="0:0:0.4" />
+                </Transitions>
+            </Setter>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid HorizontalAlignment="Left">
+                        <Border Width="250"
+                                Height="45"
+                                Margin="20,2,5,0"
+                                Padding="20,4,12,4"
+                                HorizontalAlignment="Left"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <StackPanel HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <Ellipse Name="EL"
+                                         Width="5"
+                                         Height="5"
+                                         Margin="2,0,20,0"
+                                         Fill="{DynamicResource SukiPrimaryColor}" />
+                                <ContentPresenter Name="PART_ContentPresenter"
+                                                  Grid.Column="1"
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  RecognizesAccessKey="True" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <Style Selector="RadioButton.MenuChip:checked">
+            <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+
+            <Setter Property="BorderThickness" Value="0,0,0,0" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+
+        </Style>
+
+        <Style Selector="RadioButton.MenuChip:pointerover /template/ Border">
+
+            <Setter Property="Background" Value="{DynamicResource SukiLightBackground}" />
+
+        </Style>
+
+        <Style Selector="RadioButton.MenuChip  TextBlock">
+            <Setter Property="FontSize" Value="50" />
+        </Style>
+
+
+        <Style Selector="RadioButton.MenuChip:checked  TextBlock">
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+        </Style>
+
+        <Style Selector="RadioButton.MenuChip  Ellipse">
+            <Setter Property="Opacity" Value="0" />
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="RadioButton.MenuChip:checked  Ellipse">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+
+        <Style Selector="RadioButton.MenuChip /template/ Border">
+            <Setter Property="TextBlock.FontSize" Value="16" />
+        </Style>
+
+        <Style Selector="RadioButton.MenuChip:checked /template/ Border">
+            <Setter Property="Transitions">
+
+                <Transitions>
+                    <BrushTransition Property="Background" Duration="0:0:0.15" />
+                </Transitions>
+
+            </Setter>
+
+            <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor10}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+            <Setter Property="BorderThickness" Value="0,0,0,0" />
+        </Style>
+
+        <Style Selector="RadioButton.MenuChip /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Transitions">
+
+                <Transitions>
+                    <ThicknessTransition Property="Margin" Duration="0:0:0.25" />
+                </Transitions>
+
+            </Setter>
+        </Style>
+
+        <Style Selector="controls|SettingsLayout">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <DockPanel MaxWidth="1400" SizeChanged="DockPanel_SizeChanged">
+                        <StackPanel Name="StackSummary"
+                                    Width="400"
+                                    Margin="0,25,0,0"
+                                    HorizontalAlignment="Left"
+                                    DockPanel.Dock="Left" />
+                        <ScrollViewer Name="MyScroll">
+                            <StackPanel theme:StackPanelExtensions.AnimatedScroll="True" Name="StackItems" Margin="-10,0" />
+                        </ScrollViewer>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+    </UserControl.Styles>
+</UserControl>

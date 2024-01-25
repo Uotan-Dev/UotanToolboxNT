@@ -1,0 +1,151 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:content="clr-namespace:SukiUI.Content"
+                    xmlns:controls="clr-namespace:SukiUI.Controls">
+    <ControlTheme x:Key="SukiExpanderStyle" TargetType="Expander">
+        <Setter Property="TextBlock.TextAlignment" Value="Start" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ContentTransition" Value="{x:Null}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_RootBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <Border Name="PART_InnerBorder" CornerRadius="{TemplateBinding CornerRadius}">
+                        <Panel>
+                            <controls:ContentExpandControl Name="PART_ContentExpand"
+                                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                           Content="{TemplateBinding Content}"
+                                                           ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                            <LayoutTransformControl Name="PART_ToggleTransform">
+                                <DockPanel>
+                                    <Border Name="PART_BottomBorder"
+                                            Height="2"
+                                            HorizontalAlignment="Stretch"
+                                            Background="{DynamicResource SukiBorderBrush}"
+                                            DockPanel.Dock="Bottom" />
+                                    <ToggleButton Name="PART_ToggleButton"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Background="Transparent"
+                                                  BorderBrush="{DynamicResource SukiBorderBrush}"
+                                                  BorderThickness="0"
+                                                  Classes="Basic"
+                                                  DockPanel.Dock="Right"
+                                                  IsChecked="{TemplateBinding IsExpanded,
+                                                                              Mode=TwoWay}">
+                                        <PathIcon Name="PART_Icon"
+                                                  Width="10"
+                                                  Height="10"
+                                                  Data="{x:Static content:Icons.Plus}" />
+                                    </ToggleButton>
+                                    <ContentPresenter HorizontalAlignment="Left" Margin="8,7"
+                                                      VerticalAlignment="Center"
+                                                      Content="{TemplateBinding Header}"
+                                                      FontWeight="DemiBold" />
+                                </DockPanel>
+                            </LayoutTransformControl>
+                        </Panel>
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:not(.no-transitions) /template/ controls|ContentExpandControl#PART_ContentExpand">
+            <Setter Property="Transitions">
+                <Transitions>
+                    <DoubleTransition Easing="CircularEaseOut"
+                                      Property="Multiplier"
+                                      Duration="0.25" />
+                </Transitions>
+            </Setter>
+        </Style>
+
+        <Style Selector="^ /template/ Border#PART_InnerBorder">
+            <Setter Property="ClipToBounds" Value="True" />
+        </Style>
+
+        <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
+            <Setter Property="ClipToBounds" Value="False" />
+        </Style>
+
+        <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
+            <Setter Property="Multiplier" Value="0" />
+        </Style>
+
+        <Style Selector="^:expanded /template/ controls|ContentExpandControl#PART_ContentExpand">
+            <Setter Property="Multiplier" Value="1" />
+        </Style>
+
+        <Style Selector="^:expanded /template/ PathIcon#PART_Icon">
+            <Setter Property="Data" Value="{x:Static content:Icons.Minus}" />
+        </Style>
+
+        <Style Selector="^:up">
+            <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Orientation" Value="Vertical" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
+                <Setter Property="Margin" Value="0,0,0,48" />
+            </Style>
+
+            <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
+                <Setter Property="VerticalAlignment" Value="Bottom" />
+            </Style>
+
+            <Style Selector="^ /template/ Border#PART_BottomBorder">
+                <Setter Property="DockPanel.Dock" Value="Top" />
+            </Style>
+        </Style>
+
+        <Style Selector="^:down">
+            <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Orientation" Value="Vertical" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Margin" Value="0,48,0,0" />
+            </Style>
+
+            <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
+                <Setter Property="VerticalAlignment" Value="Top" />
+            </Style>
+        </Style>
+
+        <Style Selector="^:left">
+            <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="Margin" Value="0,0,48,0" />
+            </Style>
+
+            <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
+                <Setter Property="LayoutTransform" Value="rotate(90deg)" />
+                <Setter Property="HorizontalAlignment" Value="Right" />
+            </Style>
+        </Style>
+
+        <Style Selector="^:right">
+            <Style Selector="^ /template/ controls|ContentExpandControl#PART_ContentExpand">
+                <Setter Property="Orientation" Value="Horizontal" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Margin" Value="48,0,0,0" />
+            </Style>
+
+            <Style Selector="^ /template/ LayoutTransformControl#PART_ToggleTransform">
+                <Setter Property="LayoutTransform" Value="rotate(90deg)" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+            </Style>
+
+            <Style Selector="^ /template/ Border#PART_BottomBorder">
+                <Setter Property="DockPanel.Dock" Value="Top" />
+            </Style>
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type Expander}"
+                  BasedOn="{StaticResource SukiExpanderStyle}"
+                  TargetType="Expander" />
+</ResourceDictionary>

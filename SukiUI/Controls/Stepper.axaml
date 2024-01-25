@@ -1,0 +1,14 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:SukiUI.Controls">
+    <ControlTheme x:Key="SukiStepperStyle" TargetType="controls:Stepper">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Name="PART_GridStepper" />
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type controls:Stepper}"
+                  BasedOn="{StaticResource SukiStepperStyle}"
+                  TargetType="controls:Stepper" />
+</ResourceDictionary>

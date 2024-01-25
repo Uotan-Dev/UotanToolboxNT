@@ -1,0 +1,129 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.TogglesView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:showMeTheXaml="clr-namespace:ShowMeTheXaml;assembly=ShowMeTheXaml.Avalonia"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:TogglesViewModel"
+             mc:Ignorable="d">
+    <ScrollViewer>
+        <WrapPanel Classes="PageContainer">
+            <controls:GlassCard>
+                <controls:GroupBox Header="Radio Buttons">
+                    <showMeTheXaml:XamlDisplay UniqueId="RadioButtons">
+                        <StackPanel VerticalAlignment="Center" Spacing="10">
+                            <RadioButton Content="Option One"
+                                         GroupName="R1"
+                                         IsChecked="True" />
+                            <RadioButton Content="Option Two" GroupName="R1" />
+                            <RadioButton Content="Option Three" GroupName="R1" />
+                        </StackPanel>
+                    </showMeTheXaml:XamlDisplay>
+                </controls:GroupBox>
+            </controls:GlassCard>
+            <controls:GlassCard>
+                <controls:GroupBox Header="Simple GigaChips">
+                    <showMeTheXaml:XamlDisplay UniqueId="SimpleGigaChips">
+                        <StackPanel>
+                            <RadioButton Classes="GigaChips"
+                                         Content="Option One"
+                                         GroupName="R2"
+                                         IsChecked="True" />
+                            <RadioButton Classes="GigaChips"
+                                         Content="Option Two"
+                                         GroupName="R2" />
+                            <RadioButton Classes="GigaChips"
+                                         Content="Option Three"
+                                         GroupName="R2" />
+                        </StackPanel>
+                    </showMeTheXaml:XamlDisplay>
+                </controls:GroupBox>
+            </controls:GlassCard>
+            <controls:GlassCard>
+                <controls:GroupBox Header="Complex GigaChips">
+                    <showMeTheXaml:XamlDisplay UniqueId="ComplexGigaChips">
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton Classes="GigaChips"
+                                         GroupName="R3"
+                                         IsChecked="True">
+                                <StackPanel>
+                                    <TextBlock FontSize="18"
+                                               FontWeight="DemiBold"
+                                               Text="One Header" />
+                                    <TextBlock Margin="0,8,0,0"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="Some content." />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton Classes="GigaChips" GroupName="R3">
+                                <StackPanel>
+                                    <TextBlock FontSize="18"
+                                               FontWeight="DemiBold"
+                                               Text="Another Header" />
+                                    <TextBlock Margin="0,8,0,0"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="Some content." />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton Classes="GigaChips" GroupName="R3">
+                                <StackPanel>
+                                    <TextBlock FontSize="18"
+                                               FontWeight="DemiBold"
+                                               Text="Final Header" />
+                                    <TextBlock Margin="0,8,0,0"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="Some content." />
+                                </StackPanel>
+                            </RadioButton>
+                        </StackPanel>
+                    </showMeTheXaml:XamlDisplay>
+                </controls:GroupBox>
+            </controls:GlassCard>
+            <controls:GlassCard>
+                <controls:GroupBox Header="Toggle Switches">
+                    <StackPanel>
+                        <showMeTheXaml:XamlDisplay UniqueId="ToggleSwitch">
+                            <ToggleSwitch IsChecked="True" />
+                        </showMeTheXaml:XamlDisplay>
+                        <showMeTheXaml:XamlDisplay UniqueId="CustomContentToggleSwitch">
+                            <ToggleSwitch OffContent="Switch Off." OnContent="Switch On." />
+                        </showMeTheXaml:XamlDisplay>
+                    </StackPanel>
+                </controls:GroupBox>
+            </controls:GlassCard>
+            <controls:GlassCard>
+                <controls:GroupBox Header="Toggle Buttons">
+                    <StackPanel>
+                        <showMeTheXaml:XamlDisplay UniqueId="ToggleButton">
+                            <ToggleButton Content="Toggle Me" />
+                        </showMeTheXaml:XamlDisplay>
+                        <showMeTheXaml:XamlDisplay UniqueId="AccentToggleButton">
+                            <ToggleButton Classes="Accent" Content="Toggle Me" />
+                        </showMeTheXaml:XamlDisplay>
+                        <showMeTheXaml:XamlDisplay UniqueId="ToggleButtonSwitch">
+                            <ToggleButton Classes="Switch" Content="Toggle Me" />
+                        </showMeTheXaml:XamlDisplay>
+                    </StackPanel>
+                </controls:GroupBox>
+            </controls:GlassCard>
+            <controls:GlassCard>
+                <controls:GroupBox Header="CheckBoxes">
+                    <StackPanel>
+                        <showMeTheXaml:XamlDisplay UniqueId="CheckBox">
+                            <StackPanel Spacing="5">
+                                <CheckBox Content="Option One" IsChecked="True" />
+                                <CheckBox Content="Option Two" />
+                                <CheckBox Content="Option Three" />
+                            </StackPanel>
+                        </showMeTheXaml:XamlDisplay>
+                    </StackPanel>
+                </controls:GroupBox>
+            </controls:GlassCard>
+        </WrapPanel>
+    </ScrollViewer>
+</UserControl>

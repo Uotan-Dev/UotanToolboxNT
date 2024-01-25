@@ -1,0 +1,28 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.Dialogs.VmDialogView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dialogs="clr-namespace:SukiUI.Demo.Features.ControlsLibrary.Dialogs"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="dialogs:VmDialogViewModel"
+             mc:Ignorable="d">
+    <controls:GroupBox Header="A ViewModel Dialog">
+        <StackPanel Classes="HeaderContent">
+            <TextBlock>
+                This dialog was created by passing a ViewModel to the dialog system.
+            </TextBlock>
+            <TextBlock>
+                Internally the dialog system then uses the ViewLocator registered in your Application resources to build an appropriate view.
+            </TextBlock>
+            <Button Classes="Hyperlink"
+                    Command="{Binding OpenViewLocatorSourceCommand}"
+                    Content="The source for our implementation of a ViewLocator that makes this possible can be found here." />
+            <Button HorizontalContentAlignment="Center"
+                    Command="{Binding CloseDialogCommand}"
+                    Content="Close" />
+        </StackPanel>
+    </controls:GroupBox>
+</UserControl>

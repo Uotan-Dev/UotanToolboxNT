@@ -1,0 +1,89 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:content="clr-namespace:SukiUI.Content"
+                    xmlns:suki="clr-namespace:SukiUI.Controls">
+    <ControlTheme x:Key="SukiSideMenuItemStyle" TargetType="suki:SukiSideMenuItem">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_Border"
+                        MinWidth="85"
+                        Margin="15,2"
+                        Padding="30,15,15,15"
+                        Background="{DynamicResource SukiPrimaryColor0}"
+                        CornerRadius="{DynamicResource MediumCornerRadius}">
+                    <Border.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Background" Duration="0:0:0.35" />
+                            <ThicknessTransition Property="Padding" Duration="0:0:0.35" />
+                        </Transitions>
+                    </Border.Transitions>
+                    <Grid>
+                        <DockPanel Name="PART_NormalDisplay" LastChildFill="True">
+                            <ContentControl Name="PART_Icon"
+                                            Width="24"
+                                            Height="24"
+                                            Content="{TemplateBinding Icon}"
+                                            DockPanel.Dock="Left">
+                                <ContentControl.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
+                                    </Transitions>
+                                </ContentControl.Transitions>
+                            </ContentControl>
+                            <Viewbox HorizontalAlignment="Left" StretchDirection="DownOnly">
+                                <TextBlock Name="PART_Header"
+                                           Margin="15,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="14"
+                                           IsVisible="{Binding IsMenuExpanded, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type suki:SukiSideMenu}}}"
+                                           Text="{TemplateBinding Header}" />
+                            </Viewbox>
+                        </DockPanel>
+                        <ContentPresenter Name="PART_AltDisplay"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                        <PathIcon Name="Part_SelectedIcon"
+                                  Margin="22,0,0,0"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="{x:Static content:Icons.CircleOutline}"
+                                  IsVisible="{Binding !IsMenuExpanded, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type suki:SukiSideMenu}}}"
+                                  Opacity="0">
+                            <PathIcon.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.35" />
+                                </Transitions>
+                            </PathIcon.Transitions>
+                        </PathIcon>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover">
+            <Style Selector="^ /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor5}" />
+            </Style>
+        </Style>
+        <Style Selector="^[IsSelected=True]">
+            <Style Selector="^ /template/ Border#PART_Border">
+                <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor10}" />
+                <Setter Property="Padding" Value="-10,15,15,15" />
+            </Style>
+            <Style Selector="^ /template/ TextBlock#PART_Header">
+                <Setter Property="FontWeight" Value="Bold" />
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
+            <Style Selector="^ /template/ PathIcon#Part_SelectedIcon">
+                <Setter Property="Opacity" Value="1" />
+            </Style>
+            <Style Selector="^ /template/ ContentControl#PART_Icon">
+                <Setter Property="Foreground" Value="{DynamicResource SukiAccentColor}" />
+                <Setter Property="Opacity" Value="0" />
+            </Style>
+        </Style>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type suki:SukiSideMenuItem}"
+                  BasedOn="{StaticResource SukiSideMenuItemStyle}"
+                  TargetType="suki:SukiSideMenuItem" />
+</ResourceDictionary>

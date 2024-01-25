@@ -1,0 +1,40 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.ContextMenusView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:content="clr-namespace:SukiUI.Content;assembly=SukiUI"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:ContextMenusViewModel"
+             mc:Ignorable="d">
+    <controls:GlassCard HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsInteractive="True">
+        <controls:GlassCard.ContextMenu>
+            <ContextMenu>
+                <!--  Ignore your IDE, x:False is a valid intrinsic  -->
+                <MenuItem Command="{Binding TestClickedCommand}"
+                          CommandParameter="{x:False}"
+                          Header="Option" />
+                <!--  Ignore your IDE, x:True is a valid intrinsic  -->
+                <MenuItem Command="{Binding TestClickedCommand}"
+                          CommandParameter="{x:True}"
+                          Header="Option With Icon">
+                    <MenuItem.Icon>
+                        <PathIcon Width="18" Height="18" Data="{x:Static content:Icons.Star}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </controls:GlassCard.ContextMenu>
+        <controls:GroupBox Header="Context Menu Demo">
+            <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Classes="h3">
+                Right click anywhere in this card to open a context menu.
+            </TextBlock>
+        </controls:GroupBox>
+    </controls:GlassCard>
+</UserControl>

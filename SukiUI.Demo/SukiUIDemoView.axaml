@@ -1,0 +1,96 @@
+<suki:SukiWindow x:Class="SukiUI.Demo.SukiUIDemoView"
+                 xmlns="https://github.com/avaloniaui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+                 xmlns:content="clr-namespace:SukiUI.Content;assembly=SukiUI"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:demo="clr-namespace:SukiUI.Demo"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
+                 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+                 Title="Uotan Toolbox"
+                 d:DesignHeight="450"
+                 d:DesignWidth="800"
+                 x:DataType="demo:SukiUIDemoViewModel"
+                 BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
+                 IsMenuVisible="True"
+                 mc:Ignorable="d">
+    <suki:SukiWindow.LogoContent>
+        <avalonia:MaterialIcon Width="20"
+                               Height="20"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource SukiPrimaryColor}"
+                               Kind="ToolboxOutline" />
+    </suki:SukiWindow.LogoContent>
+    <suki:SukiWindow.MenuItems>
+        <MenuItem Header="Toggles">
+            <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme}">
+                <MenuItem.Icon>
+                    <avalonia:MaterialIcon Kind="Lightbulb" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding ToggleAnimationsCommand}" Header="Animations" />
+        </MenuItem>
+        <MenuItem Click="MenuItem_OnClick"
+                  Header="Themes"
+                  ItemsSource="{Binding Themes}">
+            <MenuItem.DataTemplates>
+                <DataTemplate DataType="{x:Type models:SukiColorTheme}">
+                    <TextBlock Foreground="{Binding PrimaryBrush}" Text="{Binding DisplayName}" />
+                </DataTemplate>
+            </MenuItem.DataTemplates>
+        </MenuItem>
+        <MenuItem Header="Other">
+            <MenuItem Command="{Binding CreateCustomThemeCommand}" Header="Create Custom Theme" />
+        </MenuItem>
+    </suki:SukiWindow.MenuItems>
+    <suki:SukiSideMenu HeaderContentOverlapsToggleButton="True"
+                       ItemsSource="{Binding DemoPages}"
+                       SelectedItem="{Binding ActivePage}">
+        <suki:SukiSideMenu.ItemTemplate>
+            <DataTemplate>
+                <suki:SukiSideMenuItem Header="{Binding DisplayName}">
+                    <suki:SukiSideMenuItem.Icon>
+                        <avalonia:MaterialIcon Foreground="{DynamicResource SukiText}" Kind="{Binding Icon}" />
+                    </suki:SukiSideMenuItem.Icon>
+                </suki:SukiSideMenuItem>
+            </DataTemplate>
+        </suki:SukiSideMenu.ItemTemplate>
+        <suki:SukiSideMenu.HeaderContent>
+            <Image Width="80"
+                   Height="80"
+                   Margin="30"
+                   PointerPressed="InputElement_OnPointerPressed"
+                   Source="Assets/OIG.N5o-removebg-preview.png"
+                   ToolTip.Tip="Click To Toggle Top Menu." />
+        </suki:SukiSideMenu.HeaderContent>
+        <suki:SukiSideMenu.FooterContent>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Command" Value="{Binding OpenURLCommand}" />
+                    </Style>
+                    <Style Selector="avalonia|MaterialIcon">
+                        <Setter Property="Width" Value="25" />
+                        <Setter Property="Height" Value="25" />
+                    </Style>
+                </StackPanel.Styles>
+                <Button Classes="Basic"
+                        CommandParameter="https://github.com/kikipoulet/SukiUI"
+                        ToolTip.Tip="Open On GitHub.">
+                    <avalonia:MaterialIcon Kind="Github" />
+                </Button>
+                <Button Classes="Basic"
+                        CommandParameter="https://www.nuget.org/packages/SukiUI"
+                        ToolTip.Tip="View On NuGet.">
+                    <avalonia:MaterialIcon Kind="Package" />
+                </Button>
+                <Button Classes="Basic"
+                        CommandParameter="https://github.com/kikipoulet/CherylUI"
+                        ToolTip.Tip="CheryUI - For Mobile">
+                    <avalonia:MaterialIcon Kind="Cat" />
+                </Button>
+            </StackPanel>
+        </suki:SukiSideMenu.FooterContent>
+    </suki:SukiSideMenu>
+</suki:SukiWindow>

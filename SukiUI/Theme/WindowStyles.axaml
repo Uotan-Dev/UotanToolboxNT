@@ -1,0 +1,52 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:icons="clr-namespace:SukiUI.Content"
+        xmlns:suki="clr-namespace:SukiUI.Controls">
+
+    <Style Selector="suki|SukiWindow[WindowState=Maximized] PathIcon#MaximizeIcon">
+        <Setter Property="Data" Value="{x:Static icons:Icons.WindowRestore}" />
+    </Style>
+
+    <Style Selector="suki|SukiWindow[WindowState=Normal] PathIcon#MaximizeIcon">
+        <Setter Property="Data" Value="{x:Static icons:Icons.WindowMaximize}" />
+    </Style>
+
+    <Style Selector="Window.Blurred">
+        <Setter Property="TransparencyBackgroundFallback" Value="{DynamicResource SukiLightBackground}" />
+        <Setter Property="TransparencyLevelHint" Value="AcrylicBlur" />
+        <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
+        <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
+        <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
+        <Setter Property="Background" Value="{DynamicResource SukiLightBackground}" />
+        <Setter Property="CornerRadius" Value="15" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Border x:Name="PART_Root"
+                            Background="{TemplateBinding Background}"
+                            IsHitTestVisible="False"
+                            Opacity="0.8" />
+                    <Grid IsHitTestVisible="True">
+                        <VisualLayerManager IsHitTestVisible="True">
+                            <ContentPresenter x:Name="PART_ContentPresenter"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              CornerRadius="10"
+                                              IsHitTestVisible="True" />
+                        </VisualLayerManager>
+                    </Grid>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="PathIcon.WindowControlsIcon">
+        <Setter Property="Height" Value="10" />
+        <Setter Property="Width" Value="10" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
+    </Style>
+
+
+</Styles>

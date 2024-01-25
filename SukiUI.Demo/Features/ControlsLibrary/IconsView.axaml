@@ -1,0 +1,67 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.IconsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:content="clr-namespace:SukiUI.Content;assembly=SukiUI"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Runtime"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:showMeTheXaml="clr-namespace:ShowMeTheXaml;assembly=ShowMeTheXaml.Avalonia"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:IconsViewModel"
+             mc:Ignorable="d">
+    <Grid RowDefinitions="Auto, *">
+        <controls:GlassCard Classes="HeaderCard">
+            <controls:GroupBox Header="Icons">
+                <StackPanel Classes="HeaderContent">
+                    <TextBlock TextWrapping="Wrap">
+                        SukiUI contains definitions for some basic icons that are used for a variety of controls. You may wish to use these icons in your app and controls to maintain consistency with SukiUI.
+                    </TextBlock>
+                    <TextBlock>
+                        The icons can be used in the following way:
+                    </TextBlock>
+                    <StackPanel Orientation="Horizontal" Spacing="15">
+                        <showMeTheXaml:XamlDisplay UniqueId="Icon1">
+                            <PathIcon Data="{x:Static content:Icons.Plus}" />
+                        </showMeTheXaml:XamlDisplay>
+                        <showMeTheXaml:XamlDisplay UniqueId="Icon2">
+                            <PathIcon Classes="Primary" Data="{x:Static content:Icons.Plus}" />
+                        </showMeTheXaml:XamlDisplay>
+                        <showMeTheXaml:XamlDisplay UniqueId="Icon3">
+                            <PathIcon Classes="Accent" Data="{x:Static content:Icons.Plus}" />
+                        </showMeTheXaml:XamlDisplay>
+                    </StackPanel>
+                    <TextBlock>
+                        Here is the full list of available icons, click on any of them to copy the XAML to use it to the clipboard:
+                    </TextBlock>
+                </StackPanel>
+            </controls:GroupBox>
+        </controls:GlassCard>
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl theme:ItemsControlExtensions.AnimatedScroll="True" ItemsSource="{Binding AllIcons}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:CompileBindings="False">
+                        <controls:GlassCard Margin="15,15,15,15"
+                                            IsInteractive="True"
+                                            PointerPressed="InputElement_OnPointerPressed">
+                            <controls:GroupBox Header="{Binding Key}">
+                                <PathIcon Width="25"
+                                          Height="25"
+                                          Margin="0,8,0,0"
+                                          Data="{Binding Value}" />
+                            </controls:GroupBox>
+                        </controls:GlassCard>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Classes="PageContainer" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,21 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:SukiUI.Controls">
+    <ControlTheme x:Key="SukiTransitioningContentControlStyle" TargetType="controls:SukiTransitioningContentControl">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <ContentPresenter Name="PART_FirstBufferControl"
+                                      Content="{TemplateBinding FirstBuffer}"
+                                      IsHitTestVisible="False" />
+                    <ContentPresenter Name="PART_SecondBufferControl"
+                                      Content="{TemplateBinding SecondBuffer}"
+                                      IsHitTestVisible="False" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type controls:SukiTransitioningContentControl}"
+                  BasedOn="{StaticResource SukiTransitioningContentControlStyle}"
+                  TargetType="controls:SukiTransitioningContentControl" />
+</ResourceDictionary>

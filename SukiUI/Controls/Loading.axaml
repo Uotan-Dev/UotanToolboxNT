@@ -1,0 +1,101 @@
+<UserControl x:Class="SukiUI.Controls.Loading"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:suki="clr-namespace:SukiUI.Controls"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="suki|Loading">
+            <Style.Setters>
+                <Setter Property="Transitions">
+                    <Transitions>
+                        <DoubleTransition Property="Opacity" Duration="0:0:0.35" />
+                    </Transitions>
+                </Setter>
+            </Style.Setters>
+            <Style.Animations>
+                <Animation FillMode="None"
+                           IterationCount="INFINITE"
+                           PlaybackDirection="Normal"
+                           Duration="0:0:1.5">
+                    <Animation.Easing>
+                        <QuadraticEaseInOut />
+                    </Animation.Easing>
+                    <KeyFrame Cue="0%">
+                        <Setter Property="RotateTransform.Angle" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="30%">
+                        <Setter Property="RotateTransform.Angle" Value="0" />
+                    </KeyFrame>
+
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="360" />
+                    </KeyFrame>
+                </Animation>
+
+            </Style.Animations>
+            <Setter Property="Template">
+                <ControlTemplate>
+
+
+                    <Arc Width="52" Name="PART_Arc"
+                         Height="52"
+                         StartAngle="270"
+                         Stretch="None"
+                         Stroke="{DynamicResource SukiPrimaryColor}"
+                         StrokeJoin="Round"
+                         StrokeLineCap="Round"
+                         StrokeThickness="4"
+                         SweepAngle="30">
+
+                        <Arc.Transitions>
+                            <Transitions>
+                                <DoubleTransition Easing="CircularEaseOut"
+                                                  Property="SweepAngle"
+                                                  Duration="0:0:0.8" />
+                            </Transitions>
+                        </Arc.Transitions>
+                    </Arc>
+
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <Style Selector="suki|Loading.Accent /template/ Arc#PART_Arc">
+            <Setter Property="Stroke" Value="{DynamicResource SukiAccentColor}"></Setter>
+        </Style>
+        
+        <Style Selector="suki|Loading.White /template/ Arc">
+            <Setter Property="Stroke" Value="#fafafa" />
+        </Style>
+
+        <Style Selector="suki|Loading /template/ Arc">
+
+            <Style.Animations>
+                <Animation Easing="QuadraticEaseInOut"
+                           FillMode="None"
+                           IterationCount="INFINITE"
+                           PlaybackDirection="Normal"
+                           Duration="0:0:1.5">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="SweepAngle" Value="60" />
+                    </KeyFrame>
+
+                    <KeyFrame Cue="50%">
+                        <Setter Property="SweepAngle" Value="250" />
+                    </KeyFrame>
+
+                    <KeyFrame Cue="100%">
+                        <Setter Property="SweepAngle" Value="60" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+
+       
+    </UserControl.Styles>
+
+</UserControl>

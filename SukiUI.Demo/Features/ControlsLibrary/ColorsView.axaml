@@ -1,0 +1,58 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.ColorsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:ColorsViewModel"
+             mc:Ignorable="d">
+    <Grid RowDefinitions="Auto,*">
+        <controls:GlassCard Classes="HeaderCard">
+            <controls:GroupBox Header="Colors">
+                <StackPanel Classes="HeaderContent">
+                    <TextBlock>Below is a full list of all defined colors that are available either via XAML (DynamicResource) or via Application.Resources.</TextBlock>
+                    <TextBlock>Click on any of the colors to copy it's name to your clipboard.</TextBlock>
+                </StackPanel>
+            </controls:GroupBox>
+        </controls:GlassCard>
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl theme:ItemsControlExtensions.AnimatedScroll="True" ItemsSource="{Binding Colors}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:GlassCard Margin="15"
+                                            IsInteractive="True"
+                                            PointerPressed="InputElement_OnPointerPressed">
+                            <controls:GroupBox Header="{Binding Name}">
+                                <Rectangle Width="50"
+                                           Height="50"
+                                           Margin="0,7,0,0"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Fill="{Binding Brush}"
+                                           RadiusX="8"
+                                           RadiusY="8"
+                                           Stroke="{DynamicResource SukiBorderBrush}"
+                                           StrokeThickness="2">
+                                    <Rectangle.Transitions>
+                                        <Transitions>
+                                            <BrushTransition Property="Fill" Duration="0:0:0.20" />
+                                        </Transitions>
+                                    </Rectangle.Transitions>
+                                </Rectangle>
+                            </controls:GroupBox>
+                        </controls:GlassCard>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Classes="PageContainer" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

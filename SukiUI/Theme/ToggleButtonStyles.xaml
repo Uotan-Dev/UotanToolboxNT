@@ -1,0 +1,328 @@
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <StackPanel Width="250"
+                    Margin="20"
+                    Background="{DynamicResource SukiBackground}"
+                    Spacing="24">
+            <ToggleButton Classes="Switch" IsChecked="False" />
+            <ToggleButton Content="Test" />
+        </StackPanel>
+    </Design.PreviewWith>
+
+
+    <Style Selector="ToggleButton">
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="18,10,18,8" />
+        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.3" />
+                <BrushTransition Property="BorderBrush" Duration="0:0:0.3" />
+            </Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <ContentPresenter Padding="{TemplateBinding Padding}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  Content="{TemplateBinding Content}"
+                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  FontSize="{TemplateBinding FontSize}"
+                                  Foreground="{TemplateBinding Foreground}"
+                                  RecognizesAccessKey="True"
+                                  TextElement.Foreground="{TemplateBinding Foreground}" />
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+
+    <Style Selector="ToggleButton:pointerover &gt; TextBlock">
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="ToggleButton AccessText">
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Foreground" Duration="0:0:0.3" />
+            </Transitions>
+        </Setter>
+
+    </Style>
+
+    <Style Selector="ToggleButton:checked AccessText">
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="ToggleButton:pointerover AccessText">
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style Selector="ToggleButton:pointerover">
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor75}" />
+        <Setter Property="Foreground" Value="White" />
+
+        <Style Selector="^.Accent">
+            <Setter Property="Background" Value="{DynamicResource SukiAccentColor75}" />
+        </Style>
+    </Style>
+
+    <Style Selector="ToggleButton:checked">
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
+
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+        <Style Selector="^.Accent">
+            <Setter Property="Background" Value="{DynamicResource SukiAccentColor}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiAccentColor}" />
+        </Style>
+    </Style>
+
+
+    <Style Selector="ToggleButton:pointerover[IsChecked=True]">
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor75}" />
+        <Style Selector="^.Accent">
+            <Setter Property="Background" Value="{DynamicResource SukiAccentColor75}" />
+        </Style>
+    </Style>
+
+    <Style Selector="ToggleButton.Switch">
+        <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+        <Setter Property="RenderTransform">
+            <ScaleTransform ScaleX="1.15" ScaleY="1.15" />
+        </Setter>
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Background="Transparent" RowDefinitions="Auto,*">
+
+                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                      Grid.Row="0"
+                                      VerticalAlignment="Top"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      RecognizesAccessKey="True" />
+
+                    <Grid Grid.Row="1"
+                          MinWidth="{DynamicResource ToggleSwitchThemeMinWidth}"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="{DynamicResource ToggleSwitchPreContentMargin}" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="{DynamicResource ToggleSwitchPostContentMargin}" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="12" MaxWidth="12" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid x:Name="SwitchAreaGrid"
+                              Grid.RowSpan="3"
+                              Grid.ColumnSpan="3"
+                              Margin="0,5"
+                              TemplatedControl.IsTemplateFocusTarget="True" />
+
+
+                        <Border x:Name="OuterBorder"
+                                Grid.Row="1"
+                                Width="40"
+                                Height="20"
+                                Background="{DynamicResource SukiControlBorderBrush}"
+                                BorderThickness="0"
+                                CornerRadius="{DynamicResource MediumCornerRadius}">
+                            <Border.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+                                </Transitions>
+                            </Border.Transitions>
+                        </Border>
+
+                        <Border x:Name="SwitchBackground"
+                                Grid.Row="1"
+                                Width="40"
+                                Height="20"
+                                Background="{DynamicResource SukiControlBorderBrush}"
+                                BorderThickness="0"
+                                CornerRadius="{DynamicResource MediumCornerRadius}">
+
+                            <Border.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
+                                    <BrushTransition Property="Background" Duration="0:0:0.15" />
+                                </Transitions>
+                            </Border.Transitions>
+                        </Border>
+
+                        <Canvas x:Name="PART_SwitchKnob"
+                                Grid.Row="1"
+                                Width="20"
+                                Height="20"
+                                HorizontalAlignment="Left">
+
+
+                            <Border x:Name="SwitchKnob"
+                                    Canvas.Left="2"
+                                    Canvas.Top="2"
+                                    Width="16"
+                                    Height="16"
+                                    Margin="0,0,0,0"
+                                    Background="#fcfcfc"
+                                    BoxShadow="{DynamicResource SukiSwitchShadow}"
+                                    CornerRadius="{DynamicResource MediumCornerRadius}">
+                                <Border />
+                                <Border.Transitions>
+                                    <Transitions />
+                                </Border.Transitions>
+                            </Border>
+
+
+                        </Canvas>
+                    </Grid>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ToggleButton.Switch:unchecked /template/ Border#SwitchKnob">
+        <Style.Animations>
+            <Animation FillMode="Both" Duration="0:0:0.25">
+                <Animation.Easing>
+                    <SineEaseOut />
+                </Animation.Easing>
+
+                <KeyFrame Cue="30%">
+                    <Setter Property="Width" Value="25" />
+                    <Setter Property="Canvas.Left" Value="11" />
+
+                </KeyFrame>
+                <KeyFrame Cue="70%">
+                    <Setter Property="Width" Value="25" />
+                    <Setter Property="Canvas.Left" Value="2" />
+
+                </KeyFrame>
+
+
+                <KeyFrame Cue="100%">
+                    <Setter Property="Width" Value="16" />
+                    <Setter Property="Canvas.Left" Value="2" />
+
+                </KeyFrame>
+
+            </Animation>
+        </Style.Animations>
+
+    </Style>
+
+    <Style Selector="ToggleButton.Switch:checked /template/ Border#SwitchKnob">
+
+        <Setter Property="BoxShadow" Value="0 0 0 0 White" />
+        <Style.Animations>
+            <Animation FillMode="Both" Duration="0:0:0.25">
+                <Animation.Easing>
+                    <SineEaseOut />
+                </Animation.Easing>
+
+
+                <KeyFrame Cue="30%">
+                    <Setter Property="Width" Value="25" />
+                    <Setter Property="Canvas.Left" Value="2" />
+                </KeyFrame>
+
+                <KeyFrame Cue="70%">
+                    <Setter Property="Width" Value="25" />
+                    <Setter Property="Canvas.Left" Value="11" />
+
+                </KeyFrame>
+
+                <KeyFrame Cue="100%">
+                    <Setter Property="Width" Value="16" />
+                    <Setter Property="Canvas.Left" Value="22" />
+
+                </KeyFrame>
+
+            </Animation>
+        </Style.Animations>
+
+    </Style>
+
+
+    <Style Selector="ToggleButton.Switch:pressed[IsChecked=False] /template/ Border#SwitchKnob">
+        <Style.Animations>
+            <Animation FillMode="Forward" Duration="0:0:0.15">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Width" Value="16" />
+                </KeyFrame>
+
+                <KeyFrame Cue="100%">
+                    <Setter Property="Width" Value="20" />
+                </KeyFrame>
+
+            </Animation>
+        </Style.Animations>
+
+    </Style>
+
+    <Style Selector="ToggleButton.Switch:pressed[IsChecked=True] /template/ Border#SwitchKnob">
+        <Style.Animations>
+            <Animation FillMode="Forward" Duration="0:0:0.1">
+                <KeyFrame Cue="0%">
+                    <Setter Property="Width" Value="16" />
+                    <Setter Property="Canvas.Left" Value="22" />
+                </KeyFrame>
+
+                <KeyFrame Cue="100%">
+                    <Setter Property="Width" Value="20" />
+                    <Setter Property="Canvas.Left" Value="18" />
+                </KeyFrame>
+
+            </Animation>
+        </Style.Animations>
+        <Setter Property="Width" Value="20" />
+    </Style>
+
+
+    <Style Selector="ToggleButton.Switch:checked /template/ Border#SwitchBackground">
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
+    </Style>
+
+    <Style Selector="ToggleButton.Basic">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Padding" Value="11,8" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Setter Property="Background" Value="Transparent" />
+        <Style Selector="^:checked">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^:checked">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+        <Style Selector="^:pointerover PathIcon">
+            <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            <Setter Property="Transitions">
+                <Setter.Value>
+                    <Transitions>
+                        <BrushTransition Property="Foreground" Duration="0.15" />
+                    </Transitions>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Style>
+</Styles>

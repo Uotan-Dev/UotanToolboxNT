@@ -1,0 +1,20 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.StackPage.RecursiveView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:stackPage="clr-namespace:SukiUI.Demo.Features.ControlsLibrary.StackPage"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="stackPage:RecursiveViewModel"
+             mc:Ignorable="d">
+    <controls:GlassCard HorizontalAlignment="Center" VerticalAlignment="Center">
+        <controls:GroupBox Header="{Binding Title}">
+            <StackPanel Spacing="10">
+                <TextBlock>This is a recursive viewmodel, click the button to go deeper.</TextBlock>
+                <Button Command="{Binding RecurseCommand}" Content="Click Me" />
+            </StackPanel>
+        </controls:GroupBox>
+    </controls:GlassCard>
+</UserControl>

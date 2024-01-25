@@ -1,0 +1,144 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:content="clr-namespace:SukiUI.Content">
+    <Design.PreviewWith>
+        <Border Padding="0">
+            <ListBox>
+                <ListBoxItem>Disabled</ListBoxItem>
+                <ListBoxItem>
+                    Test
+                </ListBoxItem>
+                <ListBoxItem>Test</ListBoxItem>
+            </ListBox>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+    </Style>
+
+    <Style Selector="ListBoxItem:selected  TextBlock">
+       
+        <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+    </Style>
+
+    <Style Selector="ListBoxItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="4,2" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="BorderBasicStyle"
+                        Margin="0,0,0,0"
+                        Padding="8,4"
+                        CornerRadius="10">
+                    <DockPanel>
+                        <PathIcon Name="CheckSelected"
+                                  Width="17"
+                                  Height="17"
+                                  Margin="8,0,0,0"
+                                  Data="{x:Static content:Icons.CircleCheck}"
+                                  DockPanel.Dock="Right"
+                                  Foreground="{DynamicResource SukiPrimaryColor}" >
+                            <PathIcon.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.2"></DoubleTransition>
+                                </Transitions>
+                            </PathIcon.Transitions>
+                        </PathIcon>
+                      
+                            <ContentPresenter Name="PART_ContentPresenter"
+                                              Margin="0,0,0,0" 
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              CornerRadius="{TemplateBinding CornerRadius}" />
+                      
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ListBoxItem:selected /template/ PathIcon#CheckSelected">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="ListBoxItem /template/ PathIcon#CheckSelected">
+        <Setter Property="Opacity" Value="0" />
+    </Style>
+
+    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="ListBoxItem:selected /template/ Border#BorderBasicStyle">
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor10}" />
+    </Style>
+    <Style Selector="ListBoxItem:pointerover /template/ Border#BorderBasicStyle">
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor5}" />
+    </Style>
+
+    <!-- <Style Selector="ListBoxItem.WithCheck">
+        <Setter Property="Background" Value="Transparent" />
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Margin="2" IsEnabled="False">
+                        <CheckBox.RenderTransform>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                        </CheckBox.RenderTransform>
+                    </CheckBox>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Margin="-8,0,0,0"
+                                      Padding="{TemplateBinding Padding}"
+                                      VerticalAlignment="Center"
+                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalContentAlignment="Center"
+                                      Background="Transparent"
+                                      BorderBrush="Transparent"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      CornerRadius="{TemplateBinding CornerRadius}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ListBoxItem.WithCheck:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="ListBoxItem.WithCheck:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+
+    <Style Selector="ListBoxItem.WithCheck:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+
+    <Style Selector="ListBoxItem.WithCheck">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="10 0 0 0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBackgroundBrush}" />
+        <Setter Property="Padding" Value="10 0" />
+        <Setter Property="Margin" Value="0 5" />
+    </Style>
+
+    <Style Selector="ListBoxItem.WithCheck:selected /template/ CheckBox">
+
+        <Setter Property="IsChecked" Value="True" />
+    </Style>
+
+    <Style Selector="ListBoxItem.WithCheck /template/ CheckBox">
+        <Setter Property="IsChecked" Value="False" />
+    </Style> -->
+
+</Styles>

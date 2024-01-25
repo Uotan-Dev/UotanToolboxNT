@@ -1,0 +1,81 @@
+<UserControl x:Class="SukiUI.Controls.CircleProgressBar"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:suki="clr-namespace:SukiUI.Controls"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="suki|CircleProgressBar">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid>
+                        <Arc Width="{TemplateBinding Width}"
+                             Height="{TemplateBinding Height}"
+                             StartAngle="0"
+                             Stretch="None"
+                             Stroke="{DynamicResource SukiLightBorderBrush}"
+                             StrokeThickness="{TemplateBinding StrokeWidth}"
+                             SweepAngle="360" />
+                        <Arc Name="PART_ArcFill"
+                             Width="{TemplateBinding Width}"
+                             Height="{TemplateBinding Height}"
+                             Stretch="None"
+                             Stroke="{DynamicResource SukiPrimaryColor}"
+                             StrokeJoin="Round"
+                             StrokeLineCap="Round"
+                             StrokeThickness="{TemplateBinding StrokeWidth}"
+                             SweepAngle="{TemplateBinding Value}">
+
+                            <Arc.Transitions>
+                                <Transitions>
+                                    <BrushTransition Property="Stroke" Duration="0:0:0.5" />
+                                    <DoubleTransition Easing="CircularEaseOut"
+                                                      Property="SweepAngle"
+                                                      Duration="0:0:0.8" />
+                                    <DoubleTransition Easing="CircularEaseOut"
+                                                      Property="StartAngle"
+                                                      Duration="0:0:0.8" />
+                                </Transitions>
+                            </Arc.Transitions>
+                        </Arc>
+                        <ContentControl Margin="{TemplateBinding StrokeWidth}"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Content="{TemplateBinding Content}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+            <Style Selector="^.Accent /template/ Arc#PART_ArcFill">
+                <Setter Property="Stroke" Value="{DynamicResource SukiAccentColor}" />
+            </Style>
+            <Style Selector="^[IsIndeterminate=True] /template/ Arc#PART_ArcFill">
+                <Setter Property="SweepAngle" Value="90"></Setter>
+                <Style.Animations>
+                    <Animation 
+                               IterationCount="Infinite"
+                               Duration="0:0:1.2">
+                        <KeyFrame Cue="0%">
+                            <Setter Property="StartAngle" Value="270"></Setter>
+                        </KeyFrame>
+                        <KeyFrame Cue="100%">
+                            
+                            <Setter Property="StartAngle" Value="630"></Setter>
+                        </KeyFrame>
+                    </Animation>
+                </Style.Animations>
+            </Style>
+            
+            <Style Selector="^[IsIndeterminate=False] /template/ Arc#PART_ArcFill">
+               
+                <Setter Property="StartAngle" Value="270"></Setter>
+                
+            </Style>
+            
+           
+        </Style>
+    </UserControl.Styles>
+
+</UserControl>

@@ -1,0 +1,143 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:showMeTheXaml="clr-namespace:ShowMeTheXaml;assembly=ShowMeTheXaml.Avalonia">
+
+    <!--  Had to include this style because the default style is utterly busted, which is a worry.  -->
+    <!--  Custom controls should have slightly better theming out of the box, or maybe it's just ShowMeTheXaml.  -->
+
+    <Style Selector="showMeTheXaml|XamlDisplay">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="*, Auto">
+                    <Grid.Resources>
+                        <showMeTheXaml:AlignmentYConverter x:Key="AlignmentYConverter" />
+                    </Grid.Resources>
+                    <Border Grid.Column="0"
+                            Background="Transparent"
+                            BorderBrush="{DynamicResource SukiAccentColor50}"
+                            BorderThickness="1.5"
+                            CornerRadius="8"
+                            IsVisible="{Binding #XamlPopup.IsOpen}"
+                            Opacity="0.5" />
+                    <ContentPresenter Grid.Column="0"
+                                      Margin="25,15"
+                                      Padding="{TemplateBinding Padding}"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      BorderThickness="{TemplateBinding BorderThickness}"
+                                      Content="{TemplateBinding Content}" />
+                    <Viewbox Name="SourceXamlButton"
+                             Grid.Column="1"
+                             Width="16"
+                             Height="16"
+                             VerticalAlignment="{TemplateBinding XamlButtonAlignment,
+                                                                 Converter={x:Static showMeTheXaml:AlignmentYConverter.Instance}}">
+                        <Grid Background="Transparent">
+                            <Path Data="M12.89,3L14.85,3.4L11.11,21L9.15,20.6L12.89,3M19.59,12L16,8.41V5.58L22.42,12L16,18.41V15.58L19.59,12M1.58,12L8,5.58V8.41L4.41,12L8,15.58V18.41L1.58,12Z" Fill="{DynamicResource SukiAccentColor50}" />
+                        </Grid>
+                    </Viewbox>
+                    <Popup Name="XamlPopup"
+                           Grid.Column="1"
+                           IsLightDismissEnabled="True" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style x:CompileBindings="False" Selector="showMeTheXaml|XamlDisplay[IsEditable=True] /template/ Popup#XamlPopup">
+        <Setter Property="Child">
+            <Template>
+                <Border Classes="Card">
+                    <Grid Margin="-5"
+                          ColumnDefinitions="* 8 Auto 8 Auto"
+                          RowDefinitions="* 4 Auto">
+                        <Border Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="5">
+                            <ScrollViewer MaxHeight="600"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          VerticalScrollBarVisibility="Hidden">
+                                <TextBox Name="MarkupTextBox"
+                                         MinWidth="400"
+                                         MinHeight="70"
+                                         MaxWidth="600"
+                                         VerticalContentAlignment="Top"
+                                         AcceptsReturn="True"
+                                         BorderThickness="0"
+                                         Classes="FlatTextBox"
+                                         CornerRadius="9"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                         Text="{Binding $parent[showMeTheXaml:XamlDisplay].XamlText, Mode=OneWay}"
+                                         TextWrapping="Wrap" />
+                            </ScrollViewer>
+                        </Border>
+                        <Rectangle Name="MaxSizer"
+                                   Grid.Row="2"
+                                   Grid.Column="0"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Top" />
+                        <TextBox Name="MarkupErrorsTextBox"
+                                 Grid.Row="2"
+                                 Grid.Column="0"
+                                 MaxWidth="{Binding #MaxSizer.Bounds.Width}"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Classes="FlatTextBox"
+                                 IsReadOnly="True"
+                                 IsVisible="False"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                 TextWrapping="Wrap" />
+                        <Button Name="ResetButton"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                VerticalAlignment="Bottom">
+                            Reset
+                        </Button>
+                        <Button Name="ApplyButton"
+                                Grid.Row="2"
+                                Grid.Column="4"
+                                Margin="0,0,6,0"
+                                VerticalAlignment="Bottom"
+                                Classes="Flat">
+                            Apply
+                        </Button>
+                    </Grid>
+                    <Interaction.Behaviors>
+                        <showMeTheXaml:XamlDisplayPopupBehavior ApplyButton="{Binding ElementName=ApplyButton}"
+                                                                MarkupErrorsTextBox="{Binding ElementName=MarkupErrorsTextBox}"
+                                                                MarkupTextBox="{Binding ElementName=MarkupTextBox}"
+                                                                ResetButton="{Binding ElementName=ResetButton}" />
+                    </Interaction.Behaviors>
+                </Border>
+            </Template>
+        </Setter>
+    </Style>
+
+    <Style x:CompileBindings="False" Selector="showMeTheXaml|XamlDisplay[IsEditable=False] /template/ Popup#XamlPopup">
+        <Setter Property="Child">
+            <Template>
+                <Border Background="{Binding $parent[showMeTheXaml:XamlDisplay].Background}"
+                        BorderBrush="{Binding $parent[showMeTheXaml:XamlDisplay].Foreground}"
+                        BorderThickness="1">
+                    <ScrollViewer MaxHeight="600"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Visible">
+                        <TextBox Name="MarkupTextBox"
+                                 MinWidth="300"
+                                 MaxWidth="600"
+                                 AcceptsReturn="True"
+                                 BorderThickness="0"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                 Text="{Binding $parent[showMeTheXaml:XamlDisplay].XamlText, Mode=OneWay}"
+                                 TextWrapping="Wrap" />
+                    </ScrollViewer>
+                </Border>
+            </Template>
+        </Setter>
+    </Style>
+</Styles>

@@ -1,0 +1,50 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.StackPage.StackPageView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:stackPage="clr-namespace:SukiUI.Demo.Features.ControlsLibrary.StackPage"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="stackPage:StackPageViewModel"
+             mc:Ignorable="d">
+    <Grid RowDefinitions="Auto, *">
+        <controls:GlassCard Classes="HeaderCard">
+            <controls:GroupBox Header="StackPage">
+                <StackPanel Classes="HeaderContent">
+                    <TextBlock>
+                        SukiUI provides a simple StackPage implementation in the form of SukiStackPage.
+                    </TextBlock>
+                    <TextBlock>
+                        This control simply remembers everything it's "Content" property is set to, up to the Limit (default 5 items).
+                    </TextBlock>
+                    <TextBlock>
+                        Clicking on the items in the header will unwind the stack to that item.
+                    </TextBlock>
+                    <TextBlock>
+                        In this example a single ViewModel has been created which recursively creates a new instance of that ViewModel for the root to display.
+                    </TextBlock>
+                    <TextBlock>
+                        The control will also unwind the stack automatically if you set the Content to an object that is already in it's stack.
+                    </TextBlock>
+                    <TextBlock>You can adjust the page limit dynamically, you can test that with the slider below.</TextBlock>
+                    <DockPanel>
+                        <Slider MinWidth="200"
+                                HorizontalAlignment="Left"
+                                DockPanel.Dock="Left"
+                                IsSnapToTickEnabled="True"
+                                Maximum="15"
+                                Minimum="2"
+                                TickFrequency="1"
+                                Value="{Binding Limit}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Limit}" />
+                    </DockPanel>
+                </StackPanel>
+            </controls:GroupBox>
+        </controls:GlassCard>
+        <controls:SukiStackPage Grid.Row="1"
+                                Content="{Binding ActiveVm}"
+                                Limit="{Binding Limit}" />
+    </Grid>
+</UserControl>

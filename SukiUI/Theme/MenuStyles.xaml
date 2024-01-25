@@ -1,0 +1,18 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="Menu">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Height="45"
+                        Padding="{TemplateBinding Padding}"
+                        Background="{DynamicResource SukiBackground}"
+                        BorderBrush="{DynamicResource SukiBorderBrush}"
+                        BorderThickness="0,0,0,0"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <ItemsPresenter Name="PART_ItemsPresenter"
+                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                    KeyboardNavigation.TabNavigation="Continue" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

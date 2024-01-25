@@ -1,0 +1,21 @@
+<Application x:Class="SukiUI.Demo.App"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:common="clr-namespace:SukiUI.Demo.Common"
+             xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
+             RequestedThemeVariant="Default">
+    <Application.DataTemplates>
+        <common:ViewLocator />
+    </Application.DataTemplates>
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+        <sukiUi:SukiTheme ThemeColor="Red" />
+        <StyleInclude Source="avares://SukiUI.Demo/Styles/ShowMeTheXamlStyles.axaml" />
+        <StyleInclude Source="avares://SukiUI.Demo/Styles/WrapPanelStyles.axaml" />
+        <StyleInclude Source="avares://SukiUI.Demo/Styles/TextStyles.axaml" />
+        <StyleInclude Source="avares://SukiUI.Demo/Styles/GlassCardStyles.axaml" />
+        <avalonia:MaterialIconStyles />
+    </Application.Styles>
+</Application>

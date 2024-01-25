@@ -1,0 +1,383 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:content="clr-namespace:SukiUI.Content">
+    <Design.PreviewWith>
+        <Border Padding="20" Background="White">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Margin="5">
+                    <TextBlock>test 2</TextBlock>
+                </RadioButton>
+                <RadioButton Margin="5">
+                    <TextBlock>test 2</TextBlock>
+                </RadioButton>
+                <RadioButton Margin="5" Classes="Chips">
+                    <TextBlock>test 3</TextBlock>
+                </RadioButton>
+
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="RadioButton AccessText">
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
+    </Style>
+
+    <Style Selector="RadioButton.Chips">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="#77555555" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="50" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Border Margin="0,0,0,0"
+                            Padding="10"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+
+                            <ContentPresenter Name="PART_ContentPresenter"
+                                              Margin="15,0,15,0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              HorizontalContentAlignment="Center"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              RecognizesAccessKey="True" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="RadioButton.Chips TextBlock">
+        <Setter Property="Foreground" Value="#77555555" />
+    </Style>
+
+
+    <Style Selector="RadioButton.Chips:checked  TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+    </Style>
+
+    <Style Selector="RadioButton.Chips:checked  Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+    </Style>
+
+    <Style Selector="RadioButton.GigaChips">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{DynamicResource MediumCornerRadius}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Border Name="BigBorder"
+                            Margin="4"
+                            Padding="15,15,30,15"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            ClipToBounds="True"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border.Transitions>
+                            <Transitions>
+                                <ThicknessTransition Property="BorderThickness" Duration="00:00:0.2" />
+                                <TransformOperationsTransition Property="RenderTransform" Duration="00:00:0.1" />
+                                <BrushTransition Property="BorderBrush" Duration="00:00:0.2" />
+                                <ThicknessTransition Property="Margin" Duration="0:0:0.1" />
+                            </Transitions>
+                        </Border.Transitions>
+
+
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          FontSize="{TemplateBinding FontSize}"
+                                          RecognizesAccessKey="True" />
+
+
+                    </Border>
+                    <PathIcon Width="20"
+                              Height="20"
+                              Margin="12"
+                              HorizontalAlignment="Right"
+                              VerticalAlignment="Top"
+                              Data="{x:Static content:Icons.CircleCheck}"
+                              Foreground="{DynamicResource SukiPrimaryColor}">
+                        <PathIcon.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="00:00:0.2" />
+                            </Transitions>
+                        </PathIcon.Transitions>
+                    </PathIcon>
+                    <Border Name="SelectedBorder"
+                            Margin="4"
+                            BorderBrush="{DynamicResource SukiPrimaryColor}"
+                            BorderThickness="2"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Opacity="0">
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
+                            </Transitions>
+                        </Border.Transitions>
+                    </Border>
+
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="RadioButton.GigaChips:checked  Border#BigBorder">
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor5}" />
+    </Style>
+    <Style Selector="RadioButton.GigaChips:checked  Border#SelectedBorder">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="RadioButton.GigaChips PathIcon">
+        <Setter Property="Opacity" Value="0" />
+    </Style>
+
+    <Style Selector="RadioButton.GigaChips:checked PathIcon">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="RadioButton.MenuItemMobile:checked /template/ Border">
+        <Setter Property="CornerRadius" Value="0,50,50,0" />
+
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="80%,-50%" EndPoint="0%,100%">
+                    <GradientStop Offset="0.1" Color="#637ff0" />
+                    <GradientStop Offset="0.6" Color="#4969ed" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style Selector="RadioButton.MenuItem">
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Margin" Value="-30,0,5,0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <ThicknessTransition Property="Margin" Duration="0:0:0.4" />
+            </Transitions>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Border Margin="0,0,0,0"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource MediumCornerRadius}">
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Grid.Column="1"
+                                          Margin="0,2,-40,0"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          RecognizesAccessKey="True" />
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="RadioButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1.2" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Background="{TemplateBinding Background}" ColumnDefinitions="Auto,*">
+                    <Ellipse Name="border"
+                             Width="18"
+                             Height="18"
+                             VerticalAlignment="Center"
+                             Stroke="{TemplateBinding BorderBrush}"
+                             StrokeThickness="1.5">
+                        <Ellipse.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Fill" Duration="0:0:0.4" />
+                                <DoubleTransition Property="Width" Duration="0:0:0.4" />
+                                <DoubleTransition Property="Height" Duration="0:0:0.4" />
+                            </Transitions>
+                        </Ellipse.Transitions>
+                    </Ellipse>
+                    <Ellipse Name="checkMark"
+                             Width="16"
+                             Height="16"
+                             Margin="0,0,0,0"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Stretch="Uniform"
+                             UseLayoutRounding="False">
+                        <Ellipse.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Fill" Duration="0:0:0.4" />
+                                <DoubleTransition Property="Width" Duration="0:0:0.3" />
+                                <DoubleTransition Property="Height" Duration="0:0:0.3" />
+                            </Transitions>
+                        </Ellipse.Transitions>
+                    </Ellipse>
+                    <Ellipse Name="indeterminateMark"
+                             Width="9"
+                             Height="9"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Fill="{DynamicResource ThemeAccentBrush}"
+                             Stretch="Uniform"
+                             UseLayoutRounding="False">
+                        <Ellipse.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Fill" Duration="0:0:0.4" />
+                                <DoubleTransition Property="Width" Duration="0:0:0.4" />
+                                <DoubleTransition Property="Height" Duration="0:0:0.4" />
+                            </Transitions>
+                        </Ellipse.Transitions>
+                    </Ellipse>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Grid.Column="1"
+                                      Margin="10,0,0,0"
+                                      VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      FontSize="{TemplateBinding FontSize}"
+                                      RecognizesAccessKey="True" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+
+    <Style Selector="RadioButton.MenuItem:checked">
+        <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+        <Setter Property="Margin" Value="-30,5,5,5" />
+    </Style>
+
+    <Style Selector="RadioButton.MenuItem:pointerover /template/ Border">
+
+        <Setter Property="Background" Value="{DynamicResource SukiLightBackground}" />
+
+    </Style>
+
+    <Style Selector="RadioButton.MenuItem:checked  TextBlock">
+        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+    </Style>
+
+    <Style Selector="RadioButton.MenuItem:checked /template/ Border">
+        <Setter Property="Transitions">
+
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.15" />
+            </Transitions>
+
+        </Setter>
+
+        <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor10}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
+    </Style>
+
+    <Style Selector="RadioButton.MenuItem /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Transitions">
+
+            <Transitions>
+                <ThicknessTransition Property="Margin" Duration="0:0:0.25" />
+            </Transitions>
+
+        </Setter>
+    </Style>
+
+    <Style Selector="RadioButton.MenuItem:checked /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Transitions">
+
+            <Transitions>
+                <ThicknessTransition Property="Margin" Duration="0:0:0.25" />
+            </Transitions>
+
+        </Setter>
+        <Setter Property="Margin" Value="-40,2,0,0" />
+    </Style>
+
+    <Style Selector="RadioButton.MenuItem:checked  TextBlock">
+        <!-- <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" /> -->
+
+    </Style>
+
+    <Style Selector="RadioButton.MenuItem  PathIcon">
+        <!--  <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" /> -->
+        <Setter Property="Transitions">
+
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
+            </Transitions>
+
+        </Setter>
+    </Style>
+
+    <Style Selector="RadioButton.MenuItem:checked  ContentControl">
+        <!--  <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" /> -->
+        <Setter Property="Transitions">
+
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
+                <ThicknessTransition Property="Margin" Duration="0:0:0.2" />
+            </Transitions>
+
+        </Setter>
+        <!-- <Setter Property="Padding" Value="-52,0,0,0" /> -->
+        <Setter Property="Opacity" Value="0" />
+    </Style>
+
+
+    <Style Selector="RadioButton:pointerover /template/ Ellipse#border">
+        <Setter Property="Stroke" Value="{DynamicResource SukiBorderBrush}" />
+    </Style>
+    <Style Selector="RadioButton /template/ Ellipse#checkMark">
+        <Setter Property="Fill" Value="{DynamicResource SukiCardBackground}" />
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <Style Selector="RadioButton /template/ Ellipse#border">
+        <Setter Property="Fill" Value="{DynamicResource SukiPrimaryColor}" />
+    </Style>
+    <Style Selector="RadioButton:checked /template/ Ellipse#checkMark">
+        <Setter Property="Fill" Value="White" />
+        <Setter Property="Width" Value="7" />
+        <Setter Property="Height" Value="7" />
+
+    </Style>
+
+    <Style Selector="RadioButton /template/ Ellipse#indeterminateMark">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <Style Selector="RadioButton:indeterminate /template/ Ellipse#indeterminateMark">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="RadioButton:disabled /template/ Ellipse#border">
+        <Setter Property="Opacity" Value="{DynamicResource ThemeDisabledOpacity}" />
+    </Style>
+</Styles>

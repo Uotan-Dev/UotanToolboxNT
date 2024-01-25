@@ -1,0 +1,180 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:glassMorphism="clr-namespace:SukiUI.Controls.GlassMorphism"
+        xmlns:theme="clr-namespace:SukiUI.Theme">
+
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <StackPanel Spacing="10">
+                <ComboBox Margin="0,0,50,0" PlaceholderText="Select an item">
+                    <ComboBoxItem>Item 1</ComboBoxItem>
+                    <ComboBoxItem>Item 2</ComboBoxItem>
+                </ComboBox>
+                <ComboBox Width="200"
+                          HorizontalContentAlignment="Center"
+                          IsEnabled="False"
+                          SelectedIndex="1">
+                    <ComboBoxItem>Item 1</ComboBoxItem>
+                    <ComboBoxItem>Item 2</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="ComboBox">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
+        <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="MinHeight" Value="45" />
+        <Setter Property="PlaceholderForeground" Value="{DynamicResource SukiLowText}" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Margin="0,0,0,0" Padding="5">
+                    <Border Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BoxShadow="{DynamicResource SukiLowShadow}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="BorderBrush" Duration="0:0:0.2" />
+                            </Transitions>
+                        </Border.Transitions>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Grid.Styles>
+                                <Style Selector="Popup#PART_Popup[IsOpen=true]">
+                                    <Style.Resources>
+                                        <theme:PlusNineConverter x:Key="NineConverter" />
+                                    </Style.Resources>
+                                    <Style.Animations>
+                                        <Animation Easing="CircularEaseOut"
+                                                   FillMode="Forward"
+                                                   Duration="0:0:0.3">
+                                            <KeyFrame Cue="0%">
+                                                <Setter Property="Width" Value="0" />
+
+                                            </KeyFrame>
+                                            <KeyFrame Cue="100%">
+                                                <Setter Property="Width" Value="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NineConverter}}" />
+
+                                            </KeyFrame>
+                                        </Animation>
+                                    </Style.Animations>
+                                </Style>
+
+                                <Style Selector="Popup#PART_Popup[IsOpen=false]">
+                                    <Style.Resources>
+                                        <theme:PlusNineConverter x:Key="NineConverter" />
+                                    </Style.Resources>
+                                    <Style.Animations>
+                                        
+                                        <Animation Easing="CircularEaseOut"
+                                                   FillMode="Forward"
+                                                   Duration="0:0:0.3">
+                                            <KeyFrame Cue="0%">
+                                                <Setter Property="Width" Value="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NineConverter}}" />
+
+                                            </KeyFrame>
+                                            <KeyFrame Cue="100%">
+                                                <Setter Property="Width" Value="0" />
+
+                                            </KeyFrame>
+                                        </Animation>
+                                    </Style.Animations>
+                                </Style>
+                                
+                                <Style Selector="ContentControl.ghost TextBlock">
+                                    <Setter Property="Foreground" Value="Transparent"></Setter>
+                                </Style>
+                                <Style Selector="ToggleButton:pointerover">
+                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                </Style>
+                                <Style Selector="ToggleButton:checked">
+                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                </Style>
+                            </Grid.Styles>
+                            <Grid.Resources>
+                                <theme:BiggestItemConverter x:Key="BigItem"></theme:BiggestItemConverter>
+                            </Grid.Resources>
+                            <TextBlock Name="PlaceholderTextBlock"
+                                       Grid.Column="0"
+                                       Margin="7,1,0,0"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="Center"
+                                       Foreground="{TemplateBinding PlaceholderForeground}"
+                                       IsVisible="{TemplateBinding SelectionBoxItem,
+                                                                   Converter={x:Static ObjectConverters.IsNull}}"
+                                       Text="{TemplateBinding PlaceholderText}" />
+                            <ContentControl Margin="7,1,0,0"
+                                            HorizontalContentAlignment="Left" Foreground="Transparent"  Classes="ghost"
+                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Content="{TemplateBinding  ItemsSource, Converter={StaticResource BigItem}}"
+                                            ContentTemplate="{TemplateBinding ItemTemplate}" />
+                            <ContentControl Margin="7,1,0,0"
+                                            HorizontalContentAlignment="Left"
+                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Content="{TemplateBinding SelectionBoxItem}"
+                                            ContentTemplate="{TemplateBinding ItemTemplate}" />
+                            <ToggleButton Margin="10,0,0,0" Name="toggle"
+                                          Grid.Column="1"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          ClickMode="Press"
+                                          CornerRadius="{DynamicResource SmallCornerRadius}"
+                                          Focusable="False"
+                                          IsChecked="{TemplateBinding IsDropDownOpen,
+                                                                      Mode=TwoWay}">
+                                <Path Width="8"
+                                      Height="4"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="F1 M 301.14,-189.041L 311.57,-189.041L 306.355,-182.942L 301.14,-189.041 Z"
+                                      Fill="{DynamicResource SukiText}"
+                                      Stretch="Uniform" />
+                            </ToggleButton>
+                            <Popup Name="PART_Popup"
+                                   MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                   HorizontalOffset="-5"
+                                   IsLightDismissEnabled="True" 
+                                   IsOpen="{TemplateBinding IsDropDownOpen,
+                                                            Mode=TwoWay}"
+                                   PlacementTarget="{TemplateBinding}">
+
+
+                                <Border Padding="5,10,5,5">
+                                    <Grid>
+                                        <Border Margin="10,-10,0,0"
+                                                Background="{DynamicResource SukiCardBackground}"
+                                                BorderBrush="{DynamicResource SukiControlBorderBrush}"
+                                                BorderThickness="1,1,1,1"
+                                                BoxShadow="{DynamicResource SukiPopupShadow}"
+                                                CornerRadius="{DynamicResource SmallCornerRadius}">
+                                            <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                                <ItemsPresenter  Name="PART_ItemsPresenter"
+                                                                Margin="0,3,0,0"
+                                                                ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="ComboBox:pointerover /template/ Border#border">
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiLightBorderBrush}" />
+    </Style>
+    <Style Selector="ComboBox:disabled /template/ Border#border">
+        <Setter Property="Opacity" Value="{DynamicResource ThemeDisabledOpacity}" />
+    </Style>
+
+</Styles>

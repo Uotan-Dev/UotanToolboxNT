@@ -1,0 +1,135 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <StackPanel Width="200">
+            <Border Padding="20">
+                <ListBox Width="50" Height="100">
+                    <ListBoxItem>isse</ListBoxItem>
+                    <ListBoxItem>isse</ListBoxItem>
+                    <ListBoxItem>isse</ListBoxItem>
+                    <ListBoxItem>isse</ListBoxItem>
+                    <ListBoxItem>isse</ListBoxItem>
+                    <ListBoxItem>isse</ListBoxItem>
+                    <ListBoxItem>isse</ListBoxItem>
+                </ListBox>
+            </Border>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">
+                <StackPanel Width="500" Orientation="Horizontal">
+                    <Panel Width="50"
+                           Height="50"
+                           Margin="5"
+                           Background="Gray" />
+                    <Panel Width="50"
+                           Height="50"
+                           Margin="5"
+                           Background="Gray" />
+                    <Panel Width="50"
+                           Height="50"
+                           Margin="5"
+                           Background="Gray" />
+                    <Panel Width="50"
+                           Height="50"
+                           Margin="5"
+                           Background="Gray" />
+                    <Panel Width="50"
+                           Height="50"
+                           Margin="5"
+                           Background="Gray" />
+                </StackPanel>
+            </ScrollViewer>
+        </StackPanel>
+    </Design.PreviewWith>
+
+    <Style Selector="ScrollBar:vertical">
+
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="Transparent" UseLayoutRounding="False">
+                    <Grid RowDefinitions="Auto,*,Auto">
+
+                        <Track Grid.Row="1"
+                               Grid.Column="1"
+                               IsDirectionReversed="True"
+                               Maximum="{TemplateBinding Maximum}"
+                               Minimum="{TemplateBinding Minimum}"
+                               Orientation="{TemplateBinding Orientation}"
+                               ViewportSize="{TemplateBinding ViewportSize}"
+                               Value="{TemplateBinding Value,
+                                                       Mode=TwoWay}">
+                            <Track.DecreaseButton>
+                                <RepeatButton Name="PART_PageUpButton"
+                                              Background="Transparent"
+                                              Classes="repeattrack"
+                                              Focusable="False" />
+                            </Track.DecreaseButton>
+                            <Track.IncreaseButton>
+                                <RepeatButton Name="PART_PageDownButton"
+                                              Background="Transparent"
+                                              Classes="repeattrack"
+                                              Focusable="False" />
+                            </Track.IncreaseButton>
+                            <Thumb Name="thumb">
+                                <Thumb.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Border Margin="0,3"
+                                                    Background="{DynamicResource SukiControlBorderBrush}"
+                                                    CornerRadius="{DynamicResource MediumCornerRadius}" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                        </Track>
+
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ScrollBar:horizontal">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="Transparent" UseLayoutRounding="False">
+                    <Grid RowDefinitions="Auto,*,Auto">
+
+                        <Track Grid.Row="1"
+                               Grid.Column="1"
+                               IsDirectionReversed="False"
+                               Maximum="{TemplateBinding Maximum}"
+                               Minimum="{TemplateBinding Minimum}"
+                               Orientation="{TemplateBinding Orientation}"
+                               ViewportSize="{TemplateBinding ViewportSize}"
+                               Value="{TemplateBinding Value,
+                                                       Mode=TwoWay}">
+                            <Track.DecreaseButton>
+                                <RepeatButton Name="PART_PageUpButton"
+                                              Background="Transparent"
+                                              Classes="repeattrack"
+                                              Focusable="False" />
+                            </Track.DecreaseButton>
+                            <Track.IncreaseButton>
+                                <RepeatButton Name="PART_PageDownButton"
+                                              Background="Transparent"
+                                              Classes="repeattrack"
+                                              Focusable="False" />
+                            </Track.IncreaseButton>
+                            <Thumb Name="thumb">
+                                <Thumb.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Border Height="10"
+                                                    Margin="3,0"
+                                                    Background="{DynamicResource SukiControlBorderBrush}"
+                                                    CornerRadius="10" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Thumb.Template>
+                            </Thumb>
+                        </Track>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

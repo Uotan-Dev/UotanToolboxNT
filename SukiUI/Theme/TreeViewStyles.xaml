@@ -1,0 +1,138 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:content="clr-namespace:SukiUI.Content"
+        xmlns:theme="clr-namespace:SukiUI.Theme">
+    <Design.PreviewWith>
+        <Border Width="200"
+                Padding="20"
+                Background="{DynamicResource SukiBackground}">
+            <TreeView>
+                <TreeViewItem Header="blub">
+                    <TreeViewItem Header="blub" />
+                    <TreeViewItem Header="blub" />
+                </TreeViewItem>
+                <TreeViewItem Header="blub" />
+                <TreeViewItem Header="blub" />
+            </TreeView>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="TreeViewItem">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel>
+                    <Border Name="SelectionBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Focusable="True"
+                            TemplatedControl.IsTemplateFocusTarget="True">
+                        <Grid Name="PART_Header"
+                              Margin="{TemplateBinding Level,
+                                                       Mode=OneWay,
+                                                       Converter={StaticResource LeftMarginConverter}}"
+                              ColumnDefinitions="16, *">
+                            <Grid.Styles>
+                                <Style Selector="ToggleButton:checked">
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Style>
+                            </Grid.Styles>
+                            <ToggleButton Name="PART_ExpandCollapseChevron"
+                                          Padding="0"
+                                          Background="Transparent"
+                                          BorderThickness="0"
+                                          Classes="Basic"
+                                          Focusable="False"
+                                          IsChecked="{TemplateBinding IsExpanded,
+                                                                      Mode=TwoWay}">
+                                <ToggleButton.Transitions>
+                                    <Transitions>
+                                        <TransformOperationsTransition Property="RenderTransform" Duration="0.25" />
+                                        <ThicknessTransition Property="Margin" Duration="0.25" />
+                                    </Transitions>
+                                </ToggleButton.Transitions>
+                                <PathIcon Width="7"
+                                          Height="7"
+                                          Data="{x:Static content:Icons.ChevronRight}" />
+                            </ToggleButton>
+                            <ContentPresenter Name="PART_HeaderPresenter"
+                                              Grid.Column="1"
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalAlignment}"
+                                              Background="Transparent"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              Focusable="False" />
+                        </Grid>
+                    </Border>
+                    <ItemsPresenter Name="PART_ItemsPresenter"
+                                    theme:ItemsPresenterExtensions.AnimatedScroll="True"
+                                    IsVisible="{TemplateBinding IsExpanded}"
+                                    ItemsPanel="{TemplateBinding ItemsPanel}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="TreeViewItem">
+        <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
+        <Setter Property="Margin" Value="1" />
+    </Style>
+    <Style Selector="TreeView">
+        <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="#dedede" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+    <Style Selector="TreeViewItem">
+        <Setter Property="Padding" Value="5" />
+    </Style>
+
+    <Style Selector="TreeViewItem:pointerover /template/ Border#SelectionBorder">
+        <Setter Property="Background" Value="{DynamicResource SukiLightBorderBrush}" />
+    </Style>
+
+    <Style Selector="TreeViewItem:selected /template/ Border#SelectionBorder">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush}" />
+    </Style>
+    <Style Selector="TreeViewItem:selected /template/ Border#SelectionBorder:focus">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush}" />
+    </Style>
+    <Style Selector="TreeViewItem:selected /template/ Border#SelectionBorder:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush}" />
+    </Style>
+    <Style Selector="TreeViewItem:selected /template/ Border#SelectionBorder:pointerover:focus">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush}" />
+    </Style>
+
+    <Style Selector="TreeViewItem:selected &gt; TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource HighlightForegroundBrush}" />
+    </Style>
+    <!-- <Style Selector="TreeViewItem /template/ ToggleButton#expander"> -->
+    <!--     <Setter Property="Background" Value="Transparent" /> -->
+    <!--     <Setter Property="Padding" Value="0" /> -->
+    <!--     <Setter Property="BorderThickness" Value="0" /> -->
+    <!--     <Setter Property="Template"> -->
+    <!--         <ControlTemplate> -->
+    <!--  <Border Width="16"  -->
+    <!--  Height="12"  -->
+    <!--  HorizontalAlignment="Center"  -->
+    <!--  VerticalAlignment="Center"  -->
+    <!--  Background="Transparent"  -->
+    <!--  BorderThickness="0">  -->
+    <!--  <Path HorizontalAlignment="Center"  -->
+    <!--  VerticalAlignment="Center"  -->
+    <!--  Data="M 0 2 L 4 6 L 0 10 Z"  -->
+    <!--  Fill="{DynamicResource ThemeForegroundBrush}" />  -->
+    <!--             </Border> -->
+    <!--         </ControlTemplate> -->
+    <!--     </Setter> -->
+    <!-- </Style> -->
+
+    <Style Selector="TreeViewItem[IsExpanded=True] /template/ ToggleButton#PART_ExpandCollapseChevron">
+        <Setter Property="RenderTransform" Value="rotate(90deg)" />
+        <Setter Property="Margin" Value="0,-5,0,0" />
+    </Style>
+</Styles>

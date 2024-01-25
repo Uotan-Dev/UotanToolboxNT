@@ -1,0 +1,92 @@
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20" Background="White">
+            <StackPanel>
+                <CheckBox Margin="20" />
+                <CheckBox Margin="20" IsChecked="True" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="CheckBox AccessText">
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
+    </Style>
+
+    <Style Selector="CheckBox">
+        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+        <Setter Property="BorderThickness" Value="0.5" />
+        <Setter Property="Padding" Value="10,1,0,0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="Auto,*">
+                    <Border Name="border"
+                            Width="20"
+                            Height="20"
+                            VerticalAlignment="Center"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{DynamicResource SukiStrongBackground}"
+                            BorderThickness="1"
+                            CornerRadius="6">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="0:0:0.15" />
+
+                            </Transitions>
+                        </Border.Transitions>
+                        <Panel>
+                            <Path Name="checkMark"
+                                  Width="9"
+                                  Height="9"
+                                  Margin="1,1,0,0"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="M 1145.607177734375,430 C1145.607177734375,430 1141.449951171875,435.0772705078125 1141.449951171875,435.0772705078125 1141.449951171875,435.0772705078125 1139.232177734375,433.0999755859375 1139.232177734375,433.0999755859375 1139.232177734375,433.0999755859375 1138,434.5538330078125 1138,434.5538330078125 1138,434.5538330078125 1141.482177734375,438 1141.482177734375,438 1141.482177734375,438 1141.96875,437.9375 1141.96875,437.9375 1141.96875,437.9375 1147,431.34619140625 1147,431.34619140625 1147,431.34619140625 1145.607177734375,430 1145.607177734375,430 z"
+                                  Fill="White"
+                                  Stretch="Uniform" />
+
+                        </Panel>
+                    </Border>
+                    <ContentPresenter Name="PART_ContentPresenter"
+                                      Grid.Column="1" FontSize="{TemplateBinding FontSize}"
+                                      Margin="{TemplateBinding Padding}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      IsVisible="{TemplateBinding Content,
+                                                                  Converter={x:Static ObjectConverters.IsNotNull}}"
+                                      RecognizesAccessKey="True" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="CheckBox:pointerover /template/ Border#border">
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiBorderBrush}" />
+    </Style>
+    <Style Selector="CheckBox /template/ Border#border">
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
+    </Style>
+    <Style Selector="CheckBox:checked /template/ Border#border">
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
+    </Style>
+    <Style Selector="CheckBox /template/ Path#checkMark">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="CheckBox /template/ Rectangle#indeterminateMark">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+    <Style Selector="CheckBox:checked /template/ Path#checkMark">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="CheckBox:indeterminate /template/ Rectangle#indeterminateMark">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+    <Style Selector="CheckBox:disabled /template/ Border#border">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+</Styles>

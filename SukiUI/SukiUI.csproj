@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<IsPackable>true</IsPackable>
+		<Authors></Authors>
+		<Copyright></Copyright>
+		<PackageProjectUrl>https://github.com/kikipoulet/SukiUI</PackageProjectUrl>
+		<PackageDescription></PackageDescription>
+		<Owners></Owners>
+		<PackageTags>avalonia;avaloniaui;ui;theme</PackageTags>
+		<RepositoryUrl>https://github.com/kikipoulet/SukiUI</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<IsPackable>true</IsPackable>
+		<RootNamespace>SukiUI</RootNamespace>
+		<Version>5.0.4</Version>
+		<FileVersion>2.0.0</FileVersion>
+		<AssemblyVersion>2.0.0</AssemblyVersion>
+		<LangVersion>10</LangVersion>
+		<UserSecretsId>712f85e4-12d3-41b0-a417-5714a113666f</UserSecretsId>
+		<Description>https://github.com/kikipoulet/SukiUI</Description>
+		<PackageVersion>5.1.2</PackageVersion>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.0.5" />
+		<PackageReference Include="Avalonia.Skia" Version="11.0.5" />
+		<PackageReference Include="SkiaSharp" Version="2.88.6" />
+		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.5" />
+		<PackageReference Include="Avalonia.Themes.Simple" Version="11.0.5" />
+		<PackageReference Include="ReactiveUI" Version="19.2.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AvaloniaResource Include="**\*.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<AvaloniaResource Include="Roboto-Regular.ttf" />
+		<AvaloniaResource Include="Roboto-Medium.ttf" />
+		<AvaloniaResource Include="CustomFont\Quicksand-Bold.ttf" />
+		<AvaloniaResource Include="CustomFont\Quicksand-Light.ttf" />
+		<AvaloniaResource Include="CustomFont\Quicksand-Medium.ttf" />
+		<AvaloniaResource Include="CustomFont\Quicksand-Regular.ttf" />
+		<AvaloniaResource Include="CustomFont\Quicksand-SemiBold.ttf" />
+		<Content Include="suki_photo.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="..\LICENSE" Link="LICENSE" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="OIG.N5o-removebg-preview.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Controls\TouchInput\TouchKeyboard\TouchKeyboard.axaml" />
+	  <UpToDateCheckInput Remove="Controls\TouchInput\TouchKeyboard\TouchKeyboardPopUp.axaml" />
+	  <UpToDateCheckInput Remove="Controls\TouchInput\TouchNumericPad\NumericPadPopUp.axaml" />
+	  <UpToDateCheckInput Remove="Controls\TouchInput\TouchNumericPad\TouchNumericPad.axaml" />
+	</ItemGroup>
+
+</Project>

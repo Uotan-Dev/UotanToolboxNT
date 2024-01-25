@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=netstandard">
+    <Color x:Key="SukiBackground">Transparent</Color>
+    <Color x:Key="SukiStrongBackground">#eaeaea</Color>
+    <Color x:Key="SukiLightBackground">Transparent</Color>
+    <Color x:Key="SukiCardBackground">#fafafa</Color>
+    <Color x:Key="SukiGlassCardBackground">#aaffffff</Color>
+    <Color x:Key="SukiGlassCardOpaqueBackground">#fcfcfc</Color>
+    <Color x:Key="SukiControlTouchBackground">#FFFFFF</Color>
+    <Color x:Key="SukiDialogBackground">Gray</Color>
+
+    <Color x:Key="SukiBorderBrush">#ebebeb</Color>
+    <Color x:Key="SukiControlBorderBrush">#cecece</Color>
+    <Color x:Key="SukiMediumBorderBrush">#e2e2e2</Color>
+    <Color x:Key="SukiLightBorderBrush">#f1f1f1</Color>
+    <Color x:Key="GlassBorderBrush">#e3e3e7</Color>
+
+    <Color x:Key="SukiText">#222222</Color>
+    <Color x:Key="SukiLowText">#555555</Color>
+
+    <BoxShadows x:Key="SukiLowShadow">0 0 3 0 #eaeaea</BoxShadows>
+    <BoxShadows x:Key="SukiSwitchShadow">0 1 3 0 #c1c1c1</BoxShadows>
+    <BoxShadows x:Key="SukiPopupShadow">1 1 5 0 LightGray</BoxShadows>
+    <BoxShadows x:Key="SukiBigPopupShadow">1 1 15 0 #dedede</BoxShadows>
+
+    <system:Boolean x:Key="IsDark">False</system:Boolean>
+    <system:Boolean x:Key="IsLight">True</system:Boolean>
+
+    <system:Double x:Key="GlassOpacity">0.8</system:Double>
+    <system:Double x:Key="GlassOpacityDark">0.5</system:Double>
+    <system:Double x:Key="GlassOpacityLight">0.8</system:Double>
+</ResourceDictionary>

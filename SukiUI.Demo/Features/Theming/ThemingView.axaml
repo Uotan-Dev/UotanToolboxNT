@@ -1,0 +1,122 @@
+<UserControl x:Class="SukiUI.Demo.Features.Theming.ThemingView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
+             xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=System.ObjectModel"
+             xmlns:theming="clr-namespace:SukiUI.Demo.Features.Theming"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="theming:ThemingViewModel"
+             mc:Ignorable="d">
+    <controls:SukiStackPage Margin="20">
+        <controls:SukiStackPage.Content>
+            <controls:SettingsLayout Name="Theming">
+                <controls:SettingsLayout.Items>
+                    <objectModel:ObservableCollection x:TypeArguments="controls:SettingsLayoutItem">
+                        <controls:SettingsLayoutItem Header="Base Theme">
+                            <controls:SettingsLayoutItem.Content>
+                                <StackPanel HorizontalAlignment="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="20">
+                                    <RadioButton Width="180"
+                                                 Height="160"
+                                                 Padding="0"
+                                                 Classes="GigaChips"
+                                                 GroupName="RadioBaseTheme"
+                                                 IsChecked="{Binding IsLightTheme}">
+                                        <Border Margin="-50"
+                                                Background="#fafafa"
+                                                CornerRadius="{DynamicResource MediumCornerRadius}">
+                                            <Grid>
+                                                <TextBlock Margin="42"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Bottom"
+                                                           FontWeight="DemiBold"
+                                                           Foreground="#555555"
+                                                           Text="Light Mode" />
+                                            </Grid>
+                                        </Border>
+                                    </RadioButton>
+
+                                    <RadioButton Width="180"
+                                                 Height="160"
+                                                 Classes="GigaChips"
+                                                 GroupName="RadioBaseTheme"
+                                                 IsChecked="{Binding !IsLightTheme}">
+                                        <Border Margin="-50"
+                                                Background="#222222"
+                                                CornerRadius="{DynamicResource MediumCornerRadius}">
+                                            <Grid>
+                                                <TextBlock Margin="42"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Bottom"
+                                                           FontWeight="DemiBold"
+                                                           Foreground="#fafafa"
+                                                           Text="Dark Mode" />
+                                            </Grid>
+                                        </Border>
+                                    </RadioButton>
+                                </StackPanel>
+                            </controls:SettingsLayoutItem.Content>
+                        </controls:SettingsLayoutItem>
+
+                        <controls:SettingsLayoutItem Header="Color Theme">
+                            <controls:SettingsLayoutItem.Content>
+                                <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding AvailableColors}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel HorizontalAlignment="Center"
+                                                        Orientation="Horizontal"
+                                                        Spacing="10" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:SukiColorTheme">
+
+                                            <RadioButton Width="50"
+                                                         Height="50"
+                                                         Classes="GigaChips"
+                                                         Command="{Binding ((theming:ThemingViewModel)DataContext).SwitchToColorThemeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type theming:ThemingView}}}"
+                                                         CommandParameter="{Binding}"
+                                                         CornerRadius="50"
+                                                         GroupName="RadioColorTheme">
+                                                <Border Margin="-30"
+                                                        Background="{Binding PrimaryBrush}"
+                                                        CornerRadius="50" />
+                                            </RadioButton>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </controls:SettingsLayoutItem.Content>
+                        </controls:SettingsLayoutItem>
+
+                        <controls:SettingsLayoutItem Header="Other">
+                            <controls:SettingsLayoutItem.Content>
+                                <controls:GlassCard Margin="15">
+                                    <DockPanel>
+                                        <ToggleButton VerticalAlignment="Top"
+                                                      Classes="Switch"
+                                                      DockPanel.Dock="Right"
+                                                      IsChecked="{Binding IsBackgroundAnimated}" />
+                                        <StackPanel HorizontalAlignment="Left">
+                                            <TextBlock FontSize="16"
+                                                       FontWeight="DemiBold"
+                                                       Text="Animated Background" />
+                                            <TextBlock Margin="0,12,70,0"
+                                                       Foreground="{DynamicResource SukiLowText}"
+                                                       Text="Enable a 'cloud' effect in the background. The background will be dynamic and the colors spaces will change over time."
+                                                       TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </DockPanel>
+                                </controls:GlassCard>
+                            </controls:SettingsLayoutItem.Content>
+                        </controls:SettingsLayoutItem>
+                    </objectModel:ObservableCollection>
+                </controls:SettingsLayout.Items>
+            </controls:SettingsLayout>
+        </controls:SukiStackPage.Content>
+    </controls:SukiStackPage>
+</UserControl>

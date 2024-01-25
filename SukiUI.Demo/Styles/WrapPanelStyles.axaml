@@ -1,0 +1,13 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+        xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI">
+    <Style Selector="WrapPanel.PageContainer">
+        <Setter Property="Margin" Value="15,15,0,0" />
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="theme:WrapPanelExtensions.AnimatedScroll" Value="True" />
+        <Style Selector="^ &gt; controls|GlassCard">
+            <Setter Property="Margin" Value="15,15,15,15" />
+        </Style>
+    </Style>
+</Styles>

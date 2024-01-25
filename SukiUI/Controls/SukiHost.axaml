@@ -1,0 +1,142 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:suki="clr-namespace:SukiUI.Controls">
+    <ControlTheme
+        TargetType="suki:SukiHost"
+        x:Key="SukiHostTheme">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Grid Name="PART_ContentContainer">
+                        <ContentControl Content="{TemplateBinding Content}" />
+                    </Grid>
+                    
+                    <ItemsControl Name="PART_ToastPresenter"
+                                  VerticalAlignment="Bottom"
+                                  HorizontalAlignment="Stretch" 
+                                  Margin="5,5" 
+                                  ItemsSource="{TemplateBinding ToastsCollection}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <DockPanel LastChildFill="True"   VerticalAlignment="Bottom" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    
+                    <Border
+                        Name="PART_DialogBackground"
+                        IsHitTestVisible="False" Opacity="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{DynamicResource SukiDialogBackground}" >
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.4"></DoubleTransition>
+                            </Transitions>
+                        </Border.Transitions>
+                    </Border>
+
+                    <Border Background="{DynamicResource SukiBackground}"
+                            Classes.opened="False"
+                            CornerRadius="15"
+                            HorizontalAlignment="Center"
+                            IsHitTestVisible="False"
+                            Name="borderDialog"
+                            Opacity="0"
+                            VerticalAlignment="Center">
+                        <Border.Transitions>
+                            <Transitions>
+                                <ThicknessTransition Duration="0:0:0.25" Property="Margin">
+                                    <ThicknessTransition.Easing>
+                                        <CircularEaseOut />
+                                    </ThicknessTransition.Easing>
+                                </ThicknessTransition>
+                                <DoubleTransition Duration="0:0:0.15" Property="Opacity" />
+                                <TransformOperationsTransition Duration="0:0:0.25" Property="RenderTransform">
+                                    <TransformOperationsTransition.Easing>
+                                        <CircularEaseOut />
+                                    </TransformOperationsTransition.Easing>
+                                </TransformOperationsTransition>
+                            </Transitions>
+                        </Border.Transitions>
+
+                        <Grid>
+                            <Border Name="BorderDialog1" Classes="Card"
+                                    Background="{DynamicResource SukiCardBackground}" />
+                            <ContentControl Content="{TemplateBinding DialogContent}" Margin="20" />
+                        </Grid>
+                    </Border>
+
+                    <Grid.Styles>
+                        <Style Selector="suki|SukiHost[IsDialogOpen=True]">
+
+                            <Style Selector="^ Border#PART_DialogBackground">
+                                <Setter Property="Opacity" Value="0.4"></Setter>
+                                <Setter Property="IsHitTestVisible" Value="True" />
+                            </Style>
+
+                            <Style Selector="^ Grid#PART_ContentContainer">
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                                <!-- Please do not remove this empty blur -->
+                                <Style.Animations>
+                                    <Animation FillMode="Forward" Duration="0:0:0.5">
+                                        <KeyFrame Cue="0%">
+                                            <Setter Property="Effect" Value="blur(0)" />
+                                        </KeyFrame>
+                                        <KeyFrame Cue="100%">
+                                            <Setter Property="Effect" Value="blur(0)" />
+                                        </KeyFrame>
+                                    </Animation>
+                                </Style.Animations>
+                             
+                            </Style>
+
+                            <Style Selector="^ Border#borderDialog">
+                                <Setter Property="Margin" Value="0,25,0,0" />
+                                <Setter Property="Opacity" Value="1" />
+                                <Setter Property="IsHitTestVisible" Value="True" />
+                                <Setter Property="RenderTransform" Value="scale(1)" />
+                            </Style>
+
+                        </Style>
+
+                        <Style Selector="suki|SukiHost[IsDialogOpen=False]">
+
+                            <Style Selector="^ Border#PART_DialogBackground">
+                                <Setter Property="Opacity" Value="0"></Setter>
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                            </Style>
+
+                            <Style Selector="^ Grid#PART_ContentContainer">
+                                <Setter Property="IsHitTestVisible" Value="True" />
+                                <!-- Please do not remove this empty blur -->
+                                <Style.Animations>
+                                    <Animation FillMode="Forward" Duration="0:0:0.5">
+                                        <KeyFrame Cue="0%">
+                                            <Setter Property="Effect" Value="blur(0)" />
+                                        </KeyFrame>
+                                        <KeyFrame Cue="100%">
+                                            <Setter Property="Effect" Value="blur(0)" />
+                                        </KeyFrame>
+                                    </Animation>
+                                </Style.Animations>
+                            </Style>
+
+                            <Style Selector="^ Border#borderDialog">
+                                <Setter Property="Opacity" Value="0" />
+                                <Setter Property="IsHitTestVisible" Value="False" />
+                                <Setter Property="RenderTransform" Value="scale(0.7)" />
+                                <Setter Property="Margin" Value="0,125,0,0" />
+                            </Style>
+                        </Style>
+                    </Grid.Styles>
+                    
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    <ControlTheme
+        TargetType="suki:SukiHost"
+        x:Key="{x:Type suki:SukiHost}"
+        BasedOn="{StaticResource SukiHostTheme}" />
+</ResourceDictionary>

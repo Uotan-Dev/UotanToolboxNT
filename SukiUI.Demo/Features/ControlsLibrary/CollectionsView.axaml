@@ -1,0 +1,88 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.CollectionsView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:showMeTheXaml="clr-namespace:ShowMeTheXaml;assembly=ShowMeTheXaml.Avalonia"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:CollectionsViewModel"
+             mc:Ignorable="d">
+    <Grid RowDefinitions="Auto,*">
+        <controls:GlassCard Classes="HeaderCard">
+            <controls:GroupBox Header="Collections">
+                <StackPanel Classes="HeaderContent">
+                    <TextBlock>
+                        All basic collection controls have been styled and animated.
+                    </TextBlock>
+                    <TextBlock>
+                        The DataGrid aligns it's content to the left by default, but you can apply CenterAlign and LeftAlign classes to the CellStyleClasses property of a column definition.
+                    </TextBlock>
+                </StackPanel>
+            </controls:GroupBox>
+        </controls:GlassCard>
+        <ScrollViewer Grid.Row="1">
+            <WrapPanel Classes="PageContainer">
+                <controls:GlassCard>
+                    <controls:GroupBox Header="ListBox">
+                        <showMeTheXaml:XamlDisplay UniqueId="ListBox">
+                            <ListBox MaxHeight="200"
+                                     ItemsSource="{Binding SimpleContent}"
+                                     SelectedItem="{Binding SelectedSimpleContent}" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="ComboBox">
+                        <showMeTheXaml:XamlDisplay UniqueId="ComboBox">
+                            <ComboBox ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="DataGrid">
+                        <StackPanel>
+                            <showMeTheXaml:XamlDisplay UniqueId="DataGrid">
+                                <DataGrid MaxHeight="200"
+                                          CanUserResizeColumns="{Binding IsDataGridColumnsResizable}"
+                                          ItemsSource="{Binding DataGridContent}">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding StringColumn}" Header="String" />
+                                        <DataGridTextColumn Binding="{Binding IntColumn}"
+                                                            CellStyleClasses="RightAlign"
+                                                            Header="Int" />
+                                        <DataGridCheckBoxColumn Binding="{Binding BoolColumn}"
+                                                                CellStyleClasses="CenterAlign"
+                                                                Header="Bool" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </showMeTheXaml:XamlDisplay>
+                            <DockPanel>
+                                <ToggleSwitch DockPanel.Dock="Left" IsChecked="{Binding IsDataGridColumnsResizable}" />
+                                <TextBlock Margin="5,0"
+                                           VerticalAlignment="Center"
+                                           Text="Resizable Columns" />
+                            </DockPanel>
+                        </StackPanel>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Tree View">
+                        <showMeTheXaml:XamlDisplay UniqueId="TreeView">
+                            <TreeView MaxHeight="200" ItemsSource="{Binding TreeViewContent}">
+                                <TreeView.ItemTemplate>
+                                    <TreeDataTemplate ItemsSource="{Binding SubNodes}">
+                                        <TextBlock Text="{Binding Value}" />
+                                    </TreeDataTemplate>
+                                </TreeView.ItemTemplate>
+                            </TreeView>
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

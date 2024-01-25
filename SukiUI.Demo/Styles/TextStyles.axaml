@@ -1,0 +1,9 @@
+<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style Selector="StackPanel.HeaderContent">
+        <Setter Property="Spacing" Value="5" />
+        <Style Selector="^ &gt; TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+    </Style>
+</Styles>

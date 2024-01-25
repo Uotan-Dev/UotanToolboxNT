@@ -1,0 +1,125 @@
+<UserControl x:Class="SukiUI.Demo.Features.ControlsLibrary.ButtonsLibraryView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:showMeTheXaml="clr-namespace:ShowMeTheXaml;assembly=ShowMeTheXaml.Avalonia"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             x:DataType="controlsLibrary:ButtonsLibraryViewModel"
+             mc:Ignorable="d">
+    <UserControl.Styles>
+        <Style Selector="Button">
+            <Setter Property="Content" Value="Button" />
+            <Setter Property="theme:ButtonExtensions.ShowProgress" Value="{Binding IsBusy}" />
+            <Setter Property="Command" Value="{Binding ButtonClickedCommand}" />
+        </Style>
+    </UserControl.Styles>
+    <Grid RowDefinitions="Auto,*">
+        <controls:GlassCard Classes="HeaderCard">
+            <controls:GroupBox Header="Buttons">
+                <StackPanel Classes="HeaderContent">
+                    <TextBlock>
+                        SukiUI has a handful of button styles, available in both the standard primary color, but also in the theme's accent color.
+                    </TextBlock>
+                    <TextBlock>
+                        Clicking on any one of the buttons will make them all "Busy" for 3 seconds, and how this is achieved can be seen in the XAML for the Busy Button.
+                    </TextBlock>
+                </StackPanel>
+            </controls:GroupBox>
+        </controls:GlassCard>
+        <ScrollViewer Grid.Row="1">
+            <WrapPanel Classes="PageContainer">
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Standard Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button1">
+                            <Button />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Basic Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button2">
+                            <Button Classes="Basic" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Flat Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button3">
+                            <Button Classes="Flat" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Flat Rounded Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button4">
+                            <Button Classes="Rounded Flat" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Outlined Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button5">
+                            <Button Classes="Outlined" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Standard Accent Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button6">
+                            <Button Classes="Accent" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Basic Accent Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button7">
+                            <Button Classes="Basic Accent" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Flat Accent Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button8">
+                            <Button Classes="Flat Accent" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Flat Rounded Accent Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button9">
+                            <Button Classes="Rounded Flat Accent" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Outlined Accent Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button10">
+                            <Button Classes="Outlined Accent" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Busy Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button11">
+                            <Button theme:ButtonExtensions.ShowProgress="True" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+
+                <controls:GlassCard>
+                    <controls:GroupBox Header="Large Button">
+                        <showMeTheXaml:XamlDisplay UniqueId="Button12">
+                            <Button Classes="Flat Large" />
+                        </showMeTheXaml:XamlDisplay>
+                    </controls:GroupBox>
+                </controls:GlassCard>
+
+            </WrapPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

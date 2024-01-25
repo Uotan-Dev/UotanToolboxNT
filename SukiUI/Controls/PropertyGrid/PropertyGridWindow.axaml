@@ -1,0 +1,32 @@
+<Window x:Class="SukiUI.Controls.PropertyGridWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:SukiUI.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Width="300"
+        Height="500"
+        d:DesignHeight="300"
+        d:DesignWidth="500"
+        x:DataType="controls:InstanceViewModel"
+        Background="{DynamicResource SukiBackground}"
+        mc:Ignorable="d">
+
+    <Border Padding="5" Background="{DynamicResource SukiBackground}">
+        <Grid>
+            <ScrollViewer>
+                <controls:PropertyGrid Item="{Binding}">
+                    <controls:PropertyGrid.DataTemplates>
+
+                        <!--
+                            replace the PropertyGridTemplateSelector with your own type or subclass it,
+                            if you want to customize the datatemplates being used
+                        -->
+
+                        <controls:PropertyGridTemplateSelector />
+                    </controls:PropertyGrid.DataTemplates>
+                </controls:PropertyGrid>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Window>

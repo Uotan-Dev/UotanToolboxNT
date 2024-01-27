@@ -24,7 +24,10 @@ namespace SukiUI.Demo.Common
             adb.StartInfo = adbexe;
             adb.Start();
             string output = await adb.StandardOutput.ReadToEndAsync();
-            if (output == "") output = await adb.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await adb.StandardError.ReadToEndAsync();
+            }
             adb.WaitForExit();
             return output;
         }
@@ -43,7 +46,10 @@ namespace SukiUI.Demo.Common
             fb.StartInfo = fastboot;
             fb.Start();
             string output = await fb.StandardError.ReadToEndAsync();
-            if (output == "") output = await fb.StandardOutput.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await fb.StandardOutput.ReadToEndAsync();
+            }
             fb.WaitForExit();
             return output;
         }

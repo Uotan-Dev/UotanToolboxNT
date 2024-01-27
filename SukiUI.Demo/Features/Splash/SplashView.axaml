@@ -2,40 +2,327 @@
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
+			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:splash="clr-namespace:SukiUI.Demo.Features.Splash"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
              d:DesignHeight="450"
              d:DesignWidth="800"
              x:DataType="splash:SplashViewModel"
              mc:Ignorable="d">
-    <controls:GlassCard Margin="40"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-        <controls:GroupBox Header="Welcome to the SukiUI Demo App.">
-            <StackPanel Classes="HeaderContent">
-                <Image Width="135"
-                       Height="135"
-                       Margin="30"
-                       HorizontalAlignment="Center"
-                       Source="../../Assets/OIG.N5o-removebg-preview.png" />
-                <TextBlock Name="TextBlockWithInline">
-                    In this app you'll find a sample page
-                    (<InlineUIContainer>
-                        <Button Classes="Hyperlink"
-                                Command="{Binding OpenDashboardCommand}"
-                                Content="Dashboard"
-                                FontSize="16" />
-                    </InlineUIContainer>
-                    )
-                    with a variety of controls used together, as well as a control library for testing and demonstration purposes.</TextBlock>
-                <TextBlock>
-                    You'll also find in the menu above toggles and other options to control the theme of the app.
-                </TextBlock>
-                <TextBlock>
-                    If you see a control on one of the demo pages and would like to see how to use it in your own app, simply press the small tag icon to the bottom right of the control.
-                </TextBlock>
-            </StackPanel>
-        </controls:GroupBox>
-    </controls:GlassCard>
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
+                   theme:WrapPanelExtensions.AnimatedScroll="True"
+                   Orientation="Horizontal">
+			
+			<!--  Device info  -->
+			<suki:GlassCard Width="300"
+                            Margin="15"
+                            Classes="Card">
+				<StackPanel>
+					<TextBlock HorizontalAlignment="Left"
+                               FontSize="16"
+                               FontWeight="DemiBold"
+                               Text="Device Info" />
+					<Grid Margin="0,18,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Brand"
+								   Name="Brand"/>
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<Button FontSize="13"
+									Foreground="White"
+									Height="13" Padding="0" Margin="0" BorderThickness="0"
+									Click="CopyButton_OnClick"
+									Content="HUAWEI"/>
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Model" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="ALN-AL80" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Code" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="8425L" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="System" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="Android 12 (API31)" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Motherboard ID" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="CPU Architecture" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="arm64-v8a" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Resolution" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="1800x2880" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Display Density" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="400" />
+						</StackPanel>
+					</Grid>
+				</StackPanel>
+			</suki:GlassCard>
+
+			<!--  Battery  -->
+			<suki:GlassCard Width="300"
+							Height="320"
+							Margin="15"
+							VerticalAlignment="Top">
+				<Grid>
+					<TextBlock FontSize="16"
+							   FontWeight="DemiBold"
+							   Text="Battery" />
+					<Viewbox Width="175"
+							 Height="175"
+							 Margin="0,0,0,5"
+							 HorizontalAlignment="Center"
+							 VerticalAlignment="Center">
+						<suki:WaveProgress Value="73" />
+					</Viewbox>
+				</Grid>
+			</suki:GlassCard>
+
+			<!-- Disk and Memory -->
+			<controls:GlassCard Height="320"
+								Margin="15">
+				<controls:GroupBox Header="Disk and Memory">
+						<StackPanel Spacing="15"
+									Orientation="Horizontal"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center" Height="220">
+							<controls:CircleProgressBar Width="130"
+														Height="130"
+														StrokeWidth="11"
+														Value="{Binding ProgressValue}">
+								<TextBlock Margin="0,2,0,0"
+										   Classes="h3"
+										   Text="{Binding ProgressValue, StringFormat={}{0:#0}%}" />
+							</controls:CircleProgressBar>
+							<controls:CircleProgressBar Width="130"
+														Height="130"
+														StrokeWidth="11"
+														Value="{Binding ProgressValue}">
+								<TextBlock Margin="0,2,0,0" Classes="h3" Text="{Binding ProgressValue, StringFormat={}{0:#0}%}" />
+							</controls:CircleProgressBar>
+						</StackPanel>
+				</controls:GroupBox>
+			</controls:GlassCard>
+
+			<!-- Phone panel -->
+			<controls:GlassCard Margin="15"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center">
+				<controls:GroupBox Header="Phone Panel">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="5">
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ArrowBack" />
+									返回
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ArrowBack" />
+									返回
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ArrowBack" />
+									返回
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ArrowBack" />
+									返回
+								</TextBlock>
+							</Button>
+						</StackPanel>
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="5">
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="VolumePlus" />
+									音量+
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="VolumePlus" />
+									音量+
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="VolumePlus" />
+									音量+
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="VolumePlus" />
+									音量+
+								</TextBlock>
+							</Button>
+						</StackPanel>
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="5">
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="Reload" />
+									重启
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="Reload" />
+									重启
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="Reload" />
+									重启
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="Reload" />
+									重启
+								</TextBlock>
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</controls:GroupBox>
+			</controls:GlassCard>
+
+
+			<!--  More info  -->
+			<suki:GlassCard Width="700"
+                            Margin="15"
+                            Classes="Card">
+				<StackPanel>
+					<TextBlock HorizontalAlignment="Left"
+                               FontSize="16"
+                               FontWeight="DemiBold"
+                               Text="More Info" />
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Power-on Time" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="0d2h8m" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Battery Info" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="99% 4.192V 25℃" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Platform" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="N/A" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Compiled version" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="" />
+						</StackPanel>
+					</Grid>
+					<Grid Margin="0,13,0,0">
+						<TextBlock HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   FontWeight="DemiBold"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="Kernel version" />
+						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+							<TextBlock FontSize="13"
+                                       Text="5.10.43" />
+						</StackPanel>
+					</Grid>
+				</StackPanel>
+			</suki:GlassCard>
+
+		</WrapPanel>
+	</ScrollViewer>
 </UserControl>

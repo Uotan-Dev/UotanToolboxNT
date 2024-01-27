@@ -18,51 +18,46 @@
                    theme:WrapPanelExtensions.AnimatedScroll="True"
                    Orientation="Horizontal">
 
-            <!--  Login  -->
-            <Grid Margin="15">
-                <suki:GlassCard Width="300" Margin="0,0,0,25">
-                    <suki:BusyArea Name="BusySignIn"
-                                   BusyText="Signing In..."
-                                   IsBusy="{Binding IsLoggingIn}">
-                        <StackPanel>
-                            <avalonia:MaterialIcon Width="30"
+			<!--  Connect  -->
+			<Grid Margin="15">
+				<suki:GlassCard Width="300" Margin="0,0,0,25">
+					<suki:BusyArea Name="BusyConnection"
+                                   BusyText="Connecting ..."
+                                   IsBusy="{Binding IsConnected}">
+						<StackPanel>
+							<avalonia:MaterialIcon Width="30"
                                                    Height="30"
                                                    Margin="10"
                                                    HorizontalAlignment="Center"
                                                    Foreground="{DynamicResource SukiPrimaryColor}"
                                                    Kind="MicrosoftEdge" />
-                            <TextBlock Margin="0,5,0,27"
+							<TextBlock Margin="0,5,0,27"
                                        HorizontalAlignment="Center"
                                        FontSize="18"
                                        FontWeight="DemiBold"
-                                       Text="Sign-in to your account" />
-                            <TextBlock Margin="6,0,0,3"
-                                       FontWeight="DemiBold"
-                                       Text="Username" />
-                            <TextBox theme:TextBoxExtensions.Prefix="" Watermark="Username" />
-                            <TextBlock Margin="6,18,0,3"
-                                       FontWeight="DemiBold"
-                                       Text="Password" />
-                            <TextBox Name="PasswordTextBox"
-                                     Margin="0,0,0,25"
-                                     theme:TextBoxExtensions.AddDeleteButton="False"
-                                     PasswordChar="*" />
-                        </StackPanel>
-                    </suki:BusyArea>
-                </suki:GlassCard>
-                <Button Name="ButtonSignIn"
+                                       Text="Connect your phone" />
+							<TextBox FontWeight="DemiBold"
+									 theme:TextBoxExtensions.AddDeleteButton="False"
+									 Text="{Binding Name, Mode=TwoWay}"
+									 Watermark="Callback Output"
+									 Height="100"
+									 Name="ShellTest"/>
+						</StackPanel>
+					</suki:BusyArea>
+				</suki:GlassCard>
+				<Button Name="ButtonConnect"
                         Width="160"
                         Height="40"
                         Margin="0,0,0,7"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Bottom"
-                        theme:ButtonExtensions.ShowProgress="{Binding IsLoggingIn}"
+                        theme:ButtonExtensions.ShowProgress="{Binding IsConnected}"
                         Classes="Flat Rounded"
-                        Command="{Binding LoginCommand}"
+                        Command="{Binding ConnectCommand}"
                         FontWeight="DemiBold">
-                    Sign In
-                </Button>
-            </Grid>
+					Connect
+				</Button>
+			</Grid>
 
             <!--  Upload progress  -->
             <StackPanel>
@@ -442,6 +437,5 @@
                 </suki:GroupBox>
             </suki:GlassCard>
         </WrapPanel>
-
     </ScrollViewer>
 </UserControl>

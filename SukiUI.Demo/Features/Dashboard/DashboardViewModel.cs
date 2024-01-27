@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Controls;
+using SukiUI.Demo.Common;
 using SukiUI.Demo.Models.Dashboard;
 using System.Threading.Tasks;
 
@@ -10,7 +11,8 @@ namespace SukiUI.Demo.Features.Dashboard;
 
 public partial class DashboardViewModel : DemoPageBase
 {
-    [ObservableProperty] private bool _isLoggingIn;
+    [ObservableProperty] private string _name;
+    [ObservableProperty] private bool _isConnected;
     [ObservableProperty] private int _stepperIndex;
 
     public IAvaloniaReadOnlyList<InvoiceViewModel> Invoices { get; } = new AvaloniaList<InvoiceViewModel>()
@@ -34,13 +36,13 @@ public partial class DashboardViewModel : DemoPageBase
     }
 
     [RelayCommand]
-    public Task Login()
+    public Task Connect()
     {
-        IsLoggingIn = true;
+        IsConnected = true;
         return Task.Run(async () =>
         {
-            await Task.Delay(3000);
-            IsLoggingIn = false;
+            Name = await ADBHelper.ADB("devices");
+            IsConnected = false;
         });
     }
 

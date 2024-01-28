@@ -41,7 +41,8 @@ public partial class DashboardViewModel : DemoPageBase
         IsConnected = true;
         return Task.Run(async () =>
         {
-            Name = await ADBHelper.ADB("devices");
+            string[] devices = await GetDevicesInfo.DevicesList();
+            Name = devices[0];
             IsConnected = false;
         });
     }

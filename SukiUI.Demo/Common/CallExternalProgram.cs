@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SukiUI.Demo.Common
 {
-    internal class ADBHelper
+    internal class CallExternalProgram
     {
         public static async Task<string> ADB(string adbshell)
         {
@@ -35,6 +35,28 @@ namespace SukiUI.Demo.Common
         public static async Task<string> Fastboot(string fbshell)
         {
             string cmd = "bin\\adb\\fastboot.exe";
+            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process fb = new Process();
+            fb.StartInfo = fastboot;
+            fb.Start();
+            string output = await fb.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await fb.StandardOutput.ReadToEndAsync();
+            }
+            fb.WaitForExit();
+            return output;
+        }
+
+        public static async Task<string> Devcon(string fbshell)
+        {
+            string cmd = "bin\\devcon.exe";
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,

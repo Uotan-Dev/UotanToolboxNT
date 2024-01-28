@@ -19,112 +19,279 @@
                    Orientation="Horizontal">
 			
 			<!--  Device info  -->
-			<suki:GlassCard Width="300"
+			<suki:GlassCard Width="520"
+							Height="380"
                             Margin="15"
                             Classes="Card">
-				<StackPanel>
-					<TextBlock HorizontalAlignment="Left"
-                               FontSize="16"
-                               FontWeight="DemiBold"
-                               Text="Device Info" />
-					<Grid Margin="0,18,0,0">
+				<suki:BusyArea Name="BusyConnection"
+                                   BusyText="获取中 ..."
+                                   IsBusy="{Binding IsConnected}">
+					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Brand"
-								   Name="Brand"/>
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<Button FontSize="13"
-									Foreground="White"
-									Height="13" Padding="0" Margin="0" BorderThickness="0"
-									Click="CopyButton_OnClick"
-									Content="HUAWEI"/>
+									   FontSize="16"
+									   FontWeight="DemiBold"
+									   Text="设备信息" />
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="220">
+								<Grid Margin="0,18,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="品牌"
+											   Name="Brand"/>
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="Xiaomi"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,13,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="型号" />
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="2106118C"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,13,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="代号" />
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="{Binding CodeName, Mode=TwoWay}"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,13,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="系统" />
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="Android 14 (API34)"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,13,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="CPU 架构" />
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="arm64-v8a"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,13,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="分辨率" />
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="1080x2400"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,13,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="显示密度" />
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="440"/>
+									</StackPanel>
+								</Grid>
+							</StackPanel>
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="220">
+								<Grid Margin="0,18,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="连接状态"
+											   Name="Status"/>
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="{Binding Status, Mode=TwoWay}"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,18,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="BL锁"
+											   Name="BL"/>
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="14" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="{Binding BLStatus, Mode=TwoWay}"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,18,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="VAB状态"
+											   Name="VAB"/>
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="14" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="{Binding VABStatus, Mode=TwoWay}"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,18,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="VNDK 版本"
+											   Name="vndk"/>
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="30"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,18,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="CPU 代号"
+											   Name="CPU"/>
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="lahaina"/>
+									</StackPanel>
+								</Grid>
+								<Grid Margin="0,18,0,0">
+									<TextBlock HorizontalAlignment="Left"
+											   FontSize="12"
+											   FontWeight="DemiBold"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="开机时间"
+											   Name="OpenTime"/>
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button FontSize="13"
+												Foreground="White"
+												Height="14" Padding="0" Margin="0" BorderThickness="0"
+												Click="CopyButton_OnClick"
+												Content="0天7时56分"/>
+									</StackPanel>
+								</Grid>
+							</StackPanel>
 						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Model" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="ALN-AL80" />
+						<StackPanel HorizontalAlignment="Center" Width="460">
+							<Grid Margin="0,13,0,0">
+								<TextBlock HorizontalAlignment="Left"
+										   FontSize="12"
+										   FontWeight="DemiBold"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="主板 ID" />
+								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+									<Button FontSize="13"
+											Foreground="White"
+											Height="13" Padding="0" Margin="0" BorderThickness="0"
+											Click="CopyButton_OnClick"
+											Content="110217595"/>
+								</StackPanel>
+							</Grid>
+							<Grid Margin="0,13,0,0">
+								<TextBlock HorizontalAlignment="Left"
+										   FontSize="12"
+										   FontWeight="DemiBold"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="平台" />
+								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+									<Button FontSize="13"
+											Foreground="White"
+											Height="16" Padding="0" Margin="0" BorderThickness="0"
+											Click="CopyButton_OnClick"
+											Content="Odin based on Qualcomm Technologies, Inc SM8350"/>
+								</StackPanel>
+							</Grid>
+							<Grid Margin="0,13,0,0">
+								<TextBlock HorizontalAlignment="Left"
+										   FontSize="12"
+										   FontWeight="DemiBold"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="编译版本" />
+								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+									<Button FontSize="13"
+											Foreground="White"
+											Height="13" Padding="0" Margin="0" BorderThickness="0"
+											Click="CopyButton_OnClick"
+											Content="V816.0.23.7.31.DEV"/>
+								</StackPanel>
+							</Grid>
+							<Grid Margin="0,13,0,0">
+								<TextBlock HorizontalAlignment="Left"
+										   FontSize="12"
+										   FontWeight="DemiBold"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="内核版本" />
+								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+									<Button FontSize="13"
+											Foreground="White"
+											Height="13" Padding="0" Margin="0" BorderThickness="0"
+											Click="CopyButton_OnClick"
+											Content="5.4.210-qgki-g71d7658432ee"/>
+								</StackPanel>
+							</Grid>
 						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Code" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="8425L" />
-						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="System" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="Android 12 (API31)" />
-						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Motherboard ID" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="" />
-						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="CPU Architecture" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="arm64-v8a" />
-						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Resolution" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="1800x2880" />
-						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Display Density" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="400" />
-						</StackPanel>
-					</Grid>
-				</StackPanel>
+					</StackPanel>
+				</suki:BusyArea>
+				
 			</suki:GlassCard>
 
 			<!--  Battery  -->
-			<suki:GlassCard Width="300"
-							Height="320"
+			<suki:GlassCard Width="200"
+							Height="380"
 							Margin="15"
 							VerticalAlignment="Top">
 				<Grid>
@@ -138,34 +305,46 @@
 							 VerticalAlignment="Center">
 						<suki:WaveProgress Value="73" />
 					</Viewbox>
+					<TextBlock  HorizontalAlignment="Center"
+								VerticalAlignment="Bottom"
+								Padding="0 30"
+										FontSize="20"
+										Text="7.744V 26℃" />
 				</Grid>
 			</suki:GlassCard>
 
 			<!-- Disk and Memory -->
-			<controls:GlassCard Height="320"
-								Margin="15">
-				<controls:GroupBox Header="Disk and Memory">
-						<StackPanel Spacing="15"
-									Orientation="Horizontal"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center" Height="220">
-							<controls:CircleProgressBar Width="130"
-														Height="130"
+			<suki:GlassCard Height="380"
+							Margin="15">
+					<StackPanel Spacing="15">
+						<TextBlock FontSize="16"
+							   FontWeight="DemiBold"
+							   Text="Disk and Memory" />
+							<controls:CircleProgressBar Width="110"
+														Height="110"
 														StrokeWidth="11"
 														Value="{Binding ProgressValue}">
 								<TextBlock Margin="0,2,0,0"
 										   Classes="h3"
 										   Text="{Binding ProgressValue, StringFormat={}{0:#0}%}" />
 							</controls:CircleProgressBar>
-							<controls:CircleProgressBar Width="130"
-														Height="130"
+						<TextBlock  HorizontalAlignment="Center"
+									FontSize="13"
+									Text="256/512(GB)" />
+							<controls:CircleProgressBar Width="110"
+														Height="110"
+														Classes="Accent"
 														StrokeWidth="11"
 														Value="{Binding ProgressValue}">
-								<TextBlock Margin="0,2,0,0" Classes="h3" Text="{Binding ProgressValue, StringFormat={}{0:#0}%}" />
+								<TextBlock Margin="0,2,0,0"
+										   Classes="h3"
+										   Text="{Binding ProgressValue, StringFormat={}{0:#0}%}" />
 							</controls:CircleProgressBar>
-						</StackPanel>
-				</controls:GroupBox>
-			</controls:GlassCard>
+						<TextBlock  HorizontalAlignment="Center"
+									FontSize="13"
+									Text="6/12(GB)" />
+					</StackPanel>
+			</suki:GlassCard>
 
 			<!-- Phone panel -->
 			<controls:GlassCard Margin="15"
@@ -174,7 +353,10 @@
 				<controls:GroupBox Header="Phone Panel">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="5">
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+							<Button Width="80" 
+									HorizontalAlignment="Left" 
+									Padding="8" 
+									Command="{Binding ConnectCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
 									返回
@@ -254,75 +436,6 @@
 					</StackPanel>
 				</controls:GroupBox>
 			</controls:GlassCard>
-
-
-			<!--  More info  -->
-			<suki:GlassCard Width="700"
-                            Margin="15"
-                            Classes="Card">
-				<StackPanel>
-					<TextBlock HorizontalAlignment="Left"
-                               FontSize="16"
-                               FontWeight="DemiBold"
-                               Text="More Info" />
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Power-on Time" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="0d2h8m" />
-						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Battery Info" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="99% 4.192V 25℃" />
-						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Platform" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="N/A" />
-						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Compiled version" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="" />
-						</StackPanel>
-					</Grid>
-					<Grid Margin="0,13,0,0">
-						<TextBlock HorizontalAlignment="Left"
-                                   FontSize="12"
-                                   FontWeight="DemiBold"
-                                   Foreground="{DynamicResource SukiLowText}"
-                                   Text="Kernel version" />
-						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<TextBlock FontSize="13"
-                                       Text="5.10.43" />
-						</StackPanel>
-					</Grid>
-				</StackPanel>
-			</suki:GlassCard>
-
 		</WrapPanel>
 	</ScrollViewer>
 </UserControl>

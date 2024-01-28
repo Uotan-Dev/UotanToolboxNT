@@ -379,13 +379,16 @@
             <Setter Property="Height" Value="25" />
             <Setter Property="Width" Value="25" />
             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor0}" />
             <Setter Property="Padding" Value="0" />
             <Style Selector="^:pointerover">
-                <Setter Property="Background" Value="{DynamicResource SukiBorderBrush}" />
+                <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor25}" />
             </Style>
-            <Style Selector="^.Red:pointerover">
-                <Setter Property="Background" Value="#44ff0000" />
+            <Style Selector="^.Close">
+                <Setter Property="Background" Value="{DynamicResource SukiAccentColor0}" />
+                <Style Selector="^:pointerover">
+                    <Setter Property="Background" Value="{DynamicResource SukiAccentColor25}" />
+                </Style>
             </Style>
         </Style>
 
@@ -414,7 +417,7 @@
         <Style Selector="^.Large">
             <Setter Property="FontSize" Value="18" />
             <Setter Property="Padding" Value="30,12" />
-            <Setter Property="CornerRadius" Value="9"></Setter>
+            <Setter Property="CornerRadius" Value="9" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="{x:Type Button}"

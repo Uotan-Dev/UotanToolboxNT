@@ -44,7 +44,8 @@
                                                   Height="10"
                                                   Data="{x:Static content:Icons.Plus}" />
                                     </ToggleButton>
-                                    <ContentPresenter HorizontalAlignment="Left" Margin="8,7"
+                                    <ContentPresenter Margin="8,7"
+                                                      HorizontalAlignment="Left"
                                                       VerticalAlignment="Center"
                                                       Content="{TemplateBinding Header}"
                                                       FontWeight="DemiBold" />

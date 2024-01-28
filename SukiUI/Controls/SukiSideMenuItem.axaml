@@ -48,6 +48,7 @@
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Data="{x:Static content:Icons.CircleOutline}"
+                                  Foreground="{DynamicResource SukiAccentColor}"
                                   IsVisible="{Binding !IsMenuExpanded, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type suki:SukiSideMenu}}}"
                                   Opacity="0">
                             <PathIcon.Transitions>
@@ -78,7 +79,6 @@
                 <Setter Property="Opacity" Value="1" />
             </Style>
             <Style Selector="^ /template/ ContentControl#PART_Icon">
-                <Setter Property="Foreground" Value="{DynamicResource SukiAccentColor}" />
                 <Setter Property="Opacity" Value="0" />
             </Style>
         </Style>

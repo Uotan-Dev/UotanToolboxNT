@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace SukiUI.Controls
 {
-    public sealed class InstanceViewModel : ObservableObject, IDisposable
+    public sealed class InstanceViewModel : SukiObservableObject, IDisposable
     {
         public INotifyPropertyChanged ViewModel { get; }
 

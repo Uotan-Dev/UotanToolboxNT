@@ -1,6 +1,6 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme x:Key="SukiToolTipTheme" TargetType="ToolTip">
-        <Setter Property="Foreground" Value="{DynamicResource SukiTextBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
         <Setter Property="Margin" Value="0,8" />
         <Setter Property="Padding" Value="16,8" />

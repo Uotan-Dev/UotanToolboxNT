@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace SukiUI.Helpers
 {
-    public abstract class ObservableObject : INotifyPropertyChanged
+    public abstract class SukiObservableObject : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

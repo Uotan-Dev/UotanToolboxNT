@@ -40,7 +40,7 @@
         <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlHighlightMidBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-<Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Height" Value="40" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
@@ -148,10 +148,11 @@
                         BoxShadow="{DynamicResource SukiPopupShadow}"
                         Classes="Card">
                     <Grid Name="ContentRoot" RowDefinitions="*,Auto">
-                        <Grid Margin="0,-15,0,15" Name="PART_PickerContainer">
+                        <Grid Name="PART_PickerContainer" Margin="0,-15,0,15">
                             <Grid.Styles>
                                 <Style Selector="DateTimePickerPanel &gt; ListBoxItem">
                                     <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
                                     <Setter Property="Padding" Value="4,2" />
                                     <Setter Property="Template">
                                         <ControlTemplate>
@@ -242,7 +243,10 @@
                                     VerticalAlignment="Bottom"
                                     Classes="Basic">
                                 <StackPanel Orientation="Horizontal">
-                                    <PathIcon Height="13" Width="13" Data="{x:Static icons:Icons.Check}" Foreground="White" />
+                                    <PathIcon Width="13"
+                                              Height="13"
+                                              Data="{x:Static icons:Icons.Check}"
+                                              Foreground="White" />
                                     <TextBlock Margin="8,0,0,0"
                                                FontWeight="DemiBold"
                                                Foreground="White"

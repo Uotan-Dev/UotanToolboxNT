@@ -1,0 +1,160 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:content="clr-namespace:SukiUI.Content"
+                    xmlns:controls="clr-namespace:SukiUI.Controls"
+                    xmlns:converters="clr-namespace:Avalonia.Controls.Converters;assembly=Avalonia.Controls"
+                    xmlns:system="clr-namespace:System;assembly=netstandard">
+    <converters:PlatformKeyGestureConverter x:Key="KeyGestureConverter" />
+
+    <ControlTheme x:Key="SukiMenuItemStyle" TargetType="MenuItem">
+        <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
+        <Setter Property="BorderThickness" Value="1.5" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="root"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        ClipToBounds="True">
+                    <Grid>
+                        <DockPanel Margin="5,10">
+                            <ContentPresenter Name="PART_Icon"
+                                              Width="15" Margin="5,0"
+                                              Height="15"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Content="{TemplateBinding Icon}"
+                                              DockPanel.Dock="Left" />
+                            <Rectangle Width="1"
+                                       Margin="5,-2"
+                                       DockPanel.Dock="Left"
+                                       Fill="{DynamicResource SukiLightBorderBrush}" />
+                            <PathIcon Name="PART_RightArrow"
+                                      Width="12"
+                                      Height="12"
+                                      Margin="5,0,10,0"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Data="{x:Static content:Icons.ChevronRight}"
+                                      DockPanel.Dock="Right"
+                                      Foreground="{DynamicResource SukiText}" />
+                            <ContentPresenter Name="PART_HeaderPresenter"
+                                              Margin="5,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Center"
+                                              Content="{TemplateBinding Header}">
+                                <ContentPresenter.DataTemplates>
+                                    <DataTemplate DataType="system:String">
+                                        <TextBlock FontWeight="DemiBold" Text="{Binding}" />
+                                    </DataTemplate>
+                                </ContentPresenter.DataTemplates>
+                            </ContentPresenter>
+                        </DockPanel>
+
+                        <TextBlock Name="PART_InputGestureText"
+                                   VerticalAlignment="Center"
+                                   Text="{TemplateBinding InputGesture,
+                                                          Converter={StaticResource KeyGestureConverter}}" />
+                        <Popup Name="PART_Popup"
+                               ClipToBounds="True"
+                               HorizontalOffset="-5"
+                               IsLightDismissEnabled="False"
+                               IsOpen="{TemplateBinding IsSubMenuOpen,
+                                                        Mode=TwoWay}"
+                               Opacity="0"
+                               OverlayInputPassThroughElement="{Binding $parent[Menu]}"
+                               Placement="RightEdgeAlignedTop"
+                               VerticalOffset="-1">
+                            <LayoutTransformControl Name="PART_LayoutTransform">
+                                <Grid Margin="-4,-8,0,0">
+                                    <Border BoxShadow="{DynamicResource SukiPopupShadow}" Margin="16,8,8,8"  CornerRadius="6" ></Border>
+
+                                <Border Name="PART_Border" Margin="16,8,8,8"
+                                        Background="{DynamicResource SukiCardBackground}"
+                                        BorderBrush="{DynamicResource SukiLightBorderBrush}"
+                                        BorderThickness="1"
+                                        BoxShadow="{DynamicResource SukiPopupShadow}"
+                                        ClipToBounds="True"
+                                        CornerRadius="5">
+                                    <ScrollViewer>
+                                        <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                    </ScrollViewer>
+                                </Border>
+                                    </Grid>
+                            </LayoutTransformControl>
+                        </Popup>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SukiLightBorderBrush}" />
+        </Style>
+
+        <Style Selector="^:separator">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Separator Height="1"
+                               Margin="20,1,0,1"
+                               Background="{DynamicResource ThemeControlMidBrush}" />
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:open /template/ LayoutTransformControl#PART_LayoutTransform">
+            <Style.Animations>
+                <Animation Easing="CircularEaseOut"
+                           FillMode="Forward"
+                           Duration="{StaticResource ShortAnimationDuration}">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="ScaleTransform.ScaleX" Value="0" />
+                        <Setter Property="TranslateTransform.X" Value="-100" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                        <Setter Property="TranslateTransform.X" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+
+        <Style Selector="^:selected /template/ Border#root">
+            <Setter Property="Background" Value="{DynamicResource SukiLightBorderBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiLightBorderBrush}" />
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="{DynamicResource ThemeDisabledOpacity}" />
+        </Style>
+
+        <Style Selector="^ /template/ ContentPresenter#PART_Icon">
+            <Setter Property="Width" Value="24" />
+            <Setter Property="Height" Value="24" />
+        </Style>
+
+        <Style Selector="^:not(.Menu):disabled">
+            <Setter Property="Opacity" Value="0.56" />
+        </Style>
+
+        <Style Selector="^:empty /template/ PathIcon#PART_RightArrow">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <Style Selector="^:separator">
+            <Setter Property="Height" Value="NaN" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Separator Height="1"
+                               Margin="0,0"
+                               Background="{DynamicResource SukiLightBorderBrush}" />
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type MenuItem}"
+                  BasedOn="{StaticResource SukiMenuItemStyle}"
+                  TargetType="MenuItem" />
+</ResourceDictionary>

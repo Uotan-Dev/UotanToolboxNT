@@ -7,9 +7,9 @@ using Avalonia.VisualTree;
 
 namespace SukiUI.Demo.Features.ControlsLibrary;
 
-public partial class ButtonsLibraryView : UserControl
+public partial class ButtonsView : UserControl
 {
-    public ButtonsLibraryView()
+    public ButtonsView()
     {
         InitializeComponent();
 

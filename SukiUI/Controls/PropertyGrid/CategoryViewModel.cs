@@ -4,7 +4,7 @@ using System;
 
 namespace SukiUI.Controls
 {
-    public sealed class CategoryViewModel : ObservableObject
+    public sealed class CategoryViewModel : SukiObservableObject
     {
         public string DisplayName { get; }
 

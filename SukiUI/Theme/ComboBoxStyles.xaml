@@ -58,11 +58,9 @@
                                                    Duration="0:0:0.3">
                                             <KeyFrame Cue="0%">
                                                 <Setter Property="Width" Value="0" />
-
                                             </KeyFrame>
                                             <KeyFrame Cue="100%">
                                                 <Setter Property="Width" Value="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NineConverter}}" />
-
                                             </KeyFrame>
                                         </Animation>
                                     </Style.Animations>
@@ -73,34 +71,31 @@
                                         <theme:PlusNineConverter x:Key="NineConverter" />
                                     </Style.Resources>
                                     <Style.Animations>
-                                        
                                         <Animation Easing="CircularEaseOut"
                                                    FillMode="Forward"
                                                    Duration="0:0:0.3">
                                             <KeyFrame Cue="0%">
                                                 <Setter Property="Width" Value="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NineConverter}}" />
-
                                             </KeyFrame>
                                             <KeyFrame Cue="100%">
                                                 <Setter Property="Width" Value="0" />
-
                                             </KeyFrame>
                                         </Animation>
                                     </Style.Animations>
                                 </Style>
-                                
+
                                 <Style Selector="ContentControl.ghost TextBlock">
-                                    <Setter Property="Foreground" Value="Transparent"></Setter>
+                                    <Setter Property="Foreground" Value="Transparent" />
                                 </Style>
                                 <Style Selector="ToggleButton:pointerover">
-                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                    <Setter Property="Background" Value="Transparent" />
                                 </Style>
                                 <Style Selector="ToggleButton:checked">
-                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                    <Setter Property="Background" Value="Transparent" />
                                 </Style>
                             </Grid.Styles>
                             <Grid.Resources>
-                                <theme:BiggestItemConverter x:Key="BigItem"></theme:BiggestItemConverter>
+                                <theme:BiggestItemConverter x:Key="BigItem" />
                             </Grid.Resources>
                             <TextBlock Name="PlaceholderTextBlock"
                                        Grid.Column="0"
@@ -112,17 +107,22 @@
                                                                    Converter={x:Static ObjectConverters.IsNull}}"
                                        Text="{TemplateBinding PlaceholderText}" />
                             <ContentControl Margin="7,1,0,0"
-                                            HorizontalContentAlignment="Left" Foreground="Transparent"  Classes="ghost"
+                                            HorizontalContentAlignment="Left"
                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                            Content="{TemplateBinding  ItemsSource, Converter={StaticResource BigItem}}"
-                                            ContentTemplate="{TemplateBinding ItemTemplate}" />
+                                            Classes="ghost"
+                                            Content="{TemplateBinding ItemsSource,
+                                                                      Converter={StaticResource BigItem}}"
+                                            ContentTemplate="{TemplateBinding ItemTemplate}"
+                                            Foreground="Transparent" />
                             <ContentControl Margin="7,1,0,0"
                                             HorizontalContentAlignment="Left"
                                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                             Content="{TemplateBinding SelectionBoxItem}"
-                                            ContentTemplate="{TemplateBinding ItemTemplate}" />
-                            <ToggleButton Margin="10,0,0,0" Name="toggle"
+                                            ContentTemplate="{TemplateBinding ItemTemplate}"
+                                            Foreground="{DynamicResource SukiText}" />
+                            <ToggleButton Name="toggle"
                                           Grid.Column="1"
+                                          Margin="10,0,0,0"
                                           Background="Transparent"
                                           BorderThickness="0"
                                           ClickMode="Press"
@@ -141,7 +141,7 @@
                             <Popup Name="PART_Popup"
                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
                                    HorizontalOffset="-5"
-                                   IsLightDismissEnabled="True" 
+                                   IsLightDismissEnabled="True"
                                    IsOpen="{TemplateBinding IsDropDownOpen,
                                                             Mode=TwoWay}"
                                    PlacementTarget="{TemplateBinding}">
@@ -156,7 +156,7 @@
                                                 BoxShadow="{DynamicResource SukiPopupShadow}"
                                                 CornerRadius="{DynamicResource SmallCornerRadius}">
                                             <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
-                                                <ItemsPresenter  Name="PART_ItemsPresenter"
+                                                <ItemsPresenter Name="PART_ItemsPresenter"
                                                                 Margin="0,3,0,0"
                                                                 ItemsPanel="{TemplateBinding ItemsPanel}" />
                                             </ScrollViewer>

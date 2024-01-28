@@ -16,16 +16,34 @@
         <controls:GlassCard.ContextMenu>
             <ContextMenu>
                 <!--  Ignore your IDE, x:False is a valid intrinsic  -->
-                <MenuItem Command="{Binding TestClickedCommand}"
+                <MenuItem Command="{Binding OptionClickedCommand}"
                           CommandParameter="{x:False}"
                           Header="Option" />
+                <MenuItem Header="Disabled Option" IsEnabled="False" />
                 <!--  Ignore your IDE, x:True is a valid intrinsic  -->
-                <MenuItem Command="{Binding TestClickedCommand}"
+                <MenuItem Command="{Binding OptionClickedCommand}"
                           CommandParameter="{x:True}"
                           Header="Option With Icon">
                     <MenuItem.Icon>
-                        <PathIcon Width="18" Height="18" Data="{x:Static content:Icons.Star}" />
+                        <PathIcon Width="15"
+                                  Height="15"
+                                  Data="{x:Static content:Icons.Star}" />
                     </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Disabled With Icon" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <PathIcon Width="13"
+                                  Height="13"
+                                  Data="{x:Static content:Icons.Cross}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Separator Next" />
+                <MenuItem Header="-" />
+                <MenuItem Header="Submenu">
+                    <MenuItem Header="Sub-Submenu">
+                        <MenuItem Command="{Binding NestedOptionClickedCommand}" Header="Nested Option" />
+                        <MenuItem Header="Disabled Nested Option" IsEnabled="False" />
+                    </MenuItem>
                 </MenuItem>
             </ContextMenu>
         </controls:GlassCard.ContextMenu>

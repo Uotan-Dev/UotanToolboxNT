@@ -6,20 +6,20 @@
         <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
         <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
-        <Setter Property="FontFamily" Value="{StaticResource QuicksandFont}" />
+        <Setter Property="TextElement.Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid>
-                   <Grid IsHitTestVisible="True">
+                    <Grid IsHitTestVisible="True">
                         <VisualLayerManager IsHitTestVisible="True">
                             <suki:SukiHost>
                                 <Grid x:Name="PART_Root">
-                                    
-                                        <suki:SukiBackground Name="PART_Background" IsHitTestVisible="False" />
-                                   
-                                    
+
+                                    <suki:SukiBackground Name="PART_Background" IsHitTestVisible="False" />
+
+
                                     <DockPanel LastChildFill="True">
-                                        
+
                                         <Grid DockPanel.Dock="Top">
                                             <Grid.Styles>
                                                 <Style Selector="suki|SukiWindow[ShowBottomBorder=True] /template/ Border#PART_BottomBorder">
@@ -41,28 +41,26 @@
                                                                     FlowDirection="RightToLeft"
                                                                     Orientation="Horizontal"
                                                                     Spacing="7">
-                                                            
-                                                            <Button Name="PART_CloseButton" Classes="Basic Rounded WindowControlsButton Red">
-                                                                <PathIcon Classes="WindowControlsIcon" Data="{x:Static icons:Icons.WindowClose}" />
+                                                            <StackPanel.Styles>
+                                                                <Style Selector="PathIcon">
+                                                                    <Setter Property="Height" Value="10" />
+                                                                    <Setter Property="Width" Value="10" />
+                                                                </Style>
+                                                            </StackPanel.Styles>
+                                                            <Button Name="PART_CloseButton" Classes="Basic Rounded WindowControlsButton Close">
+                                                                <PathIcon Data="{x:Static icons:Icons.WindowClose}" />
                                                             </Button>
-
-                                                           
                                                             <Button Name="PART_MaximizeButton"
                                                                     Classes="Basic Rounded WindowControlsButton"
                                                                     IsVisible="{TemplateBinding IsMaximizeButtonEnabled}">
-                                                                <PathIcon x:Name="MaximizeIcon"
-                                                                          Classes="WindowControlsIcon"
-                                                                          Data="{x:Static icons:Icons.WindowMaximize}" />
+                                                                <PathIcon x:Name="MaximizeIcon" Data="{x:Static icons:Icons.WindowMaximize}" />
                                                             </Button>
-
-                                                           
                                                             <Button Name="PART_MinimizeButton"
                                                                     VerticalContentAlignment="Bottom"
                                                                     Classes="Basic Rounded WindowControlsButton"
                                                                     IsVisible="{TemplateBinding IsMinimizeButtonEnabled}">
                                                                 <PathIcon Margin="0,0,0,4"
                                                                           VerticalAlignment="Bottom"
-                                                                          Classes="WindowControlsIcon"
                                                                           Data="{x:Static icons:Icons.WindowMinimize}" />
                                                             </Button>
                                                         </StackPanel>
@@ -83,7 +81,7 @@
                                                     </DockPanel>
 
                                                 </Grid>
-                                                <Menu IsVisible="{TemplateBinding IsMenuVisible}" ItemsSource="{TemplateBinding MenuItems}" />
+                                                <Menu IsEnabled="{TemplateBinding IsMenuVisible}" ItemsSource="{TemplateBinding MenuItems}" />
                                                 <Border Name="PART_BottomBorder" BorderBrush="{DynamicResource SukiBorderBrush}" />
                                             </StackPanel>
                                         </Grid>
@@ -99,10 +97,17 @@
                                 </Grid>
                             </suki:SukiHost>
                         </VisualLayerManager>
-                    </Grid> 
+                    </Grid>
                 </Grid>
             </ControlTemplate>
         </Setter>
+        <Style Selector="^[WindowState=Maximized] /template/ PathIcon#MaximizeIcon">
+            <Setter Property="Data" Value="{x:Static icons:Icons.WindowRestore}" />
+        </Style>
+
+        <Style Selector="^[WindowState=Normal] /template/ PathIcon#MaximizeIcon">
+            <Setter Property="Data" Value="{x:Static icons:Icons.WindowMaximize}" />
+        </Style>
     </ControlTheme>
     <ControlTheme x:Key="{x:Type suki:SukiWindow}"
                   BasedOn="{StaticResource SukiWindowTheme}"

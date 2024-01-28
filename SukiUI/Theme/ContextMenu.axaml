@@ -1,0 +1,55 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="SukiContextMenuStyle" TargetType="ContextMenu">
+        <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiLightBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <!--  Tiny margin helps prevent mouse-over immediately  -->
+                <LayoutTransformControl Name="PART_LayoutTransform" Margin="1,0,0,0">
+               <Grid >
+                   <Border   CornerRadius="{TemplateBinding CornerRadius}"  BoxShadow="{DynamicResource SukiPopupShadow}" Margin="16" />
+                   <Border Margin="15" Background="{TemplateBinding Background}"
+                           BorderBrush="{TemplateBinding BorderBrush}"
+                           BorderThickness="{TemplateBinding BorderThickness}"
+                        
+                           ClipToBounds="True"
+                           CornerRadius="{TemplateBinding CornerRadius}">
+                       <ItemsPresenter Name="PART_ItemsPresenter"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       ItemsPanel="{TemplateBinding ItemsPanel}"
+                                       KeyboardNavigation.TabNavigation="Continue" />
+                   </Border>
+               </Grid>
+                    </LayoutTransformControl>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^[IsOpen=True] /template/ LayoutTransformControl#PART_LayoutTransform">
+            <Style.Animations>
+                <Animation Easing="CircularEaseOut" 
+                           FillMode="Forward"
+                           Duration="{StaticResource ShortAnimationDuration}">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="ScaleTransform.ScaleY" Value="0" />
+                        <Setter Property="TranslateTransform.Y" Value="-100" />
+
+                        <Setter Property="ScaleTransform.ScaleX" Value="0" />
+                        <Setter Property="TranslateTransform.X" Value="-100" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        <Setter Property="TranslateTransform.Y" Value="0" />
+
+                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                        <Setter Property="TranslateTransform.X" Value="0" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type ContextMenu}"
+                  BasedOn="{StaticResource SukiContextMenuStyle}"
+                  TargetType="ContextMenu" />
+</ResourceDictionary>

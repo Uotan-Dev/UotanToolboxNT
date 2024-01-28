@@ -50,7 +50,7 @@ public partial class SukiUIDemoViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public Task ToggleAnimations()
+    private Task ToggleAnimations()
     {
         AnimationsEnabled = !AnimationsEnabled;
         var title = AnimationsEnabled ? "Animation Enabled" : "Animation Disabled";
@@ -61,18 +61,18 @@ public partial class SukiUIDemoViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void ToggleBaseTheme() =>
+    private void ToggleBaseTheme() =>
         _theme.SwitchBaseTheme();
 
     public void ChangeTheme(SukiColorTheme theme) =>
         _theme.ChangeColorTheme(theme);
 
     [RelayCommand]
-    public void CreateCustomTheme()
+    private void CreateCustomTheme()
     {
         SukiHost.ShowDialog(new CustomThemeDialogViewModel(_theme), allowBackgroundClose: true);
     }
 
     [RelayCommand]
-    public void OpenURL(string url) => UrlUtilities.OpenURL(url);
+    private void OpenURL(string url) => UrlUtilities.OpenURL(url);
 }

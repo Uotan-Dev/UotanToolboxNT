@@ -53,6 +53,7 @@
         <SolidColorBrush x:Key="ThemeControlHighlightHighBrush" Color="{DynamicResource ThemeControlHighlightHighColor}" />
         <SolidColorBrush x:Key="ThemeForegroundBrush" Color="{DynamicResource ThemeForegroundColor}" />
         <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource ThemeForegroundLowColor}" />
+        <SolidColorBrush x:Key="ColorViewContentBackgroundBrush" Color="{DynamicResource SukiCardBackground}" />
 
         <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource HighlightColor}" />
         <SolidColorBrush x:Key="HighlightBadgeBrush" Color="{DynamicResource HighlightBadgeColor}" />

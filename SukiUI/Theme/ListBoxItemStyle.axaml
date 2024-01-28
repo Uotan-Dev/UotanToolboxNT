@@ -15,11 +15,9 @@
 
     <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="TextBlock.Foreground" Value="{DynamicResource SukiPrimaryColor}" />
     </Style>
 
-    <Style Selector="ListBoxItem:selected  TextBlock">
-       
+    <Style Selector="ListBoxItem:selected &gt; TextBlock">
         <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
     </Style>
 
@@ -39,25 +37,25 @@
                                   Margin="8,0,0,0"
                                   Data="{x:Static content:Icons.CircleCheck}"
                                   DockPanel.Dock="Right"
-                                  Foreground="{DynamicResource SukiPrimaryColor}" >
+                                  Foreground="{DynamicResource SukiPrimaryColor}">
                             <PathIcon.Transitions>
                                 <Transitions>
-                                    <DoubleTransition Property="Opacity" Duration="0:0:0.2"></DoubleTransition>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
                                 </Transitions>
                             </PathIcon.Transitions>
                         </PathIcon>
-                      
-                            <ContentPresenter Name="PART_ContentPresenter"
-                                              Margin="0,0,0,0" 
-                                              Padding="{TemplateBinding Padding}"
-                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                              Background="Transparent"
-                                              BorderBrush="Transparent"
-                                              BorderThickness="{TemplateBinding BorderThickness}"
-                                              Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              CornerRadius="{TemplateBinding CornerRadius}" />
-                      
+
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          Margin="0,0,0,0"
+                                          Padding="{TemplateBinding Padding}"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          Background="Transparent"
+                                          BorderBrush="Transparent"
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          CornerRadius="{TemplateBinding CornerRadius}" />
+
                     </DockPanel>
                 </Border>
             </ControlTemplate>
@@ -139,6 +137,6 @@
 
     <Style Selector="ListBoxItem.WithCheck /template/ CheckBox">
         <Setter Property="IsChecked" Value="False" />
-    </Style> -->
+    </Style>-->
 
 </Styles>

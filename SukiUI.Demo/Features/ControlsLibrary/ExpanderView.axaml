@@ -14,7 +14,7 @@
             <controls:GroupBox Header="Expander">
                 <StackPanel Classes="HeaderContent">
                     <TextBlock>
-                        Expanders explanation.
+                        Expanders have styles for all ExpandDirections, using custom animation behaviour and controls internally to correctly animate showing/hiding any size content.
                     </TextBlock>
                 </StackPanel>
             </controls:GroupBox>

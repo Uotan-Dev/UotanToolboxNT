@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace SukiUI.Controls
 {
-    public abstract class PropertyViewModelBase<T> : ObservableObject, IPropertyViewModel<T?>
+    public abstract class PropertyViewModelBase<T> : SukiObservableObject, IPropertyViewModel<T?>
     {
         private readonly string _propertyName;
 

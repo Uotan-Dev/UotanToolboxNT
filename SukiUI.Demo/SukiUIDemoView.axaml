@@ -2,7 +2,7 @@
                  xmlns="https://github.com/avaloniaui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-                 xmlns:content="clr-namespace:SukiUI.Content;assembly=SukiUI"
+                 xmlns:converters="clr-namespace:SukiUI.Demo.Converters"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:demo="clr-namespace:SukiUI.Demo"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -29,19 +29,24 @@
                     <avalonia:MaterialIcon Kind="Lightbulb" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding ToggleAnimationsCommand}" Header="Animations" />
+            <MenuItem Command="{Binding ToggleAnimationsCommand}" Header="Animations">
+                <MenuItem.Icon>
+                    <avalonia:MaterialIcon Kind="{Binding AnimationsEnabled, Converter={x:Static converters:AnimationBoolToIconKindConverter.Instance}}" />
+                </MenuItem.Icon>
+            </MenuItem>
         </MenuItem>
-        <MenuItem Click="MenuItem_OnClick"
-                  Header="Themes"
-                  ItemsSource="{Binding Themes}">
-            <MenuItem.DataTemplates>
-                <DataTemplate DataType="{x:Type models:SukiColorTheme}">
-                    <TextBlock Foreground="{Binding PrimaryBrush}" Text="{Binding DisplayName}" />
-                </DataTemplate>
-            </MenuItem.DataTemplates>
-        </MenuItem>
-        <MenuItem Header="Other">
-            <MenuItem Command="{Binding CreateCustomThemeCommand}" Header="Create Custom Theme" />
+        <MenuItem Header="Theme">
+            <MenuItem Click="MenuItem_OnClick"
+                      Header="Switch To..."
+                      ItemsSource="{Binding Themes}">
+                <MenuItem.DataTemplates>
+                    <DataTemplate DataType="{x:Type models:SukiColorTheme}">
+                        <TextBlock Foreground="{Binding PrimaryBrush}" Text="{Binding DisplayName}" />
+                    </DataTemplate>
+                </MenuItem.DataTemplates>
+            </MenuItem>
+            <MenuItem Header="-" />
+            <MenuItem Command="{Binding CreateCustomThemeCommand}" Header="Create Custom" />
         </MenuItem>
     </suki:SukiWindow.MenuItems>
     <suki:SukiSideMenu HeaderContentOverlapsToggleButton="True"
@@ -51,7 +56,7 @@
             <DataTemplate>
                 <suki:SukiSideMenuItem Header="{Binding DisplayName}">
                     <suki:SukiSideMenuItem.Icon>
-                        <avalonia:MaterialIcon Foreground="{DynamicResource SukiText}" Kind="{Binding Icon}" />
+                        <avalonia:MaterialIcon Kind="{Binding Icon}" />
                     </suki:SukiSideMenuItem.Icon>
                 </suki:SukiSideMenuItem>
             </DataTemplate>

@@ -15,22 +15,6 @@
                     </TabItem>
                     <TabItem Header="Disabled" IsEnabled="False" />
                 </TabControl>
-
-                <TabControl Margin="0,250,0,0" Classes="FlatTabControl">
-                    <TabItem Classes="FlatTabItem" Header="Arch">
-                        <Border Height="100" Background="AntiqueWhite">
-                            <TextBlock FontSize="20"
-                                       Foreground="Black"
-                                       Text="Content" />
-                        </Border>
-                    </TabItem>
-                    <TabItem Classes="FlatTabItem" Header="Leaf">
-                        <Border Height="100" Background="Green" />
-                    </TabItem>
-                    <TabItem Classes="FlatTabItem"
-                             Header="Disabled"
-                             IsEnabled="False" />
-                </TabControl>
             </Grid>
         </Border>
     </Design.PreviewWith>
@@ -38,38 +22,6 @@
     <Styles.Resources>
         <Thickness x:Key="TabControlTopPlacementItemMargin">0 0 0 2</Thickness>
     </Styles.Resources>
-
-    <Style Selector="TabControl.FlatTabControl">
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="{DynamicResource TabItemMargin}" />
-        <Setter Property="Background" Value="{DynamicResource SukiLightBorderBrush}" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}">
-                    <DockPanel>
-                        <ItemsPresenter Name="PART_ItemsPresenter"
-                                        Margin="0,0,0,-2"
-                                        DockPanel.Dock="{TemplateBinding TabStripPlacement}"
-                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
-                        <ContentPresenter Name="PART_SelectedContentHost"
-                                          Margin="{TemplateBinding Padding}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Content="{TemplateBinding SelectedContent}"
-                                          ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-                    </DockPanel>
-                </Border>
-            </ControlTemplate>
-        </Setter>
-    </Style>
-
-
-
 
     <Style Selector="TabControl">
         <Setter Property="Margin" Value="0" />
@@ -84,9 +36,9 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <DockPanel>
-                        <ItemsPresenter Name="PART_ItemsPresenter"
-                                        DockPanel.Dock="{TemplateBinding TabStripPlacement}"
-                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                        <LayoutTransformControl Name="PART_LayoutTransform" DockPanel.Dock="{TemplateBinding TabStripPlacement}">
+                            <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+                        </LayoutTransformControl>
                         <ContentPresenter Name="PART_SelectedContentHost"
                                           Margin="{TemplateBinding Padding}"
                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -99,49 +51,19 @@
         </Setter>
     </Style>
 
-    <Style Selector="TabControl[TabStripPlacement=Left] /template/ ItemsPresenter#PART_ItemsPresenter &gt; WrapPanel">
-        <Setter Property="Orientation" Value="Vertical" />
+    <Style Selector="TabControl[TabStripPlacement=Left] /template/ LayoutTransformControl#PART_LayoutTransform">
+        <Setter Property="LayoutTransform" Value="rotate(-90deg)" />
+        <Style Selector="^ ItemsPresenter#PART_ItemsPresenter &gt; WrapPanel">
+            <Setter Property="Orientation" Value="Horizontal" />
+        </Style>
     </Style>
-    <Style Selector="TabControl[TabStripPlacement=Right] /template/ ItemsPresenter#PART_ItemsPresenter &gt; WrapPanel">
-        <Setter Property="Orientation" Value="Vertical" />
+    <Style Selector="TabControl[TabStripPlacement=Right] /template/ LayoutTransformControl#PART_LayoutTransform">
+        <Setter Property="LayoutTransform" Value="rotate(90deg)" />
+        <Style Selector="^ ItemsPresenter#PART_ItemsPresenter &gt; WrapPanel">
+            <Setter Property="Orientation" Value="Horizontal" />
+        </Style>
     </Style>
     <Style Selector="TabControl[TabStripPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
         <Setter Property="Margin" Value="{DynamicResource TabControlTopPlacementItemMargin}" />
     </Style>
-
-    <Style Selector="TabControl.MobileTabView">
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="{DynamicResource TabItemMargin}" />
-        <Setter Property="Background" Value="{DynamicResource TabControlBackground}" />
-        <Setter Property="TabStripPlacement" Value="Bottom" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{TemplateBinding CornerRadius}">
-                    <DockPanel>
-                        <ItemsPresenter Name="PART_ItemsPresenter" DockPanel.Dock="{TemplateBinding TabStripPlacement}">
-                            <ItemsPresenter.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="{Binding Items}" Rows="1" />
-                                </ItemsPanelTemplate>
-                            </ItemsPresenter.ItemsPanel>
-                        </ItemsPresenter>
-                        <ContentPresenter Name="PART_SelectedContentHost"
-                                          Margin="{TemplateBinding Padding}"
-                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          Content="{TemplateBinding SelectedContent}"
-                                          ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-                    </DockPanel>
-                </Border>
-            </ControlTemplate>
-        </Setter>
-    </Style>
-
-
-
 </Styles>

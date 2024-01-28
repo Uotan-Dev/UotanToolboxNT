@@ -406,7 +406,7 @@
                             <Style Selector="TextBlock">
                                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
                                 <Setter Property="FontSize" Value="{TemplateBinding FontSize}" />
-                                <Setter Property="TextDecorations" Value="Underline" />
+                                <Setter Property="FontWeight" Value="Bold" />
                             </Style>
                         </ContentPresenter.Styles>
                     </ContentPresenter>

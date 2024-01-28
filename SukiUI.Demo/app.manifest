@@ -1,24 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
-  <!-- This manifest is used on Windows only.
+	<!-- This manifest is used on Windows only.
        Don't remove it as it might cause problems with window transparency and embedded controls.
        For more details visit https://learn.microsoft.com/en-us/windows/win32/sbscs/application-manifests -->
-  <assemblyIdentity version="1.0.0.0" name="SukiUI.Demo.Desktop"/>
+	<assemblyIdentity version="1.0.0.0" name="SukiUI.Demo.Desktop"/>
 	<trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
 		<security>
 			<requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
 				<!-- UAC 清单选项
-             如果想要更改 Windows 用户帐户控制级别，请使用
-             以下节点之一替换 requestedExecutionLevel 节点。
-
-        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
-        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
-        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
-
-            指定 requestedExecutionLevel 元素将禁用文件和注册表虚拟化。
-            如果你的应用程序需要此虚拟化来实现向后兼容性，则移除此
-            元素。
-        -->
+				 如果想要更改 Windows 用户帐户控制级别，请使用
+				 以下节点之一替换 requestedExecutionLevel 节点。
+				<requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+				<requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+				<requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+				指定 requestedExecutionLevel 元素将禁用文件和注册表虚拟化。
+				如果你的应用程序需要此虚拟化来实现向后兼容性，则移除此
+				元素。-->
 				<requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
 			</requestedPrivileges>
 			<applicationRequestMinimum>
@@ -27,14 +24,14 @@
 			</applicationRequestMinimum>
 		</security>
 	</trustInfo>
-  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
-    <application>
-      <!-- A list of the Windows versions that this application has been tested on
+	<compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+		<application>
+			<!-- A list of the Windows versions that this application has been tested on
            and is designed to work with. Uncomment the appropriate elements
            and Windows will automatically select the most compatible environment. -->
 
-      <!-- Windows 10 -->
-      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
-    </application>
-  </compatibility>
+			<!-- Windows 10 -->
+			<supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
+		</application>
+	</compatibility>
 </assembly>

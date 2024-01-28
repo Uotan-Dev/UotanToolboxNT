@@ -9,8 +9,7 @@
              xmlns:splash="clr-namespace:SukiUI.Demo.Features.Splash"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             d:DesignWidth="1024"
              x:DataType="splash:SplashViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -20,114 +19,113 @@
 			
 			<!--  Device info  -->
 			<suki:GlassCard Width="520"
-							Height="380"
+							Height="410"
                             Margin="15"
                             Classes="Card">
 				<suki:BusyArea Name="BusyConnection"
-                                   BusyText="获取中 ..."
-                                   IsBusy="{Binding IsConnected}">
+								BusyText="获取中 ..."
+								IsBusy="{Binding IsConnected}">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
-									   FontSize="16"
-									   FontWeight="DemiBold"
-									   Text="设备信息" />
+										FontSize="16"
+										FontWeight="DemiBold"
+										Text="设备信息" />
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="220">
 								<Grid Margin="0,18,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="品牌"
-											   Name="Brand"/>
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="品牌"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="Xiaomi"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="型号" />
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="型号" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="2106118C"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="代号" />
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="代号" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="{Binding CodeName, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="系统" />
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="系统" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="Android 14 (API34)"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="CPU 架构" />
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="CPU 架构" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="arm64-v8a"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="分辨率" />
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="分辨率" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="1080x2400"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="显示密度" />
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="显示密度" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="440"/>
 									</StackPanel>
@@ -136,90 +134,84 @@
 							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="220">
 								<Grid Margin="0,18,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="连接状态"
-											   Name="Status"/>
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="连接状态"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="{Binding Status, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,18,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="BL锁"
-											   Name="BL"/>
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="BootLoader锁"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="14" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="{Binding BLStatus, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,18,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="VAB状态"
-											   Name="VAB"/>
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="VAB状态"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="14" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="{Binding VABStatus, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,18,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="VNDK 版本"
-											   Name="vndk"/>
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="VNDK 版本"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="30"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,18,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="CPU 代号"
-											   Name="CPU"/>
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="CPU 代号"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="13" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="lahaina"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,18,0,0">
 									<TextBlock HorizontalAlignment="Left"
-											   FontSize="12"
-											   FontWeight="DemiBold"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="开机时间"
-											   Name="OpenTime"/>
+												FontSize="12"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="开机时间"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-										<Button FontSize="13"
+										<Button Classes="Hyperlink"
 												Foreground="White"
-												Height="14" Padding="0" Margin="0" BorderThickness="0"
+												FontSize="13"
 												Click="CopyButton_OnClick"
 												Content="0天7时56分"/>
 									</StackPanel>
@@ -229,57 +221,57 @@
 						<StackPanel HorizontalAlignment="Center" Width="460">
 							<Grid Margin="0,13,0,0">
 								<TextBlock HorizontalAlignment="Left"
-										   FontSize="12"
-										   FontWeight="DemiBold"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="主板 ID" />
+											FontSize="12"
+											FontWeight="DemiBold"
+											Foreground="{DynamicResource SukiLowText}"
+											Text="主板 ID" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button FontSize="13"
-											Foreground="White"
-											Height="13" Padding="0" Margin="0" BorderThickness="0"
-											Click="CopyButton_OnClick"
+									<Button Classes="Hyperlink"
+												Foreground="White"
+												FontSize="13"
+												Click="CopyButton_OnClick"
 											Content="110217595"/>
 								</StackPanel>
 							</Grid>
 							<Grid Margin="0,13,0,0">
 								<TextBlock HorizontalAlignment="Left"
-										   FontSize="12"
-										   FontWeight="DemiBold"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="平台" />
+											FontSize="12"
+											FontWeight="DemiBold"
+											Foreground="{DynamicResource SukiLowText}"
+											Text="平台" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button FontSize="13"
-											Foreground="White"
-											Height="16" Padding="0" Margin="0" BorderThickness="0"
-											Click="CopyButton_OnClick"
+									<Button Classes="Hyperlink"
+												Foreground="White"
+												FontSize="13"
+												Click="CopyButton_OnClick"
 											Content="Odin based on Qualcomm Technologies, Inc SM8350"/>
 								</StackPanel>
 							</Grid>
 							<Grid Margin="0,13,0,0">
 								<TextBlock HorizontalAlignment="Left"
-										   FontSize="12"
-										   FontWeight="DemiBold"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="编译版本" />
+											FontSize="12"
+											FontWeight="DemiBold"
+											Foreground="{DynamicResource SukiLowText}"
+											Text="编译版本" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button FontSize="13"
+									<Button Classes="Hyperlink"
 											Foreground="White"
-											Height="13" Padding="0" Margin="0" BorderThickness="0"
+											FontSize="13"
 											Click="CopyButton_OnClick"
 											Content="V816.0.23.7.31.DEV"/>
 								</StackPanel>
 							</Grid>
 							<Grid Margin="0,13,0,0">
 								<TextBlock HorizontalAlignment="Left"
-										   FontSize="12"
-										   FontWeight="DemiBold"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="内核版本" />
+											FontSize="12"
+											FontWeight="DemiBold"
+											Foreground="{DynamicResource SukiLowText}"
+											Text="内核版本" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button FontSize="13"
-											Foreground="White"
-											Height="13" Padding="0" Margin="0" BorderThickness="0"
-											Click="CopyButton_OnClick"
+									<Button Classes="Hyperlink"
+												Foreground="White"
+												FontSize="13"
+												Click="CopyButton_OnClick"
 											Content="5.4.210-qgki-g71d7658432ee"/>
 								</StackPanel>
 							</Grid>
@@ -291,7 +283,7 @@
 
 			<!--  Battery  -->
 			<suki:GlassCard Width="200"
-							Height="380"
+							Height="410"
 							Margin="15"
 							VerticalAlignment="Top">
 				<Grid>
@@ -314,7 +306,7 @@
 			</suki:GlassCard>
 
 			<!-- Disk and Memory -->
-			<suki:GlassCard Height="380"
+			<suki:GlassCard Height="410"
 							Margin="15">
 					<StackPanel Spacing="15">
 						<TextBlock FontSize="16"
@@ -346,17 +338,21 @@
 					</StackPanel>
 			</suki:GlassCard>
 
-			<!-- Phone panel -->
+			<!-- Virtual panel -->
 			<controls:GlassCard Margin="15"
+								Height="335"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center">
-				<controls:GroupBox Header="Phone Panel">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="5">
-							<Button Width="80" 
-									HorizontalAlignment="Left" 
-									Padding="8" 
-									Command="{Binding ConnectCommand}">
+				<controls:GroupBox Header="虚拟面板">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="10">
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ArrowBack" />
+									返回
+								</TextBlock>
+							</Button>
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
 									返回
@@ -381,7 +377,13 @@
 								</TextBlock>
 							</Button>
 						</StackPanel>
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="5">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="10">
+							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="VolumePlus" />
+									音量+
+								</TextBlock>
+							</Button>
 							<Button Width="80" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumePlus" />
@@ -407,32 +409,127 @@
 								</TextBlock>
 							</Button>
 						</StackPanel>
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="5">
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="Reload" />
-									重启
-								</TextBlock>
-							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="Reload" />
-									重启
-								</TextBlock>
-							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="Reload" />
-									重启
-								</TextBlock>
-							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="Reload" />
-									重启
-								</TextBlock>
-							</Button>
+					</StackPanel>
+				</controls:GroupBox>
+			</controls:GlassCard>
+
+			<!-- Reboot -->
+			<StackPanel Orientation="Vertical" Margin="15" Spacing="10">
+				<!--  ADB Reboot  -->
+				<controls:GlassCard HorizontalAlignment="Left"
+									VerticalAlignment="Center">
+					<controls:GroupBox Header="ADB 重启">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+								<Button Width="80"
+										HorizontalAlignment="Left"
+										Padding="8"
+										Command="{Binding ConnectCommand}">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="ArrowBack" />
+										返回
+									</TextBlock>
+								</Button>
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="ArrowBack" />
+										返回
+									</TextBlock>
+								</Button>
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="ArrowBack" />
+										返回
+									</TextBlock>
+								</Button>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="VolumePlus" />
+										音量+
+									</TextBlock>
+								</Button>
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="VolumePlus" />
+										音量+
+									</TextBlock>
+								</Button>
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="VolumePlus" />
+										音量+
+									</TextBlock>
+								</Button>
+							</StackPanel>
 						</StackPanel>
+					</controls:GroupBox>
+				</controls:GlassCard>
+
+				<!--  Fastboot Reboot  -->
+				<controls:GlassCard HorizontalAlignment="Left"
+									VerticalAlignment="Center">
+					<controls:GroupBox Header="Fastboot 重启">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+								<Button Width="80"
+										HorizontalAlignment="Left"
+										Padding="8"
+										Command="{Binding ConnectCommand}">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="ArrowBack" />
+										返回
+									</TextBlock>
+								</Button>
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="ArrowBack" />
+										返回
+									</TextBlock>
+								</Button>
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="ArrowBack" />
+										返回
+									</TextBlock>
+								</Button>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="VolumePlus" />
+										音量+
+									</TextBlock>
+								</Button>
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="VolumePlus" />
+										音量+
+									</TextBlock>
+								</Button>
+								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="VolumePlus" />
+										音量+
+									</TextBlock>
+								</Button>
+							</StackPanel>
+						</StackPanel>
+					</controls:GroupBox>
+				</controls:GlassCard>
+			</StackPanel>
+			
+			<!-- Virtual panel -->
+			<controls:GlassCard Margin="15"
+								Height="335"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center">
+				<controls:GroupBox Header="虚拟面板">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+						<ListBox MaxHeight="200"
+                                 ItemsSource="{Binding SimpleContent}"
+                                 SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
 				</controls:GroupBox>
 			</controls:GlassCard>

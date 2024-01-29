@@ -157,8 +157,8 @@ namespace SukiUI.Demo.Common
                 batterylevel = battery[0];
                 batteryinfo = String.Format($"{Double.Parse(battery[1]) / 1000.0}V {Double.Parse(battery[2]) / 10.0}℃");
                 string[] mem = StringHelper.Mem(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/meminfo | grep Mem"));
-                memlevel = Math.Round(Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000) / Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
-                usemem = String.Format($"{Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000)}/{Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000)}GB");
+                memlevel = Math.Round(Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
+                usemem = String.Format($"{Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1)}/{Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000)}GB");
             }
             if (devcon.IndexOf(devicename) != -1)
             {

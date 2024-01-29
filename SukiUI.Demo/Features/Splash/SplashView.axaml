@@ -339,70 +339,62 @@
 			</suki:GlassCard>
 
 			<!-- Virtual panel -->
-			<controls:GlassCard Margin="15"
-								Height="335"
+			<suki:GlassCard Margin="15"
+								Height="305"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center">
-				<controls:GroupBox Header="虚拟面板">
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="10">
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+				<StackPanel>
+					<TextBlock HorizontalAlignment="Left"
+										FontSize="16"
+										FontWeight="DemiBold"
+										Text="按键模拟" />
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 30">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
+							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
 									返回
 								</TextBlock>
 							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
 									返回
 								</TextBlock>
 							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
 									返回
 								</TextBlock>
 							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ArrowBack" />
-									返回
-								</TextBlock>
-							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
 									返回
 								</TextBlock>
 							</Button>
 						</StackPanel>
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="10">
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
+							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumePlus" />
 									音量+
 								</TextBlock>
 							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumePlus" />
 									音量+
 								</TextBlock>
 							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumePlus" />
 									音量+
 								</TextBlock>
 							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumePlus" />
-									音量+
-								</TextBlock>
-							</Button>
-							<Button Width="80" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumePlus" />
 									音量+
@@ -410,18 +402,22 @@
 							</Button>
 						</StackPanel>
 					</StackPanel>
-				</controls:GroupBox>
-			</controls:GlassCard>
+				</StackPanel>
+			</suki:GlassCard>
 
 			<!-- Reboot -->
 			<StackPanel Orientation="Vertical" Margin="15" Spacing="10">
 				<!--  ADB Reboot  -->
-				<controls:GlassCard HorizontalAlignment="Left"
+				<suki:GlassCard HorizontalAlignment="Left"
 									VerticalAlignment="Center">
-					<controls:GroupBox Header="ADB 重启">
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+										FontSize="15"
+										FontWeight="DemiBold"
+										Text="ADB 重启" />
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 2">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-								<Button Width="80"
+								<Button Width="140"
 										HorizontalAlignment="Left"
 										Padding="8"
 										Command="{Binding ConnectCommand}">
@@ -430,13 +426,13 @@
 										返回
 									</TextBlock>
 								</Button>
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
 										返回
 									</TextBlock>
 								</Button>
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
 										返回
@@ -444,19 +440,19 @@
 								</Button>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
 										音量+
 									</TextBlock>
 								</Button>
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
 										音量+
 									</TextBlock>
 								</Button>
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
 										音量+
@@ -464,16 +460,21 @@
 								</Button>
 							</StackPanel>
 						</StackPanel>
-					</controls:GroupBox>
-				</controls:GlassCard>
+
+					</StackPanel>
+				</suki:GlassCard>
 
 				<!--  Fastboot Reboot  -->
-				<controls:GlassCard HorizontalAlignment="Left"
+				<suki:GlassCard HorizontalAlignment="Left"
 									VerticalAlignment="Center">
-					<controls:GroupBox Header="Fastboot 重启">
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+										FontSize="15"
+										FontWeight="DemiBold"
+										Text="Fastboot 重启" />
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 2">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-								<Button Width="80"
+								<Button Width="140"
 										HorizontalAlignment="Left"
 										Padding="8"
 										Command="{Binding ConnectCommand}">
@@ -482,13 +483,13 @@
 										返回
 									</TextBlock>
 								</Button>
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
 										返回
 									</TextBlock>
 								</Button>
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
 										返回
@@ -496,19 +497,19 @@
 								</Button>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
 										音量+
 									</TextBlock>
 								</Button>
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
 										音量+
 									</TextBlock>
 								</Button>
-								<Button Width="80" HorizontalAlignment="Left" Padding="8">
+								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
 										音量+
@@ -516,20 +517,17 @@
 								</Button>
 							</StackPanel>
 						</StackPanel>
-					</controls:GroupBox>
-				</controls:GlassCard>
+					</StackPanel>
+				</suki:GlassCard>
 			</StackPanel>
 			
 			<!-- Virtual panel -->
 			<controls:GlassCard Margin="15"
-								Height="335"
+								Height="305"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center">
 				<controls:GroupBox Header="虚拟面板">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-						<ListBox MaxHeight="200"
-                                 ItemsSource="{Binding SimpleContent}"
-                                 SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
 				</controls:GroupBox>
 			</controls:GlassCard>

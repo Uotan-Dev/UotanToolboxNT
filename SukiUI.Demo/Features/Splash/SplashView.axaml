@@ -30,8 +30,8 @@
 										FontSize="16"
 										FontWeight="DemiBold"
 										Text="设备信息" />
-						<StackPanel Orientation="Horizontal" Spacing="20">
-							<StackPanel Orientation="Vertical"  Width="220">
+						<StackPanel Orientation="Horizontal" Spacing="18">
+							<StackPanel Orientation="Vertical"  Width="230">
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
@@ -131,7 +131,7 @@
 									</StackPanel>
 								</Grid>
 							</StackPanel>
-							<StackPanel Orientation="Vertical"  Width="220">
+							<StackPanel Orientation="Vertical"  Width="230">
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
@@ -327,16 +327,16 @@
 								   FontWeight="DemiBold"
 								   Text="Disk and Memory" />
 							<controls:CircleProgressBar Width="110"
-														Height="110"
-														StrokeWidth="11"
-														Value="{Binding ProgressValue}">
-								<TextBlock Margin="0,2,0,0"
-										   Classes="h3"
-										   Text="{Binding ProgressValue, StringFormat={}{0:#0}%}" />
-							</controls:CircleProgressBar>
-						<TextBlock  HorizontalAlignment="Center"
-									FontSize="13"
-									Text="256/512(GB)" />
+												Height="110"
+												StrokeWidth="11"
+												Value="{Binding ProgressDisk}">
+						<TextBlock Margin="0,2,0,0"
+								   Classes="h3"
+								   Text="{Binding ProgressDisk, StringFormat={}{0:#0}%}" />
+					</controls:CircleProgressBar>
+					<TextBlock  HorizontalAlignment="Center"
+								FontSize="13"
+								Text="{Binding DiskInfo, Mode=TwoWay}" />
 							<controls:CircleProgressBar Width="110"
 														Height="110"
 														Classes="Accent"

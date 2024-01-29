@@ -50,6 +50,12 @@ namespace SukiUI.Demo.Common
             string batteryinfo = "--";
             string memlevel = "--";
             string usemem = "--";
+
+            string diskinfo = "";
+            string disktotal = "0";
+            string diskused = "0";
+            string progressdisk = "30";
+
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
             string devcon = await CallExternalProgram.Devcon("find usb*");
@@ -159,6 +165,16 @@ namespace SukiUI.Demo.Common
                 string[] mem = StringHelper.Mem(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/meminfo | grep Mem"));
                 memlevel = Math.Round(Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
                 usemem = String.Format($"{Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1)}/{Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000)}GB");
+                diskinfo = await CallExternalProgram.ADB($"-s {devicename} shell df /data");
+                string[] lines = diskinfo.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                string targetLine = lines.FirstOrDefault(line => line.Contains("/data"));
+                if (targetLine != null)
+                {
+                    string[] columns = targetLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    disktotal = columns[1];
+                    diskused = columns[2];
+                    progressdisk = columns[4].TrimEnd('%');
+                }
             }
             if (devcon.IndexOf(devicename) != -1)
             {
@@ -211,6 +227,10 @@ namespace SukiUI.Demo.Common
             devices.Add("BatteryInfo", batteryinfo);
             devices.Add("MemLevel", memlevel);
             devices.Add("UseMem", usemem);
+
+            devices.Add("DiskTotal", disktotal);
+            devices.Add("DiskUsed", diskused);
+            devices.Add("ProgressDisk", progressdisk);
             return devices;
         }
     }

@@ -19,7 +19,10 @@ namespace SukiUI.Demo.Features.Splash;
 
 public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("Home", MaterialIconKind.HomeOutline, int.MinValue)
 {
+    [ObservableProperty] private string _diskInfo;
+    [ObservableProperty][Range(0d, 100d)] private double _progressDisk = 0;
     [ObservableProperty][Range(0d, 100d)] private double _progressValue = 50;
+    [ObservableProperty][Range(0d, 100d)] private double _memLevel = 0;
     [ObservableProperty] private string _status;
     [ObservableProperty] private string _bLStatus;
     [ObservableProperty] private string _vABStatus;
@@ -40,7 +43,6 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [ObservableProperty] private string _sELinux;
     [ObservableProperty] private string _batteryLevel;
     [ObservableProperty] private string _batteryInfo;
-    [ObservableProperty] private string _memLevel;
     [ObservableProperty] private string _useMem;
     [ObservableProperty] private bool _isConnected;
 
@@ -90,8 +92,14 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                 Kernel = DevicesInfo["Kernel"];
                 BatteryLevel = DevicesInfo["BatteryLevel"];
                 BatteryInfo = DevicesInfo["BatteryInfo"];
-                MemLevel = DevicesInfo["MemLevel"];
+
+                MemLevel = double.Parse( DevicesInfo["MemLevel"] );
                 UseMem = DevicesInfo["UseMem"];
+
+                double DiskTotal = double.Parse(DevicesInfo["DiskTotal"]) /1024/1024;
+                double DiskUsed = double.Parse(DevicesInfo["DiskUsed"]) /1024/1024;
+                DiskInfo =  $"{DiskUsed.ToString("0.00")}GB/{DiskTotal.ToString("0.00")}GB";
+                ProgressDisk = double.Parse( DevicesInfo["ProgressDisk"] );
             }
             else
             {

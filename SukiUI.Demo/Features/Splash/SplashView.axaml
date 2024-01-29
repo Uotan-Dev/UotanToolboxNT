@@ -348,7 +348,7 @@
 								FontSize="16"
 								FontWeight="DemiBold"
 								Text="按键模拟" />
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 30">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 40">
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
@@ -359,19 +359,19 @@
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
-									返回
+									主页
 								</TextBlock>
 							</Button>
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
-									返回
+									多任务
 								</TextBlock>
 							</Button>
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
-									返回
+									锁屏
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -384,20 +384,20 @@
 							</Button>
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumePlus" />
-									音量+
+									<avalonia:MaterialIcon Kind="VolumeDecrease" />
+									音量-
+								</TextBlock>
+							</Button>
+							<Button Width="100" HorizontalAlignment="Left" Padding="8">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="VolumeOff" />
+									静音
 								</TextBlock>
 							</Button>
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumePlus" />
-									音量+
-								</TextBlock>
-							</Button>
-							<Button Width="100" HorizontalAlignment="Left" Padding="8">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumePlus" />
-									音量+
+									截屏
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -414,48 +414,48 @@
 						<TextBlock HorizontalAlignment="Left"
 								   FontSize="15"
 								   FontWeight="DemiBold"
-								   Text="ADB 重启" />
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 2">
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+								   Text="ADB 重启至" />
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="140"
 										HorizontalAlignment="Left"
 										Padding="8"
 										Command="{Binding ConnectCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
-										返回
+										系统
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
-										返回
+										Recovery
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
-										返回
+										Sideload
 									</TextBlock>
 								</Button>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
-										音量+
+										Bootloader
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
-										音量+
+										Fastbootd
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
-										音量+
+										TWRP Sideload
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -471,48 +471,48 @@
 						<TextBlock HorizontalAlignment="Left"
 									FontSize="15"
 									FontWeight="DemiBold"
-									Text="Fastboot 重启" />
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 2">
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+									Text="Fastboot 重启至" />
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="140"
 										HorizontalAlignment="Left"
 										Padding="8"
 										Command="{Binding ConnectCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
-										返回
+										系统
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
-										返回
+										Recovery
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ArrowBack" />
-										返回
+										关机
 									</TextBlock>
 								</Button>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
-										音量+
+										Bootloader
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
-										音量+
+										Fastbootd
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
-										音量+
+										9008
 									</TextBlock>
 								</Button>
 							</StackPanel>

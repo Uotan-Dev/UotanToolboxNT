@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Media;
 using ShowMeTheXaml;
 using System;
 
@@ -14,10 +15,23 @@ internal class Program
         .StartWithClassicDesktopLifetime(args);
 
     // Avalonia configuration, don't remove; also used by visual designer.
-    public static AppBuilder BuildAvaloniaApp() =>
-        AppBuilder.Configure<App>()
-            .UsePlatformDetect()
-            .WithInterFont()
-            .LogToTrace()
-            .UseXamlDisplay();
+    public static AppBuilder BuildAvaloniaApp()
+    {
+        FontManagerOptions options = new();
+        if (OperatingSystem.IsLinux())
+        {
+            options.DefaultFamilyName = "Quicksand";
+        }
+        else if (OperatingSystem.IsMacOS())
+        {
+            options.DefaultFamilyName = "Quicksand";
+        }
+        // No need to set default for Windows
+        return AppBuilder.Configure<App>()
+                .UsePlatformDetect()
+                .WithInterFont()
+                .LogToTrace()
+                .UseXamlDisplay()
+                .With(options);
+    }
 }

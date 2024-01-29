@@ -11,10 +11,13 @@ using SukiUI.Controls;
 using SukiUI.Demo.Utilities;
 using SukiUI.Demo.Features.ControlsLibrary.Dialogs;
 using Avalonia.Threading;
+using Avalonia.Collections;
+using SukiUI.Demo.Features.ControlsLibrary;
+using System.Linq;
 
 namespace SukiUI.Demo.Features.Splash;
 
-public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("��ҳ", MaterialIconKind.HomeOutline, int.MinValue)
+public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("Home", MaterialIconKind.HomeOutline, int.MinValue)
 {
     [ObservableProperty][Range(0d, 100d)] private double _progressValue = 50;
     [ObservableProperty] private string _status;
@@ -31,6 +34,9 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [ObservableProperty] private string _displayHW;
     [ObservableProperty] private string _density;
     [ObservableProperty] private bool _isConnected;
+
+    public AvaloniaList<string> SimpleContent { get; } = new();
+    [ObservableProperty] private string _selectedSimpleContent;
 
     [RelayCommand]
     public void OpenDashboard()
@@ -51,6 +57,9 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             string[] devices = await GetDevicesInfo.DevicesList();
             if(devices.Length != 0)
             {
+                SimpleContent.AddRange(Enumerable.Range(1, 50).Select(x => $"Option {x}"));
+                SelectedSimpleContent = SimpleContent.First();
+
                 Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(devices[0]);
                 Status = DevicesInfo["Status"];
                 BLStatus = DevicesInfo["BLStatus"];

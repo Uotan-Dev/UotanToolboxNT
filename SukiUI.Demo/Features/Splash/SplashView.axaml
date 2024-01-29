@@ -358,19 +358,19 @@
 							</Button>
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
-									<avalonia:MaterialIcon Kind="ArrowBack" />
+									<avalonia:MaterialIcon Kind="CircleOutline" />
 									主页
 								</TextBlock>
 							</Button>
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
-									<avalonia:MaterialIcon Kind="ArrowBack" />
+									<avalonia:MaterialIcon Kind="CardMultipleOutline" />
 									多任务
 								</TextBlock>
 							</Button>
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
-									<avalonia:MaterialIcon Kind="ArrowBack" />
+									<avalonia:MaterialIcon Kind="LockOpenOutline" />
 									锁屏
 								</TextBlock>
 							</Button>
@@ -396,7 +396,7 @@
 							</Button>
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
 								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumePlus" />
+									<avalonia:MaterialIcon Kind="CameraOutline" />
 									截屏
 								</TextBlock>
 							</Button>
@@ -422,19 +422,19 @@
 										Padding="8"
 										Command="{Binding ConnectCommand}">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="ArrowBack" />
+										<avalonia:MaterialIcon Kind="Android" />
 										系统
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="ArrowBack" />
+										<avalonia:MaterialIcon Kind="NetworkOutline" />
 										Recovery
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="ArrowBack" />
+										<avalonia:MaterialIcon Kind="NetworkPos" />
 										Sideload
 									</TextBlock>
 								</Button>
@@ -442,19 +442,19 @@
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="VolumePlus" />
+										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										Bootloader
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="VolumePlus" />
+										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										Fastbootd
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="VolumePlus" />
+										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										TWRP Sideload
 									</TextBlock>
 								</Button>
@@ -479,19 +479,19 @@
 										Padding="8"
 										Command="{Binding ConnectCommand}">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="ArrowBack" />
+										<avalonia:MaterialIcon Kind="Android" />
 										系统
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="ArrowBack" />
+										<avalonia:MaterialIcon Kind="NetworkOutline" />
 										Recovery
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="ArrowBack" />
+										<avalonia:MaterialIcon Kind="Power" />
 										关机
 									</TextBlock>
 								</Button>
@@ -499,19 +499,19 @@
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="VolumePlus" />
+										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										Bootloader
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="VolumePlus" />
+										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										Fastbootd
 									</TextBlock>
 								</Button>
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
-										<avalonia:MaterialIcon Kind="VolumePlus" />
+										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										9008
 									</TextBlock>
 								</Button>

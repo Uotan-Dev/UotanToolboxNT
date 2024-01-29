@@ -65,9 +65,8 @@
             <Image Width="80"
                    Height="80"
                    Margin="30"
-                   PointerPressed="InputElement_OnPointerPressed"
                    Source="Assets/OIG.N5o-removebg-preview.png"
-                   ToolTip.Tip="Click To Toggle Top Menu." />
+                   ToolTip.Tip="Uotan Toolbox" />
         </suki:SukiSideMenu.HeaderContent>
         <suki:SukiSideMenu.FooterContent>
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -81,19 +80,14 @@
                     </Style>
                 </StackPanel.Styles>
                 <Button Classes="Basic"
-                        CommandParameter="https://github.com/kikipoulet/SukiUI"
+                        CommandParameter="https://github.com/Uotan-Dev/UotanToolboxNT"
                         ToolTip.Tip="Open On GitHub.">
                     <avalonia:MaterialIcon Kind="Github" />
                 </Button>
                 <Button Classes="Basic"
-                        CommandParameter="https://www.nuget.org/packages/SukiUI"
-                        ToolTip.Tip="View On NuGet.">
+                        CommandParameter="https://www.uotan.cn"
+                        ToolTip.Tip="Open UOTAN Community.">
                     <avalonia:MaterialIcon Kind="Package" />
-                </Button>
-                <Button Classes="Basic"
-                        CommandParameter="https://github.com/kikipoulet/CherylUI"
-                        ToolTip.Tip="CheryUI - For Mobile">
-                    <avalonia:MaterialIcon Kind="Cat" />
                 </Button>
             </StackPanel>
         </suki:SukiSideMenu.FooterContent>

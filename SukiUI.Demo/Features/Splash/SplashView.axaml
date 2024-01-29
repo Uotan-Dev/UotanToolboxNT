@@ -30,11 +30,11 @@
 										FontSize="16"
 										FontWeight="DemiBold"
 										Text="设备信息" />
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="220">
-								<Grid Margin="0,18,0,0">
+						<StackPanel Orientation="Horizontal" Spacing="20">
+							<StackPanel Orientation="Vertical"  Width="220">
+								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="品牌"/>
@@ -48,7 +48,7 @@
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="型号" />
@@ -62,7 +62,7 @@
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="代号" />
@@ -76,7 +76,7 @@
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="系统" />
@@ -90,7 +90,7 @@
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="CPU 架构" />
@@ -104,7 +104,7 @@
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="分辨率" />
@@ -118,7 +118,7 @@
 								</Grid>
 								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="显示密度" />
@@ -131,10 +131,10 @@
 									</StackPanel>
 								</Grid>
 							</StackPanel>
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="220">
-								<Grid Margin="0,18,0,0">
+							<StackPanel Orientation="Vertical"  Width="220">
+								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="连接状态"/>
@@ -146,9 +146,9 @@
 												Content="{Binding Status, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,18,0,0">
+								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="BootLoader锁"/>
@@ -160,9 +160,9 @@
 												Content="{Binding BLStatus, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,18,0,0">
+								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="VAB状态"/>
@@ -174,9 +174,9 @@
 												Content="{Binding VABStatus, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,18,0,0">
+								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="VNDK 版本"/>
@@ -188,9 +188,9 @@
 												Content="30"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,18,0,0">
+								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="CPU 代号"/>
@@ -202,9 +202,9 @@
 												Content="lahaina"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,18,0,0">
+								<Grid Margin="0,13,0,0">
 									<TextBlock HorizontalAlignment="Left"
-												FontSize="12"
+												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
 												Text="开机时间"/>
@@ -218,10 +218,10 @@
 								</Grid>
 							</StackPanel>
 						</StackPanel>
-						<StackPanel HorizontalAlignment="Center" Width="460">
+						<StackPanel HorizontalAlignment="Center" Width="480">
 							<Grid Margin="0,13,0,0">
 								<TextBlock HorizontalAlignment="Left"
-											FontSize="12"
+											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
 											Text="主板 ID" />
@@ -235,7 +235,7 @@
 							</Grid>
 							<Grid Margin="0,13,0,0">
 								<TextBlock HorizontalAlignment="Left"
-											FontSize="12"
+											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
 											Text="平台" />
@@ -249,7 +249,7 @@
 							</Grid>
 							<Grid Margin="0,13,0,0">
 								<TextBlock HorizontalAlignment="Left"
-											FontSize="12"
+											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
 											Text="编译版本" />
@@ -263,7 +263,7 @@
 							</Grid>
 							<Grid Margin="0,13,0,0">
 								<TextBlock HorizontalAlignment="Left"
-											FontSize="12"
+											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
 											Text="内核版本" />
@@ -300,8 +300,8 @@
 					<TextBlock  HorizontalAlignment="Center"
 								VerticalAlignment="Bottom"
 								Padding="0 30"
-										FontSize="20"
-										Text="7.744V 26℃" />
+								FontSize="20"
+								Text="7.744V 26℃" />
 				</Grid>
 			</suki:GlassCard>
 
@@ -310,8 +310,8 @@
 							Margin="15">
 					<StackPanel Spacing="15">
 						<TextBlock FontSize="16"
-							   FontWeight="DemiBold"
-							   Text="Disk and Memory" />
+								   FontWeight="DemiBold"
+								   Text="Disk and Memory" />
 							<controls:CircleProgressBar Width="110"
 														Height="110"
 														StrokeWidth="11"
@@ -338,16 +338,16 @@
 					</StackPanel>
 			</suki:GlassCard>
 
-			<!-- Virtual panel -->
+			<!-- Analog Button -->
 			<suki:GlassCard Margin="15"
-								Height="305"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center">
+							Height="325"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center">
 				<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
-										FontSize="16"
-										FontWeight="DemiBold"
-										Text="按键模拟" />
+								FontSize="16"
+								FontWeight="DemiBold"
+								Text="按键模拟" />
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 30">
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
 							<Button Width="100" HorizontalAlignment="Left" Padding="8">
@@ -409,14 +409,14 @@
 			<StackPanel Orientation="Vertical" Margin="15" Spacing="10">
 				<!--  ADB Reboot  -->
 				<suki:GlassCard HorizontalAlignment="Left"
-									VerticalAlignment="Center">
-					<StackPanel>
+								VerticalAlignment="Center">
+					<StackPanel Spacing="10">
 						<TextBlock HorizontalAlignment="Left"
-										FontSize="15"
-										FontWeight="DemiBold"
-										Text="ADB 重启" />
+								   FontSize="15"
+								   FontWeight="DemiBold"
+								   Text="ADB 重启" />
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 2">
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 								<Button Width="140"
 										HorizontalAlignment="Left"
 										Padding="8"
@@ -439,7 +439,7 @@
 									</TextBlock>
 								</Button>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
@@ -466,14 +466,14 @@
 
 				<!--  Fastboot Reboot  -->
 				<suki:GlassCard HorizontalAlignment="Left"
-									VerticalAlignment="Center">
-					<StackPanel>
+								VerticalAlignment="Center">
+					<StackPanel Spacing="10">
 						<TextBlock HorizontalAlignment="Left"
-										FontSize="15"
-										FontWeight="DemiBold"
-										Text="Fastboot 重启" />
+									FontSize="15"
+									FontWeight="DemiBold"
+									Text="Fastboot 重启" />
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 2">
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 								<Button Width="140"
 										HorizontalAlignment="Left"
 										Padding="8"
@@ -496,7 +496,7 @@
 									</TextBlock>
 								</Button>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 								<Button Width="140" HorizontalAlignment="Left" Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="VolumePlus" />
@@ -520,10 +520,10 @@
 					</StackPanel>
 				</suki:GlassCard>
 			</StackPanel>
-			
+
 			<!-- Virtual panel -->
 			<controls:GlassCard Margin="15"
-								Height="305"
+								Height="325"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center">
 				<controls:GroupBox Header="虚拟面板">

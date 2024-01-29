@@ -30,6 +30,8 @@ public partial class App : Application
             var mainVm = _provider?.GetRequiredService<SukiUIDemoViewModel>();
 
             desktop.MainWindow = viewLocator?.Build(mainVm) as Window;
+            desktop.MainWindow.Width = 1240;
+            desktop.MainWindow.Height = 800;
         }
 
         base.OnFrameworkInitializationCompleted();

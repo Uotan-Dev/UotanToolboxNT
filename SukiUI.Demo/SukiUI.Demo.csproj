@@ -7,6 +7,9 @@
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 	</PropertyGroup>
+	<ItemGroup>
+	  <AdditionalFiles Remove="Features\Splash\ConnectionDialog.axaml" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Avalonia" Version="11.0.6" />
@@ -29,5 +32,11 @@
 	<ItemGroup>
 	  <None Remove="Assets\OIG.N5o-removebg-preview.png" />
 	  <AvaloniaResource Include="Assets\OIG.N5o-removebg-preview.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AvaloniaXaml Update="Features\Splash\ConnectionDialog.axaml">
+	    <SubType>Designer</SubType>
+	  </AvaloniaXaml>
 	</ItemGroup>
 </Project>

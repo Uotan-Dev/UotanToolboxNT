@@ -75,5 +75,31 @@ namespace SukiUI.Demo.Common
                 return null;
             }
         }
+
+        public static string ColonSplit(string info)
+        {
+            if (info.IndexOf(':') !=  -1)
+            {
+                string[] text = info.Split(new char[2] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                return text[text.Length - 1];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static string Density(string info)
+        {
+            string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            if (Lines.Length == 2)
+            {
+                return ColonSplit(Lines[1]);
+            }
+            else
+            {
+                return ColonSplit(Lines[0]);
+            }
+        }
     }
 }

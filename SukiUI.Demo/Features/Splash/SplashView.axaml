@@ -43,7 +43,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="Xiaomi"/>
+												Content="{Binding DeviceBrand, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
@@ -57,7 +57,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="2106118C"/>
+												Content="{Binding DeviceModel, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
@@ -85,7 +85,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="Android 14 (API34)"/>
+												Content="{Binding AndroidSDK, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
@@ -99,7 +99,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="arm64-v8a"/>
+												Content="{Binding CPUABI, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
@@ -113,7 +113,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="1080x2400"/>
+												Content="{Binding DisplayHW, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
@@ -127,7 +127,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="440"/>
+												Content="{Binding Density, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 							</StackPanel>

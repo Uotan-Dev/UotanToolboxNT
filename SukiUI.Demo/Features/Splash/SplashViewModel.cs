@@ -17,6 +17,12 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [ObservableProperty] private string _bLStatus;
     [ObservableProperty] private string _vABStatus;
     [ObservableProperty] private string _codeName;
+    [ObservableProperty] private string _deviceBrand;
+    [ObservableProperty] private string _deviceModel;
+    [ObservableProperty] private string _androidSDK;
+    [ObservableProperty] private string _cPUABI;
+    [ObservableProperty] private string _displayHW;
+    [ObservableProperty] private string _density;
     [ObservableProperty] private bool _isConnected;
 
     [RelayCommand]
@@ -37,6 +43,12 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             BLStatus = DevicesInfo["BLStatus"];
             VABStatus = DevicesInfo["VABStatus"];
             CodeName = DevicesInfo["CodeName"];
+            DeviceBrand = DevicesInfo["DeviceBrand"];
+            DeviceModel = DevicesInfo["DeviceModel"];
+            AndroidSDK = DevicesInfo["AndroidSDK"];
+            CPUABI = DevicesInfo["CPUABI"];
+            DisplayHW = DevicesInfo["DisplayHW"];
+            Density = DevicesInfo["Density"];
             IsConnected = false;
         });
     }

@@ -32,6 +32,13 @@ namespace SukiUI.Demo.Common
             string blstatus = "--";
             string codename = "--";
             string vabstatus = "--";
+            string devicebrand = "--";
+            string devicemodel = "--";
+            string androidsdk = "--";
+            string cpuabi = "--";
+            string displayhw = "--";
+            string density = "--";
+            string vndkversion = "--";
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
             string devcon = await CallExternalProgram.Devcon("find usb*");
@@ -106,6 +113,23 @@ namespace SukiUI.Demo.Common
                 {
                     vabstatus = "A-Only设备";
                 }
+                string brand = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.brand");
+                devicebrand = brand.Substring(0, brand.Length - 2);
+                string model = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.model");
+                devicemodel = model.Substring(0, model.Length - 2);
+                string android = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.release");
+                string sdk = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.sdk");
+                androidsdk = String.Format($"Android {android.Substring(0, android.Length - 2)}({sdk.Substring(0, sdk.Length - 2)})");
+                string abi = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.cpu.abi");
+                cpuabi = abi.Substring(0, abi.Length - 2);
+                string hw = await CallExternalProgram.ADB($"-s {devicename} shell wm size");
+                displayhw = StringHelper.ColonSplit(hw.Substring(0, hw.Length - 2));
+                string dpi = await CallExternalProgram.ADB($"-s {devicename} shell wm density");
+                density = StringHelper.Density(dpi);
+                string code = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.board");
+                codename = code.Substring(0, code.Length - 2);
+                string bl = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate");
+                blstatus = bl.Substring(0, bl.Length - 2);
             }
             if (devcon.IndexOf(devicename) != -1)
             {
@@ -140,6 +164,12 @@ namespace SukiUI.Demo.Common
             devices.Add("BLStatus", blstatus);
             devices.Add("CodeName", codename);
             devices.Add("VABStatus", vabstatus);
+            devices.Add("DeviceBrand", devicebrand);
+            devices.Add("DeviceModel", devicemodel);
+            devices.Add("AndroidSDK", androidsdk);
+            devices.Add("CPUABI", cpuabi);
+            devices.Add("DisplayHW", displayhw);
+            devices.Add("Density", density);
             return devices;
         }
     }

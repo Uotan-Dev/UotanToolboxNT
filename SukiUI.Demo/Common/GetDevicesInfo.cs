@@ -10,6 +10,17 @@ namespace SukiUI.Demo.Common
 {
     internal class GetDevicesInfo
     {
+        public static async Task<string> RemoveLineFeed(string str)
+        {
+            string[] Lines = str.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string result = "";
+            for (int i = 0; i < Lines.Length; i++)
+            {
+                result += Lines[i];
+            }
+            return result;
+        }
+
         public static async Task<string[]> DevicesList()
         {
             string adb = await CallExternalProgram.ADB("devices");
@@ -32,6 +43,9 @@ namespace SukiUI.Demo.Common
             string blstatus = "--";
             string codename = "--";
             string vabstatus = "--";
+            string vndkversion = "--";
+            string cpucode = "--";
+            string powerontime = "--";
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
             string devcon = await CallExternalProgram.Devcon("find usb*");
@@ -106,6 +120,12 @@ namespace SukiUI.Demo.Common
                 {
                     vabstatus = "A-Only设备";
                 }
+                vndkversion = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.vndk.version");
+                cpucode = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.hardware");
+                powerontime = await CallExternalProgram.ADB($"-s {devicename} shell uptime -s");
+                DateTime givenDateTime = DateTime.Parse(powerontime);
+                TimeSpan timeDifference = DateTime.Now - givenDateTime;
+                powerontime = $"{timeDifference.Days}天{timeDifference.Hours}时{timeDifference.Minutes}分{timeDifference.Seconds}秒";
             }
             if (devcon.IndexOf(devicename) != -1)
             {
@@ -140,6 +160,9 @@ namespace SukiUI.Demo.Common
             devices.Add("BLStatus", blstatus);
             devices.Add("CodeName", codename);
             devices.Add("VABStatus", vabstatus);
+            devices.Add("VNDKVersion", await RemoveLineFeed(vndkversion));
+            devices.Add("CPUCode", await RemoveLineFeed(cpucode));
+            devices.Add("PowerOnTime", await RemoveLineFeed(powerontime));
             return devices;
         }
     }

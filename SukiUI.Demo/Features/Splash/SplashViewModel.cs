@@ -21,6 +21,9 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [ObservableProperty] private string _bLStatus;
     [ObservableProperty] private string _vABStatus;
     [ObservableProperty] private string _codeName;
+    [ObservableProperty] private string _vNDKVersion;
+    [ObservableProperty] private string _cPUCode;
+    [ObservableProperty] private string _powerOnTime;
     [ObservableProperty] private bool _isConnected;
 
     [RelayCommand]
@@ -47,6 +50,9 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                 BLStatus = DevicesInfo["BLStatus"];
                 VABStatus = DevicesInfo["VABStatus"];
                 CodeName = DevicesInfo["CodeName"];
+                VNDKVersion = DevicesInfo["VNDKVersion"];
+                CPUCode = DevicesInfo["CPUCode"];
+                PowerOnTime = DevicesInfo["PowerOnTime"];
             }
             else
             {

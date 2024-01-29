@@ -185,7 +185,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="30"/>
+												Content="{Binding VNDKVersion, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
@@ -199,7 +199,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="lahaina"/>
+												Content="{Binding CPUCode, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 								<Grid Margin="0,13,0,0">
@@ -213,7 +213,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="0天7时56分"/>
+												Content="{Binding PowerOnTime, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 							</StackPanel>

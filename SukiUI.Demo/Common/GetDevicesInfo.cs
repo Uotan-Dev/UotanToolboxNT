@@ -10,17 +10,6 @@ namespace SukiUI.Demo.Common
 {
     internal class GetDevicesInfo
     {
-        public static async Task<string> RemoveLineFeed(string str)
-        {
-            string[] Lines = str.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            string result = "";
-            for (int i = 0; i < Lines.Length; i++)
-            {
-                result += Lines[i];
-            }
-            return result;
-        }
-
         public static async Task<string[]> DevicesList()
         {
             string adb = await CallExternalProgram.ADB("devices");
@@ -52,6 +41,15 @@ namespace SukiUI.Demo.Common
             string cpuabi = "--";
             string displayhw = "--";
             string density = "--";
+            string boardid = "--";
+            string compileversion =  "--";
+            string platform = "--";
+            string kernel = "--";
+            string selinux = "--";
+            string batterylevel = "0";
+            string batteryinfo = "--";
+            string memlevel = "--";
+            string usemem = "--";
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
             string devcon = await CallExternalProgram.Devcon("find usb*");
@@ -126,29 +124,41 @@ namespace SukiUI.Demo.Common
                 {
                     vabstatus = "A-Only设备";
                 }
-                vndkversion = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.vndk.version");
-                cpucode = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.hardware");
+                vndkversion = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.vndk.version"));
+                cpucode = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.board.platform"));
                 powerontime = await CallExternalProgram.ADB($"-s {devicename} shell uptime -s");
                 DateTime givenDateTime = DateTime.Parse(powerontime);
                 TimeSpan timeDifference = DateTime.Now - givenDateTime;
                 powerontime = $"{timeDifference.Days}天{timeDifference.Hours}时{timeDifference.Minutes}分{timeDifference.Seconds}秒";
-                string brand = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.brand");
-                devicebrand = brand.Substring(0, brand.Length - 2);
-                string model = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.model");
-                devicemodel = model.Substring(0, model.Length - 2);
+                devicebrand = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.brand"));
+                devicemodel = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.model"));
                 string android = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.release");
                 string sdk = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.sdk");
-                androidsdk = String.Format($"Android {android.Substring(0, android.Length - 2)}({sdk.Substring(0, sdk.Length - 2)})");
-                string abi = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.cpu.abi");
-                cpuabi = abi.Substring(0, abi.Length - 2);
-                string hw = await CallExternalProgram.ADB($"-s {devicename} shell wm size");
-                displayhw = StringHelper.ColonSplit(hw.Substring(0, hw.Length - 2));
-                string dpi = await CallExternalProgram.ADB($"-s {devicename} shell wm density");
-                density = StringHelper.Density(dpi);
-                string code = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.board");
-                codename = code.Substring(0, code.Length - 2);
-                string bl = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate");
-                blstatus = bl.Substring(0, bl.Length - 2);
+                androidsdk = String.Format($"Android {StringHelper.RemoveLineFeed(android)}({StringHelper.RemoveLineFeed(sdk)})");
+                cpuabi = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.cpu.abi"));
+                displayhw = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell wm size")));
+                density = StringHelper.Density(await CallExternalProgram.ADB($"-s {devicename} shell wm density"));
+                codename = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.board"));
+                blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate"));
+                selinux = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getenforce"));
+                compileversion = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.system.build.version.incremental"));
+                platform = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/cpuinfo | grep Hardware")));
+                kernel = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell uname -r"));
+                string bid = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell cat /sys/devices/soc0/serial_number"));
+                if (bid.IndexOf("No such file")  == -1)
+                {
+                    boardid = bid;
+                }
+                else
+                {
+                    boardid = "--";
+                }
+                string[] battery = StringHelper.Battery(await CallExternalProgram.ADB($"-s {devicename} shell dumpsys battery"));
+                batterylevel = battery[0];
+                batteryinfo = String.Format($"{Double.Parse(battery[1]) / 1000.0}V {Double.Parse(battery[2]) / 10.0}℃");
+                string[] mem = StringHelper.Mem(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/meminfo | grep Mem"));
+                memlevel = Math.Round(Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000) / Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
+                usemem = String.Format($"{Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000)}/{Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000)}GB");
             }
             if (devcon.IndexOf(devicename) != -1)
             {
@@ -183,15 +193,24 @@ namespace SukiUI.Demo.Common
             devices.Add("BLStatus", blstatus);
             devices.Add("CodeName", codename);
             devices.Add("VABStatus", vabstatus);
-            devices.Add("VNDKVersion", await RemoveLineFeed(vndkversion));
-            devices.Add("CPUCode", await RemoveLineFeed(cpucode));
-            devices.Add("PowerOnTime", await RemoveLineFeed(powerontime));
+            devices.Add("VNDKVersion", vndkversion);
+            devices.Add("CPUCode", cpucode);
+            devices.Add("PowerOnTime", powerontime);
             devices.Add("DeviceBrand", devicebrand);
             devices.Add("DeviceModel", devicemodel);
             devices.Add("AndroidSDK", androidsdk);
             devices.Add("CPUABI", cpuabi);
             devices.Add("DisplayHW", displayhw);
+            devices.Add("SELinux", selinux);
             devices.Add("Density", density);
+            devices.Add("BoardID", boardid);
+            devices.Add("Platform", platform);
+            devices.Add("Compile", compileversion);
+            devices.Add("Kernel", kernel);
+            devices.Add("BatteryLevel", batterylevel);
+            devices.Add("BatteryInfo", batteryinfo);
+            devices.Add("MemLevel", memlevel);
+            devices.Add("UseMem", usemem);
             return devices;
         }
     }

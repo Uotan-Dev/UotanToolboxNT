@@ -33,6 +33,15 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [ObservableProperty] private string _cPUABI;
     [ObservableProperty] private string _displayHW;
     [ObservableProperty] private string _density;
+    [ObservableProperty] private string _boardID;
+    [ObservableProperty] private string _platform;
+    [ObservableProperty] private string _compile;
+    [ObservableProperty] private string _kernel;
+    [ObservableProperty] private string _sELinux;
+    [ObservableProperty] private string _batteryLevel;
+    [ObservableProperty] private string _batteryInfo;
+    [ObservableProperty] private string _memLevel;
+    [ObservableProperty] private string _useMem;
     [ObservableProperty] private bool _isConnected;
 
     public AvaloniaList<string> SimpleContent { get; } = new();
@@ -74,6 +83,15 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                 CPUABI = DevicesInfo["CPUABI"];
                 DisplayHW = DevicesInfo["DisplayHW"];
                 Density = DevicesInfo["Density"];
+                SELinux = DevicesInfo["SELinux"];
+                BoardID = DevicesInfo["BoardID"];
+                Platform = DevicesInfo["Platform"];
+                Compile = DevicesInfo["Compile"];
+                Kernel = DevicesInfo["Kernel"];
+                BatteryLevel = DevicesInfo["BatteryLevel"];
+                BatteryInfo = DevicesInfo["BatteryInfo"];
+                MemLevel = DevicesInfo["MemLevel"];
+                UseMem = DevicesInfo["UseMem"];
             }
             else
             {

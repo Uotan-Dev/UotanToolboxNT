@@ -72,7 +72,28 @@ namespace SukiUI.Demo.Common
             }
             else
             {
-                return null;
+                return "--";
+            }
+        }
+
+        public static string RemoveLineFeed(string str)
+        {
+            string output;
+            if (str.IndexOf('\r') != -1 || str.IndexOf('\n') != -1)
+            {
+                output = str.Substring(0, str.Length - 2);
+                if (output == "")
+                {
+                    return "--";
+                }
+                else
+                {
+                    return output;
+                }
+            }
+            else
+            {
+                return "--";
             }
         }
 
@@ -80,12 +101,12 @@ namespace SukiUI.Demo.Common
         {
             if (info.IndexOf(':') !=  -1)
             {
-                string[] text = info.Split(new char[2] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] text = info.Split(':', StringSplitOptions.RemoveEmptyEntries);
                 return text[text.Length - 1];
             }
             else
             {
-                return null;
+                return "--";
             }
         }
 
@@ -100,6 +121,41 @@ namespace SukiUI.Demo.Common
             {
                 return ColonSplit(Lines[0]);
             }
+        }
+
+        public static string[] Battery(string info)
+        {
+            string[] infos = new string[20];
+            string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < Lines.Length; i++)
+            {
+                if (Lines[i].IndexOf("Max charging voltage") == -1)
+                {
+                    if (Lines[i].IndexOf("level") != -1 || Lines[i].IndexOf("voltage") != -1 || Lines[i].IndexOf("temperature") != -1)
+                    {
+                        string[] device = Lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                        infos[i] = device[device.Length - 1];
+                    }
+                }
+            }
+            infos = infos.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            return infos;
+        }
+
+        public static string[] Mem(string info)
+        {
+            string[] infos = new string[20];
+            string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < Lines.Length; i++)
+            {
+                if (Lines[i].IndexOf("MemTotal") != -1 || Lines[i].IndexOf("MemAvailable") != -1)
+                {
+                    string[] device = Lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    infos[i] = device[device.Length - 2];
+                }
+            }
+            infos = infos.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            return infos;
         }
     }
 }

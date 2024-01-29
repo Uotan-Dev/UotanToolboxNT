@@ -216,6 +216,20 @@
 												Content="{Binding PowerOnTime, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
+								<Grid Margin="0,13,0,0">
+									<TextBlock HorizontalAlignment="Left"
+												FontSize="13"
+												FontWeight="DemiBold"
+												Foreground="{DynamicResource SukiLowText}"
+												Text="SELinux"/>
+									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+										<Button Classes="Hyperlink"
+												Foreground="White"
+												FontSize="13"
+												Click="CopyButton_OnClick"
+												Content="{Binding SELinux, Mode=TwoWay}"/>
+									</StackPanel>
+								</Grid>
 							</StackPanel>
 						</StackPanel>
 						<StackPanel HorizontalAlignment="Center" Width="480">
@@ -230,7 +244,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-											Content="110217595"/>
+											Content="{Binding BoardID, Mode=TwoWay}"/>
 								</StackPanel>
 							</Grid>
 							<Grid Margin="0,13,0,0">
@@ -244,7 +258,7 @@
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-											Content="Odin based on Qualcomm Technologies, Inc SM8350"/>
+											Content="{Binding Platform, Mode=TwoWay}"/>
 								</StackPanel>
 							</Grid>
 							<Grid Margin="0,13,0,0">
@@ -258,7 +272,7 @@
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
-											Content="V816.0.23.7.31.DEV"/>
+											Content="{Binding Compile, Mode=TwoWay}"/>
 								</StackPanel>
 							</Grid>
 							<Grid Margin="0,13,0,0">
@@ -269,10 +283,10 @@
 											Text="内核版本" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Classes="Hyperlink"
-												Foreground="White"
-												FontSize="13"
-												Click="CopyButton_OnClick"
-											Content="5.4.210-qgki-g71d7658432ee"/>
+											Foreground="White"
+											FontSize="13"
+											Click="CopyButton_OnClick"
+											Content="{Binding Kernel, Mode=TwoWay}"/>
 								</StackPanel>
 							</Grid>
 						</StackPanel>
@@ -289,19 +303,19 @@
 				<Grid>
 					<TextBlock FontSize="16"
 							   FontWeight="DemiBold"
-							   Text="Battery" />
+							   Text="电池" />
 					<Viewbox Width="175"
 							 Height="175"
 							 Margin="0,0,0,5"
 							 HorizontalAlignment="Center"
 							 VerticalAlignment="Center">
-						<suki:WaveProgress Value="73" />
+						<suki:WaveProgress Value="{Binding BatteryLevel, Mode=TwoWay}" />
 					</Viewbox>
 					<TextBlock  HorizontalAlignment="Center"
 								VerticalAlignment="Bottom"
 								Padding="0 30"
 								FontSize="20"
-								Text="7.744V 26℃" />
+								Text="{Binding BatteryInfo, Mode=TwoWay}" />
 				</Grid>
 			</suki:GlassCard>
 
@@ -327,14 +341,14 @@
 														Height="110"
 														Classes="Accent"
 														StrokeWidth="11"
-														Value="{Binding ProgressValue}">
+														Value="{Binding MemLevel}">
 								<TextBlock Margin="0,2,0,0"
 										   Classes="h3"
-										   Text="{Binding ProgressValue, StringFormat={}{0:#0}%}" />
+										   Text="{Binding MemLevel, StringFormat={}{0:#0}%}" />
 							</controls:CircleProgressBar>
 						<TextBlock  HorizontalAlignment="Center"
 									FontSize="13"
-									Text="6/12(GB)" />
+									Text="{Binding UseMem, Mode=TwoWay}" />
 					</StackPanel>
 			</suki:GlassCard>
 

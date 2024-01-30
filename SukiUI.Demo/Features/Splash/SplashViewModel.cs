@@ -72,12 +72,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             if(devices.Length != 0)
             {
                 SimpleContent = new AvaloniaList<string>(devices);
-                string list = "";
-                for (int i = 0; i < devices.Length; i ++)
-                {
-                    list += devices[i];
-                }
-                if (SelectedSimpleContent == null || list.IndexOf(SelectedSimpleContent) == -1)
+                if (SelectedSimpleContent == null || StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) == -1)
                 {
                     SelectedSimpleContent = SimpleContent.First();
                 }
@@ -116,5 +111,176 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             }
             IsConnected = false;
         });
+    }
+
+    private async Task ADBControl(string shell)
+    {
+        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        {
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
+            string status = DevicesInfoLittle["Status"];
+            if (status == "ϵͳ" || status == "Recovery" || status == "Sideload")
+            {
+                await CallExternalProgram.ADB($"-s {SelectedSimpleContent} {shell}");
+            }
+        }
+    }
+
+    private async Task FastbootControl(string shell)
+    {
+        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        {
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
+            string status = DevicesInfoLittle["Status"];
+            if (status == "Fastboot")
+            {
+                await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} {shell}");
+            }
+        }
+    }
+
+
+    [RelayCommand]
+    public async Task Back()
+    {
+        await ADBControl("shell input keyevent 4");
+    }
+
+    [RelayCommand]
+    public async Task Home()
+    {
+        await ADBControl("shell input keyevent 3");
+    }
+
+    [RelayCommand]
+    public async Task Mul()
+    {
+        await ADBControl("shell input keyevent 187");
+    }
+
+    [RelayCommand]
+    public async Task Lock()
+    {
+        await ADBControl("shell input keyevent 26");
+    }
+
+    [RelayCommand]
+
+    public async Task VolU()
+    {
+        await ADBControl("shell input keyevent 24");
+    }
+
+    [RelayCommand]
+    public async Task VolD()
+    {
+        await ADBControl("shell input keyevent 25");
+    }
+
+    [RelayCommand]
+    public async Task Mute()
+    {
+        await ADBControl("shell input keyevent 164");
+    }
+
+    [RelayCommand]
+    public async Task SC()
+    {
+        await ADBControl($"shell /system/bin/screencap -p /sdcard/{DateTime.Now}.png");
+    }
+
+    [RelayCommand]
+    public async Task AReboot()
+    {
+        await ADBControl("reboot");
+    }
+
+    [RelayCommand]
+    public async Task ARRec()
+    {
+        await ADBControl("reboot recovery");
+    }
+
+    [RelayCommand]
+    public async Task ARSide()
+    {
+        await ADBControl("reboot sideload");
+    }
+
+    [RelayCommand]
+    public async Task ARBoot()
+    {
+        await ADBControl("reboot bootloader");
+    }
+
+    [RelayCommand]
+    public async Task ARFast()
+    {
+        await ADBControl("reboot fastboot");
+    }
+
+    [RelayCommand]
+    public async Task ARTSide()
+    {
+        await ADBControl("shell twrp sideload");
+    }
+
+    [RelayCommand]
+    public async Task FReboot()
+    {
+        await FastbootControl("reboot");
+    }
+
+    [RelayCommand]
+    public async Task FRRec()
+    {
+        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        {
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
+            if (DevicesInfoLittle["Status"] == "Fastboot")
+            {
+                string output = await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} oem reboot-recovery");
+                if (output.IndexOf("unknown command") != -1)
+                {
+                    await CallExternalProgram.Fastboot("flash misc bin/img/misc.img");
+                    await CallExternalProgram.Fastboot("reboot");
+                }
+            }
+        }
+    }
+
+    [RelayCommand]
+    public async Task FRShut()
+    {
+        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        {
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
+            if (DevicesInfoLittle["Status"] == "Fastboot")
+            {
+                string output = await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} oem poweroff");
+                if (output.IndexOf("unknown command") != -1)
+                {
+                    return;
+                }
+            }
+        }
+    }
+
+    [RelayCommand]
+    public async Task FRBoot()
+    {
+        await FastbootControl("reboot-bootloader");
+    }
+
+    [RelayCommand]
+    public async Task FRFast()
+    {
+        await FastbootControl("reboot-fastboot");
+    }
+
+    [RelayCommand]
+    public async Task FREDL()
+    {
+        await FastbootControl("oem edl");
     }
 }

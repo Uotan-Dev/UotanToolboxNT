@@ -364,25 +364,37 @@
 								Text="按键模拟" />
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 40">
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
-							<Button Width="100" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" 
+									HorizontalAlignment="Left" 
+									Padding="8"
+									Command="{Binding BackCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
 									返回
 								</TextBlock>
 							</Button>
-							<Button Width="100" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" 
+									HorizontalAlignment="Left" 
+									Padding="8"
+									Command="{Binding HomeCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="CircleOutline" />
 									主页
 								</TextBlock>
 							</Button>
-							<Button Width="100" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" 
+									HorizontalAlignment="Left" 
+									Padding="8"
+									Command="{Binding MulCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="CardMultipleOutline" />
 									多任务
 								</TextBlock>
 							</Button>
-							<Button Width="100" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" 
+									HorizontalAlignment="Left" 
+									Padding="8"
+									Command="{Binding LockCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="LockOpenOutline" />
 									锁屏
@@ -390,25 +402,37 @@
 							</Button>
 						</StackPanel>
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
-							<Button Width="100" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" 
+									HorizontalAlignment="Left" 
+									Padding="8"
+									Command="{Binding VolUCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumePlus" />
 									音量+
 								</TextBlock>
 							</Button>
-							<Button Width="100" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" 
+									HorizontalAlignment="Left" 
+									Padding="8"
+									Command="{Binding VolDCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumeDecrease" />
 									音量-
 								</TextBlock>
 							</Button>
-							<Button Width="100" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" 
+									HorizontalAlignment="Left" 
+									Padding="8"
+									Command="{Binding MuteCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumeOff" />
 									静音
 								</TextBlock>
 							</Button>
-							<Button Width="100" HorizontalAlignment="Left" Padding="8">
+							<Button Width="100" 
+									HorizontalAlignment="Left" 
+									Padding="8"
+									Command="{Binding SCCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="CameraOutline" />
 									截屏
@@ -433,19 +457,26 @@
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="125"
 										HorizontalAlignment="Left"
-										Padding="8">
+										Padding="8"
+										Command="{Binding ARebootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Android" />
 										系统
 									</TextBlock>
 								</Button>
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding ARRecCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="NetworkOutline" />
 										Recovery
 									</TextBlock>
 								</Button>
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding ARSideCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="NetworkPos" />
 										Sideload
@@ -453,19 +484,28 @@
 								</Button>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding ARBootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										Bootloader
 									</TextBlock>
 								</Button>
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding ARFastCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										Fastbootd
 									</TextBlock>
 								</Button>
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding ARTSideCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										TWRP侧载
@@ -490,39 +530,56 @@
 								<Button Width="125"
 										HorizontalAlignment="Left"
 										Padding="8"
-										Command="{Binding ConnectCommand}">
+										Command="{Binding FRebootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Android" />
 										系统
 									</TextBlock>
 								</Button>
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding FRRecCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="NetworkOutline" />
 										Recovery
 									</TextBlock>
 								</Button>
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding FRShutCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Power" />
 										关机
 									</TextBlock>
 								</Button>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+							<StackPanel Orientation="Horizontal" 
+										HorizontalAlignment="Center" 
+										Spacing="5">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding FRBootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										Bootloader
 									</TextBlock>
 								</Button>
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding FRFastCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										Fastbootd
 									</TextBlock>
 								</Button>
-								<Button Width="125" HorizontalAlignment="Left" Padding="8">
+								<Button Width="125" 
+										HorizontalAlignment="Left" 
+										Padding="8"
+										Command="{Binding FREDLCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
 										9008

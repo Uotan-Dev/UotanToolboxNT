@@ -126,51 +126,94 @@ namespace SukiUI.Demo.Common
                 {
                     vabstatus = "A-Only设备";
                 }
+                if (status == "系统")
+                {
+                    string android = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.release");
+                    string sdk = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.sdk");
+                    androidsdk = String.Format($"Android {StringHelper.RemoveLineFeed(android)}({StringHelper.RemoveLineFeed(sdk)})");
+                    displayhw = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell wm size")));
+                    density = StringHelper.Density(await CallExternalProgram.ADB($"-s {devicename} shell wm density"));
+                }
+                else if (status == "Recovery" || status == "Sideload")
+                {
+                    androidsdk = "Recovery";
+                    displayhw = "--";
+                    density = "--";
+                }
+                string bid = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell cat /sys/devices/soc0/serial_number"));
+                if (bid.IndexOf("No such file") != -1 || bid.IndexOf("Permission denied") != -1)
+                {
+                    boardid = "--";
+                }
+                else
+                {
+                    boardid = bid;
+                }
                 vndkversion = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.vndk.version"));
                 cpucode = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.board.platform"));
-                powerontime = await CallExternalProgram.ADB($"-s {devicename} shell uptime -s");
-                DateTime givenDateTime = DateTime.Parse(powerontime);
-                TimeSpan timeDifference = DateTime.Now - givenDateTime;
-                powerontime = $"{timeDifference.Days}天{timeDifference.Hours}时{timeDifference.Minutes}分{timeDifference.Seconds}秒";
                 devicebrand = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.brand"));
                 devicemodel = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.model"));
-                string android = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.release");
-                string sdk = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.sdk");
-                androidsdk = String.Format($"Android {StringHelper.RemoveLineFeed(android)}({StringHelper.RemoveLineFeed(sdk)})");
                 cpuabi = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.cpu.abi"));
-                displayhw = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell wm size")));
-                density = StringHelper.Density(await CallExternalProgram.ADB($"-s {devicename} shell wm density"));
                 codename = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.board"));
                 blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate"));
                 selinux = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getenforce"));
                 compileversion = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.system.build.version.incremental"));
                 platform = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/cpuinfo | grep Hardware")));
                 kernel = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell uname -r"));
-                string bid = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell cat /sys/devices/soc0/serial_number"));
-                if (bid.IndexOf("No such file")  == -1)
+                try
                 {
-                    boardid = bid;
+                    string ptime = await CallExternalProgram.ADB($"-s {devicename} shell uptime -s");
+                    DateTime givenDateTime = DateTime.Parse(ptime);
+                    TimeSpan timeDifference = DateTime.Now - givenDateTime;
+                    powerontime = $"{timeDifference.Days}天{timeDifference.Hours}时{timeDifference.Minutes}分{timeDifference.Seconds}秒";
                 }
-                else
+                catch
                 {
-                    boardid = "--";
+                    powerontime = "--";
                 }
-                string[] battery = StringHelper.Battery(await CallExternalProgram.ADB($"-s {devicename} shell dumpsys battery"));
-                batterylevel = battery[0];
-                batteryinfo = String.Format($"{Double.Parse(battery[1]) / 1000.0}V {Double.Parse(battery[2]) / 10.0}℃");
-                string[] mem = StringHelper.Mem(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/meminfo | grep Mem"));
-                memlevel = Math.Round(Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
-                usemem = String.Format($"{Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1)}GB/{Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000)}GB");
-                string diskinfos = await CallExternalProgram.ADB($"-s {devicename} shell df /storage/emulated");
-                string[] lines = diskinfos.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                string targetLine = lines.FirstOrDefault(line => line.Contains("/storage/emulated"));
-                if (targetLine != null)
+                try
                 {
-                    string[] columns = targetLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    string disktotal = columns[1];
-                    string diskused = columns[2];
-                    progressdisk = columns[4].TrimEnd('%');
-                    diskinfo = String.Format($"{double.Parse(diskused) / 1024 / 1024:0.00}GB/{double.Parse(disktotal) / 1024 / 1024:0.00}GB");
+                    string[] battery = StringHelper.Battery(await CallExternalProgram.ADB($"-s {devicename} shell dumpsys battery"));
+                    batterylevel = battery[0];
+                    batteryinfo = String.Format($"{Double.Parse(battery[1]) / 1000.0}V {Double.Parse(battery[2]) / 10.0}℃");
+                }
+                catch
+                {
+                    batterylevel = "0";
+                    batteryinfo = "--";
+                }
+                try
+                {
+                    string[] mem = StringHelper.Mem(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/meminfo | grep Mem"));
+                    memlevel = Math.Round(Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
+                    usemem = String.Format($"{Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1)}GB/{Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000)}GB");
+                }
+                catch
+                {
+                    memlevel = "0";
+                    usemem = "--";
+                }
+                try
+                {
+                    string diskinfos1 = await CallExternalProgram.ADB($"-s {devicename} shell df /storage/emulated");
+                    string diskinfos2 = await CallExternalProgram.ADB($"-s {devicename} shell df /data");
+                    if (diskinfos1.IndexOf("/storage/emulated") != -1)
+                    {
+                        string[] columns = StringHelper.DiskInfo(diskinfos1, "/storage/emulated");
+                        progressdisk = columns[4].TrimEnd('%');
+                        diskinfo = String.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
+                    }
+                    else
+                    {
+                        string[] columns = StringHelper.DiskInfo(diskinfos2, "/data");
+                        progressdisk = columns[4].TrimEnd('%');
+                        diskinfo = String.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
+                    }
+                }
+                catch
+                {
+                    progressdisk = "0";
+                    diskinfo = "--";
                 }
             }
             if (devcon.IndexOf(devicename) != -1)
@@ -226,6 +269,124 @@ namespace SukiUI.Demo.Common
             devices.Add("UseMem", usemem);
             devices.Add("DiskInfo", diskinfo);
             devices.Add("ProgressDisk", progressdisk);
+            return devices;
+        }
+
+        public static async Task<Dictionary<string, string>> DevicesInfoLittle(string devicename)
+        {
+            Dictionary<string, string> devices = new Dictionary<string, string>();
+            string status = "--";
+            string blstatus = "--";
+            string codename = "--";
+            string vabstatus = "--";
+            string adb = await CallExternalProgram.ADB("devices");
+            string fastboot = await CallExternalProgram.Fastboot("devices");
+            string devcon = await CallExternalProgram.Devcon("find usb*");
+            if (fastboot.IndexOf(devicename) != -1)
+            {
+                status = "Fastboot";
+                string blinfo = await CallExternalProgram.Fastboot($"-s {devicename} getvar unlocked");
+                int unlocked = blinfo.IndexOf("yes");
+                if (unlocked != -1)
+                {
+                    blstatus = "已解锁";
+                }
+                int locked = blinfo.IndexOf("no");
+                if (locked != -1)
+                {
+                    blstatus = "未解锁";
+                }
+                string productinfos = await CallExternalProgram.Fastboot($"-s {devicename} getvar product");
+                string product = StringHelper.GetProductID(productinfos);
+                if (product != null)
+                {
+                    codename = product;
+                }
+                string active = await CallExternalProgram.Fastboot($"-s {devicename} getvar current-slot");
+                if (active.IndexOf("current-slot: a") != -1)
+                {
+                    vabstatus = "A槽位";
+                }
+                else if (active.IndexOf("current-slot: b") != -1)
+                {
+                    vabstatus = "B槽位";
+                }
+                else if (active.IndexOf("FAILED") != -1)
+                {
+                    vabstatus = "A-Only设备";
+                }
+            }
+            if (adb.IndexOf(devicename) != -1)
+            {
+                string thisdevice = "";
+                string[] Lines = adb.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    if (Lines[i].IndexOf(devicename) != -1)
+                    {
+                        thisdevice = Lines[i];
+                        break;
+                    }
+                }
+                if (thisdevice.IndexOf("recovery") != -1)
+                {
+                    status = "Recovery";
+                }
+                else if (thisdevice.IndexOf("sideload") != -1)
+                {
+                    status = "Sideload";
+                }
+                else if (thisdevice.IndexOf("	device") != -1)
+                {
+                    status = "系统";
+                }
+                string active = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.slot_suffix");
+                if (active.IndexOf("_a") != -1)
+                {
+                    vabstatus = "A槽位";
+                }
+                else if (active.IndexOf("_b") != -1)
+                {
+                    vabstatus = "B槽位";
+                }
+                else
+                {
+                    vabstatus = "A-Only设备";
+                }
+            }
+            if (devcon.IndexOf(devicename) != -1)
+            {
+                string thisdevice = "";
+                string[] Lines = adb.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    if (Lines[i].IndexOf(devicename) != -1)
+                    {
+                        thisdevice = Lines[i];
+                        break;
+                    }
+                }
+                if (thisdevice.IndexOf("QDLoader") != -1)
+                {
+                    status = "9008";
+                }
+                else if (thisdevice.IndexOf("900E (") != -1)
+                {
+                    status = "900E";
+                }
+                else if (thisdevice.IndexOf("901D (") != -1)
+                {
+                    status = "901D";
+                }
+                else if (thisdevice.IndexOf("9091 (") != -1)
+                {
+                    status = "9091";
+                }
+            }
+            devices.Add("Status", status);
+            devices.Add("BLStatus", blstatus);
+            devices.Add("CodeName", codename);
+            devices.Add("VABStatus", vabstatus);
             return devices;
         }
     }

@@ -1,4 +1,5 @@
-﻿using DynamicData;
+﻿using Avalonia.Collections;
+using DynamicData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -156,6 +157,29 @@ namespace SukiUI.Demo.Common
             }
             infos = infos.Where(s => !String.IsNullOrEmpty(s)).ToArray();
             return infos;
+        }
+
+        public static string[] DiskInfo(string info, string find)
+        {
+            string[] columns = new string[20];
+            string[] lines = info.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            string targetLine = lines.FirstOrDefault(line => line.Contains(find));
+            if (targetLine != null)
+            {
+                columns = targetLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+            columns = columns.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            return columns;
+        }
+
+        public static string AllDevices(AvaloniaList<string> devices)
+        {
+            string list = "";
+            for (int i = 0; i < devices.Count; i++)
+            {
+                list += devices[i];
+            }
+            return list;
         }
     }
 }

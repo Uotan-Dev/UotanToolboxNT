@@ -325,7 +325,7 @@
 					<StackPanel Spacing="15">
 						<TextBlock FontSize="16"
 								   FontWeight="DemiBold"
-								   Text="Disk and Memory" />
+								   Text="储存和内存" />
 							<controls:CircleProgressBar Width="110"
 												Height="110"
 												StrokeWidth="11"

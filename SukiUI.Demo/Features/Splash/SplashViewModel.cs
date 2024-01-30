@@ -21,7 +21,6 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
 {
     [ObservableProperty] private string _diskInfo;
     [ObservableProperty][Range(0d, 100d)] private double _progressDisk = 0;
-    [ObservableProperty][Range(0d, 100d)] private double _progressValue = 50;
     [ObservableProperty][Range(0d, 100d)] private double _memLevel = 0;
     [ObservableProperty] private string _status;
     [ObservableProperty] private string _bLStatus;
@@ -92,14 +91,10 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                 Kernel = DevicesInfo["Kernel"];
                 BatteryLevel = DevicesInfo["BatteryLevel"];
                 BatteryInfo = DevicesInfo["BatteryInfo"];
-
-                MemLevel = double.Parse( DevicesInfo["MemLevel"] );
+                MemLevel = double.Parse(DevicesInfo["MemLevel"]);
                 UseMem = DevicesInfo["UseMem"];
-
-                double DiskTotal = double.Parse(DevicesInfo["DiskTotal"]) /1024/1024;
-                double DiskUsed = double.Parse(DevicesInfo["DiskUsed"]) /1024/1024;
-                DiskInfo =  $"{DiskUsed.ToString("0.00")}GB/{DiskTotal.ToString("0.00")}GB";
-                ProgressDisk = double.Parse( DevicesInfo["ProgressDisk"] );
+                DiskInfo = DevicesInfo["DiskInfo"];
+                ProgressDisk = double.Parse(DevicesInfo["ProgressDisk"]);
             }
             else
             {

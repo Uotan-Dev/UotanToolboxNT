@@ -24,8 +24,8 @@ namespace SukiUI.Demo.Features.Splash;
 
 public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("Home", MaterialIconKind.HomeOutline, int.MinValue)
 {
-    [ObservableProperty][Range(0d, 100d)] private double _progressDisk = 0;
-    [ObservableProperty][Range(0d, 100d)] private double _memLevel = 0;
+    [ObservableProperty] private string _progressDisk;
+    [ObservableProperty] private string _memLevel;
     [ObservableProperty] private string _status;
     [ObservableProperty] private string _bLStatus;
     [ObservableProperty] private string _vABStatus;
@@ -72,7 +72,12 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             if(devices.Length != 0)
             {
                 SimpleContent = new AvaloniaList<string>(devices);
-                if (SelectedSimpleContent == null)
+                string list = "";
+                for (int i = 0; i < devices.Length; i ++)
+                {
+                    list += devices[i];
+                }
+                if (SelectedSimpleContent == null || list.IndexOf(SelectedSimpleContent) == -1)
                 {
                     SelectedSimpleContent = SimpleContent.First();
                 }
@@ -97,10 +102,10 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                 Kernel = DevicesInfo["Kernel"];
                 BatteryLevel = DevicesInfo["BatteryLevel"];
                 BatteryInfo = DevicesInfo["BatteryInfo"];
-                MemLevel = double.Parse(DevicesInfo["MemLevel"]);
+                MemLevel = DevicesInfo["MemLevel"];
                 UseMem = DevicesInfo["UseMem"];
                 DiskInfo = DevicesInfo["DiskInfo"];
-                ProgressDisk = double.Parse(DevicesInfo["ProgressDisk"]);
+                ProgressDisk = DevicesInfo["ProgressDisk"];
             }
             else
             {

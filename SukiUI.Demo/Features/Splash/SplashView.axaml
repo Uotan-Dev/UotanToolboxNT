@@ -603,7 +603,7 @@
 								FontWeight="DemiBold"
 								Text="选择设备" />
 					<StackPanel Margin="0 35 0 25">
-						<ComboBox ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" Width="165"/>
+						<ListBox Width="165" MaxHeight="120" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
 					<StackPanel Spacing="15">
 						<Button Width="155" Command="{Binding ConnectCommand}">

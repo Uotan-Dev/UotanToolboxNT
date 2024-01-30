@@ -62,7 +62,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
 
     [RelayCommand]
     public void OpenConnectionDialog() =>
-        SukiHost.ShowDialog(new ConnectionDialog(), allowBackgroundClose: true);
+        SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
 
     [RelayCommand]
     public Task Connect()
@@ -108,7 +108,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog(), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
                 });
             }
             IsConnected = false;

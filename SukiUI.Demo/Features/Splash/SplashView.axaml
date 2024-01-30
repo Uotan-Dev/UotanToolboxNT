@@ -354,7 +354,7 @@
 
 			<!-- Analog Button -->
 			<suki:GlassCard Margin="15"
-							Height="325"
+							Height="320"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center">
 				<StackPanel>
@@ -433,8 +433,7 @@
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="125"
 										HorizontalAlignment="Left"
-										Padding="8"
-										Command="{Binding ConnectCommand}">
+										Padding="8">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Android" />
 										系统
@@ -536,32 +535,36 @@
 			</StackPanel>
 
 			<!-- Virtual panel -->
-			<controls:GlassCard Margin="15"
-								Height="180"
+			<suki:GlassCard Margin="15"
+								Height="320"
+								Width="195"
 								HorizontalAlignment="Left"
-							VerticalAlignment="Center">
-				<controls:GroupBox Header="设备列表">
-					<StackPanel Orientation="Vertical" Spacing="10">
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-							<ComboBox ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" Width="225"/>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-							<Button>
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="Reload" />
-									刷新
-								</TextBlock>
-							</Button>
-							<Button>
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ConsoleNetworkOutline" />
-									网络调试
-								</TextBlock>
-							</Button>
-						</StackPanel>
+								VerticalAlignment="Center">
+				<StackPanel Orientation="Vertical" Spacing="10">
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="选择设备" />
+					<StackPanel Margin="0 35 0 25">
+						<ComboBox ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" Width="165"/>
 					</StackPanel>
-				</controls:GroupBox>
-			</controls:GlassCard>
+					<StackPanel Spacing="15">
+						<Button Width="155" Command="{Binding ConnectCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="Reload" />
+								刷新
+							</TextBlock>
+						</Button>
+						<Button Width="155">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="ConsoleNetworkOutline" />
+								网络调试
+							</TextBlock>
+						</Button>
+						<!---->
+					</StackPanel>
+				</StackPanel>
+			</suki:GlassCard>
 		</WrapPanel>
 	</ScrollViewer>
 </UserControl>

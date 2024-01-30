@@ -160,7 +160,7 @@ namespace SukiUI.Demo.Common
                 batteryinfo = String.Format($"{Double.Parse(battery[1]) / 1000.0}V {Double.Parse(battery[2]) / 10.0}℃");
                 string[] mem = StringHelper.Mem(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/meminfo | grep Mem"));
                 memlevel = Math.Round(Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
-                usemem = String.Format($"{Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1)}/{Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000)}GB");
+                usemem = String.Format($"{Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1)}GB/{Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000)}GB");
                 string diskinfos = await CallExternalProgram.ADB($"-s {devicename} shell df /storage/emulated");
                 string[] lines = diskinfos.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 string targetLine = lines.FirstOrDefault(line => line.Contains("/storage/emulated"));
@@ -170,7 +170,7 @@ namespace SukiUI.Demo.Common
                     string disktotal = columns[1];
                     string diskused = columns[2];
                     progressdisk = columns[4].TrimEnd('%');
-                    diskinfo = String.Format($"{double.Parse(disktotal) / 1024 / 1024:0.00}GB/{double.Parse(diskused) / 1024 / 1024:0.00}GB");
+                    diskinfo = String.Format($"{double.Parse(diskused) / 1024 / 1024:0.00}GB/{double.Parse(disktotal) / 1024 / 1024:0.00}GB");
                 }
             }
             if (devcon.IndexOf(devicename) != -1)

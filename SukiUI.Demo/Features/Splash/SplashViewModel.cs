@@ -14,12 +14,16 @@ using Avalonia.Threading;
 using Avalonia.Collections;
 using SukiUI.Demo.Features.ControlsLibrary;
 using System.Linq;
+using System;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using DynamicData.Kernel;
 
 namespace SukiUI.Demo.Features.Splash;
 
 public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("Home", MaterialIconKind.HomeOutline, int.MinValue)
 {
-    [ObservableProperty] private string _diskInfo;
     [ObservableProperty][Range(0d, 100d)] private double _progressDisk = 0;
     [ObservableProperty][Range(0d, 100d)] private double _memLevel = 0;
     [ObservableProperty] private string _status;
@@ -43,9 +47,9 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [ObservableProperty] private string _batteryLevel;
     [ObservableProperty] private string _batteryInfo;
     [ObservableProperty] private string _useMem;
+    [ObservableProperty] private string _diskInfo;
     [ObservableProperty] private bool _isConnected;
-
-    public AvaloniaList<string> SimpleContent { get; } = new();
+    [ObservableProperty] private AvaloniaList<string> _simpleContent;
     [ObservableProperty] private string _selectedSimpleContent;
 
     [RelayCommand]
@@ -67,10 +71,12 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             string[] devices = await GetDevicesInfo.DevicesList();
             if(devices.Length != 0)
             {
-                SimpleContent.AddRange(Enumerable.Range(1, 50).Select(x => $"Option {x}"));
-                SelectedSimpleContent = SimpleContent.First();
-
-                Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(devices[0]);
+                SimpleContent = new AvaloniaList<string>(devices);
+                if (SelectedSimpleContent == null)
+                {
+                    SelectedSimpleContent = SimpleContent.First();
+                }
+                Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(SelectedSimpleContent);
                 Status = DevicesInfo["Status"];
                 BLStatus = DevicesInfo["BLStatus"];
                 VABStatus = DevicesInfo["VABStatus"];

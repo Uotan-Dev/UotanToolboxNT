@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Demo.Common;
@@ -19,6 +19,8 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using DynamicData.Kernel;
+using Microsoft.VisualBasic;
+using System.Text;
 
 namespace SukiUI.Demo.Features.Splash;
 
@@ -119,7 +121,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
             string status = DevicesInfoLittle["Status"];
-            if (status == "ϵͳ" || status == "Recovery" || status == "Sideload")
+            if (status == "系统" || status == "Recovery" || status == "Sideload")
             {
                 await CallExternalProgram.ADB($"-s {SelectedSimpleContent} {shell}");
             }
@@ -186,7 +188,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [RelayCommand]
     public async Task SC()
     {
-        await ADBControl($"shell /system/bin/screencap -p /sdcard/{DateTime.Now}.png");
+        await ADBControl($"shell /system/bin/screencap -p /sdcard/{DateAndTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.png");
     }
 
     [RelayCommand]

@@ -65,54 +65,51 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
         SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
 
     [RelayCommand]
-    public Task Connect()
+    public async Task Connect()
     {
         IsConnected = true;
-        return Task.Run(async () =>
+        string[] devices = await GetDevicesInfo.DevicesList();
+        if (devices.Length != 0)
         {
-            string[] devices = await GetDevicesInfo.DevicesList();
-            if(devices.Length != 0)
+            SimpleContent = new AvaloniaList<string>(devices);
+            if (SelectedSimpleContent == null || StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) == -1)
             {
-                SimpleContent = new AvaloniaList<string>(devices);
-                if (SelectedSimpleContent == null || StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) == -1)
-                {
-                    SelectedSimpleContent = SimpleContent.First();
-                }
-                Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(SelectedSimpleContent);
-                Status = DevicesInfo["Status"];
-                BLStatus = DevicesInfo["BLStatus"];
-                VABStatus = DevicesInfo["VABStatus"];
-                CodeName = DevicesInfo["CodeName"];
-                VNDKVersion = DevicesInfo["VNDKVersion"];
-                CPUCode = DevicesInfo["CPUCode"];
-                PowerOnTime = DevicesInfo["PowerOnTime"];
-                DeviceBrand = DevicesInfo["DeviceBrand"];
-                DeviceModel = DevicesInfo["DeviceModel"];
-                AndroidSDK = DevicesInfo["AndroidSDK"];
-                CPUABI = DevicesInfo["CPUABI"];
-                DisplayHW = DevicesInfo["DisplayHW"];
-                Density = DevicesInfo["Density"];
-                SELinux = DevicesInfo["SELinux"];
-                BoardID = DevicesInfo["BoardID"];
-                Platform = DevicesInfo["Platform"];
-                Compile = DevicesInfo["Compile"];
-                Kernel = DevicesInfo["Kernel"];
-                BatteryLevel = DevicesInfo["BatteryLevel"];
-                BatteryInfo = DevicesInfo["BatteryInfo"];
-                MemLevel = DevicesInfo["MemLevel"];
-                UseMem = DevicesInfo["UseMem"];
-                DiskInfo = DevicesInfo["DiskInfo"];
-                ProgressDisk = DevicesInfo["ProgressDisk"];
+                SelectedSimpleContent = SimpleContent.First();
             }
-            else
+            Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(SelectedSimpleContent);
+            Status = DevicesInfo["Status"];
+            BLStatus = DevicesInfo["BLStatus"];
+            VABStatus = DevicesInfo["VABStatus"];
+            CodeName = DevicesInfo["CodeName"];
+            VNDKVersion = DevicesInfo["VNDKVersion"];
+            CPUCode = DevicesInfo["CPUCode"];
+            PowerOnTime = DevicesInfo["PowerOnTime"];
+            DeviceBrand = DevicesInfo["DeviceBrand"];
+            DeviceModel = DevicesInfo["DeviceModel"];
+            AndroidSDK = DevicesInfo["AndroidSDK"];
+            CPUABI = DevicesInfo["CPUABI"];
+            DisplayHW = DevicesInfo["DisplayHW"];
+            Density = DevicesInfo["Density"];
+            SELinux = DevicesInfo["SELinux"];
+            BoardID = DevicesInfo["BoardID"];
+            Platform = DevicesInfo["Platform"];
+            Compile = DevicesInfo["Compile"];
+            Kernel = DevicesInfo["Kernel"];
+            BatteryLevel = DevicesInfo["BatteryLevel"];
+            BatteryInfo = DevicesInfo["BatteryInfo"];
+            MemLevel = DevicesInfo["MemLevel"];
+            UseMem = DevicesInfo["UseMem"];
+            DiskInfo = DevicesInfo["DiskInfo"];
+            ProgressDisk = DevicesInfo["ProgressDisk"];
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
-                });
-            }
-            IsConnected = false;
-        });
+                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+            });
+        }
+        IsConnected = false;
     }
 
     private async Task ADBControl(string shell)

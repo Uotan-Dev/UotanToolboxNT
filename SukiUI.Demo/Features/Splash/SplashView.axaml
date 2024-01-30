@@ -1,4 +1,4 @@
-<UserControl x:Class="SukiUI.Demo.Features.Splash.SplashView"
+﻿<UserControl x:Class="SukiUI.Demo.Features.Splash.SplashView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
@@ -603,7 +603,7 @@
 								FontWeight="DemiBold"
 								Text="选择设备" />
 					<StackPanel Margin="0 35 0 25">
-						<ListBox Width="165" MaxHeight="120" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
+						<ComboBox Width="165" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
 					<StackPanel Spacing="15">
 						<Button Width="155" Command="{Binding ConnectCommand}">

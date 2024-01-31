@@ -20,7 +20,7 @@
 			<!--  Device info  -->
 			<suki:GlassCard Width="520"
 							Height="410"
-                            Margin="15"
+                            Margin="10"
                             Classes="Card">
 				<suki:BusyArea Name="BusyConnection"
 								BusyText="获取中 ..."
@@ -298,7 +298,7 @@
 			<!--  Battery  -->
 			<suki:GlassCard Width="200"
 							Height="410"
-							Margin="15"
+							Margin="10"
 							VerticalAlignment="Top">
 				<Grid>
 					<TextBlock FontSize="16"
@@ -321,39 +321,41 @@
 
 			<!-- Disk and Memory -->
 			<suki:GlassCard Height="410"
-							Margin="15">
-					<StackPanel Spacing="15">
+							Margin="10"
+							Width="200">
+					<StackPanel Spacing="10">
 						<TextBlock FontSize="16"
 								   FontWeight="DemiBold"
 								   Text="储存和内存" />
-							<controls:CircleProgressBar Width="110"
-												Height="110"
-												StrokeWidth="11"
-												Value="{Binding ProgressDisk}">
+							<controls:CircleProgressBar Width="130"
+														Height="130"
+														StrokeWidth="11"
+														Margin="0 10 0 0"
+														Value="{Binding ProgressDisk}">
 						<TextBlock Margin="0,2,0,0"
-								   Classes="h3"
+								   Classes="h2"
 								   Text="{Binding ProgressDisk, StringFormat={}{0:#0}%}" />
 					</controls:CircleProgressBar>
 					<TextBlock  HorizontalAlignment="Center"
-								FontSize="13"
+								FontSize="15"
 								Text="{Binding DiskInfo, Mode=TwoWay}" />
-							<controls:CircleProgressBar Width="110"
-														Height="110"
+							<controls:CircleProgressBar Width="130"
+														Height="130"
 														Classes="Accent"
 														StrokeWidth="11"
 														Value="{Binding MemLevel}">
 								<TextBlock Margin="0,2,0,0"
-										   Classes="h3"
+										   Classes="h2"
 										   Text="{Binding MemLevel, StringFormat={}{0:#0}%}" />
 							</controls:CircleProgressBar>
 						<TextBlock  HorizontalAlignment="Center"
-									FontSize="13"
+									FontSize="15"
 									Text="{Binding UseMem, Mode=TwoWay}" />
 					</StackPanel>
 			</suki:GlassCard>
 
 			<!-- Analog Button -->
-			<suki:GlassCard Margin="15"
+			<suki:GlassCard Margin="10"
 							Height="320"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center">
@@ -444,7 +446,7 @@
 			</suki:GlassCard>
 
 			<!-- Reboot -->
-			<StackPanel Orientation="Vertical" Margin="15" Spacing="10">
+			<StackPanel Orientation="Vertical" Margin="10" Spacing="10">
 				<!--  ADB Reboot  -->
 				<suki:GlassCard HorizontalAlignment="Left"
 								VerticalAlignment="Center">
@@ -592,9 +594,9 @@
 			</StackPanel>
 
 			<!-- Virtual panel -->
-			<suki:GlassCard Margin="15"
+			<suki:GlassCard Margin="10"
 								Height="320"
-								Width="195"
+								Width="241"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center">
 				<StackPanel Orientation="Vertical" Spacing="10">
@@ -603,16 +605,16 @@
 								FontWeight="DemiBold"
 								Text="选择设备" />
 					<StackPanel Margin="0 35 0 25">
-						<ComboBox Width="165" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
+						<ComboBox Width="185" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
 					<StackPanel Spacing="15">
-						<Button Width="155" Command="{Binding ConnectCommand}">
+						<Button Width="175" Command="{Binding ConnectCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
 								刷新
 							</TextBlock>
 						</Button>
-						<Button Width="155">
+						<Button Width="175">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="ConsoleNetworkOutline" />
 								网络调试

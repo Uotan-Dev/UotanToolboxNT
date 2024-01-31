@@ -79,18 +79,15 @@ namespace SukiUI.Demo.Common
 
         public static string RemoveLineFeed(string str)
         {
-            string output;
-            if (str.IndexOf('\r') != -1 || str.IndexOf('\n') != -1)
+            string[] Lines = str.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string result = "";
+            for (int i = 0; i < Lines.Length; i++)
             {
-                output = str.Substring(0, str.Length - 2);
-                if (output == "")
-                {
-                    return "--";
-                }
-                else
-                {
-                    return output;
-                }
+                result += Lines[i];
+            }
+            if (result != "")
+            {
+                return result;
             }
             else
             {

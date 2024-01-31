@@ -221,13 +221,13 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="SELinux"/>
+												Text="闪存类型"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
 												FontSize="13"
 												Click="CopyButton_OnClick"
-												Content="{Binding SELinux, Mode=TwoWay}"/>
+												Content="{Binding DiskType, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
 							</StackPanel>
@@ -604,7 +604,7 @@
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="选择设备" />
-					<StackPanel Margin="0 35 0 25">
+					<StackPanel Margin="0 55 0 25">
 						<ComboBox Width="185" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
 					<StackPanel Spacing="15">
@@ -614,13 +614,12 @@
 								刷新
 							</TextBlock>
 						</Button>
-						<Button Width="175">
+						<!--<Button Width="175">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="ConsoleNetworkOutline" />
 								网络调试
 							</TextBlock>
-						</Button>
-						<!---->
+						</Button>-->
 					</StackPanel>
 				</StackPanel>
 			</suki:GlassCard>

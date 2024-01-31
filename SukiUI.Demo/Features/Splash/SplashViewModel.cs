@@ -46,7 +46,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [ObservableProperty] private string _platform;
     [ObservableProperty] private string _compile;
     [ObservableProperty] private string _kernel;
-    [ObservableProperty] private string _sELinux;
+    [ObservableProperty] private string _diskType;
     [ObservableProperty] private string _batteryLevel;
     [ObservableProperty] private string _batteryInfo;
     [ObservableProperty] private string _useMem;
@@ -72,7 +72,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
         if (devices.Length !=  0)
         {
             SimpleContent = new AvaloniaList<string>(devices);
-            if (SelectedSimpleContent == null || StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) == -1)
+            if (SelectedSimpleContent == null || string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) == -1)
             {
                 SelectedSimpleContent = SimpleContent.First();
             }
@@ -93,7 +93,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     {
         await GetDevicesList();
         IsConnected = true;
-        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
         {
             Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(SelectedSimpleContent);
             Status = DevicesInfo["Status"];
@@ -109,7 +109,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             CPUABI = DevicesInfo["CPUABI"];
             DisplayHW = DevicesInfo["DisplayHW"];
             Density = DevicesInfo["Density"];
-            SELinux = DevicesInfo["SELinux"];
+            DiskType = DevicesInfo["DiskType"];
             BoardID = DevicesInfo["BoardID"];
             Platform = DevicesInfo["Platform"];
             Compile = DevicesInfo["Compile"];
@@ -127,7 +127,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     private async Task ADBControl(string shell)
     {
         await GetDevicesList();
-        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
             Status = DevicesInfoLittle["Status"];
@@ -151,14 +151,14 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     private async Task FastbootControl(string shell)
     {
         await GetDevicesList();
-        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
             Status = DevicesInfoLittle["Status"];
             BLStatus = DevicesInfoLittle["BLStatus"];
             VABStatus = DevicesInfoLittle["VABStatus"];
             CodeName = DevicesInfoLittle["CodeName"];
-            if (Status == "Fastboot")
+            if (Status == "Fastboot" || Status == "Fastbootd")
             {
                 await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} {shell}");
             }
@@ -268,7 +268,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     public async Task FRRec()
     {
         await GetDevicesList();
-        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
             Status = DevicesInfoLittle["Status"];
@@ -305,7 +305,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     public async Task FRShut()
     {
         await GetDevicesList();
-        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
             Status = DevicesInfoLittle["Status"];

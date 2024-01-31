@@ -66,9 +66,8 @@ namespace SukiUI.Demo.Common
         {
             if (info.IndexOf("FAILED") == -1)
             {
-                char[] charSeparators = new char[] { ' ' };
                 string[] infos = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                string[] product = infos[0].Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                string[] product = infos[0].Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 return product[1];
             }
             else
@@ -79,20 +78,16 @@ namespace SukiUI.Demo.Common
 
         public static string RemoveLineFeed(string str)
         {
-            string[] Lines = str.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            string result = "";
-            for (int i = 0; i < Lines.Length; i++)
-            {
-                result += Lines[i];
-            }
+            string[] lines = str.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string result = string.Concat(lines);
             if (result != "")
             {
-                return result;
+                if (result.IndexOf("not found") == -1)
+                {
+                    return result;
+                }
             }
-            else
-            {
-                return "--";
-            }
+            return "--";
         }
 
         public static string ColonSplit(string info)
@@ -110,14 +105,21 @@ namespace SukiUI.Demo.Common
 
         public static string Density(string info)
         {
-            string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            if (Lines.Length == 2)
+            if (info.IndexOf("not found") == -1)
             {
-                return ColonSplit(Lines[1]);
+                string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                if (Lines.Length == 2)
+                {
+                    return ColonSplit(Lines[1]);
+                }
+                else
+                {
+                    return ColonSplit(Lines[0]);
+                }
             }
             else
             {
-                return ColonSplit(Lines[0]);
+                return "--";
             }
         }
 
@@ -169,14 +171,17 @@ namespace SukiUI.Demo.Common
             return columns;
         }
 
-        public static string AllDevices(AvaloniaList<string> devices)
+        public static string FastbootVar(string info, string find)
         {
-            string list = "";
-            for (int i = 0; i < devices.Count; i++)
+            string[] infos = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < infos.Length; i++)
             {
-                list += devices[i];
+                if (infos[i].IndexOf(find) != -1)
+                {
+                    return ColonSplit(RemoveLineFeed(infos[i]));
+                }
             }
-            return list;
+            return "--";
         }
     }
 }

@@ -45,7 +45,7 @@ namespace SukiUI.Demo.Common
             string compileversion =  "--";
             string platform = "--";
             string kernel = "--";
-            string selinux = "--";
+            string disktype = "--";
             string batterylevel = "0";
             string batteryinfo = "--";
             string memlevel = "--";
@@ -57,15 +57,35 @@ namespace SukiUI.Demo.Common
             string devcon = await CallExternalProgram.Devcon("find usb*");
             if (fastboot.IndexOf(devicename) != -1)
             {
-                status = "Fastboot";
+                string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
+                if (isuserspace.IndexOf("yes") != -1)
+                {
+                    status = "Fastbootd";
+                    vndkversion = StringHelper.FastbootVar(await CallExternalProgram.Fastboot($"-s {devicename} getvar version-vndk"), "version-vndk");
+                }
+                else
+                {
+                    status = "Fastboot";
+                    string type = await CallExternalProgram.Fastboot($"-s {devicename} getvar variant");
+                    if (type.IndexOf("UFS") != -1)
+                    {
+                        disktype = "UFS";
+                    }
+                    else if (type.IndexOf("EMMC") != -1)
+                    {
+                        disktype = "EMMC";
+                    }
+                    else
+                    {
+                        disktype = "--";
+                    }
+                }
                 string blinfo = await CallExternalProgram.Fastboot($"-s {devicename} getvar unlocked");
-                int unlocked = blinfo.IndexOf("yes");
-                if (unlocked != -1)
+                if (blinfo.IndexOf("yes") != -1)
                 {
                     blstatus = "已解锁";
                 }
-                int locked = blinfo.IndexOf("no");
-                if (locked != -1)
+                else
                 {
                     blstatus = "未解锁";
                 }
@@ -156,7 +176,6 @@ namespace SukiUI.Demo.Common
                 cpuabi = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.cpu.abi"));
                 codename = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.board"));
                 blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate"));
-                selinux = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getenforce"));
                 compileversion = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.system.build.version.incremental"));
                 platform = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/cpuinfo | grep Hardware")));
                 kernel = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell uname -r"));
@@ -257,7 +276,7 @@ namespace SukiUI.Demo.Common
             devices.Add("AndroidSDK", androidsdk);
             devices.Add("CPUABI", cpuabi);
             devices.Add("DisplayHW", displayhw);
-            devices.Add("SELinux", selinux);
+            devices.Add("DiskType", disktype);
             devices.Add("Density", density);
             devices.Add("BoardID", boardid);
             devices.Add("Platform", platform);
@@ -284,15 +303,21 @@ namespace SukiUI.Demo.Common
             string devcon = await CallExternalProgram.Devcon("find usb*");
             if (fastboot.IndexOf(devicename) != -1)
             {
-                status = "Fastboot";
+                string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
+                if (isuserspace.IndexOf("yes") != -1)
+                {
+                    status = "Fastbootd";
+                }
+                else
+                {
+                    status = "Fastboot";
+                }
                 string blinfo = await CallExternalProgram.Fastboot($"-s {devicename} getvar unlocked");
-                int unlocked = blinfo.IndexOf("yes");
-                if (unlocked != -1)
+                if (blinfo.IndexOf("yes") != -1)
                 {
                     blstatus = "已解锁";
                 }
-                int locked = blinfo.IndexOf("no");
-                if (locked != -1)
+                else
                 {
                     blstatus = "未解锁";
                 }

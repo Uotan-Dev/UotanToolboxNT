@@ -21,6 +21,7 @@ using Avalonia.Interactivity;
 using DynamicData.Kernel;
 using Microsoft.VisualBasic;
 using System.Text;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace SukiUI.Demo.Features.Splash;
 
@@ -64,18 +65,36 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     public void OpenConnectionDialog() =>
         SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
 
-    [RelayCommand]
-    public async Task Connect()
+    private async Task GetDevicesList()
     {
         IsConnected = true;
         string[] devices = await GetDevicesInfo.DevicesList();
-        if (devices.Length != 0)
+        if (devices.Length !=  0)
         {
             SimpleContent = new AvaloniaList<string>(devices);
             if (SelectedSimpleContent == null || StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) == -1)
             {
                 SelectedSimpleContent = SimpleContent.First();
             }
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+            });
+        }
+        IsConnected = false;
+    }
+
+
+    [RelayCommand]
+    public async Task Connect()
+    {
+        await GetDevicesList();
+        IsConnected = true;
+        if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        {
             Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(SelectedSimpleContent);
             Status = DevicesInfo["Status"];
             BLStatus = DevicesInfo["BLStatus"];
@@ -102,38 +121,53 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             DiskInfo = DevicesInfo["DiskInfo"];
             ProgressDisk = DevicesInfo["ProgressDisk"];
         }
-        else
-        {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
-            });
-        }
         IsConnected = false;
     }
 
     private async Task ADBControl(string shell)
     {
+        await GetDevicesList();
         if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
-            string status = DevicesInfoLittle["Status"];
-            if (status == "系统" || status == "Recovery" || status == "Sideload")
+            Status = DevicesInfoLittle["Status"];
+            BLStatus = DevicesInfoLittle["BLStatus"];
+            VABStatus = DevicesInfoLittle["VABStatus"];
+            CodeName = DevicesInfoLittle["CodeName"];
+            if (Status == "系统" || Status == "Recovery" || Status == "Sideload")
             {
                 await CallExternalProgram.ADB($"-s {SelectedSimpleContent} {shell}");
+            }
+            else
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                });
             }
         }
     }
 
     private async Task FastbootControl(string shell)
     {
+        await GetDevicesList();
         if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
-            string status = DevicesInfoLittle["Status"];
-            if (status == "Fastboot")
+            Status = DevicesInfoLittle["Status"];
+            BLStatus = DevicesInfoLittle["BLStatus"];
+            VABStatus = DevicesInfoLittle["VABStatus"];
+            CodeName = DevicesInfoLittle["CodeName"];
+            if (Status == "Fastboot")
             {
                 await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} {shell}");
+            }
+            else
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                });
             }
         }
     }
@@ -233,10 +267,15 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [RelayCommand]
     public async Task FRRec()
     {
+        await GetDevicesList();
         if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
-            if (DevicesInfoLittle["Status"] == "Fastboot")
+            Status = DevicesInfoLittle["Status"];
+            BLStatus = DevicesInfoLittle["BLStatus"];
+            VABStatus = DevicesInfoLittle["VABStatus"];
+            CodeName = DevicesInfoLittle["CodeName"];
+            if (Status == "Fastboot")
             {
                 string output = await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} oem reboot-recovery");
                 if (output.IndexOf("unknown command") != -1)
@@ -244,23 +283,59 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                     await CallExternalProgram.Fastboot("flash misc bin/img/misc.img");
                     await CallExternalProgram.Fastboot("reboot");
                 }
+                else
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                    });
+                }
             }
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+            });
         }
     }
 
     [RelayCommand]
     public async Task FRShut()
     {
+        await GetDevicesList();
         if (SelectedSimpleContent != null && StringHelper.AllDevices(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
-            if (DevicesInfoLittle["Status"] == "Fastboot")
+            Status = DevicesInfoLittle["Status"];
+            BLStatus = DevicesInfoLittle["BLStatus"];
+            VABStatus = DevicesInfoLittle["VABStatus"];
+            CodeName = DevicesInfoLittle["CodeName"];
+            if (Status == "Fastboot")
             {
                 string output = await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} oem poweroff");
                 if (output.IndexOf("unknown command") != -1)
                 {
-                    return;
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        SukiHost.ShowDialog(new ConnectionDialog("当前设备不支持此命令！"), allowBackgroundClose: true);
+                    });
                 }
+                else
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        SukiHost.ShowDialog(new ConnectionDialog("执行成功，拔出设备连接线即可关机！"), allowBackgroundClose: true);
+                    });
+                }
+            }
+            else
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                });
             }
         }
     }

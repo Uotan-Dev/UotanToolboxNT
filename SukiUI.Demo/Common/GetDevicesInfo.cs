@@ -353,6 +353,8 @@ namespace SukiUI.Demo.Common
                 {
                     vabstatus = "A-Only设备";
                 }
+                codename = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.board"));
+                blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate"));
             }
             if (devcon.IndexOf(devicename) != -1)
             {

@@ -5,25 +5,12 @@ using SukiUI.Demo.Common;
 using SukiUI.Demo.Features.Dashboard;
 using SukiUI.Demo.Services;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using SukiUI.Controls;
-using SukiUI.Demo.Utilities;
-using SukiUI.Demo.Features.ControlsLibrary.Dialogs;
 using Avalonia.Threading;
 using Avalonia.Collections;
-using SukiUI.Demo.Features.ControlsLibrary;
 using System.Linq;
-using System;
-using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Interactivity;
-using DynamicData.Kernel;
 using Microsoft.VisualBasic;
-using System.Text;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Diagnostics;
-
 namespace SukiUI.Demo.Features.Splash;
 
 public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("Home", MaterialIconKind.HomeOutline, int.MinValue)

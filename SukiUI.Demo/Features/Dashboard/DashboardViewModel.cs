@@ -36,18 +36,6 @@ public partial class DashboardViewModel : DemoPageBase
     }
 
     [RelayCommand]
-    public Task Connect()
-    {
-        IsConnected = true;
-        return Task.Run(async () =>
-        {
-            string[] devices = await GetDevicesInfo.DevicesList();
-            Name = devices[0];
-            IsConnected = false;
-        });
-    }
-
-    [RelayCommand]
     public void ShowDialog()
     {
         SukiHost.ShowDialog(new DialogViewModel(), allowBackgroundClose: true);

@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="SukiUI.Demo.Features.Splash.ConnectionDialog">
 	<StackPanel Spacing="15">
-		<TextBlock x:Name="DialogContent"></TextBlock>
+		<TextBlock x:Name="DialogContent" HorizontalAlignment="Center"></TextBlock>
 		<StackPanel Orientation="Horizontal" Spacing="10">
 			<Button Click="Cancel_OnClick" Content="取消" />
 			<Button Click="Confirm_OnClick" Content="确定" />

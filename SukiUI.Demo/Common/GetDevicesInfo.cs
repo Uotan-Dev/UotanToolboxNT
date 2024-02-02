@@ -14,7 +14,15 @@ namespace SukiUI.Demo.Common
         {
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
-            string devcon = await CallExternalProgram.Devcon("find usb*");
+            string devcon;
+            if (Global.System == "Windows")
+            {
+                devcon = await CallExternalProgram.Devcon("find usb*");
+            }
+            else
+            {
+                devcon = await CallExternalProgram.LsUSB();
+            }
             string[] adbdevices = StringHelper.ADBDevices(adb);
             string[] fbdevices = StringHelper.FastbootDevices(fastboot);
             string[] comdevices = StringHelper.COMDevices(devcon);
@@ -54,7 +62,15 @@ namespace SukiUI.Demo.Common
             string progressdisk = "--";
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
-            string devcon = await CallExternalProgram.Devcon("find usb*");
+            string devcon;
+            if (Global.System == "Windows")
+            {
+                devcon = await CallExternalProgram.Devcon("find usb*");
+            }
+            else
+            {
+                devcon = await CallExternalProgram.LsUSB();
+            }
             if (fastboot.IndexOf(devicename) != -1)
             {
                 string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
@@ -238,7 +254,7 @@ namespace SukiUI.Demo.Common
             if (devcon.IndexOf(devicename) != -1)
             {
                 string thisdevice = "";
-                string[] Lines = adb.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] Lines = devcon.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
                     if (Lines[i].IndexOf(devicename) != -1)
@@ -262,6 +278,35 @@ namespace SukiUI.Demo.Common
                 else if (thisdevice.IndexOf("9091 (") != -1)
                 {
                     status = "9091";
+                }
+            }
+            if (devicename.IndexOf("ttyUSB") != -1)
+            {
+                status = "9008";
+            }
+            if (devicename == "Unknown device")
+            {
+                string[] Lines = devcon.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    int Find900E = Lines[i].IndexOf(":900e");
+                    if (Find900E != -1)
+                    {
+                        status = "900E";
+                        break;
+                    }
+                    int Find901D = Lines[i].IndexOf(":901d");
+                    if (Find901D != -1)
+                    {
+                        status = "901D";
+                        break;
+                    }
+                    int Find9091 = Lines[i].IndexOf(":9091");
+                    if (Find9091 != -1)
+                    {
+                        status = "9091";
+                        break;
+                    }
                 }
             }
             devices.Add("Status", status);
@@ -300,7 +345,15 @@ namespace SukiUI.Demo.Common
             string vabstatus = "--";
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
-            string devcon = await CallExternalProgram.Devcon("find usb*");
+            string devcon;
+            if (Global.System == "Windows")
+            {
+                devcon = await CallExternalProgram.Devcon("find usb*");
+            }
+            else
+            {
+                devcon = await CallExternalProgram.LsUSB();
+            }
             if (fastboot.IndexOf(devicename) != -1)
             {
                 string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
@@ -408,6 +461,35 @@ namespace SukiUI.Demo.Common
                 else if (thisdevice.IndexOf("9091 (") != -1)
                 {
                     status = "9091";
+                }
+            }
+            if (devicename.IndexOf("ttyUSB") != -1)
+            {
+                status = "9008";
+            }
+            if (devicename == "Unknown device")
+            {
+                string[] Lines = devcon.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    int Find900E = Lines[i].IndexOf(":900e");
+                    if (Find900E != -1)
+                    {
+                        status = "900E";
+                        break;
+                    }
+                    int Find901D = Lines[i].IndexOf(":901d");
+                    if (Find901D != -1)
+                    {
+                        status = "901D";
+                        break;
+                    }
+                    int Find9091 = Lines[i].IndexOf(":9091");
+                    if (Find9091 != -1)
+                    {
+                        status = "9091";
+                        break;
+                    }
                 }
             }
             devices.Add("Status", status);

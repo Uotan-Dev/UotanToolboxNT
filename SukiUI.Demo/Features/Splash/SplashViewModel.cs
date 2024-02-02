@@ -28,33 +28,12 @@ namespace SukiUI.Demo.Features.Splash;
 
 public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("Home", MaterialIconKind.HomeOutline, int.MinValue)
 {
-    [ObservableProperty] private string _progressDisk;
-    [ObservableProperty] private string _memLevel;
-    [ObservableProperty] private string _status;
-    [ObservableProperty] private string _bLStatus;
-    [ObservableProperty] private string _vABStatus;
-    [ObservableProperty] private string _codeName;
-    [ObservableProperty] private string _vNDKVersion;
-    [ObservableProperty] private string _cPUCode;
-    [ObservableProperty] private string _powerOnTime;
-    [ObservableProperty] private string _deviceBrand;
-    [ObservableProperty] private string _deviceModel;
-    [ObservableProperty] private string _androidSDK;
-    [ObservableProperty] private string _cPUABI;
-    [ObservableProperty] private string _displayHW;
-    [ObservableProperty] private string _density;
-    [ObservableProperty] private string _boardID;
-    [ObservableProperty] private string _platform;
-    [ObservableProperty] private string _compile;
-    [ObservableProperty] private string _kernel;
-    [ObservableProperty] private string _diskType;
-    [ObservableProperty] private string _batteryLevel;
-    [ObservableProperty] private string _batteryInfo;
-    [ObservableProperty] private string _useMem;
-    [ObservableProperty] private string _diskInfo;
+    [ObservableProperty]
+    private string _progressDisk, _memLevel, _status, _bLStatus, _vABStatus, _codeName, _vNDKVersion, _cPUCode, _powerOnTime,
+        _deviceBrand, _deviceModel, _androidSDK, _cPUABI, _displayHW, _density, _boardID, _platform, _compile, _kernel, _selectedSimpleContent,
+        _diskType, _batteryLevel, _batteryInfo, _useMem, _diskInfo;
     [ObservableProperty] private bool _isConnected;
     [ObservableProperty] private AvaloniaList<string> _simpleContent;
-    [ObservableProperty] private string _selectedSimpleContent;
 
     [RelayCommand]
     public void OpenDashboard()

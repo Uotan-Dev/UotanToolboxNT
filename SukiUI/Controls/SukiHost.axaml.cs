@@ -147,6 +147,16 @@ public class SukiHost : ContentControl
         Instance.GetTemplateChildren().First(n => n.Name == "BorderDialog1").Opacity = showCardBehind ? 1 : 0;
     }
 
+    public static async Task ShowDialogAsync(object? content, bool showCardBehind = true, bool allowBackgroundClose = false,
+               Action? onClosed = null)
+    {
+        ShowDialog(content, showCardBehind, allowBackgroundClose);
+        await Task.Delay(50);
+        while (Instance.IsDialogOpen)
+            await Task.Delay(50);
+        onClosed?.Invoke();
+    }
+
     /// <summary>
     /// Attempts to close a dialog if one is shown.
     /// </summary>

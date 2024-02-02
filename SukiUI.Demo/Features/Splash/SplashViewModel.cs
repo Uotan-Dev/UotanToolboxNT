@@ -22,6 +22,7 @@ using DynamicData.Kernel;
 using Microsoft.VisualBasic;
 using System.Text;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Diagnostics;
 
 namespace SukiUI.Demo.Features.Splash;
 
@@ -61,10 +62,6 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
         nav.RequestNavigation<DashboardViewModel>();
     }
 
-    [RelayCommand]
-    public void OpenConnectionDialog() =>
-        SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
-
     private async Task GetDevicesList()
     {
         IsConnected = true;
@@ -79,14 +76,18 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
+            await Dispatcher.UIThread.InvokeAsync(async () =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+                var newDialog = new ConnectionDialog("设备未连接!");
+                await SukiHost.ShowDialogAsync(new ConnectionDialog("设备未连接!"));
+                if (newDialog.Result == true)
+                {
+                    /// Code here...
+                }
             });
         }
         IsConnected = false;
     }
-
 
     [RelayCommand]
     public async Task Connect()

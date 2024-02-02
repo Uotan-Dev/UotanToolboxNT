@@ -109,12 +109,12 @@ namespace SukiUI.Demo.Common
             string result = string.Concat(lines);
             if (result != "")
             {
-                if (result.IndexOf("not found") == -1)
+                if (result.IndexOf("not found") != -1 || result.IndexOf("dialog on your device") != -1)
                 {
-                    return result;
+                    return "--";
                 }
             }
-            return "--";
+            return result;
         }
 
         public static string ColonSplit(string info)
@@ -132,7 +132,11 @@ namespace SukiUI.Demo.Common
 
         public static string Density(string info)
         {
-            if (info.IndexOf("not found") == -1)
+            if (info.IndexOf("not found") != -1 || info.IndexOf("dialog on your device") != -1)
+            {
+                return "--";
+            }
+            else
             {
                 string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 if (Lines.Length == 2)
@@ -143,10 +147,6 @@ namespace SukiUI.Demo.Common
                 {
                     return ColonSplit(Lines[0]);
                 }
-            }
-            else
-            {
-                return "--";
             }
         }
 

@@ -57,7 +57,7 @@ namespace SukiUI.Demo.Common
                     if (Find9008 != -1 || Find900E != -1 || Find901D != -1 || Find9091 != -1)
                     {
                         string[] device = Lines[i].Split(new char[2] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-                        devices[i] = device[0];
+                        devices[i] = device[1];
                     }
                 }
                 devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();

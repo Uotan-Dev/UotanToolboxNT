@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Media;
 using ShowMeTheXaml;
+using SukiUI.Demo.Common;
 using System;
 
 namespace SukiUI.Demo;
@@ -20,10 +21,12 @@ internal class Program
         FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
         {
+            Global.System = "Linux";
             options.DefaultFamilyName = "Quicksand";
         }
         else if (OperatingSystem.IsMacOS())
         {
+            Global.System = "MacOS";
             options.DefaultFamilyName = "Quicksand";
         }
         // No need to set default for Windows

@@ -12,7 +12,15 @@ namespace SukiUI.Demo.Common
     {
         public static async Task<string> ADB(string adbshell)
         {
-            string cmd = "bin\\adb\\adb.exe";
+            string cmd;
+            if (Global.System == "Windows")
+            {
+                cmd = "bin\\Windows\\adb\\adb.exe";
+            }
+            else
+            {
+                cmd = $"bin/{Global.System}/adb/adb";
+            }
             ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
             {
                 CreateNoWindow = true,
@@ -34,7 +42,15 @@ namespace SukiUI.Demo.Common
 
         public static async Task<string> Fastboot(string fbshell)
         {
-            string cmd = "bin\\adb\\fastboot.exe";
+            string cmd;
+            if (Global.System == "Windows")
+            {
+                cmd = "bin\\Windows\\adb\\fastboot.exe";
+            }
+            else
+            {
+                cmd = $"bin/{Global.System}/adb/fastboot";
+            }
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,
@@ -54,10 +70,54 @@ namespace SukiUI.Demo.Common
             return output;
         }
 
-        public static async Task<string> Devcon(string fbshell)
+        public static async Task<string> Devcon(string shell)
         {
-            string cmd = "bin\\devcon.exe";
-            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
+            string cmd = "bin\\Windows\\devcon.exe";
+            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, shell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process fb = new Process();
+            fb.StartInfo = fastboot;
+            fb.Start();
+            string output = await fb.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await fb.StandardOutput.ReadToEndAsync();
+            }
+            fb.WaitForExit();
+            return output;
+        }
+
+        public static async Task<string> LsUSB()
+        {
+            string cmd = "lsusb";
+            ProcessStartInfo fastboot = new ProcessStartInfo(cmd)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process fb = new Process();
+            fb.StartInfo = fastboot;
+            fb.Start();
+            string output = await fb.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await fb.StandardOutput.ReadToEndAsync();
+            }
+            fb.WaitForExit();
+            return output;
+        }
+
+        public static async Task<string> LinuxLS(string shell)
+        {
+            string cmd = "ls";
+            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,

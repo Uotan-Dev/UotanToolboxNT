@@ -44,22 +44,49 @@ namespace SukiUI.Demo.Common
 
         public static string[] COMDevices(string COMInfo)
         {
-            string[] devices = new string[20];
-            string[] Lines = COMInfo.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < Lines.Length; i++)
+            if (Global.System == "Windows")
             {
-                int Find9008 = Lines[i].IndexOf("QDLoader");
-                int Find900E = Lines[i].IndexOf("900E (");
-                int Find901D = Lines[i].IndexOf("901D (");
-                int Find9091 = Lines[i].IndexOf("9091 (");
-                if (Find9008 != -1 || Find900E != -1 || Find901D != -1 || Find9091 != -1)
+                string[] devices = new string[20];
+                string[] Lines = COMInfo.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Lines.Length; i++)
                 {
-                    string[] device = Lines[i].Split(new char[2] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-                    devices[i] = device[0];
+                    int Find9008 = Lines[i].IndexOf("QDLoader");
+                    int Find900E = Lines[i].IndexOf("900E (");
+                    int Find901D = Lines[i].IndexOf("901D (");
+                    int Find9091 = Lines[i].IndexOf("9091 (");
+                    if (Find9008 != -1 || Find900E != -1 || Find901D != -1 || Find9091 != -1)
+                    {
+                        string[] device = Lines[i].Split(new char[2] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
+                        devices[i] = device[0];
+                    }
                 }
+                devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+                return devices;
             }
-            devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
-            return devices;
+            else
+            {
+                int j = 0;
+                string[] devices = new string[20];
+                string[] Lines = COMInfo.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    int Find9008 = Lines[i].IndexOf(":9008");
+                    if (Find9008 != -1)
+                    {
+                        devices[i] = String.Format($"/dev/ttyUSB{j}");
+                        j ++;
+                    }
+                    int Find900E = Lines[i].IndexOf(":900e");
+                    int Find901D = Lines[i].IndexOf(":901d");
+                    int Find9091 = Lines[i].IndexOf(":9091");
+                    if (Find900E != -1 || Find901D != -1 || Find9091 != -1)
+                    {
+                        devices[i] = "Unknown device";
+                    }
+                }
+                devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+                return devices;
+            }
         }
 
         public static string GetProductID(string info)

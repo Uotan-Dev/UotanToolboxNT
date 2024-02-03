@@ -507,10 +507,10 @@
 								<Button Width="125" 
 										HorizontalAlignment="Left" 
 										Padding="8"
-										Command="{Binding ARTSideCommand}">
+										Command="{Binding AREDLCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										TWRP侧载
+										9008
 									</TextBlock>
 								</Button>
 							</StackPanel>

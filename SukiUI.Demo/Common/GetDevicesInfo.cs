@@ -149,6 +149,10 @@ namespace SukiUI.Demo.Common
                 {
                     status = "系统";
                 }
+                else if (thisdevice.IndexOf("unauthorized") != -1)
+                {
+                    status = "未信任的设备";
+                }
                 string active = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.slot_suffix");
                 if (active.IndexOf("_a") != -1)
                 {
@@ -157,6 +161,10 @@ namespace SukiUI.Demo.Common
                 else if (active.IndexOf("_b") != -1)
                 {
                     vabstatus = "B槽位";
+                }
+                else if (status == "未信任的设备" || status == "Sideload")
+                {
+                    vabstatus = "--";
                 }
                 else
                 {

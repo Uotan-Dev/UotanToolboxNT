@@ -204,7 +204,37 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [RelayCommand]
     public async Task ARSide()
     {
-        await ADBControl("reboot sideload");
+        await GetDevicesList();
+        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        {
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
+            Status = DevicesInfoLittle["Status"];
+            BLStatus = DevicesInfoLittle["BLStatus"];
+            VABStatus = DevicesInfoLittle["VABStatus"];
+            CodeName = DevicesInfoLittle["CodeName"];
+            if (Status == "Recovery")
+            {
+                string output = await CallExternalProgram.ADB("shell twrp sideload");
+                if (output.IndexOf("not found") != -1)
+                {
+                    await CallExternalProgram.ADB("reboot sideload");
+                }
+            }
+            else
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                });
+            }
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+            });
+        }
     }
 
     [RelayCommand]
@@ -220,9 +250,9 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     }
 
     [RelayCommand]
-    public async Task ARTSide()
+    public async Task AREDL()
     {
-        await ADBControl("shell twrp sideload");
+        await ADBControl("reboot edl");
     }
 
     [RelayCommand]
@@ -250,13 +280,13 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                     await CallExternalProgram.Fastboot("flash misc bin/img/misc.img");
                     await CallExternalProgram.Fastboot("reboot");
                 }
-                else
+            }
+            else
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
-                    });
-                }
+                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                });
             }
         }
         else
@@ -304,6 +334,13 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                     SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
                 });
             }
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+            });
         }
     }
 

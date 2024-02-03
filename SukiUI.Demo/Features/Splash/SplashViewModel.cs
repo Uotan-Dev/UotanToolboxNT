@@ -20,6 +20,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
         _deviceBrand, _deviceModel, _androidSDK, _cPUABI, _displayHW, _density, _boardID, _platform, _compile, _kernel, _selectedSimpleContent,
         _diskType, _batteryLevel, _batteryInfo, _useMem, _diskInfo;
     [ObservableProperty] private bool _isConnected;
+    [ObservableProperty] private bool _devicesList;
     [ObservableProperty] private AvaloniaList<string> _simpleContent;
 
     [RelayCommand]
@@ -30,7 +31,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
 
     private async Task GetDevicesList()
     {
-        IsConnected = true;
+        DevicesList = true;
         string[] devices = await GetDevicesInfo.DevicesList();
         if (devices.Length !=  0)
         {
@@ -54,7 +55,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                 }
             });
         }
-        IsConnected = false;
+        DevicesList = false;
     }
 
     [RelayCommand]

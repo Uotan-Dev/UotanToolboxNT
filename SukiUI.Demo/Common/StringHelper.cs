@@ -207,5 +207,14 @@ namespace SukiUI.Demo.Common
             }
             return "--";
         }
+
+        public static string FilePath(string path)
+        {
+            if (path.IndexOf("file:///") != -1)
+            {
+                return path.Substring(8, path.Length - 8);
+            }
+            return path;
+        }
     }
 }

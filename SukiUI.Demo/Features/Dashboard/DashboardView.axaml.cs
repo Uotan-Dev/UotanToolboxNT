@@ -1,6 +1,7 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using SukiUI.Demo.Common;
 using System;
 using System.IO;
 
@@ -21,15 +22,9 @@ public partial class DashboardView : UserControl
             Title = "Open File",
             AllowMultiple = false
         });
-
         if (files.Count >= 1)
         {
-            await using var stream = await files[0].OpenReadAsync();
-            using var streamReader = new StreamReader(stream);
-            // File content
-            var fileContent = await streamReader.ReadToEndAsync();
-            // File path
-            var filePath = files[0].Path;
+            UnlockFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
 

@@ -1,4 +1,4 @@
-<UserControl x:Class="SukiUI.Demo.Features.Dashboard.DashboardView"
+﻿<UserControl x:Class="SukiUI.Demo.Features.Dashboard.DashboardView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
@@ -30,7 +30,7 @@
 					<StackPanel Orientation="Vertical" Margin="15 10 0 0">
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center">解锁文件解锁: </TextBlock>
-							<TextBox Width="353" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<TextBox Width="353" Name="UnlockFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
 							<Button Height="35"
 									Name="OpenUnlockFile"
 									Click="OpenFileButton_Clicked">

@@ -1,4 +1,4 @@
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using DynamicData;
 using System;
 using System.Collections.Generic;

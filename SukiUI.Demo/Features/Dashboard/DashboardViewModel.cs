@@ -1,4 +1,4 @@
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -14,7 +14,6 @@ namespace SukiUI.Demo.Features.Dashboard;
 public partial class DashboardViewModel : DemoPageBase
 {
     [ObservableProperty] private string _name;
-    [ObservableProperty] private bool _isConnected;
     [ObservableProperty] private int _stepperIndex;
 
     public IAvaloniaReadOnlyList<InvoiceViewModel> Invoices { get; } = new AvaloniaList<InvoiceViewModel>()
@@ -50,10 +49,4 @@ public partial class DashboardViewModel : DemoPageBase
     [RelayCommand]
     public void DecrementIndex() =>
         StepperIndex -= StepperIndex <= 0 ? 0 : 1;
-
-    [RelayCommand]
-    public async Task OpenFile()
-    {
-
-    }
 }

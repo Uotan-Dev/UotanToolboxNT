@@ -58,7 +58,7 @@
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="基本命令解锁" />
-					<ComboBox Width="220" Margin="0 10" ItemsSource="" SelectedItem="" />
+					<ComboBox Width="220" Margin="0 10" ItemsSource="{Binding SimpleContent}" />
 					<StackPanel Spacing="15">
 						<Button Width="210">
 							<TextBlock>

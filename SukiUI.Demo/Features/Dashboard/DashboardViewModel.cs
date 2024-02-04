@@ -7,14 +7,17 @@ using Material.Icons;
 using SukiUI.Controls;
 using SukiUI.Demo.Common;
 using SukiUI.Demo.Models.Dashboard;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SukiUI.Demo.Features.Dashboard;
 
 public partial class DashboardViewModel : DemoPageBase
 {
+    public AvaloniaList<string> SimpleContent { get; } = new();
     [ObservableProperty] private string _name;
     [ObservableProperty] private int _stepperIndex;
+    [ObservableProperty] private string _selectedSimpleContent;
 
     public IAvaloniaReadOnlyList<InvoiceViewModel> Invoices { get; } = new AvaloniaList<InvoiceViewModel>()
     {
@@ -34,6 +37,7 @@ public partial class DashboardViewModel : DemoPageBase
     public DashboardViewModel() : base("Dashboard", MaterialIconKind.CircleOutline, -100)
     {
         StepperIndex = 1;
+        SimpleContent.AddRange(["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"]);
     }
 
     [RelayCommand]

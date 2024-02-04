@@ -212,7 +212,14 @@ namespace SukiUI.Demo.Common
         {
             if (path.IndexOf("file:///") != -1)
             {
-                return path.Substring(8, path.Length - 8);
+                if (Global.System == "Windows")
+                {
+                    return path.Substring(8, path.Length - 8);
+                }
+                else
+                {
+                    return path.Substring(7, path.Length - 7);
+                }
             }
             return path;
         }

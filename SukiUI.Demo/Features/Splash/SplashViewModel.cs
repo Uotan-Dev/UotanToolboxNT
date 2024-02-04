@@ -11,9 +11,10 @@ using Avalonia.Threading;
 using Avalonia.Collections;
 using System.Linq;
 using Microsoft.VisualBasic;
+using System.Diagnostics;
 namespace SukiUI.Demo.Features.Splash;
 
-public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("Home", MaterialIconKind.HomeOutline, int.MinValue)
+public partial class SplashViewModel : DemoPageBase
 {
     [ObservableProperty]
     private string _progressDisk, _memLevel, _status, _bLStatus, _vABStatus, _codeName, _vNDKVersion, _cPUCode, _powerOnTime,
@@ -23,10 +24,9 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [ObservableProperty] private bool _devicesList;
     [ObservableProperty] private AvaloniaList<string> _simpleContent;
 
-    [RelayCommand]
-    public void OpenDashboard()
+    public SplashViewModel() : base("Home", MaterialIconKind.HomeOutline, int.MinValue)
     {
-        nav.RequestNavigation<DashboardViewModel>();
+        _ = Connect();
     }
 
     private async Task GetDevicesList()

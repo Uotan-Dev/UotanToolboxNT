@@ -21,36 +21,46 @@
                    Orientation="Horizontal">
 
 			<!--  Unlock  -->
-			<suki:GlassCard Width="600" Margin="10">
-				<StackPanel Orientation="Vertical">
-					<StackPanel Orientation="Horizontal" Spacing="5">
-						<TextBlock VerticalAlignment="Center">解锁文件解锁: </TextBlock>
-						<TextBox Width="350" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35" Click="OpenFileButton_Clicked">选择文件</Button>
-					</StackPanel>
-					<StackPanel Orientation="Vertical" Spacing="5">
-						<StackPanel Orientation="Horizontal" Spacing="20">
-							<TextBlock VerticalAlignment="Center">解锁码解锁: </TextBlock>
-							<TextBox Width="464" theme:TextBoxExtensions.AddDeleteButton="False"/>
+			<suki:GlassCard Width="630" Height="200" Margin="10">
+				<StackPanel>
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="普通设备解锁" />
+					<StackPanel Orientation="Vertical" Margin="15 10 0 0">
+						<StackPanel Orientation="Horizontal" Spacing="5">
+							<TextBlock VerticalAlignment="Center">解锁文件解锁: </TextBlock>
+							<TextBox Width="353" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Height="35"
+									Name="OpenUnlockFile"
+									Click="OpenFileButton_Clicked">
+								选择文件
+							</Button>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="120">
-							<Button>立即解锁</Button>
-							<Button>回锁BL</Button>
+						<StackPanel Orientation="Vertical" Spacing="5">
+							<StackPanel Orientation="Horizontal" Spacing="20">
+								<TextBlock VerticalAlignment="Center">解锁码解锁: </TextBlock>
+								<TextBox Width="464" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="120">
+								<Button>立即解锁</Button>
+								<Button>回锁BL</Button>
+							</StackPanel>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
 			</suki:GlassCard>
 
 			<!--  Unlock with command  -->
-			<suki:GlassCard Width="310" Margin="10">
+			<suki:GlassCard Width="310" Height="200" Margin="10">
 				<StackPanel Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="基本命令解锁" />
-					<ComboBox Width="220" ItemsSource="" SelectedItem="" />
+					<ComboBox Width="220" Margin="0 10" ItemsSource="" SelectedItem="" />
 					<StackPanel Spacing="15">
-						<Button Width="220">
+						<Button Width="210">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
 								执行解锁命令
@@ -61,63 +71,67 @@
 			</suki:GlassCard>
 
 			<!--  Flash recovery  -->
-			<suki:GlassCard Width="600" Margin="10">
-				<StackPanel Orientation="Vertical" Spacing="25">
-					<StackPanel Orientation="Horizontal" Spacing="5">
+			<suki:GlassCard Width="630" Margin="10">
+				<StackPanel>
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="刷入Recovery" />
+					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
 						<TextBlock VerticalAlignment="Center">选择Recovery: </TextBlock>
-						<TextBox Width="350" theme:TextBoxExtensions.AddDeleteButton="False"/>
+						<TextBox Width="347.5" theme:TextBoxExtensions.AddDeleteButton="False"/>
 						<Button Height="35">选择文件</Button>
 					</StackPanel>
-					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 5 0 0">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
-							<Button Width="145"
+							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="Android" />
-									系统
+									至Recovery
 								</TextBlock>
 							</Button>
-							<Button Width="145"
+							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="NetworkOutline" />
-									Recovery
+									至Recovery A分区
 								</TextBlock>
 							</Button>
-							<Button Width="145"
+							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="NetworkPos" />
-									Sideload
+									至Recovery B分区
 								</TextBlock>
 							</Button>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
-							<Button Width="145"
+							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									Bootloader
+									临时启动
 								</TextBlock>
 							</Button>
-							<Button Width="145"
+							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									Fastbootd
+									至Boot A分区
 								</TextBlock>
 							</Button>
-							<Button Width="145"
+							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									TWRP侧载
+									至Boot B分区
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -132,7 +146,7 @@
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="驱动补丁" />
-					<StackPanel Spacing="15">
+					<StackPanel Spacing="10">
 						<Button Width="220">安装ADB和Fastboot驱动</Button>
 						<Button Width="220">安装高通9008驱动</Button>
 						<Button Width="220">小米设备USB3.0驱动</Button>

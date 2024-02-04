@@ -20,6 +20,7 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
         _deviceBrand, _deviceModel, _androidSDK, _cPUABI, _displayHW, _density, _boardID, _platform, _compile, _kernel, _selectedSimpleContent,
         _diskType, _batteryLevel, _batteryInfo, _useMem, _diskInfo;
     [ObservableProperty] private bool _isConnected;
+    [ObservableProperty] private bool _devicesList;
     [ObservableProperty] private AvaloniaList<string> _simpleContent;
 
     [RelayCommand]
@@ -30,14 +31,16 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
 
     private async Task GetDevicesList()
     {
-        IsConnected = true;
+        DevicesList = true;
         string[] devices = await GetDevicesInfo.DevicesList();
         if (devices.Length !=  0)
         {
-            SimpleContent = new AvaloniaList<string>(devices);
+            Global.deviceslist = new AvaloniaList<string>(devices);
+            SimpleContent = Global.deviceslist;
             if (SelectedSimpleContent == null || string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) == -1)
             {
-                SelectedSimpleContent = SimpleContent.First();
+                Global.thisdevice = SimpleContent.First();
+                SelectedSimpleContent = Global.thisdevice;
             }
         }
         else
@@ -45,14 +48,14 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
             await Dispatcher.UIThread.InvokeAsync(async () =>
             {
                 var newDialog = new ConnectionDialog("设备未连接!");
-                await SukiHost.ShowDialogAsync(new ConnectionDialog("设备未连接!"));
+                await SukiHost.ShowDialogAsync(newDialog);
                 if (newDialog.Result == true)
                 {
                     /// Code here...
                 }
             });
         }
-        IsConnected = false;
+        DevicesList = false;
     }
 
     [RelayCommand]
@@ -60,9 +63,9 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     {
         await GetDevicesList();
         IsConnected = true;
-        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
         {
-            Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(SelectedSimpleContent);
+            Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
             Status = DevicesInfo["Status"];
             BLStatus = DevicesInfo["BLStatus"];
             VABStatus = DevicesInfo["VABStatus"];
@@ -94,16 +97,16 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     private async Task ADBControl(string shell)
     {
         await GetDevicesList();
-        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
         {
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
             BLStatus = DevicesInfoLittle["BLStatus"];
             VABStatus = DevicesInfoLittle["VABStatus"];
             CodeName = DevicesInfoLittle["CodeName"];
             if (Status == "系统" || Status == "Recovery" || Status == "Sideload")
             {
-                await CallExternalProgram.ADB($"-s {SelectedSimpleContent} {shell}");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
             }
             else
             {
@@ -118,16 +121,16 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     private async Task FastbootControl(string shell)
     {
         await GetDevicesList();
-        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
         {
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
             BLStatus = DevicesInfoLittle["BLStatus"];
             VABStatus = DevicesInfoLittle["VABStatus"];
             CodeName = DevicesInfoLittle["CodeName"];
             if (Status == "Fastboot" || Status == "Fastbootd")
             {
-                await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} {shell}");
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell}");
             }
             else
             {
@@ -204,7 +207,37 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     [RelayCommand]
     public async Task ARSide()
     {
-        await ADBControl("reboot sideload");
+        await GetDevicesList();
+        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
+        {
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
+            Status = DevicesInfoLittle["Status"];
+            BLStatus = DevicesInfoLittle["BLStatus"];
+            VABStatus = DevicesInfoLittle["VABStatus"];
+            CodeName = DevicesInfoLittle["CodeName"];
+            if (Status == "Recovery")
+            {
+                string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
+                if (output.IndexOf("not found") != -1)
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
+                }
+            }
+            else
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                });
+            }
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+            });
+        }
     }
 
     [RelayCommand]
@@ -220,9 +253,9 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     }
 
     [RelayCommand]
-    public async Task ARTSide()
+    public async Task AREDL()
     {
-        await ADBControl("shell twrp sideload");
+        await ADBControl("reboot edl");
     }
 
     [RelayCommand]
@@ -235,28 +268,28 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     public async Task FRRec()
     {
         await GetDevicesList();
-        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
         {
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
             BLStatus = DevicesInfoLittle["BLStatus"];
             VABStatus = DevicesInfoLittle["VABStatus"];
             CodeName = DevicesInfoLittle["CodeName"];
             if (Status == "Fastboot")
             {
-                string output = await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} oem reboot-recovery");
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                 if (output.IndexOf("unknown command") != -1)
                 {
-                    await CallExternalProgram.Fastboot("flash misc bin/img/misc.img");
-                    await CallExternalProgram.Fastboot("reboot");
+                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc bin/img/misc.img");
+                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
                 }
-                else
+            }
+            else
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
-                    });
-                }
+                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                });
             }
         }
         else
@@ -272,16 +305,16 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
     public async Task FRShut()
     {
         await GetDevicesList();
-        if (SelectedSimpleContent != null && string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) != -1)
+        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
         {
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(SelectedSimpleContent);
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
             BLStatus = DevicesInfoLittle["BLStatus"];
             VABStatus = DevicesInfoLittle["VABStatus"];
             CodeName = DevicesInfoLittle["CodeName"];
             if (Status == "Fastboot")
             {
-                string output = await CallExternalProgram.Fastboot($"-s {SelectedSimpleContent} oem poweroff");
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
                 if (output.IndexOf("unknown command") != -1)
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
@@ -304,6 +337,13 @@ public partial class SplashViewModel(PageNavigationService nav) : DemoPageBase("
                     SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
                 });
             }
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+            });
         }
     }
 

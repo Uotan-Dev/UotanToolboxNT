@@ -507,10 +507,10 @@
 								<Button Width="125" 
 										HorizontalAlignment="Left" 
 										Padding="8"
-										Command="{Binding ARTSideCommand}">
+										Command="{Binding AREDLCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										TWRP侧载
+										9008
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -599,7 +599,10 @@
 								Width="241"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center">
-				<StackPanel Orientation="Vertical" Spacing="10">
+				 <suki:BusyArea Name="BusyDevicesList"
+								BusyText="获取中 ..."
+								IsBusy="{Binding DevicesList}">
+					<StackPanel Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
@@ -622,6 +625,7 @@
 						</Button>-->
 					</StackPanel>
 				</StackPanel>
+				</suki:BusyArea>
 			</suki:GlassCard>
 		</WrapPanel>
 	</ScrollViewer>

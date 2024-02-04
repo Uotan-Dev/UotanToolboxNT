@@ -57,7 +57,7 @@ namespace SukiUI.Demo.Common
                     if (Find9008 != -1 || Find900E != -1 || Find901D != -1 || Find9091 != -1)
                     {
                         string[] device = Lines[i].Split(new char[2] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-                        devices[i] = device[0];
+                        devices[i] = device[1];
                     }
                 }
                 devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
@@ -107,12 +107,9 @@ namespace SukiUI.Demo.Common
         {
             string[] lines = str.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             string result = string.Concat(lines);
-            if (result != "")
+            if (result == "" || result.IndexOf("not found") != -1 || result.IndexOf("dialog on your device") != -1 || result.IndexOf("device offline") != -1 || result.IndexOf("closed") != -1)
             {
-                if (result.IndexOf("not found") != -1 || result.IndexOf("dialog on your device") != -1)
-                {
-                    return "--";
-                }
+                return "--";
             }
             return result;
         }
@@ -132,7 +129,7 @@ namespace SukiUI.Demo.Common
 
         public static string Density(string info)
         {
-            if (info.IndexOf("not found") != -1 || info.IndexOf("dialog on your device") != -1)
+            if (info == "" || info.IndexOf("not found") != -1 || info.IndexOf("dialog on your device") != -1 || info.IndexOf("device offline") != -1 || info.IndexOf("closed") != -1)
             {
                 return "--";
             }

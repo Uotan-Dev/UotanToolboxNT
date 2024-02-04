@@ -1,4 +1,6 @@
 using Avalonia.Collections;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
@@ -48,4 +50,10 @@ public partial class DashboardViewModel : DemoPageBase
     [RelayCommand]
     public void DecrementIndex() =>
         StepperIndex -= StepperIndex <= 0 ? 0 : 1;
+
+    [RelayCommand]
+    public async Task OpenFile()
+    {
+
+    }
 }

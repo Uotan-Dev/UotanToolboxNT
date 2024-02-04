@@ -1,6 +1,8 @@
 <UserControl x:Class="SukiUI.Demo.Features.Dashboard.DashboardView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:SukiUI.Demo.Features.ControlsLibrary"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dashboard="clr-namespace:SukiUI.Demo.Features.Dashboard"
@@ -24,7 +26,7 @@
 					<StackPanel Orientation="Horizontal" Spacing="5">
 						<TextBlock VerticalAlignment="Center">解锁文件解锁: </TextBlock>
 						<TextBox Width="350" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35">选择文件</Button>
+						<Button Height="35" Click="OpenFileButton_Clicked">选择文件</Button>
 					</StackPanel>
 					<StackPanel Orientation="Vertical" Spacing="5">
 						<StackPanel Orientation="Horizontal" Spacing="20">

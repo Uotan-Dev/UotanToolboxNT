@@ -2,6 +2,26 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:content="clr-namespace:SukiUI.Content"
                     xmlns:suki="clr-namespace:SukiUI.Controls">
+    <Design.PreviewWith>
+        <suki:SukiSideMenu >
+            <suki:SukiSideMenuItem Header="Header">
+                <suki:SukiSideMenuItem.Icon>
+                    <PathIcon Width="13"
+                              Height="13"
+                              Data="{x:Static content:Icons.Cross}" />
+                </suki:SukiSideMenuItem.Icon>
+                <Grid></Grid>
+            </suki:SukiSideMenuItem>
+            <suki:SukiSideMenuItem Header="Header">
+                <suki:SukiSideMenuItem.Icon>
+                    <PathIcon Width="13"
+                              Height="13"
+                              Data="{x:Static content:Icons.Cross}" />
+                </suki:SukiSideMenuItem.Icon>
+                <Grid></Grid>
+            </suki:SukiSideMenuItem>
+        </suki:SukiSideMenu>
+    </Design.PreviewWith>
     <ControlTheme x:Key="SukiSideMenuItemStyle" TargetType="suki:SukiSideMenuItem">
         <Setter Property="Template">
             <ControlTemplate>
@@ -19,13 +39,19 @@
                     </Border.Transitions>
                     <Grid>
                         <DockPanel Name="PART_NormalDisplay" LastChildFill="True">
-                            <ContentControl Name="PART_Icon"
+                            <DockPanel.Resources>
+                         
+                            </DockPanel.Resources>
+                           
+                            <ContentControl 
+                                Name="PART_Icon"
                                             Width="24"
                                             Height="24"
                                             Content="{TemplateBinding Icon}"
                                             DockPanel.Dock="Left">
                                 <ContentControl.Transitions>
                                     <Transitions>
+                                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.25"></TransformOperationsTransition>
                                         <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
                                     </Transitions>
                                 </ContentControl.Transitions>
@@ -43,20 +69,6 @@
                                           Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}" />
 
-                        <PathIcon Name="Part_SelectedIcon"
-                                  Margin="22,0,0,0"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  Data="{x:Static content:Icons.CircleOutline}"
-                                  Foreground="{DynamicResource SukiAccentColor}"
-                                  IsVisible="{Binding !IsMenuExpanded, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type suki:SukiSideMenu}}}"
-                                  Opacity="0">
-                            <PathIcon.Transitions>
-                                <Transitions>
-                                    <DoubleTransition Property="Opacity" Duration="0:0:0.35" />
-                                </Transitions>
-                            </PathIcon.Transitions>
-                        </PathIcon>
                     </Grid>
                 </Border>
             </ControlTemplate>
@@ -69,17 +81,24 @@
         <Style Selector="^[IsSelected=True]">
             <Style Selector="^ /template/ Border#PART_Border">
                 <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor10}" />
+               
+            </Style>
+            <Style Selector="^[IsTopMenuExpanded=True] /template/ Border#PART_Border">
                 <Setter Property="Padding" Value="-10,15,15,15" />
             </Style>
             <Style Selector="^ /template/ TextBlock#PART_Header">
                 <Setter Property="FontWeight" Value="Bold" />
                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
             </Style>
-            <Style Selector="^ /template/ PathIcon#Part_SelectedIcon">
-                <Setter Property="Opacity" Value="1" />
-            </Style>
-            <Style Selector="^ /template/ ContentControl#PART_Icon">
+         
+            <Style Selector="^[IsTopMenuExpanded=True] /template/ ContentControl#PART_Icon">
                 <Setter Property="Opacity" Value="0" />
+            </Style>
+            <Style Selector="^[IsTopMenuExpanded=False] /template/ ContentControl#PART_Icon">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+                <Setter Property="RenderTransform"  >
+                    <ScaleTransform ScaleX="1.12" ScaleY="1.12"></ScaleTransform>
+                </Setter>
             </Style>
         </Style>
     </ControlTheme>

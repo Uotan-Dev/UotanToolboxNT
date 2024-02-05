@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace SukiUI.Controls
 {
-    public sealed class InstanceViewModel : SukiObservableObject, IDisposable
+    public class InstanceViewModel : SukiObservableObject, IDisposable
     {
         public INotifyPropertyChanged ViewModel { get; }
 
@@ -17,6 +17,38 @@ namespace SukiUI.Controls
         {
             ViewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
 
+            Categories = GenerateCategories(viewModel);
+        }
+
+        private static string? GetCategory(PropertyInfo property)
+        {
+            var attributes = property.GetCustomAttributes<CategoryAttribute>(false);
+            if (attributes.Any())
+            {
+                return attributes.First().Category;
+            }
+
+            return null;
+        }
+
+        private static string? GetDisplayName(PropertyInfo property)
+        {
+            var attributes = property.GetCustomAttributes<DisplayNameAttribute>(false);
+            if (attributes.Any())
+            {
+                return attributes.First().DisplayName;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Factory creating all the categories for a given instance of a ViewModel implementing <see cref="INotifyPropertyChanged"/>.
+        /// </summary>
+        /// <param name="viewModel">the ViewModel instance, to generate/show controls/categories for</param>
+        /// <returns>CategoryViewModels holding representations for each public non static property</returns>
+        public virtual IAvaloniaReadOnlyList<CategoryViewModel> GenerateCategories(INotifyPropertyChanged viewModel)
+        {
             var properties = viewModel
                 .GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -97,29 +129,7 @@ namespace SukiUI.Controls
                 categoryViewModels.Add(categoryViewModel);
             }
 
-            Categories = categoryViewModels;
-        }
-
-        private static string? GetCategory(PropertyInfo property)
-        {
-            var attributes = property.GetCustomAttributes<CategoryAttribute>(false);
-            if (attributes.Any())
-            {
-                return attributes.First().Category;
-            }
-
-            return null;
-        }
-
-        private static string? GetDisplayName(PropertyInfo property)
-        {
-            var attributes = property.GetCustomAttributes<DisplayNameAttribute>(false);
-            if (attributes.Any())
-            {
-                return attributes.First().DisplayName;
-            }
-
-            return null;
+            return categoryViewModels;
         }
 
         public void Dispose()

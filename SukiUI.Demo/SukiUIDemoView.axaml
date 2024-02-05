@@ -13,6 +13,9 @@
                  d:DesignWidth="800"
                  x:DataType="demo:SukiUIDemoViewModel"
                  BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
+                 CanMinimize="{Binding !WindowLocked}"
+                 CanMove="{Binding !WindowLocked}"
+                 CanResize="{Binding !WindowLocked}"
                  IsMenuVisible="False"
                  mc:Ignorable="d">
     <suki:SukiWindow.LogoContent>
@@ -22,8 +25,42 @@
                                Foreground="{DynamicResource SukiPrimaryColor}"
                                Kind="ToolboxOutline" />
     </suki:SukiWindow.LogoContent>
-    <suki:SukiSideMenu HeaderContentOverlapsToggleButton="True"
-                       ItemsSource="{Binding DemoPages}"
+
+    <suki:SukiWindow.MenuItems>
+        <MenuItem Header="Toggles">
+            <MenuItem Command="{Binding ToggleBaseThemeCommand}" Header="{Binding BaseTheme}">
+                <MenuItem.Icon>
+                    <avalonia:MaterialIcon Kind="Lightbulb" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding ToggleAnimationsCommand}" Header="Animations">
+                <MenuItem.Icon>
+                    <avalonia:MaterialIcon Kind="{Binding AnimationsEnabled, Converter={x:Static converters:BoolToIconConverters.Animation}}" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Command="{Binding ToggleWindowLockCommand}"
+                      Header="Window Lock"
+                      ToolTip.Tip="Toggles minimizing and resizing.">
+                <MenuItem.Icon>
+                    <avalonia:MaterialIcon Kind="{Binding WindowLocked, Converter={x:Static converters:BoolToIconConverters.WindowLock}}" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </MenuItem>
+        <MenuItem Header="Theme">
+            <MenuItem Click="MenuItem_OnClick"
+                      Header="Switch To..."
+                      ItemsSource="{Binding Themes}">
+                <MenuItem.DataTemplates>
+                    <DataTemplate DataType="{x:Type models:SukiColorTheme}">
+                        <TextBlock Foreground="{Binding PrimaryBrush}" Text="{Binding DisplayName}" />
+                    </DataTemplate>
+                </MenuItem.DataTemplates>
+            </MenuItem>
+            <MenuItem Header="-" />
+            <MenuItem Command="{Binding CreateCustomThemeCommand}" Header="Create Custom" />
+        </MenuItem>
+    </suki:SukiWindow.MenuItems>
+    <suki:SukiSideMenu ItemsSource="{Binding DemoPages}"
                        SelectedItem="{Binding ActivePage}">
         <suki:SukiSideMenu.ItemTemplate>
             <DataTemplate>

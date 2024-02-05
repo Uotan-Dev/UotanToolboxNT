@@ -31,7 +31,7 @@ public class SukiHost : ContentControl
     }
 
     public static readonly StyledProperty<Control> DialogContentProperty =
-        AvaloniaProperty.Register<SukiHost, Control>(nameof(DialogContent), defaultValue: new Grid());
+        AvaloniaProperty.Register<SukiHost, Control>(nameof(DialogContent));
 
     public Control DialogContent
     {
@@ -66,11 +66,10 @@ public class SukiHost : ContentControl
     public static void SetToastLimit(Control element, int value) =>
         element.SetValue(ToastLimitProperty, value);
 
-    public static readonly StyledProperty<AvaloniaList<SukiToast>> ToastsCollectionProperty =
-        AvaloniaProperty.Register<SukiHost, AvaloniaList<SukiToast>>(nameof(ToastsCollection),
-            defaultValue: new AvaloniaList<SukiToast>());
+    public static readonly StyledProperty<AvaloniaList<SukiToast>?> ToastsCollectionProperty =
+        AvaloniaProperty.Register<SukiHost, AvaloniaList<SukiToast>?>(nameof(ToastsCollection));
 
-    public AvaloniaList<SukiToast> ToastsCollection
+    public AvaloniaList<SukiToast>? ToastsCollection
     {
         get => GetValue(ToastsCollectionProperty);
         set => SetValue(ToastsCollectionProperty, value);
@@ -84,7 +83,7 @@ public class SukiHost : ContentControl
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
-        _instance = this;
+        _instance ??= this;
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -92,6 +91,7 @@ public class SukiHost : ContentControl
         base.OnApplyTemplate(e);
         if (VisualRoot is not Window window)
             throw new InvalidOperationException("SukiHost must be hosted inside a Window or SukiWindow");
+        ToastsCollection ??= new AvaloniaList<SukiToast>();
         _maxToasts = GetToastLimit(window);
         var toastLoc = GetToastLocation(window);
 
@@ -101,27 +101,6 @@ public class SukiHost : ContentControl
             toastLoc == ToastLocation.BottomLeft
                 ? HorizontalAlignment.Left
                 : HorizontalAlignment.Right;
-
-        /*  CompositionVisual compositionVisual =
-              ElementComposition.GetElementVisual(e.NameScope.Get<ItemsControl>("PART_ToastPresenter"));
-          Compositor compositor = compositionVisual.Compositor;
-
-          var animationGroup = compositor.CreateAnimationGroup();
-          Vector3KeyFrameAnimation offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
-          offsetAnimation.Target = "Offset";
-
-          offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
-          offsetAnimation.Duration = TimeSpan.FromMilliseconds(300);
-
-          ImplicitAnimationCollection implicitAnimationCollection = compositor.CreateImplicitAnimationCollection();
-          animationGroup.Add(offsetAnimation);
-          implicitAnimationCollection["Offset"] = animationGroup;
-          compositionVisual.ImplicitAnimations = implicitAnimationCollection; */
-
-        // Using implicit animation for the itemscontrol make the first appearance not visible - avalonia problem ?
-        // Showing a quick toast at startup to prevent problem even if it is dirty right now, hope it can be removed
-
-        // ShowInvisibleToast();
     }
 
     // TODO: Dialog API desperately needs to support a result or on-close callback.
@@ -156,6 +135,7 @@ public class SukiHost : ContentControl
             await Task.Delay(50);
         onClosed?.Invoke();
     }
+
 
     /// <summary>
     /// Attempts to close a dialog if one is shown.
@@ -243,32 +223,5 @@ public class SukiHost : ContentControl
         if (_instance is null)
             throw new InvalidOperationException("SukiHost must be active somewhere in the VisualTree");
         return _instance;
-    }
-
-    // Horrible dirty workaround for annoying implicit animation issue
-    internal static void ShowInvisibleToast()
-    {
-        var toast = new SukiToast();
-        toast.InitializeInvisible();
-        Dispatcher.UIThread.Invoke(() =>
-        {
-            toast.Animate(MarginProperty, new Thickness(), new Thickness(0, 50, 0, -50),
-                TimeSpan.FromMilliseconds(1));
-            Instance.ToastsCollection.Add(toast);
-        });
-    }
-
-    // Clearing up the horrible dirty workaround for annoying implicit animation issue
-    internal static async Task ClearInvisibleToast(SukiToast toast)
-    {
-        Dispatcher.UIThread.Invoke(() =>
-        {
-            toast.Animate(MarginProperty, new Thickness(), new Thickness(0, 50, 0, -50),
-                TimeSpan.FromMilliseconds(1));
-        });
-
-        await Task.Delay(1);
-
-        Dispatcher.UIThread.Invoke(() => Instance.ToastsCollection.Remove(toast));
     }
 }

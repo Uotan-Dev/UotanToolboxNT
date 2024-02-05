@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+     <Design.PreviewWith>
+        <Border Width="300"
+                Padding="20"
+                Background="{DynamicResource SukiBackground}">
+            <StackPanel>
+                <AutoCompleteBox></AutoCompleteBox>
+               
+
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+  <ControlTheme x:Key="{x:Type AutoCompleteBox}"
+                TargetType="AutoCompleteBox">
+       <Setter Property="BorderThickness" Value="1.2" />
+       <Setter Property="MinWidth" Value="100" />
+       <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
+       <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
+       <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
+    <Setter Property="Padding" Value="4" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Panel>
+          <TextBox Name="PART_TextBox"
+                   Padding="{TemplateBinding Padding}"
+                   Background="{TemplateBinding Background}"
+                   BorderBrush="{TemplateBinding BorderBrush}"
+                   BorderThickness="{TemplateBinding BorderThickness}"
+                   CornerRadius="{TemplateBinding CornerRadius}"
+                  
+                   DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
+                   Watermark="{TemplateBinding Watermark}" />
+
+          <Popup Name="PART_Popup"
+                 MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                 IsLightDismissEnabled="True"
+                 PlacementTarget="{TemplateBinding}">
+            <Border Margin="0,-15,0,0" Padding="5,10,5,5">
+              <Grid>
+            <Border Margin="0,10,0,0"
+                    Background="{DynamicResource SukiCardBackground}"
+                    BorderBrush="{DynamicResource SukiControlBorderBrush}"
+                    BorderThickness="1,1,1,1"
+                    BoxShadow="{DynamicResource SukiPopupShadow}"
+                    CornerRadius="{DynamicResource SmallCornerRadius}">
+           
+              <ListBox Name="PART_SelectingItemsControl"
+                       Background="{TemplateBinding Background}"
+                       BorderThickness="0"
+                       Foreground="{TemplateBinding Foreground}"
+                       ItemTemplate="{TemplateBinding ItemTemplate}"
+                       ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto" />
+            </Border>
+                </Grid>
+              </Border>
+          </Popup>
+        </Panel>
+      </ControlTemplate>
+    </Setter>
+  </ControlTheme>
+</ResourceDictionary>

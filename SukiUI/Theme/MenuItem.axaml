@@ -59,7 +59,7 @@
                                                           Converter={StaticResource KeyGestureConverter}}" />
                         <Popup Name="PART_Popup"
                                ClipToBounds="True"
-                               HorizontalOffset="-5"
+                               HorizontalOffset="-25"
                                IsLightDismissEnabled="False"
                                IsOpen="{TemplateBinding IsSubMenuOpen,
                                                         Mode=TwoWay}"
@@ -68,7 +68,7 @@
                                Placement="RightEdgeAlignedTop"
                                VerticalOffset="-1">
                             <LayoutTransformControl Name="PART_LayoutTransform">
-                                <Grid Margin="-4,-8,0,0">
+                                <Grid Margin="0,-8,0,0">
                                     <Border BoxShadow="{DynamicResource SukiPopupShadow}" Margin="16,8,8,8"  CornerRadius="6" ></Border>
 
                                 <Border Name="PART_Border" Margin="16,8,8,8"

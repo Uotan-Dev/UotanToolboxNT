@@ -1,12 +1,30 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Width="400" Height="400">
+            <Grid>
+                <TabControl TabStripPlacement="Bottom" Margin="0,0,0,200">
+                    <TabItem Header="Arch">
+                        <Border Height="100" Background="AntiqueWhite">
+                            <TextBlock FontSize="20"
+                                       Foreground="Black"
+                                       Text="Content" />
+                        </Border>
+                    </TabItem>
+                    <TabItem Header="Leaf">
+                        <Border Height="100" Background="Green" />
+                    </TabItem>
+                    <TabItem Header="Disabled" IsEnabled="False" />
+                </TabControl>
+            </Grid>
+        </Border>
+    </Design.PreviewWith>
     <ControlTheme x:Key="SukiTabItemStyle" TargetType="TabItem">
         <Setter Property="FontSize" Value="50" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Padding" Value="{DynamicResource TabItemHeaderMargin}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="MinHeight" Value="{DynamicResource TabItemMinHeight}" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Bottom" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="PART_LayoutRoot"
@@ -16,21 +34,22 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <DockPanel>
-                        <ContentPresenter Name="PART_HeaderPresenter"
+                    <StackPanel >
+                       
+                        <ContentPresenter Name="PART_HeaderPresenter" 
                                           Padding="0,5"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           HorizontalContentAlignment="Center"
                                           Content="{TemplateBinding Header}"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                          DockPanel.Dock="Top"
+                                          
                                           TextBlock.FontFamily="{TemplateBinding FontFamily}"
                                           TextBlock.FontSize="{TemplateBinding FontSize}"
                                           TextBlock.FontWeight="{TemplateBinding FontWeight}" />
                         <Border Name="PART_Underline"
                                 Height="3"
-                                Margin="10,-15,10,0"
+                                Margin="10,0,10,0" 
                                 Background="{DynamicResource SukiPrimaryColor}"
                                 CornerRadius="55"
                                 Opacity="0">
@@ -40,7 +59,7 @@
                                 </Transitions>
                             </Border.Transitions>
                         </Border>
-                    </DockPanel>
+                    </StackPanel>
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -78,7 +97,7 @@
         <Style Selector="^[TabStripPlacement=Bottom]">
             <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
                 <Setter Property="DockPanel.Dock" Value="Bottom" />
-                <Setter Property="Margin" Value="0,-15,0,0" />
+                <Setter Property="Margin" Value="0,0,0,0" />
             </Style>
             <Style Selector="^ Border#PART_Underline">
                 <Setter Property="Margin" Value="10,0,10,0" />

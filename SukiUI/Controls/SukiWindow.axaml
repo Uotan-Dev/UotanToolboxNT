@@ -11,15 +11,11 @@
             <ControlTemplate>
                 <Grid>
                     <Grid IsHitTestVisible="True">
-                        <VisualLayerManager IsHitTestVisible="True">
+                        <VisualLayerManager Name="PART_VisualLayerManager" IsHitTestVisible="True">
                             <suki:SukiHost>
                                 <Grid x:Name="PART_Root">
-
                                     <suki:SukiBackground Name="PART_Background" IsHitTestVisible="False" />
-
-
                                     <DockPanel LastChildFill="True">
-
                                         <Grid DockPanel.Dock="Top">
                                             <Grid.Styles>
                                                 <Style Selector="suki|SukiWindow[ShowBottomBorder=True] /template/ Border#PART_BottomBorder">
@@ -34,7 +30,6 @@
                                                             CornerRadius="0" />
                                             <StackPanel>
                                                 <Grid>
-
                                                     <DockPanel Margin="12,9" LastChildFill="True">
                                                         <StackPanel VerticalAlignment="Center"
                                                                     DockPanel.Dock="Right"
@@ -52,26 +47,25 @@
                                                             </Button>
                                                             <Button Name="PART_MaximizeButton"
                                                                     Classes="Basic Rounded WindowControlsButton"
-                                                                    IsVisible="{TemplateBinding IsMaximizeButtonEnabled}">
+                                                                    IsVisible="{TemplateBinding CanResize}">
                                                                 <PathIcon x:Name="MaximizeIcon" Data="{x:Static icons:Icons.WindowMaximize}" />
                                                             </Button>
                                                             <Button Name="PART_MinimizeButton"
                                                                     VerticalContentAlignment="Bottom"
                                                                     Classes="Basic Rounded WindowControlsButton"
-                                                                    IsVisible="{TemplateBinding IsMinimizeButtonEnabled}">
+                                                                    IsVisible="{TemplateBinding CanMinimize}">
                                                                 <PathIcon Margin="0,0,0,4"
                                                                           VerticalAlignment="Bottom"
                                                                           Data="{x:Static icons:Icons.WindowMinimize}" />
                                                             </Button>
                                                         </StackPanel>
-
                                                         <StackPanel VerticalAlignment="Center"
                                                                     IsHitTestVisible="False"
                                                                     Orientation="Horizontal"
                                                                     Spacing="10">
-                                                            <ContentControl HorizontalAlignment="Left"
-                                                                            Content="{TemplateBinding LogoContent}"
-                                                                            IsHitTestVisible="False" />
+                                                            <ContentPresenter HorizontalAlignment="Left"
+                                                                              Content="{TemplateBinding LogoContent}"
+                                                                              IsHitTestVisible="False" />
                                                             <TextBlock VerticalAlignment="Center"
                                                                        FontSize="{TemplateBinding TitleFontSize}"
                                                                        FontWeight="{TemplateBinding TitleFontWeight}"
@@ -79,13 +73,11 @@
                                                                        Text="{TemplateBinding Title}" />
                                                         </StackPanel>
                                                     </DockPanel>
-
                                                 </Grid>
                                                 <Menu IsEnabled="{TemplateBinding IsMenuVisible}" ItemsSource="{TemplateBinding MenuItems}" />
                                                 <Border Name="PART_BottomBorder" BorderBrush="{DynamicResource SukiBorderBrush}" />
                                             </StackPanel>
                                         </Grid>
-
                                         <ContentPresenter x:Name="PART_ContentPresenter"
                                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -104,7 +96,10 @@
         <Style Selector="^[WindowState=Maximized] /template/ PathIcon#MaximizeIcon">
             <Setter Property="Data" Value="{x:Static icons:Icons.WindowRestore}" />
         </Style>
-
+        <!--  Necessary to offset Windows' behaviour with windows that have no system borders.  -->
+        <Style Selector="^[WindowState=Maximized] /template/ VisualLayerManager#PART_VisualLayerManager">
+            <Setter Property="Padding" Value="{OnPlatform '0', Windows='8', x:TypeArguments=Thickness}" />
+        </Style>
         <Style Selector="^[WindowState=Normal] /template/ PathIcon#MaximizeIcon">
             <Setter Property="Data" Value="{x:Static icons:Icons.WindowMaximize}" />
         </Style>

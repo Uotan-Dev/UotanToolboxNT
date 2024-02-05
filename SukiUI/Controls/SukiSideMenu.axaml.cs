@@ -4,6 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Threading;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -23,14 +24,7 @@ public class SukiSideMenu : SelectingItemsControl
         set => SetValue(IsMenuExpandedProperty, value);
     }
 
-    public static readonly StyledProperty<bool> HeaderContentOverlapsToggleButtonProperty =
-        AvaloniaProperty.Register<SukiSideMenu, bool>(nameof(HeaderContentOverlapsToggleButton), defaultValue: false);
-
-    public bool HeaderContentOverlapsToggleButton
-    {
-        get => GetValue(HeaderContentOverlapsToggleButtonProperty);
-        set => SetValue(HeaderContentOverlapsToggleButtonProperty, value);
-    }
+ 
 
     public static readonly StyledProperty<double> HeaderMinHeightProperty =
         AvaloniaProperty.Register<SukiSideMenu, double>(nameof(HeaderMinHeight));
@@ -59,7 +53,7 @@ public class SukiSideMenu : SelectingItemsControl
         set => SetValue(FooterContentProperty, value);
     }
 
-    private bool IsSpacerVisible => HeaderContentOverlapsToggleButton && !IsMenuExpanded;
+    private bool IsSpacerVisible => !IsMenuExpanded;
 
     private IDisposable? _subscriptionDisposable;
     private IDisposable? _contentDisposable;
@@ -69,6 +63,20 @@ public class SukiSideMenu : SelectingItemsControl
         SelectionMode = SelectionMode.Single | SelectionMode.AlwaysSelected;
     }
 
+
+    private void MenuExpandedClicked()
+    {
+        IsMenuExpanded = !IsMenuExpanded;
+        
+        if(_SideMenuItems.Any())
+            foreach (SukiSideMenuItem item in _SideMenuItems)
+                item.IsTopMenuExpanded = IsMenuExpanded;
+        
+        else if(Items.First() is SukiSideMenuItem)
+            foreach (SukiSideMenuItem item in Items)
+                item.IsTopMenuExpanded = IsMenuExpanded;
+    }
+    
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -79,19 +87,17 @@ public class SukiSideMenu : SelectingItemsControl
         }
 
         e.NameScope.Get<Button>("PART_SidebarToggleButton").Click += (_, _) =>
-            IsMenuExpanded = !IsMenuExpanded;
-        e.NameScope.Get<Button>("PART_SidebarToggleButtonOverlay").Click += (_, _) =>
-            IsMenuExpanded = !IsMenuExpanded;
+            MenuExpandedClicked();
+      
 
         if (e.NameScope.Get<Grid>("PART_Spacer") is { } spacer)
         {
             spacer.IsVisible = IsSpacerVisible;
             var menuObservable = this.GetObservable(IsMenuExpandedProperty)
                 .Select(_ => Unit.Default);
-            var headerContentObservable = this.GetObservable(HeaderContentOverlapsToggleButtonProperty)
-                .Select(_ => Unit.Default);
+           
             _subscriptionDisposable = menuObservable
-                .Merge(headerContentObservable)
+               
                 .ObserveOn(new AvaloniaSynchronizationContext())
                 .Subscribe(_ => spacer.IsVisible = IsSpacerVisible);
         }
@@ -110,6 +116,7 @@ public class SukiSideMenu : SelectingItemsControl
                 })
                 .Subscribe();
         }
+
     }
 
     public bool UpdateSelectionFromPointerEvent(Control source)
@@ -119,10 +126,17 @@ public class SukiSideMenu : SelectingItemsControl
 
     protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
     {
-        if (ItemTemplate != null && ItemTemplate.Match(item) && ItemTemplate.Build(item) is SukiSideMenuItem sukiMenuItem)
-            return sukiMenuItem;
-        return new SukiSideMenuItem();
+        SukiSideMenuItem menuItem =
+            (ItemTemplate != null && ItemTemplate.Match(item) &&
+             ItemTemplate.Build(item) is SukiSideMenuItem sukiMenuItem)
+                ? sukiMenuItem
+                : new SukiSideMenuItem();
+        
+        _SideMenuItems.Add(menuItem);
+        return menuItem;
     }
+
+    private List<SukiSideMenuItem> _SideMenuItems = new List<SukiSideMenuItem>();
 
     protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
     {

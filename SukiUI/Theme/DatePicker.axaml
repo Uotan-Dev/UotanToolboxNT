@@ -246,10 +246,10 @@
                                     <PathIcon Width="13"
                                               Height="13"
                                               Data="{x:Static icons:Icons.Check}"
-                                              Foreground="White" />
+                                              Foreground="{DynamicResource SukiText}" />
                                     <TextBlock Margin="8,0,0,0"
                                                FontWeight="DemiBold"
-                                               Foreground="White"
+                                               Foreground="{DynamicResource SukiText}"
                                                Text="Apply" />
                                 </StackPanel>
                             </Button>

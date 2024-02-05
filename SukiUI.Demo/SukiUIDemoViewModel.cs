@@ -23,6 +23,7 @@ public partial class SukiUIDemoViewModel : ObservableObject
     [ObservableProperty] private ThemeVariant _baseTheme;
     [ObservableProperty] private bool _animationsEnabled;
     [ObservableProperty] private DemoPageBase? _activePage;
+    [ObservableProperty] private bool _windowLocked = false;
 
     private readonly SukiTheme _theme;
 
@@ -68,11 +69,18 @@ public partial class SukiUIDemoViewModel : ObservableObject
         _theme.ChangeColorTheme(theme);
 
     [RelayCommand]
-    private void CreateCustomTheme()
-    {
+    private void CreateCustomTheme() => 
         SukiHost.ShowDialog(new CustomThemeDialogViewModel(_theme), allowBackgroundClose: true);
-    }
 
+    [RelayCommand]
+    private void ToggleWindowLock()
+    {
+        WindowLocked = !WindowLocked;
+        SukiHost.ShowToast(
+            $"Window {(WindowLocked ? "Locked" : "Unlocked")}", 
+            $"Window has been {(WindowLocked ? "locked" : "unlocked")}.");
+    }
+    
     [RelayCommand]
     private void OpenURL(string url) => UrlUtilities.OpenURL(url);
 }

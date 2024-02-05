@@ -1,16 +1,46 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:content="clr-namespace:SukiUI.Content"
+        xmlns:converters="clr-namespace:SukiUI.Converters">
     <Design.PreviewWith>
         <StackPanel Width="200">
             <Border Padding="20">
-                <ListBox Width="50" Height="100">
-                    <ListBoxItem>isse</ListBoxItem>
-                    <ListBoxItem>isse</ListBoxItem>
-                    <ListBoxItem>isse</ListBoxItem>
-                    <ListBoxItem>isse</ListBoxItem>
-                    <ListBoxItem>isse</ListBoxItem>
-                    <ListBoxItem>isse</ListBoxItem>
-                    <ListBoxItem>isse</ListBoxItem>
-                </ListBox>
+                <ScrollViewer Width="200"
+                              Height="100"
+                              Classes="Stack">
+                    <StackPanel>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                        <ListBoxItem>isse</ListBoxItem>
+                    </StackPanel>
+                </ScrollViewer>
             </Border>
 
             <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">
@@ -83,6 +113,60 @@
 
                     </Grid>
                 </Border>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="ScrollBar.Stack:vertical">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Width" Value="NaN" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid HorizontalAlignment="Stretch" RowDefinitions="Auto,*,Auto">
+                    <RepeatButton Name="PART_PageUpButton"
+                                  Height="60"
+                                  HorizontalAlignment="Stretch"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  Focusable="False">
+                        <RepeatButton.IsVisible>
+                            <MultiBinding Converter="{x:Static converters:SideMenuScrollerToVisibilityBool.Up}">
+                                <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}" />
+                                <Binding Path="Minimum" RelativeSource="{RelativeSource TemplatedParent}" />
+                            </MultiBinding>
+                        </RepeatButton.IsVisible>
+                        <PathIcon Width="10"
+                                  Height="25"
+                                  Data="{x:Static content:Icons.ChevronUp}"
+                                  Foreground="{DynamicResource SukiText}">
+                            <PathIcon.RenderTransform>
+                                <ScaleTransform ScaleX="1" />
+                            </PathIcon.RenderTransform>
+                        </PathIcon>
+                    </RepeatButton>
+                    <RepeatButton Name="PART_PageDownButton"
+                                  Grid.Row="2"
+                                  Height="60"
+                                  HorizontalAlignment="Stretch"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  Focusable="False">
+                        <RepeatButton.IsVisible>
+                            <MultiBinding Converter="{x:Static converters:SideMenuScrollerToVisibilityBool.Down}">
+                                <Binding Path="Value" RelativeSource="{RelativeSource TemplatedParent}" />
+                                <Binding Path="Maximum" RelativeSource="{RelativeSource TemplatedParent}" />
+                            </MultiBinding>
+                        </RepeatButton.IsVisible>
+                        <PathIcon Width="10"
+                                  Height="25"
+                                  Data="{x:Static content:Icons.ChevronDown}"
+                                  Foreground="{DynamicResource SukiText}">
+                            <PathIcon.RenderTransform>
+                                <ScaleTransform ScaleX="1" />
+                            </PathIcon.RenderTransform>
+                        </PathIcon>
+                    </RepeatButton>
+                </Grid>
             </ControlTemplate>
         </Setter>
     </Style>

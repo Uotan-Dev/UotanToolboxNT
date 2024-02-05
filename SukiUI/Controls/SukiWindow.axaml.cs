@@ -3,12 +3,12 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
-using Avalonia.Styling;
 using Avalonia.Threading;
 using System;
-using System.Collections.Generic;
+using System.Reactive;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices;
+using Avalonia.Collections;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 
 namespace SukiUI.Controls;
@@ -36,11 +36,10 @@ public class SukiWindow : Window
         set => SetValue(TitleFontWeightProperty, value);
     }
 
-    public static readonly StyledProperty<Control> LogoContentProperty =
-        AvaloniaProperty.Register<SukiWindow, Control>(nameof(LogoContent),
-            defaultValue: new Border());
+    public static readonly StyledProperty<Control?> LogoContentProperty =
+        AvaloniaProperty.Register<SukiWindow, Control?>(nameof(LogoContent));
 
-    public Control LogoContent
+    public Control? LogoContent
     {
         get => GetValue(LogoContentProperty);
         set => SetValue(LogoContentProperty, value);
@@ -55,26 +54,6 @@ public class SukiWindow : Window
         set => SetValue(ShowBottomBorderProperty, value);
     }
 
-    public static readonly StyledProperty<bool> IsMinimizeButtonEnabledProperty =
-        AvaloniaProperty.Register<SukiWindow, bool>(nameof(IsMinimizeButtonEnabled),
-            defaultValue: true);
-
-    public bool IsMinimizeButtonEnabled
-    {
-        get => GetValue(IsMinimizeButtonEnabledProperty);
-        set => SetValue(IsMinimizeButtonEnabledProperty, value);
-    }
-
-    public static readonly StyledProperty<bool> IsMaximizeButtonEnabledProperty =
-        AvaloniaProperty.Register<SukiWindow, bool>(nameof(IsMaximizeButtonEnabled),
-            defaultValue: true);
-
-    public bool IsMaximizeButtonEnabled
-    {
-        get => GetValue(IsMaximizeButtonEnabledProperty);
-        set => SetValue(IsMaximizeButtonEnabledProperty, value);
-    }
-
     public static readonly StyledProperty<bool> IsMenuVisibleProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(IsMenuVisible), defaultValue: false);
 
@@ -84,16 +63,15 @@ public class SukiWindow : Window
         set => SetValue(IsMenuVisibleProperty, value);
     }
 
-    public static readonly StyledProperty<List<MenuItem>> MenuItemsProperty =
-        AvaloniaProperty.Register<SukiWindow, List<MenuItem>>(nameof(MenuItems),
-            defaultValue: new List<MenuItem>());
+    public static readonly StyledProperty<AvaloniaList<MenuItem>?> MenuItemsProperty =
+        AvaloniaProperty.Register<SukiWindow, AvaloniaList<MenuItem>?>(nameof(MenuItems));
 
-    public List<MenuItem> MenuItems
+    public AvaloniaList<MenuItem>? MenuItems
     {
         get => GetValue(MenuItemsProperty);
         set => SetValue(MenuItemsProperty, value);
     }
-
+    
     public static readonly StyledProperty<bool> BackgroundAnimationEnabledProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(BackgroundAnimationEnabled), defaultValue: false);
 
@@ -103,31 +81,60 @@ public class SukiWindow : Window
         set => SetValue(BackgroundAnimationEnabledProperty, value);
     }
 
-    private IDisposable? _subscribtionDisposables;
+    public static readonly StyledProperty<bool> CanMinimizeProperty = 
+        AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMinimize), defaultValue: true);
+
+    public bool CanMinimize
+    {
+        get => GetValue(CanMinimizeProperty);
+        set => SetValue(CanMinimizeProperty, value);
+    }
+
+    public static readonly StyledProperty<bool> CanMoveProperty = 
+        AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMove), defaultValue: true);
+
+    public bool CanMove
+    {
+        get => GetValue(CanMoveProperty);
+        set => SetValue(CanMoveProperty, value);
+    }
+
+    public SukiWindow()
+    {
+        MenuItems = new();
+    }
+    
+    private IDisposable? _subscriptionDisposables;
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop) 
+            return;
+        if (desktop.MainWindow is SukiWindow s && s != this)
+        {
+            if (Icon == null) Icon = s.Icon;
+            // This would be nice to do, but obviously LogoContent is a control and you can't attach it twice.
+            // if (LogoContent is null) LogoContent = s.LogoContent;
+        }
+    }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
 
-        // Apply a style only on windows to offset oversizing.
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            var maxStyle = new Style(
-                x => x.OfType<SukiWindow>()
-                    .PropertyEquals(WindowStateProperty, WindowState.Maximized)
-                    .Template()
-                    .OfType<VisualLayerManager>());
-            maxStyle.Setters.Add(new Setter(PaddingProperty, new Thickness(8)));
-            Application.Current!.Styles.Add(maxStyle);
-        }
-
         // Create handlers for buttons
         if (e.NameScope.Find<Button>("PART_MaximizeButton") is { } maximize)
+        {
             maximize.Click += (_, _) =>
+            {
+                if (!CanResize) return;
                 WindowState = WindowState == WindowState.Maximized
                     ? WindowState.Normal
                     : WindowState.Maximized;
-
+            };
+        }
+        
         if (e.NameScope.Find<Button>("PART_MinimizeButton") is { } minimize)
             minimize.Click += (_, _) => WindowState = WindowState.Minimized;
 
@@ -140,29 +147,31 @@ public class SukiWindow : Window
         if (e.NameScope.Find<SukiBackground>("PART_Background") is { } background)
         {
             background.SetAnimationEnabled(BackgroundAnimationEnabled);
-            _subscribtionDisposables = this.GetObservable(BackgroundAnimationEnabledProperty)
+            var bgObs = this.GetObservable(BackgroundAnimationEnabledProperty)
                 .Do(enabled => background.SetAnimationEnabled(enabled))
-                .ObserveOn(new AvaloniaSynchronizationContext())
-                .Subscribe();
+                .Select(_ => Unit.Default)
+                .ObserveOn(new AvaloniaSynchronizationContext());
+
+            _subscriptionDisposables = bgObs.Subscribe();
         }
     }
 
     private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         base.OnPointerPressed(e);
-        if (e.ClickCount >= 2)
+        if (e.ClickCount >= 2 && CanResize)
         {
             WindowState = WindowState == WindowState.Maximized
                 ? WindowState.Normal
                 : WindowState.Maximized;
         }
-        else
+        else if (CanMove)
             BeginMoveDrag(e);
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)
     {
         base.OnUnloaded(e);
-        _subscribtionDisposables?.Dispose();
+        _subscriptionDisposables?.Dispose();
     }
 }

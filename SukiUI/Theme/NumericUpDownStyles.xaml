@@ -15,8 +15,8 @@
         <Setter Property="Padding" Value="4" />
         <Setter Property="Template">
             <ControlTemplate>
-                <ButtonSpinner Name="PART_Spinner"
-                               Margin="5,1"
+                <ButtonSpinner Name="PART_Spinner" 
+                               Margin="5,1" 
                                HorizontalContentAlignment="Stretch"
                                VerticalContentAlignment="Stretch"
                                AllowSpin="{TemplateBinding AllowSpin}"
@@ -26,23 +26,30 @@
                                ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}"
                                CornerRadius="{TemplateBinding CornerRadius}"
                                ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}">
-                    <TextBox Name="PART_TextBox"
-                             MinWidth="20"
-                             Margin="0"
-                             Padding="{TemplateBinding Padding}"
-                             HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                             VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                             theme:TextBoxExtensions.AddDeleteButton="False"
-                             AcceptsReturn="False"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             Classes="NoShadow"
-                             CornerRadius="0"
-                             DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
-                             IsReadOnly="{TemplateBinding IsReadOnly}"
-                             Text="{TemplateBinding Text}"
-                             TextWrapping="NoWrap"
-                             Watermark="{TemplateBinding Watermark}" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBox Name="PART_TextBox"
+                                 MinWidth="20"
+                                 Margin="-5,-5,-5,-6"
+                                 Padding="{TemplateBinding Padding}"
+                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                 theme:TextBoxExtensions.AddDeleteButton="False"
+                                 AcceptsReturn="False"
+                                 Background="Transparent" 
+                                 BorderThickness="0"
+                                 Classes="NoShadow"
+                                 CornerRadius="0"
+                                 DataValidationErrors.Errors="{TemplateBinding (DataValidationErrors.Errors)}"
+                                 IsReadOnly="{TemplateBinding IsReadOnly}"
+                                 Text="{TemplateBinding Text}"
+                                 TextWrapping="NoWrap"
+                                 Watermark="{TemplateBinding Watermark}" />
+                        <TextBlock VerticalAlignment="Center" Margin="0,1,9,0"
+                                   FontSize="13" Grid.Column="1"
+                                   Foreground="{DynamicResource SukiLowText}"
+                                   Text="{TemplateBinding theme:NumericUpDownExtensions.Unit}" />
+                    </Grid>
+                   
                 </ButtonSpinner>
             </ControlTemplate>
         </Setter>

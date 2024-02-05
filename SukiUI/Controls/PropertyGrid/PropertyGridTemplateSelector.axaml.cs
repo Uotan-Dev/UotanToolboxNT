@@ -93,7 +93,7 @@ public partial class PropertyGridTemplateSelector : ResourceDictionary, IDataTem
 
             var window = new PropertyGridWindow()
             {
-                DataContext = childViewModel.Value
+                DataContext = childViewModel,
             };
 
             await window.ShowDialog(parentWindow);

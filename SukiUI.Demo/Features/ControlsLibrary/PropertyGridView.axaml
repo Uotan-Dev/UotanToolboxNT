@@ -13,7 +13,7 @@
              mc:Ignorable="d">
 
     <WrapPanel Classes="PageContainer" Orientation="Horizontal">
-        <controls:GlassCard Width="500" >
+        <controls:GlassCard Width="500">
             <ScrollViewer>
                 <controls:PropertyGrid Item="{Binding Form}">
                     <controls:PropertyGrid.DataTemplates>
@@ -21,13 +21,13 @@
                             replace the PropertyGridTemplateSelector with your own type or subclass it,
                             if you want to customize the datatemplates being used
                         -->
-                        <controls:PropertyGridTemplateSelector  />
+                        <controls:PropertyGridTemplateSelector UseSukiHost="False" />
                     </controls:PropertyGrid.DataTemplates>
                 </controls:PropertyGrid>
             </ScrollViewer>
         </controls:GlassCard>
 
-        <controls:GlassCard Width="400"  >
+        <controls:GlassCard Width="400">
             <controls:GroupBox Header="Form Output">
                 <ScrollViewer>
                     <ScrollViewer.Styles>

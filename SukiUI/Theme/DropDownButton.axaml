@@ -2,13 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:content="clr-namespace:SukiUI.Content">
     <ControlTheme x:Key="SukiDropDownButtonStyle" TargetType="DropDownButton">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
         <Setter Property="BorderThickness" Value="1.2" />
-        <Setter Property="Foreground" Value="{TemplateBinding Foreground}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiMediumBorderBrush}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
+        <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="4" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Padding" Value="20,8" />
+      <Setter Property="FontWeight" Value="DemiBold"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -18,6 +19,11 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="True"
                             CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="BorderBrush" Duration="0:0:0.25"></BrushTransition>
+                            </Transitions>
+                        </Border.Transitions>
                         <Grid Name="InnerGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -26,15 +32,24 @@
 
                             <ContentPresenter Name="PART_ContentPresenter"
                                               Grid.Column="0"
+                                              FontFamily="{StaticResource QuicksandFont}"
+                                              FontWeight="{TemplateBinding FontWeight}"
                                               Padding="{TemplateBinding Padding}"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              RecognizesAccessKey="True" />
+                                              RecognizesAccessKey="True" >
+                                <ContentPresenter.Transitions>
+                                    <Transitions>
+                                        <BrushTransition Property="Foreground" Duration="0:0:0.25"></BrushTransition>
+                                        <BrushTransition Property="BorderBrush" Duration="0:0:0.25"></BrushTransition>
+                                    </Transitions>
+                                </ContentPresenter.Transitions>
+                            </ContentPresenter>
 
                             <PathIcon Grid.Column="1"
-                                      Width="12"
+                                      Width="12" Name="PART_Icon"
                                       Height="12"
                                       Margin="0,0,10,0"
                                       HorizontalAlignment="Right"
@@ -42,7 +57,13 @@
                                       Data="{x:Static content:Icons.ChevronDown}"
                                       Foreground="{DynamicResource SukiText}"
                                       IsHitTestVisible="False"
-                                      UseLayoutRounding="False" />
+                                      UseLayoutRounding="False" >
+                                <PathIcon.Transitions>
+                                    <Transitions>
+                                        <BrushTransition Property="Foreground" Duration="0:0:0.25"></BrushTransition>
+                                    </Transitions>
+                                </PathIcon.Transitions>
+                            </PathIcon>
 
                         </Grid>
                     </Border>
@@ -50,14 +71,40 @@
             </Setter.Value>
         </Setter>
 
-        <Style Selector="^:pointerover /template/ Border#RootBorder">
-            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
-        </Style>
+       
+        
+        <Style Selector="^:pointerover">
+            <Style Selector="^ /template/ TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
+            <Style Selector="^ /template/ ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
 
-        <Style Selector="^:pressed  /template/ Border#RootBorder">
-            <Setter Property="Background" Value="{DynamicResource ThemeControlHighBrush}" />
+            <Style Selector="^ /template/ Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
+            
+            <Style Selector="^ /template/ PathIcon#PART_Icon">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
         </Style>
-
+        <Style Selector="^:pressed">
+            <Style Selector="^ /template/ TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
+            <Style Selector="^ /template/ Border">
+                <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="0.97" ScaleY="0.97" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style Selector="^ /template/ ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
+        </Style>
         <Style Selector="^:disabled">
             <Setter Property="Opacity" Value="{DynamicResource ThemeDisabledOpacity}" />
         </Style>

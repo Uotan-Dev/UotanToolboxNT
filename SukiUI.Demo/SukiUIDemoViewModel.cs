@@ -3,6 +3,7 @@ using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SukiUI.Controls;
+using SukiUI.Demo.Common;
 using SukiUI.Demo.Features;
 using SukiUI.Demo.Features.CustomTheme;
 using SukiUI.Demo.Services;
@@ -25,10 +26,14 @@ public partial class SukiUIDemoViewModel : ObservableObject
     [ObservableProperty] private DemoPageBase? _activePage;
     [ObservableProperty] private bool _windowLocked = false;
 
+    [ObservableProperty]
+    private string _status, _codeName, _bLStatus, _vABStatus;
+
     private readonly SukiTheme _theme;
 
     public SukiUIDemoViewModel(IEnumerable<DemoPageBase> demoPages, PageNavigationService nav)
     {
+        Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         DemoPages = new AvaloniaList<DemoPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theme = SukiTheme.GetInstance();
         nav.NavigationRequested += t =>
@@ -48,6 +53,7 @@ public partial class SukiUIDemoViewModel : ObservableObject
             await SukiHost.ShowToast("Successfully Changed Color", $"Changed Color To {theme.DisplayName}.");
         _theme.OnBackgroundAnimationChanged +=
             value => AnimationsEnabled = value;
+        GlobalData.SukiUIDemoViewModelInstance = this;
     }
 
     [RelayCommand]

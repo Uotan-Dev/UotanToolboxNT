@@ -14,4 +14,10 @@ namespace SukiUI.Demo.Common
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
     }
+
+    public static class GlobalData
+    {
+        public static SukiUIDemoViewModel SukiUIDemoViewModelInstance { get; set; }
+    }
+
 }

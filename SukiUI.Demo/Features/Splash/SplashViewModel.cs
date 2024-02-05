@@ -13,6 +13,7 @@ using System.Linq;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
 namespace SukiUI.Demo.Features.Splash;
+using SukiUI.Demo;
 
 public partial class SplashViewModel : DemoPageBase
 {
@@ -58,6 +59,13 @@ public partial class SplashViewModel : DemoPageBase
         DevicesList = false;
     }
 
+    public IAvaloniaReadOnlyList<DemoPageBase> DemoPages { get; }
+
+    [ObservableProperty] private bool _animationsEnabled;
+    [ObservableProperty] private DemoPageBase? _activePage;
+    [ObservableProperty] private bool _windowLocked = false;
+
+
     [RelayCommand]
     public async Task Connect()
     {
@@ -65,11 +73,16 @@ public partial class SplashViewModel : DemoPageBase
         IsConnected = true;
         if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
         {
+            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
             Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
             Status = DevicesInfo["Status"];
+            sukiViewModel.Status = DevicesInfo["Status"];
             BLStatus = DevicesInfo["BLStatus"];
+            sukiViewModel.BLStatus = DevicesInfo["BLStatus"];
             VABStatus = DevicesInfo["VABStatus"];
+            sukiViewModel.VABStatus = DevicesInfo["VABStatus"];
             CodeName = DevicesInfo["CodeName"];
+            sukiViewModel.CodeName = DevicesInfo["CodeName"];
             VNDKVersion = DevicesInfo["VNDKVersion"];
             CPUCode = DevicesInfo["CPUCode"];
             PowerOnTime = DevicesInfo["PowerOnTime"];

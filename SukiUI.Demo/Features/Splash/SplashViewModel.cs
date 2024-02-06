@@ -18,9 +18,12 @@ using SukiUI.Demo;
 public partial class SplashViewModel : DemoPageBase
 {
     [ObservableProperty]
-    private string _progressDisk, _memLevel, _status, _bLStatus, _vABStatus, _codeName, _vNDKVersion, _cPUCode, _powerOnTime,
-        _deviceBrand, _deviceModel, _androidSDK, _cPUABI, _displayHW, _density, _boardID, _platform, _compile, _kernel, _selectedSimpleContent,
-        _diskType, _batteryLevel, _batteryInfo, _useMem, _diskInfo;
+    private string _progressDisk = "--", _memLevel = "--", _status = "--", _bLStatus = "--",
+    _vABStatus = "--", _codeName = "--", _vNDKVersion = "--", _cPUCode = "--",
+    _powerOnTime = "--", _deviceBrand = "--", _deviceModel = "--", _androidSDK = "--",
+    _cPUABI = "--", _displayHW = "--", _density = "--", _boardID = "--", _platform = "--",
+    _compile = "--", _kernel = "--", _selectedSimpleContent = "--", _diskType = "--",
+    _batteryLevel = "--", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
     [ObservableProperty] private bool _isConnected;
     [ObservableProperty] private bool _devicesList;
     [ObservableProperty] private AvaloniaList<string> _simpleContent;

@@ -205,10 +205,10 @@ namespace SukiUI.Demo.Common
                 kernel = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell uname -r"));
                 try
                 {
-                    string ptime = await CallExternalProgram.ADB($"-s {devicename} shell uptime -s");
-                    DateTime givenDateTime = DateTime.Parse(ptime);
-                    TimeSpan timeDifference = DateTime.Now - givenDateTime;
-                    powerontime = $"{timeDifference.Days}天{timeDifference.Hours}时{timeDifference.Minutes}分{timeDifference.Seconds}秒";
+                    string ptime = await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/uptime");
+                    int intptime = int.Parse(ptime.Split('.')[0].Trim());
+                    TimeSpan timeSpan = TimeSpan.FromSeconds(intptime);
+                    powerontime = $"{timeSpan.Days}天{timeSpan.Hours}时{timeSpan.Minutes}分{timeSpan.Seconds}秒";
                 }
                 catch
                 {

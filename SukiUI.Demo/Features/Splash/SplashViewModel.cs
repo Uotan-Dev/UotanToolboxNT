@@ -23,7 +23,7 @@ public partial class SplashViewModel : DemoPageBase
     _batteryLevel = "--", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
     [ObservableProperty] private bool _isConnected;
     [ObservableProperty] private bool _devicesList;
-    [ObservableProperty] private AvaloniaList<string> _simpleContent;
+    [ObservableProperty] private AvaloniaList<string>? _simpleContent;
 
     public SplashViewModel() : base("Home", MaterialIconKind.HomeOutline, int.MinValue)
     {
@@ -59,7 +59,7 @@ public partial class SplashViewModel : DemoPageBase
         DevicesList = false;
     }
 
-    public IAvaloniaReadOnlyList<DemoPageBase> DemoPages { get; }
+    public IAvaloniaReadOnlyList<DemoPageBase>? DemoPages { get; }
 
     [ObservableProperty] private bool _animationsEnabled;
     [ObservableProperty] private DemoPageBase? _activePage;
@@ -202,7 +202,7 @@ public partial class SplashViewModel : DemoPageBase
     [RelayCommand]
     public async Task SC()
     {
-        await ADBControl($"shell /system/bin/screencap -p /sdcard/{DateAndTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.png");
+        await ADBControl($"shell /system/bin/screencap -p /sdcard/{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}.png");
     }
 
     [RelayCommand]

@@ -21,10 +21,18 @@ public partial class SplashView : UserControl
 
     private async void CopyButton_OnClick(object? sender, RoutedEventArgs args)
     {
-        Button button  = (Button)sender!;
-        var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
-        var dataObject = new DataObject();
-        dataObject.Set(DataFormats.Text, button.Content.ToString());
-        await clipboard.SetDataObjectAsync(dataObject);
+        if (sender is Button button)
+        {
+            var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
+            var dataObject = new DataObject();
+            if (button.Content != null)
+            {
+                var text = button.Content.ToString();
+                if (text != null)
+                    dataObject.Set(DataFormats.Text, text);
+            }
+            if(clipboard != null)
+                await clipboard.SetDataObjectAsync(dataObject);
+        }
     }
 }

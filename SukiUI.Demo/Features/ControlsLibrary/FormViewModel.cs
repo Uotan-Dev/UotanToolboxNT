@@ -91,5 +91,3 @@ namespace SukiUI.Demo.Features.ControlsLibrary
         private DateTimeOffset _dateTimeOffset = DateTimeOffset.MinValue;
     }
 }
-
-#pragma warning enable CS0657 // Not a valid attribute location for this declaration

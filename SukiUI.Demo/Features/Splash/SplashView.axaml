@@ -9,7 +9,8 @@
              xmlns:splash="clr-namespace:SukiUI.Demo.Features.Splash"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
-             d:DesignWidth="1024"
+			 xmlns:assets="clr-namespace:SukiUI.Demo.Assets;assembly=SukiUI.Demo"
+			 d:DesignWidth="1024"
              x:DataType="splash:SplashViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -29,7 +30,7 @@
 						<TextBlock HorizontalAlignment="Left"
 										FontSize="16"
 										FontWeight="DemiBold"
-										Text="设备信息" />
+										Text="{x:Static assets:Resources.DeviceInfo}" />
 						<StackPanel Orientation="Horizontal" Spacing="18">
 							<StackPanel Orientation="Vertical"  Width="230">
 								<Grid Margin="0,13,0,0">

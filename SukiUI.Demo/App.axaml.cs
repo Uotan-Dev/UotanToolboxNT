@@ -9,6 +9,8 @@ using SukiUI.Demo.Features;
 using SukiUI.Demo.Services;
 using System;
 using System.Linq;
+using System.Globalization;
+using System.Diagnostics;
 
 namespace SukiUI.Demo;
 
@@ -24,6 +26,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        Assets.Resources.Culture = new CultureInfo("");
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var viewLocator = _provider?.GetRequiredService<IDataTemplate>();

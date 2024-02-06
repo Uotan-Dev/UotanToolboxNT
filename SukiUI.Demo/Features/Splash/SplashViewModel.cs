@@ -2,8 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Demo.Common;
-using SukiUI.Demo.Features.Dashboard;
-using SukiUI.Demo.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SukiUI.Controls;
@@ -11,7 +9,6 @@ using Avalonia.Threading;
 using Avalonia.Collections;
 using System.Linq;
 using Microsoft.VisualBasic;
-using System.Diagnostics;
 namespace SukiUI.Demo.Features.Splash;
 using SukiUI.Demo;
 
@@ -41,7 +38,7 @@ public partial class SplashViewModel : DemoPageBase
         {
             Global.deviceslist = new AvaloniaList<string>(devices);
             SimpleContent = Global.deviceslist;
-            if (SelectedSimpleContent == null || string.Concat(SimpleContent).IndexOf(SelectedSimpleContent) == -1)
+            if (SelectedSimpleContent == null || !string.Join("", SimpleContent).Contains(SelectedSimpleContent))
             {
                 Global.thisdevice = SimpleContent.First();
                 SelectedSimpleContent = Global.thisdevice;
@@ -74,7 +71,7 @@ public partial class SplashViewModel : DemoPageBase
     {
         await GetDevicesList();
         IsConnected = true;
-        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
+        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
         {
             SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
             Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
@@ -113,7 +110,7 @@ public partial class SplashViewModel : DemoPageBase
     private async Task ADBControl(string shell)
     {
         await GetDevicesList();
-        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
+        if (Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
@@ -137,7 +134,7 @@ public partial class SplashViewModel : DemoPageBase
     private async Task FastbootControl(string shell)
     {
         await GetDevicesList();
-        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
+        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
@@ -224,7 +221,7 @@ public partial class SplashViewModel : DemoPageBase
     public async Task ARSide()
     {
         await GetDevicesList();
-        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
+        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
@@ -234,7 +231,7 @@ public partial class SplashViewModel : DemoPageBase
             if (Status == "Recovery")
             {
                 string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
-                if (output.IndexOf("not found") != -1)
+                if (output.Contains("not found"))
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
                 }
@@ -284,7 +281,7 @@ public partial class SplashViewModel : DemoPageBase
     public async Task FRRec()
     {
         await GetDevicesList();
-        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
+        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
@@ -294,7 +291,7 @@ public partial class SplashViewModel : DemoPageBase
             if (Status == "Fastboot")
             {
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
-                if (output.IndexOf("unknown command") != -1)
+                if (output.Contains("unknown command"))
                 {
                     await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc bin/img/misc.img");
                     await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
@@ -321,7 +318,7 @@ public partial class SplashViewModel : DemoPageBase
     public async Task FRShut()
     {
         await GetDevicesList();
-        if (Global.thisdevice != null && string.Concat(Global.deviceslist).IndexOf(Global.thisdevice) != -1)
+        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
         {
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
@@ -331,7 +328,7 @@ public partial class SplashViewModel : DemoPageBase
             if (Status == "Fastboot")
             {
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
-                if (output.IndexOf("unknown command") != -1)
+                if (output.Contains("unknown command"))
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {

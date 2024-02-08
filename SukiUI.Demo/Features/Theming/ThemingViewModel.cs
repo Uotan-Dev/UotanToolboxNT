@@ -16,7 +16,7 @@ public partial class ThemingViewModel : DemoPageBase
     [ObservableProperty] private bool _isBackgroundAnimated;
     [ObservableProperty] private bool _isLightTheme;
 
-    public ThemingViewModel() : base("Theming", MaterialIconKind.PaletteOutline, -200)
+    public ThemingViewModel() : base("设置", MaterialIconKind.PaletteOutline, -200)
     {
         AvailableColors = _theme.ColorThemes;
         IsLightTheme = _theme.ActiveBaseTheme == ThemeVariant.Light;

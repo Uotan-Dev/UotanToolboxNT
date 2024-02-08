@@ -25,7 +25,7 @@ public partial class SplashViewModel : DemoPageBase
     [ObservableProperty] private bool _devicesList;
     [ObservableProperty] private AvaloniaList<string>? _simpleContent;
 
-    public SplashViewModel() : base("Home", MaterialIconKind.HomeOutline, int.MinValue)
+    public SplashViewModel() : base("主页", MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = Connect();
     }

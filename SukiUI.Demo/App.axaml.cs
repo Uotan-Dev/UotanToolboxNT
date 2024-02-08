@@ -35,7 +35,7 @@ public partial class App : Application
 
             desktop.MainWindow = viewLocator?.Build(mainVm) as Window;
             desktop.MainWindow.Width = 1240;
-            desktop.MainWindow.Height = 800;
+            desktop.MainWindow.Height = 840;
         }
 
         base.OnFrameworkInitializationCompleted();

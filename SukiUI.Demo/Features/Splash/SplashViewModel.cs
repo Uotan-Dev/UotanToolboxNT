@@ -23,14 +23,13 @@ public partial class SplashViewModel : DemoPageBase
     _batteryLevel = "--", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
     [ObservableProperty] private bool _isConnected;
     [ObservableProperty] private bool _devicesList;
-    [ObservableProperty] private AvaloniaList<string>? _simpleContent;
+    [ObservableProperty] private static AvaloniaList<string>? _simpleContent;
 
     public IAvaloniaReadOnlyList<DemoPageBase>? DemoPages { get; }
 
     [ObservableProperty] private bool _animationsEnabled;
     [ObservableProperty] private DemoPageBase? _activePage;
     [ObservableProperty] private bool _windowLocked = false;
-    SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
 
     public SplashViewModel() : base("主页", MaterialIconKind.HomeOutline, int.MinValue)
     {
@@ -47,8 +46,15 @@ public partial class SplashViewModel : DemoPageBase
             SimpleContent = Global.deviceslist;
             if (SelectedSimpleContent == null || !string.Join("", SimpleContent).Contains(SelectedSimpleContent))
             {
-                Global.thisdevice = SimpleContent.First();
-                SelectedSimpleContent = Global.thisdevice;
+                if (Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
+                {
+                    SelectedSimpleContent = Global.thisdevice;
+                }
+                else
+                {
+                    Global.thisdevice = SimpleContent.First();
+                    SelectedSimpleContent = SimpleContent.First();
+                }
             }
         }
         else
@@ -81,13 +87,6 @@ public partial class SplashViewModel : DemoPageBase
             sukiViewModel.VABStatus = DevicesInfoLittle["VABStatus"];
             CodeName = DevicesInfoLittle["CodeName"];
             sukiViewModel.CodeName = DevicesInfoLittle["CodeName"];
-        }
-        else
-        {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
-            });
         }
     }
 

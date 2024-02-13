@@ -1,8 +1,13 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia.Collections;
+using Avalonia.Controls;
+using Avalonia.Threading;
+using SukiUI.Controls;
+using SukiUI.Demo.Features.Splash;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +36,42 @@ namespace SukiUI.Demo.Common
             Array.Copy(fbdevices, 0, devices, adbdevices.Length, fbdevices.Length);
             Array.Copy(comdevices, 0, devices, adbdevices.Length + fbdevices.Length, comdevices.Length);
             return devices;
+        }
+
+        public static async Task SetDevicesInfoLittle()
+        {
+            string[] devices = await GetDevicesInfo.DevicesList();
+            if (devices.Length != 0)
+            {
+                Global.deviceslist = new AvaloniaList<string>(devices);
+                if (Global.thisdevice == null || !string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+                {
+                    Global.thisdevice = Global.deviceslist.First();
+                }
+                if (Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
+                {
+                    SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+                    Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
+                    sukiViewModel.Status = DevicesInfoLittle["Status"];
+                    sukiViewModel.BLStatus = DevicesInfoLittle["BLStatus"];
+                    sukiViewModel.VABStatus = DevicesInfoLittle["VABStatus"];
+                    sukiViewModel.CodeName = DevicesInfoLittle["CodeName"];
+                }
+            }
+            else
+            {
+                Global.deviceslist = null;
+                SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+                sukiViewModel.Status = "--";
+                sukiViewModel.BLStatus = "--";
+                sukiViewModel.VABStatus = "--";
+                sukiViewModel.CodeName = "--";
+                await Dispatcher.UIThread.InvokeAsync(async () =>
+                {
+                    var newDialog = new ConnectionDialog("设备未连接!");
+                    await SukiHost.ShowDialogAsync(newDialog);
+                });
+            }
         }
 
         public static async Task<Dictionary<string, string>> DevicesInfo(string devicename)
@@ -243,6 +284,12 @@ namespace SukiUI.Demo.Common
                     if (diskinfos1.IndexOf("/storage/emulated") != -1)
                     {
                         string[] columns = StringHelper.DiskInfo(diskinfos1, "/storage/emulated");
+                        progressdisk = columns[4].TrimEnd('%');
+                        diskinfo = String.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
+                    }
+                    else if (diskinfos2.IndexOf("/sdcard") != -1)
+                    {
+                        string[] columns = StringHelper.DiskInfo(diskinfos2, "/sdcard");
                         progressdisk = columns[4].TrimEnd('%');
                         diskinfo = String.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
                     }

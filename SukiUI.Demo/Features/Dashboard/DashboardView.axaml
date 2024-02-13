@@ -21,8 +21,11 @@
                    Orientation="Horizontal">
 
 			<!--  Unlock  -->
-			<suki:GlassCard Width="630" Height="200" Margin="10">
-				<StackPanel>
+			<suki:GlassCard Width="630" Margin="10">
+				<suki:BusyArea Name="BusyUnlock"
+								BusyText="执行中 ..."
+								IsBusy="{Binding Unlocking}">
+					<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
@@ -30,9 +33,8 @@
 					<StackPanel Orientation="Vertical" Margin="15 10 0 0">
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center">解锁文件解锁: </TextBlock>
-							<TextBox Width="353" Name="UnlockFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<TextBox Width="353" Name="UnlockFile" Text="{Binding UnlockFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
 							<Button Height="35"
-									Name="OpenUnlockFile"
 									Click="OpenFileButton_Clicked">
 								选择文件
 							</Button>
@@ -40,27 +42,31 @@
 						<StackPanel Orientation="Vertical" Spacing="5">
 							<StackPanel Orientation="Horizontal" Spacing="20">
 								<TextBlock VerticalAlignment="Center">解锁码解锁: </TextBlock>
-								<TextBox Width="464" theme:TextBoxExtensions.AddDeleteButton="False"/>
+								<TextBox Width="464" Text="{Binding UnlockCode, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="120">
-								<Button>立即解锁</Button>
-								<Button>回锁BL</Button>
+								<Button Command="{Binding Unlock}">立即解锁</Button>
+								<Button Command="{Binding Lock}">回锁BL</Button>
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
+				</suki:BusyArea>
 			</suki:GlassCard>
 
 			<!--  Unlock with command  -->
-			<suki:GlassCard Width="310" Height="200" Margin="10">
-				<StackPanel Orientation="Vertical" Spacing="10">
+			<suki:GlassCard Width="310" Margin="10">
+				<suki:BusyArea Name="BusyBaseUnlock"
+								BusyText="执行中 ..."
+								IsBusy="{Binding BaseUnlocking}">
+					<StackPanel Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="基本命令解锁" />
 					<ComboBox Width="220" Margin="0 10" ItemsSource="{Binding SimpleContent}" />
 					<StackPanel Spacing="15">
-						<Button Width="210">
+						<Button Width="210" Command="{Binding BaseUnlock}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
 								执行解锁命令
@@ -68,25 +74,30 @@
 						</Button>
 					</StackPanel>
 				</StackPanel>
+				</suki:BusyArea>
 			</suki:GlassCard>
 
 			<!--  Flash recovery  -->
 			<suki:GlassCard Width="630" Margin="10">
-				<StackPanel>
+				<suki:BusyArea Name="BusyFlash"
+								BusyText="执行中 ..."
+								IsBusy="{Binding Flashing}">
+					<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="刷入Recovery" />
 					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
 						<TextBlock VerticalAlignment="Center">选择Recovery: </TextBlock>
-						<TextBox Width="347.5" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35">选择文件</Button>
+						<TextBox Width="347.5" Name="RecFile" Text="{Binding RecFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+						<Button Height="35" Click ="OpenRecFile">选择文件</Button>
 					</StackPanel>
 					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 5 0 0">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
 							<Button Width="166"
 									HorizontalAlignment="Left"
-									Padding="8">
+									Padding="8"
+									Command="{Binding FlashToRec}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="Android" />
 									至Recovery
@@ -94,7 +105,8 @@
 							</Button>
 							<Button Width="166"
 									HorizontalAlignment="Left"
-									Padding="8">
+									Padding="8"
+									Command="{Binding FlashToRecA}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="NetworkOutline" />
 									至Recovery A分区
@@ -102,7 +114,8 @@
 							</Button>
 							<Button Width="166"
 									HorizontalAlignment="Left"
-									Padding="8">
+									Padding="8"
+									Command="{Binding FlashToRecB}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="NetworkPos" />
 									至Recovery B分区
@@ -112,7 +125,8 @@
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
 							<Button Width="166"
 									HorizontalAlignment="Left"
-									Padding="8">
+									Padding="8"
+									Command="{Binding BootRec}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
 									临时启动
@@ -120,7 +134,8 @@
 							</Button>
 							<Button Width="166"
 									HorizontalAlignment="Left"
-									Padding="8">
+									Padding="8"
+									Command="{Binding FlashToBootA}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
 									至Boot A分区
@@ -128,7 +143,8 @@
 							</Button>
 							<Button Width="166"
 									HorizontalAlignment="Left"
-									Padding="8">
+									Padding="8"
+									Command="{Binding FlashToBootB}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
 									至Boot B分区
@@ -137,6 +153,7 @@
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
+				</suki:BusyArea>
 			</suki:GlassCard>
 
 			<!--  Unlock with command  -->
@@ -147,9 +164,9 @@
 								FontWeight="DemiBold"
 								Text="驱动补丁" />
 					<StackPanel Spacing="10">
-						<Button Width="220">安装ADB和Fastboot驱动</Button>
-						<Button Width="220">安装高通9008驱动</Button>
-						<Button Width="220">小米设备USB3.0驱动</Button>
+						<Button Width="220" Click="OpenAFDI">安装ADB和Fastboot驱动</Button>
+						<Button Width="220" Click="Open9008DI">安装高通9008驱动</Button>
+						<Button Width="220" Click="OpenUSBP">小米设备USB3.0补丁</Button>
 					</StackPanel>
 				</StackPanel>
 			</suki:GlassCard>

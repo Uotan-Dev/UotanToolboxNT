@@ -25,12 +25,19 @@ public partial class SplashViewModel : DemoPageBase
     [ObservableProperty] private bool _devicesList;
     [ObservableProperty] private AvaloniaList<string>? _simpleContent;
 
+    public IAvaloniaReadOnlyList<DemoPageBase>? DemoPages { get; }
+
+    [ObservableProperty] private bool _animationsEnabled;
+    [ObservableProperty] private DemoPageBase? _activePage;
+    [ObservableProperty] private bool _windowLocked = false;
+    SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+
     public SplashViewModel() : base("主页", MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = Connect();
     }
 
-    private async Task GetDevicesList()
+    public async Task GetDevicesList()
     {
         DevicesList = true;
         string[] devices = await GetDevicesInfo.DevicesList();
@@ -59,11 +66,30 @@ public partial class SplashViewModel : DemoPageBase
         DevicesList = false;
     }
 
-    public IAvaloniaReadOnlyList<DemoPageBase>? DemoPages { get; }
-
-    [ObservableProperty] private bool _animationsEnabled;
-    [ObservableProperty] private DemoPageBase? _activePage;
-    [ObservableProperty] private bool _windowLocked = false;
+    public async Task ConnectLittle()
+    {
+        await GetDevicesList();
+        if (Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
+        {
+            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
+            Status = DevicesInfoLittle["Status"];
+            sukiViewModel.Status = DevicesInfoLittle["Status"];
+            BLStatus = DevicesInfoLittle["BLStatus"];
+            sukiViewModel.BLStatus = DevicesInfoLittle["BLStatus"];
+            VABStatus = DevicesInfoLittle["VABStatus"];
+            sukiViewModel.VABStatus = DevicesInfoLittle["VABStatus"];
+            CodeName = DevicesInfoLittle["CodeName"];
+            sukiViewModel.CodeName = DevicesInfoLittle["CodeName"];
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+            });
+        }
+    }
 
 
     [RelayCommand]
@@ -109,49 +135,35 @@ public partial class SplashViewModel : DemoPageBase
 
     private async Task ADBControl(string shell)
     {
-        await GetDevicesList();
-        if (Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
+        await ConnectLittle();
+        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        if (sukiViewModel.Status == "系统" || sukiViewModel.Status == "Recovery" || sukiViewModel.Status == "Sideload")
         {
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
-            Status = DevicesInfoLittle["Status"];
-            BLStatus = DevicesInfoLittle["BLStatus"];
-            VABStatus = DevicesInfoLittle["VABStatus"];
-            CodeName = DevicesInfoLittle["CodeName"];
-            if (Status == "系统" || Status == "Recovery" || Status == "Sideload")
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
-            }
-            else
-            {
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
-                });
-            }
+                SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+            });
         }
     }
 
     private async Task FastbootControl(string shell)
     {
-        await GetDevicesList();
-        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+        await ConnectLittle();
+        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        if (sukiViewModel.Status == "Fastboot" || sukiViewModel.Status == "Fastbootd")
         {
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
-            Status = DevicesInfoLittle["Status"];
-            BLStatus = DevicesInfoLittle["BLStatus"];
-            VABStatus = DevicesInfoLittle["VABStatus"];
-            CodeName = DevicesInfoLittle["CodeName"];
-            if (Status == "Fastboot" || Status == "Fastbootd")
+            await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell}");
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell}");
-            }
-            else
-            {
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
-                });
-            }
+                SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+            });
         }
     }
 
@@ -220,35 +232,21 @@ public partial class SplashViewModel : DemoPageBase
     [RelayCommand]
     public async Task ARSide()
     {
-        await GetDevicesList();
-        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+        await ConnectLittle();
+        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        if (sukiViewModel.Status == "Recovery")
         {
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
-            Status = DevicesInfoLittle["Status"];
-            BLStatus = DevicesInfoLittle["BLStatus"];
-            VABStatus = DevicesInfoLittle["VABStatus"];
-            CodeName = DevicesInfoLittle["CodeName"];
-            if (Status == "Recovery")
+            string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
+            if (output.Contains("not found"))
             {
-                string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
-                if (output.Contains("not found"))
-                {
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
-                }
-            }
-            else
-            {
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
-                });
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
             }
         }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
             });
         }
     }
@@ -280,36 +278,22 @@ public partial class SplashViewModel : DemoPageBase
     [RelayCommand]
     public async Task FRRec()
     {
-        await GetDevicesList();
-        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+        await ConnectLittle();
+        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        if (sukiViewModel.Status == "Fastboot")
         {
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
-            Status = DevicesInfoLittle["Status"];
-            BLStatus = DevicesInfoLittle["BLStatus"];
-            VABStatus = DevicesInfoLittle["VABStatus"];
-            CodeName = DevicesInfoLittle["CodeName"];
-            if (Status == "Fastboot")
+            string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
+            if (output.Contains("unknown command"))
             {
-                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
-                if (output.Contains("unknown command"))
-                {
-                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc bin/img/misc.img");
-                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
-                }
-            }
-            else
-            {
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
-                });
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc bin/img/misc.img");
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
             }
         }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
             });
         }
     }
@@ -317,46 +301,25 @@ public partial class SplashViewModel : DemoPageBase
     [RelayCommand]
     public async Task FRShut()
     {
-        await GetDevicesList();
-        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+        await ConnectLittle();
+        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        if (sukiViewModel.Status == "Fastboot")
         {
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
-            Status = DevicesInfoLittle["Status"];
-            BLStatus = DevicesInfoLittle["BLStatus"];
-            VABStatus = DevicesInfoLittle["VABStatus"];
-            CodeName = DevicesInfoLittle["CodeName"];
-            if (Status == "Fastboot")
+            string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
+            if (output.Contains("unknown command"))
             {
-                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
-                if (output.Contains("unknown command"))
+                await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        SukiHost.ShowDialog(new ConnectionDialog("当前设备不支持此命令！"), allowBackgroundClose: true);
-                    });
-                }
-                else
-                {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        SukiHost.ShowDialog(new ConnectionDialog("执行成功，拔出设备连接线即可关机！"), allowBackgroundClose: true);
-                    });
-                }
+                    SukiHost.ShowDialog(new ConnectionDialog("当前设备不支持此命令！"), allowBackgroundClose: true);
+                });
             }
             else
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("执行成功，拔出设备连接线即可关机！"), allowBackgroundClose: true);
                 });
             }
-        }
-        else
-        {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
-            });
         }
     }
 

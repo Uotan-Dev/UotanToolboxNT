@@ -1,0 +1,21 @@
+<Application x:Class="UotanToolbox.App"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:common="clr-namespace:UotanToolbox.Common"
+             xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
+             RequestedThemeVariant="Default">
+    <Application.DataTemplates>
+        <common:ViewLocator />
+    </Application.DataTemplates>
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+        <sukiUi:SukiTheme ThemeColor="Red" />
+        <StyleInclude Source="avares://UotanToolbox/Styles/ShowMeTheXamlStyles.axaml" />
+        <StyleInclude Source="avares://UotanToolbox/Styles/WrapPanelStyles.axaml" />
+        <StyleInclude Source="avares://UotanToolbox/Styles/TextStyles.axaml" />
+        <StyleInclude Source="avares://UotanToolbox/Styles/GlassCardStyles.axaml" />
+        <avalonia:MaterialIconStyles />
+    </Application.Styles>
+</Application>

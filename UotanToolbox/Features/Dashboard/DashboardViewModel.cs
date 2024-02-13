@@ -1,6 +1,4 @@
 ﻿using Avalonia.Collections;
-using Avalonia.Controls;
-using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -8,8 +6,6 @@ using Material.Icons;
 using SukiUI.Controls;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Splash;
-using UotanToolbox.Models.Dashboard;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace UotanToolbox.Features.Dashboard;
@@ -26,16 +22,6 @@ public partial class DashboardViewModel : DemoPageBase
     [ObservableProperty] private string _unlockFile;
     [ObservableProperty] private string _unlockCode;
     [ObservableProperty] private string _recFile;
-
-    public IAvaloniaReadOnlyList<InvoiceViewModel> Invoices { get; } = new AvaloniaList<InvoiceViewModel>()
-    {
-        new InvoiceViewModel(15364, "Jean", 156, true),
-        new InvoiceViewModel(45689, "Fantine", 82, false),
-        new InvoiceViewModel(15364, "Jean", 156, true),
-        new InvoiceViewModel(45689, "Fantine", 82, false),
-        new InvoiceViewModel(15364, "Jean", 156, true),
-        new InvoiceViewModel(45689, "Fantine", 82, false),
-    };
 
     public IAvaloniaReadOnlyList<string> Steps { get; } = new AvaloniaList<string>()
     {
@@ -334,12 +320,4 @@ public partial class DashboardViewModel : DemoPageBase
     {
         SukiHost.ShowDialog(new DialogViewModel(), allowBackgroundClose: true);
     }
-
-    [RelayCommand]
-    public void IncrementIndex() =>
-        StepperIndex += StepperIndex >= Steps.Count - 1 ? 0 : 1;
-
-    [RelayCommand]
-    public void DecrementIndex() =>
-        StepperIndex -= StepperIndex <= 0 ? 0 : 1;
 }

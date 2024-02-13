@@ -36,12 +36,12 @@ public partial class SplashViewModel : DemoPageBase
         _ = Connect();
     }
 
-    public async Task GetDevicesList()
+    public async Task<bool> GetDevicesList()
     {
-        DevicesList = true;
         string[] devices = await GetDevicesInfo.DevicesList();
         if (devices.Length !=  0)
         {
+            DevicesList = true;
             Global.deviceslist = new AvaloniaList<string>(devices);
             SimpleContent = Global.deviceslist;
             if (SelectedSimpleContent == null || !string.Join("", SimpleContent).Contains(SelectedSimpleContent))
@@ -56,26 +56,52 @@ public partial class SplashViewModel : DemoPageBase
                     SelectedSimpleContent = SimpleContent.First();
                 }
             }
+            DevicesList = false;
+            return true;
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(async () =>
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                var newDialog = new ConnectionDialog("设备未连接!");
-                await SukiHost.ShowDialogAsync(newDialog);
-                if (newDialog.Result == true)
-                {
-                    /// Code here...
-                }
+                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
             });
+            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            SimpleContent = null;
+            Status = "--";
+            sukiViewModel.Status = "--";
+            BLStatus = "--";
+            sukiViewModel.BLStatus = "--";
+            VABStatus = "--";
+            sukiViewModel.VABStatus = "--";
+            CodeName = "--";
+            sukiViewModel.CodeName = "--";
+            VNDKVersion = "--";
+            CPUCode = "--";
+            PowerOnTime = "--";
+            DeviceBrand = "--";
+            DeviceModel = "--";
+            AndroidSDK = "--";
+            CPUABI = "--";
+            DisplayHW = "--";
+            Density = "--";
+            DiskType = "--";
+            BoardID = "--";
+            Platform = "--";
+            Compile = "--";
+            Kernel = "--";
+            BatteryLevel = "--";
+            BatteryInfo = "--";
+            MemLevel = "--";
+            UseMem = "--";
+            DiskInfo = "--";
+            ProgressDisk = "--";
+            return false;
         }
-        DevicesList = false;
     }
 
     public async Task ConnectLittle()
     {
-        await GetDevicesList();
-        if (Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
+        if (await GetDevicesList() && Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
         {
             SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
@@ -94,10 +120,9 @@ public partial class SplashViewModel : DemoPageBase
     [RelayCommand]
     public async Task Connect()
     {
-        await GetDevicesList();
-        IsConnected = true;
-        if (Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+        if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
         {
+            IsConnected = true;
             SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
             Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
             Status = DevicesInfo["Status"];
@@ -128,8 +153,8 @@ public partial class SplashViewModel : DemoPageBase
             UseMem = DevicesInfo["UseMem"];
             DiskInfo = DevicesInfo["DiskInfo"];
             ProgressDisk = DevicesInfo["ProgressDisk"];
+            IsConnected = false;
         }
-        IsConnected = false;
     }
 
     private async Task ADBControl(string shell)

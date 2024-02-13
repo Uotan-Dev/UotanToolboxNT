@@ -38,7 +38,7 @@ namespace UotanToolbox.Common
             return devices;
         }
 
-        public static async Task SetDevicesInfoLittle()
+        public static async Task<bool> SetDevicesInfoLittle()
         {
             string[] devices = await GetDevicesInfo.DevicesList();
             if (devices.Length != 0)
@@ -57,6 +57,7 @@ namespace UotanToolbox.Common
                     sukiViewModel.VABStatus = DevicesInfoLittle["VABStatus"];
                     sukiViewModel.CodeName = DevicesInfoLittle["CodeName"];
                 }
+                return true;
             }
             else
             {
@@ -71,6 +72,7 @@ namespace UotanToolbox.Common
                     var newDialog = new ConnectionDialog("设备未连接!");
                     await SukiHost.ShowDialogAsync(newDialog);
                 });
+                return false;
             }
         }
 

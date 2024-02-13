@@ -9,6 +9,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using SukiUI.Content;
 using SukiUI.Controls;
+using SukiUI.Demo.Common;
 using SukiUI.Demo.Utilities;
 using SukiUI.Models;
 
@@ -21,6 +22,10 @@ public partial class SukiUIDemoView : SukiWindow
         InitializeComponent();
         var bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://SukiUI.Demo/Assets/OIG.N5o-removebg-preview.png")));
         Icon = new WindowIcon(bitmap);
+        if (Global.System == "Linux")
+        {
+            this.SystemDecorations = SystemDecorations.BorderOnly;
+        }
     }
 
     private void MenuItem_OnClick(object? sender, RoutedEventArgs e)

@@ -28,7 +28,7 @@ public partial class DashboardViewModel : DemoPageBase
         "Dispatched", "En-Route", "Delivered"
     };
 
-    public DashboardViewModel() : base("刷入", MaterialIconKind.CircleOutline, -100)
+    public DashboardViewModel() : base("刷入", MaterialIconKind.CableData, -1000)
     {
         StepperIndex = 1;
         SimpleContent.AddRange(["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"]);

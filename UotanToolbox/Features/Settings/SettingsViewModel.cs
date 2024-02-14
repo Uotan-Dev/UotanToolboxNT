@@ -6,9 +6,9 @@ using Material.Icons;
 using SukiUI;
 using SukiUI.Models;
 
-namespace UotanToolbox.Features.Theming;
+namespace UotanToolbox.Features.Settings;
 
-public partial class ThemingViewModel : DemoPageBase
+public partial class SettingsViewModel : DemoPageBase
 {
     public IAvaloniaReadOnlyList<SukiColorTheme> AvailableColors { get; }
 
@@ -17,7 +17,7 @@ public partial class ThemingViewModel : DemoPageBase
     [ObservableProperty] private bool _isBackgroundAnimated;
     [ObservableProperty] private bool _isLightTheme;
 
-    public ThemingViewModel() : base("设置", MaterialIconKind.PaletteOutline, -200)
+    public SettingsViewModel() : base("设置", MaterialIconKind.SettingsOutline, -200)
     {
         AvailableColors = _theme.ColorThemes;
         IsLightTheme = _theme.ActiveBaseTheme == ThemeVariant.Light;

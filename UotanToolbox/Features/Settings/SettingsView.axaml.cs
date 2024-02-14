@@ -1,11 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace UotanToolbox.Features.Theming;
+namespace UotanToolbox.Features.Settings;
 
-public partial class ThemingView : UserControl
+public partial class SettingsView : UserControl
 {
-    public ThemingView()
+    public SettingsView()
     {
         InitializeComponent();
     }

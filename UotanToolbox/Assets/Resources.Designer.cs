@@ -61,11 +61,56 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Android SDK 的本地化字符串。
+        /// </summary>
+        public static string AndroidSDK {
+            get {
+                return ResourceManager.GetString("AndroidSDK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Code Name 的本地化字符串。
+        /// </summary>
+        public static string CodeName {
+            get {
+                return ResourceManager.GetString("CodeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 CPU Framework 的本地化字符串。
+        /// </summary>
+        public static string CPUABI {
+            get {
+                return ResourceManager.GetString("CPUABI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Brand 的本地化字符串。
+        /// </summary>
+        public static string DeviceBrand {
+            get {
+                return ResourceManager.GetString("DeviceBrand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Device Info 的本地化字符串。
         /// </summary>
         public static string DeviceInfo {
             get {
                 return ResourceManager.GetString("DeviceInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Model 的本地化字符串。
+        /// </summary>
+        public static string DeviceModel {
+            get {
+                return ResourceManager.GetString("DeviceModel", resourceCulture);
             }
         }
     }

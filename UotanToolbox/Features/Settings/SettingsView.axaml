@@ -93,6 +93,25 @@
                             </controls:SettingsLayoutItem.Content>
                         </controls:SettingsLayoutItem>
 
+						<controls:SettingsLayoutItem Header="Selector">
+							<controls:SettingsLayoutItem.Content>
+								<controls:GlassCard Margin="15">
+									<DockPanel>
+										<ComboBox Width="220" Margin="0 10" DockPanel.Dock="Right" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
+										<StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+											<TextBlock FontSize="16"
+                                                       FontWeight="DemiBold"
+                                                       Text="Selector" />
+											<TextBlock Margin="0,12,70,0"
+                                                       Foreground="{DynamicResource SukiLowText}"
+                                                       Text="Select your option."
+                                                       TextWrapping="Wrap" />
+										</StackPanel>
+									</DockPanel>
+								</controls:GlassCard>
+							</controls:SettingsLayoutItem.Content>
+						</controls:SettingsLayoutItem>
+
                         <controls:SettingsLayoutItem Header="Other">
                             <controls:SettingsLayoutItem.Content>
                                 <controls:GlassCard Margin="15">

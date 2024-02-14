@@ -23,11 +23,6 @@ public partial class DashboardViewModel : DemoPageBase
     [ObservableProperty] private string _unlockCode;
     [ObservableProperty] private string _recFile;
 
-    public IAvaloniaReadOnlyList<string> Steps { get; } = new AvaloniaList<string>()
-    {
-        "Dispatched", "En-Route", "Delivered"
-    };
-
     public DashboardViewModel() : base("刷入", MaterialIconKind.CableData, -1000)
     {
         StepperIndex = 1;

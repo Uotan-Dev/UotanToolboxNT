@@ -10,6 +10,7 @@
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
 			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+			 xmlns:localizations="clr-namespace:UotanToolbox.Common;assembly=UotanToolbox"
 			 d:DesignWidth="1024"
              x:DataType="splash:SplashViewModel"
              mc:Ignorable="d">
@@ -38,7 +39,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="品牌"/>
+												Text="{x:Static assets:Resources.DeviceBrand}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -52,7 +53,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="型号" />
+												Text="{x:Static assets:Resources.DeviceModel}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -66,7 +67,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="代号" />
+												Text="{x:Static assets:Resources.CodeName}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -80,7 +81,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="系统" />
+												Text="{x:Static assets:Resources.AndroidSDK}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -94,7 +95,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="CPU 架构" />
+												Text="{x:Static assets:Resources.CPUABI}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"

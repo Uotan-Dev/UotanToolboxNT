@@ -10,6 +10,10 @@ using Avalonia.Collections;
 using System.Linq;
 using Microsoft.VisualBasic;
 namespace UotanToolbox.Features.Splash;
+using ReactiveUI;
+
+using System;
+using System.Diagnostics;
 using UotanToolbox;
 
 public partial class SplashViewModel : DemoPageBase
@@ -34,6 +38,18 @@ public partial class SplashViewModel : DemoPageBase
     public SplashViewModel() : base("主页", MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = Connect();
+        this.WhenAnyValue(x => x.SelectedSimpleContent)
+            .Subscribe((Action<string>)(option =>
+            {
+            if (option != "--" && SimpleContent != null)
+                    _ = ConnectMinimum(option);
+            }));
+    }
+
+    public async Task ConnectMinimum(string option)
+    {
+        Global.thisdevice = option;
+        await ConnectCore();
     }
 
     public async Task<bool> GetDevicesList()
@@ -116,46 +132,49 @@ public partial class SplashViewModel : DemoPageBase
         }
     }
 
-
     [RelayCommand]
     public async Task Connect()
     {
         if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
-        {
-            IsConnected = true;
-            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
-            Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
-            Status = DevicesInfo["Status"];
-            sukiViewModel.Status = DevicesInfo["Status"];
-            BLStatus = DevicesInfo["BLStatus"];
-            sukiViewModel.BLStatus = DevicesInfo["BLStatus"];
-            VABStatus = DevicesInfo["VABStatus"];
-            sukiViewModel.VABStatus = DevicesInfo["VABStatus"];
-            CodeName = DevicesInfo["CodeName"];
-            sukiViewModel.CodeName = DevicesInfo["CodeName"];
-            VNDKVersion = DevicesInfo["VNDKVersion"];
-            CPUCode = DevicesInfo["CPUCode"];
-            PowerOnTime = DevicesInfo["PowerOnTime"];
-            DeviceBrand = DevicesInfo["DeviceBrand"];
-            DeviceModel = DevicesInfo["DeviceModel"];
-            AndroidSDK = DevicesInfo["AndroidSDK"];
-            CPUABI = DevicesInfo["CPUABI"];
-            DisplayHW = DevicesInfo["DisplayHW"];
-            Density = DevicesInfo["Density"];
-            DiskType = DevicesInfo["DiskType"];
-            BoardID = DevicesInfo["BoardID"];
-            Platform = DevicesInfo["Platform"];
-            Compile = DevicesInfo["Compile"];
-            Kernel = DevicesInfo["Kernel"];
-            BatteryLevel = DevicesInfo["BatteryLevel"];
-            BatteryInfo = DevicesInfo["BatteryInfo"];
-            MemLevel = DevicesInfo["MemLevel"];
-            UseMem = DevicesInfo["UseMem"];
-            DiskInfo = DevicesInfo["DiskInfo"];
-            ProgressDisk = DevicesInfo["ProgressDisk"];
-            IsConnected = false;
-        }
+            await ConnectCore();
     }
+
+    public async Task ConnectCore()
+    {
+        IsConnected = true;
+        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
+        Status = DevicesInfo["Status"];
+        sukiViewModel.Status = DevicesInfo["Status"];
+        BLStatus = DevicesInfo["BLStatus"];
+        sukiViewModel.BLStatus = DevicesInfo["BLStatus"];
+        VABStatus = DevicesInfo["VABStatus"];
+        sukiViewModel.VABStatus = DevicesInfo["VABStatus"];
+        CodeName = DevicesInfo["CodeName"];
+        sukiViewModel.CodeName = DevicesInfo["CodeName"];
+        VNDKVersion = DevicesInfo["VNDKVersion"];
+        CPUCode = DevicesInfo["CPUCode"];
+        PowerOnTime = DevicesInfo["PowerOnTime"];
+        DeviceBrand = DevicesInfo["DeviceBrand"];
+        DeviceModel = DevicesInfo["DeviceModel"];
+        AndroidSDK = DevicesInfo["AndroidSDK"];
+        CPUABI = DevicesInfo["CPUABI"];
+        DisplayHW = DevicesInfo["DisplayHW"];
+        Density = DevicesInfo["Density"];
+        DiskType = DevicesInfo["DiskType"];
+        BoardID = DevicesInfo["BoardID"];
+        Platform = DevicesInfo["Platform"];
+        Compile = DevicesInfo["Compile"];
+        Kernel = DevicesInfo["Kernel"];
+        BatteryLevel = DevicesInfo["BatteryLevel"];
+        BatteryInfo = DevicesInfo["BatteryInfo"];
+        MemLevel = DevicesInfo["MemLevel"];
+        UseMem = DevicesInfo["UseMem"];
+        DiskInfo = DevicesInfo["DiskInfo"];
+        ProgressDisk = DevicesInfo["ProgressDisk"];
+        IsConnected = false;
+    }
+
 
     private async Task ADBControl(string shell)
     {

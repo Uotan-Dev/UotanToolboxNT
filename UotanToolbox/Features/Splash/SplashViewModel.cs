@@ -26,7 +26,7 @@ public partial class SplashViewModel : DemoPageBase
     _compile = "--", _kernel = "--", _selectedSimpleContent = "--", _diskType = "--",
     _batteryLevel = "--", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
     [ObservableProperty] private bool _isConnected;
-    [ObservableProperty] private bool _devicesList;
+    [ObservableProperty] private bool _commonDevicesList;
     [ObservableProperty] private static AvaloniaList<string>? _simpleContent;
 
     public IAvaloniaReadOnlyList<DemoPageBase>? DemoPages { get; }
@@ -38,18 +38,26 @@ public partial class SplashViewModel : DemoPageBase
     public SplashViewModel() : base("主页", MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = Connect();
+        _ = CheckDeviceList();
         this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe((Action<string>)(option =>
             {
             if (option != "--" && SimpleContent != null)
-                    _ = ConnectMinimum(option);
+                    _ = ConnectOption(option);
             }));
     }
 
-    public async Task ConnectMinimum(string option)
+    public async Task ConnectOption(string option)
     {
         Global.thisdevice = option;
         await ConnectCore();
+    }
+
+    [RelayCommand]
+    public async Task Connect()
+    {
+        if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+            await ConnectCore();
     }
 
     public async Task<bool> GetDevicesList()
@@ -57,7 +65,7 @@ public partial class SplashViewModel : DemoPageBase
         string[] devices = await GetDevicesInfo.DevicesList();
         if (devices.Length !=  0)
         {
-            DevicesList = true;
+            CommonDevicesList = true;
             Global.deviceslist = new AvaloniaList<string>(devices);
             SimpleContent = Global.deviceslist;
             if (SelectedSimpleContent == null || !string.Join("", SimpleContent).Contains(SelectedSimpleContent))
@@ -72,7 +80,7 @@ public partial class SplashViewModel : DemoPageBase
                     SelectedSimpleContent = SimpleContent.First();
                 }
             }
-            DevicesList = false;
+            CommonDevicesList = false;
             return true;
         }
         else
@@ -114,31 +122,7 @@ public partial class SplashViewModel : DemoPageBase
             return false;
         }
     }
-
-    public async Task ConnectLittle()
-    {
-        if (await GetDevicesList() && Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
-        {
-            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
-            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
-            Status = DevicesInfoLittle["Status"];
-            sukiViewModel.Status = DevicesInfoLittle["Status"];
-            BLStatus = DevicesInfoLittle["BLStatus"];
-            sukiViewModel.BLStatus = DevicesInfoLittle["BLStatus"];
-            VABStatus = DevicesInfoLittle["VABStatus"];
-            sukiViewModel.VABStatus = DevicesInfoLittle["VABStatus"];
-            CodeName = DevicesInfoLittle["CodeName"];
-            sukiViewModel.CodeName = DevicesInfoLittle["CodeName"];
-        }
-    }
-
-    [RelayCommand]
-    public async Task Connect()
-    {
-        if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
-            await ConnectCore();
-    }
-
+    
     public async Task ConnectCore()
     {
         IsConnected = true;
@@ -175,6 +159,59 @@ public partial class SplashViewModel : DemoPageBase
         IsConnected = false;
     }
 
+    public async Task ConnectLittle()
+    {
+        if (await GetDevicesList() && Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
+        {
+            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
+            Status = DevicesInfoLittle["Status"];
+            sukiViewModel.Status = DevicesInfoLittle["Status"];
+            BLStatus = DevicesInfoLittle["BLStatus"];
+            sukiViewModel.BLStatus = DevicesInfoLittle["BLStatus"];
+            VABStatus = DevicesInfoLittle["VABStatus"];
+            sukiViewModel.VABStatus = DevicesInfoLittle["VABStatus"];
+            CodeName = DevicesInfoLittle["CodeName"];
+            sukiViewModel.CodeName = DevicesInfoLittle["CodeName"];
+        }
+    }
+
+    public async Task<bool> ListChecker()
+    {
+        string[] devices = await GetDevicesInfo.DevicesList();
+        if (devices.Length != 0)
+        {
+            var tempDeviceslist = new AvaloniaList<string>(devices);
+            if (Global.deviceslist != null)
+            {
+                if (Global.deviceslist.SequenceEqual(tempDeviceslist) != true)
+                    return true;
+            }
+            else if (Global.deviceslist == null)
+                return true;
+        }
+        else
+        {
+            if (Global.deviceslist != null && Global.deviceslist.Count != 0)
+            {
+                Global.deviceslist.Clear();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public async Task CheckDeviceList()
+    {
+        while (true)
+        {
+            if (await ListChecker() == true)
+            {
+                await Connect();
+            }
+            await Task.Delay(1000);
+        }
+    }
 
     private async Task ADBControl(string shell)
     {

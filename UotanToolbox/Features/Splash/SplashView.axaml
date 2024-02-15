@@ -603,7 +603,7 @@
 								VerticalAlignment="Center">
 				 <suki:BusyArea Name="BusyDevicesList"
 								BusyText="获取中 ..."
-								IsBusy="{Binding DevicesList}">
+								IsBusy="{Binding CommonDevicesList}">
 					<StackPanel Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"

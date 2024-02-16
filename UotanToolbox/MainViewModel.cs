@@ -18,13 +18,13 @@ namespace UotanToolbox;
 
 public partial class MainViewModel : ObservableObject
 {
-    public IAvaloniaReadOnlyList<DemoPageBase> DemoPages { get; }
+    public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
 
     [ObservableProperty] private ThemeVariant _baseTheme;
     [ObservableProperty] private bool _animationsEnabled;
-    [ObservableProperty] private DemoPageBase? _activePage;
+    [ObservableProperty] private MainPageBase? _activePage;
     [ObservableProperty] private bool _windowLocked = false;
 
     [ObservableProperty]
@@ -32,10 +32,10 @@ public partial class MainViewModel : ObservableObject
 
     private readonly SukiTheme _theme;
 
-    public MainViewModel(IEnumerable<DemoPageBase> demoPages, PageNavigationService nav)
+    public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav)
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
-        DemoPages = new AvaloniaList<DemoPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        DemoPages = new AvaloniaList<MainPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theme = SukiTheme.GetInstance();
         nav.NavigationRequested += t =>
         {

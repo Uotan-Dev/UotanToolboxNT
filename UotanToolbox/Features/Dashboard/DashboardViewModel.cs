@@ -10,7 +10,7 @@ using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Dashboard;
 
-public partial class DashboardViewModel : DemoPageBase
+public partial class DashboardViewModel : MainPageBase
 {
     public AvaloniaList<string> SimpleContent { get; } = [];
     [ObservableProperty] private string _name;

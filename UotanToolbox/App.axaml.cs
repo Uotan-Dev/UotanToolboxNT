@@ -52,9 +52,9 @@ public partial class App : Application
         services.AddSingleton<MainViewModel>();
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
-            .Where(p => !p.IsAbstract && typeof(DemoPageBase).IsAssignableFrom(p));
+            .Where(p => !p.IsAbstract && typeof(MainPageBase).IsAssignableFrom(p));
         foreach (var type in types)
-            services.AddSingleton(typeof(DemoPageBase), type);
+            services.AddSingleton(typeof(MainPageBase), type);
 
         return services.BuildServiceProvider();
     }

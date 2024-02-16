@@ -3,7 +3,7 @@ using Material.Icons;
 
 namespace UotanToolbox.Features;
 
-public abstract partial class DemoPageBase(string displayName, MaterialIconKind icon, int index = 0) : ObservableValidator
+public abstract partial class MainPageBase(string displayName, MaterialIconKind icon, int index = 0) : ObservableValidator
 {
     [ObservableProperty] private string _displayName = displayName;
     [ObservableProperty] private MaterialIconKind _icon = icon;

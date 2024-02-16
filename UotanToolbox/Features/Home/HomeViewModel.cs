@@ -15,7 +15,7 @@ using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Home;
 
-public partial class HomeViewModel : DemoPageBase
+public partial class HomeViewModel : MainPageBase
 {
     [ObservableProperty]
     private string _progressDisk = "--", _memLevel = "--", _status = "--", _bLStatus = "--",
@@ -28,10 +28,10 @@ public partial class HomeViewModel : DemoPageBase
     [ObservableProperty] private bool _commonDevicesList;
     [ObservableProperty] private static AvaloniaList<string>? _simpleContent;
 
-    public IAvaloniaReadOnlyList<DemoPageBase>? DemoPages { get; }
+    public IAvaloniaReadOnlyList<MainPageBase>? DemoPages { get; }
 
     [ObservableProperty] private bool _animationsEnabled;
-    [ObservableProperty] private DemoPageBase? _activePage;
+    [ObservableProperty] private MainPageBase? _activePage;
     [ObservableProperty] private bool _windowLocked = false;
 
     public HomeViewModel() : base("主页", MaterialIconKind.HomeOutline, int.MinValue)

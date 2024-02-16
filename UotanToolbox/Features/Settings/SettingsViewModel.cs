@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace UotanToolbox.Features.Settings;
 
-public partial class SettingsViewModel : DemoPageBase
+public partial class SettingsViewModel : MainPageBase
 {
     public IAvaloniaReadOnlyList<SukiColorTheme> AvailableColors { get; }
 

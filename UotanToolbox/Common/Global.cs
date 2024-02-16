@@ -17,7 +17,7 @@ namespace UotanToolbox.Common
 
     public static class GlobalData
     {
-        public static SukiUIDemoViewModel SukiUIDemoViewModelInstance { get; set; }
+        public static MainViewModel MainViewModelInstance { get; set; }
     }
 
 }

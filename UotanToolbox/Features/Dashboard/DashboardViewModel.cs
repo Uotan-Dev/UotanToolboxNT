@@ -5,14 +5,14 @@ using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Controls;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Splash;
 using System.Threading.Tasks;
+using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Dashboard;
 
 public partial class DashboardViewModel : DemoPageBase
 {
-    public AvaloniaList<string> SimpleContent { get; } = new();
+    public AvaloniaList<string> SimpleContent { get; } = [];
     [ObservableProperty] private string _name;
     [ObservableProperty] private int _stepperIndex;
     [ObservableProperty] private string _selectedSimpleContent;
@@ -34,7 +34,7 @@ public partial class DashboardViewModel : DemoPageBase
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Fastboot")
             {
                 Unlocking = true;
@@ -49,7 +49,7 @@ public partial class DashboardViewModel : DemoPageBase
                 {
                     await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash unlock \"{UnlockFile}\"");
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock-go");
-                    if (output.IndexOf("OKAY") != -1)
+                    if (output.Contains("OKAY"))
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
@@ -67,7 +67,7 @@ public partial class DashboardViewModel : DemoPageBase
                 else if (UnlockFile == null && UnlockCode != null)
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {UnlockCode}");
-                    if (output.IndexOf("OKAY") != -1)
+                    if (output.Contains("OKAY"))
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
@@ -106,13 +106,13 @@ public partial class DashboardViewModel : DemoPageBase
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Fastboot")
             {
                 Unlocking = true;
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
-                if (output.IndexOf("OKAY") != -1)
+                if (output.Contains("OKAY"))
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
@@ -143,7 +143,7 @@ public partial class DashboardViewModel : DemoPageBase
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Fastboot")
             {
                 BaseUnlocking = true;
@@ -186,14 +186,14 @@ public partial class DashboardViewModel : DemoPageBase
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Fastboot")
             {
                 Flashing = true;
                 if (RecFile != null)
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile}\"");
-                    if (output.IndexOf("FAILED") == -1 && output.IndexOf("error") == -1)
+                    if (output.Contains("FAILED") && output.Contains("error"))
                     {
                         var newDialog = new ConnectionDialog("刷入成功！是否重启到Recovery？");
                         await SukiHost.ShowDialogAsync(newDialog);
@@ -257,14 +257,14 @@ public partial class DashboardViewModel : DemoPageBase
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Fastboot")
             {
                 Flashing = true;
                 if (RecFile != null)
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} boot \"{RecFile}\"");
-                    if (output.IndexOf("Finished") != -1)
+                    if (output.Contains("Finished"))
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
@@ -311,7 +311,7 @@ public partial class DashboardViewModel : DemoPageBase
     }
 
     [RelayCommand]
-    public void ShowDialog()
+    public static void ShowDialog()
     {
         SukiHost.ShowDialog(new DialogViewModel(), allowBackgroundClose: true);
     }

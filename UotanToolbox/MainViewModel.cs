@@ -16,7 +16,7 @@ using SukiUI;
 
 namespace UotanToolbox;
 
-public partial class SukiUIDemoViewModel : ObservableObject
+public partial class MainViewModel : ObservableObject
 {
     public IAvaloniaReadOnlyList<DemoPageBase> DemoPages { get; }
 
@@ -32,7 +32,7 @@ public partial class SukiUIDemoViewModel : ObservableObject
 
     private readonly SukiTheme _theme;
 
-    public SukiUIDemoViewModel(IEnumerable<DemoPageBase> demoPages, PageNavigationService nav)
+    public MainViewModel(IEnumerable<DemoPageBase> demoPages, PageNavigationService nav)
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         DemoPages = new AvaloniaList<DemoPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
@@ -54,7 +54,7 @@ public partial class SukiUIDemoViewModel : ObservableObject
             await SukiHost.ShowToast("Successfully Changed Color", $"Changed Color To {theme.DisplayName}.");
         _theme.OnBackgroundAnimationChanged +=
             value => AnimationsEnabled = value;
-        GlobalData.SukiUIDemoViewModelInstance = this;
+        GlobalData.MainViewModelInstance = this;
     }
 
     [RelayCommand]

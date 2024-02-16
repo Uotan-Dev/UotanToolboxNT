@@ -3,7 +3,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using SukiUI.Controls;
 
-namespace UotanToolbox.Features.Splash
+namespace UotanToolbox.Features.Components
 {
     public partial class ConnectionDialog : UserControl
     {

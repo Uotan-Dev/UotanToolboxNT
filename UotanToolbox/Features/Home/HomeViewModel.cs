@@ -9,14 +9,13 @@ using Avalonia.Threading;
 using Avalonia.Collections;
 using System.Linq;
 using Microsoft.VisualBasic;
-namespace UotanToolbox.Features.Splash;
 using ReactiveUI;
-
 using System;
-using System.Diagnostics;
-using UotanToolbox;
+using UotanToolbox.Features.Components;
 
-public partial class SplashViewModel : DemoPageBase
+namespace UotanToolbox.Features.Home;
+
+public partial class HomeViewModel : DemoPageBase
 {
     [ObservableProperty]
     private string _progressDisk = "--", _memLevel = "--", _status = "--", _bLStatus = "--",
@@ -35,16 +34,16 @@ public partial class SplashViewModel : DemoPageBase
     [ObservableProperty] private DemoPageBase? _activePage;
     [ObservableProperty] private bool _windowLocked = false;
 
-    public SplashViewModel() : base("主页", MaterialIconKind.HomeOutline, int.MinValue)
+    public HomeViewModel() : base("主页", MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = Connect();
         _ = CheckDeviceList();
         this.WhenAnyValue(x => x.SelectedSimpleContent)
-            .Subscribe((Action<string>)(option =>
+            .Subscribe(option =>
             {
-            if (option != "--" && SimpleContent != null)
+                if (option != "--" && SimpleContent != null)
                     _ = ConnectOption(option);
-            }));
+            });
     }
 
     public async Task ConnectOption(string option)
@@ -89,7 +88,7 @@ public partial class SplashViewModel : DemoPageBase
             {
                 SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
             });
-            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             SimpleContent = null;
             Status = "--"; sukiViewModel.Status = "--"; BLStatus = "--"; sukiViewModel.BLStatus = "--";
             VABStatus = "--"; sukiViewModel.VABStatus = "--"; CodeName = "--"; sukiViewModel.CodeName = "--";
@@ -104,7 +103,7 @@ public partial class SplashViewModel : DemoPageBase
     public async Task ConnectCore()
     {
         IsConnected = true;
-        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
         Status = DevicesInfo["Status"];
         sukiViewModel.Status = DevicesInfo["Status"];
@@ -141,7 +140,7 @@ public partial class SplashViewModel : DemoPageBase
     {
         if (await GetDevicesList() && Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
         {
-            SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
             Status = DevicesInfoLittle["Status"];
             sukiViewModel.Status = DevicesInfoLittle["Status"];
@@ -154,7 +153,7 @@ public partial class SplashViewModel : DemoPageBase
         }
     }
 
-    public async Task<bool> ListChecker()
+    public static async Task<bool> ListChecker()
     {
         string[] devices = await GetDevicesInfo.DevicesList();
         if (devices.Length != 0)
@@ -194,7 +193,7 @@ public partial class SplashViewModel : DemoPageBase
     private async Task ADBControl(string shell)
     {
         await ConnectLittle();
-        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == "系统" || sukiViewModel.Status == "Recovery" || sukiViewModel.Status == "Sideload")
         {
             await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
@@ -211,7 +210,7 @@ public partial class SplashViewModel : DemoPageBase
     private async Task FastbootControl(string shell)
     {
         await ConnectLittle();
-        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == "Fastboot" || sukiViewModel.Status == "Fastbootd")
         {
             await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell}");
@@ -291,7 +290,7 @@ public partial class SplashViewModel : DemoPageBase
     public async Task ARSide()
     {
         await ConnectLittle();
-        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == "Recovery")
         {
             string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
@@ -337,7 +336,7 @@ public partial class SplashViewModel : DemoPageBase
     public async Task FRRec()
     {
         await ConnectLittle();
-        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == "Fastboot")
         {
             string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
@@ -360,7 +359,7 @@ public partial class SplashViewModel : DemoPageBase
     public async Task FRShut()
     {
         await ConnectLittle();
-        SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == "Fastboot")
         {
             string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");

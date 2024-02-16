@@ -5,11 +5,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Resources;
 
-namespace UotanToolbox.Features.Splash;
+namespace UotanToolbox.Features.Home;
 
-public partial class SplashView : UserControl
+public partial class HomeView : UserControl
 {
-    public SplashView()
+    public HomeView()
     {
         /* Sample of using i18n resources
         ResourceManager resourceManager = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);

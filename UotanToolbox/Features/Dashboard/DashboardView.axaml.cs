@@ -4,10 +4,11 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Controls;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Splash;
+using UotanToolbox.Features.Home;
 using System;
 using System.Diagnostics;
 using System.IO;
+using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Dashboard;
 
@@ -81,11 +82,13 @@ public partial class DashboardView : UserControl
         if (Global.System == "Windows")
         {
             string cmd = @"drive\USB3.bat";
-            ProcessStartInfo cmdshell = null;
-            cmdshell = new ProcessStartInfo(cmd);
-            cmdshell.CreateNoWindow = true;
-            cmdshell.UseShellExecute = false;
-            Process f = Process.Start(cmdshell);
+            ProcessStartInfo? cmdshell = null;
+            cmdshell = new ProcessStartInfo(cmd)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false
+            };
+            Process? f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 SukiHost.ShowDialog(new ConnectionDialog("执行完成！"), allowBackgroundClose: true);

@@ -15,9 +15,9 @@ using SukiUI.Models;
 
 namespace UotanToolbox;
 
-public partial class SukiUIDemoView : SukiWindow
+public partial class MainView : SukiWindow
 {
-    public SukiUIDemoView()
+    public MainView()
     {
         InitializeComponent();
         var bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
@@ -30,7 +30,7 @@ public partial class SukiUIDemoView : SukiWindow
 
     private void MenuItem_OnClick(object? sender, RoutedEventArgs e)
     {
-        if (DataContext is not SukiUIDemoViewModel vm) return;
+        if (DataContext is not MainViewModel vm) return;
         if (e.Source is not MenuItem mItem) return;
         if (mItem.DataContext is not SukiColorTheme cTheme) return;
         vm.ChangeTheme(cTheme);

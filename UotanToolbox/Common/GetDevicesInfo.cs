@@ -1,15 +1,11 @@
 ﻿using Avalonia.Collections;
-using Avalonia.Controls;
 using Avalonia.Threading;
 using SukiUI.Controls;
-using UotanToolbox.Features.Splash;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
 using System.Threading.Tasks;
+using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
 {
@@ -50,7 +46,7 @@ namespace UotanToolbox.Common
                 }
                 if (Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice))
                 {
-                    SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+                    MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                     Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
                     sukiViewModel.Status = DevicesInfoLittle["Status"];
                     sukiViewModel.BLStatus = DevicesInfoLittle["BLStatus"];
@@ -62,7 +58,7 @@ namespace UotanToolbox.Common
             else
             {
                 Global.deviceslist = null;
-                SukiUIDemoViewModel sukiViewModel = GlobalData.SukiUIDemoViewModelInstance;
+                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 sukiViewModel.Status = "--";
                 sukiViewModel.BLStatus = "--";
                 sukiViewModel.VABStatus = "--";
@@ -114,10 +110,10 @@ namespace UotanToolbox.Common
             {
                 devcon = await CallExternalProgram.LsUSB();
             }
-            if (fastboot.IndexOf(devicename) != -1)
+            if (fastboot.Contains(devicename))
             {
                 string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
-                if (isuserspace.IndexOf("yes") != -1)
+                if (isuserspace.Contains("yes"))
                 {
                     status = "Fastbootd";
                     vndkversion = StringHelper.FastbootVar(await CallExternalProgram.Fastboot($"-s {devicename} getvar version-vndk"), "version-vndk");
@@ -126,11 +122,11 @@ namespace UotanToolbox.Common
                 {
                     status = "Fastboot";
                     string type = await CallExternalProgram.Fastboot($"-s {devicename} getvar variant");
-                    if (type.IndexOf("UFS") != -1)
+                    if (type.Contains("UFS"))
                     {
                         disktype = "UFS";
                     }
-                    else if (type.IndexOf("EMMC") != -1)
+                    else if (type.Contains("EMMC"))
                     {
                         disktype = "EMMC";
                     }
@@ -140,7 +136,7 @@ namespace UotanToolbox.Common
                     }
                 }
                 string blinfo = await CallExternalProgram.Fastboot($"-s {devicename} getvar unlocked");
-                if (blinfo.IndexOf("yes") != -1)
+                if (blinfo.Contains("yes"))
                 {
                     blstatus = "已解锁";
                 }
@@ -155,53 +151,53 @@ namespace UotanToolbox.Common
                     codename = product;
                 }
                 string active = await CallExternalProgram.Fastboot($"-s {devicename} getvar current-slot");
-                if (active.IndexOf("current-slot: a") != -1)
+                if (active.Contains("current-slot: a"))
                 {
                     vabstatus = "A槽位";
                 }
-                else if (active.IndexOf("current-slot: b") != -1)
+                else if (active.Contains("current-slot: b"))
                 {
                     vabstatus = "B槽位";
                 }
-                else if (active.IndexOf("FAILED") != -1)
+                else if (active.Contains("FAILED"))
                 {
                     vabstatus = "A-Only设备";
                 }
             }
-            if (adb.IndexOf(devicename) != -1)
+            if (adb.Contains(devicename))
             {
                 string thisdevice = "";
                 string[] Lines = adb.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
-                    if (Lines[i].IndexOf(devicename) != -1)
+                    if (Lines[i].Contains(devicename))
                     {
                         thisdevice = Lines[i];
                         break;
                     }
                 }
-                if (thisdevice.IndexOf("recovery") != -1)
+                if (thisdevice.Contains("recovery"))
                 {
                     status = "Recovery";
                 }
-                else if (thisdevice.IndexOf("sideload") != -1)
+                else if (thisdevice.Contains("sideload"))
                 {
                     status = "Sideload";
                 }
-                else if (thisdevice.IndexOf("	device") != -1)
+                else if (thisdevice.Contains("	device"))
                 {
                     status = "系统";
                 }
-                else if (thisdevice.IndexOf("unauthorized") != -1)
+                else if (thisdevice.Contains("unauthorized"))
                 {
                     status = "未信任的设备";
                 }
                 string active = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.slot_suffix");
-                if (active.IndexOf("_a") != -1)
+                if (active.Contains("_a"))
                 {
                     vabstatus = "A槽位";
                 }
-                else if (active.IndexOf("_b") != -1)
+                else if (active.Contains("_b"))
                 {
                     vabstatus = "B槽位";
                 }
@@ -228,7 +224,7 @@ namespace UotanToolbox.Common
                     density = "--";
                 }
                 string bid = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell cat /sys/devices/soc0/serial_number"));
-                if (bid.IndexOf("No such file") != -1 || bid.IndexOf("Permission denied") != -1)
+                if (bid.Contains("No such file") || bid.Contains("Permission denied"))
                 {
                     boardid = "--";
                 }
@@ -283,13 +279,13 @@ namespace UotanToolbox.Common
                 {
                     string diskinfos1 = await CallExternalProgram.ADB($"-s {devicename} shell df /storage/emulated");
                     string diskinfos2 = await CallExternalProgram.ADB($"-s {devicename} shell df /data");
-                    if (diskinfos1.IndexOf("/storage/emulated") != -1)
+                    if (diskinfos1.Contains("/storage/emulated"))
                     {
                         string[] columns = StringHelper.DiskInfo(diskinfos1, "/storage/emulated");
                         progressdisk = columns[4].TrimEnd('%');
                         diskinfo = String.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
                     }
-                    else if (diskinfos2.IndexOf("/sdcard") != -1)
+                    else if (diskinfos2.Contains("/sdcard"))
                     {
                         string[] columns = StringHelper.DiskInfo(diskinfos2, "/sdcard");
                         progressdisk = columns[4].TrimEnd('%');
@@ -308,36 +304,36 @@ namespace UotanToolbox.Common
                     diskinfo = "--";
                 }
             }
-            if (devcon.IndexOf(devicename) != -1)
+            if (devcon.Contains(devicename))
             {
                 string thisdevice = "";
                 string[] Lines = devcon.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
-                    if (Lines[i].IndexOf(devicename) != -1)
+                    if (Lines[i].Contains(devicename))
                     {
                         thisdevice = Lines[i];
                         break;
                     }
                 }
-                if (thisdevice.IndexOf("QDLoader") != -1)
+                if (thisdevice.Contains("QDLoader"))
                 {
                     status = "9008";
                 }
-                else if (thisdevice.IndexOf("900E (") != -1)
+                else if (thisdevice.Contains("900E ("))
                 {
                     status = "900E";
                 }
-                else if (thisdevice.IndexOf("901D (") != -1)
+                else if (thisdevice.Contains("901D ("))
                 {
                     status = "901D";
                 }
-                else if (thisdevice.IndexOf("9091 (") != -1)
+                else if (thisdevice.Contains("9091 ("))
                 {
                     status = "9091";
                 }
             }
-            if (devicename.IndexOf("ttyUSB") != -1)
+            if (devicename.Contains("ttyUSB"))
             {
                 status = "9008";
             }
@@ -346,20 +342,17 @@ namespace UotanToolbox.Common
                 string[] Lines = devcon.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
-                    int Find900E = Lines[i].IndexOf(":900e");
-                    if (Find900E != -1)
+                    if (Lines[i].Contains(":900e"))
                     {
                         status = "900E";
                         break;
                     }
-                    int Find901D = Lines[i].IndexOf(":901d");
-                    if (Find901D != -1)
+                    else if (Lines[i].Contains(":901d"))
                     {
                         status = "901D";
                         break;
                     }
-                    int Find9091 = Lines[i].IndexOf(":9091");
-                    if (Find9091 != -1)
+                    else if (Lines[i].Contains(":9091"))
                     {
                         status = "9091";
                         break;
@@ -393,9 +386,11 @@ namespace UotanToolbox.Common
             return devices;
         }
 
+        internal static readonly char[] separator = ['\r', '\n'];
+
         public static async Task<Dictionary<string, string>> DevicesInfoLittle(string devicename)
         {
-            Dictionary<string, string> devices = new Dictionary<string, string>();
+            Dictionary<string, string> devices = [];
             string status = "--";
             string blstatus = "--";
             string codename = "--";
@@ -411,10 +406,10 @@ namespace UotanToolbox.Common
             {
                 devcon = await CallExternalProgram.LsUSB();
             }
-            if (fastboot.IndexOf(devicename) != -1)
+            if (fastboot.Contains(devicename))
             {
                 string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
-                if (isuserspace.IndexOf("yes") != -1)
+                if (isuserspace.Contains("yes"))
                 {
                     status = "Fastbootd";
                 }
@@ -423,7 +418,7 @@ namespace UotanToolbox.Common
                     status = "Fastboot";
                 }
                 string blinfo = await CallExternalProgram.Fastboot($"-s {devicename} getvar unlocked");
-                if (blinfo.IndexOf("yes") != -1)
+                if (blinfo.Contains("yes"))
                 {
                     blstatus = "已解锁";
                 }
@@ -438,53 +433,53 @@ namespace UotanToolbox.Common
                     codename = product;
                 }
                 string active = await CallExternalProgram.Fastboot($"-s {devicename} getvar current-slot");
-                if (active.IndexOf("current-slot: a") != -1)
+                if (active.Contains("current-slot: a"))
                 {
                     vabstatus = "A槽位";
                 }
-                else if (active.IndexOf("current-slot: b") != -1)
+                else if (active.Contains("current-slot: b"))
                 {
                     vabstatus = "B槽位";
                 }
-                else if (active.IndexOf("FAILED") != -1)
+                else if (active.Contains("FAILED"))
                 {
                     vabstatus = "A-Only设备";
                 }
             }
-            if (adb.IndexOf(devicename) != -1)
+            if (adb.Contains(devicename))
             {
                 string thisdevice = "";
                 string[] Lines = adb.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
-                    if (Lines[i].IndexOf(devicename) != -1)
+                    if (Lines[i].Contains(devicename))
                     {
                         thisdevice = Lines[i];
                         break;
                     }
                 }
-                if (thisdevice.IndexOf("recovery") != -1)
+                if (thisdevice.Contains("recovery"))
                 {
                     status = "Recovery";
                 }
-                else if (thisdevice.IndexOf("sideload") != -1)
+                else if (thisdevice.Contains("sideload"))
                 {
                     status = "Sideload";
                 }
-                else if (thisdevice.IndexOf("	device") != -1)
+                else if (thisdevice.Contains("	device"))
                 {
                     status = "系统";
                 }
-                else if (thisdevice.IndexOf("unauthorized") != -1)
+                else if (thisdevice.Contains("unauthorized"))
                 {
                     status = "未信任的设备";
                 }
                 string active = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.slot_suffix");
-                if (active.IndexOf("_a") != -1)
+                if (active.Contains("_a"))
                 {
                     vabstatus = "A槽位";
                 }
-                else if (active.IndexOf("_b") != -1)
+                else if (active.Contains("_b"))
                 {
                     vabstatus = "B槽位";
                 }
@@ -499,36 +494,36 @@ namespace UotanToolbox.Common
                 codename = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.board"));
                 blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate"));
             }
-            if (devcon.IndexOf(devicename) != -1)
+            if (devcon.Contains(devicename))
             {
                 string thisdevice = "";
-                string[] Lines = adb.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] Lines = adb.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
-                    if (Lines[i].IndexOf(devicename) != -1)
+                    if (Lines[i].Contains(devicename))
                     {
                         thisdevice = Lines[i];
                         break;
                     }
                 }
-                if (thisdevice.IndexOf("QDLoader") != -1)
+                if (thisdevice.Contains("QDLoader"))
                 {
                     status = "9008";
                 }
-                else if (thisdevice.IndexOf("900E (") != -1)
+                else if (thisdevice.Contains("900E ("))
                 {
                     status = "900E";
                 }
-                else if (thisdevice.IndexOf("901D (") != -1)
+                else if (thisdevice.Contains("901D ("))
                 {
                     status = "901D";
                 }
-                else if (thisdevice.IndexOf("9091 (") != -1)
+                else if (thisdevice.Contains("9091 ("))
                 {
                     status = "9091";
                 }
             }
-            if (devicename.IndexOf("ttyUSB") != -1)
+            if (devicename.Contains("ttyUSB"))
             {
                 status = "9008";
             }
@@ -537,20 +532,17 @@ namespace UotanToolbox.Common
                 string[] Lines = devcon.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
-                    int Find900E = Lines[i].IndexOf(":900e");
-                    if (Find900E != -1)
+                    if (Lines[i].Contains(":900e"))
                     {
                         status = "900E";
                         break;
                     }
-                    int Find901D = Lines[i].IndexOf(":901d");
-                    if (Find901D != -1)
+                    else if (Lines[i].Contains(":901d"))
                     {
                         status = "901D";
                         break;
                     }
-                    int Find9091 = Lines[i].IndexOf(":9091");
-                    if (Find9091 != -1)
+                    else if (Lines[i].Contains(":9091"))
                     {
                         status = "9091";
                         break;

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="UotanToolbox.Features.Splash.SplashView"
+﻿<UserControl x:Class="UotanToolbox.Features.Home.HomeView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
@@ -6,13 +6,13 @@
 			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:splash="clr-namespace:UotanToolbox.Features.Splash"
+             xmlns:home="clr-namespace:UotanToolbox.Features.Home"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
 			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
 			 xmlns:localizations="clr-namespace:UotanToolbox.Common;assembly=UotanToolbox"
 			 d:DesignWidth="1024"
-             x:DataType="splash:SplashViewModel"
+             x:DataType="home:HomeViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
 		<WrapPanel Margin="15"

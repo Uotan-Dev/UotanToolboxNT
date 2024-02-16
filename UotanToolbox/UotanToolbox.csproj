@@ -8,7 +8,7 @@
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 	</PropertyGroup>
 	<ItemGroup>
-	  <AdditionalFiles Remove="Features\Splash\ConnectionDialog.axaml" />
+	  <AdditionalFiles Remove="Features\Home\ConnectionDialog.axaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -35,7 +35,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AvaloniaXaml Update="Features\Splash\ConnectionDialog.axaml">
+	  <AvaloniaXaml Update="Features\Components\ConnectionDialog.axaml">
 	    <SubType>Designer</SubType>
 	  </AvaloniaXaml>
 	</ItemGroup>
@@ -46,8 +46,14 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Resources.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="Features\Home\HomeView.axaml.cs">
+	    <DependentUpon>HomeView.axaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Features\Settings\SettingsView.axaml.cs">
 	    <DependentUpon>SettingsView.axaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MainView.axaml.cs">
+	    <DependentUpon>MainView.axaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 

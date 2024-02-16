@@ -29,7 +29,7 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var viewLocator = _provider?.GetRequiredService<IDataTemplate>();
-            var mainVm = _provider?.GetRequiredService<SukiUIDemoViewModel>();
+            var mainVm = _provider?.GetRequiredService<MainViewModel>();
 
             desktop.MainWindow = viewLocator?.Build(mainVm) as Window;
             desktop.MainWindow.Width = 1240;
@@ -49,7 +49,7 @@ public partial class App : Application
         services.AddSingleton<PageNavigationService>();
 
         // Viewmodels
-        services.AddSingleton<SukiUIDemoViewModel>();
+        services.AddSingleton<MainViewModel>();
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(p => !p.IsAbstract && typeof(DemoPageBase).IsAssignableFrom(p));

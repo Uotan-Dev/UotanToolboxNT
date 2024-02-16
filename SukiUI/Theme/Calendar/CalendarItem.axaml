@@ -1,0 +1,91 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:content="clr-namespace:SukiUI.Content">
+    <ControlTheme x:Key="SukiCalendarItemStyle" TargetType="CalendarItem">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="DayTitleTemplate">
+            <Template>
+                <TextBlock HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           FontSize="12"
+                           Text="{Binding}"
+                           TextAlignment="Center" />
+            </Template>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{DynamicResource ControlCornerRadius}">
+                    <Grid MinWidth="225"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          RowDefinitions="Auto, *">
+                        <Grid Name="CalendarHeader"
+                              Margin="0,5"
+                              ColumnDefinitions="Auto, *, Auto, Auto">
+                            <Button Name="PART_HeaderButton"
+                                    Grid.Column="0"
+                                    Classes="Basic"
+                                    IsEnabled="False" />
+
+                            <Button Name="PART_PreviousButton"
+                                    Grid.Column="2"
+                                    Classes="NavButton Basic">
+                                <PathIcon Classes="Primary" Data="{x:Static content:Icons.ChevronLeft}" />
+                            </Button>
+
+                            <Button Name="PART_NextButton"
+                                    Grid.Column="3"
+                                    Classes="NavButton Basic">
+                                <PathIcon Classes="Primary" Data="{x:Static content:Icons.ChevronRight}" />
+                            </Button>
+                        </Grid>
+
+                        <Grid Name="PART_MonthView"
+                              Grid.Row="1"
+                              Classes="CalendarView"
+                              ColumnDefinitions="32,32,32,32,32,32,32"
+                              RowDefinitions="32,32,32,32,32,32,32" />
+
+                        <Grid Name="PART_YearView"
+                              Grid.Row="1"
+                              Classes="CalendarView"
+                              ColumnDefinitions="*,*,*,*"
+                              RowDefinitions="*,*,*" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ Button.NavButton">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,0,10,0" />
+            <Style Selector="^ &gt; PathIcon">
+                <Setter Property="Width" Value="15" />
+                <Setter Property="Height" Value="15" />
+            </Style>
+        </Style>
+
+        <Style Selector="^ /template/ Button.HeaderButton">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Padding" Value="8, 0" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+
+        <Style Selector="^ /template/ Grid.CalendarView">
+            <Setter Property="IsVisible" Value="False" />
+            <Setter Property="MinWidth" Value="240" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="MinHeight" Value="225" />
+            <Setter Property="Row" Value="1" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type CalendarItem}"
+                  BasedOn="{StaticResource SukiCalendarItemStyle}"
+                  TargetType="CalendarItem" />
+</ResourceDictionary>

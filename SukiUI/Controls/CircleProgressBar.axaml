@@ -11,7 +11,7 @@
         <Style Selector="suki|CircleProgressBar">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid>
+                    <Panel>
                         <Arc Width="{TemplateBinding Width}"
                              Height="{TemplateBinding Height}"
                              StartAngle="0"
@@ -45,36 +45,34 @@
                                         HorizontalContentAlignment="Center"
                                         VerticalContentAlignment="Center"
                                         Content="{TemplateBinding Content}" />
-                    </Grid>
+                    </Panel>
                 </ControlTemplate>
             </Setter>
             <Style Selector="^.Accent /template/ Arc#PART_ArcFill">
                 <Setter Property="Stroke" Value="{DynamicResource SukiAccentColor}" />
             </Style>
             <Style Selector="^[IsIndeterminate=True] /template/ Arc#PART_ArcFill">
-                <Setter Property="SweepAngle" Value="90"></Setter>
+                <Setter Property="SweepAngle" Value="90" />
                 <Style.Animations>
-                    <Animation 
-                               IterationCount="Infinite"
-                               Duration="0:0:1.2">
+                    <Animation IterationCount="Infinite" Duration="0:0:1.2">
                         <KeyFrame Cue="0%">
-                            <Setter Property="StartAngle" Value="270"></Setter>
+                            <Setter Property="StartAngle" Value="270" />
                         </KeyFrame>
                         <KeyFrame Cue="100%">
-                            
-                            <Setter Property="StartAngle" Value="630"></Setter>
+
+                            <Setter Property="StartAngle" Value="630" />
                         </KeyFrame>
                     </Animation>
                 </Style.Animations>
             </Style>
-            
+
             <Style Selector="^[IsIndeterminate=False] /template/ Arc#PART_ArcFill">
-               
-                <Setter Property="StartAngle" Value="270"></Setter>
-                
+
+                <Setter Property="StartAngle" Value="270" />
+
             </Style>
-            
-           
+
+
         </Style>
     </UserControl.Styles>
 

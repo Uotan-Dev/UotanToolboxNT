@@ -138,11 +138,11 @@
                                MinHeight="20">
                             <Thumb.Template>
                                 <ControlTemplate>
-                                    <Grid>
+                                    <Panel>
                                         <Ellipse Width="12"
                                                  Height="12"
                                                  Fill="{DynamicResource ThemeAccentBrush}" />
-                                    </Grid>
+                                    </Panel>
                                 </ControlTemplate>
                             </Thumb.Template>
                         </Thumb>

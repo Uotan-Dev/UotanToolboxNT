@@ -11,7 +11,7 @@
              mc:Ignorable="d">
 
     <Border Padding="5" Background="{DynamicResource SukiBackground}">
-        <Grid>
+        <Panel>
             <ScrollViewer>
                 <controls:PropertyGrid Item="{Binding}">
                     <controls:PropertyGrid.DataTemplates>
@@ -25,6 +25,6 @@
                     </controls:PropertyGrid.DataTemplates>
                 </controls:PropertyGrid>
             </ScrollViewer>
-        </Grid>
+        </Panel>
     </Border>
 </UserControl>

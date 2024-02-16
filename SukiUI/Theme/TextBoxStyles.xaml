@@ -27,7 +27,7 @@
                          Text="Elem" />
                 <TextBox Classes="FlatTextBox" Text="Elem" />
 
-                <Grid>
+                <Panel>
                     <Border Margin="0,0,0,25" Classes="Card">
                         <StackPanel>
                             <TextBlock Margin="6,0,0,3"
@@ -58,7 +58,7 @@
                                        Text="Sign In" />
                         </StackPanel>
                     </Button>
-                </Grid>
+                </Panel>
 
             </StackPanel>
         </Border>
@@ -405,12 +405,12 @@
                                 <DataValidationErrors>
 
                                     <Grid ColumnDefinitions="Auto,*,Auto">
-                                        <Grid>
+                                        <Panel>
                                             <TextBlock Margin="0,1,3,0"
                                                        FontSize="13"
                                                        Foreground="{DynamicResource SukiLowText}"
                                                        Text="{TemplateBinding theme:TextBoxExtensions.Prefix}" />
-                                        </Grid>
+                                        </Panel>
                                         <ScrollViewer Grid.Column="1"
                                                       HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                                       VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">

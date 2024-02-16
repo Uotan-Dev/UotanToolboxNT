@@ -10,7 +10,13 @@
                     <Viewbox Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
                         <Path Data="{TemplateBinding Data}"
                               Fill="{TemplateBinding Foreground}"
-                              Stretch="Uniform" />
+                              Stretch="Uniform">
+                            <Path.Transitions>
+                                <Transitions>
+                                    <BrushTransition Property="Fill" Duration="{DynamicResource ShortAnimationDuration}" />
+                                </Transitions>
+                            </Path.Transitions>
+                        </Path>
                     </Viewbox>
                 </Border>
             </ControlTemplate>

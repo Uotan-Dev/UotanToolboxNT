@@ -1,0 +1,21 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="SukiCalendarStyle" TargetType="Calendar">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HeaderBackground" Value="Transparent" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel Name="PART_Root" ClipToBounds="True">
+                    <CalendarItem Name="PART_CalendarItem"
+                                  Background="{TemplateBinding Background}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  HeaderBackground="{TemplateBinding HeaderBackground}" />
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type Calendar}"
+                  BasedOn="{StaticResource SukiCalendarStyle}"
+                  TargetType="Calendar" />
+</ResourceDictionary>

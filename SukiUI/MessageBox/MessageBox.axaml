@@ -15,8 +15,8 @@
         Classes="NakedWindow"
         ExtendClientAreaToDecorationsHint="True"
         mc:Ignorable="d">
-    <Grid>
-        <Grid.Styles>
+    <Panel>
+        <Panel.Styles>
             <Style Selector="Grid.AnimatedGrid">
                 <Style.Animations>
                     <Animation Duration="0:0:4">
@@ -47,8 +47,8 @@
                     </Animation>
                 </Style.Animations>
             </Style>
-        </Grid.Styles>
-        <Grid Background="{DynamicResource SukiBackground}" IsHitTestVisible="False" />
+        </Panel.Styles>
+        <Panel Background="{DynamicResource SukiBackground}" IsHitTestVisible="False" />
         <Button Width="23"
                 Height="23"
                 Margin="12"
@@ -96,5 +96,5 @@
                 DockPanel.Dock="Bottom">
             <TextBlock />
         </Button>
-    </Grid>
+    </Panel>
 </Window>

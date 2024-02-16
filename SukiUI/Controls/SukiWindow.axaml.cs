@@ -54,6 +54,15 @@ public class SukiWindow : Window
         set => SetValue(ShowBottomBorderProperty, value);
     }
 
+    public static readonly StyledProperty<bool> IsTitleBarVisibleProperty =
+        AvaloniaProperty.Register<SukiWindow, bool>(nameof(IsTitleBarVisible), defaultValue: true);
+
+    public bool IsTitleBarVisible
+    {
+        get => GetValue(IsTitleBarVisibleProperty);
+        set => SetValue(IsTitleBarVisibleProperty, value);
+    }
+
     public static readonly StyledProperty<bool> IsMenuVisibleProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(IsMenuVisible), defaultValue: false);
 
@@ -71,7 +80,7 @@ public class SukiWindow : Window
         get => GetValue(MenuItemsProperty);
         set => SetValue(MenuItemsProperty, value);
     }
-    
+
     public static readonly StyledProperty<bool> BackgroundAnimationEnabledProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(BackgroundAnimationEnabled), defaultValue: false);
 
@@ -81,7 +90,7 @@ public class SukiWindow : Window
         set => SetValue(BackgroundAnimationEnabledProperty, value);
     }
 
-    public static readonly StyledProperty<bool> CanMinimizeProperty = 
+    public static readonly StyledProperty<bool> CanMinimizeProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMinimize), defaultValue: true);
 
     public bool CanMinimize
@@ -90,7 +99,7 @@ public class SukiWindow : Window
         set => SetValue(CanMinimizeProperty, value);
     }
 
-    public static readonly StyledProperty<bool> CanMoveProperty = 
+    public static readonly StyledProperty<bool> CanMoveProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMove), defaultValue: true);
 
     public bool CanMove
@@ -101,15 +110,15 @@ public class SukiWindow : Window
 
     public SukiWindow()
     {
-        MenuItems = new();
+        MenuItems = new AvaloniaList<MenuItem>();
     }
-    
+
     private IDisposable? _subscriptionDisposables;
 
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
-        if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop) 
+        if (Application.Current?.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop)
             return;
         if (desktop.MainWindow is SukiWindow s && s != this)
         {
@@ -123,8 +132,12 @@ public class SukiWindow : Window
     {
         base.OnApplyTemplate(e);
 
+        var stateObs = this.GetObservable(WindowStateProperty)
+            .Do(OnWindowStateChanged)
+            .Select(_ => Unit.Default);
+
         // Create handlers for buttons
-        if (e.NameScope.Find<Button>("PART_MaximizeButton") is { } maximize)
+        if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
         {
             maximize.Click += (_, _) =>
             {
@@ -134,26 +147,35 @@ public class SukiWindow : Window
                     : WindowState.Maximized;
             };
         }
-        
-        if (e.NameScope.Find<Button>("PART_MinimizeButton") is { } minimize)
+
+        if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
             minimize.Click += (_, _) => WindowState = WindowState.Minimized;
 
-        if (e.NameScope.Find<Button>("PART_CloseButton") is { } close)
+        if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
             close.Click += (_, _) => Close();
 
-        if (e.NameScope.Find<GlassCard>("PART_TitleBarBackground") is { } titleBar)
+        if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
             titleBar.PointerPressed += OnTitleBarPointerPressed;
 
-        if (e.NameScope.Find<SukiBackground>("PART_Background") is { } background)
+        if (e.NameScope.Get<SukiBackground>("PART_Background") is { } background)
         {
             background.SetAnimationEnabled(BackgroundAnimationEnabled);
             var bgObs = this.GetObservable(BackgroundAnimationEnabledProperty)
                 .Do(enabled => background.SetAnimationEnabled(enabled))
                 .Select(_ => Unit.Default)
+                .Merge(stateObs)
                 .ObserveOn(new AvaloniaSynchronizationContext());
 
             _subscriptionDisposables = bgObs.Subscribe();
         }
+    }
+
+    private void OnWindowStateChanged(WindowState state)
+    {
+        if (state == WindowState.FullScreen)
+            CanResize = CanMove = false;
+        else
+            CanResize = CanMove = true;
     }
 
     private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)

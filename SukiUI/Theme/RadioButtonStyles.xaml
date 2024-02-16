@@ -29,7 +29,7 @@
         <Setter Property="CornerRadius" Value="50" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
+                <Panel>
                     <Border Margin="0,0,0,0"
                             Padding="10"
                             Background="{TemplateBinding Background}"
@@ -50,7 +50,7 @@
                                               RecognizesAccessKey="True" />
                         </StackPanel>
                     </Border>
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
     </Style>
@@ -78,7 +78,7 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
+                <Panel>
                     <Border Name="BigBorder"
                             Margin="4"
                             Padding="15,15,30,15"
@@ -131,7 +131,7 @@
                         </Border.Transitions>
                     </Border>
 
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
     </Style>
@@ -177,21 +177,20 @@
         </Setter>
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
+                <Panel>
                     <Border Margin="0,0,0,0"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{DynamicResource MediumCornerRadius}">
                         <ContentPresenter Name="PART_ContentPresenter"
-                                          Grid.Column="1"
                                           Margin="0,2,-40,0"
                                           VerticalAlignment="Center"
                                           Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
                                           RecognizesAccessKey="True" />
                     </Border>
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
     </Style>

@@ -6,7 +6,7 @@
         <Setter Property="Padding" Value="20" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
+                <Panel>
                     <Border Name="PART_BorderCard"
                             Background="{DynamicResource SukiGlassCardBackground}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -35,7 +35,7 @@
                         </Border.Transitions>
                         <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
                     </Border>
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
         <Style Selector="^.Primary /template/ Border#PART_ClipBorder">

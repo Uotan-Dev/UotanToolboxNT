@@ -18,11 +18,12 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         ClipToBounds="True">
-                    <Grid>
+                    <Panel>
                         <DockPanel Margin="5,10">
                             <ContentPresenter Name="PART_Icon"
-                                              Width="15" Margin="5,0"
+                                              Width="15"
                                               Height="15"
+                                              Margin="5,0"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
                                               Content="{TemplateBinding Icon}"
@@ -67,25 +68,28 @@
                                OverlayInputPassThroughElement="{Binding $parent[Menu]}"
                                Placement="RightEdgeAlignedTop"
                                VerticalOffset="-1">
-                            <LayoutTransformControl Name="PART_LayoutTransform">
-                                <Grid Margin="0,-8,0,0">
-                                    <Border BoxShadow="{DynamicResource SukiPopupShadow}" Margin="16,8,8,8"  CornerRadius="6" ></Border>
+                            <LayoutTransformControl Name="PART_LayoutTransform" RenderTransformOrigin="0%, 0%">
+                                <Panel Margin="0,-8,0,0">
+                                    <Border Margin="16,8,8,8"
+                                            BoxShadow="{DynamicResource SukiPopupShadow}"
+                                            CornerRadius="6" />
 
-                                <Border Name="PART_Border" Margin="16,8,8,8"
-                                        Background="{DynamicResource SukiCardBackground}"
-                                        BorderBrush="{DynamicResource SukiLightBorderBrush}"
-                                        BorderThickness="1"
-                                        BoxShadow="{DynamicResource SukiPopupShadow}"
-                                        ClipToBounds="True"
-                                        CornerRadius="5">
-                                    <ScrollViewer>
-                                        <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
-                                    </ScrollViewer>
-                                </Border>
-                                    </Grid>
+                                    <Border Name="PART_Border"
+                                            Margin="16,8,8,8"
+                                            Background="{DynamicResource SukiCardBackground}"
+                                            BorderBrush="{DynamicResource SukiLightBorderBrush}"
+                                            BorderThickness="1"
+                                            BoxShadow="{DynamicResource SukiPopupShadow}"
+                                            ClipToBounds="True"
+                                            CornerRadius="5">
+                                        <ScrollViewer>
+                                            <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                        </ScrollViewer>
+                                    </Border>
+                                </Panel>
                             </LayoutTransformControl>
                         </Popup>
-                    </Grid>
+                    </Panel>
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -106,16 +110,14 @@
 
         <Style Selector="^:open /template/ LayoutTransformControl#PART_LayoutTransform">
             <Style.Animations>
-                <Animation Easing="CircularEaseOut"
+                <Animation Easing="{StaticResource MenuEasing}"
                            FillMode="Forward"
                            Duration="{StaticResource ShortAnimationDuration}">
                     <KeyFrame Cue="0%">
                         <Setter Property="ScaleTransform.ScaleX" Value="0" />
-                        <Setter Property="TranslateTransform.X" Value="-100" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
                         <Setter Property="ScaleTransform.ScaleX" Value="1" />
-                        <Setter Property="TranslateTransform.X" Value="0" />
                     </KeyFrame>
                 </Animation>
             </Style.Animations>

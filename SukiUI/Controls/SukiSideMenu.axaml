@@ -24,7 +24,7 @@
                                             VerticalAlignment="Top"
                                             Classes="Basic"
                                             DockPanel.Dock="Top">
-                                        <Grid>
+                                        <Panel>
                                             <PathIcon Name="PART_ExpandIcon"
                                                       Width="12"
                                                       Height="12"
@@ -36,7 +36,7 @@
                                                     </Transitions>
                                                 </PathIcon.Transitions>
                                             </PathIcon>
-                                        </Grid>
+                                        </Panel>
                                     </Button>
                                     <Grid MinHeight="{TemplateBinding HeaderMinHeight}"
                                           DockPanel.Dock="Top"

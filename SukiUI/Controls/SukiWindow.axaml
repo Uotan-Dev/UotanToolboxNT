@@ -9,27 +9,27 @@
         <Setter Property="TextElement.Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
-                    <Grid IsHitTestVisible="True">
-                        <VisualLayerManager Name="PART_VisualLayerManager" IsHitTestVisible="True">
-                            <suki:SukiHost>
-                                <Grid x:Name="PART_Root">
-                                    <suki:SukiBackground Name="PART_Background" IsHitTestVisible="False" />
-                                    <DockPanel LastChildFill="True">
-                                        <Grid DockPanel.Dock="Top">
-                                            <Grid.Styles>
-                                                <Style Selector="suki|SukiWindow[ShowBottomBorder=True] /template/ Border#PART_BottomBorder">
-                                                    <Setter Property="BorderThickness" Value="0,0,0,1" />
-                                                </Style>
-                                                <Style Selector="suki|SukiWindow[ShowBottomBorder=False] /template/ Border#PART_BottomBorder">
-                                                    <Setter Property="BorderThickness" Value="0,0,0,0" />
-                                                </Style>
-                                            </Grid.Styles>
-                                            <suki:GlassCard Name="PART_TitleBarBackground"
-                                                            BorderThickness="0"
-                                                            CornerRadius="0" />
-                                            <StackPanel>
-                                                <Grid>
+                <Panel IsHitTestVisible="True">
+                    <VisualLayerManager Name="PART_VisualLayerManager" IsHitTestVisible="True">
+                        <suki:SukiHost>
+                            <Panel x:Name="PART_Root">
+                                <suki:SukiBackground Name="PART_Background" IsHitTestVisible="False" />
+                                <DockPanel LastChildFill="True">
+                                    <Panel DockPanel.Dock="Top">
+                                        <Panel.Styles>
+                                            <Style Selector="suki|SukiWindow[ShowBottomBorder=True] /template/ Border#PART_BottomBorder">
+                                                <Setter Property="BorderThickness" Value="0,0,0,1" />
+                                            </Style>
+                                            <Style Selector="suki|SukiWindow[ShowBottomBorder=False] /template/ Border#PART_BottomBorder">
+                                                <Setter Property="BorderThickness" Value="0,0,0,0" />
+                                            </Style>
+                                        </Panel.Styles>
+                                        <StackPanel>
+                                            <LayoutTransformControl Name="PART_LayoutTransform" RenderTransformOrigin="0%,0%">
+                                                <Panel>
+                                                    <suki:GlassCard Name="PART_TitleBarBackground"
+                                                                    BorderThickness="0"
+                                                                    CornerRadius="0" />
                                                     <DockPanel Margin="12,9" LastChildFill="True">
                                                         <StackPanel VerticalAlignment="Center"
                                                                     DockPanel.Dock="Right"
@@ -73,24 +73,24 @@
                                                                        Text="{TemplateBinding Title}" />
                                                         </StackPanel>
                                                     </DockPanel>
-                                                </Grid>
-                                                <Menu IsEnabled="{TemplateBinding IsMenuVisible}" ItemsSource="{TemplateBinding MenuItems}" />
-                                                <Border Name="PART_BottomBorder" BorderBrush="{DynamicResource SukiBorderBrush}" />
-                                            </StackPanel>
-                                        </Grid>
-                                        <ContentPresenter x:Name="PART_ContentPresenter"
-                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                          Content="{TemplateBinding Content}"
-                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                          CornerRadius="10"
-                                                          IsHitTestVisible="True" />
-                                    </DockPanel>
-                                </Grid>
-                            </suki:SukiHost>
-                        </VisualLayerManager>
-                    </Grid>
-                </Grid>
+                                                </Panel>
+                                            </LayoutTransformControl>
+                                            <Menu IsEnabled="{TemplateBinding IsMenuVisible}" ItemsSource="{TemplateBinding MenuItems}" />
+                                            <Border Name="PART_BottomBorder" BorderBrush="{DynamicResource SukiBorderBrush}" />
+                                        </StackPanel>
+                                    </Panel>
+                                    <ContentPresenter x:Name="PART_ContentPresenter"
+                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      Content="{TemplateBinding Content}"
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                      CornerRadius="10"
+                                                      IsHitTestVisible="True" />
+                                </DockPanel>
+                            </Panel>
+                        </suki:SukiHost>
+                    </VisualLayerManager>
+                </Panel>
             </ControlTemplate>
         </Setter>
         <Style Selector="^[WindowState=Maximized] /template/ PathIcon#MaximizeIcon">
@@ -102,6 +102,37 @@
         </Style>
         <Style Selector="^[WindowState=Normal] /template/ PathIcon#MaximizeIcon">
             <Setter Property="Data" Value="{x:Static icons:Icons.WindowMaximize}" />
+        </Style>
+
+        <Style Selector="^[IsTitleBarVisible=True] /template/ LayoutTransformControl#PART_LayoutTransform">
+            <Style.Animations>
+                <Animation Easing="{StaticResource MenuEasing}"
+                           FillMode="Forward"
+                           Duration="{StaticResource MediumAnimationDuration}">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="ScaleTransform.ScaleY" Value="0" />
+                        <Setter Property="IsVisible" Value="True" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+        <Style Selector="^[IsTitleBarVisible=False] /template/ LayoutTransformControl#PART_LayoutTransform">
+            <Style.Animations>
+                <Animation Easing="{StaticResource MenuEasing}"
+                           FillMode="Forward"
+                           Duration="{StaticResource MediumAnimationDuration}">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="ScaleTransform.ScaleY" Value="0" />
+                        <Setter Property="IsVisible" Value="False" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="{x:Type suki:SukiWindow}"

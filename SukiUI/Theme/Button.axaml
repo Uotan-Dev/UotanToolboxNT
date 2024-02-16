@@ -396,7 +396,7 @@
             <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Template">
@@ -406,7 +406,12 @@
                             <Style Selector="TextBlock">
                                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
                                 <Setter Property="FontSize" Value="{TemplateBinding FontSize}" />
-                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="TextDecorations" Value="Underline" />
+                                <Setter Property="Transitions">
+                                    <Transitions>
+                                        <BrushTransition Property="Foreground" Duration="{DynamicResource ShortAnimationDuration}" />
+                                    </Transitions>
+                                </Setter>
                             </Style>
                         </ContentPresenter.Styles>
                     </ContentPresenter>

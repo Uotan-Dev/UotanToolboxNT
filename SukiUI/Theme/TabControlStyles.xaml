@@ -1,7 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Width="400" Height="400">
-            <Grid>
+            <Panel>
                 <TabControl Margin="0,0,0,200">
                     <TabItem Header="Arch">
                         <Border Height="100" Background="AntiqueWhite">
@@ -15,7 +15,7 @@
                     </TabItem>
                     <TabItem Header="Disabled" IsEnabled="False" />
                 </TabControl>
-            </Grid>
+            </Panel>
         </Border>
     </Design.PreviewWith>
 

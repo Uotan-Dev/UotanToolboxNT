@@ -33,7 +33,7 @@
                     <Border.Resources>
                         <theme:BiggestItemListBoxConverter x:Key="BiggestListitem" />
                     </Border.Resources>
-                    <Grid>
+                    <Panel>
                         <ListBoxItem Margin="0,0,32,0"
                                      Content="{TemplateBinding ItemsSource,
                                                                Converter={StaticResource BiggestListitem}}"
@@ -45,7 +45,7 @@
                                             Margin="{TemplateBinding Padding}"
                                             ItemsPanel="{TemplateBinding ItemsPanel}" />
                         </ScrollViewer>
-                    </Grid>
+                    </Panel>
                 </Border>
             </ControlTemplate>
         </Setter>

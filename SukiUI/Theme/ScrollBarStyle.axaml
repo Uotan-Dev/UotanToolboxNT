@@ -101,11 +101,11 @@
                             <Thumb Name="thumb">
                                 <Thumb.Template>
                                     <ControlTemplate>
-                                        <Grid>
+                                        <Panel>
                                             <Border Margin="0,3"
                                                     Background="{DynamicResource SukiControlBorderBrush}"
                                                     CornerRadius="{DynamicResource MediumCornerRadius}" />
-                                        </Grid>
+                                        </Panel>
                                     </ControlTemplate>
                                 </Thumb.Template>
                             </Thumb>
@@ -201,12 +201,12 @@
                             <Thumb Name="thumb">
                                 <Thumb.Template>
                                     <ControlTemplate>
-                                        <Grid>
+                                        <Panel>
                                             <Border Height="10"
                                                     Margin="3,0"
                                                     Background="{DynamicResource SukiControlBorderBrush}"
                                                     CornerRadius="10" />
-                                        </Grid>
+                                        </Panel>
                                     </ControlTemplate>
                                 </Thumb.Template>
                             </Thumb>

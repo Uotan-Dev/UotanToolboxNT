@@ -1,11 +1,11 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Design.PreviewWith>
-        <Grid>
+        <Panel>
             <ProgressBar Width="100"
                          Height="6"
                          Value="50" />
-        </Grid>
+        </Panel>
     </Design.PreviewWith>
 
     <Style Selector="ProgressBar">
@@ -17,25 +17,29 @@
             <ControlTemplate>
                 <DockPanel Name="PART_Dock">
 
-                    <TextBlock Width="0" Height="0"
+                    <TextBlock Name="PART_Text"
+                               Width="0"
+                               Height="0"
                                Margin="0,0,0,0"
-                               HorizontalAlignment="Right" TextAlignment="Right" 
-                               VerticalAlignment="Center" Name="PART_Text"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Center"
                                DockPanel.Dock="Right"
                                FontWeight="DemiBold"
                                Foreground="{DynamicResource SukiText}"
-                               
-                               Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:0}%}" />
+                               Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:0}%}"
+                               TextAlignment="Right" />
 
-                    <Border Name="PART_RootBorder" ClipToBounds="True"
+                    <Border Name="PART_RootBorder"
                             MinWidth="{TemplateBinding MinWidth}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            ClipToBounds="True"
                             CornerRadius="{TemplateBinding CornerRadius}">
                         <Panel>
                             <Border Name="PART_Indicator"
-                                    Height="8" Width="8"
+                                    Width="8"
+                                    Height="8"
                                     Background="{TemplateBinding Foreground}"
                                     CornerRadius="{TemplateBinding CornerRadius}"
                                     IsVisible="{Binding !IsIndeterminate, RelativeSource={RelativeSource TemplatedParent}}">
@@ -90,24 +94,24 @@
 
     <Style Selector="ProgressBar:horizontal /template/ TextBlock#PART_Text">
         <Setter Property="DockPanel.Dock" Value="Right" />
-        <Setter Property="Height" Value="15"></Setter>
+        <Setter Property="Height" Value="15" />
     </Style>
-    
+
     <Style Selector="ProgressBar:vertical /template/ TextBlock#PART_Text">
         <Setter Property="DockPanel.Dock" Value="Bottom" />
-        <Setter Property="Margin" Value="10,10,0,0"></Setter>
-        <Setter Property="TextAlignment" Value="Center"></Setter>
-        <Setter Property="Width" Value="35"></Setter>
+        <Setter Property="Margin" Value="10,10,0,0" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Width" Value="35" />
     </Style>
-    
+
     <Style Selector="ProgressBar:horizontal[ShowProgressText=True] /template/ TextBlock#PART_Text">
         <Style.Animations>
             <Animation FillMode="Forward" Duration="0:0:0.35">
                 <KeyFrame Cue="0%">
-                    <Setter Property="Width" Value="0"/>
+                    <Setter Property="Width" Value="0" />
                 </KeyFrame>
                 <KeyFrame Cue="100%">
-                    <Setter Property="Width" Value="40"/>
+                    <Setter Property="Width" Value="40" />
                 </KeyFrame>
             </Animation>
         </Style.Animations>
@@ -117,23 +121,23 @@
         <Style.Animations>
             <Animation FillMode="Forward" Duration="0:0:0.35">
                 <KeyFrame Cue="0%">
-                    <Setter Property="Width" Value="40"/>
+                    <Setter Property="Width" Value="40" />
                 </KeyFrame>
                 <KeyFrame Cue="100%">
-                    <Setter Property="Width" Value="0"/>
+                    <Setter Property="Width" Value="0" />
                 </KeyFrame>
             </Animation>
         </Style.Animations>
     </Style>
-    
+
     <Style Selector="ProgressBar:vertical[ShowProgressText=True] /template/ TextBlock#PART_Text">
         <Style.Animations>
             <Animation FillMode="Forward" Duration="0:0:0.35">
                 <KeyFrame Cue="0%">
-                    <Setter Property="Height" Value="0"/>
+                    <Setter Property="Height" Value="0" />
                 </KeyFrame>
                 <KeyFrame Cue="100%">
-                    <Setter Property="Height" Value="35"/>
+                    <Setter Property="Height" Value="35" />
                 </KeyFrame>
             </Animation>
         </Style.Animations>
@@ -143,15 +147,15 @@
         <Style.Animations>
             <Animation FillMode="Forward" Duration="0:0:0.35">
                 <KeyFrame Cue="0%">
-                    <Setter Property="Height" Value="35"/>
+                    <Setter Property="Height" Value="35" />
                 </KeyFrame>
                 <KeyFrame Cue="100%">
-                    <Setter Property="Height" Value="0"/>
+                    <Setter Property="Height" Value="0" />
                 </KeyFrame>
             </Animation>
         </Style.Animations>
     </Style>
-    
+
     <Style Selector="ProgressBar:horizontal /template/ Border#PART_RootBorder">
         <Setter Property="MinHeight" Value="8" />
         <Setter Property="Height" Value="8" />
@@ -207,6 +211,6 @@
     <Style Selector="ProgressBar.Accent">
         <Setter Property="Foreground" Value="{DynamicResource SukiAccentColor}" />
     </Style>
-    
-    
+
+
 </Styles>

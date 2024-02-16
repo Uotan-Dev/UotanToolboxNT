@@ -148,7 +148,7 @@
 
 
                                 <Border Padding="5,10,5,5">
-                                    <Grid>
+                                    <Panel>
                                         <Border Margin="10,-10,0,0"
                                                 Background="{DynamicResource SukiCardBackground}"
                                                 BorderBrush="{DynamicResource SukiControlBorderBrush}"
@@ -161,7 +161,7 @@
                                                                 ItemsPanel="{TemplateBinding ItemsPanel}" />
                                             </ScrollViewer>
                                         </Border>
-                                    </Grid>
+                                    </Panel>
                                 </Border>
                             </Popup>
                         </Grid>

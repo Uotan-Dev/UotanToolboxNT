@@ -41,7 +41,7 @@
                                 VerticalAlignment="Center"
                                 ClipToBounds="True"
                                 CornerRadius="100">
-                            <Grid>
+                            <Panel>
                                 <Canvas Width="200" Height="200">
                                     <Path Canvas.Top="{TemplateBinding Value,
                                                                        Converter={StaticResource WValueConvert}}"
@@ -83,35 +83,36 @@
                                         </Path.Transitions>
                                     </Path>
                                 </Canvas>
-                                <TextBlock Margin="100,200,0,0"
+                                <TextBlock Name="PART_Text"
+                                           Margin="100,200,0,0"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Classes="h2" Name="PART_Text"
+                                           Classes="h2"
                                            Foreground="{TemplateBinding Value,
                                                                         Converter={StaticResource WValueColorConvert}}"
                                            Text="{TemplateBinding Value,
-                                                                  Converter={StaticResource WValueTextConvert}}" >
+                                                                  Converter={StaticResource WValueTextConvert}}">
                                     <TextBlock.Transitions>
                                         <Transitions>
-                                            <DoubleTransition Property="Opacity" Duration="0:0:0.3"></DoubleTransition>
+                                            <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
                                         </Transitions>
                                     </TextBlock.Transitions>
                                 </TextBlock>
-                            </Grid>
+                            </Panel>
                         </Border>
                     </Border>
                 </ControlTemplate>
             </Setter>
         </Style>
-        
+
         <Style Selector="suki|WaveProgress[IsTextVisible=True] /template/ TextBlock#PART_Text">
-            <Setter Property="Opacity" Value="1"></Setter>
+            <Setter Property="Opacity" Value="1" />
         </Style>
-        
+
         <Style Selector="suki|WaveProgress[IsTextVisible=False] /template/ TextBlock#PART_Text">
-            <Setter Property="Opacity" Value="0"></Setter>
+            <Setter Property="Opacity" Value="0" />
         </Style>
-        
+
         <Style Selector="Path.WaveAnimated">
             <Style.Animations>
                 <Animation IterationCount="INFINITE" Duration="0:0:6">

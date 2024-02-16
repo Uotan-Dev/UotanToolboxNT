@@ -4,10 +4,10 @@
     <ControlTheme x:Key="SukiHostTheme" TargetType="suki:SukiHost">
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
-                    <Grid Name="PART_ContentContainer">
+                <Panel>
+                    <Panel Name="PART_ContentContainer">
                         <ContentPresenter Content="{TemplateBinding Content}" />
-                    </Grid>
+                    </Panel>
 
                     <ItemsControl Name="PART_ToastPresenter"
                                   Margin="5,5"
@@ -58,15 +58,15 @@
                             </Transitions>
                         </Border.Transitions>
 
-                        <Grid>
+                        <Panel>
                             <Border Name="BorderDialog1"
                                     Background="{DynamicResource SukiCardBackground}"
                                     Classes="Card" />
                             <ContentPresenter Margin="20" Content="{TemplateBinding DialogContent}" />
-                        </Grid>
+                        </Panel>
                     </Border>
 
-                    <Grid.Styles>
+                    <Panel.Styles>
                         <Style Selector="suki|SukiHost[IsDialogOpen=True]">
 
                             <Style Selector="^ Border#PART_DialogBackground">
@@ -74,7 +74,7 @@
                                 <Setter Property="IsHitTestVisible" Value="True" />
                             </Style>
 
-                            <Style Selector="^ Grid#PART_ContentContainer">
+                            <Style Selector="^ Panel#PART_ContentContainer">
                                 <Setter Property="IsHitTestVisible" Value="False" />
                                 <!--  Please do not remove this empty blur  -->
                                 <Style.Animations>
@@ -106,7 +106,7 @@
                                 <Setter Property="IsHitTestVisible" Value="False" />
                             </Style>
 
-                            <Style Selector="^ Grid#PART_ContentContainer">
+                            <Style Selector="^ Panel#PART_ContentContainer">
                                 <Setter Property="IsHitTestVisible" Value="True" />
                                 <!--  Please do not remove this empty blur  -->
                                 <Style.Animations>
@@ -128,9 +128,9 @@
                                 <Setter Property="Margin" Value="0,125,0,0" />
                             </Style>
                         </Style>
-                    </Grid.Styles>
+                    </Panel.Styles>
 
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

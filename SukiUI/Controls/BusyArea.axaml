@@ -11,7 +11,7 @@
         <Style Selector="suki|BusyArea">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid>
+                    <Panel>
                         <ContentControl Content="{TemplateBinding Content}" />
                         <DockPanel Name="LoadingBusyArea"
                                    HorizontalAlignment="Center"
@@ -27,7 +27,7 @@
                                           VerticalAlignment="Center"
                                           IsHitTestVisible="False" />
                         </DockPanel>
-                    </Grid>
+                    </Panel>
                 </ControlTemplate>
             </Setter>
         </Style>

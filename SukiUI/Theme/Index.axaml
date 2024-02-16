@@ -44,6 +44,7 @@
             <system:TimeSpan x:Key="LongAnimationDuration">0.5</system:TimeSpan>
             <system:TimeSpan x:Key="MediumAnimationDuration">0.35</system:TimeSpan>
             <system:TimeSpan x:Key="ShortAnimationDuration">0.2</system:TimeSpan>
+            <Easing x:Key="MenuEasing">CircularEaseOut</Easing>
 
             <FontFamily x:Key="QuicksandFont">avares://SukiUI/CustomFont#Quicksand</FontFamily>
 
@@ -63,6 +64,11 @@
                 <ResourceInclude Source="avares://sukiUI/Theme/MenuItem.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/FlyoutPresenter.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/AutoCompleteBoxStyles.axaml" />
+
+                <ResourceInclude Source="avares://sukiUI/Theme/Calendar/Calendar.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Theme/Calendar/CalendarButton.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Theme/Calendar/CalendarDayButton.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Theme/Calendar/CalendarItem.axaml" />
 
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiWindow.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiHost.axaml" />

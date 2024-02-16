@@ -4,14 +4,14 @@
     <ControlTheme x:Key="SukiTransitioningContentControlStyle" TargetType="controls:SukiTransitioningContentControl">
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
+                <Panel>
                     <ContentPresenter Name="PART_FirstBufferControl"
                                       Content="{TemplateBinding FirstBuffer}"
                                       IsHitTestVisible="False" />
                     <ContentPresenter Name="PART_SecondBufferControl"
                                       Content="{TemplateBinding SecondBuffer}"
                                       IsHitTestVisible="False" />
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

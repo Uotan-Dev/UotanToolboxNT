@@ -1,0 +1,60 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="SukiCalendarButtonStyle" TargetType="CalendarButton">
+        <Setter Property="ClickMode" Value="Release" />
+        <Setter Property="MinWidth" Value="55" />
+        <Setter Property="MinHeight" Value="50" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor0}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiBorderBrush}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <!-- <Setter Property="HorizontalAlignment" Value="Center" /> -->
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Name="Root"
+                            Margin="5"
+                            Padding="5"
+                            Background="{TemplateBinding Background}"
+                            ClipToBounds="True"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <Border.Transitions>
+                            <Transitions>
+                                <BrushTransition Property="Background" Duration="{DynamicResource ShortAnimationDuration}" />
+                            </Transitions>
+                        </Border.Transitions>
+                        <ContentControl Name="Content"
+                                        Margin="{TemplateBinding Padding}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Content="{TemplateBinding Content}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        FontSize="{TemplateBinding FontSize}" />
+                    </Border>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor25}" />
+        </Style>
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor75}" />
+        </Style>
+        <Style Selector="^:selected">
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor50}" />
+            <Setter Property="TextElement.FontWeight" Value="Bold" />
+        </Style>
+        <Style Selector="^:inactive /template/ Border#Root">
+            <Setter Property="Opacity" Value="0.32" />
+        </Style>
+        <Style Selector="^:disabled /template/ ContentControl#Content">
+            <Setter Property="Opacity" Value="0.32" />
+        </Style>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type CalendarButton}"
+                  BasedOn="{StaticResource SukiCalendarButtonStyle}"
+                  TargetType="CalendarButton" />
+</ResourceDictionary>

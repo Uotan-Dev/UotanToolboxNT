@@ -1,8 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Width="400" Height="400">
-            <Grid>
-                <TabControl TabStripPlacement="Bottom" Margin="0,0,0,200">
+            <Panel>
+                <TabControl Margin="0,0,0,200" TabStripPlacement="Bottom">
                     <TabItem Header="Arch">
                         <Border Height="100" Background="AntiqueWhite">
                             <TextBlock FontSize="20"
@@ -15,7 +15,7 @@
                     </TabItem>
                     <TabItem Header="Disabled" IsEnabled="False" />
                 </TabControl>
-            </Grid>
+            </Panel>
         </Border>
     </Design.PreviewWith>
     <ControlTheme x:Key="SukiTabItemStyle" TargetType="TabItem">
@@ -34,22 +34,21 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
-                    <StackPanel >
-                       
-                        <ContentPresenter Name="PART_HeaderPresenter" 
+                    <StackPanel>
+
+                        <ContentPresenter Name="PART_HeaderPresenter"
                                           Padding="0,5"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           HorizontalContentAlignment="Center"
                                           Content="{TemplateBinding Header}"
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                          
                                           TextBlock.FontFamily="{TemplateBinding FontFamily}"
                                           TextBlock.FontSize="{TemplateBinding FontSize}"
                                           TextBlock.FontWeight="{TemplateBinding FontWeight}" />
                         <Border Name="PART_Underline"
                                 Height="3"
-                                Margin="10,0,10,0" 
+                                Margin="10,0,10,0"
                                 Background="{DynamicResource SukiPrimaryColor}"
                                 CornerRadius="55"
                                 Opacity="0">

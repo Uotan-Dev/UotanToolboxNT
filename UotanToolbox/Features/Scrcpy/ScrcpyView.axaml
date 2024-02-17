@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="UotanToolbox.Features.Scrcpy.ScrcpyView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:UotanToolbox.Features.ControlsLibrary"
+			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:scrcpy="clr-namespace:UotanToolbox.Features.Scrcpy"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+			 xmlns:localizations="clr-namespace:UotanToolbox.Common;assembly=UotanToolbox"
+			 d:DesignWidth="1024"
+             x:DataType="scrcpy:ScrcpyViewModel"
+             mc:Ignorable="d">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
+                   theme:WrapPanelExtensions.AnimatedScroll="True"
+                   Orientation="Horizontal">
+			<Grid Margin="15">
+				<suki:GlassCard Width="950" Margin="0,0,0,25">
+					<suki:BusyArea Name="BusyConnection"
+								   BusyText="投屏中 ..."
+								   IsBusy="{Binding IsConnected}">
+						<StackPanel>
+							<avalonia:MaterialIcon Width="30"
+												   Height="30"
+												   Margin="10"
+												   HorizontalAlignment="Center"
+												   Foreground="{DynamicResource SukiPrimaryColor}"
+												   Kind="CellphoneLink" />
+							<TextBlock Margin="0,5,0,27"
+									   HorizontalAlignment="Center"
+									   FontSize="18"
+									   FontWeight="DemiBold"
+									   Text="Scrcpy投屏工具" />
+							<TextBlock Margin="6,0,0,3"
+									   FontWeight="DemiBold"
+									   Text="窗口标题" />
+							<TextBox Margin="0,0,0,25" theme:TextBoxExtensions.Prefix=""
+									 Text="{Binding WindowTitle}"
+									 Watermark="填写你想要的标题，不填写则为主页显示的手机型号" />
+						</StackPanel>
+					</suki:BusyArea>
+				</suki:GlassCard>
+				<Button Name="ButtonSignIn"
+							Width="150"
+							Height="40"
+							Margin="0,0,0,7"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Bottom"
+							theme:ButtonExtensions.ShowProgress="{Binding IsConnected}"
+							Classes="Flat Rounded"
+							Command="{Binding ConnectCommand}"
+							FontWeight="DemiBold">
+					开始投屏
+				</Button>
+			</Grid>
+
+			<!--  更多设置  -->
+			<suki:GlassCard Width="950"
+                            Margin="15"
+                            VerticalAlignment="Top">
+				<Grid>
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="更多设置" />
+						<StackPanel Margin="0,8,0,0">
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding WindowFixed}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="窗口置顶" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding ComputerControl}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="电脑控制" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding FullScreen}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="全屏显示" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding ShowBorder}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="显示边框" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding ShowTouch}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="显示点按位置" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding RenderAllFrame}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="渲染所有帧" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding CloseScreen}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="打开镜像时关闭屏幕" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding ScreenAwake}" IsEnabled="{Binding ScreenAwakeStatus}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="关闭锁屏" />
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+		</WrapPanel>
+	</ScrollViewer>
+</UserControl>

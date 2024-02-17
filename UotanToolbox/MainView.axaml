@@ -13,8 +13,6 @@
                  d:DesignWidth="800"
                  x:DataType="demo:MainViewModel"
                  BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
-                 CanMinimize="{Binding !WindowLocked}"
-                 CanMove="{Binding !WindowLocked}"
                  CanResize="False"
                  IsMenuVisible="False"
                  mc:Ignorable="d">

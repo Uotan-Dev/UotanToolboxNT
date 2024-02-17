@@ -404,14 +404,18 @@
                     <ContentPresenter Content="{TemplateBinding Content}">
                         <ContentPresenter.Styles>
                             <Style Selector="TextBlock">
-                                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+                                <Setter Property="FontWeight" Value="Bold" />
                                 <Setter Property="FontSize" Value="{TemplateBinding FontSize}" />
-                                <Setter Property="TextDecorations" Value="Underline" />
                                 <Setter Property="Transitions">
-                                    <Transitions>
-                                        <BrushTransition Property="Foreground" Duration="{DynamicResource ShortAnimationDuration}" />
-                                    </Transitions>
+                                    <Setter.Value>
+                                        <Transitions>
+                                            <BrushTransition Property="Foreground" Duration="{DynamicResource ShortAnimationDuration}" />
+                                        </Transitions>
+                                    </Setter.Value>
                                 </Setter>
+                                <Style Selector="^:pointerover">
+                                    <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+                                </Style>
                             </Style>
                         </ContentPresenter.Styles>
                     </ContentPresenter>

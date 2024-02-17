@@ -78,15 +78,6 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void CreateCustomTheme() => 
         SukiHost.ShowDialog(new CustomThemeDialogViewModel(_theme), allowBackgroundClose: true);
-
-    [RelayCommand]
-    private void ToggleWindowLock()
-    {
-        WindowLocked = !WindowLocked;
-        SukiHost.ShowToast(
-            $"Window {(WindowLocked ? "Locked" : "Unlocked")}", 
-            $"Window has been {(WindowLocked ? "locked" : "unlocked")}.");
-    }
     
     [RelayCommand]
     private void OpenURL(string url) => UrlUtilities.OpenURL(url);

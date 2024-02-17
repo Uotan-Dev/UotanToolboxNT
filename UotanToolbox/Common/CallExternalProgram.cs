@@ -135,5 +135,35 @@ namespace UotanToolbox.Common
             fb.WaitForExit();
             return output;
         }
+
+        public static async Task<string> Scrcpy(string arg)
+        {
+            string cmd;
+            if (Global.System == "Windows")
+            {
+                cmd = "bin\\Windows\\adb\\scrcpy.exe";
+            }
+            else
+            {
+                cmd = $"bin/{Global.System}/adb/scrcpy";
+            }
+            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, arg)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process scrcpy = new Process();
+            scrcpy.StartInfo = fastboot;
+            scrcpy.Start();
+            string output = await scrcpy.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await scrcpy.StandardOutput.ReadToEndAsync();
+            }
+            scrcpy.WaitForExit();
+            return output;
+        }
     }
 }

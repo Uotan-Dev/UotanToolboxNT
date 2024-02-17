@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using SukiUI.Controls;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
-using UotanToolbox.Features.CustomTheme;
 using UotanToolbox.Services;
 using UotanToolbox.Utilities;
 using SukiUI.Models;
@@ -74,10 +73,6 @@ public partial class MainViewModel : ObservableObject
 
     public void ChangeTheme(SukiColorTheme theme) =>
         _theme.ChangeColorTheme(theme);
-
-    [RelayCommand]
-    private void CreateCustomTheme() => 
-        SukiHost.ShowDialog(new CustomThemeDialogViewModel(_theme), allowBackgroundClose: true);
     
     [RelayCommand]
     private void OpenURL(string url) => UrlUtilities.OpenURL(url);

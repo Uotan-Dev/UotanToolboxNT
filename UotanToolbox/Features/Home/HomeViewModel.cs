@@ -88,9 +88,7 @@ public partial class HomeViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(async () =>
             {
                 var newDialog = new ConnectionDialog("设备未连接!");
-                Debug.WriteLine("NEW CONNECTIONDIALOG CREATED.");
                 await SukiHost.ShowDialogAsync(newDialog);
-                Debug.WriteLine(newDialog.Result);
             });
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             SimpleContent = null;

@@ -54,7 +54,7 @@
                                 BorderThickness="1"
                                 IsEnabled="{TemplateBinding IsEnabled}"
                                 TemplatedControl.IsTemplateFocusTarget="True">
-                            <Grid ColumnDefinitions="Auto,Auto">
+                            <Grid Margin="0,1,0,0" ColumnDefinitions="Auto,Auto">
                                 <Grid Name="PART_ButtonContentGrid"
                                       Grid.Column="0"
                                       VerticalAlignment="Center"
@@ -96,11 +96,11 @@
                                                HorizontalAlignment="Center"
                                                Fill="{DynamicResource DatePickerSpacerFill}" />
                                 </Grid>
-                                <PathIcon Grid.Column="1"
+                                <PathIcon Grid.Column="1"  Height="16" Width="16"
                                           Margin="12,0,0,0"
                                           HorizontalAlignment="Right"
                                           Data="{x:Static icons:Icons.Calendar}"
-                                          Foreground="{DynamicResource SukiText}" />
+                                          Foreground="{DynamicResource SukiLowText}" />
 
                             </Grid>
                         </Button>
@@ -149,7 +149,17 @@
                         Classes="Card">
                     <Grid Name="ContentRoot" RowDefinitions="*,Auto">
                         <Grid Name="PART_PickerContainer" Margin="0,-15,0,15">
+                            <Grid.OpacityMask>
+                                <LinearGradientBrush StartPoint="48%,0%" EndPoint="50%,100%">
+                                    <GradientStop Offset="0"  />
+                                    <GradientStop Offset="0.5" Color="Black" />
+                                    <GradientStop Offset="1"  />
+                                </LinearGradientBrush>
+                            </Grid.OpacityMask>
                             <Grid.Styles>
+                                <Style Selector="ListBoxItem:selected TextBlock">
+                                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                                </Style>
                                 <Style Selector="DateTimePickerPanel &gt; ListBoxItem">
                                     <Setter Property="Background" Value="Transparent" />
                                     <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
@@ -214,7 +224,7 @@
                                     Grid.ColumnSpan="5"
                                     Height="{DynamicResource DatePickerFlyoutPresenterHighlightHeight}"
                                     VerticalAlignment="Center"
-                                    Background="{DynamicResource SukiPrimaryColor10}"
+                                    Background="{DynamicResource SukiPrimaryColor5}"
                                     CornerRadius="8"
                                     IsHitTestVisible="False"
                                     ZIndex="-1" />
@@ -242,14 +252,14 @@
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Bottom"
                                     Classes="Basic">
-                                <StackPanel Orientation="Horizontal">
-                                    <PathIcon Width="13"
-                                              Height="13"
+                                <StackPanel Margin="20,0" Orientation="Horizontal">
+                                    <PathIcon Width="12"
+                                              Height="12" 
                                               Data="{x:Static icons:Icons.Check}"
-                                              Foreground="{DynamicResource SukiText}" />
-                                    <TextBlock Margin="8,0,0,0"
-                                               FontWeight="DemiBold"
-                                               Foreground="{DynamicResource SukiText}"
+                                              Foreground="{DynamicResource SukiPrimaryColor}" />
+                                    <TextBlock Margin="10,0,0,0"
+                                               FontWeight="DemiBold" FontSize="16"
+                                               Foreground="{DynamicResource SukiPrimaryColor}"
                                                Text="Apply" />
                                 </StackPanel>
                             </Button>

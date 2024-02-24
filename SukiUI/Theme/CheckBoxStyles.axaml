@@ -1,8 +1,8 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Padding="20" Background="White">
-            <StackPanel>
-                <CheckBox Margin="20" />
+            <StackPanel >
+                <CheckBox Margin="20" Content="Issou" />
                 <CheckBox Margin="20" IsChecked="True" />
             </StackPanel>
         </Border>
@@ -64,6 +64,9 @@
                 </Grid>
             </ControlTemplate>
         </Setter>
+    </Style>
+    <Style Selector="CheckBox TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
     </Style>
     <Style Selector="CheckBox:pointerover /template/ Border#border">
         <Setter Property="BorderBrush" Value="{DynamicResource SukiBorderBrush}" />

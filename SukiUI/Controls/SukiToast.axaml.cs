@@ -14,6 +14,8 @@ public class SukiToast : ContentControl
 
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<SukiToast, string>(nameof(Title));
+    
+    internal SukiHost Host { get; private set; }
 
     private readonly Timer _timer = new();
 
@@ -50,8 +52,9 @@ public class SukiToast : ContentControl
         await SukiHost.ClearToast(this);
     }
 
-    public void Initialize(SukiToastModel model)
+    public void Initialize(SukiToastModel model, SukiHost host)
     {
+        Host = host;
         Title = model.Title;
         Content = model.Content;
         _onClickedCallback = model.OnClicked;

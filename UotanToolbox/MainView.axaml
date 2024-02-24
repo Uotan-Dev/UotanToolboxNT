@@ -14,15 +14,22 @@
                  x:DataType="demo:MainViewModel"
                  BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
                  CanResize="False"
+				 Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"
                  mc:Ignorable="d">
-    <suki:SukiWindow.LogoContent>
-        <avalonia:MaterialIcon Width="20"
+	<suki:SukiWindow.LogoContent>
+		<avalonia:MaterialIcon Width="20"
                                Height="20"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource SukiPrimaryColor}"
-                               Kind="ToolboxOutline" />
-    </suki:SukiWindow.LogoContent>
+                               Kind="ToolboxOutline" >
+			<avalonia:MaterialIcon.Transitions>
+				<Transitions>
+					<BrushTransition Property="Foreground" Duration="{DynamicResource ShortAnimationDuration}" />
+				</Transitions>
+			</avalonia:MaterialIcon.Transitions>
+		</avalonia:MaterialIcon>
+	</suki:SukiWindow.LogoContent>
 	
     <suki:SukiSideMenu ItemsSource="{Binding DemoPages}"
                        SelectedItem="{Binding ActivePage}">

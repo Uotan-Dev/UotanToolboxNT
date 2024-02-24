@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="SukiMenuFlyoutPresenterStyle" TargetType="MenuFlyoutPresenter">
+        <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiLightBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel Margin="1,0,0,0">
+                    <Border Margin="16"
+                            BoxShadow="{DynamicResource SukiPopupShadow}"
+                            CornerRadius="{TemplateBinding CornerRadius}" />
+                    <Border Margin="15"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            ClipToBounds="True"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <ItemsPresenter Name="PART_ItemsPresenter"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                                        KeyboardNavigation.TabNavigation="Continue" />
+                    </Border>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^ /template/ MenuItem">
+            <Setter Property="Padding" Value="10,0,0,0" />
+        </Style>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type MenuFlyoutPresenter}"
+                  BasedOn="{StaticResource SukiMenuFlyoutPresenterStyle}"
+                  TargetType="MenuFlyoutPresenter" />
+</ResourceDictionary>

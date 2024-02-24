@@ -12,6 +12,7 @@ using Microsoft.VisualBasic;
 using ReactiveUI;
 using System;
 using UotanToolbox.Features.Components;
+using System.Diagnostics;
 
 namespace UotanToolbox.Features.Home;
 
@@ -84,9 +85,12 @@ public partial class HomeViewModel : MainPageBase
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
+            await Dispatcher.UIThread.InvokeAsync(async () =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("设备未连接!"), allowBackgroundClose: true);
+                var newDialog = new ConnectionDialog("设备未连接!");
+                Debug.WriteLine("NEW CONNECTIONDIALOG CREATED.");
+                await SukiHost.ShowDialogAsync(newDialog);
+                Debug.WriteLine(newDialog.Result);
             });
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             SimpleContent = null;

@@ -1,4 +1,3 @@
-using System;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -6,6 +5,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using SukiUI.Controls;
 using SukiUI.Models;
+using System;
 
 namespace UotanToolbox;
 

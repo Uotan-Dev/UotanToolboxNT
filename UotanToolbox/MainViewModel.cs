@@ -2,16 +2,16 @@ using Avalonia.Collections;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using SukiUI;
 using SukiUI.Controls;
-using UotanToolbox.Common;
-using UotanToolbox.Features;
-using UotanToolbox.Services;
-using UotanToolbox.Utilities;
 using SukiUI.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SukiUI;
+using UotanToolbox.Common;
+using UotanToolbox.Features;
+using UotanToolbox.Services;
+using UotanToolbox.Utilities;
 
 namespace UotanToolbox;
 
@@ -72,7 +72,7 @@ public partial class MainViewModel : ObservableObject
 
     public void ChangeTheme(SukiColorTheme theme) =>
         _theme.ChangeColorTheme(theme);
-    
+
     [RelayCommand]
     private void OpenURL(string url) => UrlUtilities.OpenURL(url);
 }

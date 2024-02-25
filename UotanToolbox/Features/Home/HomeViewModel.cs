@@ -1,18 +1,17 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Collections;
+using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
-using UotanToolbox.Common;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using SukiUI.Controls;
-using Avalonia.Threading;
-using Avalonia.Collections;
-using System.Linq;
 using Microsoft.VisualBasic;
 using ReactiveUI;
+using SukiUI.Controls;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
-using System.Diagnostics;
 
 namespace UotanToolbox.Features.Home;
 
@@ -63,7 +62,7 @@ public partial class HomeViewModel : MainPageBase
     public async Task<bool> GetDevicesList()
     {
         string[] devices = await GetDevicesInfo.DevicesList();
-        if (devices.Length !=  0)
+        if (devices.Length != 0)
         {
             CommonDevicesList = true;
             Global.deviceslist = new AvaloniaList<string>(devices);
@@ -101,7 +100,7 @@ public partial class HomeViewModel : MainPageBase
             return false;
         }
     }
-    
+
     public async Task ConnectCore()
     {
         IsConnected = true;

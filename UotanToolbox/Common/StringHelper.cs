@@ -1,10 +1,5 @@
-﻿using Avalonia.Collections;
-using DynamicData;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace UotanToolbox.Common
 {
@@ -74,7 +69,7 @@ namespace UotanToolbox.Common
                     if (Find9008 != -1)
                     {
                         devices[i] = String.Format($"/dev/ttyUSB{j}");
-                        j ++;
+                        j++;
                     }
                     int Find900E = Lines[i].IndexOf(":900e");
                     int Find901D = Lines[i].IndexOf(":901d");
@@ -116,7 +111,7 @@ namespace UotanToolbox.Common
 
         public static string ColonSplit(string info)
         {
-            if (info.IndexOf(':') !=  -1)
+            if (info.IndexOf(':') != -1)
             {
                 string[] text = info.Split(':', StringSplitOptions.RemoveEmptyEntries);
                 return text[text.Length - 1];

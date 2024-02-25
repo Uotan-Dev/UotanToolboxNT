@@ -89,7 +89,7 @@ namespace UotanToolbox.Common
             string displayhw = "--";
             string density = "--";
             string boardid = "--";
-            string compileversion =  "--";
+            string compileversion = "--";
             string platform = "--";
             string kernel = "--";
             string disktype = "--";

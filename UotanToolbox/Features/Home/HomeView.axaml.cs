@@ -1,9 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using System.Diagnostics;
-using System.Globalization;
-using System.Resources;
 
 namespace UotanToolbox.Features.Home;
 
@@ -31,7 +28,7 @@ public partial class HomeView : UserControl
                 if (text != null)
                     dataObject.Set(DataFormats.Text, text);
             }
-            if(clipboard != null)
+            if (clipboard != null)
                 await clipboard.SetDataObjectAsync(dataObject);
         }
     }

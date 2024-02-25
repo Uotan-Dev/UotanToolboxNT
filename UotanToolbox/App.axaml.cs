@@ -4,13 +4,11 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
 using UotanToolbox.Services;
-using System;
-using System.Linq;
-using System.Globalization;
-using System.Diagnostics;
 
 namespace UotanToolbox;
 

@@ -4,7 +4,6 @@ using Material.Icons;
 using ReactiveUI;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 
@@ -12,7 +11,8 @@ namespace UotanToolbox.Features.Scrcpy;
 
 public partial class ScrcpyViewModel : MainPageBase
 {
-    [ObservableProperty] private bool _recordScreen = false, _windowFixed = false, _computerControl = true, _fullScreen = false, _showBorder = true,
+    [ObservableProperty]
+    private bool _recordScreen = false, _windowFixed = false, _computerControl = true, _fullScreen = false, _showBorder = true,
                         _showTouch = true, _closeScreen = false, _screenAwake = false, _screenAwakeStatus = true;
     [ObservableProperty] private bool _isConnected;
     [ObservableProperty] private string _windowTitle, _recordFolder;
@@ -44,7 +44,7 @@ public partial class ScrcpyViewModel : MainPageBase
             string arg = $"-s {Global.thisdevice} ";
             if (RecordScreen)
             {
-                if(RecordFolder != null)
+                if (RecordFolder != null)
                 {
                     DateTime now = DateTime.Now;
                     string formattedDateTime = now.ToString("yyyy-MM-dd-HH-mm-ss");
@@ -54,7 +54,7 @@ public partial class ScrcpyViewModel : MainPageBase
             arg += $"--video-bit-rate {BitRate}M --max-fps {FrameRate} ";
             if (SizeResolution != 0) arg += $"--max-size {SizeResolution} ";
 
-            if (WindowTitle != "" && WindowTitle !=null)
+            if (WindowTitle != "" && WindowTitle != null)
             {
                 arg += $"--window-title {WindowTitle} ";
             }

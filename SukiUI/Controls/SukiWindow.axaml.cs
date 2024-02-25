@@ -163,7 +163,7 @@ public class SukiWindow : Window
             var bgObs = this.GetObservable(BackgroundAnimationEnabledProperty)
                 .Do(enabled => background.SetAnimationEnabled(enabled))
                 .Select(_ => Unit.Default)
-                .Merge(stateObs)
+
                 .ObserveOn(new AvaloniaSynchronizationContext());
 
             _subscriptionDisposables = bgObs.Subscribe();

@@ -14,7 +14,7 @@
                  x:DataType="demo:MainViewModel"
                  BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
                  CanResize="False"
-				 Icon="Assets/OIG.N5o-removebg-preview.png"
+                 Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"
                  mc:Ignorable="d">
 	<suki:SukiWindow.LogoContent>

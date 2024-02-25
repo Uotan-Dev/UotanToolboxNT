@@ -6,6 +6,7 @@
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+		<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
 	  <AdditionalFiles Remove="Features\Home\ConnectionDialog.axaml" />
@@ -32,6 +33,10 @@
 	<ItemGroup>
 	  <None Remove="Assets\OIG.N5o-removebg-preview.png" />
 	  <AvaloniaResource Include="Assets\OIG.N5o-removebg-preview.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\icon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>

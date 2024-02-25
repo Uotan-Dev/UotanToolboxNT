@@ -58,8 +58,84 @@
 				</Button>
 			</Grid>
 
+			<!--  传输及录制  -->
+			<suki:GlassCard Width="450"
+                            Margin="15"
+                            VerticalAlignment="Top">
+				<Grid>
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="传输及录制" />
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<TextBlock Width="60"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="录制屏幕" />
+								<ToggleSwitch IsChecked="{Binding RecordScreen}" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<TextBlock Width="60"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="录屏目录" />
+								<TextBox Width="250" Name="RecordFolder" Text="{Binding RecordFolder, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+								<Button Height="35"
+										Padding="10,0,10,0"
+										Click="OpenFolderButton_Clicked">
+									选择文件夹
+								</Button>
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<TextBlock Width="60"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="比特率" />
+								<Slider Width="300" IsSnapToTickEnabled="True" Maximum="10" Minimum="0" TickFrequency="1" Value="{Binding BitRate}"></Slider>
+								<TextBlock Margin="12,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontWeight="DemiBold"
+                                   Text="{Binding BitRate}" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<TextBlock Width="60"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="最大帧率" />
+								<Slider Width="300" IsSnapToTickEnabled="True" Maximum="180" Minimum="0" TickFrequency="1" Value="{Binding FrameRate}"></Slider>
+								<TextBlock Margin="12,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontWeight="DemiBold"
+                                   Text="{Binding FrameRate}" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<TextBlock Width="60"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="等比缩放" />
+								<Slider Width="300" IsSnapToTickEnabled="True" Maximum="2048" Minimum="0" TickFrequency="1" Value="{Binding SizeResolution}"></Slider>
+								<TextBlock Margin="12,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontWeight="DemiBold"
+                                   Text="{Binding SizeResolution}" />
+							</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+
 			<!--  更多设置  -->
-			<suki:GlassCard Width="950"
+			<suki:GlassCard Width="350"
                             Margin="15"
                             VerticalAlignment="Top">
 				<Grid>
@@ -108,14 +184,6 @@
 										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="显示点按位置" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding RenderAllFrame}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="渲染所有帧" />
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 								<CheckBox IsChecked="{Binding CloseScreen}" />

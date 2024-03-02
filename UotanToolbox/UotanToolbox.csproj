@@ -9,7 +9,17 @@
 		<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
+	  <AdditionalFiles Remove="Features\新文件夹\**" />
+	  <AvaloniaXaml Remove="Features\新文件夹\**" />
+	  <Compile Remove="Features\新文件夹\**" />
+	  <EmbeddedResource Remove="Features\新文件夹\**" />
+	  <None Remove="Features\新文件夹\**" />
+	</ItemGroup>
+	<ItemGroup>
 	  <AdditionalFiles Remove="Features\Home\ConnectionDialog.axaml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <AvaloniaXaml Remove="Features\Appmgr\DashboardView.axaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -50,6 +60,9 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Features\Appmgr\DashboardView.axaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
 	  <Compile Update="Features\Home\HomeView.axaml.cs">
 	    <DependentUpon>HomeView.axaml</DependentUpon>

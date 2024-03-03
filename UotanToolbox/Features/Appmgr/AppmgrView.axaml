@@ -21,7 +21,19 @@
 	<ScrollViewer>
 		<WrapPanel Margin="15"
                    theme:WrapPanelExtensions.AnimatedScroll="True"
-                   Orientation="Horizontal">
+                   Orientation="Vertical">
+			<Button Name="ButtonSignIn"
+							Width="150"
+							Height="40"
+							Margin="0,0,0,7"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Bottom"
+							Classes="Flat Rounded"
+							Command="{Binding ConnectCommand}"
+							FontWeight="DemiBold"
+							theme:ButtonExtensions.ShowProgress="{Binding IsBusy}">
+				刷新列表
+			</Button>
 			<Grid>
 				<ItemsControl ItemsSource="{Binding Applications}">
 					<ItemsControl.ItemsPanel>
@@ -41,24 +53,14 @@
 											Classes="Hyperlink"
 											Foreground="White"
 											FontSize="12"
-											Content="卸载"/>
+											Content="卸载"
+											Click="UninstallButton_Click"/>
 								</StackPanel>
 							</suki:GlassCard>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</Grid>
-			<Button Name="ButtonSignIn"
-							Width="150"
-							Height="40"
-							Margin="0,0,0,7"
-							HorizontalAlignment="Center"
-							VerticalAlignment="Bottom"
-							Classes="Flat Rounded"
-							Command="{Binding ConnectCommand}"
-							FontWeight="DemiBold">
-				刷新列表
-			</Button>
 		</WrapPanel>
 	</ScrollViewer>
 </UserControl>

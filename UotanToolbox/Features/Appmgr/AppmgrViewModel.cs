@@ -18,62 +18,44 @@ namespace UotanToolbox.Features.Appmgr;
 public partial class AppmgrViewModel : MainPageBase
 {
     [ObservableProperty]private ObservableCollection<ApplicationInfo> applications;
+    [ObservableProperty] private bool isBusy = false;
 
     public AppmgrViewModel() : base("应用管理", MaterialIconKind.ViewGridPlusOutline, -700)
     {
         Applications = new ObservableCollection<ApplicationInfo>
         {
-            new ApplicationInfo
-            {
-                Name = "Application 1",
-                Size = "182MB",
-                InstalledDate = "2017-01-03"
-            },
-            new ApplicationInfo
-            {
-                Name = "Application 2",
-                Size = "250MB",
-                InstalledDate = "2023-05-15"
-            }
         };
     }
 
     [RelayCommand]
     public async Task Connect()
     {
+        IsBusy = true;
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -f");
-            Debug.WriteLine(fullApplicationsList);
+            var fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
 
             var lines = fullApplicationsList.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             var applicationInfos = new List<ApplicationInfo>();
 
             var tasks = lines.Select(async line =>
             {
-                var parts = line.Split('=');
+                var parts = line.Split(':');
                 if (parts.Length >= 2)
                 {
                     var packageName = parts[1].Substring(parts[1].LastIndexOf('/') + 1);
-
-                    if (string.IsNullOrEmpty(packageName))
-                        return;
-
+                    if (string.IsNullOrEmpty(packageName)) return;
                     var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName} && dumpsys meminfo -a {packageName}");
                     var lineOutput = combinedOutput.Split('\n');
-
                     var sizeLine = lineOutput.FirstOrDefault(line => line.Contains("TOTAL"));
                     var size = GetPackageSize(sizeLine);
-
                     var installedDate = GetInstalledDate(lineOutput);
-
                     var applicationInfo = new ApplicationInfo
                     {
                         Name = packageName,
                         Size = size,
                         InstalledDate = installedDate
                     };
-
                     lock (applicationInfos)
                     {
                         applicationInfos.Add(applicationInfo);
@@ -85,6 +67,7 @@ public partial class AppmgrViewModel : MainPageBase
 
             Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
         }
+        IsBusy = false;
     }
 
     private string GetPackageSize(string sizeLine)

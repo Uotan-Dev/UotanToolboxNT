@@ -1,26 +1,64 @@
 ﻿<UserControl x:Class="UotanToolbox.Features.Appmgr.AppmgrView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:appmgr="clr-namespace:UotanToolbox.Features.Appmgr"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:controlsLibrary="clr-namespace:UotanToolbox.Features.ControlsLibrary"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:appmgr="clr-namespace:UotanToolbox.Features.Appmgr"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
-             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
              d:DesignHeight="800"
              d:DesignWidth="1024"
-             x:DataType="appmgr:AppmgrViewModel"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+			 x:DataType="appmgr:AppmgrViewModel">
 
-	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+	<UserControl.DataContext>
+		<appmgr:AppmgrViewModel />
+	</UserControl.DataContext>
 
+	<ScrollViewer>
 		<WrapPanel Margin="15"
                    theme:WrapPanelExtensions.AnimatedScroll="True"
                    Orientation="Horizontal">
-			<!--  Application Card  -->
-			<StackPanel Name="StackPanel" Orientation="Horizontal" Spacing="10"/>
+			<Grid>
+				<ItemsControl ItemsSource="{Binding Applications}">
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<WrapPanel Orientation="Horizontal" />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<suki:GlassCard Width="300" Margin="10">
+								<StackPanel Orientation="Vertical" Spacing="10">
+									<TextBlock HorizontalAlignment="Left" FontSize="15" FontWeight="DemiBold" Text="{Binding Name}" />
+									<TextBlock HorizontalAlignment="Left" FontSize="12" Text="{Binding Size}" />
+									<TextBlock HorizontalAlignment="Left" FontSize="12" Text="{Binding InstalledDate}" />
+									<StackPanel Spacing="10"/>
+									<Button HorizontalAlignment="Right"
+											Classes="Hyperlink"
+											Foreground="White"
+											FontSize="12"
+											Content="卸载"/>
+								</StackPanel>
+							</suki:GlassCard>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</Grid>
+			<Button Name="ButtonSignIn"
+							Width="150"
+							Height="40"
+							Margin="0,0,0,7"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Bottom"
+							Classes="Flat Rounded"
+							Command="{Binding ConnectCommand}"
+							FontWeight="DemiBold">
+				刷新列表
+			</Button>
 		</WrapPanel>
 	</ScrollViewer>
 </UserControl>

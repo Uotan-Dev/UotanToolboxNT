@@ -38,6 +38,5 @@ public partial class AppmgrView : UserControl
             var newAppmgr = new AppmgrViewModel();
             _ = newAppmgr.Connect();
         });
-        
     }
 }

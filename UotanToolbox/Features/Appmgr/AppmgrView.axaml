@@ -1,0 +1,189 @@
+﻿<UserControl x:Class="UotanToolbox.Features.Appmgr.AppmgrView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:appmgr="clr-namespace:UotanToolbox.Features.Appmgr"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:UotanToolbox.Features.ControlsLibrary"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="800"
+             d:DesignWidth="1024"
+             mc:Ignorable="d"
+			 x:DataType="appmgr:AppmgrViewModel">
+
+	<UserControl.DataContext>
+		<appmgr:AppmgrViewModel />
+	</UserControl.DataContext>
+
+	<WrapPanel Margin="15"
+                   theme:WrapPanelExtensions.AnimatedScroll="True"
+                   Orientation="Horizontal">
+		<suki:GlassCard HorizontalAlignment="Left" Margin="10">
+			<StackPanel Spacing="10">
+				<TextBlock HorizontalAlignment="Left"
+						   FontSize="15"
+						   FontWeight="DemiBold"
+						   Text="软件管理" />
+				<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding RunAppCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="PlayOutline" />
+								运行
+							</TextBlock>
+						</Button>
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding DisableAppCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="Ban" />
+								禁用
+							</TextBlock>
+						</Button>
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding EnableAppCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="Check" />
+								启用
+							</TextBlock>
+						</Button>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding UninstallAppCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="TrashCanOutline" />
+								卸载
+							</TextBlock>
+						</Button>
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding UninstallAppWithDataCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="TrashCircleOutline" />
+								保留数据卸载
+							</TextBlock>
+						</Button>
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding ExtractInstallerCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="ProgressDownload" />
+								提取安装包
+							</TextBlock>
+						</Button>
+					</StackPanel>
+				</StackPanel>
+			</StackPanel>
+		</suki:GlassCard>
+
+		<Grid Margin="15">
+			<suki:GlassCard Width="450"
+							Margin="0,0,0,25"
+							VerticalAlignment="Top">
+				<Grid>
+					<suki:BusyArea Name="BusyConnection"
+									BusyText="安装中 ..."
+									IsBusy="{Binding IsInstalling}">
+						<StackPanel>
+							<TextBlock HorizontalAlignment="Left"
+								   FontSize="15"
+								   FontWeight="DemiBold"
+								   Text="安装应用" />
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<TextBlock Width="60"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="APK文件" />
+								<TextBox Width="250" Name="ApkFile" Text="{Binding ApkFile, Mode=TwoWay}"/>
+								<Button Height="35"
+										Padding="10,0,10,0"
+										Click ="OpenApkFile">
+									选择文件
+								</Button>
+							</StackPanel>
+						</StackPanel>
+					</suki:BusyArea>
+				</Grid>
+			</suki:GlassCard>
+			<Button Name="ButtonSignIn"
+					Width="150"
+					Height="40"
+					Margin="0,0,0,7"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Bottom"
+					theme:ButtonExtensions.ShowProgress="{Binding IsInstalling}"
+					Classes="Flat Rounded"
+					Command="{Binding InstallApkCommand}"
+					FontWeight="DemiBold">
+				开始安装
+			</Button>
+		</Grid>
+
+		<suki:GlassCard Classes="Card"
+							Margin="10"
+							MaxHeight="500">
+			<suki:BusyArea BusyText="获取中 ..."
+						   IsBusy="{Binding IsBusy}">
+				<ScrollViewer>
+					<WrapPanel theme:WrapPanelExtensions.AnimatedScroll="True"
+							   Orientation="Vertical">
+						<DockPanel Width="900">
+							<Button Width="135"
+									Height="40"
+									Command="{Binding ConnectCommand}"
+									FontWeight="DemiBold"
+									theme:ButtonExtensions.ShowProgress="{Binding IsBusy}"
+									DockPanel.Dock="Left">
+								获取应用列表
+							</Button>
+							<StackPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
+								<TextBlock Classes="h4">显示系统应用</TextBlock>
+								<ToggleButton Classes="Switch" IsChecked="{Binding IsSystemAppDisplayed}"/>
+							</StackPanel>
+						</DockPanel>
+						<TextBlock Text="暂未获取应用列表" Classes="h4" Margin="0,15,15,15"
+								   IsVisible="{Binding !HasItems}" HorizontalAlignment="Left"/>
+						<ItemsControl ItemsSource="{Binding Applications}">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel Orientation="Horizontal" />
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<suki:GlassCard Width="290" Margin="0,10,10,0">
+										<StackPanel Orientation="Vertical" Spacing="10">
+											<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0">
+												<TextBlock FontSize="15" FontWeight="DemiBold" Text="{Binding Name}" HorizontalAlignment="Left" />
+												<RadioButton Name="{Binding Name}" GroupName="ApplicationSelection" HorizontalAlignment="Right" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+											</StackPanel>
+											<TextBlock FontSize="12" Text="{Binding Size}" />
+											<TextBlock FontSize="12" Text="{Binding InstalledDate}" />
+											<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="卸载" Click="UninstallButton_Click" HorizontalAlignment="Right"/>
+										</StackPanel>
+									</suki:GlassCard>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</WrapPanel>
+				</ScrollViewer>
+			</suki:BusyArea>
+		</suki:GlassCard>
+	</WrapPanel>
+</UserControl>

@@ -1,15 +1,14 @@
-﻿using Avalonia.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
+using SukiUI.Controls;
 using System;
-using System.Diagnostics;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
-using Avalonia.Controls.Shapes;
+using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Appmgr;
 
@@ -17,10 +16,13 @@ public partial class AppmgrViewModel : MainPageBase
 {
     [ObservableProperty]private ObservableCollection<ApplicationInfo> applications;
     [ObservableProperty] private bool isBusy = false, hasItems = false;
+    [ObservableProperty] private bool isSystemAppDisplayed = false, isInstalling = false;
+    [ObservableProperty] private string _apkFile;
 
     public AppmgrViewModel() : base("应用管理", MaterialIconKind.ViewGridPlusOutline, -700)
     {
         Applications = [];
+        _ = Connect();
     }
 
     [RelayCommand]
@@ -29,7 +31,11 @@ public partial class AppmgrViewModel : MainPageBase
         IsBusy = true;
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
+            var fullApplicationsList = "";
+            if (isSystemAppDisplayed == false)
+                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
+            else
+                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
 
             var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
             if(lines.Length != 0) HasItems = true;
@@ -42,15 +48,15 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     var packageName = parts[1][(parts[1].LastIndexOf('/') + 1)..];
                     if (string.IsNullOrEmpty(packageName)) return;
-                    var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName} && dumpsys meminfo -a {packageName}");
+                    var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
                     var lineOutput = combinedOutput.Split('\n');
-                    var sizeLine = lineOutput.FirstOrDefault(line => line.Contains("TOTAL"));
-                    var size = GetPackageSize(sizeLine);
+                    //var sizeLine = lineOutput.FirstOrDefault(line => line.Contains("TOTAL"));
+                    //var size = GetPackageSize(sizeLine);
                     var installedDate = GetInstalledDate(lineOutput);
                     var applicationInfo = new ApplicationInfo
                     {
                         Name = packageName,
-                        Size = size,
+                        //Size = size,
                         InstalledDate = installedDate
                     };
                     lock (applicationInfos)
@@ -65,6 +71,21 @@ public partial class AppmgrViewModel : MainPageBase
             Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
         }
         IsBusy = false;
+    }
+
+    [RelayCommand]
+    public async Task InstallApk()
+    {
+        IsInstalling = true;
+        if (!string.IsNullOrEmpty(ApkFile))
+        {
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r {ApkFile}");
+        }
+        else
+        {
+            SukiHost.ShowDialog(new ConnectionDialog("未选择APK文件!"), allowBackgroundClose: true);
+        }
+        IsInstalling = false;
     }
 
     [RelayCommand]
@@ -145,12 +166,16 @@ public partial class AppmgrViewModel : MainPageBase
         IsBusy = true; var selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
-            
+            // Get the apk file of the selected app, and save it to the user's desktop.
+            var apkFile = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm path {selectedApp}");
+            apkFile = apkFile[(apkFile.IndexOf(':') + 1)..].Trim();
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} pull {apkFile} {desktopPath}");
         }
         IsBusy = false;
     }
 
-    private static string GetPackageSize(string sizeLine)
+    /*private static string GetPackageSize(string sizeLine)
     {
         if (!string.IsNullOrEmpty(sizeLine))
         {
@@ -161,7 +186,7 @@ public partial class AppmgrViewModel : MainPageBase
         }
 
         return "未知大小";
-    }
+    }*/
 
     private static readonly char[] separatorArray = ['\r', '\n'], separator = [' '];
 

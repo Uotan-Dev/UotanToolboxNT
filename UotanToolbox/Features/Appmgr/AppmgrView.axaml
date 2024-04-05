@@ -18,7 +18,9 @@
 		<appmgr:AppmgrViewModel />
 	</UserControl.DataContext>
 
-	<StackPanel Orientation="Vertical" Margin="10" Spacing="10">
+	<WrapPanel Margin="15"
+                   theme:WrapPanelExtensions.AnimatedScroll="True"
+                   Orientation="Horizontal">
 		<suki:GlassCard HorizontalAlignment="Left" Margin="10">
 			<StackPanel Spacing="10">
 				<TextBlock HorizontalAlignment="Left"
@@ -85,28 +87,76 @@
 						</Button>
 					</StackPanel>
 				</StackPanel>
-
 			</StackPanel>
 		</suki:GlassCard>
-		
+
+		<Grid Margin="15">
+			<suki:GlassCard Width="450"
+							Margin="0,0,0,25"
+							VerticalAlignment="Top">
+				<Grid>
+					<suki:BusyArea Name="BusyConnection"
+									BusyText="安装中 ..."
+									IsBusy="{Binding IsInstalling}">
+						<StackPanel>
+							<TextBlock HorizontalAlignment="Left"
+								   FontSize="15"
+								   FontWeight="DemiBold"
+								   Text="安装应用" />
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<TextBlock Width="60"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="APK文件" />
+								<TextBox Width="250" Name="ApkFile" Text="{Binding ApkFile, Mode=TwoWay}"/>
+								<Button Height="35"
+										Padding="10,0,10,0"
+										Click ="OpenApkFile">
+									选择文件
+								</Button>
+							</StackPanel>
+						</StackPanel>
+					</suki:BusyArea>
+				</Grid>
+			</suki:GlassCard>
+			<Button Name="ButtonSignIn"
+					Width="150"
+					Height="40"
+					Margin="0,0,0,7"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Bottom"
+					theme:ButtonExtensions.ShowProgress="{Binding IsInstalling}"
+					Classes="Flat Rounded"
+					Command="{Binding InstallApkCommand}"
+					FontWeight="DemiBold">
+				开始安装
+			</Button>
+		</Grid>
+
 		<suki:GlassCard Classes="Card"
-						Margin="10"
-						MaxHeight="500">
-			<suki:BusyArea Name="BusyConnection"
-								BusyText="获取中 ..."
-								IsBusy="{Binding IsBusy}">
+							Margin="10"
+							MaxHeight="500">
+			<suki:BusyArea BusyText="获取中 ..."
+						   IsBusy="{Binding IsBusy}">
 				<ScrollViewer>
 					<WrapPanel theme:WrapPanelExtensions.AnimatedScroll="True"
 							   Orientation="Vertical">
-						<Button Name="ButtonSignIn"
-								Width="135"
-								Height="40"
-								HorizontalAlignment="Left"
-								Command="{Binding ConnectCommand}"
-								FontWeight="DemiBold"
-								theme:ButtonExtensions.ShowProgress="{Binding IsBusy}">
-							获取应用列表
-						</Button>
+						<DockPanel Width="900">
+							<Button Width="135"
+									Height="40"
+									Command="{Binding ConnectCommand}"
+									FontWeight="DemiBold"
+									theme:ButtonExtensions.ShowProgress="{Binding IsBusy}"
+									DockPanel.Dock="Left">
+								获取应用列表
+							</Button>
+							<StackPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
+								<TextBlock Classes="h4">显示系统应用</TextBlock>
+								<ToggleButton Classes="Switch" IsChecked="{Binding IsSystemAppDisplayed}"/>
+							</StackPanel>
+						</DockPanel>
 						<TextBlock Text="暂未获取应用列表" Classes="h4" Margin="0,15,15,15"
 								   IsVisible="{Binding !HasItems}" HorizontalAlignment="Left"/>
 						<ItemsControl ItemsSource="{Binding Applications}">
@@ -135,5 +185,5 @@
 				</ScrollViewer>
 			</suki:BusyArea>
 		</suki:GlassCard>
-	</StackPanel>
+	</WrapPanel>
 </UserControl>

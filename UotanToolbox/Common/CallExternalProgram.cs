@@ -86,6 +86,27 @@ namespace UotanToolbox.Common
             fb.WaitForExit();
             return output;
         }
+        public static async Task<string> QcnTool(string shell)
+        {
+            string cmd = "bin\\Windows\\qcntool.exe";
+            ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process qcn = new Process();
+            qcn.StartInfo = qcntool;
+            qcn.Start();
+            string output = await qcn.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await qcn.StandardOutput.ReadToEndAsync();
+            }
+            qcn.WaitForExit();
+            return output;
+        }
 
         public static async Task<string> LsUSB()
         {

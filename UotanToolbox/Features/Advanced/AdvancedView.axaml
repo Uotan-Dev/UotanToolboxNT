@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="UotanToolbox.Features.Advanced.AdvancedView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:controlsLibrary="clr-namespace:UotanToolbox.Features.ControlsLibrary"
+			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:advanced="clr-namespace:UotanToolbox.Features.Advanced"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+			 xmlns:localizations="clr-namespace:UotanToolbox.Common;assembly=UotanToolbox"
+			 d:DesignWidth="1024"
+             x:DataType="advanced:AdvancedViewModel"
+             mc:Ignorable="d">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
+                   theme:WrapPanelExtensions.AnimatedScroll="True"
+                   Orientation="Horizontal">
+
+			<!--  QCN  -->
+			<suki:GlassCard Width="450"
+                            Margin="15"
+                            VerticalAlignment="Top">
+				<Grid>
+					<StackPanel Spacing="10">
+						<StackPanel>
+							<TextBlock HorizontalAlignment="Left"
+									   VerticalAlignment="Top"
+									   FontWeight="DemiBold"
+									   Text="QCN" />
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<TextBlock Width="60"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="QCN文件" />
+								<TextBox Width="250" Name="QcnFile" Text="{Binding QcnFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+								<Button Height="35"
+										Padding="10,0,10,0"
+										Click="OpenQcnFile">
+									选择文件
+								</Button>
+							</StackPanel>
+						</StackPanel>
+						<StackPanel Spacing="30">
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+									<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding WriteQcnCommand}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="PencilAddOutline" />
+											写入QCN
+										</TextBlock>
+									</Button>
+									<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding BackupQcnCommand}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
+											备份QCN
+										</TextBlock>
+									</Button>
+									<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding OpenBackupCommand}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="FolderOpenOutline" />
+											打开备份
+										</TextBlock>
+									</Button>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+									<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding Enable901dCommand}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="AndroidStudio" />
+											开启901D
+										</TextBlock>
+									</Button>
+									<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding Enable9091Command}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="AndroidStudio" />
+											开启9091
+										</TextBlock>
+									</Button>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+		</WrapPanel>
+	</ScrollViewer>
+</UserControl>

@@ -75,18 +75,18 @@ namespace UotanToolbox.Common
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process fb = new Process();
-            fb.StartInfo = fastboot;
-            fb.Start();
-            string output = await fb.StandardError.ReadToEndAsync();
+            using Process devcon = new Process();
+            devcon.StartInfo = fastboot;
+            devcon.Start();
+            string output = await devcon.StandardError.ReadToEndAsync();
             if (output == "")
             {
-                output = await fb.StandardOutput.ReadToEndAsync();
+                output = await devcon.StandardOutput.ReadToEndAsync();
             }
-            fb.WaitForExit();
+            devcon.WaitForExit();
             return output;
         }
-        public static async Task<string> QcnTool(string shell)
+        public static async Task<string> QCNTool(string shell)
         {
             string cmd = "bin\\Windows\\qcntool.exe";
             ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)

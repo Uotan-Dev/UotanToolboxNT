@@ -61,11 +61,83 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 ADB reboot to 的本地化字符串。
+        /// </summary>
+        public static string AdbRebootTo {
+            get {
+                return ResourceManager.GetString("AdbRebootTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Android SDK 的本地化字符串。
         /// </summary>
         public static string AndroidSDK {
             get {
                 return ResourceManager.GetString("AndroidSDK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Back 的本地化字符串。
+        /// </summary>
+        public static string BackButton {
+            get {
+                return ResourceManager.GetString("BackButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Battery 的本地化字符串。
+        /// </summary>
+        public static string Battery {
+            get {
+                return ResourceManager.GetString("Battery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 9008 的本地化字符串。
+        /// </summary>
+        public static string Boot9008 {
+            get {
+                return ResourceManager.GetString("Boot9008", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Bootloader 的本地化字符串。
+        /// </summary>
+        public static string Bootloader {
+            get {
+                return ResourceManager.GetString("Bootloader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Bootloader 的本地化字符串。
+        /// </summary>
+        public static string BootloaderLock {
+            get {
+                return ResourceManager.GetString("BootloaderLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Button Analog 的本地化字符串。
+        /// </summary>
+        public static string ButtonAnalog {
+            get {
+                return ResourceManager.GetString("ButtonAnalog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choose Device 的本地化字符串。
+        /// </summary>
+        public static string ChooseDevice {
+            get {
+                return ResourceManager.GetString("ChooseDevice", resourceCulture);
             }
         }
         
@@ -79,11 +151,38 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Compiled Version 的本地化字符串。
+        /// </summary>
+        public static string CompiledVersion {
+            get {
+                return ResourceManager.GetString("CompiledVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ConnectionStatus 的本地化字符串。
+        /// </summary>
+        public static string ConnectionStatus {
+            get {
+                return ResourceManager.GetString("ConnectionStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 CPU Framework 的本地化字符串。
         /// </summary>
         public static string CPUABI {
             get {
                 return ResourceManager.GetString("CPUABI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cpu CodeCpuCode 的本地化字符串。
+        /// </summary>
+        public static string CpuCode {
+            get {
+                return ResourceManager.GetString("CpuCode", resourceCulture);
             }
         }
         
@@ -111,6 +210,231 @@ namespace UotanToolbox.Assets {
         public static string DeviceModel {
             get {
                 return ResourceManager.GetString("DeviceModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DisplayDensity 的本地化字符串。
+        /// </summary>
+        public static string DisplayDensity {
+            get {
+                return ResourceManager.GetString("DisplayDensity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fastbootd 的本地化字符串。
+        /// </summary>
+        public static string Fastbootd {
+            get {
+                return ResourceManager.GetString("Fastbootd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fastboot reboot to 的本地化字符串。
+        /// </summary>
+        public static string FastbootRebootTo {
+            get {
+                return ResourceManager.GetString("FastbootRebootTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fetching ... 的本地化字符串。
+        /// </summary>
+        public static string Fetching {
+            get {
+                return ResourceManager.GetString("Fetching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash Type 的本地化字符串。
+        /// </summary>
+        public static string FlashType {
+            get {
+                return ResourceManager.GetString("FlashType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Home 的本地化字符串。
+        /// </summary>
+        public static string HomeButton {
+            get {
+                return ResourceManager.GetString("HomeButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Kernal Version 的本地化字符串。
+        /// </summary>
+        public static string KernalVersion {
+            get {
+                return ResourceManager.GetString("KernalVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 LockScreen 的本地化字符串。
+        /// </summary>
+        public static string LockScreen {
+            get {
+                return ResourceManager.GetString("LockScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 MotherboardID 的本地化字符串。
+        /// </summary>
+        public static string MotherboardID {
+            get {
+                return ResourceManager.GetString("MotherboardID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 MultiTask 的本地化字符串。
+        /// </summary>
+        public static string MultiTask {
+            get {
+                return ResourceManager.GetString("MultiTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Platform 的本地化字符串。
+        /// </summary>
+        public static string Platform {
+            get {
+                return ResourceManager.GetString("Platform", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Power On Time 的本地化字符串。
+        /// </summary>
+        public static string PowerOnTime {
+            get {
+                return ResourceManager.GetString("PowerOnTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Recovery 的本地化字符串。
+        /// </summary>
+        public static string Recovery {
+            get {
+                return ResourceManager.GetString("Recovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Refresh 的本地化字符串。
+        /// </summary>
+        public static string Refresh {
+            get {
+                return ResourceManager.GetString("Refresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Resolution 的本地化字符串。
+        /// </summary>
+        public static string Resolution {
+            get {
+                return ResourceManager.GetString("Resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Screenshot 的本地化字符串。
+        /// </summary>
+        public static string Screenshot {
+            get {
+                return ResourceManager.GetString("Screenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Shutdown 的本地化字符串。
+        /// </summary>
+        public static string Shutdown {
+            get {
+                return ResourceManager.GetString("Shutdown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Sideload 的本地化字符串。
+        /// </summary>
+        public static string Sideload {
+            get {
+                return ResourceManager.GetString("Sideload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Storage and Memory 的本地化字符串。
+        /// </summary>
+        public static string StorageAndMemory {
+            get {
+                return ResourceManager.GetString("StorageAndMemory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 System 的本地化字符串。
+        /// </summary>
+        public static string System {
+            get {
+                return ResourceManager.GetString("System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Vab Stadus 的本地化字符串。
+        /// </summary>
+        public static string VabStadus {
+            get {
+                return ResourceManager.GetString("VabStadus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 VNDK Version 的本地化字符串。
+        /// </summary>
+        public static string VNDKVersion {
+            get {
+                return ResourceManager.GetString("VNDKVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Volume Down 的本地化字符串。
+        /// </summary>
+        public static string VolumeDown {
+            get {
+                return ResourceManager.GetString("VolumeDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mute 的本地化字符串。
+        /// </summary>
+        public static string VolumeMute {
+            get {
+                return ResourceManager.GetString("VolumeMute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Volume Up 的本地化字符串。
+        /// </summary>
+        public static string VolumeUp {
+            get {
+                return ResourceManager.GetString("VolumeUp", resourceCulture);
             }
         }
     }

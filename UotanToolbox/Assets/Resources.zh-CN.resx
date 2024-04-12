@@ -117,14 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdbRebootTo" xml:space="preserve">
+    <value>ADB 重启至</value>
+  </data>
   <data name="AndroidSDK" xml:space="preserve">
     <value>系统</value>
+  </data>
+  <data name="BackButton" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="Battery" xml:space="preserve">
+    <value>电池</value>
+  </data>
+  <data name="Boot9008" xml:space="preserve">
+    <value>9008</value>
+  </data>
+  <data name="Bootloader" xml:space="preserve">
+    <value>Bootloader</value>
+  </data>
+  <data name="BootloaderLock" xml:space="preserve">
+    <value>Bootloader 锁</value>
+  </data>
+  <data name="ButtonAnalog" xml:space="preserve">
+    <value>按键模拟</value>
+  </data>
+  <data name="ChooseDevice" xml:space="preserve">
+    <value>选择设备</value>
   </data>
   <data name="CodeName" xml:space="preserve">
     <value>代号</value>
   </data>
+  <data name="CompiledVersion" xml:space="preserve">
+    <value>编译版本</value>
+  </data>
+  <data name="ConnectionStatus" xml:space="preserve">
+    <value>连接状态</value>
+  </data>
   <data name="CPUABI" xml:space="preserve">
     <value>CPU 架构</value>
+  </data>
+  <data name="CpuCode" xml:space="preserve">
+    <value>Cpu 代号</value>
   </data>
   <data name="DeviceBrand" xml:space="preserve">
     <value>品牌</value>
@@ -134,5 +167,80 @@
   </data>
   <data name="DeviceModel" xml:space="preserve">
     <value>型号</value>
+  </data>
+  <data name="DisplayDensity" xml:space="preserve">
+    <value>显示密度</value>
+  </data>
+  <data name="Fastbootd" xml:space="preserve">
+    <value>Fastbootd</value>
+  </data>
+  <data name="FastbootRebootTo" xml:space="preserve">
+    <value>Fastboot 重启至</value>
+  </data>
+  <data name="Fetching" xml:space="preserve">
+    <value>获取中 ...</value>
+  </data>
+  <data name="FlashType" xml:space="preserve">
+    <value>闪存类型</value>
+  </data>
+  <data name="HomeButton" xml:space="preserve">
+    <value>主页</value>
+  </data>
+  <data name="KernalVersion" xml:space="preserve">
+    <value>内核版本</value>
+  </data>
+  <data name="LockScreen" xml:space="preserve">
+    <value>锁屏</value>
+  </data>
+  <data name="MotherboardID" xml:space="preserve">
+    <value>主板 ID</value>
+  </data>
+  <data name="MultiTask" xml:space="preserve">
+    <value>多任务</value>
+  </data>
+  <data name="Platform" xml:space="preserve">
+    <value>平台</value>
+  </data>
+  <data name="PowerOnTime" xml:space="preserve">
+    <value>开机时间</value>
+  </data>
+  <data name="Recovery" xml:space="preserve">
+    <value>Recovery</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Resolution" xml:space="preserve">
+    <value>分辨率</value>
+  </data>
+  <data name="Screenshot" xml:space="preserve">
+    <value>截屏</value>
+  </data>
+  <data name="Shutdown" xml:space="preserve">
+    <value>关机</value>
+  </data>
+  <data name="Sideload" xml:space="preserve">
+    <value>Sideload</value>
+  </data>
+  <data name="StorageAndMemory" xml:space="preserve">
+    <value>存储和内存</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>系统</value>
+  </data>
+  <data name="VabStadus" xml:space="preserve">
+    <value>Vab状态</value>
+  </data>
+  <data name="VNDKVersion" xml:space="preserve">
+    <value>VNDK 版本</value>
+  </data>
+  <data name="VolumeDown" xml:space="preserve">
+    <value>音量-</value>
+  </data>
+  <data name="VolumeMute" xml:space="preserve">
+    <value>静音</value>
+  </data>
+  <data name="VolumeUp" xml:space="preserve">
+    <value>音量+</value>
   </data>
 </root>

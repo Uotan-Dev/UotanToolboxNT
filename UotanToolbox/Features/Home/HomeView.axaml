@@ -25,7 +25,7 @@
                             Margin="10"
                             Classes="Card">
 				<suki:BusyArea Name="BusyConnection"
-								BusyText="获取中 ..."
+								BusyText="{x:Static assets:Resources.Fetching}"
 								IsBusy="{Binding IsConnected}">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
@@ -109,7 +109,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="分辨率" />
+												Text="{x:Static assets:Resources.Resolution}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -123,7 +123,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="显示密度" />
+												Text="{x:Static assets:Resources.DisplayDensity}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -139,7 +139,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="连接状态"/>
+												Text="{x:Static assets:Resources.ConnectionStatus}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -153,7 +153,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="BootLoader锁"/>
+												Text="{x:Static assets:Resources.BootloaderLock}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -167,7 +167,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="VAB状态"/>
+												Text="{x:Static assets:Resources.VabStadus}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -181,7 +181,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="VNDK 版本"/>
+												Text="{x:Static assets:Resources.VNDKVersion}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -195,7 +195,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="CPU 代号"/>
+												Text="{x:Static assets:Resources.CpuCode}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -209,7 +209,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="开机时间"/>
+												Text="{x:Static assets:Resources.PowerOnTime}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -223,7 +223,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="闪存类型"/>
+												Text="{x:Static assets:Resources.FlashType}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -240,7 +240,7 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="主板 ID" />
+											Text="{x:Static assets:Resources.MotherboardID}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Classes="Hyperlink"
 												Foreground="White"
@@ -254,7 +254,7 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="平台" />
+											Text="{x:Static assets:Resources.Platform}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Classes="Hyperlink"
 												Foreground="White"
@@ -268,7 +268,7 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="编译版本" />
+											Text="{x:Static assets:Resources.CompiledVersion}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Classes="Hyperlink"
 											Foreground="White"
@@ -282,7 +282,7 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="内核版本" />
+											Text="{x:Static assets:Resources.KernalVersion}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Classes="Hyperlink"
 											Foreground="White"
@@ -305,7 +305,7 @@
 				<Grid>
 					<TextBlock FontSize="16"
 							   FontWeight="DemiBold"
-							   Text="电池" />
+							   Text="{x:Static assets:Resources.Battery}" />
 					<Viewbox Width="175"
 							 Height="175"
 							 Margin="0,0,0,5"
@@ -328,7 +328,7 @@
 					<StackPanel Spacing="10">
 						<TextBlock FontSize="16"
 								   FontWeight="DemiBold"
-								   Text="储存和内存" />
+								   Text="{x:Static assets:Resources.StorageAndMemory}" />
 							<controls:CircleProgressBar Width="130"
 														Height="130"
 														StrokeWidth="11"
@@ -365,7 +365,7 @@
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="16"
 								FontWeight="DemiBold"
-								Text="按键模拟" />
+								Text="{x:Static assets:Resources.ButtonAnalog}" />
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 40">
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
 							<Button Width="100" 
@@ -374,7 +374,7 @@
 									Command="{Binding BackCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
-									返回
+									<TextBlock Text="{x:Static assets:Resources.BackButton}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -383,7 +383,7 @@
 									Command="{Binding HomeCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="CircleOutline" />
-									主页
+									<TextBlock Text="{x:Static assets:Resources.HomeButton}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -392,7 +392,7 @@
 									Command="{Binding MulCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="CardMultipleOutline" />
-									多任务
+									<TextBlock Text="{x:Static assets:Resources.MultiTask}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -401,7 +401,7 @@
 									Command="{Binding LockCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="LockOpenOutline" />
-									锁屏
+									<TextBlock Text="{x:Static assets:Resources.LockScreen}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -412,7 +412,7 @@
 									Command="{Binding VolUCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumePlus" />
-									音量+
+									<TextBlock Text="{x:Static assets:Resources.VolumeUp}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -421,7 +421,7 @@
 									Command="{Binding VolDCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumeDecrease" />
-									音量-
+									<TextBlock Text="{x:Static assets:Resources.VolumeDown}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -430,7 +430,7 @@
 									Command="{Binding MuteCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumeOff" />
-									静音
+									<TextBlock Text="{x:Static assets:Resources.VolumeMute}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -439,7 +439,7 @@
 									Command="{Binding SCCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="CameraOutline" />
-									截屏
+									<TextBlock Text="{x:Static assets:Resources.Screenshot}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -456,7 +456,7 @@
 						<TextBlock HorizontalAlignment="Left"
 								   FontSize="15"
 								   FontWeight="DemiBold"
-								   Text="ADB 重启至" />
+								   Text="{x:Static assets:Resources.AdbRebootTo}" />
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="125"
@@ -465,7 +465,7 @@
 										Command="{Binding ARebootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Android" />
-										系统
+										<TextBlock Text="{x:Static assets:Resources.System}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -474,7 +474,7 @@
 										Command="{Binding ARRecCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="NetworkOutline" />
-										Recovery
+										<TextBlock Text="{x:Static assets:Resources.Recovery}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -483,7 +483,7 @@
 										Command="{Binding ARSideCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="NetworkPos" />
-										Sideload
+										<TextBlock Text="{x:Static assets:Resources.Sideload}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -494,7 +494,7 @@
 										Command="{Binding ARBootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										Bootloader
+										<TextBlock Text="{x:Static assets:Resources.Bootloader}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -503,7 +503,7 @@
 										Command="{Binding ARFastCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										Fastbootd
+										<TextBlock Text="{x:Static assets:Resources.Fastbootd}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -512,7 +512,7 @@
 										Command="{Binding AREDLCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										9008
+										<TextBlock Text="{x:Static assets:Resources.Boot9008}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -528,7 +528,7 @@
 						<TextBlock HorizontalAlignment="Left"
 									FontSize="15"
 									FontWeight="DemiBold"
-									Text="Fastboot 重启至" />
+									Text="{x:Static assets:Resources.FastbootRebootTo}" />
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="125"
@@ -537,7 +537,7 @@
 										Command="{Binding FRebootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Android" />
-										系统
+										<TextBlock Text="{x:Static assets:Resources.System}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -546,7 +546,7 @@
 										Command="{Binding FRRecCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="NetworkOutline" />
-										Recovery
+										<TextBlock Text="{x:Static assets:Resources.Recovery}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -555,7 +555,7 @@
 										Command="{Binding FRShutCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Power" />
-										关机
+										<TextBlock Text="{x:Static assets:Resources.Shutdown}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -568,7 +568,7 @@
 										Command="{Binding FRBootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										Bootloader
+										<TextBlock Text="{x:Static assets:Resources.Bootloader}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -577,7 +577,7 @@
 										Command="{Binding FRFastCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										Fastbootd
+										<TextBlock Text="{x:Static assets:Resources.Fastbootd}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -586,7 +586,7 @@
 										Command="{Binding FREDLCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										9008
+										<TextBlock Text="{x:Static assets:Resources.Boot9008}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -602,13 +602,13 @@
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center">
 				 <suki:BusyArea Name="BusyDevicesList"
-								BusyText="获取中 ..."
+								BusyText="{x:Static assets:Resources.Fetching}"
 								IsBusy="{Binding CommonDevicesList}">
 					<StackPanel Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="选择设备" />
+								Text="{x:Static assets:Resources.ChooseDevice}" />
 					<StackPanel Margin="0 55 0 25">
 						<ComboBox Width="185" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
@@ -616,15 +616,9 @@
 						<Button Width="175" Command="{Binding ConnectCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
-								刷新
+								<TextBlock Text="{x:Static assets:Resources.Refresh}"/>
 							</TextBlock>
 						</Button>
-						<!--<Button Width="175">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="ConsoleNetworkOutline" />
-								网络调试
-							</TextBlock>
-						</Button>-->
 					</StackPanel>
 				</StackPanel>
 				</suki:BusyArea>

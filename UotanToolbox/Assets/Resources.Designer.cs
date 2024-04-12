@@ -277,7 +277,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 LockScreen 的本地化字符串。
+        ///   查找类似 Lock 的本地化字符串。
         /// </summary>
         public static string LockScreen {
             get {
@@ -349,7 +349,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Screenshot 的本地化字符串。
+        ///   查找类似 Snapshot 的本地化字符串。
         /// </summary>
         public static string Screenshot {
             get {
@@ -376,7 +376,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Storage and Memory 的本地化字符串。
+        ///   查找类似 Storage &amp; Memory 的本地化字符串。
         /// </summary>
         public static string StorageAndMemory {
             get {
@@ -412,7 +412,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Volume Down 的本地化字符串。
+        ///   查找类似 Volume - 的本地化字符串。
         /// </summary>
         public static string VolumeDown {
             get {
@@ -430,7 +430,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Volume Up 的本地化字符串。
+        ///   查找类似 Volume + 的本地化字符串。
         /// </summary>
         public static string VolumeUp {
             get {

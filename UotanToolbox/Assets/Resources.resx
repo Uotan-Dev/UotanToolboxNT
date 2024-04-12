@@ -190,7 +190,7 @@
     <value>Kernal Version</value>
   </data>
   <data name="LockScreen" xml:space="preserve">
-    <value>LockScreen</value>
+    <value>Lock</value>
   </data>
   <data name="MotherboardID" xml:space="preserve">
     <value>MotherboardID</value>
@@ -214,7 +214,7 @@
     <value>Resolution</value>
   </data>
   <data name="Screenshot" xml:space="preserve">
-    <value>Screenshot</value>
+    <value>Snapshot</value>
   </data>
   <data name="Shutdown" xml:space="preserve">
     <value>Shutdown</value>
@@ -223,7 +223,7 @@
     <value>Sideload</value>
   </data>
   <data name="StorageAndMemory" xml:space="preserve">
-    <value>Storage and Memory</value>
+    <value>Storage &amp; Memory</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>System</value>
@@ -235,12 +235,12 @@
     <value>VNDK Version</value>
   </data>
   <data name="VolumeDown" xml:space="preserve">
-    <value>Volume Down</value>
+    <value>Volume -</value>
   </data>
   <data name="VolumeMute" xml:space="preserve">
     <value>Mute</value>
   </data>
   <data name="VolumeUp" xml:space="preserve">
-    <value>Volume Up</value>
+    <value>Volume +</value>
   </data>
 </root>

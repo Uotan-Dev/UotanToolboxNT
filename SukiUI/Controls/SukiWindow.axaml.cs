@@ -133,8 +133,7 @@ public class SukiWindow : Window
         base.OnApplyTemplate(e);
 
         var stateObs = this.GetObservable(WindowStateProperty)
-            .Do(OnWindowStateChanged)
-            .Select(_ => Unit.Default);
+            .Select(windowState => windowState == WindowState.Maximized ? Unit.Default : Unit.Default);
 
         // Create handlers for buttons
         if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
@@ -161,9 +160,11 @@ public class SukiWindow : Window
         {
             background.SetAnimationEnabled(BackgroundAnimationEnabled);
             var bgObs = this.GetObservable(BackgroundAnimationEnabledProperty)
-                .Do(enabled => background.SetAnimationEnabled(enabled))
-                .Select(_ => Unit.Default)
-
+                .Select<bool, Unit>(enabled => {
+                    background.SetAnimationEnabled(enabled);
+                    return Unit.Default;
+                })
+                .Merge(stateObs)
                 .ObserveOn(new AvaloniaSynchronizationContext());
 
             _subscriptionDisposables = bgObs.Subscribe();

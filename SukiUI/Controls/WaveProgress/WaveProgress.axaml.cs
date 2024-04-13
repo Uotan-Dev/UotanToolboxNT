@@ -38,17 +38,14 @@ public partial class WaveProgress : UserControl
             if (value is < 0 or > 100)
                 return;
 
-            SetAndRaise(ValueProperty, ref _value, value);
+            SetValue(ValueProperty,value);
         }
     }
 
-    public static readonly DirectProperty<WaveProgress, double> ValueProperty =
-        AvaloniaProperty.RegisterDirect<WaveProgress, double>(
-            nameof(Value),
-            o => o.Value,
-            (o, v) => o.Value = v,
-            defaultBindingMode: BindingMode.TwoWay,
-            enableDataValidation: true);
+    public static readonly StyledProperty<double> ValueProperty =
+        AvaloniaProperty.Register<CircleProgressBar, double>(nameof(Value), defaultValue: 50);
+    
+   
 
     public static readonly StyledProperty<bool> IsTextVisibleProperty = AvaloniaProperty.Register<WaveProgress, bool>(nameof(IsTextVisible), defaultValue: true);
 

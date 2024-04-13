@@ -31,5 +31,5 @@ public interface ISukiBackgroundRenderer
     /// </summary>
     /// <param name="bitmap">Bitmap to draw the background to.</param>
     /// <returns></returns>
-    public Task Render(WriteableBitmap bitmap);
+    public Task Render(WriteableBitmap bitmap, ThemeVariant baseTheme);
 }

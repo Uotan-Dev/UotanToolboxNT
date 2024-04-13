@@ -128,7 +128,7 @@
                                     Margin="0,25,0,0"
                                     HorizontalAlignment="Left"
                                     DockPanel.Dock="Left" />
-                        <ScrollViewer Name="MyScroll">
+                        <ScrollViewer Classes="Stack" Name="MyScroll">
                             <StackPanel theme:StackPanelExtensions.AnimatedScroll="True" Name="StackItems" Margin="-10,0" />
                         </ScrollViewer>
                     </DockPanel>

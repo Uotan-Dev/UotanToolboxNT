@@ -1,9 +1,10 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Padding="20" Background="White">
-            <StackPanel >
-                <CheckBox Margin="20" Content="Issou" />
-                <CheckBox Margin="20" IsChecked="True" />
+            <StackPanel Spacing="20">
+                <CheckBox>Unchecked</CheckBox>
+                <CheckBox IsChecked="True">Checked</CheckBox>
+                <CheckBox IsChecked="{x:Null}" IsThreeState="True">Indeterminate</CheckBox>
             </StackPanel>
         </Border>
     </Design.PreviewWith>
@@ -41,23 +42,36 @@
                         <Panel>
                             <Path Name="checkMark"
                                   Width="9"
-                                  Height="9"
+                                  Height="9" Opacity="1"
                                   Margin="1,1,0,0"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
                                   Data="M 1145.607177734375,430 C1145.607177734375,430 1141.449951171875,435.0772705078125 1141.449951171875,435.0772705078125 1141.449951171875,435.0772705078125 1139.232177734375,433.0999755859375 1139.232177734375,433.0999755859375 1139.232177734375,433.0999755859375 1138,434.5538330078125 1138,434.5538330078125 1138,434.5538330078125 1141.482177734375,438 1141.482177734375,438 1141.482177734375,438 1141.96875,437.9375 1141.96875,437.9375 1141.96875,437.9375 1147,431.34619140625 1147,431.34619140625 1147,431.34619140625 1145.607177734375,430 1145.607177734375,430 z"
                                   Fill="White"
-                                  Stretch="Uniform" />
-
+                                  Stretch="Uniform" >
+                                <Path.Transitions>
+                                    <Transitions>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.2"></DoubleTransition>
+                                        </Transitions>
+                                </Path.Transitions>
+                            </Path>
+                            <Border Name="IndetBorder" Opacity="0" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White" Height="3" Width="8" CornerRadius="2">
+                                <Border.Transitions>
+                                    <Transitions>
+                                    <DoubleTransition Property="Opacity" Duration="0:0:0.2"></DoubleTransition>
+                                    </Transitions>
+                                </Border.Transitions>
+                            </Border>
                         </Panel>
                     </Border>
                     <ContentPresenter Name="PART_ContentPresenter"
-                                      Grid.Column="1" FontSize="{TemplateBinding FontSize}"
+                                      Grid.Column="1"
                                       Margin="{TemplateBinding Padding}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                       Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      FontSize="{TemplateBinding FontSize}"
                                       IsVisible="{TemplateBinding Content,
                                                                   Converter={x:Static ObjectConverters.IsNotNull}}"
                                       RecognizesAccessKey="True" />
@@ -78,18 +92,26 @@
         <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
     </Style>
     <Style Selector="CheckBox /template/ Path#checkMark">
-        <Setter Property="IsVisible" Value="False" />
+        <Setter Property="Opacity" Value="0"></Setter>
     </Style>
     <Style Selector="CheckBox /template/ Rectangle#indeterminateMark">
-        <Setter Property="IsVisible" Value="False" />
+        <Setter Property="Opacity" Value="0"></Setter>
     </Style>
     <Style Selector="CheckBox:checked /template/ Path#checkMark">
-        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="Opacity" Value="1"></Setter>
     </Style>
     <Style Selector="CheckBox:indeterminate /template/ Rectangle#indeterminateMark">
-        <Setter Property="IsVisible" Value="True" />
+        <Setter Property="Opacity" Value="0"></Setter>
+    </Style>
+    
+    <Style Selector="CheckBox:indeterminate /template/ Border#IndetBorder">
+        <Setter Property="Opacity" Value="1"></Setter>
+    </Style>
+ 
+    <Style Selector="CheckBox:indeterminate /template/ Border#border">
+        <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
     </Style>
     <Style Selector="CheckBox:disabled /template/ Border#border">
-        <Setter Property="Opacity" Value="1" />
+        <Setter Property="Opacity" Value="1"></Setter>
     </Style>
 </Styles>

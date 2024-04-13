@@ -65,11 +65,11 @@
   <ControlTheme x:Key="{x:Type TimePicker}"
                 TargetType="TimePicker">
     <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
-   <Setter Property="BorderThickness" Value="{DynamicResource TimePickerBorderThemeThickness}" />
+   <Setter Property="BorderThickness" Value="0,0,0,1" />
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="BorderBrush" Value="{DynamicResource SukiMediumBorderBrush}" />
-    <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
+    <Setter Property="CornerRadius" Value="0" />
     <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
     <Setter Property="Padding" Value="20,8" />
     <Setter Property="Height" Value="40"></Setter>

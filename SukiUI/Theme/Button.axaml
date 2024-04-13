@@ -8,6 +8,8 @@
         <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        
         <Setter Property="FontSize" Value="15" />
         <Setter Property="Padding" Value="20,8" />
         <Setter Property="Template">
@@ -22,14 +24,14 @@
                     <Border.Resources>
                         <theme:BoolToWidthProgressConverter x:Key="WidthConverter" />
                     </Border.Resources>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Orientation="Horizontal">
                         <Viewbox Width="{TemplateBinding theme:ButtonExtensions.ShowProgress, Converter={StaticResource WidthConverter}}" Height="18">
                             <Viewbox.Transitions>
                                 <Transitions>
                                     <DoubleTransition Property="Width" Duration="0:0:0.3" />
                                 </Transitions>
                             </Viewbox.Transitions>
-                            <controls:Loading Classes="White" />
+                            <controls:Loading Foreground="{DynamicResource SukiText}" />
                         </Viewbox>
                         <ContentPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -58,6 +60,10 @@
                 </Transitions>
             </Setter>
         </Style>
+        <Style Selector="^ /template/ controls|Loading">
+          <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+        </Style>
+
 
         <Style Selector="^ /template/ Border">
             <Setter Property="Transitions">
@@ -106,6 +112,26 @@
                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
             </Style>
         </Style>
+        
+        <Style Selector="^.NoPressedAnimation">
+        <Style Selector="^:pressed">
+            <Style Selector="^ /template/ TextBlock">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
+            <Style Selector="^ /template/ Border">
+                <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style Selector="^ /template/ ContentPresenter">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
+        </Style>
+            </Style>
 
         <!--  Classes  -->
         <Style Selector="^.Accent">
@@ -157,6 +183,9 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style Selector="^ /template/ controls|Loading">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
             <Style Selector="^ /template/ Border">
                 <Setter Property="BoxShadow" Value="0 0 0 0 Transparent" />
             </Style>
@@ -188,6 +217,9 @@
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>
+                </Style>
+                <Style Selector="^ /template/ controls|Loading">
+                    <Setter Property="Foreground" Value="{DynamicResource SukiAccentColor}" />
                 </Style>
                 <Style Selector="^ /template/ ContentPresenter">
                     <Setter Property="Foreground" Value="{DynamicResource SukiAccentColor}" />
@@ -228,6 +260,10 @@
             </Setter>
             <!--  Nested Selectors  -->
             <Style Selector="^ /template/ TextBlock">
+                <Setter Property="Foreground" Value="White" />
+            </Style>
+            
+            <Style Selector="^ /template/ controls|Loading">
                 <Setter Property="Foreground" Value="White" />
             </Style>
             <Style Selector="^ /template/ ContentPresenter">
@@ -274,6 +310,10 @@
                     </Transitions>
                 </Setter>
             </Style>
+            
+            <Style Selector="^ /template/ controls|Loading">
+                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            </Style>
             <Style Selector="^ /template/ ContentPresenter">
                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
                 <Setter Property="Transitions">
@@ -301,6 +341,9 @@
             <Style Selector="^.Accent">
                 <Setter Property="BorderBrush" Value="{DynamicResource SukiAccentColor}" />
                 <Style Selector="^ /template/ TextBlock">
+                    <Setter Property="Foreground" Value="{DynamicResource SukiAccentColor}" />
+                </Style>
+                <Style Selector="^ /template/ controls|Loading">
                     <Setter Property="Foreground" Value="{DynamicResource SukiAccentColor}" />
                 </Style>
                 <Style Selector="^ /template/ ContentPresenter">
@@ -406,6 +449,7 @@
                             <Style Selector="TextBlock">
                                 <Setter Property="FontWeight" Value="Bold" />
                                 <Setter Property="FontSize" Value="{TemplateBinding FontSize}" />
+
                                 <Setter Property="Transitions">
                                     <Setter.Value>
                                         <Transitions>

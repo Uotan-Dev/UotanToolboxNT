@@ -50,8 +50,8 @@
 
                         <Button Name="PART_FlyoutButton"
                                 Height="{TemplateBinding Height}"
-                                Background="Transparent"
-                                BorderThickness="1"
+                                Background="Transparent" CornerRadius="0"
+                                BorderThickness="0,0,0,1"
                                 IsEnabled="{TemplateBinding IsEnabled}"
                                 TemplatedControl.IsTemplateFocusTarget="True">
                             <Grid Margin="0,1,0,0" ColumnDefinitions="Auto,Auto">

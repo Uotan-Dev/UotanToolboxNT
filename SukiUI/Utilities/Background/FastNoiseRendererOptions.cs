@@ -1,3 +1,6 @@
+using Avalonia;
+using Avalonia.Styling;
+
 namespace SukiUI.Utilities.Background;
 
 public readonly struct FastNoiseRendererOptions
@@ -8,6 +11,7 @@ public readonly struct FastNoiseRendererOptions
     public float YAnimSpeed { get; }
     public float PrimaryAlpha { get; }
     public float AccentAlpha { get; }
+    public float AccentAlphaLight { get; }
 
     public FastNoiseRendererOptions(
         FastNoiseLite.NoiseType type,
@@ -15,7 +19,8 @@ public readonly struct FastNoiseRendererOptions
         float xAnimSpeed = 2f,
         float yAnimSpeed = 1f,
         float primaryAlpha = 0.7f,
-        float accentAlpha = 0.04f,
+        float accentAlpha = 0.08f,
+        float accentAlphaLight = 0.09f,
         float animSeedScale = 0.1f
            /* float noiseScale = 1f,
             float xAnimSpeed = 0.05f,
@@ -30,5 +35,6 @@ public readonly struct FastNoiseRendererOptions
         YAnimSpeed = yAnimSpeed * animSeedScale;
         PrimaryAlpha = primaryAlpha;
         AccentAlpha = accentAlpha;
+        AccentAlphaLight = accentAlphaLight;
     }
 }

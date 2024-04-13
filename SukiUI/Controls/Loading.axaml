@@ -9,6 +9,7 @@
              mc:Ignorable="d">
     <UserControl.Styles>
         <Style Selector="suki|Loading">
+            <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}"></Setter>
             <Style.Setters>
                 <Setter Property="Transitions">
                     <Transitions>
@@ -45,7 +46,7 @@
                          Height="52"
                          StartAngle="270"
                          Stretch="None"
-                         Stroke="{DynamicResource SukiPrimaryColor}"
+                         Stroke="{TemplateBinding Foreground}"
                          StrokeJoin="Round"
                          StrokeLineCap="Round"
                          StrokeThickness="4"

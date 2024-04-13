@@ -24,12 +24,14 @@
 
                             <LayoutTransformControl Name="PART_ToggleTransform">
                                 <DockPanel>
+                                  
                                     <Border Name="PART_BottomBorder"
                                             Height="2"
                                             HorizontalAlignment="Stretch"
                                             Background="{DynamicResource SukiBorderBrush}"
                                             DockPanel.Dock="Bottom" />
-                                    <ToggleButton Name="PART_ToggleButton"
+                                    
+                                    <ToggleButton Name="PART_ToggleButton" 
                                                   HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Center"
                                                   HorizontalContentAlignment="Stretch"

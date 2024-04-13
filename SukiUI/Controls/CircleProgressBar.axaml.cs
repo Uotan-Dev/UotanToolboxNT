@@ -24,21 +24,18 @@ namespace SukiUI.Controls
             get => _value;
             set
             {
-                SetAndRaise(ValueProperty, ref _value, (int)(value * 3.6));
+                _value = (int)(value * 3.6);
+                SetValue(ValueProperty,_value);
             }
         }
 
         /// <summary>
         /// Defines the <see cref="Value"/> property.
         /// </summary>
-        public static readonly DirectProperty<CircleProgressBar, double> ValueProperty =
-            AvaloniaProperty.RegisterDirect<CircleProgressBar, double>(
-                nameof(Value),
-                o => o.Value,
-                (o, v) => o.Value = v,
-                defaultBindingMode: BindingMode.OneWay,
-                enableDataValidation: true);
-
+        public static readonly StyledProperty<double> ValueProperty =
+            AvaloniaProperty.Register<CircleProgressBar, double>(nameof(Value), defaultValue: 50, coerce: (o, d) =>  d * 3.6);
+        
+        
         public static readonly StyledProperty<int> HeightProperty =
         AvaloniaProperty.Register<CircleProgressBar, int>(nameof(Height), defaultValue: 150);
 

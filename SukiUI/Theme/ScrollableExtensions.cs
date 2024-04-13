@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -30,7 +31,13 @@ namespace SukiUI.Theme
             implicitAnimationCollection["Offset"] = animationGroup;
             compositionVisual.ImplicitAnimations = implicitAnimationCollection;
         }
+        
+       
     }
+    
+  
+  
+    
     public static class StackPanelExtensions
     {
         public static readonly AttachedProperty<bool> AnimatedScrollProperty =

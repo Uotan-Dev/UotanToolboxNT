@@ -4,6 +4,8 @@ using Avalonia.Styling;
 using SukiUI.Models;
 using System;
 using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Threading;
 
 namespace SukiUI.Utilities.Background;
 
@@ -33,16 +35,18 @@ public sealed class FastNoiseBackgroundRenderer : ISukiBackgroundRenderer
     private readonly float _yAnim;
     private readonly float _primaryAlpha;
     private readonly float _accentAlpha;
+    private readonly float _accentAlphaLight;
 
     public FastNoiseBackgroundRenderer(FastNoiseRendererOptions? options = null)
     {
-        var opt = options ?? new FastNoiseRendererOptions(FastNoiseLite.NoiseType.OpenSimplex2);
+        var opt =  new FastNoiseRendererOptions(FastNoiseLite.NoiseType.OpenSimplex2);
         NoiseGen.SetNoiseType(opt.Type);
         _scale = opt.NoiseScale * 100f;
         _xAnim = opt.XAnimSpeed;
         _yAnim = opt.YAnimSpeed;
         _primaryAlpha = opt.PrimaryAlpha;
         _accentAlpha = opt.AccentAlpha;
+        _accentAlphaLight = opt.AccentAlphaLight;
     }
 
     public void UpdateValues(SukiColorTheme colorTheme, ThemeVariant baseTheme)
@@ -60,8 +64,10 @@ public sealed class FastNoiseBackgroundRenderer : ISukiBackgroundRenderer
         _aOffsetX = Rand.Next(1000);
     }
 
-    public async Task Render(WriteableBitmap bitmap)
+    public async Task Render(WriteableBitmap bitmap, ThemeVariant baseTheme)
     {
+   
+        
         _pOffsetX += _xAnim;
         _pOffsetY += _yAnim;
         _aOffsetX -= _xAnim;
@@ -91,7 +97,11 @@ public sealed class FastNoiseBackgroundRenderer : ISukiBackgroundRenderer
                         var firstLayer = BlendPixelOverlay(WithAlpha(_themeColor, alpha), _baseColor);
 
                         noise = NoiseGen.GetNoise((_aOffsetX + x) * frameScale, (_aOffsetY + scanline) * frameScale);
-                        noise = (noise + 1f) / 2f * _accentAlpha;
+                        
+                        
+                        noise = (noise + 1f) / 2f * (baseTheme == ThemeVariant.Dark ? _accentAlpha : _accentAlphaLight) ;
+                       
+                        
                         alpha = (byte)(noise * 255);
 
                         dest[x] = BlendPixel(WithAlpha(_accentColor, alpha), firstLayer);
@@ -111,9 +121,9 @@ public sealed class FastNoiseBackgroundRenderer : ISukiBackgroundRenderer
         var minValue = Math.Min(Math.Min(r, g), b);
         var maxValue = Math.Max(Math.Max(r, g), b);
 
-        r = (r == minValue) ? 30 : ((r == maxValue) ? 30 : 22);
-        g = (g == minValue) ? 30 : ((g == maxValue) ? 30 : 22);
-        b = (b == minValue) ? 30 : ((b == maxValue) ? 30 : 22);
+        r = (r == minValue) ? 37 : ((r == maxValue) ? 37 : 26);
+        g = (g == minValue) ? 37 : ((g == maxValue) ? 37 : 26);
+        b = (b == minValue) ? 37 : ((b == maxValue) ? 37 : 26);
         return ARGB(255, (byte)r, (byte)g, (byte)b);
     }
 

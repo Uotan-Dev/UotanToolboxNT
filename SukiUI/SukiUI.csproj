@@ -38,6 +38,8 @@
 
 	<ItemGroup>
 		<AvaloniaResource Include="**\*.xaml" />
+		<None Remove="Content\Images\icons8-file-explorer-new-48.png" />
+		<AvaloniaResource Include="Content\Images\icons8-file-explorer-new-48.png" />
 	</ItemGroup>
 
 	<ItemGroup>

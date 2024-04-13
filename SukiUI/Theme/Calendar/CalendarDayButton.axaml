@@ -50,7 +50,9 @@
         </Style>
 
         <Style Selector="^:selected /template/ Border#PART_EffectBorder">
-            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor50}" />
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
+            <Setter Property="TextElement.FontWeight" Value="Bold" />
+            <Setter Property="TextElement.Foreground" Value="White" />
         </Style>
 
         <Style Selector="^:selected /template/ Border#PART_RootBorder">
@@ -58,10 +60,35 @@
         </Style>
 
         <Style Selector="^:today /template/ Border#PART_EffectBorder">
-            <Setter Property="BorderBrush" Value="{DynamicResource SukiAccentColor}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="{DynamicResource SukiAccentColor50}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="TextElement.FontWeight" Value="Bold" />
+            <Setter Property="TextElement.Foreground" Value="White" />
         </Style>
-
+        
+        <Style Selector="^:today /template/ TextBlock">
+            <Setter Property="TextElement.FontWeight" Value="Bold" />
+            <Setter Property="TextElement.Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="^:today /template/ ContentPresenter">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        
+        <Style Selector="^:selected /template/ TextBlock">
+            <Setter Property="TextElement.FontWeight" Value="Bold" />
+            <Setter Property="TextElement.Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        <Style Selector="^:selected /template/ ContentPresenter">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="White" />
+        </Style>
+        
+        
         <Style Selector="^:inactive /template/ Border#PART_RootBorder">
             <Setter Property="Opacity" Value="0.24" />
         </Style>

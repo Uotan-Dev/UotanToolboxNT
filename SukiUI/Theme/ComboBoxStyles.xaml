@@ -22,9 +22,9 @@
     </Design.PreviewWith>
 
     <Style Selector="ComboBox">
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
-        <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
+        <Setter Property="CornerRadius" Value="0" />
         <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -35,6 +35,20 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Margin="0,0,0,0" Padding="5">
+                    <Border.Styles>
+                               
+                        
+
+                                <Style Selector="ContentControl.ghost TextBlock">
+                                    <Setter Property="Foreground" Value="Transparent" />
+                                </Style>
+                                <Style Selector="ToggleButton:pointerover">
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Style>
+                                <Style Selector="ToggleButton:checked">
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Style>
+                            </Border.Styles>
                     <Border Name="border"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
@@ -47,53 +61,7 @@
                             </Transitions>
                         </Border.Transitions>
                         <Grid ColumnDefinitions="*,Auto">
-                            <Grid.Styles>
-                                <Style Selector="Popup#PART_Popup[IsOpen=true]">
-                                    <Style.Resources>
-                                        <theme:PlusNineConverter x:Key="NineConverter" />
-                                    </Style.Resources>
-                                    <Style.Animations>
-                                        <Animation Easing="CircularEaseOut"
-                                                   FillMode="Forward"
-                                                   Duration="0:0:0.3">
-                                            <KeyFrame Cue="0%">
-                                                <Setter Property="Width" Value="0" />
-                                            </KeyFrame>
-                                            <KeyFrame Cue="100%">
-                                                <Setter Property="Width" Value="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NineConverter}}" />
-                                            </KeyFrame>
-                                        </Animation>
-                                    </Style.Animations>
-                                </Style>
-
-                                <Style Selector="Popup#PART_Popup[IsOpen=false]">
-                                    <Style.Resources>
-                                        <theme:PlusNineConverter x:Key="NineConverter" />
-                                    </Style.Resources>
-                                    <Style.Animations>
-                                        <Animation Easing="CircularEaseOut"
-                                                   FillMode="Forward"
-                                                   Duration="0:0:0.3">
-                                            <KeyFrame Cue="0%">
-                                                <Setter Property="Width" Value="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NineConverter}}" />
-                                            </KeyFrame>
-                                            <KeyFrame Cue="100%">
-                                                <Setter Property="Width" Value="0" />
-                                            </KeyFrame>
-                                        </Animation>
-                                    </Style.Animations>
-                                </Style>
-
-                                <Style Selector="ContentControl.ghost TextBlock">
-                                    <Setter Property="Foreground" Value="Transparent" />
-                                </Style>
-                                <Style Selector="ToggleButton:pointerover">
-                                    <Setter Property="Background" Value="Transparent" />
-                                </Style>
-                                <Style Selector="ToggleButton:checked">
-                                    <Setter Property="Background" Value="Transparent" />
-                                </Style>
-                            </Grid.Styles>
+                            
                             <Grid.Resources>
                                 <theme:BiggestItemConverter x:Key="BigItem" />
                             </Grid.Resources>
@@ -139,15 +107,15 @@
                                       Stretch="Uniform" />
                             </ToggleButton>
                             <Popup Name="PART_Popup"
-                                   MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                   MaxHeight="{TemplateBinding MaxDropDownHeight}"  MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
                                    HorizontalOffset="-5"
                                    IsLightDismissEnabled="True"
                                    IsOpen="{TemplateBinding IsDropDownOpen,
                                                             Mode=TwoWay}"
                                    PlacementTarget="{TemplateBinding}">
+                                <LayoutTransformControl Name="PART_LayoutTransform" RenderTransformOrigin="50%, 0%">
 
-
-                                <Border Padding="5,10,5,5">
+                                <Border Name="B1" Padding="5,10,5,5">
                                     <Panel>
                                         <Border Margin="10,-10,0,0"
                                                 Background="{DynamicResource SukiCardBackground}"
@@ -155,7 +123,7 @@
                                                 BorderThickness="1,1,1,1"
                                                 BoxShadow="{DynamicResource SukiPopupShadow}"
                                                 CornerRadius="{DynamicResource SmallCornerRadius}">
-                                            <ScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+                                            <ScrollViewer  HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                                                 <ItemsPresenter Name="PART_ItemsPresenter"
                                                                 Margin="0,3,0,0"
                                                                 ItemsPanel="{TemplateBinding ItemsPanel}" />
@@ -163,6 +131,7 @@
                                         </Border>
                                     </Panel>
                                 </Border>
+                                    </LayoutTransformControl>
                             </Popup>
                         </Grid>
                     </Border>
@@ -170,6 +139,51 @@
             </ControlTemplate>
         </Setter>
     </Style>
+    
+    <Style Selector="ComboBox[IsDropDownOpen=true] /template/ LayoutTransformControl#PART_LayoutTransform">
+        <Style.Resources>
+            <theme:PlusNineConverter x:Key="NineConverter" />
+        </Style.Resources>
+        <Style.Animations>
+            <Animation Easing="SineEaseOut"
+                       FillMode="Forward"
+                       Duration="0:0:0.3">
+                <KeyFrame Cue="0%">
+                    <Setter Property="ScaleTransform.ScaleY" Value="0.92" />
+                    <Setter Property="ScaleTransform.ScaleX" Value="0.95" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    
+    <Style Selector="ComboBox[IsDropDownOpen=false] /template/ LayoutTransformControl#PART_LayoutTransform">
+        <Style.Resources>
+            <theme:PlusNineConverter x:Key="NineConverter" />
+        </Style.Resources>
+        <Style.Animations>
+            <Animation Easing="CircularEaseOut"
+                       FillMode="Forward"
+                       Duration="0:0:0.3">
+                <KeyFrame Cue="0%">
+                    <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                    <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                    <Setter Property="Opacity" Value="1" />
+                </KeyFrame>
+                <KeyFrame Cue="100%">
+                    <Setter Property="ScaleTransform.ScaleY" Value="0.9" />
+                    <Setter Property="ScaleTransform.ScaleX" Value="0.9" />
+                    <Setter Property="Opacity" Value="0" />
+                </KeyFrame>
+            </Animation>
+        </Style.Animations>
+    </Style>
+    
     <Style Selector="ComboBox:pointerover /template/ Border#border">
         <Setter Property="BorderBrush" Value="{DynamicResource SukiLightBorderBrush}" />
     </Style>

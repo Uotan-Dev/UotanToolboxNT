@@ -2,7 +2,7 @@
     <ControlTheme x:Key="SukiToolTipTheme" TargetType="ToolTip">
         <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
-        <Setter Property="Margin" Value="0,8" />
+        <Setter Property="Margin" Value="15,15" />
         <Setter Property="Padding" Value="16,8" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -10,9 +10,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Margin="{TemplateBinding Margin}"
+                    <Border BoxShadow="{DynamicResource SukiPopupShadow}" Margin="{TemplateBinding Margin}"
                             Background="{TemplateBinding Background}"
-                            CornerRadius="8">
+                            CornerRadius="12">
                         <ContentPresenter Name="ContentPresenter"
                                           Margin="{TemplateBinding Padding}"
                                           Content="{TemplateBinding ContentControl.Content}"

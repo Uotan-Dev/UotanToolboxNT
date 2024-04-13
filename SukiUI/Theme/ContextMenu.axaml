@@ -36,12 +36,14 @@
                            FillMode="Forward"
                            Duration="{StaticResource ShortAnimationDuration}">
                     <KeyFrame Cue="0%">
-                        <Setter Property="ScaleTransform.ScaleY" Value="0" />
-                        <Setter Property="ScaleTransform.ScaleX" Value="0" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="0.92" />
+                        <Setter Property="ScaleTransform.ScaleX" Value="0.92" />
+                        <Setter Property="Opacity" Value="0" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
                         <Setter Property="ScaleTransform.ScaleY" Value="1" />
                         <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                        <Setter Property="Opacity" Value="1" />
                     </KeyFrame>
                 </Animation>
             </Style.Animations>

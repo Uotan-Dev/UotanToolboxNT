@@ -8,11 +8,11 @@
         <Setter Property="Padding" Value="10 0" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="root"
+                <Border Name="root" Margin="5,5"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{DynamicResource SukiLightBorderBrush}"
                         BorderThickness="0"
-                        CornerRadius="{TemplateBinding CornerRadius}">
+                        CornerRadius="8">
                     <Panel>
                         <ContentPresenter Name="PART_HeaderPresenter"
                                           Margin="{TemplateBinding Padding}"
@@ -69,10 +69,14 @@
                            FillMode="Forward"
                            Duration="{StaticResource ShortAnimationDuration}">
                     <KeyFrame Cue="0%">
-                        <Setter Property="ScaleTransform.ScaleY" Value="0" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="0.88" />
+                        <Setter Property="ScaleTransform.ScaleX" Value="0.88" />
+                        <Setter Property="Opacity" Value="0" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
                         <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                        <Setter Property="Opacity" Value="1" />
                     </KeyFrame>
                 </Animation>
             </Style.Animations>
@@ -103,11 +107,15 @@
                            FillMode="Forward"
                            Duration="{StaticResource MediumAnimationDuration}">
                     <KeyFrame Cue="0%">
-                        <Setter Property="ScaleTransform.ScaleY" Value="0" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="0.92" />
+                        <Setter Property="ScaleTransform.ScaleX" Value="0.92" />
+                        <Setter Property="Opacity" Value="0" />
                         <Setter Property="IsVisible" Value="True" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
                         <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                        <Setter Property="Opacity" Value="1" />
                     </KeyFrame>
                 </Animation>
             </Style.Animations>
@@ -119,10 +127,14 @@
                            Duration="{StaticResource MediumAnimationDuration}">
                     <KeyFrame Cue="0%">
                         <Setter Property="ScaleTransform.ScaleY" Value="1" />
+                        <Setter Property="ScaleTransform.ScaleX" Value="1" />
+                        <Setter Property="Opacity" Value="1" />
                     </KeyFrame>
                     <KeyFrame Cue="100%">
-                        <Setter Property="ScaleTransform.ScaleY" Value="0" />
-                        <Setter Property="IsVisible" Value="False" />
+                        <Setter Property="ScaleTransform.ScaleY" Value="0.9" />
+                        <Setter Property="ScaleTransform.ScaleX" Value="0.9" />
+                        <Setter Property="Opacity" Value="0" />
+                        <Setter Property="IsVisible" Value="False"></Setter>
                     </KeyFrame>
                 </Animation>
             </Style.Animations>

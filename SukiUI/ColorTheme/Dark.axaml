@@ -22,7 +22,7 @@
 
     <BoxShadows x:Key="SukiLowShadow">0 0 3 0 #353535</BoxShadows>
     <BoxShadows x:Key="SukiSwitchShadow">0 1 5 0 #555555</BoxShadows>
-    <BoxShadows x:Key="SukiPopupShadow">1 1 8 1 #101010</BoxShadows>
+    <BoxShadows x:Key="SukiPopupShadow">1 1 14 1 #101010</BoxShadows>
     <BoxShadows x:Key="SukiBigPopupShadow">1 1 15 0 #606060</BoxShadows>
 
     <system:Boolean x:Key="IsDark">True</system:Boolean>

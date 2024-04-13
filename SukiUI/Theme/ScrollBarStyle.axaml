@@ -1,13 +1,14 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:content="clr-namespace:SukiUI.Content"
-        xmlns:converters="clr-namespace:SukiUI.Converters">
+        xmlns:converters="clr-namespace:SukiUI.Converters"
+        xmlns:theme="clr-namespace:SukiUI.Theme">
     <Design.PreviewWith>
         <StackPanel Width="200">
             <Border Padding="20">
                 <ScrollViewer Width="200"
                               Height="100"
-                              Classes="Stack">
+                              >
                     <StackPanel>
                         <ListBoxItem>isse</ListBoxItem>
                         <ListBoxItem>isse</ListBoxItem>
@@ -71,7 +72,7 @@
     </Design.PreviewWith>
 
     <Style Selector="ScrollBar:vertical">
-
+<Setter Property="AllowAutoHide" Value="False"></Setter>
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Background="Transparent" UseLayoutRounding="False">
@@ -99,12 +100,22 @@
                                               Focusable="False" />
                             </Track.IncreaseButton>
                             <Thumb Name="thumb">
+                               
                                 <Thumb.Template>
                                     <ControlTemplate>
                                         <Panel>
-                                            <Border Margin="0,3"
-                                                    Background="{DynamicResource SukiControlBorderBrush}"
-                                                    CornerRadius="{DynamicResource MediumCornerRadius}" />
+                                           
+                                            <Border  Name="ThumbBarVertical" Margin="0,3" Width="3"
+                                                     Background="{DynamicResource SukiMediumBorderBrush}"
+                                                     CornerRadius="{DynamicResource MediumCornerRadius}" >
+                                       
+                                                <Border.Transitions>
+                                                    <Transitions>
+                                                        <BrushTransition Property="Background" Duration="0:0:0.15"></BrushTransition>
+                                                        <DoubleTransition Property="Width" Duration="0:0:0.1"></DoubleTransition>
+                                                    </Transitions>
+                                                </Border.Transitions>
+                                            </Border>
                                         </Panel>
                                     </ControlTemplate>
                                 </Thumb.Template>
@@ -116,6 +127,8 @@
             </ControlTemplate>
         </Setter>
     </Style>
+    
+   
 
     <Style Selector="ScrollBar.Stack:vertical">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -172,6 +185,7 @@
     </Style>
 
     <Style Selector="ScrollBar:horizontal">
+        <Setter Property="AllowAutoHide" Value="False"></Setter>
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Background="Transparent" UseLayoutRounding="False">
@@ -202,10 +216,17 @@
                                 <Thumb.Template>
                                     <ControlTemplate>
                                         <Panel>
-                                            <Border Height="10"
+                                            <Border Height="3" Name="ThumbBarHorizontal"
                                                     Margin="3,0"
-                                                    Background="{DynamicResource SukiControlBorderBrush}"
-                                                    CornerRadius="10" />
+                                                    Background="{DynamicResource SukiMediumBorderBrush}"
+                                                    CornerRadius="10" >
+                                                    <Border.Transitions>
+                                                    <Transitions>
+                                                        <BrushTransition Property="Background" Duration="0:0:0.15"></BrushTransition>
+                                                        <DoubleTransition Property="Height" Duration="0:0:0.1"></DoubleTransition>
+                                                    </Transitions>
+                                                </Border.Transitions>
+                                            </Border>
                                         </Panel>
                                     </ControlTemplate>
                                 </Thumb.Template>
@@ -216,4 +237,21 @@
             </ControlTemplate>
         </Setter>
     </Style>
+    
+    
+    <Style Selector="ScrollViewer:pointerover /template/ ScrollBar">
+        <Setter Property="AllowAutoHide" Value="True"></Setter>
+    </Style>
+    
+    <Style Selector="ScrollBar[AllowAutoHide=True] Border#ThumbBarVertical">
+        <Setter Property="Background" Value="{DynamicResource SukiControlBorderBrush}"></Setter>
+        <Setter Property="Width" Value="8"></Setter>
+    </Style>
+
+    
+    <Style Selector="ScrollBar[AllowAutoHide=True] Border#ThumbBarHorizontal">
+        <Setter Property="Background" Value="{DynamicResource SukiControlBorderBrush}"></Setter>
+        <Setter Property="Height" Value="8"></Setter>
+    </Style>
+   
 </Styles>

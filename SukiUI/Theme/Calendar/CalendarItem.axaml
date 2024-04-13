@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:content="clr-namespace:SukiUI.Content">
+    
     <ControlTheme x:Key="SukiCalendarItemStyle" TargetType="CalendarItem">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -28,7 +29,7 @@
                               ColumnDefinitions="Auto, *, Auto, Auto">
                             <Button Name="PART_HeaderButton"
                                     Grid.Column="0"
-                                    Classes="Basic"
+                                    Classes="Basic" FontWeight="DemiBold"
                                     IsEnabled="False" />
 
                             <Button Name="PART_PreviousButton"
@@ -62,15 +63,16 @@
 
         <Style Selector="^ /template/ Button.NavButton">
             <Setter Property="Padding" Value="0" />
-            <Setter Property="Margin" Value="0,0,10,0" />
+            <Setter Property="Margin" Value="0,0,18,0" />
             <Style Selector="^ &gt; PathIcon">
-                <Setter Property="Width" Value="15" />
-                <Setter Property="Height" Value="15" />
+                <Setter Property="Width" Value="12" />
+                <Setter Property="Height" Value="12" />
             </Style>
         </Style>
 
         <Style Selector="^ /template/ Button.HeaderButton">
             <Setter Property="Height" Value="24" />
+            <Setter Property="TextElement.FontWeight" Value="DemiBold"></Setter>
             <Setter Property="Padding" Value="8, 0" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
         </Style>

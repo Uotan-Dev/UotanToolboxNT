@@ -338,10 +338,10 @@
 
     <Style Selector="TextBox">
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="BorderThickness" Value="1.4" />
-        <Setter Property="FontSize" Value="15" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
-        <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
+        <Setter Property="CornerRadius" Value="0" />
         <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
 
 
@@ -418,15 +418,15 @@
                                                 <TextBlock Name="watermark"
                                                            IsVisible="{TemplateBinding Text,
                                                                                        Converter={x:Static StringConverters.IsNullOrEmpty}}"
-                                                           Opacity="0.5"
+                                                           Opacity="0.5" FontSize="{TemplateBinding FontSize}"
                                                            Text="{TemplateBinding Watermark}"
                                                            TextAlignment="{TemplateBinding TextAlignment}"
                                                            TextWrapping="{TemplateBinding TextWrapping}" />
                                                 <TextPresenter Name="PART_TextPresenter"
                                                                Margin="0,0,0,0"
-                                                               CaretBrush="{DynamicResource SukiText}"
+                                                               CaretBrush="{DynamicResource SukiLowText}"
                                                                CaretIndex="{TemplateBinding CaretIndex}"
-                                                               FontSize="14"
+                                                               TextBlock.FontSize="{TemplateBinding FontSize}"
                                                                PasswordChar="{TemplateBinding PasswordChar}"
                                                                RevealPassword="{TemplateBinding RevealPassword}"
                                                                SelectionBrush="{TemplateBinding SelectionBrush}"

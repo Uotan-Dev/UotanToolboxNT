@@ -27,17 +27,17 @@ public partial class AdvancedViewModel : MainPageBase
     [RelayCommand]
     private async Task WriteQcn()
     {
-        // 写入QCN文件
+        // Write QCN File
         if (QcnFile != null)
         {
             string qcnfilepatch = QcnFile;
             string usbdevices = await CallExternalProgram.Devcon("find usb*");
-            if (usbdevices.IndexOf("901D (") != -1 || usbdevices.IndexOf("9091 (") != -1)
+            if (usbdevices.Contains("901D (") || usbdevices.Contains("9091 ("))
             {
                 int com = StringHelper.FindDIAGCom(usbdevices);
                 string shell = string.Format("-w -p {0} -f \"{1}\"", com, qcnfilepatch);
                 string output = await CallExternalProgram.QCNTool(shell);
-                if (output.IndexOf("error") != -1)
+                if (output.Contains("error"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("写入失败"), allowBackgroundClose: true);
                 }
@@ -59,15 +59,15 @@ public partial class AdvancedViewModel : MainPageBase
     [RelayCommand]
     private async Task BackupQcn()
     {
-        // 备份QCN文件
-        string qcnfilepatch = QcnFile;
+        // Backup QCN file
+        _ = QcnFile;
         string usbdevices = await CallExternalProgram.Devcon("find usb*");
-        if (usbdevices.IndexOf("901D (") != -1 || usbdevices.IndexOf("9091 (") != -1)
+        if (usbdevices.Contains("901D (") || usbdevices.Contains("9091 ("))
         {
             int com = StringHelper.FindDIAGCom(usbdevices);
             string shell = string.Format("-r -p {0} -f {1}\\backup", com, System.IO.Directory.GetCurrentDirectory());
             string output = await CallExternalProgram.QCNTool(shell);
-            if (output.IndexOf("error") != -1)
+            if (output.Contains("error"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("备份失败"), allowBackgroundClose: true);
             }
@@ -82,21 +82,23 @@ public partial class AdvancedViewModel : MainPageBase
         }
     }
     [RelayCommand]
-    private async Task OpenBackup()
+    private static Task OpenBackup()
     {
-        // 打开QCN文件备份目录
-        string filepath = String.Format(@"{0}\backup", System.IO.Directory.GetCurrentDirectory());
+        // Open QCN backup file directory
+        string filepath = string.Format(@"{0}\backup", System.IO.Directory.GetCurrentDirectory());
         Process.Start("Explorer.exe", filepath);
+        return Task.CompletedTask;
     }
+
     [RelayCommand]
-    private async Task Enable901d()
+    private static Task Enable901d()
     {
-        // 开启901D
+        return Task.CompletedTask;
     }
+
     [RelayCommand]
-    private async Task Enable9091()
+    private static Task Enable9091()
     {
-        // 开启9091
+        return Task.CompletedTask;
     }
-    
 }

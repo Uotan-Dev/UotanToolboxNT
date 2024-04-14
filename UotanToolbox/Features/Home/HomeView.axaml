@@ -25,13 +25,13 @@
                             Margin="10"
                             Classes="Card">
 				<suki:BusyArea Name="BusyConnection"
-								BusyText="{x:Static assets:Resources.Fetching}"
+								BusyText="{x:Static assets:Resources.Home_Fetching}"
 								IsBusy="{Binding IsConnected}">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
 										FontSize="16"
 										FontWeight="DemiBold"
-										Text="{x:Static assets:Resources.DeviceInfo}" />
+										Text="{x:Static assets:Resources.Home_DeviceInfo}" />
 						<StackPanel Orientation="Horizontal" Spacing="18">
 							<StackPanel Orientation="Vertical"  Width="230">
 								<Grid Margin="0,13,0,0">
@@ -39,7 +39,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.DeviceBrand}"/>
+												Text="{x:Static assets:Resources.Home_DeviceBrand}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -53,7 +53,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.DeviceModel}" />
+												Text="{x:Static assets:Resources.Home_DeviceModel}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -67,7 +67,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.CodeName}" />
+												Text="{x:Static assets:Resources.Home_CodeName}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -81,7 +81,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.AndroidSDK}" />
+												Text="{x:Static assets:Resources.Home_AndroidSDK}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -95,7 +95,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.CPUABI}" />
+												Text="{x:Static assets:Resources.Home_CPUABI}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -109,7 +109,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.Resolution}" />
+												Text="{x:Static assets:Resources.Home_Resolution}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -123,7 +123,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.DisplayDensity}" />
+												Text="{x:Static assets:Resources.Home_DisplayDensity}" />
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -139,7 +139,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.ConnectionStatus}"/>
+												Text="{x:Static assets:Resources.Home_ConnectionStatus}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -153,7 +153,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.BootloaderLock}"/>
+												Text="{x:Static assets:Resources.Home_BootloaderLock}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -167,7 +167,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.VabStadus}"/>
+												Text="{x:Static assets:Resources.Home_VabStadus}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -181,7 +181,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.VNDKVersion}"/>
+												Text="{x:Static assets:Resources.Home_VNDKVersion}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -195,7 +195,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.CpuCode}"/>
+												Text="{x:Static assets:Resources.Home_CpuCode}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -209,7 +209,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.PowerOnTime}"/>
+												Text="{x:Static assets:Resources.Home_PowerOnTime}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -223,7 +223,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.FlashType}"/>
+												Text="{x:Static assets:Resources.Home_FlashType}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"
@@ -240,7 +240,7 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.MotherboardID}" />
+											Text="{x:Static assets:Resources.Home_MotherboardID}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Classes="Hyperlink"
 												Foreground="White"
@@ -254,7 +254,7 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Platform}" />
+											Text="{x:Static assets:Resources.Home_Platform}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Classes="Hyperlink"
 												Foreground="White"
@@ -268,7 +268,7 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.CompiledVersion}" />
+											Text="{x:Static assets:Resources.Home_CompiledVersion}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Classes="Hyperlink"
 											Foreground="White"
@@ -282,7 +282,7 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.KernalVersion}" />
+											Text="{x:Static assets:Resources.Home_KernalVersion}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Classes="Hyperlink"
 											Foreground="White"
@@ -305,7 +305,7 @@
 				<Grid>
 					<TextBlock FontSize="16"
 							   FontWeight="DemiBold"
-							   Text="{x:Static assets:Resources.Battery}" />
+							   Text="{x:Static assets:Resources.Home_Battery}" />
 					<Viewbox Width="175"
 							 Height="175"
 							 Margin="0,0,0,5"
@@ -328,7 +328,7 @@
 					<StackPanel Spacing="10">
 						<TextBlock FontSize="16"
 								   FontWeight="DemiBold"
-								   Text="{x:Static assets:Resources.StorageAndMemory}" />
+								   Text="{x:Static assets:Resources.Home_StorageAndMemory}" />
 							<controls:CircleProgressBar Width="130"
 														Height="130"
 														StrokeWidth="11"
@@ -365,7 +365,7 @@
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="16"
 								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.ButtonAnalog}" />
+								Text="{x:Static assets:Resources.Home_ButtonAnalog}" />
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 40">
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
 							<Button Width="100" 
@@ -374,7 +374,7 @@
 									Command="{Binding BackCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ArrowBack" />
-									<TextBlock Text="{x:Static assets:Resources.BackButton}"/>
+									<TextBlock Text="{x:Static assets:Resources.Home_BackButton}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -383,7 +383,7 @@
 									Command="{Binding HomeCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="CircleOutline" />
-									<TextBlock Text="{x:Static assets:Resources.HomeButton}"/>
+									<TextBlock Text="{x:Static assets:Resources.Home_HomeButton}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -392,7 +392,7 @@
 									Command="{Binding MulCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="CardMultipleOutline" />
-									<TextBlock Text="{x:Static assets:Resources.MultiTask}"/>
+									<TextBlock Text="{x:Static assets:Resources.Home_MultiTask}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -401,7 +401,7 @@
 									Command="{Binding LockCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="LockOpenOutline" />
-									<TextBlock Text="{x:Static assets:Resources.LockScreen}"/>
+									<TextBlock Text="{x:Static assets:Resources.Home_LockScreen}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -412,7 +412,7 @@
 									Command="{Binding VolUCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumePlus" />
-									<TextBlock Text="{x:Static assets:Resources.VolumeUp}"/>
+									<TextBlock Text="{x:Static assets:Resources.Home_VolumeUp}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -421,7 +421,7 @@
 									Command="{Binding VolDCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumeDecrease" />
-									<TextBlock Text="{x:Static assets:Resources.VolumeDown}"/>
+									<TextBlock Text="{x:Static assets:Resources.Home_VolumeDown}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -430,7 +430,7 @@
 									Command="{Binding MuteCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="VolumeOff" />
-									<TextBlock Text="{x:Static assets:Resources.VolumeMute}"/>
+									<TextBlock Text="{x:Static assets:Resources.Home_VolumeMute}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="100" 
@@ -439,7 +439,7 @@
 									Command="{Binding SCCommand}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="CameraOutline" />
-									<TextBlock Text="{x:Static assets:Resources.Screenshot}"/>
+									<TextBlock Text="{x:Static assets:Resources.Home_Screenshot}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -456,7 +456,7 @@
 						<TextBlock HorizontalAlignment="Left"
 								   FontSize="15"
 								   FontWeight="DemiBold"
-								   Text="{x:Static assets:Resources.AdbRebootTo}" />
+								   Text="{x:Static assets:Resources.Home_AdbRebootTo}" />
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="125"
@@ -465,7 +465,7 @@
 										Command="{Binding ARebootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Android" />
-										<TextBlock Text="{x:Static assets:Resources.System}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_System}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -474,7 +474,7 @@
 										Command="{Binding ARRecCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="NetworkOutline" />
-										<TextBlock Text="{x:Static assets:Resources.Recovery}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -483,7 +483,7 @@
 										Command="{Binding ARSideCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="NetworkPos" />
-										<TextBlock Text="{x:Static assets:Resources.Sideload}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Sideload}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -494,7 +494,7 @@
 										Command="{Binding ARBootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										<TextBlock Text="{x:Static assets:Resources.Bootloader}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Bootloader}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -503,7 +503,7 @@
 										Command="{Binding ARFastCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										<TextBlock Text="{x:Static assets:Resources.Fastbootd}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -512,7 +512,7 @@
 										Command="{Binding AREDLCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										<TextBlock Text="{x:Static assets:Resources.Boot9008}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Boot9008}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -528,7 +528,7 @@
 						<TextBlock HorizontalAlignment="Left"
 									FontSize="15"
 									FontWeight="DemiBold"
-									Text="{x:Static assets:Resources.FastbootRebootTo}" />
+									Text="{x:Static assets:Resources.Home_FastbootRebootTo}" />
 						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 								<Button Width="125"
@@ -537,7 +537,7 @@
 										Command="{Binding FRebootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Android" />
-										<TextBlock Text="{x:Static assets:Resources.System}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_System}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -546,7 +546,7 @@
 										Command="{Binding FRRecCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="NetworkOutline" />
-										<TextBlock Text="{x:Static assets:Resources.Recovery}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -555,7 +555,7 @@
 										Command="{Binding FRShutCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="Power" />
-										<TextBlock Text="{x:Static assets:Resources.Shutdown}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Shutdown}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -568,7 +568,7 @@
 										Command="{Binding FRBootCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										<TextBlock Text="{x:Static assets:Resources.Bootloader}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Bootloader}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -577,7 +577,7 @@
 										Command="{Binding FRFastCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										<TextBlock Text="{x:Static assets:Resources.Fastbootd}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125" 
@@ -586,7 +586,7 @@
 										Command="{Binding FREDLCommand}">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ProgressDownload" />
-										<TextBlock Text="{x:Static assets:Resources.Boot9008}"/>
+										<TextBlock Text="{x:Static assets:Resources.Home_Boot9008}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -602,13 +602,13 @@
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center">
 				 <suki:BusyArea Name="BusyDevicesList"
-								BusyText="{x:Static assets:Resources.Fetching}"
+								BusyText="{x:Static assets:Resources.Home_Fetching}"
 								IsBusy="{Binding CommonDevicesList}">
 					<StackPanel Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.ChooseDevice}" />
+								Text="{x:Static assets:Resources.Home_ChooseDevice}" />
 					<StackPanel Margin="0 55 0 25">
 						<ComboBox Width="185" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
@@ -616,7 +616,7 @@
 						<Button Width="175" Command="{Binding ConnectCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
-								<TextBlock Text="{x:Static assets:Resources.Refresh}"/>
+								<TextBlock Text="{x:Static assets:Resources.Home_Refresh}"/>
 							</TextBlock>
 						</Button>
 					</StackPanel>

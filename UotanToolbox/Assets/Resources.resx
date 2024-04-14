@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Dialog_NotSupported" xml:space="preserve">
+    <value>Current device does not support this command!</value>
+  </data>
+  <data name="Dialog_Successful" xml:space="preserve">
+    <value>Successful!</value>
+  </data>
+  <data name="Dialog_Unconnected" xml:space="preserve">
+    <value>Device is not connected!</value>
+  </data>
+  <data name="Dialog_WrongStatus" xml:space="preserve">
+    <value>Device connection status error!</value>
+  </data>
   <data name="Home_AdbRebootTo" xml:space="preserve">
     <value>ADB reboot to</value>
   </data>
@@ -171,6 +183,9 @@
   <data name="Home_DisplayDensity" xml:space="preserve">
     <value>DisplayDensity</value>
   </data>
+  <data name="Home_Fastboot" xml:space="preserve">
+    <value>Fastboot</value>
+  </data>
   <data name="Home_Fastbootd" xml:space="preserve">
     <value>Fastbootd</value>
   </data>
@@ -185,6 +200,9 @@
   </data>
   <data name="Home_HomeButton" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="Home_HomePage" xml:space="preserve">
+    <value>HomePage</value>
   </data>
   <data name="Home_KernalVersion" xml:space="preserve">
     <value>Kernal Version</value>
@@ -242,5 +260,35 @@
   </data>
   <data name="Home_VolumeUp" xml:space="preserve">
     <value>Volume +</value>
+  </data>
+  <data name="Info_AOnly" xml:space="preserve">
+    <value>A-Only device</value>
+  </data>
+  <data name="Info_ASlot" xml:space="preserve">
+    <value>A Slot</value>
+  </data>
+  <data name="Info_BLstatusLocked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="Info_BLstatusUnlocked" xml:space="preserve">
+    <value>Unlocked</value>
+  </data>
+  <data name="Info_BSlot" xml:space="preserve">
+    <value>B Slot</value>
+  </data>
+  <data name="Info_Day" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="Info_Hour" xml:space="preserve">
+    <value>H</value>
+  </data>
+  <data name="Info_Minute" xml:space="preserve">
+    <value>M</value>
+  </data>
+  <data name="Info_Second" xml:space="preserve">
+    <value>S</value>
+  </data>
+  <data name="Info_UnauthorizedDevice" xml:space="preserve">
+    <value>Unauthorized Device</value>
   </data>
 </root>

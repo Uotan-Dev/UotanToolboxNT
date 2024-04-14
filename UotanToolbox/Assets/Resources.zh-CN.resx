@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Dialog_NotSupported" xml:space="preserve">
+    <value>当前设备不支持此命令！</value>
+  </data>
+  <data name="Dialog_Successful" xml:space="preserve">
+    <value>执行成功！</value>
+  </data>
+  <data name="Dialog_Unconnected" xml:space="preserve">
+    <value>设备未连接！</value>
+  </data>
+  <data name="Dialog_WrongStatus" xml:space="preserve">
+    <value>设备连接状态错误！</value>
+  </data>
   <data name="Home_AdbRebootTo" xml:space="preserve">
     <value>ADB 重启至</value>
   </data>
@@ -171,6 +183,9 @@
   <data name="Home_DisplayDensity" xml:space="preserve">
     <value>显示密度</value>
   </data>
+  <data name="Home_Fastboot" xml:space="preserve">
+    <value>Fastboot</value>
+  </data>
   <data name="Home_Fastbootd" xml:space="preserve">
     <value>Fastbootd</value>
   </data>
@@ -184,6 +199,9 @@
     <value>闪存类型</value>
   </data>
   <data name="Home_HomeButton" xml:space="preserve">
+    <value>主页</value>
+  </data>
+  <data name="Home_HomePage" xml:space="preserve">
     <value>主页</value>
   </data>
   <data name="Home_KernalVersion" xml:space="preserve">
@@ -242,5 +260,35 @@
   </data>
   <data name="Home_VolumeUp" xml:space="preserve">
     <value>音量+</value>
+  </data>
+  <data name="Info_AOnly" xml:space="preserve">
+    <value>A-Only设备</value>
+  </data>
+  <data name="Info_ASlot" xml:space="preserve">
+    <value>A槽位</value>
+  </data>
+  <data name="Info_BLstatusLocked" xml:space="preserve">
+    <value>未解锁</value>
+  </data>
+  <data name="Info_BLstatusUnlocked" xml:space="preserve">
+    <value>已解锁</value>
+  </data>
+  <data name="Info_BSlot" xml:space="preserve">
+    <value>B槽位</value>
+  </data>
+  <data name="Info_Day" xml:space="preserve">
+    <value>天</value>
+  </data>
+  <data name="Info_Hour" xml:space="preserve">
+    <value>时</value>
+  </data>
+  <data name="Info_Minute" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="Info_Second" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="Info_UnauthorizedDevice" xml:space="preserve">
+    <value>未信任的设备</value>
   </data>
 </root>

@@ -199,7 +199,6 @@ public partial class HomeViewModel : MainPageBase
 
     private async Task ADBControl(string shell)
     {
-        await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
         {
@@ -216,7 +215,6 @@ public partial class HomeViewModel : MainPageBase
 
     private async Task FastbootControl(string shell)
     {
-        await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
         {

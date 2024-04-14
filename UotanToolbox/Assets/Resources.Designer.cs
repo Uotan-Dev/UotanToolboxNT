@@ -61,6 +61,42 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Current device does not support this command! 的本地化字符串。
+        /// </summary>
+        public static string Dialog_NotSupported {
+            get {
+                return ResourceManager.GetString("Dialog_NotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Successful! 的本地化字符串。
+        /// </summary>
+        public static string Dialog_Successful {
+            get {
+                return ResourceManager.GetString("Dialog_Successful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Device is not connected! 的本地化字符串。
+        /// </summary>
+        public static string Dialog_Unconnected {
+            get {
+                return ResourceManager.GetString("Dialog_Unconnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Device connection status error! 的本地化字符串。
+        /// </summary>
+        public static string Dialog_WrongStatus {
+            get {
+                return ResourceManager.GetString("Dialog_WrongStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ADB reboot to 的本地化字符串。
         /// </summary>
         public static string Home_AdbRebootTo {
@@ -223,6 +259,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Fastboot 的本地化字符串。
+        /// </summary>
+        public static string Home_Fastboot {
+            get {
+                return ResourceManager.GetString("Home_Fastboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Fastbootd 的本地化字符串。
         /// </summary>
         public static string Home_Fastbootd {
@@ -264,6 +309,15 @@ namespace UotanToolbox.Assets {
         public static string Home_HomeButton {
             get {
                 return ResourceManager.GetString("Home_HomeButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 HomePage 的本地化字符串。
+        /// </summary>
+        public static string Home_HomePage {
+            get {
+                return ResourceManager.GetString("Home_HomePage", resourceCulture);
             }
         }
         
@@ -435,6 +489,96 @@ namespace UotanToolbox.Assets {
         public static string Home_VolumeUp {
             get {
                 return ResourceManager.GetString("Home_VolumeUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A-Only device 的本地化字符串。
+        /// </summary>
+        public static string Info_AOnly {
+            get {
+                return ResourceManager.GetString("Info_AOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A Slot 的本地化字符串。
+        /// </summary>
+        public static string Info_ASlot {
+            get {
+                return ResourceManager.GetString("Info_ASlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Locked 的本地化字符串。
+        /// </summary>
+        public static string Info_BLstatusLocked {
+            get {
+                return ResourceManager.GetString("Info_BLstatusLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlocked 的本地化字符串。
+        /// </summary>
+        public static string Info_BLstatusUnlocked {
+            get {
+                return ResourceManager.GetString("Info_BLstatusUnlocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 B Slot 的本地化字符串。
+        /// </summary>
+        public static string Info_BSlot {
+            get {
+                return ResourceManager.GetString("Info_BSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 D 的本地化字符串。
+        /// </summary>
+        public static string Info_Day {
+            get {
+                return ResourceManager.GetString("Info_Day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 H 的本地化字符串。
+        /// </summary>
+        public static string Info_Hour {
+            get {
+                return ResourceManager.GetString("Info_Hour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 M 的本地化字符串。
+        /// </summary>
+        public static string Info_Minute {
+            get {
+                return ResourceManager.GetString("Info_Minute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 S 的本地化字符串。
+        /// </summary>
+        public static string Info_Second {
+            get {
+                return ResourceManager.GetString("Info_Second", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unauthorized Device 的本地化字符串。
+        /// </summary>
+        public static string Info_UnauthorizedDevice {
+            get {
+                return ResourceManager.GetString("Info_UnauthorizedDevice", resourceCulture);
             }
         }
     }

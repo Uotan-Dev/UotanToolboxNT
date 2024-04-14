@@ -3,7 +3,9 @@ using Avalonia.Threading;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
 
@@ -11,6 +13,9 @@ namespace UotanToolbox.Common
 {
     internal class GetDevicesInfo
     {
+        private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
+        private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
+
         public static async Task<string[]> DevicesList()
         {
             string adb = await CallExternalProgram.ADB("devices");
@@ -65,7 +70,7 @@ namespace UotanToolbox.Common
                 sukiViewModel.CodeName = "--";
                 await Dispatcher.UIThread.InvokeAsync(async () =>
                 {
-                    var newDialog = new ConnectionDialog("设备未连接!");
+                    var newDialog = new ConnectionDialog(GetTranslation("Dialog_Unconnected"));
                     await SukiHost.ShowDialogAsync(newDialog);
                 });
                 return false;
@@ -115,12 +120,12 @@ namespace UotanToolbox.Common
                 string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
                 if (isuserspace.Contains("yes"))
                 {
-                    status = "Fastbootd";
+                    status = GetTranslation("Home_Fastbootd");
                     vndkversion = StringHelper.FastbootVar(await CallExternalProgram.Fastboot($"-s {devicename} getvar version-vndk"), "version-vndk");
                 }
                 else
                 {
-                    status = "Fastboot";
+                    status = GetTranslation("Home_Fastboot");
                     string type = await CallExternalProgram.Fastboot($"-s {devicename} getvar variant");
                     if (type.Contains("UFS"))
                     {
@@ -138,11 +143,11 @@ namespace UotanToolbox.Common
                 string blinfo = await CallExternalProgram.Fastboot($"-s {devicename} getvar unlocked");
                 if (blinfo.Contains("yes"))
                 {
-                    blstatus = "已解锁";
+                    blstatus = GetTranslation("Info_BLstatusUnlocked");
                 }
                 else
                 {
-                    blstatus = "未解锁";
+                    blstatus = GetTranslation("Info_BLstatusLocked");
                 }
                 string productinfos = await CallExternalProgram.Fastboot($"-s {devicename} getvar product");
                 string product = StringHelper.GetProductID(productinfos);
@@ -153,15 +158,15 @@ namespace UotanToolbox.Common
                 string active = await CallExternalProgram.Fastboot($"-s {devicename} getvar current-slot");
                 if (active.Contains("current-slot: a"))
                 {
-                    vabstatus = "A槽位";
+                    vabstatus = GetTranslation("Info_ASlot");
                 }
                 else if (active.Contains("current-slot: b"))
                 {
-                    vabstatus = "B槽位";
+                    vabstatus = GetTranslation("Info_BSlot");
                 }
                 else if (active.Contains("FAILED"))
                 {
-                    vabstatus = "A-Only设备";
+                    vabstatus = GetTranslation("Info_AOnly");
                 }
             }
             if (adb.Contains(devicename))
@@ -178,38 +183,38 @@ namespace UotanToolbox.Common
                 }
                 if (thisdevice.Contains("recovery"))
                 {
-                    status = "Recovery";
+                    status = GetTranslation("Home_Recovery");
                 }
                 else if (thisdevice.Contains("sideload"))
                 {
-                    status = "Sideload";
+                    status = GetTranslation("Home_Sideload");
                 }
                 else if (thisdevice.Contains("	device"))
                 {
-                    status = "系统";
+                    status = GetTranslation("Home_System");
                 }
                 else if (thisdevice.Contains("unauthorized"))
                 {
-                    status = "未信任的设备";
+                    status = GetTranslation("Info_UnauthorizedDevice");
                 }
                 string active = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.slot_suffix");
                 if (active.Contains("_a"))
                 {
-                    vabstatus = "A槽位";
+                    vabstatus = GetTranslation("Info_ASlot");
                 }
                 else if (active.Contains("_b"))
                 {
-                    vabstatus = "B槽位";
+                    vabstatus = GetTranslation("Info_BSlot");
                 }
-                else if (status == "未信任的设备" || status == "Sideload")
+                else if (status == GetTranslation("Info_UnauthorizedDevice") || status == GetTranslation("Home_Sideload"))
                 {
                     vabstatus = "--";
                 }
                 else
                 {
-                    vabstatus = "A-Only设备";
+                    vabstatus = GetTranslation("Info_AOnly");
                 }
-                if (status == "系统")
+                if (status == GetTranslation("Home_System"))
                 {
                     string android = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.release");
                     string sdk = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.sdk");
@@ -217,9 +222,9 @@ namespace UotanToolbox.Common
                     displayhw = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell wm size")));
                     density = StringHelper.Density(await CallExternalProgram.ADB($"-s {devicename} shell wm density"));
                 }
-                else if (status == "Recovery" || status == "Sideload")
+                else if (status == GetTranslation("Home_Recovery") || status == GetTranslation("Home_Sideload"))
                 {
-                    androidsdk = "Recovery";
+                    androidsdk = GetTranslation("Home_Recovery");
                     displayhw = "--";
                     density = "--";
                 }
@@ -247,7 +252,7 @@ namespace UotanToolbox.Common
                     string ptime = await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/uptime");
                     int intptime = int.Parse(ptime.Split('.')[0].Trim());
                     TimeSpan timeSpan = TimeSpan.FromSeconds(intptime);
-                    powerontime = $"{timeSpan.Days}天{timeSpan.Hours}时{timeSpan.Minutes}分{timeSpan.Seconds}秒";
+                    powerontime = $"{timeSpan.Days}{GetTranslation("Info_Day")}{timeSpan.Hours}{GetTranslation("Info_Hour")}{timeSpan.Minutes}{GetTranslation("Info_Minute")}{timeSpan.Seconds}{GetTranslation("Info_Second")}";
                 }
                 catch
                 {
@@ -411,20 +416,20 @@ namespace UotanToolbox.Common
                 string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
                 if (isuserspace.Contains("yes"))
                 {
-                    status = "Fastbootd";
+                    status = GetTranslation("Home_Fastbootd");
                 }
                 else
                 {
-                    status = "Fastboot";
+                    status = GetTranslation("Home_Fastboot");
                 }
                 string blinfo = await CallExternalProgram.Fastboot($"-s {devicename} getvar unlocked");
                 if (blinfo.Contains("yes"))
                 {
-                    blstatus = "已解锁";
+                    blstatus = GetTranslation("Info_BLstatusUnlocked");
                 }
                 else
                 {
-                    blstatus = "未解锁";
+                    blstatus = GetTranslation("Info_BLstatusLocked");
                 }
                 string productinfos = await CallExternalProgram.Fastboot($"-s {devicename} getvar product");
                 string product = StringHelper.GetProductID(productinfos);
@@ -435,15 +440,15 @@ namespace UotanToolbox.Common
                 string active = await CallExternalProgram.Fastboot($"-s {devicename} getvar current-slot");
                 if (active.Contains("current-slot: a"))
                 {
-                    vabstatus = "A槽位";
+                    vabstatus = GetTranslation("Info_ASlot");
                 }
                 else if (active.Contains("current-slot: b"))
                 {
-                    vabstatus = "B槽位";
+                    vabstatus = GetTranslation("Info_BSlot");
                 }
                 else if (active.Contains("FAILED"))
                 {
-                    vabstatus = "A-Only设备";
+                    vabstatus = GetTranslation("Info_AOnly");
                 }
             }
             if (adb.Contains(devicename))
@@ -460,36 +465,36 @@ namespace UotanToolbox.Common
                 }
                 if (thisdevice.Contains("recovery"))
                 {
-                    status = "Recovery";
+                    status = GetTranslation("Home_Recovery");
                 }
                 else if (thisdevice.Contains("sideload"))
                 {
-                    status = "Sideload";
+                    status = GetTranslation("Home_Sideload");
                 }
                 else if (thisdevice.Contains("	device"))
                 {
-                    status = "系统";
+                    status = GetTranslation("Home_System");
                 }
                 else if (thisdevice.Contains("unauthorized"))
                 {
-                    status = "未信任的设备";
+                    status = GetTranslation("Info_UnauthorizedDevice");
                 }
                 string active = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.slot_suffix");
                 if (active.Contains("_a"))
                 {
-                    vabstatus = "A槽位";
+                    vabstatus = GetTranslation("Info_ASlot");
                 }
                 else if (active.Contains("_b"))
                 {
-                    vabstatus = "B槽位";
+                    vabstatus = GetTranslation("Info_BSlot");
                 }
-                else if (status == "未信任的设备" || status == "Sideload")
+                else if (status == GetTranslation("Info_UnauthorizedDevice") || status == GetTranslation("Home_Sideload"))
                 {
                     vabstatus = "--";
                 }
                 else
                 {
-                    vabstatus = "A-Only设备";
+                    vabstatus = GetTranslation("Info_AOnly");
                 }
                 codename = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.board"));
                 blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate"));

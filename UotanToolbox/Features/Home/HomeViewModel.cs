@@ -8,7 +8,10 @@ using ReactiveUI;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -34,7 +37,10 @@ public partial class HomeViewModel : MainPageBase
     [ObservableProperty] private MainPageBase? _activePage;
     [ObservableProperty] private bool _windowLocked = false;
 
-    public HomeViewModel() : base("主页", MaterialIconKind.HomeOutline, int.MinValue)
+    private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
+    private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
+
+    public HomeViewModel() : base(GetTranslation("Home_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = Connect();
         _ = CheckDeviceList();
@@ -86,7 +92,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(async () =>
             {
-                var newDialog = new ConnectionDialog("设备未连接!");
+                var newDialog = new ConnectionDialog(GetTranslation("Dialog_Unconnected"));
                 await SukiHost.ShowDialogAsync(newDialog);
             });
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
@@ -195,7 +201,7 @@ public partial class HomeViewModel : MainPageBase
     {
         await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == "系统" || sukiViewModel.Status == "Recovery" || sukiViewModel.Status == "Sideload")
+        if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
         {
             await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
         }
@@ -203,7 +209,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
             });
         }
     }
@@ -212,7 +218,7 @@ public partial class HomeViewModel : MainPageBase
     {
         await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == "Fastboot" || sukiViewModel.Status == "Fastbootd")
+        if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
         {
             await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell}");
         }
@@ -220,7 +226,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
             });
         }
     }
@@ -292,7 +298,7 @@ public partial class HomeViewModel : MainPageBase
     {
         await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == "Recovery")
+        if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
         {
             string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
             if (output.Contains("not found"))
@@ -304,7 +310,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
             });
         }
     }
@@ -338,7 +344,7 @@ public partial class HomeViewModel : MainPageBase
     {
         await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == "Fastboot")
+        if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
         {
             string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
             if (output.Contains("unknown command"))
@@ -351,7 +357,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("设备连接状态错误!"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
             });
         }
     }
@@ -361,21 +367,21 @@ public partial class HomeViewModel : MainPageBase
     {
         await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == "Fastboot")
+        if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
         {
             string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
             if (output.Contains("unknown command"))
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("当前设备不支持此命令！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_NotSupported")), allowBackgroundClose: true);
                 });
             }
             else
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("执行成功，拔出设备连接线即可关机！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_Successful")), allowBackgroundClose: true);
                 });
             }
         }

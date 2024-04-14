@@ -188,7 +188,7 @@ public partial class AppmgrViewModel : MainPageBase
         return "未知大小";
     }*/
 
-    private static readonly char[] separatorArray = ['\r', '\n'], separator = [' '];
+    private static readonly char[] separatorArray = ['\r', '\n'];
 
     private static string GetInstalledDate(string[] lines)
     {

@@ -27,7 +27,7 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalContentAlignment" Value="Right" />
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Text" Value="{Binding Value}" />
+            <Setter Property="Value" Value="{Binding Value}" />
             <Setter Property="Grid.Column" Value="2" />
             <Setter Property="IsReadOnly" Value="{Binding IsReadOnly}" />
             <Setter Property="Height" Value="36" />

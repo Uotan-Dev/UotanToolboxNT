@@ -71,8 +71,8 @@ public class SukiSideMenu : SelectingItemsControl
         if(_SideMenuItems.Any())
             foreach (SukiSideMenuItem item in _SideMenuItems)
                 item.IsTopMenuExpanded = IsMenuExpanded;
-        
-        else if(Items.First() is SukiSideMenuItem)
+
+        else if (Items.FirstOrDefault() is SukiSideMenuItem)
             foreach (SukiSideMenuItem item in Items)
                 item.IsTopMenuExpanded = IsMenuExpanded;
     }

@@ -54,7 +54,7 @@ namespace SukiUI.Controls
             SetItem(newValue as INotifyPropertyChanged);
         }
 
-        private void SetItem(INotifyPropertyChanged? item)
+        protected virtual void SetItem(INotifyPropertyChanged? item)
         {
             if (item is null)
             {

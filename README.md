@@ -11,12 +11,15 @@
 
 ## ✨ Features
 
-- ✅ Developed with Avalonia UI
+- 🍀 Cross-platfrom support
 - ✔️ All in one
+- 🌍 Multilingual support
 - 🚫 No ADs
 - 🛠 More features are in development ...
 
 ## ⚙️ Environment
+
+### Developed with Avalonia UI
 
 | Recommended environment | Extension |
 | --- | ----------- |

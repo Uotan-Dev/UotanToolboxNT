@@ -9,15 +9,13 @@
         <common:ViewLocator />
     </Application.DataTemplates>
     <Application.Styles>
-    <FluentTheme></FluentTheme>
+        <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
-        <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
-        <sukiUi:SukiTheme ThemeColor="Red"/>
+        <sukiUi:SukiTheme ThemeColor="Red" />
         <StyleInclude Source="avares://UotanToolbox/Styles/ShowMeTheXamlStyles.axaml" />
         <StyleInclude Source="avares://UotanToolbox/Styles/WrapPanelStyles.axaml" />
         <StyleInclude Source="avares://UotanToolbox/Styles/TextStyles.axaml" />
         <StyleInclude Source="avares://UotanToolbox/Styles/GlassCardStyles.axaml" />
         <avalonia:MaterialIconStyles />
     </Application.Styles>
-    
 </Application>

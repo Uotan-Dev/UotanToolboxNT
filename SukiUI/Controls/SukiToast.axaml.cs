@@ -5,15 +5,15 @@ using Avalonia.Input;
 using SukiUI.Models;
 using System;
 using System.Timers;
+using Avalonia.Media;
+using SukiUI.Content;
+using SukiUI.Enums;
 
 namespace SukiUI.Controls;
 
 public class SukiToast : ContentControl
 {
     protected override Type StyleKeyOverride => typeof(SukiToast);
-
-    public static readonly StyledProperty<string> TitleProperty =
-        AvaloniaProperty.Register<SukiToast, string>(nameof(Title));
     
     internal SukiHost Host { get; private set; }
 
@@ -31,6 +31,18 @@ public class SukiToast : ContentControl
         _timer.Stop();
         await SukiHost.ClearToast(this);
     }
+    
+    public static readonly StyledProperty<object?> IconProperty =
+        AvaloniaProperty.Register<SukiToast, object?>(nameof(Icon));
+
+    public object? Icon
+    {
+        get => GetValue(IconProperty);
+        set => SetValue(IconProperty, value);
+    }
+    
+    public static readonly StyledProperty<string> TitleProperty =
+        AvaloniaProperty.Register<SukiToast, string>(nameof(Title));
 
     public string Title
     {
@@ -51,12 +63,35 @@ public class SukiToast : ContentControl
         _onClickedCallback = null;
         await SukiHost.ClearToast(this);
     }
+    
+    // Icon Foreground Brushes
+    // Note: it would be better to place them into a resource dictionary, but findResource performs slightly slower
+    private readonly SolidColorBrush _infoIconForeground = new(Color.FromRgb(47,84,235));
+    private readonly SolidColorBrush _successIconForeground = new(Color.FromRgb(35,143,35));
+    private readonly SolidColorBrush _warningIconForeground = new(Color.FromRgb(177,113,20));
+    private readonly SolidColorBrush _errorIconForeground = new(Color.FromRgb(216,63,48));
 
     public void Initialize(SukiToastModel model, SukiHost host)
     {
         Host = host;
         Title = model.Title;
         Content = model.Content;
+        Icon = model.Type switch
+        {
+            SukiToastType.Info => Icons.InformationOutline,
+            SukiToastType.Success => Icons.CircleOutlineCheck,
+            SukiToastType.Warning => Icons.AlertOutline,
+            SukiToastType.Error => Icons.CircleOutlineMinus,
+            _ => Icons.InformationOutline
+        };
+        Foreground = model.Type switch
+        {
+            SukiToastType.Info => _infoIconForeground,
+            SukiToastType.Success => _successIconForeground,
+            SukiToastType.Warning => _warningIconForeground,
+            SukiToastType.Error => _errorIconForeground,
+            _ => _infoIconForeground
+        };
         _onClickedCallback = model.OnClicked;
         _timer.Interval = model.Lifetime.TotalMilliseconds;
         _timer.Start();

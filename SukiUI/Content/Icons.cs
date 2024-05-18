@@ -101,5 +101,11 @@ public static class Icons
     // Material Icons
     public static readonly StreamGeometry Star = Parse("M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z");
 
+    // Material Icons
+    public static readonly StreamGeometry InformationOutline = Parse("M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z");
+
+    // Material Icons
+    public static readonly StreamGeometry AlertOutline = Parse("M12,2L1,21H23M12,6L19.53,19H4.47M11,10V14H13V10M11,16V18H13V16");
+
     private static StreamGeometry Parse(string path) => StreamGeometry.Parse(path);
 }

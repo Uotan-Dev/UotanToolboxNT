@@ -212,5 +212,8 @@
         <Setter Property="Foreground" Value="{DynamicResource SukiAccentColor}" />
     </Style>
 
+    <Style Selector="ProgressBar.Light">
+        <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor75}"></Setter>
+    </Style>
 
 </Styles>

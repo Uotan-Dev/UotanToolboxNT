@@ -1,23 +1,35 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:content="clr-namespace:SukiUI.Content"
                     xmlns:suki="clr-namespace:SukiUI.Controls">
+   <Design.PreviewWith>
+       <suki:SukiToast Title="titre" Content="message"></suki:SukiToast>
+   </Design.PreviewWith>
     <ControlTheme x:Key="SukiToastTheme" TargetType="suki:SukiToast">
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="PART_ToastCard"
-                        Width="250"
+                        Width="300"
                         Margin="30,5,30,10"
                         Padding="0"
                         BoxShadow="{DynamicResource SukiPopupShadow}"
                         Classes="Card"
-                        CornerRadius="6">
+                        CornerRadius="2">
                     <DockPanel Margin="0,-7" LastChildFill="True">
-                        <TextBlock DockPanel.Dock="Top"
-                                   FontSize="15"
-                                   FontWeight="DemiBold"
-                                   Text="{TemplateBinding Title}" />
-                        <ContentPresenter Margin="0,10,0,0"
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                            <PathIcon Width="16" Margin="-6,0,0,0"
+                                      Height="16"
+                                      Data="{TemplateBinding Icon}"
+                                      Foreground="{TemplateBinding Foreground}" />
+                            <TextBlock Margin="12,0,0,0"
+                                       FontSize="15"
+                                       FontWeight="DemiBold"
+                                       Foreground="{DynamicResource SukiText}"
+                                       Text="{TemplateBinding Title}" />
+                        </StackPanel>
+                        <ContentPresenter Margin="22,10,0,0"
                                           Content="{TemplateBinding Content}"
+                                          Foreground="{DynamicResource SukiText}"
                                           TextWrapping="Wrap" />
                     </DockPanel>
                 </Border>

@@ -38,7 +38,7 @@ namespace SukiUI.Theme
             var s = "";
             foreach (var o in x)
             {
-                if (o.ToString().Length > s.ToString().Length)
+                if (o?.ToString()?.Length > s.ToString().Length)
                     s = o.ToString();
             }
 
@@ -64,7 +64,7 @@ namespace SukiUI.Theme
             var s = "";
             foreach (var o in x)
             {
-                if (o.ToString().Length > s.ToString().Length)
+                if (o?.ToString()?.Length > s.ToString().Length)
                     s = o.ToString();
             }
 

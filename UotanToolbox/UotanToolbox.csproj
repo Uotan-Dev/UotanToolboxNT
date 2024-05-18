@@ -9,33 +9,31 @@
 		<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
 	</PropertyGroup>
 	<ItemGroup>
-	  <AdditionalFiles Remove="Features\新文件夹\**" />
-	  <AvaloniaXaml Remove="Features\新文件夹\**" />
-	  <Compile Remove="Features\新文件夹\**" />
-	  <EmbeddedResource Remove="Features\新文件夹\**" />
-	  <None Remove="Features\新文件夹\**" />
+		<AdditionalFiles Remove="Features\新文件夹\**" />
+		<AvaloniaXaml Remove="Features\新文件夹\**" />
+		<Compile Remove="Features\新文件夹\**" />
+		<EmbeddedResource Remove="Features\新文件夹\**" />
+		<None Remove="Features\新文件夹\**" />
 	</ItemGroup>
 	<ItemGroup>
-	  <AdditionalFiles Remove="Features\Home\ConnectionDialog.axaml" />
+		<AdditionalFiles Remove="Features\Home\ConnectionDialog.axaml" />
 	</ItemGroup>
 	<ItemGroup>
-	  <AvaloniaXaml Remove="Features\Appmgr\DashboardView.axaml" />
+		<AvaloniaXaml Remove="Features\Appmgr\DashboardView.axaml" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.1.0-beta2" />
-		<PackageReference Include="Avalonia.AvaloniaEdit" Version="11.0.6" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.1.0-beta2" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.0-beta2" />
+		<PackageReference Include="Avalonia" Version="11.0.6" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.6" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.6" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0-beta2" />
-		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0-beta2" />
-		<PackageReference Include="AvaloniaEdit.TextMate" Version="11.0.6" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="Material.Icons.Avalonia" Version="2.1.9" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.3.24172.9" />
-		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.5.1" />
-		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.5.1" />
+		<PackageReference Include="Material.Icons.Avalonia" Version="2.1.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.4.1" />
+		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.4.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -43,44 +41,44 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Assets\OIG.N5o-removebg-preview.png" />
-	  <AvaloniaResource Include="Assets\OIG.N5o-removebg-preview.png" />
+		<None Remove="Assets\OIG.N5o-removebg-preview.png" />
+		<AvaloniaResource Include="Assets\OIG.N5o-removebg-preview.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Assets\icon.ico" />
+		<Content Include="Assets\icon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AvaloniaXaml Update="Features\Components\ConnectionDialog.axaml">
-	    <SubType>Designer</SubType>
-	  </AvaloniaXaml>
+		<AvaloniaXaml Update="Features\Components\ConnectionDialog.axaml">
+			<SubType>Designer</SubType>
+		</AvaloniaXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Assets\Resources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Resources.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Features\Appmgr\DashboardView.axaml.cs">
-	    <DependentUpon>%(Filename)</DependentUpon>
-	  </Compile>
-	  <Compile Update="Features\Home\HomeView.axaml.cs">
-	    <DependentUpon>HomeView.axaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Features\Settings\SettingsView.axaml.cs">
-	    <DependentUpon>SettingsView.axaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="MainView.axaml.cs">
-	    <DependentUpon>MainView.axaml</DependentUpon>
-	  </Compile>
+		<Compile Update="Assets\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Appmgr\DashboardView.axaml.cs">
+			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Home\HomeView.axaml.cs">
+			<DependentUpon>HomeView.axaml</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Settings\SettingsView.axaml.cs">
+			<DependentUpon>SettingsView.axaml</DependentUpon>
+		</Compile>
+		<Compile Update="MainView.axaml.cs">
+			<DependentUpon>MainView.axaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Assets\Resources.resx">
-	    <Generator>PublicResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Update="Assets\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 </Project>

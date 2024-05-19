@@ -34,7 +34,7 @@
 										Text="{x:Static assets:Resources.Home_DeviceInfo}" />
 						<StackPanel Orientation="Horizontal" Spacing="18">
 							<StackPanel Orientation="Vertical"  Width="230">
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -48,7 +48,7 @@
 												Content="{Binding DeviceBrand, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -62,7 +62,7 @@
 												Content="{Binding DeviceModel, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -76,7 +76,7 @@
 												Content="{Binding CodeName, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -90,7 +90,7 @@
 												Content="{Binding AndroidSDK, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -104,7 +104,7 @@
 												Content="{Binding CPUABI, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -118,7 +118,7 @@
 												Content="{Binding DisplayHW, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -134,7 +134,7 @@
 								</Grid>
 							</StackPanel>
 							<StackPanel Orientation="Vertical"  Width="230">
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -148,7 +148,7 @@
 												Content="{Binding Status, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -162,7 +162,7 @@
 												Content="{Binding BLStatus, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -176,7 +176,7 @@
 												Content="{Binding VABStatus, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -190,7 +190,7 @@
 												Content="{Binding VNDKVersion, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -204,7 +204,7 @@
 												Content="{Binding CPUCode, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -218,7 +218,7 @@
 												Content="{Binding PowerOnTime, Mode=TwoWay}"/>
 									</StackPanel>
 								</Grid>
-								<Grid Margin="0,13,0,0">
+								<Grid Margin="0,12,0,0">
 									<TextBlock HorizontalAlignment="Left"
 												FontSize="13"
 												FontWeight="DemiBold"
@@ -235,7 +235,7 @@
 							</StackPanel>
 						</StackPanel>
 						<StackPanel HorizontalAlignment="Center" Width="480">
-							<Grid Margin="0,13,0,0">
+							<Grid Margin="0,12,0,0">
 								<TextBlock HorizontalAlignment="Left"
 											FontSize="13"
 											FontWeight="DemiBold"
@@ -249,7 +249,7 @@
 											Content="{Binding BoardID, Mode=TwoWay}"/>
 								</StackPanel>
 							</Grid>
-							<Grid Margin="0,13,0,0">
+							<Grid Margin="0,12,0,0">
 								<TextBlock HorizontalAlignment="Left"
 											FontSize="13"
 											FontWeight="DemiBold"
@@ -263,7 +263,7 @@
 											Content="{Binding Platform, Mode=TwoWay}"/>
 								</StackPanel>
 							</Grid>
-							<Grid Margin="0,13,0,0">
+							<Grid Margin="0,12,0,0">
 								<TextBlock HorizontalAlignment="Left"
 											FontSize="13"
 											FontWeight="DemiBold"
@@ -277,7 +277,7 @@
 											Content="{Binding Compile, Mode=TwoWay}"/>
 								</StackPanel>
 							</Grid>
-							<Grid Margin="0,13,0,0">
+							<Grid Margin="0,12,0,0">
 								<TextBlock HorizontalAlignment="Left"
 											FontSize="13"
 											FontWeight="DemiBold"

@@ -18,23 +18,11 @@ internal class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
     {
-        FontManagerOptions options = new();
-        if (OperatingSystem.IsLinux())
-        {
-            Global.System = "Linux";
-            options.DefaultFamilyName = "Quicksand";
-        }
-        else if (OperatingSystem.IsMacOS())
-        {
-            Global.System = "MacOS";
-            options.DefaultFamilyName = "Quicksand";
-        }
         // No need to set default for Windows
         return AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace()
-                .UseXamlDisplay()
-                .With(options);
+                .UseXamlDisplay();
     }
 }

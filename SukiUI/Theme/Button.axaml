@@ -36,7 +36,7 @@
                         <ContentPresenter HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                           Content="{TemplateBinding Content}"
-                                          FontFamily="avares://SukiUI/CustomFont#Quicksand"
+                                          FontFamily="avares://SukiUI/CustomFont#MiSans"
                                           FontSize="{TemplateBinding FontSize}"
                                           FontWeight="DemiBold"
                                           RecognizesAccessKey="True" />

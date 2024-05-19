@@ -46,7 +46,7 @@
             <system:TimeSpan x:Key="ShortAnimationDuration">0.2</system:TimeSpan>
             <Easing x:Key="MenuEasing">CircularEaseOut</Easing>
 
-            <FontFamily x:Key="QuicksandFont">avares://SukiUI/CustomFont#Quicksand</FontFamily>
+            <FontFamily x:Key="MiSansFont">avares://SukiUI/CustomFont#MiSans</FontFamily>
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude Source="avares://sukiUI/Theme/TextBlock.xaml" />

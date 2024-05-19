@@ -45,11 +45,11 @@
 	<ItemGroup>
 		<AvaloniaResource Include="Roboto-Regular.ttf" />
 		<AvaloniaResource Include="Roboto-Medium.ttf" />
-		<AvaloniaResource Include="CustomFont\Quicksand-Bold.ttf" />
-		<AvaloniaResource Include="CustomFont\Quicksand-Light.ttf" />
-		<AvaloniaResource Include="CustomFont\Quicksand-Medium.ttf" />
-		<AvaloniaResource Include="CustomFont\Quicksand-Regular.ttf" />
-		<AvaloniaResource Include="CustomFont\Quicksand-SemiBold.ttf" />
+		<AvaloniaResource Include="CustomFont\MiSans-Bold.ttf" />
+		<AvaloniaResource Include="CustomFont\MiSans-Light.ttf" />
+		<AvaloniaResource Include="CustomFont\MiSans-Medium.ttf" />
+		<AvaloniaResource Include="CustomFont\MiSans-Regular.ttf" />
+		<AvaloniaResource Include="CustomFont\MiSans-SemiBold.ttf" />
 		<Content Include="suki_photo.ico" />
 	</ItemGroup>
 

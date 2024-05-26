@@ -8,7 +8,7 @@
                  xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
                  Title="Uotan Toolbox"
                  d:DesignHeight="450"
-                 d:DesignWidth="800"
+                 d:DesignWidth="1240"
                  x:DataType="demo:MainViewModel"
                  BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
                  CanResize="False"

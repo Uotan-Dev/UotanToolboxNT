@@ -18,7 +18,7 @@ namespace UotanToolbox.Features.Advanced;
 
 public partial class AdvancedViewModel : MainPageBase
 {
-    [ObservableProperty] private string _qcnFile;
+    [ObservableProperty] private string _qcnFile, _superEmptyFile, _formatName, _extractName;
 
     public AdvancedViewModel() : base("高级", MaterialIconKind.WrenchCogOutline, -300)
     {

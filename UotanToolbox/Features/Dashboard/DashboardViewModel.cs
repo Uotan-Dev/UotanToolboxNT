@@ -4,6 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Controls;
+using System.Globalization;
+using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -23,7 +25,10 @@ public partial class DashboardViewModel : MainPageBase
     [ObservableProperty] private string _unlockCode;
     [ObservableProperty] private string _recFile;
 
-    public DashboardViewModel() : base("刷入", MaterialIconKind.CableData, -1000)
+    private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
+    private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
+
+    public DashboardViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.CableData, -1000)
     {
         StepperIndex = 1;
         SimpleContent.AddRange(["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"]);

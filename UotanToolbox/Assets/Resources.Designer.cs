@@ -313,11 +313,11 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 HomePage 的本地化字符串。
+        ///   查找类似 Home 的本地化字符串。
         /// </summary>
-        public static string Home_HomePage {
+        public static string Sidebar_HomePage {
             get {
-                return ResourceManager.GetString("Home_HomePage", resourceCulture);
+                return ResourceManager.GetString("Sidebar_HomePage", resourceCulture);
             }
         }
         

@@ -1,8 +1,6 @@
 ﻿<UserControl x:Class="UotanToolbox.Features.Dashboard.DashboardView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
-             xmlns:controlsLibrary="clr-namespace:UotanToolbox.Features.ControlsLibrary"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dashboard="clr-namespace:UotanToolbox.Features.Dashboard"

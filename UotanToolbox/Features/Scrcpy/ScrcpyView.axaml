@@ -55,7 +55,8 @@
 			</Grid>
 
 			<!--  传输及录制  -->
-			<suki:GlassCard Width="450"
+			<suki:GlassCard Width="460"
+							Height="250"
                             Margin="15"
                             VerticalAlignment="Top">
 				<Grid>
@@ -131,7 +132,8 @@
 			</suki:GlassCard>
 
 			<!--  更多设置  -->
-			<suki:GlassCard Width="350"
+			<suki:GlassCard Width="460"
+							Height="250"
                             Margin="15"
                             VerticalAlignment="Top">
 				<Grid>

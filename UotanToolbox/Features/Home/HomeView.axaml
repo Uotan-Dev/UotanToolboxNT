@@ -193,7 +193,7 @@
 												FontSize="13"
 												FontWeight="DemiBold"
 												Foreground="{DynamicResource SukiLowText}"
-												Text="{x:Static assets:Resources.Home_CpuCode}"/>
+												Text="{x:Static assets:Resources.Home_CPUCode}"/>
 									<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 										<Button Classes="Hyperlink"
 												Foreground="White"

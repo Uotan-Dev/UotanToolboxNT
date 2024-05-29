@@ -22,6 +22,7 @@ internal class Program
         FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
         {
+            FileHelper.CopyDirectory("SukiUI/CustomFont/","/home/localhost/.local/share/fonts/");
             Global.System = "Linux";
             options.DefaultFamilyName = "MiSans";
         }

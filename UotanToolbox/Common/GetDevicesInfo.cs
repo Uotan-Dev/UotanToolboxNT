@@ -100,10 +100,10 @@ namespace UotanToolbox.Common
             string disktype = "--";
             string batterylevel = "0";
             string batteryinfo = "--";
-            string memlevel = "--";
+            string memlevel = "0";
             string usemem = "--";
             string diskinfo = "--";
-            string progressdisk = "--";
+            string progressdisk = "0";
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
             string devcon;

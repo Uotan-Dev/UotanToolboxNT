@@ -42,7 +42,7 @@ namespace UotanToolbox.Common
         {
             if (Global.System == "Windows")
             {
-                string[] devices = new string[20];
+                string[] devices = new string[100];
                 string[] Lines = COMInfo.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
@@ -62,7 +62,7 @@ namespace UotanToolbox.Common
             else
             {
                 int j = 0;
-                string[] devices = new string[20];
+                string[] devices = new string[100];
                 string[] Lines = COMInfo.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {

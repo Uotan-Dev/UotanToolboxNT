@@ -152,7 +152,7 @@
 							</Button>
 							<StackPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
 								<TextBlock Classes="h4">显示系统应用</TextBlock>
-								<ToggleButton Classes="Switch" IsChecked="{Binding IsSystemAppDisplayed}"/>
+								<ToggleSwitch IsChecked="{Binding IsSystemAppDisplayed}"/>
 							</StackPanel>
 						</DockPanel>
 						<TextBlock Text="暂未获取应用列表" Classes="h4" Margin="0,15,15,15"

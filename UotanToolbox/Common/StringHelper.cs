@@ -145,11 +145,11 @@ namespace UotanToolbox.Common
 
         public static string[] Battery(string info)
         {
-            string[] infos = new string[20];
+            string[] infos = new string[100];
             string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < Lines.Length; i++)
             {
-                if (Lines[i].IndexOf("Max charging voltage") == -1)
+                if (Lines[i].IndexOf("Max charging voltage") == -1 && Lines[i].IndexOf("Charger voltage") == -1)
                 {
                     if (Lines[i].IndexOf("level") != -1 || Lines[i].IndexOf("voltage") != -1 || Lines[i].IndexOf("temperature") != -1)
                     {

@@ -6,14 +6,27 @@
         <Setter Property="Padding" Value="20" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Panel>
-                    <Border Name="PART_BorderCard"
+            
+                <Panel Name="RootPanel" Opacity="0">
+                    <Border Name="PART_BorderCard" RenderTransformOrigin="50%,50%"
                             Background="{DynamicResource SukiGlassCardBackground}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="{TemplateBinding ClipToBounds}"
                             CornerRadius="{TemplateBinding CornerRadius}"
                             Opacity="{DynamicResource GlassOpacity}">
+                        
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Width"
+                                                             Duration="0:0:0.5"
+                                                             Easing="QuadraticEaseOut"/>
+                                <DoubleTransition Property="Height"
+                                                             Duration="0:0:0.5"
+                                                             Easing="QuadraticEaseOut"/>
+                            </Transitions>
+                        </Border.Transitions>
+                        
                         <Border.Transitions>
                             <Transitions>
                                 <BrushTransition Property="Background" Duration="0:0:0.15" />
@@ -33,7 +46,7 @@
                                 <BrushTransition Property="BorderBrush" Duration="0:0:0.15" />
                             </Transitions>
                         </Border.Transitions>
-                        <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+                        <ContentPresenter Name="PART_CP" Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
                     </Border>
                 </Panel>
             </ControlTemplate>
@@ -62,6 +75,13 @@
         </Style>
         <Style Selector="^.Primary /template/ Border#PART_BorderCard">
             <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
+        </Style>
+        
+        <Style Selector="^[IsVisible=True] /template/ Panel#RootPanel">
+            <Setter Property="Opacity" Value="1" />
+        </Style>
+        <Style Selector="^[IsVisible=False] /template/ Panel#RootPanel">
+            <Setter Property="Opacity" Value="0" />
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="{x:Type suki:GlassCard}"

@@ -21,7 +21,7 @@
 		<LangVersion>10</LangVersion>
 		<UserSecretsId>712f85e4-12d3-41b0-a417-5714a113666f</UserSecretsId>
 		<Description>https://github.com/kikipoulet/SukiUI</Description>
-		<PackageVersion>5.1.2</PackageVersion>
+		<PackageVersion>6.0.0</PackageVersion>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>
@@ -38,7 +38,6 @@
 
 	<ItemGroup>
 		<AvaloniaResource Include="**\*.xaml" />
-		<None Remove="Content\Images\icons8-file-explorer-new-48.png" />
 		<AvaloniaResource Include="Content\Images\icons8-file-explorer-new-48.png" />
 	</ItemGroup>
 
@@ -60,7 +59,7 @@
 	<ItemGroup>
 	  <None Update="OIG.N5o-removebg-preview.png">
 	    <Pack>True</Pack>
-	    <PackagePath></PackagePath>
+	    <PackagePath />
 	  </None>
 	</ItemGroup>
 
@@ -69,6 +68,13 @@
 	  <UpToDateCheckInput Remove="Controls\TouchInput\TouchKeyboard\TouchKeyboardPopUp.axaml" />
 	  <UpToDateCheckInput Remove="Controls\TouchInput\TouchNumericPad\NumericPadPopUp.axaml" />
 	  <UpToDateCheckInput Remove="Controls\TouchInput\TouchNumericPad\TouchNumericPad.axaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Controls\WaveProgress.axaml.cs">
+	    <DependentUpon>WaveProgress.axaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
 	</ItemGroup>
 
 </Project>

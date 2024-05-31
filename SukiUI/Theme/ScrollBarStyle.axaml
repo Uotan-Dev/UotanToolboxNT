@@ -189,10 +189,9 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Background="Transparent" UseLayoutRounding="False">
-                    <Grid RowDefinitions="Auto,*,Auto">
+                    <Grid >
 
-                        <Track Grid.Row="1"
-                               Grid.Column="1"
+                        <Track 
                                IsDirectionReversed="False"
                                Maximum="{TemplateBinding Maximum}"
                                Minimum="{TemplateBinding Minimum}"

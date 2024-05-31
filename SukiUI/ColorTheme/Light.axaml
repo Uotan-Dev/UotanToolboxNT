@@ -22,6 +22,7 @@
 
     <BoxShadows x:Key="SukiLowShadow">0 0 3 0 #eaeaea</BoxShadows>
     <BoxShadows x:Key="SukiSwitchShadow">0 1 5 0 #aaaaaa</BoxShadows>
+    <BoxShadows x:Key="SukiSmallPopupShadow">0 0 2 0 DimGray</BoxShadows>
     <BoxShadows x:Key="SukiPopupShadow">1 1 8 0 LightGray</BoxShadows>
     <BoxShadows x:Key="SukiBigPopupShadow">1 1 15 0 #dedede</BoxShadows>
 

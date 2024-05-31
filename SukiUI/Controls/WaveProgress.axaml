@@ -5,21 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:suki="clr-namespace:SukiUI.Controls"
+             xmlns:waveProgress="clr-namespace:SukiUI.Converters.WaveProgress"
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
 
     <UserControl.Styles>
-
         <Style Selector="suki|WaveProgress">
             <Setter Property="Template">
                 <ControlTemplate>
-
-                    <Border Canvas.Left="20"
-                            Canvas.Top="20"
-                            Canvas.Right="20"
-                            Canvas.Bottom="20"
-                            Width="200"
+                    <Border Width="200"
                             Height="200"
                             Margin="20"
                             Background="Transparent"
@@ -29,10 +24,10 @@
                             ClipToBounds="False"
                             CornerRadius="100">
                         <Border.Resources>
-                            <suki:WaveProgressValueConverter x:Key="WValueConvert" />
-                            <suki:WaveProgressValueTextConverter x:Key="WValueTextConvert" />
-                            <suki:WaveProgressValueColorConverter x:Key="WValueColorConvert" />
-                            <suki:WaveProgressGradientOffsetConverter x:Key="WGradientConverter" />
+                            <waveProgress:WaveProgressValueConverter x:Key="WValueConvert" />
+                            <waveProgress:WaveProgressValueTextConverter x:Key="WValueTextConvert" />
+                            <waveProgress:WaveProgressValueColorConverter x:Key="WValueColorConvert" />
+                            <waveProgress:WaveProgressGradientOffsetConverter x:Key="WGradientConverter" />
                         </Border.Resources>
 
                         <Border Width="200"
@@ -51,7 +46,6 @@
                                                                  Converter={StaticResource WGradientConverter}}"
                                           Opacity="0.45"
                                           StrokeThickness="0">
-
                                         <Path.Transitions>
                                             <Transitions>
                                                 <DoubleTransition Property="Canvas.Top" Duration="0:0:1.5">
@@ -72,7 +66,6 @@
                                           StrokeThickness="0">
                                         <Path.Transitions>
                                             <Transitions>
-
                                                 <DoubleTransition Property="Canvas.Top" Duration="0:0:2.5">
                                                     <DoubleTransition.Easing>
 
@@ -125,6 +118,7 @@
                 </Animation>
             </Style.Animations>
         </Style>
+
         <Style Selector="Path.WaveAnimatedFast">
             <Style.Animations>
                 <Animation IterationCount="INFINITE" Duration="0:0:3">

@@ -1,6 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:content="clr-namespace:SukiUI.Content">
+        xmlns:content="clr-namespace:SukiUI.Content"
+        xmlns:controls="clr-namespace:SukiUI.Controls">
     <Design.PreviewWith>
         <Border Padding="0" Background="{DynamicResource SukiBackground}">
             <NotificationCard Content="Testing" />
@@ -30,7 +31,9 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 ClipToBounds="True"
                                 CornerRadius="10">
-                            <DockPanel>
+                            <Panel>
+                                
+                                <DockPanel>
                                 <PathIcon Margin="11,11,5,5"
                                           VerticalAlignment="Top"
                                           Data="{x:Static content:Icons.CircleInformation}"
@@ -43,6 +46,7 @@
                                        DockPanel.Dock="Top" />
                                 <ContentControl Name="PART_Content" Content="{TemplateBinding Content}" />
                             </DockPanel>
+                            </Panel>
                         </Border>
                     </Border>
                 </LayoutTransformControl>

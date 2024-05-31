@@ -1,0 +1,82 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:icons="clr-namespace:SukiUI.Content"
+                    xmlns:suki="clr-namespace:SukiUI.Controls">
+    <Design.PreviewWith>
+        <StackPanel Width="400" Spacing="3">
+            <suki:InfoBar Title="Title"
+                          IsClosable="True"
+                          Message="Long Text Test Long Text Test Long Text Test Long Text Test" />
+            <suki:InfoBar Title="Title" Message="Default" />
+        </StackPanel>
+    </Design.PreviewWith>
+    <ControlTheme x:Key="SukiInfoBarStyle" TargetType="suki:InfoBar">
+        <Setter Property="MinWidth" Value="200" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <suki:GlassCard MinWidth="300" IsOpaque="{TemplateBinding IsOpaque}" Padding="0,0,0,15"
+                        CornerRadius="10"
+                        IsVisible="{TemplateBinding IsOpen}">
+                    <Grid ColumnDefinitions="50,*,40">
+                        <StackPanel Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
+                            <Border Width="20"
+                                    Height="20"
+                                    Margin="15,15,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Background="{DynamicResource SukiCardBackground}"
+                                    CornerRadius="35">
+                                <Border ClipToBounds="True" CornerRadius="35">
+                                    <Panel>
+                                        <Panel Background="{TemplateBinding IconForeground}" Opacity="1" />
+                                        <PathIcon Width="10"
+                                                  Height="10"
+                                                  Margin="0,0,0,0"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Data="{TemplateBinding Icon}"
+                                                  Foreground="White" />
+                                    </Panel>
+                                </Border>
+                            </Border>
+                        </StackPanel>
+
+                        <WrapPanel Name="PART_TextPanel"
+                                   Grid.Column="1"
+                                   Margin="0,12,0,0">
+                            <TextBlock Margin="0,5,10,0"
+                                       FontWeight="Bold"
+                                       Text="{TemplateBinding Title}" />
+                            <Border Width="7"></Border>
+                            <TextBlock Margin="0,5,0,0"
+                                       Text="{TemplateBinding Message}"
+                                       TextWrapping="Wrap" />
+                        </WrapPanel>
+
+                        <Button Name="PART_CloseButton"
+                                Grid.Column="2"
+                                Width="27"
+                                Height="27"
+                                Margin="0,12,12,0"
+                                Padding="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                Classes="Basic Rounded WindowControlsButton Close"
+                                IsVisible="{TemplateBinding IsClosable}">
+                            <PathIcon Width="10"
+                                      Height="10"
+                                      Data="{x:Static icons:Icons.WindowClose}"
+                                      Opacity="0.7" />
+                        </Button>
+                    </Grid>
+                </suki:GlassCard>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type suki:InfoBar}"
+                  BasedOn="{StaticResource SukiInfoBarStyle}"
+                  TargetType="suki:InfoBar" />
+</ResourceDictionary>

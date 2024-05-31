@@ -11,7 +11,7 @@
                  d:DesignWidth="1240"
                  x:DataType="demo:MainViewModel"
                  BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
-                 CanResize="False"
+                 CanResize="{Binding !WindowLocked}"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"
                  mc:Ignorable="d">

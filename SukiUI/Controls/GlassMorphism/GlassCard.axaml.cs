@@ -33,6 +33,15 @@ public class GlassCard : ContentControl
         set => SetValue(BorderThicknessProperty, value);
     }
     
+    public static readonly StyledProperty<bool> IsAnimatedProperty =
+        AvaloniaProperty.Register<GlassCard, bool>(nameof(IsAnimated), true);
+
+    public bool IsAnimated
+    {
+        get => GetValue(IsAnimatedProperty);
+        set => SetValue(IsAnimatedProperty, value);
+    }
+    
     public static readonly StyledProperty<bool> IsOpaqueProperty =
         AvaloniaProperty.Register<GlassCard, bool>(nameof(IsOpaque), false);
 
@@ -76,28 +85,31 @@ public class GlassCard : ContentControl
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-       var b =  e.NameScope.Get<Panel>("RootPanel");
-       b.Loaded += (sender, args) =>
-       {
-           var v = ElementComposition.GetElementVisual(b);
-           MakeOpacityAnimated(v);
-       };
-       
-       var b2 =  e.NameScope.Get<Border>("PART_BorderCard");
-       b2.Loaded += (sender, args) =>
-       {
-           var v = ElementComposition.GetElementVisual(b2);
-           MakeSizeAnimated(v);
-       };
-       
-       var b3 =  e.NameScope.Get<Border>("PART_ClipBorder");
-       b3.Loaded += (sender, args) =>
-       {
-           var v = ElementComposition.GetElementVisual(b3);
-           MakeSizeAnimated(v);
-       };
 
+        if (IsAnimated)
+        {
+            var b = e.NameScope.Get<Panel>("RootPanel");
+            b.Loaded += (sender, args) =>
+            {
+                var v = ElementComposition.GetElementVisual(b);
+                MakeOpacityAnimated(v);
+            };
 
+            var b2 = e.NameScope.Get<Border>("PART_BorderCard");
+            b2.Loaded += (sender, args) =>
+            {
+                var v = ElementComposition.GetElementVisual(b2);
+                MakeSizeAnimated(v);
+            };
+
+            var b3 = e.NameScope.Get<Border>("PART_ClipBorder");
+            b3.Loaded += (sender, args) =>
+            {
+                var v = ElementComposition.GetElementVisual(b3);
+                MakeSizeAnimated(v);
+            };
+
+        }
 
     }
     

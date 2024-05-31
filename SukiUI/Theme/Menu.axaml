@@ -89,7 +89,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <LayoutTransformControl Name="PART_LayoutTransform" RenderTransformOrigin="50%, 0%">
-                    <controls:GlassCard Height="45"
+                    <controls:GlassCard Height="45" IsAnimated="False"
                                         Padding="{TemplateBinding Padding}"
                                         BorderBrush="{DynamicResource SukiBorderBrush}"
                                         BorderThickness="0"

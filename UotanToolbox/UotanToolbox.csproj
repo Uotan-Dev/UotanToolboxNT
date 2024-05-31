@@ -7,14 +7,16 @@
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 		<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
+		<PublishAot>False</PublishAot>
 	</PropertyGroup>
-	<ItemGroup>
-		<AdditionalFiles Remove="Features\新文件夹\**" />
-		<AvaloniaXaml Remove="Features\新文件夹\**" />
-		<Compile Remove="Features\新文件夹\**" />
-		<EmbeddedResource Remove="Features\新文件夹\**" />
-		<None Remove="Features\新文件夹\**" />
-	</ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <Optimize>False</Optimize>
+	  <WarningLevel>2</WarningLevel>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <WarningLevel>2</WarningLevel>
+	</PropertyGroup>
 	<ItemGroup>
 		<AdditionalFiles Remove="Features\Home\ConnectionDialog.axaml" />
 	</ItemGroup>

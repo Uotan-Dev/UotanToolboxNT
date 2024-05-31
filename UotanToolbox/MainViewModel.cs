@@ -23,6 +23,7 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty] private ThemeVariant _baseTheme;
     [ObservableProperty] private bool _animationsEnabled;
+    [ObservableProperty] private bool _windowLocked = true;
     [ObservableProperty] private MainPageBase? _activePage;
 
     [ObservableProperty]

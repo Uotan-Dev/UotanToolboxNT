@@ -309,7 +309,7 @@
 					           FontWeight="DemiBold"
 					           Text="输出" />
 					<TextBox MinHeight="100"
-					         MaxWidth="800"
+					         MaxWidth="840"
 					         IsReadOnly="True"
 					         TextWrapping="Wrap" />
 				</Grid>

@@ -7,7 +7,7 @@
              xmlns:wiredflash="clr-namespace:UotanToolbox.Features.Wiredflash"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
-			 d:DesignWidth="1240"
+			 d:DesignWidth="1024"
              x:DataType="wiredflash:WiredflashViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -150,16 +150,15 @@
 
 			<!-- Log -->
 			<suki:GlassCard Width="960"
-							Height="250"
 			                Margin="10"
 			                VerticalAlignment="Top">
-				<Grid>
+				<Grid VerticalAlignment="Top">
 					<TextBlock HorizontalAlignment="Left"
 					           VerticalAlignment="Top"
 					           FontWeight="DemiBold"
 					           Text="输出" />
-					<TextBox MinHeight="100"
-					         MaxWidth="840"
+					<TextBox MaxWidth="840"
+							 VerticalAlignment="Top"
 					         IsReadOnly="True"
 					         TextWrapping="Wrap" />
 				</Grid>

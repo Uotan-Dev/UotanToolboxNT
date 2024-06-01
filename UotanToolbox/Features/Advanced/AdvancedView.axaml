@@ -300,7 +300,6 @@
 			
 			<!-- Log -->
 			<suki:GlassCard Width="960"
-							Height="250"
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<Grid>
@@ -308,8 +307,8 @@
 					           VerticalAlignment="Top"
 					           FontWeight="DemiBold"
 					           Text="输出" />
-					<TextBox MinHeight="100"
-					         MaxWidth="840"
+					<TextBox MaxWidth="840"
+							 VerticalAlignment="Top"
 					         IsReadOnly="True"
 					         TextWrapping="Wrap" />
 				</Grid>

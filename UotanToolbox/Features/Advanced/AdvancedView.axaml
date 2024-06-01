@@ -307,10 +307,8 @@
 					           VerticalAlignment="Top"
 					           FontWeight="DemiBold"
 					           Text="输出" />
-					<TextBox MaxWidth="840"
-							 VerticalAlignment="Top"
-					         IsReadOnly="True"
-					         TextWrapping="Wrap" />
+					<TextBox Margin="0,20,0,0" Height="150" AcceptsReturn="True" IsReadOnly="True"
+							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="0" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>
 		</WrapPanel>

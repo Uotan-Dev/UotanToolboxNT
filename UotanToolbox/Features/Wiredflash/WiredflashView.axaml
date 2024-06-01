@@ -1,0 +1,169 @@
+﻿<UserControl x:Class="UotanToolbox.Features.Wiredflash.WiredflashView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:wiredflash="clr-namespace:UotanToolbox.Features.Wiredflash"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 d:DesignWidth="1240"
+             x:DataType="wiredflash:WiredflashViewModel"
+             mc:Ignorable="d">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
+                   theme:WrapPanelExtensions.AnimatedScroll="True"
+                   Orientation="Horizontal">
+			<!-- Fastboot -->
+			<suki:GlassCard Width="600"
+							Height="210"
+                            Margin="10"
+                            VerticalAlignment="Top">
+				<Grid>
+					<StackPanel Spacing="30">
+						<StackPanel>
+							<TextBlock HorizontalAlignment="Left"
+									   VerticalAlignment="Top"
+									   FontWeight="DemiBold"
+									   Text="XXXX" />
+							<StackPanel Orientation="Horizontal" Spacing="20">
+								<StackPanel>
+									<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+										<TextBlock Width="80"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="Fastboot" />
+										<TextBox Width="250" Name="FastbootFile"
+												 Text="{Binding FastbootFile, Mode=TwoWay}"
+												 theme:TextBoxExtensions.AddDeleteButton="False"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenFastbootFile">
+											选择文件
+										</Button>
+									</StackPanel>
+									<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+										<TextBlock Width="80"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="Fastbootd" />
+										<TextBox Width="250" Name="FastbootdFile"
+												 Text="{Binding FastbootFile, Mode=TwoWay}"
+												 theme:TextBoxExtensions.AddDeleteButton="False"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenFastbootFile">
+											选择文件
+										</Button>
+									</StackPanel>
+								</StackPanel>
+								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+									<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+										<CheckBox IsChecked="False" />
+										<TextBlock VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="XXXX" />
+									</StackPanel>
+									<Button Width="90"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="PencilAddOutline" />
+											XXX
+										</TextBlock>
+									</Button>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+
+			<!-- More Wired Flash -->
+			<suki:GlassCard Width="470"
+                            Margin="10"
+                            VerticalAlignment="Top">
+				<Grid>
+					<StackPanel Spacing="30">
+						<StackPanel>
+							<TextBlock HorizontalAlignment="Left"
+									   VerticalAlignment="Top"
+									   FontWeight="DemiBold"
+									   Text="XXXX" />
+							<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+								<TextBlock Width="80"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="ADB Sideload" />
+								<TextBox Width="250" Name="AdbsideloadFile"
+										 Text="{Binding AdbsideloadFile, Mode=TwoWay}"
+										 theme:TextBoxExtensions.AddDeleteButton="False"/>
+								<Button Height="35"
+										Padding="10,0,10,0"
+										Click="OpenFastbootFile">
+									选择文件
+								</Button>
+							</StackPanel>
+							<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+								<TextBlock Width="110"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="Fastboot Updated" />
+								<TextBox Width="220" Name="FastbootupdatedFile"
+										 Text="{Binding FastbootupdatedFile, Mode=TwoWay}"
+										 theme:TextBoxExtensions.AddDeleteButton="False"/>
+								<Button Height="35"
+										Padding="10,0,10,0"
+										Click="OpenFastbootFile">
+									选择文件
+								</Button>
+							</StackPanel>
+							<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+								<TextBlock Width="80"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="XXX" />
+								<TextBox Width="250"
+										 theme:TextBoxExtensions.AddDeleteButton="False"/>
+								<Button Height="35"
+										Padding="10,0,10,0"
+										Click="OpenFastbootFile">
+									选择文件
+								</Button>
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+
+			<!-- Log -->
+			<suki:GlassCard Width="960"
+							Height="250"
+			                Margin="10"
+			                VerticalAlignment="Top">
+				<Grid>
+					<TextBlock HorizontalAlignment="Left"
+					           VerticalAlignment="Top"
+					           FontWeight="DemiBold"
+					           Text="输出" />
+					<TextBox MinHeight="100"
+					         MaxWidth="840"
+					         IsReadOnly="True"
+					         TextWrapping="Wrap" />
+				</Grid>
+			</suki:GlassCard>
+		</WrapPanel>
+	</ScrollViewer>
+</UserControl>

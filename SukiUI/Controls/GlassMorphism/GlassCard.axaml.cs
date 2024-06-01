@@ -10,6 +10,7 @@ using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Rendering.Composition;
 using Avalonia.Rendering.Composition.Animations;
+using SukiUI.Helpers;
 
 namespace SukiUI.Controls;
 
@@ -92,21 +93,21 @@ public class GlassCard : ContentControl
             b.Loaded += (sender, args) =>
             {
                 var v = ElementComposition.GetElementVisual(b);
-                MakeOpacityAnimated(v);
+                CompositionAnimationHelper.MakeOpacityAnimated(v);
             };
 
             var b2 = e.NameScope.Get<Border>("PART_BorderCard");
             b2.Loaded += (sender, args) =>
             {
                 var v = ElementComposition.GetElementVisual(b2);
-                MakeSizeAnimated(v);
+                CompositionAnimationHelper.MakeOpacityAnimated(v);
             };
 
             var b3 = e.NameScope.Get<Border>("PART_ClipBorder");
             b3.Loaded += (sender, args) =>
             {
                 var v = ElementComposition.GetElementVisual(b3);
-                MakeSizeAnimated(v);
+                CompositionAnimationHelper.MakeOpacityAnimated(v);
             };
 
         }
@@ -114,77 +115,7 @@ public class GlassCard : ContentControl
     }
     
 
-    public static void MakeOpacityAnimated(CompositionVisual compositionVisual)
-    {
-        if (compositionVisual == null)
-            return;
-
-        Compositor compositor = compositionVisual.Compositor;
-
-        var animationGroup = compositor.CreateAnimationGroup();
-      
-        
-        ScalarKeyFrameAnimation opacityAnimation = compositor.CreateScalarKeyFrameAnimation();
-        opacityAnimation.Target = "Opacity";
-        opacityAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
-        opacityAnimation.Duration = TimeSpan.FromMilliseconds(700);
-        
     
-       
-        Vector3KeyFrameAnimation offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
-        offsetAnimation.Target = "Offset";
-        offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
-        offsetAnimation.Duration = TimeSpan.FromMilliseconds(700);
-        
-
-        animationGroup.Add(offsetAnimation);
-        animationGroup.Add(opacityAnimation);
-      
-        
-        ImplicitAnimationCollection implicitAnimationCollection = compositor.CreateImplicitAnimationCollection();
-        implicitAnimationCollection["Opacity"] = animationGroup;
-        implicitAnimationCollection["Offset"] = animationGroup;
-
-        
-        compositionVisual.ImplicitAnimations = implicitAnimationCollection;
-
-    }
-
-    public static void MakeSizeAnimated(CompositionVisual compositionVisual)
-    {
-        if (compositionVisual == null)
-            return;
-
-        Compositor compositor = compositionVisual.Compositor;
-
-        var animationGroup = compositor.CreateAnimationGroup();
-        
-        Vector2KeyFrameAnimation sizeAnimation = compositor.CreateVector2KeyFrameAnimation();
-        sizeAnimation.Target = "Size";
-        sizeAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
-        sizeAnimation.Duration = TimeSpan.FromMilliseconds(450);
-        
-      
-        
-        Vector3KeyFrameAnimation offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
-        offsetAnimation.Target = "Offset";
-        offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
-        offsetAnimation.Duration = TimeSpan.FromMilliseconds(450);
-        
-        
-        
-        animationGroup.Add(sizeAnimation);
-
-        animationGroup.Add(offsetAnimation);
-        
-        ImplicitAnimationCollection implicitAnimationCollection = compositor.CreateImplicitAnimationCollection();
-        implicitAnimationCollection["Size"] = animationGroup;
-        implicitAnimationCollection["Offset"] = animationGroup;
-
-        
-        compositionVisual.ImplicitAnimations = implicitAnimationCollection;
-
-    }
 
     private void ContextMenuOnOpening(object sender, CancelEventArgs e)
     {

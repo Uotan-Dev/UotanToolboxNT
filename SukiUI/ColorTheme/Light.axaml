@@ -24,7 +24,13 @@
     <BoxShadows x:Key="SukiSwitchShadow">0 1 5 0 #aaaaaa</BoxShadows>
     <BoxShadows x:Key="SukiSmallPopupShadow">0 0 2 0 DimGray</BoxShadows>
     <BoxShadows x:Key="SukiPopupShadow">1 1 8 0 LightGray</BoxShadows>
-    <BoxShadows x:Key="SukiBigPopupShadow">1 1 15 0 #dedede</BoxShadows>
+	<BoxShadows x:Key="SukiBigPopupShadow">1 1 15 0 #dedede</BoxShadows>
+
+	<LinearGradientBrush x:Key="PopupGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+		<GradientStop Color="{DynamicResource SukiAccentColor3}" Offset="0"></GradientStop>
+		<GradientStop Color="{DynamicResource SukiPrimaryColor3}" Offset="1"></GradientStop>
+
+	</LinearGradientBrush>
 
     <system:Boolean x:Key="IsDark">False</system:Boolean>
     <system:Boolean x:Key="IsLight">True</system:Boolean>

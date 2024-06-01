@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
 using Avalonia.Media;
+using Avalonia.Rendering.Composition;
+using Avalonia.Rendering.Composition.Animations;
 using Avalonia.VisualTree;
 using SukiUI.Content;
 
@@ -109,6 +111,13 @@ public class SukiHost : ContentControl
             toastLoc == ToastLocation.BottomLeft
                 ? HorizontalAlignment.Left
                 : HorizontalAlignment.Right;
+
+        var b = e.NameScope.Get<Border>("PART_DialogBackground");
+        b.Loaded += (sender, args) =>
+        {
+            var v = ElementComposition.GetElementVisual(b);
+            CompositionAnimationHelper.MakeOpacityAnimated(v, 400);
+        };
     }
 
     // TODO: Dialog API desperately needs to support a result or on-close callback.

@@ -46,11 +46,13 @@
                                             BoxShadow="{DynamicResource SukiPopupShadow}"
                                             ClipToBounds="True"
                                             CornerRadius="6">
+										<Panel Background="{DynamicResource PopupGradientBrush}">
                                         <ScrollViewer>
                                             <ItemsPresenter Name="PART_ItemsPresenter"
                                                             Grid.IsSharedSizeScope="True"
                                                             ItemsPanel="{TemplateBinding ItemsPanel}" />
                                         </ScrollViewer>
+										</Panel>
                                     </Border>
                                 </Grid>
                             </LayoutTransformControl>

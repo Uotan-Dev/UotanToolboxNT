@@ -71,10 +71,10 @@
             <Setter Property="BorderBrush" Value="{DynamicResource SukiAccentColor}" />
         </Style>
         <Style Selector="^.Accent /template/ Border#PART_BorderCard">
-            <Setter Property="Background" Value="{DynamicResource SukiAccentColor}" />
-        </Style>
-        <Style Selector="^.Primary /template/ Border#PART_BorderCard">
-            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
+			<Setter Property="Background" Value="{DynamicResource SukiAccentColor25}" />
+		</Style>
+		<Style Selector="^.Primary /template/ Border#PART_BorderCard">
+			<Setter Property="Background" Value="{DynamicResource SukiPrimaryColor25}" />
         </Style>
         
         <Style Selector="^[IsVisible=True] /template/ Panel#RootPanel">

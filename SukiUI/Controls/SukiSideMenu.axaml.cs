@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Input;
 using Avalonia.Threading;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,8 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using Avalonia.Interactivity;
-using Avalonia.VisualTree;
+using Avalonia.Layout;
+using SukiUI.Enums;
 
 namespace SukiUI.Controls;
 
@@ -23,8 +23,47 @@ public class SukiSideMenu : SelectingItemsControl
         get => GetValue(IsMenuExpandedProperty);
         set => SetValue(IsMenuExpandedProperty, value);
     }
+    
+    public static readonly StyledProperty<int> OpenPaneLengthProperty =
+        AvaloniaProperty.Register<SukiSideMenu, int>(nameof(OpenPaneLength), defaultValue: 220);
 
- 
+    public int OpenPaneLength
+    {
+        get => GetValue(OpenPaneLengthProperty);
+        set => SetValue(OpenPaneLengthProperty, value switch
+        {
+            >= 200 => value,
+            _ => throw new ArgumentOutOfRangeException($"OpenPaneLength must be greater than or equal to 200, but was {value}")
+        });
+    }
+    
+    public static readonly StyledProperty<HorizontalAlignment> TogglePaneButtonPositionProperty =
+        AvaloniaProperty.Register<SukiSideMenu, HorizontalAlignment>(nameof(TogglePaneButtonPosition), defaultValue: HorizontalAlignment.Right);
+
+    public SideMenuTogglePaneButtonPositionOptions TogglePaneButtonPosition
+    {
+        get => GetValue(TogglePaneButtonPositionProperty) switch
+        {
+            HorizontalAlignment.Right => SideMenuTogglePaneButtonPositionOptions.Right,
+            HorizontalAlignment.Left => SideMenuTogglePaneButtonPositionOptions.Left,
+            _ => SideMenuTogglePaneButtonPositionOptions.Right
+        };
+        set => SetValue(TogglePaneButtonPositionProperty, value switch
+        {
+            SideMenuTogglePaneButtonPositionOptions.Right => HorizontalAlignment.Right,
+            SideMenuTogglePaneButtonPositionOptions.Left => HorizontalAlignment.Left,
+            _ => HorizontalAlignment.Right
+        });
+    }
+
+    public static readonly StyledProperty<bool> IsSelectedItemContentMovableProperty =
+        AvaloniaProperty.Register<SukiSideMenu, bool>(nameof(IsSelectedItemContentMovable), defaultValue: true);
+
+    public bool IsSelectedItemContentMovable
+    {
+        get => GetValue(IsSelectedItemContentMovableProperty);
+        set => SetValue(IsSelectedItemContentMovableProperty, value);
+    }
 
     public static readonly StyledProperty<double> HeaderMinHeightProperty =
         AvaloniaProperty.Register<SukiSideMenu, double>(nameof(HeaderMinHeight));
@@ -68,13 +107,13 @@ public class SukiSideMenu : SelectingItemsControl
     {
         IsMenuExpanded = !IsMenuExpanded;
         
-        if(_SideMenuItems.Any())
-            foreach (SukiSideMenuItem item in _SideMenuItems)
+        if(_sideMenuItems.Any())
+            foreach (var item in _sideMenuItems)
                 item.IsTopMenuExpanded = IsMenuExpanded;
-
-        else if (Items.FirstOrDefault() is SukiSideMenuItem)
-            foreach (SukiSideMenuItem item in Items)
-                item.IsTopMenuExpanded = IsMenuExpanded;
+        
+        else if(Items.FirstOrDefault() is SukiSideMenuItem)
+            foreach (SukiSideMenuItem? item in Items)
+                item!.IsTopMenuExpanded = IsMenuExpanded;
     }
     
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -131,12 +170,12 @@ public class SukiSideMenu : SelectingItemsControl
              ItemTemplate.Build(item) is SukiSideMenuItem sukiMenuItem)
                 ? sukiMenuItem
                 : new SukiSideMenuItem();
-        
-        _SideMenuItems.Add(menuItem);
+        menuItem.IsContentMovable = IsSelectedItemContentMovable;
+        _sideMenuItems.Add(menuItem);
         return menuItem;
     }
 
-    private List<SukiSideMenuItem> _SideMenuItems = new List<SukiSideMenuItem>();
+    private List<SukiSideMenuItem> _sideMenuItems = new();
 
     protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
     {

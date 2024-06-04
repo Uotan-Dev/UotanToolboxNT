@@ -16,7 +16,7 @@
                    Orientation="Horizontal">
 			<!-- Fastboot -->
 			<suki:GlassCard Width="960"
-							Height="210"
+							Height="160"
                             Margin="10"
                             VerticalAlignment="Top">
 				<Grid>
@@ -25,11 +25,11 @@
 							<TextBlock HorizontalAlignment="Left"
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
-									   Text="XXXX" />
+									   Text="TXT线刷" />
 							<StackPanel Orientation="Horizontal" Spacing="20">
 								<StackPanel>
-									<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-										<TextBlock Width="80"
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="60"
 												   Margin="8,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
@@ -44,8 +44,8 @@
 											选择文件
 										</Button>
 									</StackPanel>
-									<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-										<TextBlock Width="80"
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="60"
 												   Margin="8,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
@@ -62,20 +62,19 @@
 									</StackPanel>
 								</StackPanel>
 								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-									<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+									<StackPanel Height="35" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
 										<CheckBox IsChecked="False" />
 										<TextBlock VerticalAlignment="Center"
 												   FontSize="13"
 												   Foreground="{DynamicResource SukiLowText}"
-												   Text="XXXX" />
+												   Text="清楚全部数据" />
 									</StackPanel>
-									<Button Width="90"
+									<Button Width="115"
+											Height="35"
 											HorizontalAlignment="Left"
-											Padding="8"
 											Command="">
 										<TextBlock>
-											<avalonia:MaterialIcon Kind="PencilAddOutline" />
-											XXX
+											开始刷机
 										</TextBlock>
 									</Button>
 								</StackPanel>
@@ -87,6 +86,7 @@
 
 			<!-- More Wired Flash -->
 			<suki:GlassCard Width="960"
+							Height="210"
 							Margin="10"
                             VerticalAlignment="Top">
 				<Grid>
@@ -95,53 +95,83 @@
 							<TextBlock HorizontalAlignment="Left"
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
-									   Text="XXXX" />
-							<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-								<TextBlock Width="90"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="ADB Sideload" />
-								<TextBox Width="720" Name="AdbsideloadFile"
-										 Text="{Binding AdbsideloadFile, Mode=TwoWay}"
-										 theme:TextBoxExtensions.AddDeleteButton="False"/>
-								<Button Height="35"
-										Padding="10,0,10,0"
-										Click="OpenFastbootFile">
-									选择文件
-								</Button>
-							</StackPanel>
-							<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-								<TextBlock Width="110"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="Fastboot Updated" />
-								<TextBox Width="700" Name="FastbootupdatedFile"
-										 Text="{Binding FastbootupdatedFile, Mode=TwoWay}"
-										 theme:TextBoxExtensions.AddDeleteButton="False"/>
-								<Button Height="35"
-										Padding="10,0,10,0"
-										Click="OpenFastbootFile">
-									选择文件
-								</Button>
-							</StackPanel>
-							<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-								<TextBlock Width="80"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="XXX" />
-								<TextBox Width="730"
-										 theme:TextBoxExtensions.AddDeleteButton="False"/>
-								<Button Height="35"
-										Padding="10,0,10,0"
-										Click="OpenFastbootFile">
-									选择文件
-								</Button>
+									   Text="更多线刷" />
+							<StackPanel Orientation="Horizontal" Spacing="20">
+								<StackPanel>
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="110"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="ADB Sideload" />
+										<TextBox Width="570" Name="AdbsideloadFile"
+												 Text="{Binding AdbsideloadFile, Mode=TwoWay}"
+												 theme:TextBoxExtensions.AddDeleteButton="False"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenFastbootFile">
+											选择文件
+										</Button>
+									</StackPanel>
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="110"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="Fastboot Updated" />
+										<TextBox Width="570" Name="FastbootupdatedFile"
+												 Text="{Binding FastbootupdatedFile, Mode=TwoWay}"
+												 theme:TextBoxExtensions.AddDeleteButton="False"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenFastbootFile">
+											选择文件
+										</Button>
+									</StackPanel>
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="110"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="小米线刷脚本" />
+										<TextBox Width="570"
+												 theme:TextBoxExtensions.AddDeleteButton="False"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenFastbootFile">
+											选择文件
+										</Button>
+									</StackPanel>
+								</StackPanel>
+								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+									<Button Width="115"
+											Height="35"
+											HorizontalAlignment="Left"
+											Command="">
+										<TextBlock>
+											切换至A槽
+										</TextBlock>
+									</Button>
+									<Button Width="115"
+											Height="35"
+											HorizontalAlignment="Left"
+											Command="">
+										<TextBlock>
+											切换至B槽
+										</TextBlock>
+									</Button>
+									<Button Width="115"
+											Height="35"
+											HorizontalAlignment="Left"
+											Command="">
+										<TextBlock>
+											开始刷机
+										</TextBlock>
+									</Button>
+								</StackPanel>
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
@@ -150,6 +180,7 @@
 
 			<!-- Log -->
 			<suki:GlassCard Width="960"
+							Height="340"
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<Grid VerticalAlignment="Top">
@@ -157,7 +188,7 @@
 					           VerticalAlignment="Top"
 					           FontWeight="DemiBold"
 					           Text="输出" />
-					<TextBox Margin="0,20,0,0" Height="150" AcceptsReturn="True" IsReadOnly="True"
+					<TextBox Margin="0,20,0,0" Height="280" AcceptsReturn="True" IsReadOnly="True"
 							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="0" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>

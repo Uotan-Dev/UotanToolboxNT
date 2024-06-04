@@ -37,7 +37,7 @@
 								选择文件
 							</Button>
 						</StackPanel>
-						<StackPanel Orientation="Vertical" Spacing="5">
+						<StackPanel Orientation="Vertical" Spacing="10">
 							<StackPanel Orientation="Horizontal" Spacing="20">
 								<TextBlock VerticalAlignment="Center">解锁码解锁: </TextBlock>
 								<TextBox Width="464" Text="{Binding UnlockCode, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -87,10 +87,10 @@
 								Text="刷入Recovery" />
 					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
 						<TextBlock VerticalAlignment="Center">选择Recovery: </TextBlock>
-						<TextBox Width="347.5" Name="RecFile" Text="{Binding RecFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+						<TextBox Width="357" Name="RecFile" Text="{Binding RecFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
 						<Button Height="35" Click ="OpenRecFile">选择文件</Button>
 					</StackPanel>
-					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 5 0 0">
+					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15" Margin="0 10 0 0">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
 							<Button Width="166"
 									HorizontalAlignment="Left"
@@ -161,10 +161,72 @@
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="驱动补丁" />
-					<StackPanel Spacing="10">
+					<StackPanel Spacing="15">
 						<Button Width="220" Click="OpenAFDI">安装ADB和Fastboot驱动</Button>
 						<Button Width="220" Click="Open9008DI">安装高通9008驱动</Button>
 						<Button Width="220" Click="OpenUSBP">小米设备USB3.0补丁</Button>
+					</StackPanel>
+				</StackPanel>
+			</suki:GlassCard>
+
+			<!--  Patch Boot Image  -->
+			<suki:GlassCard Width="630" Margin="10">
+				<suki:BusyArea Name="BusyPatch"
+								BusyText="执行中 ..."
+								IsBusy="{Binding Flashing}">
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+									FontSize="15"
+									FontWeight="DemiBold"
+									Text="修补Boot" />
+						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
+							<TextBlock Width="60" VerticalAlignment="Center">选择面具: </TextBlock>
+							<TextBox Width="385" Name="MagiskFile" Text="{Binding RecFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Height="35" Click ="OpenRecFile">选择文件</Button>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
+							<TextBlock Width="60" VerticalAlignment="Center">选择Boot: </TextBlock>
+							<TextBox Width="385" Name="BootFile" Text="{Binding RecFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Height="35" Click ="OpenRecFile">选择文件</Button>
+						</StackPanel>
+						<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
+							<StackPanel Orientation="Horizontal" Spacing="75">
+								<RadioButton FontSize="13" Content="保留AVB2.0/dm-verity" GroupName="FormatContent"/>
+								<RadioButton FontSize="13" Content="保持强加密" GroupName="FormatContent" />
+								<RadioButton FontSize="13" Content="修补vbmeta标记" GroupName="FormatContent" />
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Spacing="112" Margin="0,-10,0,0">
+								<RadioButton FontSize="13" Content="安装到Recovery" GroupName="FormatContent"/>
+								<RadioButton FontSize="13" Content="强开rootfs" GroupName="FormatContent" />
+								<ComboBox Width="135" Margin="-37,0,0,0" ItemsSource="" />
+							</StackPanel>
+						</StackPanel>
+						<StackPanel Spacing="15">
+							<Button Width="210" Margin="0,10,0,0" Command="">
+								<TextBlock>
+									开始！
+								</TextBlock>
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</suki:BusyArea>
+			</suki:GlassCard>
+
+			<!--  Unlock with command  -->
+			<suki:GlassCard Width="310" Margin="10">
+				<StackPanel Orientation="Vertical" Spacing="15">
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="快捷刷入" />
+					<StackPanel Spacing="20">
+						<Button Width="220" Click="">刷入已选择的面具</Button>
+						<Button Width="220" Click="">阻止恢复官方Recovery</Button>
+						<Button Width="220" Click="">同步AB分区</Button>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" Spacing="10" Margin="20,5,0,0">
+						<RadioButton FontSize="13" Content="TWRP Install" GroupName="FormatContent" IsChecked="True"/>
+						<RadioButton FontSize="13" Content="ADB Sideload" GroupName="FormatContent"/>
 					</StackPanel>
 				</StackPanel>
 			</suki:GlassCard>

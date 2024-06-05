@@ -219,24 +219,7 @@ namespace UotanToolbox.Common
             }
             return path;
         }
-        public static int FindDIAGCom(string usbdevice)//查找端口
-        {
-            char[] charSeparators = new char[] { ' ' };
-            string[] devices = usbdevice.Split('\n');
-            string deviceneed = "";
-            for (int i = 0; i < devices.Length; i++)
-            {
-                deviceneed = devices[i];
-                int find = deviceneed.IndexOf("901D (");
-                int find2 = deviceneed.IndexOf("9091 (");
-                if (find != -1 || find2 != -1)
-                    break;
-            }
-            string[] device = deviceneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-            string[] dev = device[device.Length - 1].Split('(', ')');
-            int back = Onlynum(dev[1]);
-            return back;
-        }
+
         public static int Onlynum(string text)//只保留数字
         {
             string[] size = text.Split('.');

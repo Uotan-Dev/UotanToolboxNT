@@ -88,7 +88,7 @@ namespace UotanToolbox.Common
         }
         public static async Task<string> QCNTool(string shell)
         {
-            string cmd = "bin\\Windows\\qcntool.exe";
+            string cmd = "bin\\Windows\\QCNTool.exe";
             ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,

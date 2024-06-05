@@ -9,6 +9,7 @@
 		<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
 		<PublishAot>False</PublishAot>
+		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <Optimize>False</Optimize>
@@ -43,7 +44,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Remove="Assets\OIG.N5o-removebg-preview.png" />
 		<AvaloniaResource Include="Assets\OIG.N5o-removebg-preview.png" />
 	</ItemGroup>
 
@@ -82,5 +82,12 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Assets\OIG.N5o-removebg-preview.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 </Project>

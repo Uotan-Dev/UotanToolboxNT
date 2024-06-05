@@ -197,7 +197,7 @@ public partial class DashboardViewModel : MainPageBase
                 if (RecFile != null)
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile}\"");
-                    if (output.Contains("FAILED") && output.Contains("error"))
+                    if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
                         var newDialog = new ConnectionDialog("刷入成功！是否重启到Recovery？");
                         await SukiHost.ShowDialogAsync(newDialog);

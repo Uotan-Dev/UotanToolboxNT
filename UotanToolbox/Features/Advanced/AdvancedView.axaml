@@ -124,7 +124,7 @@
 								         theme:TextBoxExtensions.AddDeleteButton="False"/>
 								<Button Height="35"
 										Padding="10,0,10,0"
-										Click="OpenQcnFile">
+										Click="OpenEmptyFile">
 									选择文件
 								</Button>
 							</StackPanel>
@@ -135,7 +135,7 @@
 									<Button Width="125"
 											HorizontalAlignment="Left"
 											Padding="8"
-											Command="{Binding WriteQcnCommand}">
+											Command="{Binding FlashSuperEmptyCommand}">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="PencilAddOutline" />
 											刷入文件
@@ -308,7 +308,7 @@
 					           VerticalAlignment="Top"
 					           FontWeight="DemiBold"
 					           Text="输出" />
-					<TextBox Margin="0,20,0,0" Height="190" AcceptsReturn="True" IsReadOnly="True"
+					<TextBox Name="AdvancedLog" Text="{Binding AdvancedLog, Mode=TwoWay}" Margin="0,20,0,0" Height="190" AcceptsReturn="True" IsReadOnly="True"
 							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="0" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>

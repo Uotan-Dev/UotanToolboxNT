@@ -25,4 +25,18 @@ public partial class AdvancedView : UserControl
             QcnFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
+
+    private async void OpenEmptyFile(object sender, RoutedEventArgs args)
+    {
+        var topLevel = TopLevel.GetTopLevel(this);
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Open SuperEmpty File",
+            AllowMultiple = false
+        });
+        if (files.Count >= 1)
+        {
+            SuperEmptyFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+        }
+    }
 }

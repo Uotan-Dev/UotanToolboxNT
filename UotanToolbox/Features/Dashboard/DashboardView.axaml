@@ -33,7 +33,7 @@
 							<TextBlock VerticalAlignment="Center">解锁文件解锁: </TextBlock>
 							<TextBox Width="353" Name="UnlockFile" Text="{Binding UnlockFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
 							<Button Height="35"
-									Click="OpenFileButton_Clicked">
+									Click="OpenUnlockFile">
 								选择文件
 							</Button>
 						</StackPanel>
@@ -181,24 +181,24 @@
 									Text="修补Boot" />
 						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
 							<TextBlock Width="60" VerticalAlignment="Center">选择面具: </TextBlock>
-							<TextBox Width="385" Name="MagiskFile" Text="{Binding RecFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-							<Button Height="35" Click ="OpenRecFile">选择文件</Button>
+							<TextBox Width="385" Name="MagiskFile" Text="{Binding MagiskFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Height="35" Click ="OpenMagiskFile">选择文件</Button>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
 							<TextBlock Width="60" VerticalAlignment="Center">选择Boot: </TextBlock>
-							<TextBox Width="385" Name="BootFile" Text="{Binding RecFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-							<Button Height="35" Click ="OpenRecFile">选择文件</Button>
+							<TextBox Width="385" Name="BootFile" Text="{Binding BootFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Height="35" Click ="OpenBootFile">选择文件</Button>
 						</StackPanel>
 						<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
 							<StackPanel Orientation="Horizontal" Spacing="75">
-								<RadioButton FontSize="13" Content="保留AVB2.0/dm-verity" GroupName="FormatContent"/>
-								<RadioButton FontSize="13" Content="保持强加密" GroupName="FormatContent" />
-								<RadioButton FontSize="13" Content="修补vbmeta标记" GroupName="FormatContent" />
+								<CheckBox FontSize="13" Content="保留AVB2.0/dm-verity" IsChecked="True"/>
+								<CheckBox FontSize="13" Content="保持强加密" IsChecked="True"/>
+								<CheckBox FontSize="13" Content="修补vbmeta标记"/>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal" Spacing="112" Margin="0,-10,0,0">
-								<RadioButton FontSize="13" Content="安装到Recovery" GroupName="FormatContent"/>
-								<RadioButton FontSize="13" Content="强开rootfs" GroupName="FormatContent" />
-								<ComboBox Width="135" Margin="-37,0,0,0" ItemsSource="" />
+							<StackPanel Orientation="Horizontal" Spacing="111.5" Margin="0,-10,0,0">
+								<CheckBox FontSize="13" Content="安装到Recovery"/>
+								<CheckBox FontSize="13" Content="强开rootfs" IsChecked="True"/>
+								<ComboBox Width="135" Margin="-36,0,0,0" ItemsSource="{Binding ArchList}" />
 							</StackPanel>
 						</StackPanel>
 						<StackPanel Spacing="15">

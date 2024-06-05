@@ -16,7 +16,7 @@ public partial class DashboardView : UserControl
         InitializeComponent();
     }
 
-    private async void OpenFileButton_Clicked(object sender, RoutedEventArgs args)
+    private async void OpenUnlockFile(object sender, RoutedEventArgs args)
     {
         var topLevel = TopLevel.GetTopLevel(this);
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
@@ -41,6 +41,34 @@ public partial class DashboardView : UserControl
         if (files.Count >= 1)
         {
             RecFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+        }
+    }
+
+    private async void OpenMagiskFile(object sender, RoutedEventArgs args)
+    {
+        var topLevel = TopLevel.GetTopLevel(this);
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Open File",
+            AllowMultiple = false
+        });
+        if (files.Count >= 1)
+        {
+            MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+        }
+    }
+
+    private async void OpenBootFile(object sender, RoutedEventArgs args)
+    {
+        var topLevel = TopLevel.GetTopLevel(this);
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Open File",
+            AllowMultiple = false
+        });
+        if (files.Count >= 1)
+        {
+            BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
 

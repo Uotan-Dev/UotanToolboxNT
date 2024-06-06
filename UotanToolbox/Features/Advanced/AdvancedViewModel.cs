@@ -9,6 +9,7 @@ using SukiUI.MessageBox;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,6 +26,71 @@ public partial class AdvancedViewModel : MainPageBase
     {
     }
 
+    public async Task QCNTool(string shell)
+    {
+        await Task.Run(() =>
+        {
+            string cmd = "bin\\Windows\\QCNTool.exe";
+            ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process qcn = new Process();
+            qcn.StartInfo = qcntool;
+            qcn.Start();
+            qcn.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
+            qcn.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            qcn.BeginOutputReadLine();
+            qcn.BeginErrorReadLine();
+            qcn.WaitForExit();
+            qcn.Close();
+        });
+    }
+
+    public async Task Fastboot(string fbshell)//Fastboot实时输出
+    {
+        await Task.Run(() =>
+        {
+            string cmd;
+            if (Global.System == "Windows")
+            {
+                cmd = "bin\\Windows\\adb\\fastboot.exe";
+            }
+            else
+            {
+                cmd = $"bin/{Global.System}/adb/fastboot";
+            }
+            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process fb = new Process();
+            fb.StartInfo = fastboot;
+            fb.Start();
+            fb.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
+            fb.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            fb.BeginOutputReadLine();
+            fb.BeginErrorReadLine();
+            fb.WaitForExit();
+            fb.Close();
+        });
+    }
+
+    private void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
+    {
+        if (!String.IsNullOrEmpty(outLine.Data))
+        {
+            StringBuilder sb = new StringBuilder(AdvancedLog);
+            AdvancedLog = sb.AppendLine(outLine.Data).ToString();
+        }
+    }
+
     [RelayCommand]
     private async Task WriteQcn()
     {
@@ -32,14 +98,14 @@ public partial class AdvancedViewModel : MainPageBase
         if (QcnFile != null)
         {
             string qcnfilepatch = QcnFile;
-            string usbdevices = await CallExternalProgram.Devcon("find usb*");
-            if (usbdevices.Contains("901D (") || usbdevices.Contains("9091 ("))
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == "901D " || sukiViewModel.Status == "9091 ")
             {
+                AdvancedLog = "正在写入...";
                 int com = StringHelper.Onlynum(Global.thisdevice);
                 string shell = string.Format("-w -p {0} -f \"{1}\"", com, qcnfilepatch);
-                string output = await CallExternalProgram.QCNTool(shell);
-                AdvancedLog = output;
-                if (output.Contains("error"))
+                await QCNTool(shell);
+                if (AdvancedLog.Contains("error"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("写入失败"), allowBackgroundClose: true);
                 }
@@ -62,15 +128,14 @@ public partial class AdvancedViewModel : MainPageBase
     private async Task BackupQcn()
     {
         // Backup QCN file
-        _ = QcnFile;
-        string usbdevices = await CallExternalProgram.Devcon("find usb*");
-        if (usbdevices.Contains("901D (") || usbdevices.Contains("9091 ("))
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        if (sukiViewModel.Status == "901D " || sukiViewModel.Status == "9091 ")
         {
+            AdvancedLog = "正在备份...";
             int com = StringHelper.Onlynum(Global.thisdevice);
-            string shell = string.Format("-r -p {0} -f {1}\\backup", com, System.IO.Directory.GetCurrentDirectory());
-            string output = await CallExternalProgram.QCNTool(shell);
-            AdvancedLog = output;
-            if (output.Contains("error"))
+            string shell = string.Format("-r -p {0} -f {1}\\backup -n 00000.qcn", com, Global.runpath);
+            await QCNTool(shell);
+            if (AdvancedLog.Contains("error"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("备份失败"), allowBackgroundClose: true);
             }
@@ -115,11 +180,14 @@ public partial class AdvancedViewModel : MainPageBase
             {
                 if (SuperEmptyFile != null)
                 {
-                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile}\"");
-                    AdvancedLog = output;
-                    if (!output.Contains("FAILED") && !output.Contains("error"))
+                    AdvancedLog = "正在刷入...";
+                    await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile}\"");
+                    if (!AdvancedLog.Contains("FAILED") && !AdvancedLog.Contains("error"))
                     {
-                        
+                        await Dispatcher.UIThread.InvokeAsync(() =>
+                        {
+                            SukiHost.ShowDialog(new ConnectionDialog("刷入成功！"), allowBackgroundClose: true);
+                        });
                     }
                     else
                     {

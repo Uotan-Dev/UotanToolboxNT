@@ -304,12 +304,8 @@
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<Grid>
-					<TextBlock HorizontalAlignment="Left"
-					           VerticalAlignment="Top"
-					           FontWeight="DemiBold"
-					           Text="输出" />
-					<TextBox Name="AdvancedLog" Text="{Binding AdvancedLog, Mode=TwoWay}" Margin="0,20,0,0" Height="190" AcceptsReturn="True" IsReadOnly="True"
-							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="0" CornerRadius="10" />
+					<TextBox Name="AdvancedLog" Watermark="日志输出" Text="{Binding AdvancedLog, Mode=TwoWay}" Margin="0" Height="210" AcceptsReturn="True" IsReadOnly="True"
+							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>
 		</WrapPanel>

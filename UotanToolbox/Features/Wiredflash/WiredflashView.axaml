@@ -184,12 +184,8 @@
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<Grid VerticalAlignment="Top">
-					<TextBlock HorizontalAlignment="Left"
-					           VerticalAlignment="Top"
-					           FontWeight="DemiBold"
-					           Text="输出" />
-					<TextBox Margin="0,20,0,0" Height="280" AcceptsReturn="True" IsReadOnly="True"
-							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="0" CornerRadius="10" />
+					<TextBox Watermark="日志输出" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
+							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>
 		</WrapPanel>

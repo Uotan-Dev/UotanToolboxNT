@@ -57,7 +57,7 @@ public class SukiSideMenuItem : ListBoxItem
         if (e.Handled)
             return;
 
-        if (!e.Handled && ItemsControl.ItemsControlFromItemContainer(this) is SukiSideMenu owner)
+        if (!e.Handled && ItemsControl.ItemsControlFromItemContaner(this) is SukiSideMenu owner)
         {
             var p = e.GetCurrentPoint(this);
 

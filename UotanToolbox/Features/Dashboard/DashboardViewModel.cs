@@ -13,6 +13,7 @@ namespace UotanToolbox.Features.Dashboard;
 public partial class DashboardViewModel : MainPageBase
 {
     public AvaloniaList<string> SimpleContent { get; } = [];
+    public AvaloniaList<string> ArchList { get; } = [];
     [ObservableProperty] private string _name;
     [ObservableProperty] private int _stepperIndex;
     [ObservableProperty] private string _selectedSimpleContent;
@@ -22,11 +23,14 @@ public partial class DashboardViewModel : MainPageBase
     [ObservableProperty] private string _unlockFile;
     [ObservableProperty] private string _unlockCode;
     [ObservableProperty] private string _recFile;
+    [ObservableProperty] private string _magiskFile;
+    [ObservableProperty] private string _bootFile;
 
     public DashboardViewModel() : base("刷入", MaterialIconKind.CableData, -1000)
     {
         StepperIndex = 1;
         SimpleContent.AddRange(["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"]);
+        ArchList.AddRange(["arm_64", "arm_32", "x86_64", "x86_32"]);
     }
 
     [RelayCommand]
@@ -193,7 +197,7 @@ public partial class DashboardViewModel : MainPageBase
                 if (RecFile != null)
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile}\"");
-                    if (output.Contains("FAILED") && output.Contains("error"))
+                    if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
                         var newDialog = new ConnectionDialog("刷入成功！是否重启到Recovery？");
                         await SukiHost.ShowDialogAsync(newDialog);

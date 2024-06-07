@@ -219,30 +219,47 @@ namespace UotanToolbox.Common
             }
             return path;
         }
-        public static int FindDIAGCom(string usbdevice)//查找端口
+
+        public static int TextBoxLine(string info)
         {
-            char[] charSeparators = new char[] { ' ' };
-            string[] devices = usbdevice.Split('\n');
-            string deviceneed = "";
-            for (int i = 0; i < devices.Length; i++)
-            {
-                deviceneed = devices[i];
-                int find = deviceneed.IndexOf("901D (");
-                int find2 = deviceneed.IndexOf("9091 (");
-                if (find != -1 || find2 != -1)
-                    break;
-            }
-            string[] device = deviceneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-            string[] dev = device[device.Length - 1].Split('(', ')');
-            int back = Onlynum(dev[1]);
-            return back;
+            string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            return Lines.Length;
         }
+
         public static int Onlynum(string text)//只保留数字
         {
             string[] size = text.Split('.');
             string num = Regex.Replace(size[0], @"[^0-9]+", "");
             int numint = int.Parse(num);
             return numint;
+        }
+
+        public static string Partno(string parttable, string findpart)//分区号
+        {
+            char[] charSeparators = new char[] { ' ' };
+            string[] parts = parttable.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string partneed = "";
+            string[] partno = null;
+            for (int i = 6; i < parts.Length; i++)
+            {
+                partneed = parts[i];
+                int find = partneed.IndexOf(findpart);
+                if (find != -1)
+                {
+                    partno = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                    if (partno.Length == 5)
+                    {
+                        if (partno[4] == findpart)
+                            return partno[0];
+                    }
+                    else
+                    {
+                        if (partno[4] == findpart || partno[5] == findpart)
+                            return partno[0];
+                    }
+                }
+            }
+            return null;
         }
     }
 }

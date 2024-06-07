@@ -15,6 +15,15 @@ namespace SukiUI.Controls;
 
 public class SukiSideMenu : SelectingItemsControl
 {
+    public static readonly StyledProperty<bool> IsToggleButtonVisibleProperty =
+        AvaloniaProperty.Register<SukiSideMenu, bool>(nameof(IsToggleButtonVisible), defaultValue: true);
+
+    public bool IsToggleButtonVisible
+    {
+        get => GetValue(IsToggleButtonVisibleProperty);
+        set => SetValue(IsToggleButtonVisibleProperty, value);
+    }
+
     public static readonly StyledProperty<bool> IsMenuExpandedProperty =
         AvaloniaProperty.Register<SukiSideMenu, bool>(nameof(IsMenuExpanded), defaultValue: true);
 

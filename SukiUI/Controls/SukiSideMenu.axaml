@@ -12,11 +12,12 @@
                            OpenPaneLength="{TemplateBinding OpenPaneLength}">
                     <SplitView.Pane>
                         <Border>
-                            <Grid Background="Transparent">
-                                <suki:GlassCard Name="Glass" IsAnimated="False"
+							<Grid Background="Transparent">
+								<suki:GlassCard Name="Glass"
                                                 BorderThickness="0"
-                                                CornerRadius="0" />
-                                <DockPanel>
+                                                CornerRadius="0"
+                                                IsAnimated="False" />
+								<DockPanel>
                                     <Button Name="PART_SidebarToggleButton"
                                             Margin="7"
                                             HorizontalAlignment="{TemplateBinding TogglePaneButtonPosition}"

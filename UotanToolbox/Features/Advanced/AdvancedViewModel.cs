@@ -100,7 +100,7 @@ public partial class AdvancedViewModel : MainPageBase
         {
             string qcnfilepatch = QcnFile;
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "901D " || sukiViewModel.Status == "9091 ")
+            if (sukiViewModel.Status == "901D" || sukiViewModel.Status == "9091")
             {
                 AdvancedLog = "正在写入...";
                 int com = StringHelper.Onlynum(Global.thisdevice);
@@ -117,7 +117,7 @@ public partial class AdvancedViewModel : MainPageBase
              }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("无可用设备"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请先开启901D/9091端口！"), allowBackgroundClose: true);
             }
         }
         else
@@ -130,7 +130,7 @@ public partial class AdvancedViewModel : MainPageBase
     {
         // Backup QCN file
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == "901D " || sukiViewModel.Status == "9091 ")
+        if (sukiViewModel.Status == "901D" || sukiViewModel.Status == "9091")
         {
             AdvancedLog = "正在备份...";
             int com = StringHelper.Onlynum(Global.thisdevice);
@@ -147,28 +147,58 @@ public partial class AdvancedViewModel : MainPageBase
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("无可用设备"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("请先开启901D/9091端口！"), allowBackgroundClose: true);
         }
     }
     [RelayCommand]
-    private static Task OpenBackup()
+    private void OpenBackup()
     {
         // Open QCN backup file directory
         string filepath = string.Format(@"{0}\backup", System.IO.Directory.GetCurrentDirectory());
         Process.Start("Explorer.exe", filepath);
-        return Task.CompletedTask;
     }
 
     [RelayCommand]
-    private static Task Enable901d()
+    private async Task Enable901d()
     {
-        return Task.CompletedTask;
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        if (sukiViewModel.Status == "系统")
+        {
+            var newDialog = new ConnectionDialog("该操作需要ROOT权限，请确保手机已ROOT，\n\r并在接下来的弹窗中授予 Shell ROOT权限！");
+            await SukiHost.ShowDialogAsync(newDialog);
+            if (newDialog.Result == true)
+            {
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
+                SukiHost.ShowDialog(new ConnectionDialog("执行完成，请查看您的设备！"), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new ConnectionDialog("请将设备进入系统后执行！"), allowBackgroundClose: true);
+        }
     }
 
     [RelayCommand]
-    private static Task Enable9091()
+    private async Task Enable9091()
     {
-        return Task.CompletedTask;
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        if (sukiViewModel.Status == "系统")
+        {
+            var newDialog = new ConnectionDialog("该操作仅限小米设备！其它设备将无法使用！");
+            await SukiHost.ShowDialogAsync(newDialog);
+            if (newDialog.Result == true)
+            {
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} push bin/apk/mi_diag.apk /sdcard");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
+                SukiHost.ShowDialog(new ConnectionDialog("已将名为\"mi_diag.apk\"的文件推送至设备根目录，请安装完成后点击确定！"), allowBackgroundClose: true);
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new ConnectionDialog("请将设备进入系统后执行！"), allowBackgroundClose: true);
+        }
     }
 
     [RelayCommand]
@@ -186,34 +216,22 @@ public partial class AdvancedViewModel : MainPageBase
                     await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile}\"");
                     if (!AdvancedLog.Contains("FAILED") && !AdvancedLog.Contains("error"))
                     {
-                        await Dispatcher.UIThread.InvokeAsync(() =>
-                        {
-                            SukiHost.ShowDialog(new ConnectionDialog("刷入成功！"), allowBackgroundClose: true);
-                        });
+                        SukiHost.ShowDialog(new ConnectionDialog("刷入成功！"), allowBackgroundClose: true);
                     }
                     else
                     {
-                        await Dispatcher.UIThread.InvokeAsync(() =>
-                        {
-                            SukiHost.ShowDialog(new ConnectionDialog("刷入失败！"), allowBackgroundClose: true);
-                        });
+                        SukiHost.ShowDialog(new ConnectionDialog("刷入失败！"), allowBackgroundClose: true);
                     }
                     Flashing = false;
                 }
                 else
                 {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        SukiHost.ShowDialog(new ConnectionDialog("请选择SuperEmpty文件！"), allowBackgroundClose: true);
-                    });
+                    SukiHost.ShowDialog(new ConnectionDialog("请选择SuperEmpty文件！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
-                });
+                SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
             }
         }
     }

@@ -25,5 +25,15 @@ namespace UotanToolbox.Common
                 throw;
             }
         }
+
+        public static void Write(string file, string text)//写入到txt文件
+        {
+            FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write);
+            StreamWriter sw = new StreamWriter(fs);
+            sw.Write(text);
+            sw.Flush();
+            sw.Close();
+            fs.Close();
+        }
     }
 }

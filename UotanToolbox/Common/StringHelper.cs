@@ -220,6 +220,12 @@ namespace UotanToolbox.Common
             return path;
         }
 
+        public static int TextBoxLine(string info)
+        {
+            string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            return Lines.Length;
+        }
+
         public static int Onlynum(string text)//只保留数字
         {
             string[] size = text.Split('.');

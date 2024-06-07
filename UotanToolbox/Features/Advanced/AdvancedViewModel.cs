@@ -21,6 +21,7 @@ namespace UotanToolbox.Features.Advanced;
 public partial class AdvancedViewModel : MainPageBase
 {
     [ObservableProperty] private string _qcnFile, _superEmptyFile, _formatName, _extractName, _advancedLog;
+    [ObservableProperty] private bool _flashing;
 
     public AdvancedViewModel() : base("高级", MaterialIconKind.WrenchCogOutline, -300)
     {
@@ -180,6 +181,7 @@ public partial class AdvancedViewModel : MainPageBase
             {
                 if (SuperEmptyFile != null)
                 {
+                    Flashing = true;
                     AdvancedLog = "正在刷入...";
                     await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile}\"");
                     if (!AdvancedLog.Contains("FAILED") && !AdvancedLog.Contains("error"))
@@ -196,6 +198,7 @@ public partial class AdvancedViewModel : MainPageBase
                             SukiHost.ShowDialog(new ConnectionDialog("刷入失败！"), allowBackgroundClose: true);
                         });
                     }
+                    Flashing = false;
                 }
                 else
                 {

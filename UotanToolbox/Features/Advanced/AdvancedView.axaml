@@ -105,47 +105,51 @@
 							Height="210"
                             Margin="10"
                             VerticalAlignment="Top">
-				<Grid>
-					<StackPanel Spacing="30">
-						<StackPanel>
-							<TextBlock HorizontalAlignment="Left"
-									   VerticalAlignment="Top"
-									   FontWeight="DemiBold"
-									   Text="SuperEmpty" />
-							<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-								<TextBlock Width="80"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="SuperEmpty" />
-								<TextBox Width="250" Name="SuperEmptyFile"
-								         Text="{Binding SuperEmptyFile, Mode=TwoWay}"
-								         theme:TextBoxExtensions.AddDeleteButton="False"/>
-								<Button Height="35"
-										Padding="10,0,10,0"
-										Click="OpenEmptyFile">
-									选择文件
-								</Button>
-							</StackPanel>
-						</StackPanel>
+				 <suki:BusyArea Name="BusyFlash"
+								BusyText="执行中 ..."
+								IsBusy="{Binding Flashing}">
+					<Grid>
 						<StackPanel Spacing="30">
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-									<Button Width="125"
-											HorizontalAlignment="Left"
-											Padding="8"
-											Command="{Binding FlashSuperEmptyCommand}">
-										<TextBlock>
-											<avalonia:MaterialIcon Kind="PencilAddOutline" />
-											刷入文件
-										</TextBlock>
+							<StackPanel>
+								<TextBlock HorizontalAlignment="Left"
+										   VerticalAlignment="Top"
+										   FontWeight="DemiBold"
+										   Text="SuperEmpty" />
+								<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+									<TextBlock Width="80"
+											   Margin="8,0,0,0"
+											   VerticalAlignment="Center"
+											   FontSize="13"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="SuperEmpty" />
+									<TextBox Width="250" Name="SuperEmptyFile"
+											 Text="{Binding SuperEmptyFile, Mode=TwoWay}"
+											 theme:TextBoxExtensions.AddDeleteButton="False"/>
+									<Button Height="35"
+											Padding="10,0,10,0"
+											Click="OpenEmptyFile">
+										选择文件
 									</Button>
 								</StackPanel>
 							</StackPanel>
+							<StackPanel Spacing="30">
+								<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+									<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+										<Button Width="125"
+												HorizontalAlignment="Left"
+												Padding="8"
+												Click="FlashSuperEmpty">
+											<TextBlock>
+												<avalonia:MaterialIcon Kind="PencilAddOutline" />
+												刷入文件
+											</TextBlock>
+										</Button>
+									</StackPanel>
+								</StackPanel>
+							</StackPanel>
 						</StackPanel>
-					</StackPanel>
-				</Grid>
+					</Grid>
+				</suki:BusyArea>
 			</suki:GlassCard>
 			
 			<!-- Format -->
@@ -304,7 +308,7 @@
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<Grid>
-					<TextBox Name="AdvancedLog" Watermark="日志输出" Text="{Binding AdvancedLog, Mode=TwoWay}" Margin="0" Height="210" AcceptsReturn="True" IsReadOnly="True"
+						<TextBox Name="AdvancedLog" Watermark="日志输出" Text="{Binding AdvancedLog, Mode=TwoWay}" Margin="0" Height="210" AcceptsReturn="True" IsReadOnly="True"
 							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>

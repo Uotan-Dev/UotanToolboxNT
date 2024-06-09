@@ -35,5 +35,13 @@ namespace UotanToolbox.Common
             sw.Close();
             fs.Close();
         }
+
+        public static string Readtxt(string path)//读取txt文档
+        {
+            StreamReader sr = new StreamReader(path);
+            string line = sr.ReadToEnd();
+            sr.Close();
+            return line;
+        }
     }
 }

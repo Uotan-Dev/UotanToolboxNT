@@ -17,9 +17,9 @@
 	</UserControl.DataContext>
 
 	<WrapPanel Margin="15"
-                   theme:WrapPanelExtensions.AnimatedScroll="True"
-                   Orientation="Horizontal">
-		<suki:GlassCard HorizontalAlignment="Left" Margin="10">
+               theme:WrapPanelExtensions.AnimatedScroll="True"
+               Orientation="Horizontal">
+		<suki:GlassCard Height="170" Width="464.25" HorizontalAlignment="Left" Margin="15" VerticalAlignment="Top">
 			<StackPanel Spacing="10">
 				<TextBlock HorizontalAlignment="Left"
 						   FontSize="15"
@@ -89,8 +89,8 @@
 		</suki:GlassCard>
 
 		<Grid Margin="15">
-			<suki:GlassCard Width="450"
-							Margin="0,0,0,25"
+			<suki:GlassCard Width="464.25"
+							Height="170"
 							VerticalAlignment="Top">
 				<Grid>
 					<suki:BusyArea Name="BusyConnection"
@@ -115,27 +115,28 @@
 									选择文件
 								</Button>
 							</StackPanel>
+							<Button Name="ButtonSignIn"
+									Width="150"
+									Height="40"
+									Margin="0,20,0,0"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Bottom"
+									theme:ButtonExtensions.ShowProgress="{Binding IsInstalling}"
+									Classes="Flat Rounded"
+									Command="{Binding InstallApkCommand}"
+									FontWeight="DemiBold">
+								开始安装
+							</Button>
 						</StackPanel>
 					</suki:BusyArea>
 				</Grid>
 			</suki:GlassCard>
-			<Button Name="ButtonSignIn"
-					Width="150"
-					Height="40"
-					Margin="0,0,0,7"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Bottom"
-					theme:ButtonExtensions.ShowProgress="{Binding IsInstalling}"
-					Classes="Flat Rounded"
-					Command="{Binding InstallApkCommand}"
-					FontWeight="DemiBold">
-				开始安装
-			</Button>
 		</Grid>
 
 		<suki:GlassCard Classes="Card"
-							Margin="10"
-							MaxHeight="500">
+						Margin="15"
+						Width="960"
+						Height="535">
 			<suki:BusyArea BusyText="获取中 ..."
 						   IsBusy="{Binding IsBusy}">
 				<ScrollViewer>
@@ -155,7 +156,7 @@
 								<ToggleSwitch IsChecked="{Binding IsSystemAppDisplayed}"/>
 							</StackPanel>
 						</DockPanel>
-						<TextBlock Text="暂未获取应用列表" Classes="h4" Margin="0,15,15,15"
+						<TextBlock Text="暂未获取应用列表" Classes="h4" Margin="15,15,15,15"
 								   IsVisible="{Binding !HasItems}" HorizontalAlignment="Left"/>
 						<ItemsControl ItemsSource="{Binding Applications}">
 							<ItemsControl.ItemsPanel>

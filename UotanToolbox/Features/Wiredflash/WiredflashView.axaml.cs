@@ -483,7 +483,7 @@ public partial class WiredflashView : UserControl
             {
                 if (sukiViewModel.Status == "Sideload")
                 {
-                    
+                    BusyFlash.IsBusy = true;
                     WiredflashLog.Text = "";
                     string shell = String.Format($"-s {Global.thisdevice} sideload \"{AdbSideloadFile.Text}\"");
                     await ADB(shell);

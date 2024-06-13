@@ -184,14 +184,7 @@ namespace UotanToolbox.Common
         public static async Task<string> SevenZip(string args)
         {
             string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\7z\\7z.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/7z/7zzs";
-            }
+            cmd = $"bin/{Global.System}/{(Global.System == "Windows" ? "7z\\7zr.exe" : Global.System == "MacOS" ? "7zz" : "7zzs")}";
             ProcessStartInfo SevenZipexe = new ProcessStartInfo(cmd, args)
             {
                 CreateNoWindow = true,

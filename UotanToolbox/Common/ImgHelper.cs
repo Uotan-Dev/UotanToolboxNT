@@ -10,4 +10,12 @@ namespace UotanToolbox.Common
     {
 
     }
+    public class BootImg(string ImgPath = "")
+    {
+        private readonly string _ImgPath =ImgPath;
+        public bool Init()
+        {
+            return true;
+        }
+    }
 }

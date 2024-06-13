@@ -50,6 +50,7 @@ namespace UotanToolbox.Common
                 byte[] bytes = File.ReadAllBytes(_filePath);
                 bytes[bytes.Length - 1] = target;
                 File.WriteAllBytes(_filePath, bytes);
+                SukiHost.ShowDialog(new ConnectionDialog("frp文件修补成功"), allowBackgroundClose: true);
                 return true;
             }
             catch

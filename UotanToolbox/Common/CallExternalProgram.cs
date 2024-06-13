@@ -181,5 +181,27 @@ namespace UotanToolbox.Common
             scrcpy.WaitForExit();
             return output;
         }
+        public static async Task<string> SevenZip(string args)
+        {
+            string cmd;
+            cmd = $"bin/{Global.System}/{(Global.System == "Windows" ? "7z\\7zr.exe" : Global.System == "MacOS" ? "7zz" : "7zzs")}";
+            ProcessStartInfo SevenZipexe = new ProcessStartInfo(cmd, args)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process SevenZip = new Process();
+            SevenZip.StartInfo = SevenZipexe;
+            SevenZip.Start();
+            string output = await SevenZip.StandardOutput.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await SevenZip.StandardError.ReadToEndAsync();
+            }
+            SevenZip.WaitForExit();
+            return output;
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace UotanToolbox.Common
         /// 使用file命令判断文件的类型和指令集。暂不支持FAT Binary多架构检测
         /// </summary>
         /// <param name="filePath">要检查的文件路径。</param>
-        /// <returns>file命令的输出结果，包含文件类型和可能的指令集信息。</returns>
+        /// <returns>file命令的输出结果，包含文件类型和指令集信息。</returns>
         /// <exception cref="FileNotFoundException">当指定的文件路径不存在时抛出。</exception>
         /// <summary>
         /// 调用file命令读取文件信息。

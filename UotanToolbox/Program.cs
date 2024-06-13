@@ -40,7 +40,7 @@ internal class Program
         }
         else if (OperatingSystem.IsMacOS())
         {
-            Global.System = "MacOS";
+            Global.System = "macOS";
             options.DefaultFamilyName = "MiSans";
         }
         // No need to set default for Windows

@@ -31,7 +31,7 @@
 					<StackPanel Orientation="Vertical" Margin="15 10 0 0">
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center">解锁文件解锁: </TextBlock>
-							<TextBox Width="353" Name="UnlockFile" Text="{Binding UnlockFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<TextBox Width="353" Name="UnlockFile" Text="{Binding UnlockFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="True"/>
 							<Button Height="35"
 									Click="OpenUnlockFile">
 								选择文件
@@ -40,7 +40,7 @@
 						<StackPanel Orientation="Vertical" Spacing="10">
 							<StackPanel Orientation="Horizontal" Spacing="20">
 								<TextBlock VerticalAlignment="Center">解锁码解锁: </TextBlock>
-								<TextBox Width="464" Text="{Binding UnlockCode, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+								<TextBox Width="464" Text="{Binding UnlockCode, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="True"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="120">
 								<Button Command="{Binding Unlock}">立即解锁</Button>

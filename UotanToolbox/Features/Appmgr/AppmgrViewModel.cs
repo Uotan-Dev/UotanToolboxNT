@@ -22,7 +22,6 @@ public partial class AppmgrViewModel : MainPageBase
     public AppmgrViewModel() : base("应用管理", MaterialIconKind.ViewGridPlusOutline, -700)
     {
         Applications = [];
-        _ = Connect();
     }
 
     [RelayCommand]

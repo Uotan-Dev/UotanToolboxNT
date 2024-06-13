@@ -24,3 +24,9 @@
 | Recommended environment | Extension |
 | --- | ----------- |
 | Visual Studio 2022 | Avalonia for Visual Studio 2022 |
+
+### Binary files
+
+All binary files used can be found [here](https://github.com/Uotan-Dev/UotanToolboxNT.Binary).
+
+To debug the project, you need to put the files above into `UotanToolboxNT\UotanToolbox\bin\Debug\net8.0\bin`.

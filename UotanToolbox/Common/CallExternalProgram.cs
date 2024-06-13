@@ -10,11 +10,11 @@ namespace UotanToolbox.Common
             string cmd;
             if (Global.System == "Windows")
             {
-                cmd = "bin\\Windows\\adb\\adb.exe";
+                cmd = "bin\\Windows\\platform-tools\\adb.exe";
             }
             else
             {
-                cmd = $"bin/{Global.System}/adb/adb";
+                cmd = $"bin/{Global.System}/platform-tools/adb";
             }
             ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
             {
@@ -40,11 +40,11 @@ namespace UotanToolbox.Common
             string cmd;
             if (Global.System == "Windows")
             {
-                cmd = "bin\\Windows\\adb\\fastboot.exe";
+                cmd = "bin\\Windows\\platform-tools\\fastboot.exe";
             }
             else
             {
-                cmd = $"bin/{Global.System}/adb/fastboot";
+                cmd = $"bin/{Global.System}/platform-tools/fastboot";
             }
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
@@ -88,7 +88,7 @@ namespace UotanToolbox.Common
         }
         public static async Task<string> QCNTool(string shell)
         {
-            string cmd = "bin\\Windows\\QCNTool.exe";
+            string cmd = "bin\\Windows\\qsml\\QCNTool.exe";
             ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
@@ -157,11 +157,11 @@ namespace UotanToolbox.Common
             string cmd;
             if (Global.System == "Windows")
             {
-                cmd = "bin\\Windows\\adb\\scrcpy.exe";
+                cmd = "bin\\Windows\\platform-tools\\scrcpy.exe";
             }
             else
             {
-                cmd = $"bin/{Global.System}/adb/scrcpy";
+                cmd = $"bin/{Global.System}/platform-tools/scrcpy";
             }
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, arg)
             {

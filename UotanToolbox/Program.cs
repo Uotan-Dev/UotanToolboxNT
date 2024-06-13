@@ -2,6 +2,7 @@
 using Avalonia.Media;
 using ShowMeTheXaml;
 using System;
+using System.Runtime.InteropServices;
 using UotanToolbox.Common;
 
 namespace UotanToolbox;
@@ -23,8 +24,19 @@ internal class Program
         if (OperatingSystem.IsLinux())
         {
             FileHelper.CopyDirectory("SukiUI/CustomFont/","/home/localhost/.local/share/fonts/");
-            Global.System = "Linux";
             options.DefaultFamilyName = "MiSans";
+            if(RuntimeInformation.OSArchitecture == Architecture.X64)
+            {
+                Global.System = "Linux_AMD64";
+            }
+            else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                Global.System = "Linux_AArch64";
+            }
+            else if (RuntimeInformation.OSArchitecture == Architecture.LoongArch64)
+            {
+                Global.System = "Linux_LoongArch64";
+            }
         }
         else if (OperatingSystem.IsMacOS())
         {

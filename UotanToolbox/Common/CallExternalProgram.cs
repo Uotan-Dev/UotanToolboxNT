@@ -110,7 +110,15 @@ namespace UotanToolbox.Common
 
         public static async Task<string> LsUSB()
         {
-            string cmd = "lsusb";
+            string cmd;
+            if (Global.System == "macOS")
+            {
+                cmd = "bin/macOS/lsusb/lsusb";
+            }
+            else
+            {
+                cmd = "lsusb";
+            }
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd)
             {
                 CreateNoWindow = true,

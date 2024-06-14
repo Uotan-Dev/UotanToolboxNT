@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace UotanToolbox.Common
@@ -209,6 +210,27 @@ namespace UotanToolbox.Common
                 output = await SevenZip.StandardError.ReadToEndAsync();
             }
             SevenZip.WaitForExit();
+            return output;
+        }
+        public static async Task<string> MagiskBoot(string shell)
+        {
+            string cmd=Path.Combine(Global.runpath,"Temp", "Img","magiskboot");
+            ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process mb = new Process();
+            mb.StartInfo = magiskboot;
+            mb.Start();
+            string output = await mb.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await mb.StandardOutput.ReadToEndAsync();
+            }
+            mb.WaitForExit();
             return output;
         }
     }

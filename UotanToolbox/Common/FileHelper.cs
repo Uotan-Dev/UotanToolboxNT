@@ -1,4 +1,5 @@
 ﻿using SkiaSharp;
+using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
 {
@@ -128,6 +130,41 @@ namespace UotanToolbox.Common
                     }
                     return sb.ToString();
                 }
+            }
+        }
+        /// <summary>
+        /// 删除指定目录及其所有内容。
+        /// </summary>
+        /// <param name="directoryPath">要删除的目录路径。</param>
+        /// <param name="recursive">是否递归删除子目录，默认为true。</param>
+        public static bool DeleteDirectory(string directoryPath, bool recursive = true)
+        {
+            try
+            {
+                if (Directory.Exists(directoryPath))
+                {
+                    Directory.Delete(directoryPath, recursive);
+                    return true;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (IOException ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"清理Temp时发生错误: {ex.Message}"), allowBackgroundClose: true);
+                return false;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"没有足够的权限删除Temp: {ex.Message}"), allowBackgroundClose: true);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"), allowBackgroundClose: true);
+                return false;
             }
         }
     }

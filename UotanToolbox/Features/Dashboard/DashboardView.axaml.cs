@@ -4,6 +4,7 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Controls;
 using System.Diagnostics;
+using System.IO;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
 
@@ -55,13 +56,20 @@ public partial class DashboardView : UserControl
         if (files.Count >= 1)
         {
             MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
-            string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{Global.runpath}\\Temp\\Magisk\" -y");
-            string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
-            string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
-            string MAGISK_VER = StringHelper.FileRegex(Global.runpath + @"\temp\Magisk\assets\util_functions.sh", pattern_MAGISK_VER, 1);
-            string MAGISK_VER_CODE = StringHelper.FileRegex(Global.runpath + @"\temp\Magisk\assets\util_functions.sh", pattern_MAGISK_VER_CODE, 1);
-            string md5 =FileHelper.Md5Hash(Global.runpath + @"\temp\Magisk\assets\boot_patch.sh");
-            bool Magisk_Valid = StringHelper.Magisk_Validation(md5, MAGISK_VER, MAGISK_VER_CODE);
+            string outputpath = Path.Combine(Global.runpath,"Temp","Magisk");
+            bool istempclean =FileHelper.DeleteDirectory(outputpath);
+            if (istempclean)
+            {
+                string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{outputpath}\" -y");
+                string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
+                string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
+                string Magisk_sh_path = Path.Combine(outputpath, "assets", "util_functions.sh");
+                string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
+                string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
+                string BOOT_PATCH_PATH = Path.Combine(outputpath, "assets", "boot_patch.sh");
+                string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
+                bool Magisk_Valid = StringHelper.Magisk_Validation(md5, MAGISK_VER, MAGISK_VER_CODE);
+            }
         }
     }
 

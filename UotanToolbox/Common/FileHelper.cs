@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -104,6 +105,28 @@ namespace UotanToolbox.Common
                 catch (Exception ex)
                 {
                     throw new IOException($"Failed to execute '{command} {arguments}'.", ex);
+                }
+            }
+        }
+        /// <summary>
+        /// 计算给定文件的MD5特征码
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <returns>给定文件的MD5特征码（十六进制小写字符串）</returns>
+        public static string Md5Hash(string filePath)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                using (FileStream stream = File.OpenRead(filePath))
+                {
+                    byte[] hashBytes = md5.ComputeHash(stream);
+                    // 将字节数组转换为十六进制字符串表示形式，方便匹配字典
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < hashBytes.Length; i++)
+                    {
+                        sb.Append(hashBytes[i].ToString("x2"));
+                    }
+                    return sb.ToString();
                 }
             }
         }

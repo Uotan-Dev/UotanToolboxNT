@@ -26,11 +26,11 @@ public partial class WiredflashView : UserControl
             string cmd;
             if (Global.System == "Windows")
             {
-                cmd = "bin\\Windows\\adb\\fastboot.exe";
+                cmd = "bin\\Windows\\platform-tools\\fastboot.exe";
             }
             else
             {
-                cmd = $"bin/{Global.System}/adb/fastboot";
+                cmd = $"bin/{Global.System}/platform-tools/fastboot";
             }
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
@@ -58,11 +58,11 @@ public partial class WiredflashView : UserControl
             string cmd;
             if (Global.System == "Windows")
             {
-                cmd = "bin\\Windows\\adb\\adb.exe";
+                cmd = "bin\\Windows\\platform-tools\\adb.exe";
             }
             else
             {
-                cmd = $"bin/{Global.System}/adb/adb";
+                cmd = $"bin/{Global.System}/platform-tools/adb";
             }
             ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
             {
@@ -90,11 +90,11 @@ public partial class WiredflashView : UserControl
             string wkdir;
             if (Global.System == "Windows")
             {
-                wkdir = $"{exepatch}\\Windows\\bin\\adb";
+                wkdir = $"{exepatch}\\Windows\\bin\\platform-tools";
             }
             else
             {
-                wkdir = $"{exepatch}/bin/{Global.System}/adb";
+                wkdir = $"{exepatch}/bin/{Global.System}/platform-tools";
             }
             Process process = null;
             process = new Process();

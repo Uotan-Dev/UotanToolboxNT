@@ -26,11 +26,11 @@ public partial class CustomizedflashView : UserControl
             string cmd;
             if (Global.System == "Windows")
             {
-                cmd = "bin\\Windows\\adb\\fastboot.exe";
+                cmd = "bin\\Windows\\platform-tools\\fastboot.exe";
             }
             else
             {
-                cmd = $"bin/{Global.System}/adb/fastboot";
+                cmd = $"bin/{Global.System}/platform-tools/fastboot";
             }
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {

@@ -154,7 +154,7 @@ public partial class AdvancedViewModel : MainPageBase
     private void OpenBackup()
     {
         // Open QCN backup file directory
-        string filepath = string.Format(@"{0}\backup", System.IO.Directory.GetCurrentDirectory());
+        string filepath = string.Format(@"{0}\backup", Global.runpath);
         Process.Start("Explorer.exe", filepath);
     }
 

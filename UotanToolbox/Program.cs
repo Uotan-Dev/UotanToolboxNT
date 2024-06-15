@@ -22,8 +22,7 @@ internal class Program
     public static AppBuilder BuildAvaloniaApp()
     {
         Global.runpath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);//获取工具运行路径
-        Global.bin_path = Path.Combine(Global.runpath, "bin", Global.System);
-    FontManagerOptions options = new();
+        FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
         {
             FileHelper.CopyDirectory("SukiUI/CustomFont/","/home/localhost/.local/share/fonts/");
@@ -46,6 +45,7 @@ internal class Program
             Global.System = "macOS";
             options.DefaultFamilyName = "MiSans";
         }
+        Global.bin_path = Path.Combine(Global.runpath, "bin", Global.System);
         // No need to set default for Windows
         return AppBuilder.Configure<App>()
                 .UsePlatformDetect()

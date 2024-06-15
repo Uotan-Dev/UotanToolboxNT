@@ -135,21 +135,18 @@ public partial class DashboardView : UserControl
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
                     ArchList.SelectedItem = "aarch64";
-                }
-                if (init_info.Contains("X86-64"))
+                }else if (init_info.Contains("X86-64"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
                     ArchList.SelectedItem = "X86-64";
-                }
-                if (init_info.Contains("X86-64"))
+                }else if (init_info.Contains("ARM,"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
-                    ArchList.SelectedItem = "X86-64";
-                }
-                if (init_info.Contains("X86-64"))
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"), allowBackgroundClose: true);
+                    ArchList.SelectedItem = "armeabi";
+                }else if (init_info.Contains(" Intel 80386"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
-                    ArchList.SelectedItem = "X86-64";
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"), allowBackgroundClose: true);
+                    ArchList.SelectedItem = "X86";
                 }
             }
         }

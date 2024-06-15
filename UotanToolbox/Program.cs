@@ -45,6 +45,7 @@ internal class Program
             Global.System = "macOS";
             options.DefaultFamilyName = "MiSans";
         }
+        Global.bin_path = Path.Combine(Global.runpath, "bin", Global.System);
         // No need to set default for Windows
         return AppBuilder.Configure<App>()
                 .UsePlatformDetect()

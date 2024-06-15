@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace UotanToolbox.Common
@@ -7,15 +8,7 @@ namespace UotanToolbox.Common
     {
         public static async Task<string> ADB(string adbshell)
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\adb.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/adb";
-            }
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
             ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
             {
                 CreateNoWindow = true,
@@ -37,15 +30,7 @@ namespace UotanToolbox.Common
 
         public static async Task<string> Fastboot(string fbshell)
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\fastboot.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/fastboot";
-            }
+            string cmd=Path.Combine(Global.bin_path, "platform-tools","fastboot");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,
@@ -162,15 +147,7 @@ namespace UotanToolbox.Common
 
         public static async Task<string> Scrcpy(string arg)
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\scrcpy.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/scrcpy";
-            }
+            string cmd=Path.Combine(Global.bin_path, "platform-tools", "scrcpy");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, arg)
             {
                 CreateNoWindow = true,
@@ -209,6 +186,29 @@ namespace UotanToolbox.Common
                 output = await SevenZip.StandardError.ReadToEndAsync();
             }
             SevenZip.WaitForExit();
+            return output;
+        }
+        public static async Task<string> MagiskBoot(string shell)
+        {
+            string cmd=Path.Combine(Global.bin_path,"magiskboot");
+            string workpath = Path.Combine(Global.runpath, "Temp", "Boot");
+            Directory.SetCurrentDirectory(workpath);
+            ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process mb = new Process();
+            mb.StartInfo = magiskboot;
+            mb.Start();
+            string output = await mb.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await mb.StandardOutput.ReadToEndAsync();
+            }
+            mb.WaitForExit();
             return output;
         }
     }

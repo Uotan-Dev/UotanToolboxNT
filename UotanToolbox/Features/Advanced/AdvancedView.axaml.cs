@@ -4,6 +4,7 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Controls;
 using System;
+using System.IO;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ public partial class AdvancedView : UserControl
     {
         InitializeComponent();
     }
-
+    private readonly static string adb_log_path = Path.Combine(Global.runpath, "log", "adb.txt");
     public async Task QCNTool(string shell)
     {
         await Task.Run(() =>
@@ -47,15 +48,7 @@ public partial class AdvancedView : UserControl
     {
         await Task.Run(() =>
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\fastboot.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/fastboot";
-            }
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,
@@ -79,15 +72,7 @@ public partial class AdvancedView : UserControl
     {
         await Task.Run(() =>
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\adb.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/adb";
-            }
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
             ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
             {
                 CreateNoWindow = true,
@@ -331,7 +316,7 @@ public partial class AdvancedView : UserControl
                         string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
                         string shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of={partname}.img");
                         await ADB(shell);
-                        FileHelper.Write("log\\adb.txt", AdvancedLog.Text);
+                        FileHelper.Write(adb_log_path, AdvancedLog.Text);
                         if (AdvancedLog.Text.Contains("No space left on device"))
                         {
                             AdvancedLog.Text = "根目录空间不足，正在尝试使用Data分区...";
@@ -426,7 +411,7 @@ public partial class AdvancedView : UserControl
                         string devicepoint = line[line.Length - 1];
                         shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of={partname}.img");
                         await ADB(shell);
-                        FileHelper.Write("log\\adb.txt", AdvancedLog.Text);
+                        FileHelper.Write(adb_log_path, AdvancedLog.Text);
                         if (AdvancedLog.Text.Contains("No space left on device"))
                         {
                             AdvancedLog.Text = "根目录空间不足，正在尝试使用Data分区...";
@@ -505,6 +490,6 @@ public partial class AdvancedView : UserControl
     private async void OpenExtractFile(object sender, RoutedEventArgs args)
     {
         string filepath = string.Format(@"{0}\backup", System.IO.Directory.GetCurrentDirectory());
-        Process.Start("Explorer.exe", filepath);
+        FileHelper.OpenFolder(filepath);
     }
 }

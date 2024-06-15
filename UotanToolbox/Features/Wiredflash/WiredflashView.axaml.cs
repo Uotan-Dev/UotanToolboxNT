@@ -4,6 +4,7 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Controls;
 using System;
+using System.IO;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace UotanToolbox.Features.Wiredflash;
 
 public partial class WiredflashView : UserControl
 {
+    private readonly string adb_log_path=Path.Combine(Global.runpath,"log","adb.txt");
+
     public WiredflashView()
     {
         InitializeComponent();
@@ -23,15 +26,7 @@ public partial class WiredflashView : UserControl
     {
         await Task.Run(() =>
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\fastboot.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/fastboot";
-            }
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,
@@ -55,15 +50,7 @@ public partial class WiredflashView : UserControl
     {
         await Task.Run(() =>
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\adb.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/adb";
-            }
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
             ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
             {
                 CreateNoWindow = true,
@@ -211,7 +198,7 @@ public partial class WiredflashView : UserControl
                         {
                             string shell = String.Format($"-s {Global.thisdevice} flash {fbflashparts[i]} \"{imgpath}\\{fbflashparts[i]}.img\"");
                             await Fastboot(shell);
-                            FileHelper.Write("log\\adb.txt", WiredflashLog.Text);
+                            FileHelper.Write(adb_log_path, WiredflashLog.Text);
                             if (WiredflashLog.Text.Contains("FAILED") || WiredflashLog.Text.Contains("error"))
                             {
                                 succ = false;
@@ -221,7 +208,7 @@ public partial class WiredflashView : UserControl
                         if (FastbootdFile.Text != null && succ)
                         {
                             await Fastboot($"-s {Global.thisdevice} reboot fastboot");
-                            FileHelper.Write("log\\adb.txt", WiredflashLog.Text);
+                            FileHelper.Write(adb_log_path, WiredflashLog.Text);
                             if (WiredflashLog.Text.Contains("FAILED") || WiredflashLog.Text.Contains("error"))
                             {
                                 SukiHost.ShowDialog(new ConnectionDialog("未能重启到Fastbootd模式！无法继续刷入！"), allowBackgroundClose: true);
@@ -272,7 +259,7 @@ public partial class WiredflashView : UserControl
                                     string shell = String.Format($"-s {Global.thisdevice} delete-logical-partition {cowpart}");
                                     await Fastboot(shell);
                                 }
-                                FileHelper.Write("log\\adb.txt", WiredflashLog.Text);
+                                FileHelper.Write(adb_log_path, WiredflashLog.Text);
                                 if (WiredflashLog.Text.Contains("FAILED") || WiredflashLog.Text.Contains("error"))
                                 {
                                     succ = false;
@@ -300,7 +287,7 @@ public partial class WiredflashView : UserControl
                                         string shell = String.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
                                         await Fastboot(shell);
                                     }
-                                    FileHelper.Write("log\\adb.txt", WiredflashLog.Text);
+                                    FileHelper.Write(adb_log_path, WiredflashLog.Text);
                                     if (WiredflashLog.Text.Contains("FAILED") || WiredflashLog.Text.Contains("error"))
                                     {
                                         succ = false;
@@ -315,7 +302,7 @@ public partial class WiredflashView : UserControl
                                     string deletepart = String.Format("{0}{1}", fbdflashparts[i], slot);
                                     string shell = String.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
                                     await Fastboot(shell);
-                                    FileHelper.Write("log\\adb.txt", WiredflashLog.Text);
+                                    FileHelper.Write(adb_log_path, WiredflashLog.Text);
                                     if (WiredflashLog.Text.Contains("FAILED") || WiredflashLog.Text.Contains("error"))
                                     {
                                         succ = false;
@@ -330,7 +317,7 @@ public partial class WiredflashView : UserControl
                                     string makepart = String.Format("{0}{1}", fbdflashparts[i], slot);
                                     string shell = String.Format($"-s {Global.thisdevice} create-logical-partition {makepart} 00");
                                     await Fastboot(shell);
-                                    FileHelper.Write("log\\adb.txt", WiredflashLog.Text);
+                                    FileHelper.Write(adb_log_path, WiredflashLog.Text);
                                     if (WiredflashLog.Text.Contains("FAILED") || WiredflashLog.Text.Contains("error"))
                                     {
                                         succ = false;
@@ -344,7 +331,7 @@ public partial class WiredflashView : UserControl
                                 {
                                     string shell = String.Format($"-s {Global.thisdevice} flash {fbdflashparts[i]} \"{imgpath}\\{fbdflashparts[i]}.img\"");
                                     await Fastboot(shell);
-                                    FileHelper.Write("log\\adb.txt", WiredflashLog.Text);
+                                    FileHelper.Write(adb_log_path, WiredflashLog.Text);
                                     if (WiredflashLog.Text.Contains("FAILED") || WiredflashLog.Text.Contains("error"))
                                     {
                                         succ = false;

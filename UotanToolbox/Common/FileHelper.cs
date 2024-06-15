@@ -1,4 +1,6 @@
-﻿using SkiaSharp;
+﻿using Avalonia.Interactivity;
+using SkiaSharp;
+using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
 {
@@ -67,7 +70,6 @@ namespace UotanToolbox.Common
             // 判断操作系统以确定命令和参数
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // 假设file.exe位于程序同目录或PATH环境变量中
                 command = "bin\\Windows\\File\\file.exe";
                 arguments = filePath;
             }
@@ -80,8 +82,6 @@ namespace UotanToolbox.Common
             {
                 throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux.");
             }
-
-            // 使用Process执行命令
             using (var process = new Process())
             {
                 process.StartInfo.FileName = command;
@@ -129,6 +129,62 @@ namespace UotanToolbox.Common
                     return sb.ToString();
                 }
             }
+        }
+        /// <summary>
+        /// 删除指定目录及其所有内容。
+        /// </summary>
+        /// <param name="directoryPath">要删除的目录路径。</param>
+        /// <param name="recursive">是否递归删除子目录，默认为true。</param>
+        public static bool DeleteDirectory(string directoryPath, bool recursive = true)
+        {
+            try
+            {
+                if (Directory.Exists(directoryPath))
+                {
+                    Directory.Delete(directoryPath, recursive);
+                    return true;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (IOException ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"清理Temp时发生错误: {ex.Message}"), allowBackgroundClose: true);
+                return false;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"没有足够的权限删除Temp: {ex.Message}"), allowBackgroundClose: true);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"), allowBackgroundClose: true);
+                return false;
+            }
+        }
+
+        public static void OpenFolder(string folderPath)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                startInfo.FileName = "explorer.exe";
+                startInfo.Arguments = folderPath;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                startInfo.FileName = "xdg-open";
+                startInfo.Arguments = folderPath;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                startInfo.FileName = "open";
+                startInfo.Arguments = folderPath;
+            }
+            Process.Start(startInfo);
         }
     }
 }

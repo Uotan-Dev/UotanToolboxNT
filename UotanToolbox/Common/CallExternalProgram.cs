@@ -1,5 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace UotanToolbox.Common
@@ -209,6 +211,51 @@ namespace UotanToolbox.Common
                 output = await mb.StandardOutput.ReadToEndAsync();
             }
             mb.WaitForExit();
+            return output;
+        }
+        /// <summary>
+        /// 使用file命令判断文件的类型和指令集。暂不支持FAT Binary多架构检测
+        /// </summary>
+        /// <param name="filePath">要检查的文件路径。</param>
+        /// <returns>file命令的输出结果，包含文件类型和指令集信息。</returns>
+        /// <exception cref="FileNotFoundException">当指定的文件路径不存在时抛出。</exception>
+        /// <summary>
+        /// 调用file命令读取文件信息。
+        /// </summary>
+        /// <param name="filePath">要分析的文件路径。</param>
+        /// <returns>file命令的输出，包含文件的类型和相关信息。</returns>
+        public static async Task<string> File(string shell)
+        {
+            if (shell == null) throw new ArgumentNullException(nameof(shell));
+            string cmd;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                cmd = Path.Combine(Global.bin_path, "File", "file.exe");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) | (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)))
+            {
+                cmd = "file";
+            }
+            else
+            {
+                throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux.");
+            }
+            ProcessStartInfo fileinfo = new ProcessStartInfo(cmd, shell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process fi = new Process();
+            fi.StartInfo = fileinfo;
+            fi.Start();
+            string output = await fi.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await fi.StandardOutput.ReadToEndAsync();
+            }
+            fi.WaitForExit();
             return output;
         }
     }

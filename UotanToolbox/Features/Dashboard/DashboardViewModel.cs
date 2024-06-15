@@ -25,12 +25,13 @@ public partial class DashboardViewModel : MainPageBase
     [ObservableProperty] private string _recFile;
     [ObservableProperty] private string _magiskFile;
     [ObservableProperty] private string _bootFile;
+    [ObservableProperty] private string _selectedArchList;
 
     public DashboardViewModel() : base("刷入", MaterialIconKind.CableData, -1000)
     {
         StepperIndex = 1;
         SimpleContent.AddRange(["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"]);
-        ArchList.AddRange(["Auto","arm64", "armeabi", "x86_64", "x86"]);
+        ArchList.AddRange(["aarch64", "armeabi", "x86-64", "x86"]);
     }
 
     [RelayCommand]

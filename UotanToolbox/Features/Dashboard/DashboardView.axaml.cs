@@ -96,6 +96,7 @@ public partial class DashboardView : UserControl
         });
         if (files.Count >= 1)
         {
+            BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             string outputpath = Path.Combine(Global.runpath, "Temp", "Boot");
             bool istempclean = FileHelper.DeleteDirectory(outputpath);
             try
@@ -114,32 +115,42 @@ public partial class DashboardView : UserControl
                 SukiHost.ShowDialog(new ConnectionDialog($"创建临时文件夹时发生错误: {ex.Message}"), allowBackgroundClose: true);
                 return;
             }
-
-            BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             if (istempclean)
             {
-                string magiskbootpath;
-                if (Global.System == "Windows")
+
+                string mb_output = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"");
+                if (mb_output.Contains("error")) 
                 {
-                    magiskbootpath = Path.Combine(Global.bin_path, "magiskboot.exe");
-                    outputpath = Path.Combine(outputpath, "magiskboot.exe");
-                }
-                else
-                {
-                    magiskbootpath = Path.Combine(Global.bin_path, "magiskboot");
-                    outputpath = Path.Combine(outputpath, "magiskboot");
-                }
-                try 
-                { 
-                    File.Copy(magiskbootpath, outputpath, true); 
-                }
-                catch (Exception ex)
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog($"复制文件时发生错误: {ex.Message}"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("解包失败"), allowBackgroundClose: true);
                     return;
                 }
-                string mb_output = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"");
-                SukiHost.ShowDialog(new ConnectionDialog(mb_output), allowBackgroundClose: true);
+                string cpio_path = Path.Combine(Global.runpath,"Temp","Boot", "ramdisk.cpio");
+                string ramdisk = Path.Combine(Global.runpath, "Temp", "Boot", "ramdisk");
+                string outputcpio = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract init \"{ramdisk}\"");
+                //SukiHost.ShowDialog(new ConnectionDialog($"\"{Path.Combine(ramdisk, "init")}\""), allowBackgroundClose: true);
+
+                string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
+                SukiHost.ShowDialog(new ConnectionDialog(init_info), allowBackgroundClose: true);
+                if (init_info.Contains("ARM aarch64"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
+                    selectedArchList = "aarch64";
+                }
+                if (init_info.Contains("X86-64"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
+                    selectedArchList = "X86-64";
+                }
+                if (init_info.Contains("X86-64"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
+                    SelectedArchList = "X86-64";
+                }
+                if (init_info.Contains("X86-64"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
+                    selectedArchList = "X86-64";
+                }
             }
         }
     }

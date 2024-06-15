@@ -49,65 +49,6 @@ namespace UotanToolbox.Common
             return line;
         }
         /// <summary>
-        /// 使用file命令判断文件的类型和指令集。暂不支持FAT Binary多架构检测
-        /// </summary>
-        /// <param name="filePath">要检查的文件路径。</param>
-        /// <returns>file命令的输出结果，包含文件类型和指令集信息。</returns>
-        /// <exception cref="FileNotFoundException">当指定的文件路径不存在时抛出。</exception>
-        /// <summary>
-        /// 调用file命令读取文件信息。
-        /// </summary>
-        /// <param name="filePath">要分析的文件路径。</param>
-        /// <returns>file命令的输出，包含文件的类型和相关信息。</returns>
-        public static string ExtractFileInfo(string filePath)
-        {
-            if (filePath == null) throw new ArgumentNullException(nameof(filePath));
-
-            string command;
-            string arguments;
-
-            // 判断操作系统以确定命令和参数
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                command = "bin\\Windows\\File\\file.exe";
-                arguments = filePath;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)| (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)))
-            {
-                command = "file";
-                arguments = $"\"{filePath}\"";
-            }
-            else
-            {
-                throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux.");
-            }
-            using (var process = new Process())
-            {
-                process.StartInfo.FileName = command;
-                process.StartInfo.Arguments = arguments;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
-                try
-                {
-                    process.Start();
-                    string output = process.StandardOutput.ReadToEnd();
-                    process.WaitForExit();
-
-                    if (process.ExitCode != 0)
-                    {
-                        throw new InvalidOperationException($"Command '{command} {arguments}' failed with exit code {process.ExitCode}.");
-                    }
-
-                    return output.Trim();
-                }
-                catch (Exception ex)
-                {
-                    throw new IOException($"Failed to execute '{command} {arguments}'.", ex);
-                }
-            }
-        }
-        /// <summary>
         /// 计算给定文件的MD5特征码
         /// </summary>
         /// <param name="filePath">文件路径</param>

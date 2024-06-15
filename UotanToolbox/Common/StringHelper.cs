@@ -286,7 +286,7 @@ namespace UotanToolbox.Common
             try
             {
                 string content = File.ReadAllText(filePath);
-                // 使用正则表达式匹配MAGISK_VER行，并提取版本号
+                // 使用正则表达式匹配并提取
                 Match match = Regex.Match(content, regex);
                 if (match.Success)
                 {
@@ -313,7 +313,7 @@ namespace UotanToolbox.Common
         {
             Dictionary<string, PatchPlan> patchPlans = new Dictionary<string, PatchPlan>
         {
-                
+
             {"cf9e4aa382b3e63d89197fdc68830622", new PatchPlan { MAGISK_VER = "26.3",MAGISK_VER_CODE = "26300", IsVivoSuuPatch = false }},
             {"3b324a47607ae17ac0376c19043bb7b1", new PatchPlan { MAGISK_VER = "26.3",MAGISK_VER_CODE = "26300", IsVivoSuuPatch = false }},
             {"aef5b749e978c6ea5ebd0f3df910ae6c", new PatchPlan { MAGISK_VER = "26.3",MAGISK_VER_CODE = "26300", IsVivoSuuPatch = false }},
@@ -321,28 +321,18 @@ namespace UotanToolbox.Common
             {"10870a74acf93ba4f87af22c19ab1677", new PatchPlan { MAGISK_VER = "26.3",MAGISK_VER_CODE = "26300", IsVivoSuuPatch = true }},
             {"daf3cffe200d4e492edd0ca3c676f07f", new PatchPlan { MAGISK_VER = "26.2",MAGISK_VER_CODE = "26200", IsVivoSuuPatch = false }},
             {"16cbb54272b01c13bdb860e3207284b8", new PatchPlan { MAGISK_VER = "26.2",MAGISK_VER_CODE = "26200", IsVivoSuuPatch = true }},
+            {"75a217610f6b9622a77dbe704f6796ae", new PatchPlan { MAGISK_VER = "26.1",MAGISK_VER_CODE = "26100", IsVivoSuuPatch = false }},
+            {"0e8255080363ee0f895105cdc3dfa419", new PatchPlan { MAGISK_VER = "26.1",MAGISK_VER_CODE = "26100", IsVivoSuuPatch = false }},
             {"ccf5647834aeefbd61ce6c2594dd43e4", new PatchPlan { MAGISK_VER = "26.0",MAGISK_VER_CODE = "26000", IsVivoSuuPatch = false }},
-            {"0e8255080363ee0f895105cdc3dfa419", new PatchPlan { MAGISK_VER = "26.0",MAGISK_VER_CODE = "26000", IsVivoSuuPatch = false }},
             {"3d2c5bcc43373eb17939f0592b2b40f9", new PatchPlan { MAGISK_VER = "26.0",MAGISK_VER_CODE = "26000", IsVivoSuuPatch = false }},
+            {"a62a55879080822e95e64a1afd30ea25", new PatchPlan { MAGISK_VER = "26.0",MAGISK_VER_CODE = "26000", IsVivoSuuPatch = false }},
             {"bf6ef4d02c48875ae3929d26899a868d", new PatchPlan { MAGISK_VER = "25.2",MAGISK_VER_CODE = "25200", IsVivoSuuPatch = false }},
-            {"c48a22c8ed43cd20fe406acccc600308", new PatchPlan { MAGISK_VER = "25.2",MAGISK_VER_CODE = "25200", IsVivoSuuPatch = false }},
             {"b4a4a2be5fa2a38db5149f3c752a1104", new PatchPlan { MAGISK_VER = "25.2",MAGISK_VER_CODE = "25200", IsVivoSuuPatch = true }},
+            {"c48a22c8ed43cd20fe406acccc600308", new PatchPlan { MAGISK_VER = "25.1",MAGISK_VER_CODE = "25100", IsVivoSuuPatch = false }},
             {"7b40f9efd587b59bade9b9ec892e875e", new PatchPlan { MAGISK_VER = "25.0", MAGISK_VER_CODE = "25000", IsVivoSuuPatch = false }},
             {"0fb168d5339faf37c1c86ace16fe0953", new PatchPlan { MAGISK_VER = "25.0", MAGISK_VER_CODE = "25000", IsVivoSuuPatch = false }},
             {"55285c3ad04cdf72e6e2be9d7ba4a333", new PatchPlan { MAGISK_VER = "23.0", MAGISK_VER_CODE = "23000", IsVivoSuuPatch = false }},
-            {"49452bcb3ea3362392ab05b7fe7ec128", new PatchPlan { MAGISK_VER = "23.0", MAGISK_VER_CODE = "23000", IsVivoSuuPatch = false }},
-            {"c2e189a0a37d789dd233d19ad9236bdc", new PatchPlan { MAGISK_VER = "21.4", MAGISK_VER_CODE = "21400", IsVivoSuuPatch = false }},
-            {"b8256416216461c247c2b82d60e8dca0", new PatchPlan { MAGISK_VER = "21.2", MAGISK_VER_CODE = "21200", IsVivoSuuPatch = false }},
-            {"ac3d1448b7481d7e70d2558d4c733fee", new PatchPlan { MAGISK_VER = "21.2", MAGISK_VER_CODE = "21200", IsVivoSuuPatch = false }},
-            {"69ebab4d9513484988a48a38560c6032", new PatchPlan { MAGISK_VER = "21.2", MAGISK_VER_CODE = "21200", IsVivoSuuPatch = false }},
-            {"232aaecb0fae34baa5a13211fccde93c", new PatchPlan { MAGISK_VER = "21.2", MAGISK_VER_CODE = "21200", IsVivoSuuPatch = false }},
-            {"cafa4ed2bfe5e45c85864a9ccf52502f", new PatchPlan { MAGISK_VER = "21.2", MAGISK_VER_CODE = "21200", IsVivoSuuPatch = false }},
-            {"8595503b132d7154385a043b66e65d5d", new PatchPlan { MAGISK_VER = "19.4", MAGISK_VER_CODE = "19400", IsVivoSuuPatch = false }},
-            {"05455b21ce3ea71c7d7b5c041023d392", new PatchPlan { MAGISK_VER = "19.4", MAGISK_VER_CODE = "19400", IsVivoSuuPatch = false }},
-            {"2816b613afbca2288b753cad592299cf", new PatchPlan { MAGISK_VER = "19.0", MAGISK_VER_CODE = "19000", IsVivoSuuPatch = false }},
-            {"11dc7caa2e7e734e11cc92e226b18bb2", new PatchPlan { MAGISK_VER = "18.1", MAGISK_VER_CODE = "18100", IsVivoSuuPatch = false }},
-            {"7aacf5e27d35d6675a35969a74970172", new PatchPlan { MAGISK_VER = "18.1", MAGISK_VER_CODE = "18100", IsVivoSuuPatch = false }},
-            {"e6040a2cac1af04dc0b41560dd0a8bc8", new PatchPlan { MAGISK_VER = "17.2", MAGISK_VER_CODE = "17200", IsVivoSuuPatch = false }}
+            {"49452bcb3ea3362392ab05b7fe7ec128", new PatchPlan { MAGISK_VER = "23.0", MAGISK_VER_CODE = "23000", IsVivoSuuPatch = false }}
         };
             if (patchPlans.TryGetValue(MD5, out PatchPlan outputplan))
             {
@@ -351,12 +341,12 @@ namespace UotanToolbox.Common
                     SukiHost.ShowDialog(new ConnectionDialog("检测到有效的"+MAGISK_VER+"面具安装包"), allowBackgroundClose: true);
                     return true;
                 }
-                Console.WriteLine("未检测到有效的面具安装包，继续修补存在风险");
+                Console.WriteLine("面具安装包可能失效，继续修补存在风险");
                 return false;
             }
             else
             {
-                Console.WriteLine("未检测到有效的面具安装包，继续修补存在风险");
+                Console.WriteLine("面具安装包可能失效，继续修补存在风险");
                 return false;
             }
 

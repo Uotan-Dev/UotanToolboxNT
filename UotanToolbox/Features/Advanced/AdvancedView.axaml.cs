@@ -19,7 +19,7 @@ public partial class AdvancedView : UserControl
     {
         InitializeComponent();
     }
-
+    private readonly static string adb_log_path = Path.Combine(Global.runpath, "log", "adb.txt");
     public async Task QCNTool(string shell)
     {
         await Task.Run(() =>
@@ -316,7 +316,7 @@ public partial class AdvancedView : UserControl
                         string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
                         string shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of={partname}.img");
                         await ADB(shell);
-                        FileHelper.Write("log\\adb.txt", AdvancedLog.Text);
+                        FileHelper.Write(adb_log_path, AdvancedLog.Text);
                         if (AdvancedLog.Text.Contains("No space left on device"))
                         {
                             AdvancedLog.Text = "根目录空间不足，正在尝试使用Data分区...";
@@ -411,7 +411,7 @@ public partial class AdvancedView : UserControl
                         string devicepoint = line[line.Length - 1];
                         shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of={partname}.img");
                         await ADB(shell);
-                        FileHelper.Write("log\\adb.txt", AdvancedLog.Text);
+                        FileHelper.Write(adb_log_path, AdvancedLog.Text);
                         if (AdvancedLog.Text.Contains("No space left on device"))
                         {
                             AdvancedLog.Text = "根目录空间不足，正在尝试使用Data分区...";

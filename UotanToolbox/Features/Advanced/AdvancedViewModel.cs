@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using ReactiveUI;
+using System.IO;
 using SukiUI.Controls;
 using SukiUI.MessageBox;
 using System;
@@ -55,15 +56,7 @@ public partial class AdvancedViewModel : MainPageBase
     {
         await Task.Run(() =>
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\adb\\fastboot.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/adb/fastboot";
-            }
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,

@@ -4,6 +4,7 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Controls;
 using System;
+using System.IO;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,15 +24,7 @@ public partial class CustomizedflashView : UserControl
     {
         await Task.Run(() =>
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\fastboot.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/fastboot";
-            }
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,

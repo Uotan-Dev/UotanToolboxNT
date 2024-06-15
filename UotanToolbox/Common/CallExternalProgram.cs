@@ -8,15 +8,7 @@ namespace UotanToolbox.Common
     {
         public static async Task<string> ADB(string adbshell)
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\adb.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/adb";
-            }
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
             ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
             {
                 CreateNoWindow = true,
@@ -38,15 +30,7 @@ namespace UotanToolbox.Common
 
         public static async Task<string> Fastboot(string fbshell)
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\fastboot.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/fastboot";
-            }
+            string cmd=Path.Combine(Global.bin_path, "platform-tools","fastboot");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,
@@ -163,15 +147,7 @@ namespace UotanToolbox.Common
 
         public static async Task<string> Scrcpy(string arg)
         {
-            string cmd;
-            if (Global.System == "Windows")
-            {
-                cmd = "bin\\Windows\\platform-tools\\scrcpy.exe";
-            }
-            else
-            {
-                cmd = $"bin/{Global.System}/platform-tools/scrcpy";
-            }
+            string cmd=Path.Combine(Global.bin_path, "platform-tools", "scrcpy");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, arg)
             {
                 CreateNoWindow = true,

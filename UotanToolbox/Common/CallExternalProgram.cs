@@ -190,7 +190,9 @@ namespace UotanToolbox.Common
         }
         public static async Task<string> MagiskBoot(string shell)
         {
-            string cmd=Path.Combine(Global.runpath,"Temp", "Boot","magiskboot");
+            string cmd=Path.Combine(Global.bin_path,"magiskboot");
+            string workpath = Path.Combine(Global.runpath, "Temp", "Boot");
+            Directory.SetCurrentDirectory(workpath);
             ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,

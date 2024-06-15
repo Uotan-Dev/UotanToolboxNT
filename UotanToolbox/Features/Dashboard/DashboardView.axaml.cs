@@ -100,7 +100,10 @@ public partial class DashboardView : UserControl
             bool istempclean = FileHelper.DeleteDirectory(outputpath);
             try
             {
-                File.Delete(outputpath);
+                if (File.Exists(outputpath))
+                {
+                    File.Delete(outputpath);
+                }
                 if (!Directory.Exists(outputpath))
                 {
                     Directory.CreateDirectory(outputpath);

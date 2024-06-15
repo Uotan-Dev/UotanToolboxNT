@@ -69,7 +69,6 @@ namespace UotanToolbox.Common
             // 判断操作系统以确定命令和参数
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // 假设file.exe位于程序同目录或PATH环境变量中
                 command = "bin\\Windows\\File\\file.exe";
                 arguments = filePath;
             }
@@ -82,8 +81,6 @@ namespace UotanToolbox.Common
             {
                 throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux.");
             }
-
-            // 使用Process执行命令
             using (var process = new Process())
             {
                 process.StartInfo.FileName = command;

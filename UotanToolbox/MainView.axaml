@@ -120,14 +120,18 @@
                 </StackPanel.Styles>
                 <Button Classes="Basic"
                         CommandParameter="https://github.com/Uotan-Dev/UotanToolboxNT"
-                        ToolTip.Tip="Open On GitHub.">
+                        ToolTip.Tip="Open On GitHub">
                     <avalonia:MaterialIcon Kind="Github" />
                 </Button>
                 <Button Classes="Basic"
                         CommandParameter="https://www.uotan.cn"
-                        ToolTip.Tip="Open UOTAN Community.">
+                        ToolTip.Tip="Open UOTAN Community">
                     <avalonia:MaterialIcon Kind="Package" />
                 </Button>
+				<Button Classes="Basic"
+                        ToolTip.Tip="Open Terminal">
+					<avalonia:MaterialIcon Kind="Terminal" />
+				</Button>
             </StackPanel>
         </suki:SukiSideMenu.FooterContent>
     </suki:SukiSideMenu>

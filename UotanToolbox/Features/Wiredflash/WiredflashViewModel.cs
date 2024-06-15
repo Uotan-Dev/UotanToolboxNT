@@ -20,7 +20,7 @@ public partial class WiredflashViewModel : MainPageBase
 {
     [ObservableProperty] private string _fastbootFile, _fastbootdFile, _adbsideloadFile, _fastbootupdatedFile;
 
-    public WiredflashViewModel() : base("线刷", MaterialIconKind.WrenchCogOutline, -300)
+    public WiredflashViewModel() : base("线刷", MaterialIconKind.WrenchCogOutline, -600)
     {
     }
 }

@@ -10,7 +10,7 @@ public partial class ModifypartitionViewModel : MainPageBase
 {
     public AvaloniaList<DataGridContentViewModel> DataGridContent { get; } = [];
 
-    public ModifypartitionViewModel() : base("修改分区", MaterialIconKind.WrenchCogOutline, -300)
+    public ModifypartitionViewModel() : base("修改分区", MaterialIconKind.WrenchCogOutline, -400)
     {
         DataGridContent.AddRange(Enumerable.Range(1, 50).Select(x => new DataGridContentViewModel(x)));
     }

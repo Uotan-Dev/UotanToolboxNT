@@ -148,7 +148,7 @@ public partial class AdvancedViewModel : MainPageBase
     {
         // Open QCN backup file directory
         string filepath = string.Format(@"{0}\backup", Global.runpath);
-        Process.Start("Explorer.exe", filepath);
+        FileHelper.OpenFolder(filepath);
     }
 
     [RelayCommand]

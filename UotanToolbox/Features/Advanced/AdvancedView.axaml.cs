@@ -490,6 +490,6 @@ public partial class AdvancedView : UserControl
     private async void OpenExtractFile(object sender, RoutedEventArgs args)
     {
         string filepath = string.Format(@"{0}\backup", System.IO.Directory.GetCurrentDirectory());
-        Process.Start("Explorer.exe", filepath);
+        FileHelper.OpenFolder(filepath);
     }
 }

@@ -1,4 +1,5 @@
-﻿using SkiaSharp;
+﻿using Avalonia.Interactivity;
+using SkiaSharp;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
@@ -104,6 +105,27 @@ namespace UotanToolbox.Common
                 SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"), allowBackgroundClose: true);
                 return false;
             }
+        }
+
+        public static void OpenFolder(string folderPath)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                startInfo.FileName = "explorer.exe";
+                startInfo.Arguments = folderPath;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                startInfo.FileName = "xdg-open";
+                startInfo.Arguments = folderPath;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                startInfo.FileName = "open";
+                startInfo.Arguments = folderPath;
+            }
+            Process.Start(startInfo);
         }
     }
 }

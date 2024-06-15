@@ -22,7 +22,8 @@ internal class Program
     public static AppBuilder BuildAvaloniaApp()
     {
         Global.runpath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);//获取工具运行路径
-        FontManagerOptions options = new();
+        Global.bin_path = Path.Combine(Global.runpath, "bin", Global.System);
+    FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
         {
             FileHelper.CopyDirectory("SukiUI/CustomFont/","/home/localhost/.local/share/fonts/");

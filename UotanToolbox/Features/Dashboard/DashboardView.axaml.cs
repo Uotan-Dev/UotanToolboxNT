@@ -129,8 +129,11 @@ public partial class DashboardView : UserControl
                 }
                 string cpio_path = Path.Combine(Global.runpath,"Temp","Boot", "ramdisk.cpio");
                 string ramdisk = Path.Combine(Global.runpath, "Temp", "Boot", "ramdisk");
-                workpath = Path.Combine(workpath,"ramdisk");
-                Directory.CreateDirectory(workpath);
+                if (Global.System != "Windows")
+                {
+                    workpath = Path.Combine(workpath, "ramdisk");
+                    Directory.CreateDirectory(workpath);
+                }
                 string outputcpio = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract",workpath);
                 //SukiHost.ShowDialog(new ConnectionDialog($"cpio \"{cpio_path}\" extract ./ \"{ramdisk}\""), allowBackgroundClose: true);
                 string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");

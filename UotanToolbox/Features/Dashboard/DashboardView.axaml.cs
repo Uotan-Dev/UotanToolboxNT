@@ -98,12 +98,15 @@ public partial class DashboardView : UserControl
         {
             BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             string outputpath = Path.Combine(Global.runpath, "Temp", "Boot");
-            bool istempclean = FileHelper.DeleteDirectory(outputpath);
+            bool istempclean = FileHelper.DeleteDirectory(outputpath,false);
             try
             {
                 if (File.Exists(outputpath))
                 {
-                    File.Delete(outputpath);
+                    if (!FileHelper.WipeFile(outputpath))
+                    {
+                        SukiHost.ShowDialog(new ConnectionDialog($"删除文件时发生错误: {outputpath}"), allowBackgroundClose: true);
+                    }
                 }
                 if (!Directory.Exists(outputpath))
                 {
@@ -117,7 +120,6 @@ public partial class DashboardView : UserControl
             }
             if (istempclean)
             {
-
                 string mb_output = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"");
                 if (mb_output.Contains("error")) 
                 {
@@ -127,8 +129,7 @@ public partial class DashboardView : UserControl
                 string cpio_path = Path.Combine(Global.runpath,"Temp","Boot", "ramdisk.cpio");
                 string ramdisk = Path.Combine(Global.runpath, "Temp", "Boot", "ramdisk");
                 string outputcpio = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract ./ \"{ramdisk}\"");
-                SukiHost.ShowDialog(new ConnectionDialog($"cpio \"{cpio_path}\" extract ./ \"{ramdisk}\""), allowBackgroundClose: true);
-
+                //SukiHost.ShowDialog(new ConnectionDialog($"cpio \"{cpio_path}\" extract ./ \"{ramdisk}\""), allowBackgroundClose: true);
                 string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
                 //SukiHost.ShowDialog(new ConnectionDialog(init_info), allowBackgroundClose: true);
                 if (init_info.Contains("ARM aarch64"))

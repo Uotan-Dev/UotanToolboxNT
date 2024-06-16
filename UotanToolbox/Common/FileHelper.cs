@@ -75,20 +75,27 @@ namespace UotanToolbox.Common
         /// 删除指定目录及其所有内容。
         /// </summary>
         /// <param name="directoryPath">要删除的目录路径。</param>
-        /// <param name="recursive">是否递归删除子目录，默认为true。</param>
-        public static bool DeleteDirectory(string directoryPath, bool recursive = true)
+        /// <param name="recursive">是否递归删除子目录，默认为false。</param>
+        public static bool DeleteDirectory(string directoryPath, bool recursive = false)
         {
             try
             {
-                if (Directory.Exists(directoryPath))
+                foreach (string filePath in Directory.GetFiles(directoryPath))
                 {
-                    Directory.Delete(directoryPath, recursive);
+                    // 设置文件属性为正常，以忽略只读属性
+                    File.SetAttributes(filePath, FileAttributes.Normal);
+                    File.Delete(filePath);
+                }
+
+                if (recursive)
+                {
+                    foreach (string subDirPath in Directory.GetDirectories(directoryPath))
+                    {
+                        DeleteDirectory(subDirPath, recursive); // 递归删除子目录下的文件
+                    }
                     return true;
                 }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
             catch (IOException ex)
             {
@@ -97,7 +104,19 @@ namespace UotanToolbox.Common
             }
             catch (UnauthorizedAccessException ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"没有足够的权限删除Temp: {ex.Message}"), allowBackgroundClose: true);
+                if (ex.Message.Contains("is denied")) 
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog($"{ex.Message}"), allowBackgroundClose: false);
+                    //string path = StringHelper.StringRegex(ex.Message, @"(?i)(?:file|path):[\s]*([\w\\/:.]+)",1);
+                    //bool result =FileHelper.WipeFile(path);
+                    //if (!result)
+                    //{
+                    //    SukiHost.ShowDialog(new ConnectionDialog($"删除文件时发生错误: {path}"), allowBackgroundClose: true);
+                    //}
+                    //return result;
+                }
+
+                //SukiHost.ShowDialog(new ConnectionDialog($"没有足够的权限删除Temp: {ex.Message}"), allowBackgroundClose: true);
                 return false;
             }
             catch (Exception ex)
@@ -126,6 +145,39 @@ namespace UotanToolbox.Common
                 startInfo.Arguments = folderPath;
             }
             Process.Start(startInfo);
+        }
+        public static bool WipeFile(string filename)
+        {
+            try
+            {
+                if (File.Exists(filename))
+                {
+                    File.SetAttributes(filename, FileAttributes.Normal);
+                    double sectors = Math.Ceiling(new FileInfo(filename).Length / 512.0);
+                    byte[] dummyBuffer = new byte[512];
+                    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                    FileStream inputStream = new FileStream(filename, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
+                    inputStream.Position = 0;
+                    for (int sectorsWritten = 0; sectorsWritten < sectors; sectorsWritten++)
+                    {
+                        rng.GetBytes(dummyBuffer);
+                        inputStream.Write(dummyBuffer, 0, dummyBuffer.Length);
+                    }
+                    inputStream.SetLength(0);
+                    inputStream.Close();
+                    DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0);
+                    File.SetCreationTime(filename, dt);
+                    File.SetLastAccessTime(filename, dt);
+                    File.SetLastWriteTime(filename, dt);
+                    File.Delete(filename);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"), allowBackgroundClose: true);
+                return false;
+            }
         }
     }
 }

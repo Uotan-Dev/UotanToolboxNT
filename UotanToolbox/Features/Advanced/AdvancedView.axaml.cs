@@ -487,7 +487,7 @@ public partial class AdvancedView : UserControl
         }
     }
 
-    private async void OpenExtractFile(object sender, RoutedEventArgs args)
+    private async void  OpenExtractFile(object sender, RoutedEventArgs args)
     {
         string filepath = string.Format(@"{0}\backup", System.IO.Directory.GetCurrentDirectory());
         FileHelper.OpenFolder(filepath);

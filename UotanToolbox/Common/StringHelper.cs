@@ -309,6 +309,32 @@ namespace UotanToolbox.Common
                 return null;
             }
         }
+        public static string StringRegex(string content, string regex, int i)
+        {
+            try
+            {
+                Match match = Regex.Match(content, regex);
+                if (match.Success)
+                {
+                    return match.Groups[i].Value;
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog($"Unable to find {regex} in the string"), allowBackgroundClose: true);
+                    return null;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"String not found"), allowBackgroundClose: true);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"An error occurred while reading the string: {ex.Message}"), allowBackgroundClose: true);
+                return null;
+            }
+        }
         public static bool Magisk_Validation(string MD5,string MAGISK_VER,string MAGISK_VER_CODE)
         {
             Dictionary<string, PatchPlan> patchPlans = new Dictionary<string, PatchPlan>

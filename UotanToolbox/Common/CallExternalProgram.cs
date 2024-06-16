@@ -100,7 +100,7 @@ namespace UotanToolbox.Common
             string cmd;
             if (Global.System == "macOS")
             {
-                cmd = "bin/macOS/lsusb/lsusb";
+                cmd = "bin/macOS/lsusb";
             }
             else
             {
@@ -190,10 +190,9 @@ namespace UotanToolbox.Common
             SevenZip.WaitForExit();
             return output;
         }
-        public static async Task<string> MagiskBoot(string shell)
+        public static async Task<string> MagiskBoot(string shell,string workpath)
         {
             string cmd=Path.Combine(Global.bin_path,"magiskboot");
-            string workpath = Path.Combine(Global.runpath, "Temp", "Boot");
             Directory.SetCurrentDirectory(workpath);
             ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
             {

@@ -120,7 +120,8 @@ public partial class DashboardView : UserControl
             }
             if (istempclean)
             {
-                string mb_output = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"");
+                string workpath = Path.Combine(Global.runpath, "Temp", "Boot");
+                string mb_output = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"",workpath);
                 if (mb_output.Contains("error")) 
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("解包失败"), allowBackgroundClose: true);
@@ -128,7 +129,9 @@ public partial class DashboardView : UserControl
                 }
                 string cpio_path = Path.Combine(Global.runpath,"Temp","Boot", "ramdisk.cpio");
                 string ramdisk = Path.Combine(Global.runpath, "Temp", "Boot", "ramdisk");
-                string outputcpio = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract ./ \"{ramdisk}\"");
+                workpath = Path.Combine(workpath,"ramdisk");
+                Directory.CreateDirectory(workpath);
+                string outputcpio = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract",workpath);
                 //SukiHost.ShowDialog(new ConnectionDialog($"cpio \"{cpio_path}\" extract ./ \"{ramdisk}\""), allowBackgroundClose: true);
                 string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
                 //SukiHost.ShowDialog(new ConnectionDialog(init_info), allowBackgroundClose: true);

@@ -1,4 +1,5 @@
-﻿using Avalonia.Interactivity;
+﻿using Avalonia.Controls.Shapes;
+using Avalonia.Interactivity;
 using SkiaSharp;
 using SukiUI.Controls;
 using System;
@@ -23,7 +24,7 @@ namespace UotanToolbox.Common
                 string[] fileList = Directory.GetFiles(srcPath);
                 foreach (string file in fileList)
                 {
-                    File.Copy(file, aimPath + Path.GetFileName(file), true);
+                    File.Copy(file, aimPath + System.IO.Path.GetFileName(file), true);
                 }
             }
             catch
@@ -71,6 +72,7 @@ namespace UotanToolbox.Common
                 }
             }
         }
+        /*
         /// <summary>
         /// 删除指定目录及其所有内容。
         /// </summary>
@@ -124,6 +126,65 @@ namespace UotanToolbox.Common
                 SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"), allowBackgroundClose: true);
                 return false;
             }
+        }*/
+        /// <summary>
+        /// 删除指定目录及其所有内容。
+        /// </summary>
+        /// <param name="directoryPath">要删除的目录路径。</param>
+        /// <returns>删除目录是否成功</returns>
+        public static bool DeleteDirectory(string dirPath)
+        {
+            if (string.IsNullOrWhiteSpace(dirPath))
+            {
+                throw new ArgumentException("Directory path cannot be empty or whitespace.", nameof(dirPath));
+            }
+            try
+            {
+                if (!Directory.Exists(dirPath))
+                {
+                    return true;
+                }
+                string[] files = Directory.GetFiles(dirPath, "*", SearchOption.AllDirectories);
+                string[] dirs = Directory.GetDirectories(dirPath, "*", SearchOption.AllDirectories);
+                foreach (string file in files)
+                {
+                    try
+                    {
+                        FileInfo fi = new FileInfo(file);
+                        if ((fi.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                        {
+                            fi.Attributes = FileAttributes.Normal;
+                        }
+                        File.Delete(file);
+                    }
+                    catch (Exception ex)
+                    {
+                        SukiHost.ShowDialog(new ConnectionDialog($"Failed to delete file {file}. Error: {ex.Message}"), allowBackgroundClose: true);
+                    }
+                }
+                foreach (string dir in dirs)
+                {
+                    DeleteDirectory(dir);
+                }
+                Directory.Delete(dirPath, true);
+                return true;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"Unauthorized access to directory {dirPath}. Error: {ex.Message}"), allowBackgroundClose: true);
+                return false;
+            }
+            catch (IOException ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"Failed to delete directory {dirPath}. Error: {ex.Message}"), allowBackgroundClose: true);
+                return false;
+            }
+            catch (Exception ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"An unexpected error occurred while deleting directory {dirPath}. Error: {ex.Message}"), allowBackgroundClose: true);
+                return false;
+            }
+            return false;
         }
 
         public static void OpenFolder(string folderPath)

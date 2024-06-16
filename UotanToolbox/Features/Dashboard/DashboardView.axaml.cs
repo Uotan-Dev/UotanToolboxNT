@@ -98,7 +98,7 @@ public partial class DashboardView : UserControl
         {
             BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             string outputpath = Path.Combine(Global.runpath, "Temp", "Boot");
-            bool istempclean = FileHelper.DeleteDirectory(outputpath,false);
+            bool istempclean = FileHelper.DeleteDirectory(outputpath);
             try
             {
                 if (File.Exists(outputpath))

@@ -130,7 +130,7 @@ public partial class DashboardView : UserControl
                 SukiHost.ShowDialog(new ConnectionDialog($"cpio \"{cpio_path}\" extract init \"{ramdisk}\""), allowBackgroundClose: true);
 
                 string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
-                SukiHost.ShowDialog(new ConnectionDialog(init_info), allowBackgroundClose: true);
+                //SukiHost.ShowDialog(new ConnectionDialog(init_info), allowBackgroundClose: true);
                 if (init_info.Contains("ARM aarch64"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
@@ -144,6 +144,27 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"), allowBackgroundClose: true);
                     ArchList.SelectedItem = "armeabi";
                 }else if (init_info.Contains(" Intel 80386"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"), allowBackgroundClose: true);
+                    ArchList.SelectedItem = "X86";
+                }
+                init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "system","bin","init")}\"");
+                if (init_info.Contains("ARM aarch64"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
+                    ArchList.SelectedItem = "aarch64";
+                }
+                else if (init_info.Contains("X86-64"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
+                    ArchList.SelectedItem = "X86-64";
+                }
+                else if (init_info.Contains("ARM,"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"), allowBackgroundClose: true);
+                    ArchList.SelectedItem = "armeabi";
+                }
+                else if (init_info.Contains(" Intel 80386"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"), allowBackgroundClose: true);
                     ArchList.SelectedItem = "X86";

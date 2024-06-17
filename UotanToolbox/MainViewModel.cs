@@ -6,7 +6,9 @@ using SukiUI;
 using SukiUI.Controls;
 using SukiUI.Models;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
@@ -31,6 +33,9 @@ public partial class MainViewModel : ObservableObject
 
     private readonly SukiTheme _theme;
 
+    private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
+    private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
+
     public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav)
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
@@ -47,10 +52,10 @@ public partial class MainViewModel : ObservableObject
         _theme.OnBaseThemeChanged += async variant =>
         {
             BaseTheme = variant;
-            await SukiHost.ShowToast("Successfully Changed Theme", $"Changed Theme To {variant}");
+            await SukiHost.ShowToast($"{GetTranslation("MainView_SuccessfullyChangedTheme")}", $"{GetTranslation("MainView_ChangedThemeTo")} {variant}");
         };
         _theme.OnColorThemeChanged += async theme =>
-            await SukiHost.ShowToast("Successfully Changed Color", $"Changed Color To {theme.DisplayName}.");
+            await SukiHost.ShowToast($"{GetTranslation("MainView_SuccessfullyChangedColor")}", $"{GetTranslation("MainView_ChangedColorTo")} {theme.DisplayName}.");
         _theme.OnBackgroundAnimationChanged +=
             value => AnimationsEnabled = value;
         GlobalData.MainViewModelInstance = this;
@@ -60,10 +65,10 @@ public partial class MainViewModel : ObservableObject
     private Task ToggleAnimations()
     {
         AnimationsEnabled = !AnimationsEnabled;
-        var title = AnimationsEnabled ? "Animation Enabled" : "Animation Disabled";
+        var title = AnimationsEnabled ? $"{GetTranslation("MainView_AnimationEnabled")}" : $"{GetTranslation("MainView_AnimationDisabled")}";
         var content = AnimationsEnabled
-            ? "Background animations are now enabled."
-            : "Background animations are now disabled.";
+            ? $"{GetTranslation("MainView_BackgroundAnimationsEnabled")}"
+            : $"{GetTranslation("MainView_BackgroundAnimationsDisabled")}";
         return SukiHost.ShowToast(title, content);
     }
 

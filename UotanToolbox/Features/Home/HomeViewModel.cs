@@ -40,7 +40,7 @@ public partial class HomeViewModel : MainPageBase
     private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
     private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
 
-    public HomeViewModel() : base(GetTranslation("Home_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
+    public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = Connect();
         _ = CheckDeviceList();

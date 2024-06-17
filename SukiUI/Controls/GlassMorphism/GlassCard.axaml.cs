@@ -1,10 +1,16 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using Avalonia.Rendering.Composition;
+using Avalonia.Rendering.Composition.Animations;
+using SukiUI.Helpers;
 
 namespace SukiUI.Controls;
 
@@ -26,6 +32,15 @@ public class GlassCard : ContentControl
     {
         get => GetValue(BorderThicknessProperty);
         set => SetValue(BorderThicknessProperty, value);
+    }
+    
+    public static readonly StyledProperty<bool> IsAnimatedProperty =
+        AvaloniaProperty.Register<GlassCard, bool>(nameof(IsAnimated), true);
+
+    public bool IsAnimated
+    {
+        get => GetValue(IsAnimatedProperty);
+        set => SetValue(IsAnimatedProperty, value);
     }
     
     public static readonly StyledProperty<bool> IsOpaqueProperty =
@@ -67,6 +82,40 @@ public class GlassCard : ContentControl
         if (ContextMenu is null) return;
         ContextMenu.Opening += ContextMenuOnOpening;
     }
+
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+
+        if (IsAnimated)
+        {
+            var b = e.NameScope.Get<Panel>("RootPanel");
+            b.Loaded += (sender, args) =>
+            {
+                var v = ElementComposition.GetElementVisual(b);
+                CompositionAnimationHelper.MakeOpacityAnimated(v);
+            };
+
+            var b2 = e.NameScope.Get<Border>("PART_BorderCard");
+            b2.Loaded += (sender, args) =>
+            {
+                var v = ElementComposition.GetElementVisual(b2);
+                CompositionAnimationHelper.MakeOpacityAnimated(v);
+            };
+
+            var b3 = e.NameScope.Get<Border>("PART_ClipBorder");
+            b3.Loaded += (sender, args) =>
+            {
+                var v = ElementComposition.GetElementVisual(b3);
+                CompositionAnimationHelper.MakeOpacityAnimated(v);
+            };
+
+        }
+
+    }
+    
+
+    
 
     private void ContextMenuOnOpening(object sender, CancelEventArgs e)
     {

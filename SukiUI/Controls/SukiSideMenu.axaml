@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:content="clr-namespace:SukiUI.Content"
                     xmlns:suki="clr-namespace:SukiUI.Controls"
-                    xmlns:sukiUi="clr-namespace:SukiUI"
                     xmlns:theme="clr-namespace:SukiUI.Theme">
     <ControlTheme x:Key="SukiSideMenuStyle" TargetType="suki:SukiSideMenu">
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
@@ -10,17 +9,18 @@
             <ControlTemplate>
                 <SplitView DisplayMode="CompactInline"
                            IsPaneOpen="{TemplateBinding IsMenuExpanded}"
-                           OpenPaneLength="220">
+                           OpenPaneLength="{TemplateBinding OpenPaneLength}">
                     <SplitView.Pane>
                         <Border>
-                            <Grid Background="Transparent">
-                                <suki:GlassCard Name="Glass"
+							<Grid Background="Transparent">
+								<suki:GlassCard Name="Glass"
                                                 BorderThickness="0"
-                                                CornerRadius="0" />
-                                <DockPanel>
+                                                CornerRadius="0"
+                                                IsAnimated="False" />
+								<DockPanel>
                                     <Button Name="PART_SidebarToggleButton"
                                             Margin="7"
-                                            HorizontalAlignment="Right"
+                                            HorizontalAlignment="{TemplateBinding TogglePaneButtonPosition}"
                                             VerticalAlignment="Top"
                                             Classes="Basic"
                                             DockPanel.Dock="Top">

@@ -56,7 +56,7 @@
                 <ResourceInclude Source="avares://sukiUI/Theme/Button.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/PathIcon.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/Expander.axaml" />
-                <ResourceInclude Source="avares://sukiUI/Theme/CalendarDatePickertyle.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Theme/CalendarDatePickerStyle.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/TabControl.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/TabItem.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/DropDownButton.axaml" />
@@ -82,6 +82,8 @@
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiSideMenuItem.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiTransitioningContentControl.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/Stepper.axaml" />
+				<ResourceInclude Source="avares://sukiUI/Controls/InfoBadge.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Controls/InfoBar.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/GlassMorphism/GlassCard.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/ContentExpandControl.axaml" />
             </ResourceDictionary.MergedDictionaries>

@@ -21,12 +21,12 @@ namespace UotanToolbox.Features.Home;
 public partial class HomeViewModel : MainPageBase
 {
     [ObservableProperty]
-    private string _progressDisk = "--", _memLevel = "--", _status = "--", _bLStatus = "--",
+    private string _progressDisk = "0", _memLevel = "0", _status = "--", _bLStatus = "--",
     _vABStatus = "--", _codeName = "--", _vNDKVersion = "--", _cPUCode = "--",
     _powerOnTime = "--", _deviceBrand = "--", _deviceModel = "--", _androidSDK = "--",
     _cPUABI = "--", _displayHW = "--", _density = "--", _boardID = "--", _platform = "--",
     _compile = "--", _kernel = "--", _selectedSimpleContent = "--", _diskType = "--",
-    _batteryLevel = "--", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
+    _batteryLevel = "0", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
     [ObservableProperty] private bool _isConnected;
     [ObservableProperty] private bool _commonDevicesList;
     [ObservableProperty] private static AvaloniaList<string>? _simpleContent;
@@ -47,7 +47,7 @@ public partial class HomeViewModel : MainPageBase
         this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe(option =>
             {
-                if (option != "--" && SimpleContent != null)
+                if (option != "--" && SimpleContent != null && SimpleContent.Count != 0)
                     _ = ConnectOption(option);
             });
     }
@@ -101,8 +101,8 @@ public partial class HomeViewModel : MainPageBase
             VABStatus = "--"; sukiViewModel.VABStatus = "--"; CodeName = "--"; sukiViewModel.CodeName = "--";
             VNDKVersion = "--"; CPUCode = "--"; PowerOnTime = "--"; DeviceBrand = "--"; DeviceModel = "--";
             AndroidSDK = "--"; CPUABI = "--"; DisplayHW = "--"; Density = "--"; DiskType = "--";
-            BoardID = "--"; Platform = "--"; Compile = "--"; Kernel = "--"; BatteryLevel = "--";
-            BatteryInfo = "--"; MemLevel = "--"; UseMem = "--"; DiskInfo = "--"; ProgressDisk = "--";
+            BoardID = "--"; Platform = "--"; Compile = "--"; Kernel = "--"; BatteryLevel = "0";
+            BatteryInfo = "--"; MemLevel = "0"; UseMem = "--"; DiskInfo = "--"; ProgressDisk = "0";
             return false;
         }
     }

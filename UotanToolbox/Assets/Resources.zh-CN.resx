@@ -168,8 +168,8 @@
   <data name="Home_CPUABI" xml:space="preserve">
     <value>CPU 架构</value>
   </data>
-  <data name="Home_CpuCode" xml:space="preserve">
-    <value>Cpu 代号</value>
+  <data name="Home_CPUCode" xml:space="preserve">
+    <value>CPU 代号</value>
   </data>
   <data name="Home_DeviceBrand" xml:space="preserve">
     <value>品牌</value>

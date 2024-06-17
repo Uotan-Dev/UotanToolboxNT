@@ -27,11 +27,7 @@
                             Background="{DynamicResource SukiDialogBackground}"
                             IsHitTestVisible="False"
                             Opacity="0">
-                        <Border.Transitions>
-                            <Transitions>
-                                <DoubleTransition Property="Opacity" Duration="0:0:0.4" />
-                            </Transitions>
-                        </Border.Transitions>
+                        
                     </Border>
 
                     <Border Name="borderDialog"

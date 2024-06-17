@@ -214,11 +214,11 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Cpu CodeCpuCode 的本地化字符串。
+        ///   查找类似 CPU Code Name 的本地化字符串。
         /// </summary>
-        public static string Home_CpuCode {
+        public static string Home_CPUCode {
             get {
-                return ResourceManager.GetString("Home_CpuCode", resourceCulture);
+                return ResourceManager.GetString("Home_CPUCode", resourceCulture);
             }
         }
         

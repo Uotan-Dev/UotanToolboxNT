@@ -6,7 +6,7 @@
                    Orientation="Horizontal">
             <Border Width="100"
                     Height="100"
-                    Classes="Card" />
+                    Classes="GradientCard" />
         </WrapPanel>
     </Design.PreviewWith>
 

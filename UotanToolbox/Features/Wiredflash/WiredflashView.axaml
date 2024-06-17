@@ -1,0 +1,199 @@
+﻿<UserControl x:Class="UotanToolbox.Features.Wiredflash.WiredflashView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:wiredflash="clr-namespace:UotanToolbox.Features.Wiredflash"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 d:DesignWidth="1024"
+             x:DataType="wiredflash:WiredflashViewModel"
+             mc:Ignorable="d">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
+                   theme:WrapPanelExtensions.AnimatedScroll="True"
+                   Orientation="Horizontal">
+			<!-- Fastboot -->
+			<suki:GlassCard Width="960"
+							Height="160"
+                            Margin="10"
+                            VerticalAlignment="Top">
+				<suki:BusyArea  Name="BusyTXTFlash"
+								BusyText="执行中 ...">
+					<Grid>
+						<StackPanel Spacing="30">
+							<StackPanel>
+								<TextBlock HorizontalAlignment="Left"
+										   VerticalAlignment="Top"
+										   FontWeight="DemiBold"
+										   Text="TXT线刷" />
+								<StackPanel Orientation="Horizontal" Spacing="20">
+									<StackPanel>
+										<StackPanel Margin="0" Orientation="Horizontal">
+											<TextBlock Width="80"
+													   Margin="8,0,0,0"
+													   VerticalAlignment="Center"
+													   FontSize="13"
+													   Foreground="{DynamicResource SukiLowText}"
+													   Text="FASTBOOT" />
+											<TextBox Width="600" Name="FastbootFile"
+													 Text="{Binding FastbootFile, Mode=TwoWay}"
+													 theme:TextBoxExtensions.AddDeleteButton="False"/>
+											<Button Height="35"
+													Padding="10,0,10,0"
+													Click="OpenFastbootFile">
+												选择文件
+											</Button>
+										</StackPanel>
+										<StackPanel Margin="0" Orientation="Horizontal">
+											<TextBlock Width="80"
+													   Margin="8,0,0,0"
+													   VerticalAlignment="Center"
+													   FontSize="13"
+													   Foreground="{DynamicResource SukiLowText}"
+													   Text="FASTBOOTD" />
+											<TextBox Width="600" Name="FastbootdFile"
+													 Text="{Binding FastbootdFile, Mode=TwoWay}"
+													 theme:TextBoxExtensions.AddDeleteButton="False"/>
+											<Button Height="35"
+													Padding="10,0,10,0"
+													Click="OpenFastbootdFile">
+												选择文件
+											</Button>
+										</StackPanel>
+									</StackPanel>
+									<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+										<StackPanel Height="35" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+											<CheckBox Name="ErasData" IsChecked="False" />
+											<TextBlock VerticalAlignment="Center"
+													   FontSize="13"
+													   Foreground="{DynamicResource SukiLowText}"
+													   Text="清楚全部数据" />
+										</StackPanel>
+										<Button Width="115"
+												Height="35"
+												HorizontalAlignment="Left"
+												Click="StartTXTFlash">
+											<TextBlock>
+												开始刷机
+											</TextBlock>
+										</Button>
+									</StackPanel>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</Grid>
+				</suki:BusyArea>
+			</suki:GlassCard>
+
+			<!-- More Wired Flash -->
+			<suki:GlassCard Width="960"
+							Height="210"
+							Margin="10"
+                            VerticalAlignment="Top">
+				<suki:BusyArea  Name="BusyFlash"
+								BusyText="执行中 ...">
+					<Grid>
+						<StackPanel Spacing="30">
+							<StackPanel>
+								<TextBlock HorizontalAlignment="Left"
+										   VerticalAlignment="Top"
+										   FontWeight="DemiBold"
+										   Text="更多线刷" />
+								<StackPanel Orientation="Horizontal" Spacing="20">
+									<StackPanel>
+										<StackPanel Margin="0" Orientation="Horizontal">
+											<TextBlock Width="110"
+													   Margin="8,0,0,0"
+													   VerticalAlignment="Center"
+													   FontSize="13"
+													   Foreground="{DynamicResource SukiLowText}"
+													   Text="ADB Sideload" />
+											<TextBox Width="570" Name="AdbSideloadFile"
+													 Text="{Binding AdbsideloadFile, Mode=TwoWay}"
+													 theme:TextBoxExtensions.AddDeleteButton="True"/>
+											<Button Height="35"
+													Padding="10,0,10,0"
+													Click="OpenSideloadFile">
+												选择文件
+											</Button>
+										</StackPanel>
+										<StackPanel Margin="0" Orientation="Horizontal">
+											<TextBlock Width="110"
+													   Margin="8,0,0,0"
+													   VerticalAlignment="Center"
+													   FontSize="13"
+													   Foreground="{DynamicResource SukiLowText}"
+													   Text="Fastboot Updated" />
+											<TextBox Width="570" Name="FastbootUpdatedFile"
+													 Text="{Binding FastbootupdatedFile, Mode=TwoWay}"
+													 theme:TextBoxExtensions.AddDeleteButton="True"/>
+											<Button Height="35"
+													Padding="10,0,10,0"
+													Click="OpenUpdatedFile">
+												选择文件
+											</Button>
+										</StackPanel>
+										<StackPanel Margin="0" Orientation="Horizontal">
+											<TextBlock Width="110"
+													   Margin="8,0,0,0"
+													   VerticalAlignment="Center"
+													   FontSize="13"
+													   Foreground="{DynamicResource SukiLowText}"
+													   Text="小米线刷脚本" />
+											<TextBox Width="570" Name="BatFile"
+													 theme:TextBoxExtensions.AddDeleteButton="True"/>
+											<Button Height="35"
+													Padding="10,0,10,0"
+													Click="OpenBatFile">
+												选择文件
+											</Button>
+										</StackPanel>
+									</StackPanel>
+									<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+										<Button Width="115"
+												Height="35"
+												HorizontalAlignment="Left"
+												Click="SetToA">
+											<TextBlock>
+												切换至A槽
+											</TextBlock>
+										</Button>
+										<Button Width="115"
+												Height="35"
+												HorizontalAlignment="Left"
+												Click="SetToB">
+											<TextBlock>
+												切换至B槽
+											</TextBlock>
+										</Button>
+										<Button Width="115"
+												Height="35"
+												HorizontalAlignment="Left"
+												Click="StartFlash">
+											<TextBlock>
+												开始刷机
+											</TextBlock>
+										</Button>
+									</StackPanel>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</Grid>
+				</suki:BusyArea>
+			</suki:GlassCard>
+
+			<!-- Log -->
+			<suki:GlassCard Width="960"
+							Height="340"
+			                Margin="10"
+			                VerticalAlignment="Top">
+				<Grid VerticalAlignment="Top">
+					<TextBox Name="WiredflashLog" Watermark="日志输出" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
+							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
+				</Grid>
+			</suki:GlassCard>
+		</WrapPanel>
+	</ScrollViewer>
+</UserControl>

@@ -3,12 +3,26 @@
         xmlns:theme="clr-namespace:SukiUI.Theme">
     <Design.PreviewWith>
         <Border Padding="20" Background="{DynamicResource SukiBackground}">
-            <ListBox>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-            </ListBox>
+            <StackPanel Orientation="Horizontal">
+                <ListBox Width="150">
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+                <ListBox Width="150" Classes="WithoutCheck">
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+                <ListBox Width="150" Classes="Stack">
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+            </StackPanel>
         </Border>
     </Design.PreviewWith>
     <Style Selector="ListBox">
@@ -18,12 +32,9 @@
         <Setter Property="BorderThickness" Value="{DynamicResource ListBoxBorderThemeThickness}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-
-
         <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
         <Setter Property="Template">
             <ControlTemplate>
-
                 <Border Name="border"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -31,12 +42,12 @@
                         ClipToBounds="{TemplateBinding ClipToBounds}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <Border.Resources>
-                        <theme:BiggestItemListBoxConverter x:Key="BiggestListitem" />
+                        <theme:BiggestItemListBoxConverter x:Key="BiggestListItem" />
                     </Border.Resources>
                     <Panel>
                         <ListBoxItem Margin="0,0,32,0"
                                      Content="{TemplateBinding ItemsSource,
-                                                               Converter={StaticResource BiggestListitem}}"
+                                                               Converter={StaticResource BiggestListItem}}"
                                      Opacity="0" />
                         <ScrollViewer Name="PART_ScrollViewer"
                                       HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
@@ -50,20 +61,21 @@
             </ControlTemplate>
         </Setter>
     </Style>
-    
-     <Style Selector="ListBox.Stack">
+
+    <Style Selector="ListBox.WithoutCheck ListBoxItem /template/ PathIcon#CheckSelected">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+
+    <Style Selector="ListBox.Stack">
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderThickness" Value="{DynamicResource ListBoxBorderThemeThickness}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-
-
         <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
         <Setter Property="Template">
             <ControlTemplate>
-
                 <Border Name="border"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -71,17 +83,18 @@
                         ClipToBounds="{TemplateBinding ClipToBounds}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <Border.Resources>
-                        <theme:BiggestItemListBoxConverter x:Key="BiggestListitem" />
+                        <theme:BiggestItemListBoxConverter x:Key="BiggestListItem" />
                     </Border.Resources>
                     <Panel>
                         <ListBoxItem Margin="0,0,32,0"
                                      Content="{TemplateBinding ItemsSource,
-                                                               Converter={StaticResource BiggestListitem}}"
+                                                               Converter={StaticResource BiggestListItem}}"
                                      Opacity="0" />
-                        <ScrollViewer Classes="Stack" Name="PART_ScrollViewer"
+                        <ScrollViewer Name="PART_ScrollViewer"
+                                      Classes="Stack"
                                       HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                                       VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
-                            <ItemsPresenter Name="PART_ItemsPresenter" 
+                            <ItemsPresenter Name="PART_ItemsPresenter"
                                             Margin="{TemplateBinding Padding}"
                                             ItemsPanel="{TemplateBinding ItemsPanel}" />
                         </ScrollViewer>

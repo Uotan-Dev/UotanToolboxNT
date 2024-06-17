@@ -1,17 +1,13 @@
 ﻿<UserControl x:Class="UotanToolbox.Features.Advanced.AdvancedView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
-             xmlns:controlsLibrary="clr-namespace:UotanToolbox.Features.ControlsLibrary"
 			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:advanced="clr-namespace:UotanToolbox.Features.Advanced"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
-			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
-			 xmlns:localizations="clr-namespace:UotanToolbox.Common;assembly=UotanToolbox"
-			 d:DesignWidth="1024"
+			 d:DesignWidth="1240"
              x:DataType="advanced:AdvancedViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -20,8 +16,9 @@
                    Orientation="Horizontal">
 
 			<!--  QCN  -->
-			<suki:GlassCard Width="450"
-                            Margin="15"
+			<suki:GlassCard Width="470"
+							Height="210"
+                            Margin="10"
                             VerticalAlignment="Top">
 				<Grid>
 					<StackPanel Spacing="10">
@@ -38,7 +35,8 @@
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="QCN文件" />
 								<TextBox Width="250" Name="QcnFile" Text="{Binding QcnFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-								<Button Height="35"
+								<Button Width="105"
+										Height="35"
 										Padding="10,0,10,0"
 										Click="OpenQcnFile">
 									选择文件
@@ -99,6 +97,227 @@
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+			
+			<!-- SuperEmpty -->
+			<suki:GlassCard Width="470"
+							Height="210"
+                            Margin="10"
+                            VerticalAlignment="Top">
+				 <suki:BusyArea Name="BusyFlash"
+								BusyText="执行中 ..."
+								IsBusy="{Binding Flashing}">
+					<Grid>
+						<StackPanel Spacing="30">
+							<StackPanel>
+								<TextBlock HorizontalAlignment="Left"
+										   VerticalAlignment="Top"
+										   FontWeight="DemiBold"
+										   Text="SuperEmpty" />
+								<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+									<TextBlock Width="80"
+											   Margin="8,0,0,0"
+											   VerticalAlignment="Center"
+											   FontSize="13"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="SuperEmpty" />
+									<TextBox Width="250" Name="SuperEmptyFile"
+											 Text="{Binding SuperEmptyFile, Mode=TwoWay}"
+											 theme:TextBoxExtensions.AddDeleteButton="False"/>
+									<Button Height="35"
+											Padding="10,0,10,0"
+											Click="OpenEmptyFile">
+										选择文件
+									</Button>
+								</StackPanel>
+							</StackPanel>
+							<StackPanel Spacing="30">
+								<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+									<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+										<Button Width="125"
+												HorizontalAlignment="Left"
+												Padding="8"
+												Click="FlashSuperEmpty">
+											<TextBlock>
+												<avalonia:MaterialIcon Kind="PencilAddOutline" />
+												刷入文件
+											</TextBlock>
+										</Button>
+									</StackPanel>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</Grid>
+				</suki:BusyArea>
+			</suki:GlassCard>
+			
+			<!-- Format -->
+			<suki:GlassCard Width="470"
+							Height="250"
+			                Margin="10"
+			                VerticalAlignment="Top">
+				<suki:BusyArea Name="BusyFormat"
+								BusyText="执行中 ..."
+								IsBusy="{Binding Flashing}">
+					<Grid>
+						<StackPanel Spacing="10">
+							<StackPanel>
+								<TextBlock HorizontalAlignment="Left"
+										   VerticalAlignment="Top"
+										   FontWeight="DemiBold"
+										   Text="格式化" />
+								<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+									<TextBlock Width="60"
+											   Margin="8,0,0,0"
+											   VerticalAlignment="Center"
+											   FontSize="13"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="分区名称" />
+									<TextBox Width="355" Name="FormatName"
+											 Text="{Binding FormatName, Mode=TwoWay}"
+											 theme:TextBoxExtensions.AddDeleteButton="False"/>
+								</StackPanel>
+							</StackPanel>
+							<StackPanel>
+								<StackPanel Margin="0,5,0,5" Orientation="Horizontal">
+									<TextBlock Width="65"
+											   Margin="8,0,0,0"
+											   VerticalAlignment="Center"
+											   FontSize="13"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="格式化为" />
+									<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="0">
+										<StackPanel Orientation="Horizontal" Spacing="10">
+											<RadioButton Name="EXT4" FontSize="12" Content="EXT4" GroupName="FormatContent" IsChecked="True" />
+											<RadioButton Name="F2FS" FontSize="12" Content="F2FS" GroupName="FormatContent" />
+											<RadioButton Name="FAT32" FontSize="12" Content="FAT32" GroupName="FormatContent" />
+											<RadioButton Name="exFAT" FontSize="12" Content="exFAT" GroupName="FormatContent" />
+											<RadioButton Name="NTFS" FontSize="12" Content="NTFS" GroupName="FormatContent" />
+										</StackPanel>
+									</StackPanel>
+								</StackPanel>
+							</StackPanel>
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+									<Button Width="155"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Click="ADBFormat">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="PencilAddOutline" />
+											ADB格式化
+										</TextBlock>
+									</Button>
+									<Button Width="155"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Click="FastbootFormat">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
+											Fastboot格式化
+										</TextBlock>
+									</Button>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+									<Button Width="155"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Click="FormatData">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="AndroidStudio" />
+											格式化Data分区
+										</TextBlock>
+									</Button>
+									<Button Width="155"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Click="TWRPFormatData">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="AndroidStudio" />
+											TWRP格式化Data
+										</TextBlock>
+									</Button>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</Grid>
+				</suki:BusyArea>
+			</suki:GlassCard>
+			
+			<!-- Extract -->
+			<suki:GlassCard Width="470"
+							Height="250"
+			                Margin="10"
+			                VerticalAlignment="Top">
+				<suki:BusyArea Name="BusyExtract"
+								BusyText="执行中 ..."
+								IsBusy="{Binding Flashing}">
+					<Grid>
+						<StackPanel Spacing="20">
+							<StackPanel Spacing="15">
+								<TextBlock HorizontalAlignment="Left"
+										   VerticalAlignment="Top"
+										   FontWeight="DemiBold"
+										   Text="提取" />
+								<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+									<TextBlock Width="60"
+											   Margin="8,0,0,0"
+											   VerticalAlignment="Center"
+											   FontSize="13"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="分区名称" />
+									<TextBox Width="350" Name="ExtractName"
+											 Text="{Binding ExtractName, Mode=TwoWay}"
+											 theme:TextBoxExtensions.AddDeleteButton="False"/>
+								</StackPanel>
+							</StackPanel>
+							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="60">
+									<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Click="ExtractPart">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="PencilAddOutline" />
+											物理分区
+										</TextBlock>
+									</Button>
+									<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Click="ExtractVPart">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
+											虚拟分区
+										</TextBlock>
+									</Button>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+									<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Click="OpenExtractFile">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="AndroidStudio" />
+											提取文件夹
+										</TextBlock>
+									</Button>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</Grid>
+				</suki:BusyArea>
+			</suki:GlassCard>
+			
+			<!-- Log -->
+			<suki:GlassCard Width="960"
+							Height="250"
+			                Margin="10"
+			                VerticalAlignment="Top">
+				<Grid>
+						<TextBox Name="AdvancedLog" Watermark="日志输出" Text="{Binding AdvancedLog, Mode=TwoWay}" Margin="0" Height="210" AcceptsReturn="True" IsReadOnly="True"
+							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>
 		</WrapPanel>

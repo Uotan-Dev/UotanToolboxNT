@@ -15,6 +15,7 @@ namespace UotanToolbox.Features.Dashboard;
 public partial class DashboardViewModel : MainPageBase
 {
     public AvaloniaList<string> SimpleContent { get; } = [];
+    public AvaloniaList<string> ArchList { get; } = [];
     [ObservableProperty] private string _name;
     [ObservableProperty] private int _stepperIndex;
     [ObservableProperty] private string _selectedSimpleContent;
@@ -24,6 +25,9 @@ public partial class DashboardViewModel : MainPageBase
     [ObservableProperty] private string _unlockFile;
     [ObservableProperty] private string _unlockCode;
     [ObservableProperty] private string _recFile;
+    [ObservableProperty] private string _magiskFile;
+    [ObservableProperty] private string _bootFile;
+    [ObservableProperty] private string _selectedArchList;
 
     private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
     private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
@@ -32,6 +36,7 @@ public partial class DashboardViewModel : MainPageBase
     {
         StepperIndex = 1;
         SimpleContent.AddRange(["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"]);
+        ArchList.AddRange(["aarch64", "armeabi", "X86-64", "X86"]);
     }
 
     [RelayCommand]
@@ -198,7 +203,7 @@ public partial class DashboardViewModel : MainPageBase
                 if (RecFile != null)
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile}\"");
-                    if (output.Contains("FAILED") && output.Contains("error"))
+                    if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
                         var newDialog = new ConnectionDialog("刷入成功！是否重启到Recovery？");
                         await SukiHost.ShowDialogAsync(newDialog);

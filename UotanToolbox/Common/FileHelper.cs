@@ -130,61 +130,49 @@ namespace UotanToolbox.Common
         /// <summary>
         /// 删除指定目录及其所有内容。
         /// </summary>
-        /// <param name="directoryPath">要删除的目录路径。</param>
+        /// <param name="folderPath">要删除的目录路径。</param>
         /// <returns>删除目录是否成功</returns>
-        public static bool DeleteDirectory(string dirPath)
+        public static bool ClearFolder(string folderPath)
         {
-            if (string.IsNullOrWhiteSpace(dirPath))
+            if (!Directory.Exists(folderPath))
             {
-                throw new ArgumentException("Directory path cannot be empty or whitespace.", nameof(dirPath));
+                Directory.CreateDirectory(folderPath);
+                return true;
             }
             try
             {
-                if (!Directory.Exists(dirPath))
+                string[] subDirs = Directory.GetDirectories(folderPath);
+                foreach (string subDirPath in subDirs)
                 {
-                    return true;
+                    ClearFolder(subDirPath);
                 }
-                string[] files = Directory.GetFiles(dirPath, "*", SearchOption.AllDirectories);
-                string[] dirs = Directory.GetDirectories(dirPath, "*", SearchOption.AllDirectories);
-                foreach (string file in files)
+                string[] files = Directory.GetFiles(folderPath, "*", SearchOption.TopDirectoryOnly);
+                foreach (string filePath in files)
                 {
-                    try
+                    FileAttributes attr = File.GetAttributes(filePath);
+                    if ((attr & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
                     {
-                        FileInfo fi = new FileInfo(file);
-                        if ((fi.Attributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                        {
-                            fi.Attributes = FileAttributes.Normal;
-                        }
-                        File.Delete(file);
+                        File.SetAttributes(filePath, attr & ~FileAttributes.ReadOnly);
                     }
-                    catch (Exception ex)
-                    {
-                        SukiHost.ShowDialog(new ConnectionDialog($"Failed to delete file {file}. Error: {ex.Message}"), allowBackgroundClose: true);
-                    }
+                    File.Delete(filePath);
                 }
-                foreach (string dir in dirs)
+                subDirs = Directory.GetDirectories(folderPath);
+                foreach (string subDirPath in subDirs)
                 {
-                    DeleteDirectory(dir);
+                    Directory.Delete(subDirPath, true);
                 }
-                Directory.Delete(dirPath, true);
                 return true;
             }
             catch (UnauthorizedAccessException ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"Unauthorized access to directory {dirPath}. Error: {ex.Message}"), allowBackgroundClose: true);
-                return false;
-            }
-            catch (IOException ex)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog($"Failed to delete directory {dirPath}. Error: {ex.Message}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"没有足够的权限删除Temp: {ex.Message}"), allowBackgroundClose: true);
                 return false;
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"An unexpected error occurred while deleting directory {dirPath}. Error: {ex.Message}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"), allowBackgroundClose: true);
                 return false;
             }
-            return false;
         }
 
         public static void OpenFolder(string folderPath)

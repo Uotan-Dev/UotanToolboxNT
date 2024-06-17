@@ -58,7 +58,7 @@ public partial class DashboardView : UserControl
         {
             MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             string outputpath = Path.Combine(Global.runpath,"Temp","Magisk");
-            bool istempclean =FileHelper.DeleteDirectory(outputpath);
+            bool istempclean =FileHelper.ClearFolder(outputpath);
             if (istempclean)
             {
                 string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{outputpath}\" -y");
@@ -98,26 +98,8 @@ public partial class DashboardView : UserControl
         {
             BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             string outputpath = Path.Combine(Global.runpath, "Temp", "Boot");
-            bool istempclean = FileHelper.DeleteDirectory(outputpath);
-            try
-            {
-                if (File.Exists(outputpath))
-                {
-                    if (!FileHelper.WipeFile(outputpath))
-                    {
-                        SukiHost.ShowDialog(new ConnectionDialog($"删除文件时发生错误: {outputpath}"), allowBackgroundClose: true);
-                    }
-                }
-                if (!Directory.Exists(outputpath))
-                {
-                    Directory.CreateDirectory(outputpath);
-                }
-            }
-            catch (Exception ex)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog($"创建临时文件夹时发生错误: {ex.Message}"), allowBackgroundClose: true);
-                return;
-            }
+            bool istempclean = FileHelper.ClearFolder(outputpath);
+
             if (istempclean)
             {
                 string workpath = Path.Combine(Global.runpath, "Temp", "Boot");

@@ -161,6 +161,11 @@ public partial class DashboardView : UserControl
         }
     }
 
+    private async void StartPatch(object sender, RoutedEventArgs args)
+    {
+
+    }
+
     private async void OpenAFDI(object sender, RoutedEventArgs args)
     {
         if (Global.System == "Windows")

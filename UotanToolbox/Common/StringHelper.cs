@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using UotanToolbox.Features.Components;
 
@@ -334,6 +335,16 @@ namespace UotanToolbox.Common
                 SukiHost.ShowDialog(new ConnectionDialog($"An error occurred while reading the string: {ex.Message}"), allowBackgroundClose: true);
                 return null;
             }
+        }
+        public static string RandomString(int length,string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+        {
+            Random random = new Random();
+            StringBuilder result = new StringBuilder(length);
+            for (int i = 0; i < length; i++)
+            {
+                result.Append(chars[random.Next(chars.Length)]);
+            }
+            return result.ToString();
         }
         public static bool Magisk_Validation(string MD5,string MAGISK_VER,string MAGISK_VER_CODE)
         {

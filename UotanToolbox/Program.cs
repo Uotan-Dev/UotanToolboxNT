@@ -22,6 +22,7 @@ internal class Program
     public static AppBuilder BuildAvaloniaApp()
     {
         Global.runpath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);//获取工具运行路径
+        Global.tmp_path =Path.GetTempPath();
         FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
         {

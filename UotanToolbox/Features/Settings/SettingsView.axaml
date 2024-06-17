@@ -7,16 +7,17 @@
              xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
              xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=System.ObjectModel"
              xmlns:settings="clr-namespace:UotanToolbox.Features.Settings"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
              d:DesignHeight="450"
              d:DesignWidth="800"
              x:DataType="settings:SettingsViewModel"
              mc:Ignorable="d">
     <controls:SukiStackPage Margin="20">
         <controls:SukiStackPage.Content>
-            <controls:SettingsLayout Name="Settings">
+            <controls:SettingsLayout Name="{x:Static assets:Resources.Settings_Settings}">
                 <controls:SettingsLayout.Items>
                     <objectModel:ObservableCollection x:TypeArguments="controls:SettingsLayoutItem">
-                        <controls:SettingsLayoutItem Header="Base Theme">
+                        <controls:SettingsLayoutItem Header="{x:Static assets:Resources.Settings_BaseTheme}">
                             <controls:SettingsLayoutItem.Content>
                                 <StackPanel HorizontalAlignment="Center"
                                             Orientation="Horizontal"
@@ -36,7 +37,7 @@
                                                            VerticalAlignment="Bottom"
                                                            FontWeight="DemiBold"
                                                            Foreground="#555555"
-                                                           Text="Light Mode" />
+                                                           Text="{x:Static assets:Resources.Settings_LightMode}" />
                                             </Grid>
                                         </Border>
                                     </RadioButton>
@@ -55,7 +56,7 @@
                                                            VerticalAlignment="Bottom"
                                                            FontWeight="DemiBold"
                                                            Foreground="#fafafa"
-                                                           Text="Dark Mode" />
+                                                           Text="{x:Static assets:Resources.Settings_DarkMode}" />
                                             </Grid>
                                         </Border>
                                     </RadioButton>
@@ -63,7 +64,7 @@
                             </controls:SettingsLayoutItem.Content>
                         </controls:SettingsLayoutItem>
 
-                        <controls:SettingsLayoutItem Header="Color Theme">
+						<!--<controls:SettingsLayoutItem Header="{x:Static assets:Resources.Settings_ColorTheme}">
                             <controls:SettingsLayoutItem.Content>
                                 <ItemsControl HorizontalAlignment="Center" ItemsSource="{Binding AvailableColors}">
                                     <ItemsControl.ItemsPanel>
@@ -75,7 +76,6 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate x:DataType="models:SukiColorTheme">
-
                                             <RadioButton Width="50"
                                                          Height="50"
                                                          Classes="GigaChips"
@@ -91,9 +91,9 @@
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </controls:SettingsLayoutItem.Content>
-                        </controls:SettingsLayoutItem>
+                        </controls:SettingsLayoutItem>-->
 
-						<controls:SettingsLayoutItem Header="Selector">
+						<!--<controls:SettingsLayoutItem Header="Selector">
 							<controls:SettingsLayoutItem.Content>
 								<controls:GlassCard Margin="15">
 									<DockPanel>
@@ -110,9 +110,9 @@
 									</DockPanel>
 								</controls:GlassCard>
 							</controls:SettingsLayoutItem.Content>
-						</controls:SettingsLayoutItem>
+						</controls:SettingsLayoutItem>-->
 
-                        <controls:SettingsLayoutItem Header="Other">
+                        <controls:SettingsLayoutItem Header="{x:Static assets:Resources.Settings_Other}">
                             <controls:SettingsLayoutItem.Content>
                                 <controls:GlassCard Margin="15">
                                     <DockPanel>
@@ -123,10 +123,10 @@
                                         <StackPanel HorizontalAlignment="Left">
                                             <TextBlock FontSize="16"
                                                        FontWeight="DemiBold"
-                                                       Text="Animated Background" />
+                                                       Text="{x:Static assets:Resources.Settings_AnimatedBackground}" />
                                             <TextBlock Margin="0,12,70,0"
                                                        Foreground="{DynamicResource SukiLowText}"
-                                                       Text="Enable a 'cloud' effect in the background. The background will be dynamic and the colors spaces will change over time."
+                                                       Text="{x:Static assets:Resources.Settings_EnableCloudEffect}"
                                                        TextWrapping="Wrap" />
                                         </StackPanel>
                                     </DockPanel>

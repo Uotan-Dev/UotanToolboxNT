@@ -291,4 +291,52 @@
   <data name="Info_UnauthorizedDevice" xml:space="preserve">
     <value>Unauthorized Device</value>
   </data>
+  <data name="MainView_AnimationDisabled" xml:space="preserve">
+    <value>Animation Disabled</value>
+  </data>
+  <data name="MainView_AnimationEnabled" xml:space="preserve">
+    <value>Animation Enabled</value>
+  </data>
+  <data name="MainView_BackgroundAnimationsDisabled" xml:space="preserve">
+    <value>Background animations are now disabled.</value>
+  </data>
+  <data name="MainView_BackgroundAnimationsEnabled" xml:space="preserve">
+    <value>Background animations are now enabled.</value>
+  </data>
+  <data name="MainView_ChangedColorTo" xml:space="preserve">
+    <value>Changed Color To</value>
+  </data>
+  <data name="MainView_ChangedThemeTo" xml:space="preserve">
+    <value>Changed Theme To</value>
+  </data>
+  <data name="MainView_SuccessfullyChangedColor" xml:space="preserve">
+    <value>Successfully Changed Color</value>
+  </data>
+  <data name="MainView_SuccessfullyChangedTheme" xml:space="preserve">
+    <value>Successfully Changed Theme</value>
+  </data>
+  <data name="Settings_AnimatedBackground" xml:space="preserve">
+    <value>Animated Background</value>
+  </data>
+  <data name="Settings_BaseTheme" xml:space="preserve">
+    <value>Base Theme</value>
+  </data>
+  <data name="Settings_ColorTheme" xml:space="preserve">
+    <value>Color Theme</value>
+  </data>
+  <data name="Settings_DarkMode" xml:space="preserve">
+    <value>Dark Mode</value>
+  </data>
+  <data name="Settings_EnableCloudEffect" xml:space="preserve">
+    <value>Enable a 'cloud' effect in the background. The background will be dynamic and the colors spaces will change over time.</value>
+  </data>
+  <data name="Settings_LightMode" xml:space="preserve">
+    <value>Light Mode</value>
+  </data>
+  <data name="Settings_Other" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="Settings_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
 </root>

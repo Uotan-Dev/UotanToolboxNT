@@ -581,5 +581,149 @@ namespace UotanToolbox.Assets {
                 return ResourceManager.GetString("Info_UnauthorizedDevice", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Animation Disabled 的本地化字符串。
+        /// </summary>
+        public static string MainView_AnimationDisabled {
+            get {
+                return ResourceManager.GetString("MainView_AnimationDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Animation Enabled 的本地化字符串。
+        /// </summary>
+        public static string MainView_AnimationEnabled {
+            get {
+                return ResourceManager.GetString("MainView_AnimationEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Background animations are now disabled. 的本地化字符串。
+        /// </summary>
+        public static string MainView_BackgroundAnimationsDisabled {
+            get {
+                return ResourceManager.GetString("MainView_BackgroundAnimationsDisabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Background animations are now enabled. 的本地化字符串。
+        /// </summary>
+        public static string MainView_BackgroundAnimationsEnabled {
+            get {
+                return ResourceManager.GetString("MainView_BackgroundAnimationsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Changed Color To 的本地化字符串。
+        /// </summary>
+        public static string MainView_ChangedColorTo {
+            get {
+                return ResourceManager.GetString("MainView_ChangedColorTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Changed Theme To 的本地化字符串。
+        /// </summary>
+        public static string MainView_ChangedThemeTo {
+            get {
+                return ResourceManager.GetString("MainView_ChangedThemeTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Successfully Changed Color 的本地化字符串。
+        /// </summary>
+        public static string MainView_SuccessfullyChangedColor {
+            get {
+                return ResourceManager.GetString("MainView_SuccessfullyChangedColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Successfully Changed Theme 的本地化字符串。
+        /// </summary>
+        public static string MainView_SuccessfullyChangedTheme {
+            get {
+                return ResourceManager.GetString("MainView_SuccessfullyChangedTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Animated Background 的本地化字符串。
+        /// </summary>
+        public static string Settings_AnimatedBackground {
+            get {
+                return ResourceManager.GetString("Settings_AnimatedBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Base Theme 的本地化字符串。
+        /// </summary>
+        public static string Settings_BaseTheme {
+            get {
+                return ResourceManager.GetString("Settings_BaseTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Color Theme 的本地化字符串。
+        /// </summary>
+        public static string Settings_ColorTheme {
+            get {
+                return ResourceManager.GetString("Settings_ColorTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Dark Mode 的本地化字符串。
+        /// </summary>
+        public static string Settings_DarkMode {
+            get {
+                return ResourceManager.GetString("Settings_DarkMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable a &apos;cloud&apos; effect in the background. The background will be dynamic and the colors spaces will change over time. 的本地化字符串。
+        /// </summary>
+        public static string Settings_EnableCloudEffect {
+            get {
+                return ResourceManager.GetString("Settings_EnableCloudEffect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Light Mode 的本地化字符串。
+        /// </summary>
+        public static string Settings_LightMode {
+            get {
+                return ResourceManager.GetString("Settings_LightMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Other 的本地化字符串。
+        /// </summary>
+        public static string Settings_Other {
+            get {
+                return ResourceManager.GetString("Settings_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Settings 的本地化字符串。
+        /// </summary>
+        public static string Settings_Settings {
+            get {
+                return ResourceManager.GetString("Settings_Settings", resourceCulture);
+            }
+        }
     }
 }

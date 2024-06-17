@@ -291,4 +291,52 @@
   <data name="Info_UnauthorizedDevice" xml:space="preserve">
     <value>未信任的设备</value>
   </data>
+  <data name="MainView_AnimationDisabled" xml:space="preserve">
+    <value>动画已停用</value>
+  </data>
+  <data name="MainView_AnimationEnabled" xml:space="preserve">
+    <value>动画已启用</value>
+  </data>
+  <data name="MainView_BackgroundAnimationsDisabled" xml:space="preserve">
+    <value>背景动画现已停用。</value>
+  </data>
+  <data name="MainView_BackgroundAnimationsEnabled" xml:space="preserve">
+    <value>背景动画现已启用。</value>
+  </data>
+  <data name="MainView_ChangedColorTo" xml:space="preserve">
+    <value>切换颜色到</value>
+  </data>
+  <data name="MainView_ChangedThemeTo" xml:space="preserve">
+    <value>切换主题到</value>
+  </data>
+  <data name="MainView_SuccessfullyChangedColor" xml:space="preserve">
+    <value>成功切换颜色</value>
+  </data>
+  <data name="MainView_SuccessfullyChangedTheme" xml:space="preserve">
+    <value>成功切换主题</value>
+  </data>
+  <data name="Settings_AnimatedBackground" xml:space="preserve">
+    <value>动画背景</value>
+  </data>
+  <data name="Settings_BaseTheme" xml:space="preserve">
+    <value>基本主题</value>
+  </data>
+  <data name="Settings_ColorTheme" xml:space="preserve">
+    <value>颜色主题</value>
+  </data>
+  <data name="Settings_DarkMode" xml:space="preserve">
+    <value>暗色</value>
+  </data>
+  <data name="Settings_EnableCloudEffect" xml:space="preserve">
+    <value>开启背景云朵特效。背景将会动态化，颜色之间的空隙也会随时间发生变化。</value>
+  </data>
+  <data name="Settings_LightMode" xml:space="preserve">
+    <value>亮色</value>
+  </data>
+  <data name="Settings_Other" xml:space="preserve">
+    <value>其它</value>
+  </data>
+  <data name="Settings_Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
 </root>

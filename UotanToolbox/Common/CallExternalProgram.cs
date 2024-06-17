@@ -190,7 +190,7 @@ namespace UotanToolbox.Common
             SevenZip.WaitForExit();
             return output;
         }
-        public static async Task<string> MagiskBoot(string shell,string workpath)
+        public static async Task<(string Output, int ExitCode)> MagiskBoot(string shell,string workpath)
         {
             string cmd=Path.Combine(Global.bin_path,"magiskboot");
             Directory.SetCurrentDirectory(workpath);
@@ -210,8 +210,10 @@ namespace UotanToolbox.Common
                 output = await mb.StandardOutput.ReadToEndAsync();
             }
             mb.WaitForExit();
-            return output;
+            int exitCode = mb.ExitCode; // 获取进程退出代码
+            return (output, exitCode);
         }
+    
         /// <summary>
         /// 使用file命令判断文件的类型和指令集。暂不支持FAT Binary多架构检测
         /// </summary>

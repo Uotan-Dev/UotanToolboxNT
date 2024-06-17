@@ -9,7 +9,7 @@ namespace UotanToolbox.Common
         public static string System = "Windows";
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
-
+        public static int mb_exitcode,cpio_exitcode;
         //分区表储存
         public static string sdatable = "";
         public static string sdbtable = "";

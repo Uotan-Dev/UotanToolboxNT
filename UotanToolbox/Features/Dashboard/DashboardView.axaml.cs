@@ -98,12 +98,10 @@ public partial class DashboardView : UserControl
         {
             BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             string outputpath = Path.Combine(Global.runpath, "Temp", "Boot");
-            bool istempclean = FileHelper.ClearFolder(outputpath);
-
-            if (istempclean)
+            if (FileHelper.ClearFolder(outputpath))
             {
                 string workpath = Path.Combine(Global.runpath, "Temp", "Boot");
-                string mb_output = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"",workpath);
+                (string mb_output,Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"",workpath);
                 if (mb_output.Contains("error")) 
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("解包失败"), allowBackgroundClose: true);
@@ -116,7 +114,7 @@ public partial class DashboardView : UserControl
                     workpath = Path.Combine(workpath, "ramdisk");
                     Directory.CreateDirectory(workpath);
                 }
-                string outputcpio = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract",workpath);
+                (string outputcpio,Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract",workpath);
                 //SukiHost.ShowDialog(new ConnectionDialog($"cpio \"{cpio_path}\" extract ./ \"{ramdisk}\""), allowBackgroundClose: true);
                 string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
                 //SukiHost.ShowDialog(new ConnectionDialog(init_info), allowBackgroundClose: true);

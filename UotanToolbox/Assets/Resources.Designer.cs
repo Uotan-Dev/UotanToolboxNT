@@ -824,5 +824,113 @@ namespace UotanToolbox.Assets {
                 return ResourceManager.GetString("Sidebar_HomePage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Wired Flash 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_WiredFlash {
+            get {
+                return ResourceManager.GetString("Sidebar_WiredFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choose File 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_ChooseFile {
+            get {
+                return ResourceManager.GetString("Wiredflash_ChooseFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clear all data 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_ClearAllData {
+            get {
+                return ResourceManager.GetString("Wiredflash_ClearAllData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Executing ... 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_Executing {
+            get {
+                return ResourceManager.GetString("Wiredflash_Executing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 FASTBOOT 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_Fastboot {
+            get {
+                return ResourceManager.GetString("Wiredflash_Fastboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Log Output 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_Log {
+            get {
+                return ResourceManager.GetString("Wiredflash_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 More Flash 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_MoreFlash {
+            get {
+                return ResourceManager.GetString("Wiredflash_MoreFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start flashing 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_StartFlashing {
+            get {
+                return ResourceManager.GetString("Wiredflash_StartFlashing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Switch To A Slot 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_SwitchToASlot {
+            get {
+                return ResourceManager.GetString("Wiredflash_SwitchToASlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Switch To B Slot 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_SwitchToBSlot {
+            get {
+                return ResourceManager.GetString("Wiredflash_SwitchToBSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 TXT Flash 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_TXTFlash {
+            get {
+                return ResourceManager.GetString("Wiredflash_TXTFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Xiaomi Flash Script 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_XiaomiFlashScript {
+            get {
+                return ResourceManager.GetString("Wiredflash_XiaomiFlashScript", resourceCulture);
+            }
+        }
     }
 }

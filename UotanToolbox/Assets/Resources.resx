@@ -372,4 +372,40 @@
   <data name="Sidebar_Basicflash" xml:space="preserve">
     <value>Basic Flash</value>
   </data>
+  <data name="Sidebar_WiredFlash" xml:space="preserve">
+    <value>Wired Flash</value>
+  </data>
+  <data name="Wiredflash_ChooseFile" xml:space="preserve">
+    <value>Choose File</value>
+  </data>
+  <data name="Wiredflash_ClearAllData" xml:space="preserve">
+    <value>Clear all data</value>
+  </data>
+  <data name="Wiredflash_Executing" xml:space="preserve">
+    <value>Executing ...</value>
+  </data>
+  <data name="Wiredflash_Fastboot" xml:space="preserve">
+    <value>FASTBOOT</value>
+  </data>
+  <data name="Wiredflash_Log" xml:space="preserve">
+    <value>Log Output</value>
+  </data>
+  <data name="Wiredflash_MoreFlash" xml:space="preserve">
+    <value>More Flash</value>
+  </data>
+  <data name="Wiredflash_StartFlashing" xml:space="preserve">
+    <value>Start flashing</value>
+  </data>
+  <data name="Wiredflash_SwitchToASlot" xml:space="preserve">
+    <value>Switch To A Slot</value>
+  </data>
+  <data name="Wiredflash_SwitchToBSlot" xml:space="preserve">
+    <value>Switch To B Slot</value>
+  </data>
+  <data name="Wiredflash_TXTFlash" xml:space="preserve">
+    <value>TXT Flash</value>
+  </data>
+  <data name="Wiredflash_XiaomiFlashScript" xml:space="preserve">
+    <value>Xiaomi Flash Script</value>
+  </data>
 </root>

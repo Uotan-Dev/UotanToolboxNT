@@ -339,4 +339,25 @@
   <data name="Settings_Settings" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="Main_BLStatus" xml:space="preserve">
+    <value>BL状态</value>
+  </data>
+  <data name="Main_Code" xml:space="preserve">
+    <value>代号</value>
+  </data>
+  <data name="Main_OpenOnGithub" xml:space="preserve">
+    <value>打开Github项目链接</value>
+  </data>
+  <data name="Main_OpenTerminal" xml:space="preserve">
+    <value>打开终端</value>
+  </data>
+  <data name="Main_OpenUOTANCommunity" xml:space="preserve">
+    <value>打开柚坛社区</value>
+  </data>
+  <data name="Main_Status" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="Main_VABStatus" xml:space="preserve">
+    <value>VAB状态</value>
+  </data>
 </root>

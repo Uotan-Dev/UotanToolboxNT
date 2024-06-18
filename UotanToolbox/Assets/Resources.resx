@@ -339,4 +339,25 @@
   <data name="Settings_Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="Main_BLStatus" xml:space="preserve">
+    <value>BL Status</value>
+  </data>
+  <data name="Main_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Main_OpenOnGithub" xml:space="preserve">
+    <value>Open On Github</value>
+  </data>
+  <data name="Main_OpenTerminal" xml:space="preserve">
+    <value>Open Terminal</value>
+  </data>
+  <data name="Main_OpenUOTANCommunity" xml:space="preserve">
+    <value>Open UOTAN Community</value>
+  </data>
+  <data name="Main_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Main_VABStatus" xml:space="preserve">
+    <value>VAB Status</value>
+  </data>
 </root>

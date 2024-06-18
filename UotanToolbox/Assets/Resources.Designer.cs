@@ -313,15 +313,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Home 的本地化字符串。
-        /// </summary>
-        public static string Sidebar_HomePage {
-            get {
-                return ResourceManager.GetString("Sidebar_HomePage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Kernal Version 的本地化字符串。
         /// </summary>
         public static string Home_KernalVersion {
@@ -583,6 +574,69 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 BL Status 的本地化字符串。
+        /// </summary>
+        public static string Main_BLStatus {
+            get {
+                return ResourceManager.GetString("Main_BLStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Code 的本地化字符串。
+        /// </summary>
+        public static string Main_Code {
+            get {
+                return ResourceManager.GetString("Main_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open On Github 的本地化字符串。
+        /// </summary>
+        public static string Main_OpenOnGithub {
+            get {
+                return ResourceManager.GetString("Main_OpenOnGithub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open Terminal 的本地化字符串。
+        /// </summary>
+        public static string Main_OpenTerminal {
+            get {
+                return ResourceManager.GetString("Main_OpenTerminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open UOTAN Community 的本地化字符串。
+        /// </summary>
+        public static string Main_OpenUOTANCommunity {
+            get {
+                return ResourceManager.GetString("Main_OpenUOTANCommunity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Status 的本地化字符串。
+        /// </summary>
+        public static string Main_Status {
+            get {
+                return ResourceManager.GetString("Main_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 VAB Status 的本地化字符串。
+        /// </summary>
+        public static string Main_VABStatus {
+            get {
+                return ResourceManager.GetString("Main_VABStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Animation Disabled 的本地化字符串。
         /// </summary>
         public static string MainView_AnimationDisabled {
@@ -723,6 +777,15 @@ namespace UotanToolbox.Assets {
         public static string Settings_Settings {
             get {
                 return ResourceManager.GetString("Settings_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Home 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_HomePage {
+            get {
+                return ResourceManager.GetString("Sidebar_HomePage", resourceCulture);
             }
         }
     }

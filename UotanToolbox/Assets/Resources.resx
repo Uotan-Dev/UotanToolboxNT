@@ -339,4 +339,73 @@
   <data name="Settings_Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="Main_BLStatus" xml:space="preserve">
+    <value>BL Status</value>
+  </data>
+  <data name="Main_Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Main_OpenOnGithub" xml:space="preserve">
+    <value>Open On Github</value>
+  </data>
+  <data name="Main_OpenTerminal" xml:space="preserve">
+    <value>Open Terminal</value>
+  </data>
+  <data name="Main_OpenUOTANCommunity" xml:space="preserve">
+    <value>Open UOTAN Community</value>
+  </data>
+  <data name="Main_Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Main_VABStatus" xml:space="preserve">
+    <value>VAB Status</value>
+  </data>
+  <data name="ConnectionDialog_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ConnectionDialog_Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ConnectionDialog_Notice" xml:space="preserve">
+    <value>Notice</value>
+  </data>
+  <data name="Sidebar_Basicflash" xml:space="preserve">
+    <value>Basic Flash</value>
+  </data>
+  <data name="Sidebar_WiredFlash" xml:space="preserve">
+    <value>Wired Flash</value>
+  </data>
+  <data name="Wiredflash_ChooseFile" xml:space="preserve">
+    <value>Choose File</value>
+  </data>
+  <data name="Wiredflash_ClearAllData" xml:space="preserve">
+    <value>Clear all data</value>
+  </data>
+  <data name="Wiredflash_Executing" xml:space="preserve">
+    <value>Executing ...</value>
+  </data>
+  <data name="Wiredflash_Fastboot" xml:space="preserve">
+    <value>FASTBOOT</value>
+  </data>
+  <data name="Wiredflash_Log" xml:space="preserve">
+    <value>Log Output</value>
+  </data>
+  <data name="Wiredflash_MoreFlash" xml:space="preserve">
+    <value>More Flash</value>
+  </data>
+  <data name="Wiredflash_StartFlashing" xml:space="preserve">
+    <value>Start flashing</value>
+  </data>
+  <data name="Wiredflash_SwitchToASlot" xml:space="preserve">
+    <value>Switch To A Slot</value>
+  </data>
+  <data name="Wiredflash_SwitchToBSlot" xml:space="preserve">
+    <value>Switch To B Slot</value>
+  </data>
+  <data name="Wiredflash_TXTFlash" xml:space="preserve">
+    <value>TXT Flash</value>
+  </data>
+  <data name="Wiredflash_XiaomiFlashScript" xml:space="preserve">
+    <value>Xiaomi Flash Script</value>
+  </data>
 </root>

@@ -32,7 +32,7 @@ public partial class DashboardViewModel : MainPageBase
     private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
     private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
 
-    public DashboardViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.CableData, -1000)
+    public DashboardViewModel() : base(GetTranslation("Sidebar_Basicflash"), MaterialIconKind.CableData, -1000)
     {
         StepperIndex = 1;
         SimpleContent.AddRange(["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"]);
@@ -318,11 +318,5 @@ public partial class DashboardViewModel : MainPageBase
     public async Task FlashToBootB()
     {
         await FlashRec("flash boot_b");
-    }
-
-    [RelayCommand]
-    public static void ShowDialog()
-    {
-        SukiHost.ShowDialog(new DialogViewModel(), allowBackgroundClose: true);
     }
 }

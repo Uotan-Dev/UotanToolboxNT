@@ -7,6 +7,7 @@
              xmlns:wiredflash="clr-namespace:UotanToolbox.Features.Wiredflash"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
 			 d:DesignWidth="1024"
              x:DataType="wiredflash:WiredflashViewModel"
              mc:Ignorable="d">
@@ -20,14 +21,14 @@
                             Margin="10"
                             VerticalAlignment="Top">
 				<suki:BusyArea  Name="BusyTXTFlash"
-								BusyText="执行中 ...">
+								BusyText="{x:Static assets:Resources.Wiredflash_Executing}">
 					<Grid>
 						<StackPanel Spacing="30">
 							<StackPanel>
 								<TextBlock HorizontalAlignment="Left"
 										   VerticalAlignment="Top"
 										   FontWeight="DemiBold"
-										   Text="TXT线刷" />
+										   Text="{x:Static assets:Resources.Wiredflash_TXTFlash}" />
 								<StackPanel Orientation="Horizontal" Spacing="20">
 									<StackPanel>
 										<StackPanel Margin="0" Orientation="Horizontal">
@@ -36,14 +37,14 @@
 													   VerticalAlignment="Center"
 													   FontSize="13"
 													   Foreground="{DynamicResource SukiLowText}"
-													   Text="FASTBOOT" />
+													   Text="{x:Static assets:Resources.Wiredflash_Fastboot}" />
 											<TextBox Width="600" Name="FastbootFile"
 													 Text="{Binding FastbootFile, Mode=TwoWay}"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
 											<Button Height="35"
 													Padding="10,0,10,0"
-													Click="OpenFastbootFile">
-												选择文件
+													Click="OpenFastbootFile"
+													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
 											</Button>
 										</StackPanel>
 										<StackPanel Margin="0" Orientation="Horizontal">
@@ -58,8 +59,8 @@
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
 											<Button Height="35"
 													Padding="10,0,10,0"
-													Click="OpenFastbootdFile">
-												选择文件
+													Click="OpenFastbootdFile"
+													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
 											</Button>
 										</StackPanel>
 									</StackPanel>
@@ -69,15 +70,13 @@
 											<TextBlock VerticalAlignment="Center"
 													   FontSize="13"
 													   Foreground="{DynamicResource SukiLowText}"
-													   Text="清楚全部数据" />
+													   Text="{x:Static assets:Resources.Wiredflash_ClearAllData}" />
 										</StackPanel>
 										<Button Width="115"
 												Height="35"
 												HorizontalAlignment="Left"
-												Click="StartTXTFlash">
-											<TextBlock>
-												开始刷机
-											</TextBlock>
+												Click="StartTXTFlash"
+												Content="{x:Static assets:Resources.Wiredflash_StartFlashing}">
 										</Button>
 									</StackPanel>
 								</StackPanel>
@@ -93,14 +92,14 @@
 							Margin="10"
                             VerticalAlignment="Top">
 				<suki:BusyArea  Name="BusyFlash"
-								BusyText="执行中 ...">
+								BusyText="{x:Static assets:Resources.Wiredflash_Executing}">
 					<Grid>
 						<StackPanel Spacing="30">
 							<StackPanel>
 								<TextBlock HorizontalAlignment="Left"
 										   VerticalAlignment="Top"
 										   FontWeight="DemiBold"
-										   Text="更多线刷" />
+										   Text="{x:Static assets:Resources.Wiredflash_MoreFlash}" />
 								<StackPanel Orientation="Horizontal" Spacing="20">
 									<StackPanel>
 										<StackPanel Margin="0" Orientation="Horizontal">
@@ -115,8 +114,8 @@
 													 theme:TextBoxExtensions.AddDeleteButton="True"/>
 											<Button Height="35"
 													Padding="10,0,10,0"
-													Click="OpenSideloadFile">
-												选择文件
+													Click="OpenSideloadFile"
+													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
 											</Button>
 										</StackPanel>
 										<StackPanel Margin="0" Orientation="Horizontal">
@@ -131,8 +130,8 @@
 													 theme:TextBoxExtensions.AddDeleteButton="True"/>
 											<Button Height="35"
 													Padding="10,0,10,0"
-													Click="OpenUpdatedFile">
-												选择文件
+													Click="OpenUpdatedFile"
+													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
 											</Button>
 										</StackPanel>
 										<StackPanel Margin="0" Orientation="Horizontal">
@@ -141,13 +140,13 @@
 													   VerticalAlignment="Center"
 													   FontSize="13"
 													   Foreground="{DynamicResource SukiLowText}"
-													   Text="小米线刷脚本" />
+													   Text="{x:Static assets:Resources.Wiredflash_XiaomiFlashScript}" />
 											<TextBox Width="570" Name="BatFile"
 													 theme:TextBoxExtensions.AddDeleteButton="True"/>
 											<Button Height="35"
 													Padding="10,0,10,0"
-													Click="OpenBatFile">
-												选择文件
+													Click="OpenBatFile"
+													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
 											</Button>
 										</StackPanel>
 									</StackPanel>
@@ -155,26 +154,20 @@
 										<Button Width="115"
 												Height="35"
 												HorizontalAlignment="Left"
-												Click="SetToA">
-											<TextBlock>
-												切换至A槽
-											</TextBlock>
+												Click="SetToA"
+												Content="{x:Static assets:Resources.Wiredflash_SwitchToASlot}">
 										</Button>
 										<Button Width="115"
 												Height="35"
 												HorizontalAlignment="Left"
-												Click="SetToB">
-											<TextBlock>
-												切换至B槽
-											</TextBlock>
+												Click="SetToB"
+												Content="{x:Static assets:Resources.Wiredflash_SwitchToBSlot}">
 										</Button>
 										<Button Width="115"
 												Height="35"
 												HorizontalAlignment="Left"
-												Click="StartFlash">
-											<TextBlock>
-												开始刷机
-											</TextBlock>
+												Click="StartFlash"
+												Content="{x:Static assets:Resources.Wiredflash_StartFlashing}">
 										</Button>
 									</StackPanel>
 								</StackPanel>
@@ -190,7 +183,7 @@
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<Grid VerticalAlignment="Top">
-					<TextBox Name="WiredflashLog" Watermark="日志输出" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
+					<TextBox Name="WiredflashLog" Watermark="{x:Static assets:Resources.Wiredflash_Log}" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
 							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>

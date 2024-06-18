@@ -61,6 +61,33 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Cancel 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_Cancel {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Confirm 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_Confirm {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Notice 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_Notice {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Current device does not support this command! 的本地化字符串。
         /// </summary>
         public static string Dialog_NotSupported {
@@ -309,15 +336,6 @@ namespace UotanToolbox.Assets {
         public static string Home_HomeButton {
             get {
                 return ResourceManager.GetString("Home_HomeButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Home 的本地化字符串。
-        /// </summary>
-        public static string Sidebar_HomePage {
-            get {
-                return ResourceManager.GetString("Sidebar_HomePage", resourceCulture);
             }
         }
         
@@ -583,6 +601,69 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 BL Status 的本地化字符串。
+        /// </summary>
+        public static string Main_BLStatus {
+            get {
+                return ResourceManager.GetString("Main_BLStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Code 的本地化字符串。
+        /// </summary>
+        public static string Main_Code {
+            get {
+                return ResourceManager.GetString("Main_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open On Github 的本地化字符串。
+        /// </summary>
+        public static string Main_OpenOnGithub {
+            get {
+                return ResourceManager.GetString("Main_OpenOnGithub", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open Terminal 的本地化字符串。
+        /// </summary>
+        public static string Main_OpenTerminal {
+            get {
+                return ResourceManager.GetString("Main_OpenTerminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open UOTAN Community 的本地化字符串。
+        /// </summary>
+        public static string Main_OpenUOTANCommunity {
+            get {
+                return ResourceManager.GetString("Main_OpenUOTANCommunity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Status 的本地化字符串。
+        /// </summary>
+        public static string Main_Status {
+            get {
+                return ResourceManager.GetString("Main_Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 VAB Status 的本地化字符串。
+        /// </summary>
+        public static string Main_VABStatus {
+            get {
+                return ResourceManager.GetString("Main_VABStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Animation Disabled 的本地化字符串。
         /// </summary>
         public static string MainView_AnimationDisabled {
@@ -723,6 +804,132 @@ namespace UotanToolbox.Assets {
         public static string Settings_Settings {
             get {
                 return ResourceManager.GetString("Settings_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Basic Flash 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_Basicflash {
+            get {
+                return ResourceManager.GetString("Sidebar_Basicflash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Home 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_HomePage {
+            get {
+                return ResourceManager.GetString("Sidebar_HomePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Wired Flash 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_WiredFlash {
+            get {
+                return ResourceManager.GetString("Sidebar_WiredFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choose File 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_ChooseFile {
+            get {
+                return ResourceManager.GetString("Wiredflash_ChooseFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clear all data 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_ClearAllData {
+            get {
+                return ResourceManager.GetString("Wiredflash_ClearAllData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Executing ... 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_Executing {
+            get {
+                return ResourceManager.GetString("Wiredflash_Executing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 FASTBOOT 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_Fastboot {
+            get {
+                return ResourceManager.GetString("Wiredflash_Fastboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Log Output 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_Log {
+            get {
+                return ResourceManager.GetString("Wiredflash_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 More Flash 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_MoreFlash {
+            get {
+                return ResourceManager.GetString("Wiredflash_MoreFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start flashing 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_StartFlashing {
+            get {
+                return ResourceManager.GetString("Wiredflash_StartFlashing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Switch To A Slot 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_SwitchToASlot {
+            get {
+                return ResourceManager.GetString("Wiredflash_SwitchToASlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Switch To B Slot 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_SwitchToBSlot {
+            get {
+                return ResourceManager.GetString("Wiredflash_SwitchToBSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 TXT Flash 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_TXTFlash {
+            get {
+                return ResourceManager.GetString("Wiredflash_TXTFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Xiaomi Flash Script 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_XiaomiFlashScript {
+            get {
+                return ResourceManager.GetString("Wiredflash_XiaomiFlashScript", resourceCulture);
             }
         }
     }

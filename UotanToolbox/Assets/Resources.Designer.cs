@@ -61,6 +61,33 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Cancel 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_Cancel {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Confirm 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_Confirm {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Notice 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_Notice {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Current device does not support this command! 的本地化字符串。
         /// </summary>
         public static string Dialog_NotSupported {
@@ -777,6 +804,15 @@ namespace UotanToolbox.Assets {
         public static string Settings_Settings {
             get {
                 return ResourceManager.GetString("Settings_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Basic Flash 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_Basicflash {
+            get {
+                return ResourceManager.GetString("Sidebar_Basicflash", resourceCulture);
             }
         }
         

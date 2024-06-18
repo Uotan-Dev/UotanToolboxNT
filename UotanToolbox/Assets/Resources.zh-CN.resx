@@ -360,4 +360,16 @@
   <data name="Main_VABStatus" xml:space="preserve">
     <value>VAB状态</value>
   </data>
+  <data name="ConnectionDialog_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ConnectionDialog_Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="ConnectionDialog_Notice" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="Sidebar_Basicflash" xml:space="preserve">
+    <value>基本刷入</value>
+  </data>
 </root>

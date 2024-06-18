@@ -20,6 +20,7 @@ public partial class AdvancedView : UserControl
         InitializeComponent();
     }
     private readonly static string adb_log_path = Path.Combine(Global.runpath, "log", "adb.txt");
+    private string output = "";
     public async Task QCNTool(string shell)
     {
         await Task.Run(() =>
@@ -101,6 +102,8 @@ public partial class AdvancedView : UserControl
                 StringBuilder sb = new StringBuilder(AdvancedLog.Text);
                 AdvancedLog.Text = sb.AppendLine(outLine.Data).ToString();
                 AdvancedLog.ScrollToLine(StringHelper.TextBoxLine(AdvancedLog.Text));
+                StringBuilder op = new StringBuilder(output);
+                output = op.AppendLine(outLine.Data).ToString();
             });
         }
     }
@@ -145,7 +148,7 @@ public partial class AdvancedView : UserControl
                     BusyFlash.IsBusy = true;
                     AdvancedLog.Text = "正在刷入...\n";
                     await Fastboot($"-s {Global.thisdevice} flash cust \"{SuperEmptyFile.Text}\"");
-                    if (!AdvancedLog.Text.Contains("FAILED") && !AdvancedLog.Text.Contains("error"))
+                    if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
                         SukiHost.ShowDialog(new ConnectionDialog("刷入成功！"), allowBackgroundClose: true);
                     }
@@ -190,7 +193,7 @@ public partial class AdvancedView : UserControl
                     if (NTFS.IsChecked != null && (bool)NTFS.IsChecked)
                         formatsystem = "mkexfatfs -n exfat";
                     string partname = FormatName.Text;
-                    FeaturesHelper.GetPartTable(Global.thisdevice);
+                    await FeaturesHelper.GetPartTable(Global.thisdevice);
                     FeaturesHelper.PushMakefs(Global.thisdevice);
                     string sdxx = FeaturesHelper.FindDisk(partname);
                     if (sdxx != "")
@@ -309,29 +312,29 @@ public partial class AdvancedView : UserControl
                     BusyExtract.IsBusy = true;
                     AdvancedLog.Text = "正在提取...\n";
                     string partname = ExtractName.Text;
-                    FeaturesHelper.GetPartTable(Global.thisdevice);
+                    await FeaturesHelper.GetPartTable(Global.thisdevice);
                     string sdxx = FeaturesHelper.FindDisk(partname);
                     if (sdxx != "")
                     {
                         string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
                         string shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of={partname}.img");
                         await ADB(shell);
-                        FileHelper.Write(adb_log_path, AdvancedLog.Text);
-                        if (AdvancedLog.Text.Contains("No space left on device"))
+                        FileHelper.Write(adb_log_path, output);
+                        if (output.Contains("No space left on device"))
                         {
                             AdvancedLog.Text = "根目录空间不足，正在尝试使用Data分区...";
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img backup\\");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img backup\\");
+                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.runpath}/backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
@@ -359,16 +362,16 @@ public partial class AdvancedView : UserControl
                         BusyExtract.IsBusy = true;
                         AdvancedLog.Text = "正在提取...\n";
                         string partname = ExtractName.Text;
-                        FeaturesHelper.GetPartTable(Global.thisdevice);
+                        await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
                         string sdxx = FeaturesHelper.FindDisk(partname);
                         if (sdxx != "")
                         {
                             string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
-                            string shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img");
+                            string shell = String.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img backup\\");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/backup/");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
+                            shell = String.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                             await ADB(shell);
                         }
                         else
@@ -411,22 +414,22 @@ public partial class AdvancedView : UserControl
                         string devicepoint = line[line.Length - 1];
                         shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of={partname}.img");
                         await ADB(shell);
-                        FileHelper.Write(adb_log_path, AdvancedLog.Text);
-                        if (AdvancedLog.Text.Contains("No space left on device"))
+                        FileHelper.Write(adb_log_path, output);
+                        if (output.Contains("No space left on device"))
                         {
                             AdvancedLog.Text = "根目录空间不足，正在尝试使用Data分区...";
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img backup\\");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img backup\\");
+                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.runpath}/backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
@@ -454,16 +457,16 @@ public partial class AdvancedView : UserControl
                         BusyExtract.IsBusy = true;
                         AdvancedLog.Text = "正在提取...\n";
                         string partname = ExtractName.Text;
-                        string shell = String.Format($"-s {Global.thisdevice} su -c \"shell ls -l /dev/block/mapper/{partname}\"");
+                        string shell = String.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");
                         string vmpart = await CallExternalProgram.ADB(shell);
                         if (!vmpart.Contains("No such file or directory"))
                         {
                             char[] charSeparators = { ' ', '\r', '\n' };
                             string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                             string devicepoint = line[line.Length - 1];
-                            shell = String.Format($"-s {Global.thisdevice} su -c \"shell dd if={devicepoint} of={partname}.img\"");
+                            shell = String.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img backup\\");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                             await ADB(shell);

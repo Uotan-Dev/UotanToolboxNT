@@ -16,7 +16,7 @@ namespace UotanToolbox.Common
             await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/mkntfs");
         }
 
-        public static async void GetPartTable(string device)
+        public static async Task GetPartTable(string device)
         {
             await CallExternalProgram.ADB($"-s {device} push bin/Push/parted /tmp/");
             await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/parted");
@@ -29,7 +29,7 @@ namespace UotanToolbox.Common
             Global.emmcrom = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/mmcblk0 print");
         }
 
-        public static async void GetPartTableSystem(string device)
+        public static async Task GetPartTableSystem(string device)
         {
             await CallExternalProgram.ADB($"-s {device} push bin/Push/parted /data/local/tmp/");
             await CallExternalProgram.ADB($"-s {device} shell su -c \"chmod +x /data/local/tmp/parted\"");

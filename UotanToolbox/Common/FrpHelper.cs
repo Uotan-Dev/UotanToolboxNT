@@ -4,6 +4,7 @@ using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
 {
+    //修补FRP文件的代码，暂时工具箱并未启用此功能！
     public class FrpPatcher
     {
         private readonly string _filePath;

@@ -51,6 +51,22 @@ namespace UotanToolbox.Common
             return line;
         }
         /// <summary>
+        /// 计算并返回指定文件的SHA1哈希值。
+        /// </summary>
+        /// <param name="filePath">要计算哈希值的文件路径。</param>
+        /// <returns>文件的SHA1哈希值，表示为32位小写字母和数字的字符串。</returns>
+        public static string SHA1Hash(string filePath)
+        {
+            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (var sha1 = SHA1.Create())
+                {
+                    var hashBytes = sha1.ComputeHash(fileStream);
+                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                }
+            }
+        }
+        /// <summary>
         /// 计算给定文件的MD5特征码
         /// </summary>
         /// <param name="filePath">文件路径</param>
@@ -72,61 +88,21 @@ namespace UotanToolbox.Common
                 }
             }
         }
-        /*
-        /// <summary>
-        /// 删除指定目录及其所有内容。
-        /// </summary>
-        /// <param name="directoryPath">要删除的目录路径。</param>
-        /// <param name="recursive">是否递归删除子目录，默认为false。</param>
-        public static bool DeleteDirectory(string directoryPath, bool recursive = false)
+        public static Dictionary<string, bool> CheckFilesExistInDirectory(string directoryPath, params string[] fileNames)
         {
-            try
+            if (!Directory.Exists(directoryPath))
             {
-                foreach (string filePath in Directory.GetFiles(directoryPath))
-                {
-                    // 设置文件属性为正常，以忽略只读属性
-                    File.SetAttributes(filePath, FileAttributes.Normal);
-                    File.Delete(filePath);
-                }
-
-                if (recursive)
-                {
-                    foreach (string subDirPath in Directory.GetDirectories(directoryPath))
-                    {
-                        DeleteDirectory(subDirPath, recursive); // 递归删除子目录下的文件
-                    }
-                    return true;
-                }
-                return true;
+                throw new DirectoryNotFoundException($"指定的目录 '{directoryPath}' 不存在。");
             }
-            catch (IOException ex)
+            var existenceResults = new Dictionary<string, bool>();
+            foreach (var fileName in fileNames)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"清理Temp时发生错误: {ex.Message}"), allowBackgroundClose: true);
-                return false;
+                bool exists = File.Exists(System.IO.Path.Combine(directoryPath, fileName));
+                existenceResults.Add(fileName, exists);
             }
-            catch (UnauthorizedAccessException ex)
-            {
-                if (ex.Message.Contains("is denied")) 
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog($"{ex.Message}"), allowBackgroundClose: false);
-                    //string path = StringHelper.StringRegex(ex.Message, @"(?i)(?:file|path):[\s]*([\w\\/:.]+)",1);
-                    //bool result =FileHelper.WipeFile(path);
-                    //if (!result)
-                    //{
-                    //    SukiHost.ShowDialog(new ConnectionDialog($"删除文件时发生错误: {path}"), allowBackgroundClose: true);
-                    //}
-                    //return result;
-                }
-
-                //SukiHost.ShowDialog(new ConnectionDialog($"没有足够的权限删除Temp: {ex.Message}"), allowBackgroundClose: true);
-                return false;
-            }
-            catch (Exception ex)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"), allowBackgroundClose: true);
-                return false;
-            }
-        }*/
+            return existenceResults;
+        }
+        
         /// <summary>
         /// 删除指定目录及其所有内容。
         /// </summary>

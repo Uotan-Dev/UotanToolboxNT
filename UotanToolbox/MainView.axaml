@@ -6,6 +6,7 @@
                  xmlns:demo="clr-namespace:UotanToolbox"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+				 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
                  Title="Uotan Toolbox"
                  d:DesignHeight="450"
                  d:DesignWidth="1240"
@@ -57,7 +58,7 @@
 									FontSize="13"
 									FontWeight="DemiBold"
 								    Foreground="{DynamicResource SukiLowText}"
-									Text="状态"/>
+									Text="{x:Static assets:Resources.Main_Status}"/>
 						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 							<Button Classes="Hyperlink"
 									Foreground="White"
@@ -70,7 +71,7 @@
 									FontSize="13"
 									FontWeight="DemiBold"
 								    Foreground="{DynamicResource SukiLowText}"
-									Text="代号"/>
+									Text="{x:Static assets:Resources.Main_Code}"/>
 						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 							<Button Classes="Hyperlink"
 									Foreground="White"
@@ -83,7 +84,7 @@
 									FontSize="13"
 									FontWeight="DemiBold"
 								    Foreground="{DynamicResource SukiLowText}"
-									Text="BL状态"/>
+									Text="{x:Static assets:Resources.Main_BLStatus}"/>
 						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 							<Button Classes="Hyperlink"
 									Foreground="White"
@@ -96,7 +97,7 @@
 									FontSize="13"
 									FontWeight="DemiBold"
 								    Foreground="{DynamicResource SukiLowText}"
-									Text="VAB状态"/>
+									Text="{x:Static assets:Resources.Main_VABStatus}"/>
 						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 							<Button Classes="Hyperlink"
 									Foreground="White"
@@ -120,16 +121,16 @@
                 </StackPanel.Styles>
                 <Button Classes="Basic"
                         CommandParameter="https://github.com/Uotan-Dev/UotanToolboxNT"
-                        ToolTip.Tip="Open On GitHub">
+                        ToolTip.Tip="{x:Static assets:Resources.Main_OpenOnGithub}">
                     <avalonia:MaterialIcon Kind="Github" />
                 </Button>
                 <Button Classes="Basic"
                         CommandParameter="https://www.uotan.cn"
-                        ToolTip.Tip="Open UOTAN Community">
+                        ToolTip.Tip="{x:Static assets:Resources.Main_OpenUOTANCommunity}">
                     <avalonia:MaterialIcon Kind="Package" />
                 </Button>
 				<Button Classes="Basic"
-                        ToolTip.Tip="Open Terminal">
+                        ToolTip.Tip="{x:Static assets:Resources.Main_OpenTerminal}">
 					<avalonia:MaterialIcon Kind="Terminal" />
 				</Button>
             </StackPanel>

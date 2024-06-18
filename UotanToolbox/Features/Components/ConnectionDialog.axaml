@@ -2,21 +2,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="UotanToolbox.Features.Components.ConnectionDialog">
 	<StackPanel Spacing="15">
 		<TextBlock FontSize="18"
                    FontWeight="DemiBold"
-                   Text="提示" />
+                   Text="{x:Static assets:Resources.ConnectionDialog_Notice}" />
 		<TextBlock x:Name="DialogContent" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
 		<StackPanel Margin="0,35,0,0"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Spacing="15">
 			<Button Classes="Rounded"
-                    Click="Cancel_OnClick" Content="取消" />
+                    Click="Cancel_OnClick" Content="{x:Static assets:Resources.ConnectionDialog_Cancel}" />
 			<Button Classes="Flat Rounded"
-                    Click="Confirm_OnClick" Content="确定" />
+                    Click="Confirm_OnClick" Content="{x:Static assets:Resources.ConnectionDialog_Confirm}" />
 		</StackPanel>
 	</StackPanel>
 </UserControl>

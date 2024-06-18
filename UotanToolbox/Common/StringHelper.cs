@@ -346,47 +346,38 @@ namespace UotanToolbox.Common
             }
             return result.ToString();
         }
-        public static bool Magisk_Validation(string MD5,string MAGISK_VER,string MAGISK_VER_CODE)
+        public static bool Magisk_Validation(string MD5_in,string MAGISK_VER)
         {
-            Dictionary<string, PatchPlan> patchPlans = new Dictionary<string, PatchPlan>
+            string MD5_out = null;
+            string MD5;
+            Dictionary<string, string> patchPlans = new Dictionary<string, string>
         {
-
-            {"cf9e4aa382b3e63d89197fdc68830622", new PatchPlan { MAGISK_VER = "26.3",MAGISK_VER_CODE = "26300", IsVivoSuuPatch = false }},
-            {"3b324a47607ae17ac0376c19043bb7b1", new PatchPlan { MAGISK_VER = "26.3",MAGISK_VER_CODE = "26300", IsVivoSuuPatch = false }},
-            {"aef5b749e978c6ea5ebd0f3df910ae6c", new PatchPlan { MAGISK_VER = "26.3",MAGISK_VER_CODE = "26300", IsVivoSuuPatch = false }},
-            {"c840c6803c68ec0f91ca6e2cec21ed27", new PatchPlan { MAGISK_VER = "26.3",MAGISK_VER_CODE = "26300", IsVivoSuuPatch = true }},
-            {"10870a74acf93ba4f87af22c19ab1677", new PatchPlan { MAGISK_VER = "26.3",MAGISK_VER_CODE = "26300", IsVivoSuuPatch = true }},
-            {"daf3cffe200d4e492edd0ca3c676f07f", new PatchPlan { MAGISK_VER = "26.2",MAGISK_VER_CODE = "26200", IsVivoSuuPatch = false }},
-            {"16cbb54272b01c13bdb860e3207284b8", new PatchPlan { MAGISK_VER = "26.2",MAGISK_VER_CODE = "26200", IsVivoSuuPatch = true }},
-            {"75a217610f6b9622a77dbe704f6796ae", new PatchPlan { MAGISK_VER = "26.1",MAGISK_VER_CODE = "26100", IsVivoSuuPatch = false }},
-            {"0e8255080363ee0f895105cdc3dfa419", new PatchPlan { MAGISK_VER = "26.1",MAGISK_VER_CODE = "26100", IsVivoSuuPatch = false }},
-            {"ccf5647834aeefbd61ce6c2594dd43e4", new PatchPlan { MAGISK_VER = "26.0",MAGISK_VER_CODE = "26000", IsVivoSuuPatch = false }},
-            {"3d2c5bcc43373eb17939f0592b2b40f9", new PatchPlan { MAGISK_VER = "26.0",MAGISK_VER_CODE = "26000", IsVivoSuuPatch = false }},
-            {"a62a55879080822e95e64a1afd30ea25", new PatchPlan { MAGISK_VER = "26.0",MAGISK_VER_CODE = "26000", IsVivoSuuPatch = false }},
-            {"bf6ef4d02c48875ae3929d26899a868d", new PatchPlan { MAGISK_VER = "25.2",MAGISK_VER_CODE = "25200", IsVivoSuuPatch = false }},
-            {"b4a4a2be5fa2a38db5149f3c752a1104", new PatchPlan { MAGISK_VER = "25.2",MAGISK_VER_CODE = "25200", IsVivoSuuPatch = true }},
-            {"c48a22c8ed43cd20fe406acccc600308", new PatchPlan { MAGISK_VER = "25.1",MAGISK_VER_CODE = "25100", IsVivoSuuPatch = false }},
-            {"7b40f9efd587b59bade9b9ec892e875e", new PatchPlan { MAGISK_VER = "25.0", MAGISK_VER_CODE = "25000", IsVivoSuuPatch = false }},
-            {"0fb168d5339faf37c1c86ace16fe0953", new PatchPlan { MAGISK_VER = "25.0", MAGISK_VER_CODE = "25000", IsVivoSuuPatch = false }},
-            {"55285c3ad04cdf72e6e2be9d7ba4a333", new PatchPlan { MAGISK_VER = "23.0", MAGISK_VER_CODE = "23000", IsVivoSuuPatch = false }},
-            {"49452bcb3ea3362392ab05b7fe7ec128", new PatchPlan { MAGISK_VER = "23.0", MAGISK_VER_CODE = "23000", IsVivoSuuPatch = false }}
+            {"27.0" , "3b324a47607ae17ac0376c19043bb7b1"},
+            {"26.4" , "3b324a47607ae17ac0376c19043bb7b1"},
+            {"26.3" , "3b324a47607ae17ac0376c19043bb7b1"},
+            {"26.2" , "daf3cffe200d4e492edd0ca3c676f07f"},
+            {"26.1" , "0e8255080363ee0f895105cdc3dfa419"},
+            {"26.0" , "3d2c5bcc43373eb17939f0592b2b40f9"},
+            {"25.2" , "bf6ef4d02c48875ae3929d26899a868d"},
+            {"25.1" , "c48a22c8ed43cd20fe406acccc600308"},
+            {"25.0" , "7b40f9efd587b59bade9b9ec892e875e"},
+            {"22.1" , "55285c3ad04cdf72e6e2be9d7ba4a333"}
         };
-            if (patchPlans.TryGetValue(MD5, out PatchPlan outputplan))
+            if (patchPlans.TryGetValue(MAGISK_VER, out MD5_out))
             {
-                if ((outputplan.MAGISK_VER_CODE == MAGISK_VER_CODE) & (outputplan.MAGISK_VER==MAGISK_VER))
+                if (MD5_out == MD5_in)
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到有效的"+MAGISK_VER+"面具安装包"), allowBackgroundClose: true);
                     return true;
                 }
-                Console.WriteLine("面具安装包可能失效，继续修补存在风险");
+                SukiHost.ShowDialog(new ConnectionDialog("面具安装包可能失效，继续修补存在风险"), allowBackgroundClose: true);
                 return false;
             }
             else
             {
-                Console.WriteLine("面具安装包可能失效，继续修补存在风险");
+                SukiHost.ShowDialog(new ConnectionDialog("面具安装包不被支持"), allowBackgroundClose: true);
                 return false;
             }
-
         }
     }
 }

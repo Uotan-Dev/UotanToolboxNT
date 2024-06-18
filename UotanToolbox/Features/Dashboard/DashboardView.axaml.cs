@@ -72,7 +72,7 @@ public partial class DashboardView : UserControl
                     string BOOT_PATCH_PATH = Path.Combine(Global.magisk_tmp, "assets", "boot_patch.sh");
                     string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
                     //SukiHost.ShowDialog(new ConnectionDialog(md5), allowBackgroundClose: true);
-                    bool Magisk_Valid = StringHelper.Magisk_Validation(md5, MAGISK_VER, MAGISK_VER_CODE);
+                    bool Magisk_Valid = StringHelper.Magisk_Validation(md5, MAGISK_VER);
                 }
                 else
                 {
@@ -118,6 +118,7 @@ public partial class DashboardView : UserControl
                 //SukiHost.ShowDialog(new ConnectionDialog($"cpio \"{cpio_path}\" extract ./ \"{ramdisk}\""), allowBackgroundClose: true);
                 string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
                 //SukiHost.ShowDialog(new ConnectionDialog(init_info), allowBackgroundClose: true);
+                //下面是根据镜像的init架构来推定整个Boot.img文件的架构，但是逻辑写的相当的屎，你有更好的想法可以来改
                 if (init_info.Contains("ARM aarch64"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
@@ -158,6 +159,11 @@ public partial class DashboardView : UserControl
                 }
             }
         }
+    }
+
+    private async void StartPatch(object sender, RoutedEventArgs args)
+    {
+
     }
 
     private async void OpenAFDI(object sender, RoutedEventArgs args)

@@ -199,7 +199,7 @@
 						</StackPanel>
 					</StackPanel>
 					<StackPanel Spacing="15">
-						<Button Width="210" Margin="0,10,0,0" Command="">
+						<Button Width="210" Margin="0,10,0,0" Click="StartPatch">
 							<TextBlock>
 								开始！
 							</TextBlock>

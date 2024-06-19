@@ -103,48 +103,40 @@ namespace UotanToolbox.Common
             }
             return null;
         }
-        public static bool clean_boot(string path)
+        public static bool CleanBoot(string path)
         {
+            string[] filesToDelete =
+                {
+                "magisk64.xz",
+                "magisk32.xz",
+                "magiskinit",
+                "stub.xz",
+                "ramdisk.cpio.orig",
+                "config",
+                "stock_boot.img",
+                "cpio",
+                "init",
+                "init.xz",
+                ".magisk",
+                ".rmlist"
+                };
             try
             {
-                if (File.Exists(System.IO.Path.Combine(path, "magisk64.xz")))
+                foreach (string file in filesToDelete)
+
                 {
-                    FileHelper.WipeFile(System.IO.Path.Combine(path, "magisk64.xz"));
-                }
-                if (File.Exists(System.IO.Path.Combine(path, "magisk32.xz")))
-                {
-                    FileHelper.WipeFile(System.IO.Path.Combine(path, "magisk32.xz"));
-                }
-                if (File.Exists(System.IO.Path.Combine(path, "magiskinit")))
-                {
-                    FileHelper.WipeFile(System.IO.Path.Combine(path, "magiskinit"));
-                }
-                if (File.Exists(System.IO.Path.Combine(path, "stub.xz")))
-                {
-                    FileHelper.WipeFile(System.IO.Path.Combine(path, "stub.xz"));
-                }
-                if (File.Exists(System.IO.Path.Combine(path, "ramdisk.cpio.orig")))
-                {
-                    FileHelper.WipeFile(System.IO.Path.Combine(path, "ramdisk.cpio.orig"));
-                }
-                if (File.Exists(System.IO.Path.Combine(path, "config")))
-                {
-                    FileHelper.WipeFile(System.IO.Path.Combine(path, "config"));
-                }
-                if (File.Exists(System.IO.Path.Combine(path, "stock_boot.img")))
-                {
-                    FileHelper.WipeFile(System.IO.Path.Combine(path, "stock_boot.img"));
-                }
-                if (File.Exists(System.IO.Path.Combine(path, "cpio")))
-                {
-                    FileHelper.WipeFile(System.IO.Path.Combine(path, "cpio"));
+                    string filePath = System.IO.Path.Combine(path, file);
+                    if (File.Exists(filePath))
+                    {
+                        FileHelper.WipeFile(filePath);
+                    }
                 }
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 return false;
             }
         }
+        }
     }
-}

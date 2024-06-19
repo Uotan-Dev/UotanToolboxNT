@@ -736,6 +736,33 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 About 的本地化字符串。
+        /// </summary>
+        public static string Settings_About {
+            get {
+                return ResourceManager.GetString("Settings_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 About Toolbox 的本地化字符串。
+        /// </summary>
+        public static string Settings_AboutToolbox {
+            get {
+                return ResourceManager.GetString("Settings_AboutToolbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uotan Toolbox NT is a modern toolbox for Android developers, mainly based on the original code of UotanToolBox. 的本地化字符串。
+        /// </summary>
+        public static string Settings_AboutToolboxContent {
+            get {
+                return ResourceManager.GetString("Settings_AboutToolboxContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Animated Background 的本地化字符串。
         /// </summary>
         public static string Settings_AnimatedBackground {
@@ -772,6 +799,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Developers 的本地化字符串。
+        /// </summary>
+        public static string Settings_Developers {
+            get {
+                return ResourceManager.GetString("Settings_Developers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Enable a &apos;cloud&apos; effect in the background. The background will be dynamic and the colors spaces will change over time. 的本地化字符串。
         /// </summary>
         public static string Settings_EnableCloudEffect {
@@ -804,6 +840,15 @@ namespace UotanToolbox.Assets {
         public static string Settings_Settings {
             get {
                 return ResourceManager.GetString("Settings_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Special Thanks 的本地化字符串。
+        /// </summary>
+        public static string Settings_SpecialThanks {
+            get {
+                return ResourceManager.GetString("Settings_SpecialThanks", resourceCulture);
             }
         }
         

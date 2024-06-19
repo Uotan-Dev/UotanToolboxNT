@@ -7,12 +7,13 @@
              xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
              xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=System.ObjectModel"
              xmlns:settings="clr-namespace:UotanToolbox.Features.Settings"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
 			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
              d:DesignHeight="450"
              d:DesignWidth="800"
              x:DataType="settings:SettingsViewModel"
              mc:Ignorable="d">
-    <controls:SukiStackPage Margin="20">
+	<controls:SukiStackPage Margin="20">
         <controls:SukiStackPage.Content>
             <controls:SettingsLayout Name="{x:Static assets:Resources.Settings_Settings}">
                 <controls:SettingsLayout.Items>
@@ -133,6 +134,78 @@
                                 </controls:GlassCard>
                             </controls:SettingsLayoutItem.Content>
                         </controls:SettingsLayoutItem>
+
+						<controls:SettingsLayoutItem Header="{x:Static assets:Resources.Settings_About}">
+							<controls:SettingsLayoutItem.Content>
+								<controls:GlassCard Margin="15">
+									<DockPanel>
+										<StackPanel HorizontalAlignment="Left">
+											<TextBlock FontSize="16"
+                                                       FontWeight="DemiBold"
+                                                       Text="{x:Static assets:Resources.Settings_AboutToolbox}" />
+											<StackPanel Margin="15">
+												<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" />
+											</StackPanel>
+											<TextBlock FontSize="16"
+                                                       FontWeight="DemiBold"
+                                                       Text="{x:Static assets:Resources.Settings_Developers}" />
+											<StackPanel Orientation="Horizontal">
+												<suki:GlassCard Margin="15" IsInteractive="True">
+													<suki:GroupBox>
+														<suki:GroupBox.Header>
+															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@yuzh" CommandParameter="https://github.com/yuzh0816"/>
+														</suki:GroupBox.Header>
+														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
+															<Rectangle.Fill>
+																<ImageBrush Source="avares://UotanToolbox/Assets/yuzh.png"/>
+															</Rectangle.Fill>
+														</Rectangle>
+													</suki:GroupBox>
+												</suki:GlassCard>
+												<suki:GlassCard Margin="15" IsInteractive="True">
+													<suki:GroupBox>
+														<suki:GroupBox.Header>
+															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@暮间雾" CommandParameter="https://github.com/mujianwu"/>
+														</suki:GroupBox.Header>
+														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
+															<Rectangle.Fill>
+																<ImageBrush Source="avares://UotanToolbox/Assets/mjw.jpeg"/>
+															</Rectangle.Fill>
+														</Rectangle>
+													</suki:GroupBox>
+												</suki:GlassCard>
+												<suki:GlassCard Margin="15" IsInteractive="True">
+													<suki:GroupBox>
+														<suki:GroupBox.Header>
+															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@赵紫菜" CommandParameter="https://github.com/13584452567"/>
+														</suki:GroupBox.Header>
+														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
+															<Rectangle.Fill>
+																<ImageBrush Source="avares://UotanToolbox/Assets/zicai.jpeg"/>
+															</Rectangle.Fill>
+														</Rectangle>
+													</suki:GroupBox>
+												</suki:GlassCard>
+											</StackPanel>
+											<TextBlock FontSize="16"
+                                                       FontWeight="DemiBold"
+                                                       Text="{x:Static assets:Resources.Settings_SpecialThanks}" />
+											<StackPanel Orientation="Horizontal">
+												<suki:GlassCard Margin="15" IsInteractive="True">
+													<suki:GroupBox Header="@某贼">
+														<Rectangle Width="100" Height="100" RadiusX="10" RadiusY="10">
+															<Rectangle.Fill>
+																<ImageBrush Source="avares://UotanToolbox/Assets/mouzei.jpg"/>
+															</Rectangle.Fill>
+														</Rectangle>
+													</suki:GroupBox>
+												</suki:GlassCard>
+											</StackPanel>
+										</StackPanel>
+									</DockPanel>
+								</controls:GlassCard>
+							</controls:SettingsLayoutItem.Content>
+						</controls:SettingsLayoutItem>
                     </objectModel:ObservableCollection>
                 </controls:SettingsLayout.Items>
             </controls:SettingsLayout>

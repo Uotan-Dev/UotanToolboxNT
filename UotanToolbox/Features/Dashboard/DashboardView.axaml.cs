@@ -80,12 +80,12 @@ public partial class DashboardView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("未能获取到有效Magisk版本号"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("未能获取到有效Magisk版本号"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("清理临时目录出错"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("清理临时目录出错"));
             }
         }
     }
@@ -110,7 +110,7 @@ public partial class DashboardView : UserControl
                 (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"", Global.boot_tmp);
                 if (mb_output.Contains("error"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("解包失败"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("解包失败"));
                     return;
                 }
                 string cpio_path = Path.Combine(Global.boot_tmp, "ramdisk.cpio");
@@ -126,25 +126,25 @@ public partial class DashboardView : UserControl
                 //下面是根据镜像的init架构来推定整个Boot.img文件的架构，但是逻辑写的相当的屎，你有更好的想法可以来改
                 if (init_info.Contains("ARM aarch64"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
                     ArchList.SelectedItem = "aarch64";
                     Global.is_boot_ok = true;
                 }
                 else if (init_info.Contains("X86-64"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
                     ArchList.SelectedItem = "X86-64";
                     Global.is_boot_ok = true;
                 }
                 else if (init_info.Contains("ARM,"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
                     ArchList.SelectedItem = "armeabi";
                     Global.is_boot_ok = true;
                 }
                 else if (init_info.Contains(" Intel 80386"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
                     ArchList.SelectedItem = "X86";
                     Global.is_boot_ok = true;
                 }
@@ -152,25 +152,25 @@ public partial class DashboardView : UserControl
                 init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "system", "bin", "init")}\"");
                 if (init_info.Contains("ARM aarch64"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
                     ArchList.SelectedItem = "aarch64";
                     Global.is_boot_ok = true;
                 }
                 else if (init_info.Contains("X86-64"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
                     ArchList.SelectedItem = "X86-64";
                     Global.is_boot_ok = true;
                 }
                 else if (init_info.Contains("ARM,"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
                     ArchList.SelectedItem = "armeabi";
                     Global.is_boot_ok = true;
                 }
                 else if (init_info.Contains(" Intel 80386"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
                     ArchList.SelectedItem = "X86";
                     Global.is_boot_ok = true;
                 }
@@ -180,16 +180,16 @@ public partial class DashboardView : UserControl
 
     private async void StartPatch(object sender, RoutedEventArgs args)
     {
-        SukiHost.ShowDialog(new ConnectionDialog("施工中，暂停使用"), allowBackgroundClose: true);
+        SukiHost.ShowDialog(new ConnectionDialog("施工中，暂停使用"));
         return;
         if (!Global.is_boot_ok | !Global.is_magisk_ok)
         {
-            SukiHost.ShowDialog(new ConnectionDialog("请选择有效的面具与镜像文件"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("请选择有效的面具与镜像文件"));
             return;
         }
         if (!MagiskHelper.CheckComponentFiles(Global.magisk_tmp, ArchList.SelectedItem.ToString()))
         {
-            SukiHost.ShowDialog(new ConnectionDialog("文件预处理时出错！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("文件预处理时出错！"));
             return;
         }
         string compPathBase = System.IO.Path.Combine(Global.magisk_tmp, "lib");
@@ -210,7 +210,7 @@ public partial class DashboardView : UserControl
                 await CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", compPath);
             } catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("magisk64组件预处理时 " + ex), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("magisk64组件预处理时 " + ex));
                 return;
             }
         }
@@ -223,14 +223,14 @@ public partial class DashboardView : UserControl
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex));
                 return;
             }
         }
         (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(Global.magisk_tmp, "assets"));
         if (mb_output.Contains("error"))
         {
-            SukiHost.ShowDialog(new ConnectionDialog("压缩stub.apk时出错"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("压缩stub.apk时出错"));
             return;
         }
         (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{System.IO.Path.Combine(Global.boot_tmp, "ramdisk.cpio")}\" test", Global.boot_tmp);
@@ -245,7 +245,7 @@ public partial class DashboardView : UserControl
                 }
                 catch (Exception e)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("0文件预处理时出错！" + e), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("0文件预处理时出错！" + e));
                     break;
                 }
             case 1:
@@ -259,14 +259,14 @@ public partial class DashboardView : UserControl
                 }
                 catch (Exception e)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("1文件预处理时出错！" + e), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("1文件预处理时出错！" + e));
                     break;
                 }
             case 2:
-                SukiHost.ShowDialog(new ConnectionDialog("镜像被未支持软件修补，请选择原生镜像！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("镜像被未支持软件修补，请选择原生镜像！"));
                 break;
             default:
-                SukiHost.ShowDialog(new ConnectionDialog("magiskboot error"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("magiskboot error"));
                 break;
         }
         string init = "init";
@@ -284,7 +284,7 @@ public partial class DashboardView : UserControl
             }
         }
         catch (Exception e) {
-            SukiHost.ShowDialog(new ConnectionDialog("config.orig处理出错" + e), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("config.orig处理出错" + e));
         }
         //patch ramdisk.cpio
         string config_path = Path.Combine(Global.boot_tmp, "config");
@@ -310,19 +310,19 @@ public partial class DashboardView : UserControl
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", Global.boot_tmp);
             }
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", Global.boot_tmp);
-            //SukiHost.ShowDialog(new ConnectionDialog(mb_output), allowBackgroundClose: true);
+            //SukiHost.ShowDialog(new ConnectionDialog(mb_output));
             //以上完成ramdisk.cpio的修补
             string dtb_name =MagiskHelper.dtb_detect(Global.boot_tmp);
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
             if (exitcode != 0) 
             {
-                SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
                 return;
             }
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp);
             if (exitcode != 0)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("dtb修补失败"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("dtb修补失败"));
                 return;
             }
             bool kernel_patched = false;
@@ -354,7 +354,7 @@ public partial class DashboardView : UserControl
                     }
                     catch (Exception ex)
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("kernel删除失败"+ex), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("kernel删除失败"+ex));
                         return;
                     }
                     
@@ -363,7 +363,7 @@ public partial class DashboardView : UserControl
             if (MagiskHelper.clean_boot(Global.boot_tmp))
             {
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{Global.boot_tmp}\"", Global.boot_tmp);
-                SukiHost.ShowDialog(new ConnectionDialog(mb_output), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog(mb_output));
             }
 
 
@@ -385,7 +385,7 @@ public partial class DashboardView : UserControl
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("当前设备无需进行此操作！"));
             });
         }
     }
@@ -400,7 +400,7 @@ public partial class DashboardView : UserControl
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("当前设备无需进行此操作！"));
             });
         }
     }
@@ -419,14 +419,14 @@ public partial class DashboardView : UserControl
             Process? f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("执行完成！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
             });
         }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("当前设备无需进行此操作！"));
             });
         }
     }

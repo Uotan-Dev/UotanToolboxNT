@@ -182,25 +182,28 @@ public partial class HomeViewModel : MainPageBase
         while (true)
         {
             await FreshDeviceList();
-            await Task.Delay(10000);
+            await Task.Delay(1000);
         }
     }
 
     [RelayCommand]
     public async Task FreshDeviceList()
     {
-        CommonDevicesList = true;
+        
         if (await ListChecker() == true)
         {
-            string OldDevice = Global.thisdevice;
+            AvaloniaList<string> OldDeviceList = Global.deviceslist;
             bool GetDeviceListStatus  = await GetDevicesList();
             if ( GetDeviceListStatus==true && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
             {
-                if(OldDevice != Global.thisdevice)
+                if(OldDeviceList != Global.deviceslist)
+                {
+                    CommonDevicesList = true;
                     await ConnectCore();
+                    CommonDevicesList = false;
+                }
             }
         }
-        CommonDevicesList = false;
     }
 
     private async Task ADBControl(string shell)
@@ -214,7 +217,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")));
             });
         }
     }
@@ -230,7 +233,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")));
             });
         }
     }
@@ -314,7 +317,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")));
             });
         }
     }
@@ -361,7 +364,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")));
             });
         }
     }
@@ -378,14 +381,14 @@ public partial class HomeViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_NotSupported")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_NotSupported")));
                 });
             }
             else
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_Successful")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_Successful")));
                 });
             }
         }

@@ -27,19 +27,19 @@ namespace UotanToolbox.Common
             }
             if (_function != "oemunlockon" && _function != "oemunlockoff")
             {
-                SukiHost.ShowDialog(new ConnectionDialog("{%c_e%}参数错误{%c_i%}{\n}"), allowBackgroundClose: true); 
+                SukiHost.ShowDialog(new ConnectionDialog("{%c_e%}参数错误{%c_i%}{\n}")); 
                 return false;
             }
             if (!File.Exists(_filePath))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("{%c_e%}找不到{_filePath}{%c_i%}{\n}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("{%c_e%}找不到{_filePath}{%c_i%}{\n}"));
                 return false;
             }
             byte[] fileBytes = File.ReadAllBytes(_filePath);
             byte lastByte = fileBytes[fileBytes.Length - 1];
             if (lastByte != 0x00 && lastByte != 0x01)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("frp文件末尾1字节16进制数值不是00或01"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("frp文件末尾1字节16进制数值不是00或01"));
                 return false;
             }
             if(lastByte == target)
@@ -51,7 +51,7 @@ namespace UotanToolbox.Common
                 byte[] bytes = File.ReadAllBytes(_filePath);
                 bytes[bytes.Length - 1] = target;
                 File.WriteAllBytes(_filePath, bytes);
-                SukiHost.ShowDialog(new ConnectionDialog("frp文件修补成功"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("frp文件修补成功"));
                 return true;
             }
             catch

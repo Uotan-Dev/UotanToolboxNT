@@ -48,7 +48,7 @@ namespace UotanToolbox.Common
             }
             catch (Exception e)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"模式0预处理出错 {e.Message}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"模式0预处理出错 {e.Message}"));
                 return false;
             }
         }
@@ -61,7 +61,7 @@ namespace UotanToolbox.Common
             }
             catch (Exception e)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"模式1预处理出错 {e.Message}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"模式1预处理出错 {e.Message}"));
                 return false;
             }
         }
@@ -83,7 +83,7 @@ namespace UotanToolbox.Common
             }
             catch (Exception e)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("Failed to copy components to boot partition" + e), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("Failed to copy components to boot partition" + e));
                 return false;
             }
         }

@@ -192,7 +192,7 @@ public partial class WiredflashView : UserControl
                             if (codename != devicename)
                             {
                                 WiredflashLog.Text = "机型错误！";
-                                SukiHost.ShowDialog(new ConnectionDialog("机型错误无法刷入！"), allowBackgroundClose: true);
+                                SukiHost.ShowDialog(new ConnectionDialog("机型错误无法刷入！"));
                                 succ = false;
                                 BusyTXTFlash.IsBusy = false;
                                 return;
@@ -216,7 +216,7 @@ public partial class WiredflashView : UserControl
                         FileHelper.Write(adb_log_path, output);
                         if (output.Contains("FAILED") || output.Contains("error"))
                         {
-                            SukiHost.ShowDialog(new ConnectionDialog("未能重启到Fastbootd模式！无法继续刷入！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new ConnectionDialog("未能重启到Fastbootd模式！无法继续刷入！"));
                             succ = false;
                             BusyTXTFlash.IsBusy = false;
                             return;
@@ -235,7 +235,7 @@ public partial class WiredflashView : UserControl
                             if (codename != devicename)
                             {
                                 WiredflashLog.Text = "机型错误！";
-                                SukiHost.ShowDialog(new ConnectionDialog("机型错误无法刷入！"), allowBackgroundClose: true);
+                                SukiHost.ShowDialog(new ConnectionDialog("机型错误无法刷入！"));
                                 succ = false;
                                 BusyTXTFlash.IsBusy = false;
                                 return;
@@ -362,18 +362,18 @@ public partial class WiredflashView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("刷入出现错误，请检查日志！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("刷入出现错误，请检查日志！"));
                     }
                     BusyTXTFlash.IsBusy = false;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请选择刷机文件！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请选择刷机文件！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"));
             }
         }
     }
@@ -445,7 +445,7 @@ public partial class WiredflashView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
             }
         }
     }
@@ -461,7 +461,7 @@ public partial class WiredflashView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
             }
         }
     }
@@ -479,12 +479,12 @@ public partial class WiredflashView : UserControl
                     WiredflashLog.Text = "";
                     string shell = String.Format($"-s {Global.thisdevice} sideload \"{AdbSideloadFile.Text}\"");
                     await ADB(shell);
-                    SukiHost.ShowDialog(new ConnectionDialog("执行完成！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
                     BusyFlash.IsBusy = false;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Sideload模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Sideload模式后执行！"));
                 }
             }
             else if (AdbSideloadFile.Text == null && FastbootUpdatedFile.Text != null && BatFile.Text == null)
@@ -495,12 +495,12 @@ public partial class WiredflashView : UserControl
                     WiredflashLog.Text = "";
                     string shell = String.Format($"-s {Global.thisdevice} update \"{FastbootUpdatedFile.Text}\"");
                     await Fastboot(shell);
-                    SukiHost.ShowDialog(new ConnectionDialog("执行完成！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
                     BusyFlash.IsBusy = false;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else if (AdbSideloadFile.Text == null && FastbootUpdatedFile.Text == null && BatFile.Text != null)
@@ -510,21 +510,21 @@ public partial class WiredflashView : UserControl
                     BusyFlash.IsBusy = true;
                     WiredflashLog.Text = "";
                     await RunBat(BatFile.Text,Global.runpath);
-                    SukiHost.ShowDialog(new ConnectionDialog("执行完成！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
                     BusyFlash.IsBusy = false;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else if (AdbSideloadFile.Text == null && FastbootUpdatedFile.Text == null && BatFile.Text == null)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择刷机文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请选择刷机文件！"));
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请勿同时填写多种方式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请勿同时填写多种方式！"));
             }
         }
     }

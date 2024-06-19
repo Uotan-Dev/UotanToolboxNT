@@ -82,7 +82,7 @@ public partial class AppmgrViewModel : MainPageBase
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("未选择APK文件!"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("未选择APK文件!"));
         }
         IsInstalling = false;
     }

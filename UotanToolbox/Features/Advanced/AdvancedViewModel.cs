@@ -101,21 +101,21 @@ public partial class AdvancedViewModel : MainPageBase
                 await QCNTool(shell);
                 if (AdvancedLog.Contains("error"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("写入失败"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("写入失败"));
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("写入成功"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("写入成功"));
                 }
              }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请先开启901D/9091端口！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请先开启901D/9091端口！"));
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("请先选择QCN文件"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("请先选择QCN文件"));
         }
     }
     [RelayCommand]
@@ -131,16 +131,16 @@ public partial class AdvancedViewModel : MainPageBase
             await QCNTool(shell);
             if (AdvancedLog.Contains("error"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("备份失败"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("备份失败"));
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("备份成功"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("备份成功"));
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("请先开启901D/9091端口！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("请先开启901D/9091端口！"));
         }
     }
     [RelayCommand]
@@ -162,12 +162,12 @@ public partial class AdvancedViewModel : MainPageBase
             if (newDialog.Result == true)
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
-                SukiHost.ShowDialog(new ConnectionDialog("执行完成，请查看您的设备！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("执行完成，请查看您的设备！"));
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("请将设备进入系统后执行！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("请将设备进入系统后执行！"));
         }
     }
 
@@ -183,14 +183,14 @@ public partial class AdvancedViewModel : MainPageBase
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} push bin/APK/mi_diag.apk /sdcard");
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
-                SukiHost.ShowDialog(new ConnectionDialog("已将名为\"mi_diag.apk\"的文件推送至设备根目录，请安装完成后点击确定！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("已将名为\"mi_diag.apk\"的文件推送至设备根目录，请安装完成后点击确定！"));
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("请将设备进入系统后执行！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("请将设备进入系统后执行！"));
         }
     }
 
@@ -209,22 +209,22 @@ public partial class AdvancedViewModel : MainPageBase
                     await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile}\"");
                     if (!AdvancedLog.Contains("FAILED") && !AdvancedLog.Contains("error"))
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("刷入成功！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("刷入成功！"));
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("刷入失败！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("刷入失败！"));
                     }
                     Flashing = false;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请选择SuperEmpty文件！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请选择SuperEmpty文件！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"));
             }
         }
     }

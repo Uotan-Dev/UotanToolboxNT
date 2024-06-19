@@ -141,12 +141,12 @@ namespace UotanToolbox.Common
             }
             catch (UnauthorizedAccessException ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"没有足够的权限删除Temp: {ex.Message}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"没有足够的权限删除Temp: {ex.Message}"));
                 return false;
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"));
                 return false;
             }
         }
@@ -200,7 +200,7 @@ namespace UotanToolbox.Common
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"));
                 return false;
             }
         }

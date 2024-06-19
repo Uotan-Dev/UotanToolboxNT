@@ -52,7 +52,7 @@ public partial class DashboardViewModel : MainPageBase
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("请勿同时填写两种方式！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("请勿同时填写两种方式！"));
                     });
                 }
                 else if (UnlockFile != null && UnlockCode == null)
@@ -63,14 +63,14 @@ public partial class DashboardViewModel : MainPageBase
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
-                            SukiHost.ShowDialog(new ConnectionDialog("解锁成功!"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new ConnectionDialog("解锁成功!"));
                         });
                     }
                     else
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
-                            SukiHost.ShowDialog(new ConnectionDialog("解锁失败！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new ConnectionDialog("解锁失败！"));
                         });
                     }
                 }
@@ -81,14 +81,14 @@ public partial class DashboardViewModel : MainPageBase
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
-                            SukiHost.ShowDialog(new ConnectionDialog("解锁成功！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new ConnectionDialog("解锁成功！"));
                         });
                     }
                     else
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
-                            SukiHost.ShowDialog(new ConnectionDialog("解锁失败！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new ConnectionDialog("解锁失败！"));
                         });
                     }
                 }
@@ -96,7 +96,7 @@ public partial class DashboardViewModel : MainPageBase
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("请选择解锁文件,或输入解锁码！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("请选择解锁文件,或输入解锁码！"));
                     });
                 }
                 Unlocking = false;
@@ -105,7 +105,7 @@ public partial class DashboardViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"));
                 });
             }
         }
@@ -126,14 +126,14 @@ public partial class DashboardViewModel : MainPageBase
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("回锁成功！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("回锁成功！"));
                     });
                 }
                 else
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("回锁失败！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("回锁失败！"));
                     });
                 }
                 Unlocking = false;
@@ -142,7 +142,7 @@ public partial class DashboardViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"));
                 });
             }
         }
@@ -168,7 +168,7 @@ public partial class DashboardViewModel : MainPageBase
                             await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {SelectedSimpleContent}");
                             await Dispatcher.UIThread.InvokeAsync(() =>
                             {
-                                SukiHost.ShowDialog(new ConnectionDialog("执行完成，请查看您的设备！"), allowBackgroundClose: true);
+                                SukiHost.ShowDialog(new ConnectionDialog("执行完成，请查看您的设备！"));
                             });
                         }
                     });
@@ -177,7 +177,7 @@ public partial class DashboardViewModel : MainPageBase
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("请选择解锁命令！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("请选择解锁命令！"));
                     });
                 }
                 BaseUnlocking = false;
@@ -186,7 +186,7 @@ public partial class DashboardViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"));
                 });
             }
         }
@@ -221,7 +221,7 @@ public partial class DashboardViewModel : MainPageBase
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
-                            SukiHost.ShowDialog(new ConnectionDialog("刷入失败！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new ConnectionDialog("刷入失败！"));
                         });
                     }
                 }
@@ -229,7 +229,7 @@ public partial class DashboardViewModel : MainPageBase
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("请选择Recovery文件！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("请选择Recovery文件！"));
                     });
                 }
                 Flashing = false;
@@ -238,7 +238,7 @@ public partial class DashboardViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"));
                 });
             }
         }
@@ -278,14 +278,14 @@ public partial class DashboardViewModel : MainPageBase
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
-                            SukiHost.ShowDialog(new ConnectionDialog("启动成功！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new ConnectionDialog("启动成功！"));
                         });
                     }
                     else
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
                         {
-                            SukiHost.ShowDialog(new ConnectionDialog("启动失败！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new ConnectionDialog("启动失败！"));
                         });
                     }
                 }
@@ -293,7 +293,7 @@ public partial class DashboardViewModel : MainPageBase
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("请选择Recovery文件！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("请选择Recovery文件！"));
                     });
                 }
                 Flashing = false;
@@ -302,7 +302,7 @@ public partial class DashboardViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"));
                 });
             }
         }

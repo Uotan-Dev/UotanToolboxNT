@@ -150,22 +150,22 @@ public partial class AdvancedView : UserControl
                     await Fastboot($"-s {Global.thisdevice} flash cust \"{SuperEmptyFile.Text}\"");
                     if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("刷入成功！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("刷入成功！"));
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("刷入失败！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("刷入失败！"));
                     }
                     BusyFlash.IsBusy = false;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请选择SuperEmpty文件！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请选择SuperEmpty文件！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请进入Fastboot模式！"));
             }
         }
     }
@@ -204,18 +204,18 @@ public partial class AdvancedView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("未找到该分区！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new ConnectionDialog("未找到该分区！"));
                     }
                     BusyFormat.IsBusy = false;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要格式化的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要格式化的分区名称！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式后执行！"));
             }
         }
     }
@@ -238,12 +238,12 @@ public partial class AdvancedView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要格式化的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要格式化的分区名称！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
             }
         }
     }
@@ -264,12 +264,12 @@ public partial class AdvancedView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要格式化的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要格式化的分区名称！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式后执行！"));
             }
         }
     }
@@ -290,12 +290,12 @@ public partial class AdvancedView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要格式化的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要格式化的分区名称！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式后执行！"));
             }
         }
     }
@@ -348,7 +348,7 @@ public partial class AdvancedView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"));
                 }
             }
             else if (sukiViewModel.Status == "系统")
@@ -383,12 +383,12 @@ public partial class AdvancedView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式或系统后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式或系统后执行！"));
             }
         }
     }
@@ -443,7 +443,7 @@ public partial class AdvancedView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"));
                 }
             }
             else if (sukiViewModel.Status == "系统")
@@ -480,12 +480,12 @@ public partial class AdvancedView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式或系统后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Recovery模式或系统后执行！"));
             }
         }
     }

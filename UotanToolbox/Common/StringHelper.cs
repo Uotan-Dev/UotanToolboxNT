@@ -295,18 +295,18 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog($"Unable to find MAGISK_VER in the file: {filePath}"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog($"Unable to find MAGISK_VER in the file: {filePath}"));
                     return null;
                 }
             }
             catch (FileNotFoundException)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"File not found: {filePath}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"File not found: {filePath}"));
                 return null;
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"An error occurred while reading the file: {ex.Message}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"An error occurred while reading the file: {ex.Message}"));
                 return null;
             }
         }
@@ -321,18 +321,18 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog($"Unable to find {regex} in the string"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog($"Unable to find {regex} in the string"));
                     return null;
                 }
             }
             catch (FileNotFoundException)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"String not found"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"String not found"));
                 return null;
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"An error occurred while reading the string: {ex.Message}"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog($"An error occurred while reading the string: {ex.Message}"));
                 return null;
             }
         }
@@ -367,15 +367,15 @@ namespace UotanToolbox.Common
             {
                 if (MD5_out == MD5_in)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到有效的"+MAGISK_VER+"面具安装包"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到有效的"+MAGISK_VER+"面具安装包"));
                     return true;
                 }
-                SukiHost.ShowDialog(new ConnectionDialog("面具安装包可能失效，继续修补存在风险"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("面具安装包可能失效，继续修补存在风险"));
                 return false;
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("面具安装包不被支持"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("面具安装包不被支持"));
                 return false;
             }
         }

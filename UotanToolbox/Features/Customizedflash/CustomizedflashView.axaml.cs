@@ -88,13 +88,13 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
         }
     }
 
@@ -128,12 +128,12 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
             }
         }
     }
@@ -167,12 +167,12 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
             }
         }
     }
@@ -206,12 +206,12 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
             }
         }
     }
@@ -245,12 +245,12 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
             }
         }
     }
@@ -284,12 +284,12 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
             }
         }
     }
@@ -323,12 +323,12 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
             }
         }
     }
@@ -362,12 +362,12 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
             }
         }
     }
@@ -401,12 +401,12 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
             }
         }
     }
@@ -423,7 +423,7 @@ public partial class CustomizedflashView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
             }
         }
     }
@@ -440,7 +440,7 @@ public partial class CustomizedflashView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
             }
         }
     }

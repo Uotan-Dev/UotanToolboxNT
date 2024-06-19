@@ -14,7 +14,7 @@ public partial class ScrcpyViewModel : MainPageBase
     [ObservableProperty]
     private bool _recordScreen = false, _windowFixed = false, _computerControl = true, _fullScreen = false, _showBorder = true,
                         _showTouch = true, _closeScreen = false, _screenAwake = false, _screenAwakeStatus = true;
-    [ObservableProperty] private bool _isConnected;
+    [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private string _windowTitle, _recordFolder;
 
     [ObservableProperty][Range(0d, 10d)] private double _bitRate = 8;
@@ -38,7 +38,7 @@ public partial class ScrcpyViewModel : MainPageBase
     [RelayCommand]
     public Task Connect()
     {
-        IsConnected = true;
+        IsConnecting = true;
         return Task.Run(async () =>
         {
             string arg = $"-s {Global.thisdevice} ";
@@ -66,7 +66,7 @@ public partial class ScrcpyViewModel : MainPageBase
             if (CloseScreen) arg += "--turn-screen-off ";
             if (ScreenAwake) arg += "--stay-awake ";
             await CallExternalProgram.Scrcpy(arg);
-            IsConnected = false;
+            IsConnecting = false;
         });
     }
 }

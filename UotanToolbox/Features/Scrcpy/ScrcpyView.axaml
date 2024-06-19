@@ -18,7 +18,7 @@
 				<suki:GlassCard Width="950" Margin="0,0,0,25">
 					<suki:BusyArea Name="BusyConnection"
 								   BusyText="投屏中 ..."
-								   IsBusy="{Binding IsConnected}">
+								   IsBusy="{Binding IsConnecting}">
 						<StackPanel>
 							<avalonia:MaterialIcon Width="30"
 												   Height="30"
@@ -46,7 +46,7 @@
 							Margin="0,0,0,7"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Bottom"
-							theme:ButtonExtensions.ShowProgress="{Binding IsConnected}"
+							theme:ButtonExtensions.ShowProgress="{Binding IsConnecting}"
 							Classes="Flat Rounded"
 							Command="{Binding ConnectCommand}"
 							FontWeight="DemiBold">

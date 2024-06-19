@@ -139,7 +139,7 @@ public partial class SettingsLayout : UserControl
 
     private async void DockPanel_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (isAnimatingWidth)
+        //if (isAnimatingWidth)
             return;
 
         var currentwidth = this.GetTemplateChildren().First(n => n.Name == "StackSummary").Width;

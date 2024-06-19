@@ -27,7 +27,7 @@ public partial class HomeViewModel : MainPageBase
     _cPUABI = "--", _displayHW = "--", _density = "--", _boardID = "--", _platform = "--",
     _compile = "--", _kernel = "--", _selectedSimpleContent = "--", _diskType = "--",
     _batteryLevel = "0", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
-    [ObservableProperty] private bool _isConnected;
+    [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private bool _commonDevicesList;
     [ObservableProperty] private static AvaloniaList<string>? _simpleContent;
 
@@ -42,7 +42,6 @@ public partial class HomeViewModel : MainPageBase
 
     public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
-        _ = Connect();
         _ = CheckDeviceList();
         this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe(option =>
@@ -109,7 +108,7 @@ public partial class HomeViewModel : MainPageBase
 
     public async Task ConnectCore()
     {
-        IsConnected = true;
+        IsConnecting = true;
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
         Status = DevicesInfo["Status"];
@@ -140,7 +139,7 @@ public partial class HomeViewModel : MainPageBase
         UseMem = DevicesInfo["UseMem"];
         DiskInfo = DevicesInfo["DiskInfo"];
         ProgressDisk = DevicesInfo["ProgressDisk"];
-        IsConnected = false;
+        IsConnecting = false;
     }
 
     public async Task ConnectLittle()

@@ -24,7 +24,7 @@
                             Classes="Card">
 				<suki:BusyArea Name="BusyConnection"
 								BusyText="{x:Static assets:Resources.Home_Fetching}"
-								IsBusy="{Binding IsConnected}">
+								IsBusy="{Binding IsConnecting}">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
 										FontSize="16"

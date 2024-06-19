@@ -9,6 +9,7 @@ namespace UotanToolbox.Common
         public static string tmp_path = null;
         public static string magisk_tmp, boot_tmp,boot_sha1 = null;
         public static string System = "Windows";
+        public bool CheckingDevice = false;
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
         public static int mb_exitcode,cpio_exitcode;

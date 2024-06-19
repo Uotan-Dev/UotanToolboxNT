@@ -188,13 +188,13 @@
 					</StackPanel>
 					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
 						<StackPanel Orientation="Horizontal" Spacing="75">
-							<CheckBox FontSize="13" Content="保留AVB2.0/dm-verity" IsChecked="True"/>
-							<CheckBox FontSize="13" Content="保持强加密" IsChecked="True"/>
-							<CheckBox FontSize="13" Content="修补vbmeta标记"/>
+							<CheckBox Name="KEEPVERITY" FontSize="13" Content="保留AVB2.0/dm-verity" IsChecked="True"/>
+							<CheckBox Name="KEEPFORCEENCRYPT" FontSize="13" Content="保持强加密" IsChecked="True"/>
+							<CheckBox Name="PATCHVBMETAFLAG" FontSize="13" Content="修补vbmeta标记"/>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="111.5" Margin="0,-10,0,0">
-							<CheckBox FontSize="13" Content="安装到Recovery"/>
-							<CheckBox FontSize="13" Content="强开rootfs" IsChecked="True"/>
+							<CheckBox Name="RECOVERYMODE" FontSize="13" Content="安装到Recovery"/>
+							<CheckBox Name="LEGACYSAR" FontSize="13" Content="强开rootfs" IsChecked="True"/>
 							<ComboBox Name="ArchList" Width="135" Margin="-36,0,0,0" ItemsSource="{Binding ArchList}" />
 						</StackPanel>
 					</StackPanel>

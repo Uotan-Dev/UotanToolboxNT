@@ -408,4 +408,19 @@
   <data name="Wiredflash_XiaomiFlashScript" xml:space="preserve">
     <value>Xiaomi Flash Script</value>
   </data>
+  <data name="Settings_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Settings_Developers" xml:space="preserve">
+    <value>Developers</value>
+  </data>
+  <data name="Settings_AboutToolbox" xml:space="preserve">
+    <value>About Toolbox</value>
+  </data>
+  <data name="Settings_AboutToolboxContent" xml:space="preserve">
+    <value>Uotan Toolbox NT is a modern toolbox for Android developers, mainly based on the original code of UotanToolBox.</value>
+  </data>
+  <data name="Settings_SpecialThanks" xml:space="preserve">
+    <value>Special Thanks</value>
+  </data>
 </root>

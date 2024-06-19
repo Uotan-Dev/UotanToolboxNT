@@ -4,8 +4,8 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Controls;
 using System;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -15,7 +15,7 @@ namespace UotanToolbox.Features.Wiredflash;
 
 public partial class WiredflashView : UserControl
 {
-    private readonly string adb_log_path=Path.Combine(Global.runpath,"log","adb.txt");
+    private readonly string adb_log_path = Path.Combine(Global.runpath, "log", "adb.txt");
     private string output = "";
 
     public WiredflashView()
@@ -509,7 +509,7 @@ public partial class WiredflashView : UserControl
                 {
                     BusyFlash.IsBusy = true;
                     WiredflashLog.Text = "";
-                    await RunBat(BatFile.Text,Global.runpath);
+                    await RunBat(BatFile.Text, Global.runpath);
                     SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
                     BusyFlash.IsBusy = false;
                 }

@@ -1,16 +1,14 @@
-using System;
-using System.Reactive.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Styling;
 using Avalonia.Threading;
+using System;
+using System.Reactive.Linq;
+using System.Threading;
 
 namespace SukiUI.Controls
 {
@@ -54,7 +52,7 @@ namespace SukiUI.Controls
 
         private static readonly Animation FadeIn;
         private static readonly Animation FadeOut;
-        
+
         private ContentPresenter To => _isFirstBufferActive ? _secondBuffer : _firstBuffer;
         private ContentPresenter From => _isFirstBufferActive ? _firstBuffer : _secondBuffer;
 
@@ -151,11 +149,11 @@ namespace SukiUI.Controls
         public void PushContent(object? content)
         {
             if (content is null) return;
-            
+
             _animCancellationToken.Cancel();
             _animCancellationToken.Dispose();
             _animCancellationToken = new CancellationTokenSource();
-            
+
             if (_isFirstBufferActive) SecondBuffer = content;
             else FirstBuffer = content;
             try

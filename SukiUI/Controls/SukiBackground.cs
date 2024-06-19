@@ -34,7 +34,7 @@ public class SukiBackground : Image, IDisposable
     {
         Source = _bmp;
         Stretch = Stretch.UniformToFill;
-        _animationTick.Elapsed += (_, _) => _renderer.Render(_bmp,Dispatcher.UIThread.Invoke(() => _theme.ActiveBaseTheme));
+        _animationTick.Elapsed += (_, _) => _renderer.Render(_bmp, Dispatcher.UIThread.Invoke(() => _theme.ActiveBaseTheme));
         _theme = SukiTheme.GetInstance();
         _theme.RegisterBackground(this);
     }
@@ -55,7 +55,7 @@ public class SukiBackground : Image, IDisposable
         };
 
         _renderer.UpdateValues(_theme.ActiveColorTheme, _theme.ActiveBaseTheme);
-        _renderer.Render(_bmp,_theme.ActiveBaseTheme);
+        _renderer.Render(_bmp, _theme.ActiveBaseTheme);
 
         if (AnimationEnabled) _animationTick.Start();
     }

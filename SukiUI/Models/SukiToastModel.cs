@@ -1,5 +1,5 @@
-using System;
 using SukiUI.Enums;
+using System;
 
 namespace SukiUI.Models;
 

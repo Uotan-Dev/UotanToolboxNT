@@ -1,11 +1,7 @@
-﻿using Avalonia.Controls.Shapes;
-using SukiUI.Controls;
+﻿using SukiUI.Controls;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common

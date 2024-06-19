@@ -16,8 +16,8 @@ namespace UotanToolbox.Common
         }
         public bool Run()
         {
-            byte target=0x02;
-            if(_function== "oemunlockon")
+            byte target = 0x02;
+            if (_function == "oemunlockon")
             {
                 target = 0x01;
             }
@@ -27,7 +27,7 @@ namespace UotanToolbox.Common
             }
             if (_function != "oemunlockon" && _function != "oemunlockoff")
             {
-                SukiHost.ShowDialog(new ConnectionDialog("{%c_e%}参数错误{%c_i%}{\n}")); 
+                SukiHost.ShowDialog(new ConnectionDialog("{%c_e%}参数错误{%c_i%}{\n}"));
                 return false;
             }
             if (!File.Exists(_filePath))
@@ -42,7 +42,7 @@ namespace UotanToolbox.Common
                 SukiHost.ShowDialog(new ConnectionDialog("frp文件末尾1字节16进制数值不是00或01"));
                 return false;
             }
-            if(lastByte == target)
+            if (lastByte == target)
             {
                 return true;
             }

@@ -282,7 +282,7 @@ namespace UotanToolbox.Common
         /// <returns>匹配到的字符串信息</returns>
         /// <exception cref="FileNotFoundException">当指定的文件路径不存在时抛出。</exception>
         /// <exception cref="Exception">读取文件出错时抛出</exception>
-        public static string FileRegex(string filePath,string regex,int i)
+        public static string FileRegex(string filePath, string regex, int i)
         {
             try
             {
@@ -336,7 +336,7 @@ namespace UotanToolbox.Common
                 return null;
             }
         }
-        public static string RandomString(int length,string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
+        public static string RandomString(int length, string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789")
         {
             Random random = new Random();
             StringBuilder result = new StringBuilder(length);
@@ -346,7 +346,7 @@ namespace UotanToolbox.Common
             }
             return result.ToString();
         }
-        public static bool Magisk_Validation(string MD5_in,string MAGISK_VER)
+        public static bool Magisk_Validation(string MD5_in, string MAGISK_VER)
         {
             string MD5_out = null;
             string MD5;
@@ -367,7 +367,7 @@ namespace UotanToolbox.Common
             {
                 if (MD5_out == MD5_in)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到有效的"+MAGISK_VER+"面具安装包"));
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到有效的" + MAGISK_VER + "面具安装包"));
                     return true;
                 }
                 SukiHost.ShowDialog(new ConnectionDialog("面具安装包可能失效，继续修补存在风险"));

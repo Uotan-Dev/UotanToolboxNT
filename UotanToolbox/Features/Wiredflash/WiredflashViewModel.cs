@@ -1,20 +1,7 @@
-﻿using Avalonia.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Material.Icons;
-using ReactiveUI;
-using SukiUI.Controls;
-using SukiUI.MessageBox;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Globalization;
 using System.Resources;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using UotanToolbox.Common;
-using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Wiredflash;
 

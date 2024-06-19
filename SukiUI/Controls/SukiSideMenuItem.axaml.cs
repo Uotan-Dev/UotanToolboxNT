@@ -1,11 +1,7 @@
-using System;
-using System.Globalization;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
-using Avalonia.Data;
-using Avalonia.Data.Converters;
 using Avalonia.Input;
 
 namespace SukiUI.Controls;
@@ -72,7 +68,7 @@ public class SukiSideMenuItem : ListBoxItem
             }
         }
     }
-    
+
     public static readonly StyledProperty<bool> IsContentMovableProperty =
         AvaloniaProperty.Register<SukiSideMenuItem, bool>(nameof(IsContentMovable), defaultValue: true);
 
@@ -81,7 +77,7 @@ public class SukiSideMenuItem : ListBoxItem
         get => GetValue(IsContentMovableProperty);
         set => SetValue(IsContentMovableProperty, value);
     }
-    
+
     public static readonly StyledProperty<bool> IsTopMenuExpandedProperty =
         AvaloniaProperty.Register<SukiSideMenuItem, bool>(nameof(IsTopMenuExpanded), defaultValue: true);
 

@@ -32,7 +32,7 @@ namespace UotanToolbox.Common
 
         public static async Task<string> Fastboot(string fbshell)
         {
-            string cmd=Path.Combine(Global.bin_path, "platform-tools","fastboot");
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,
@@ -149,7 +149,7 @@ namespace UotanToolbox.Common
 
         public static async Task<string> Scrcpy(string arg)
         {
-            string cmd=Path.Combine(Global.bin_path, "platform-tools", "scrcpy");
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "scrcpy");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, arg)
             {
                 CreateNoWindow = true,
@@ -190,9 +190,9 @@ namespace UotanToolbox.Common
             SevenZip.WaitForExit();
             return output;
         }
-        public static async Task<(string Output, int ExitCode)> MagiskBoot(string shell,string workpath)
+        public static async Task<(string Output, int ExitCode)> MagiskBoot(string shell, string workpath)
         {
-            string cmd=Path.Combine(Global.bin_path,"magiskboot");
+            string cmd = Path.Combine(Global.bin_path, "magiskboot");
             Directory.SetCurrentDirectory(workpath);
             ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
             {
@@ -213,7 +213,7 @@ namespace UotanToolbox.Common
             int exitCode = mb.ExitCode; // 获取进程退出代码
             return (output, exitCode);
         }
-    
+
         /// <summary>
         /// 使用file命令判断文件的类型和指令集。暂不支持FAT Binary多架构检测
         /// </summary>

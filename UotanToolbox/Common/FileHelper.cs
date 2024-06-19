@@ -1,16 +1,11 @@
-﻿using Avalonia.Controls.Shapes;
-using Avalonia.Interactivity;
-using SkiaSharp;
-using SukiUI.Controls;
+﻿using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
@@ -102,7 +97,7 @@ namespace UotanToolbox.Common
             }
             return existenceResults;
         }
-        
+
         /// <summary>
         /// 删除指定目录及其所有内容。
         /// </summary>

@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -189,14 +188,14 @@ public partial class HomeViewModel : MainPageBase
     [RelayCommand]
     public async Task FreshDeviceList()
     {
-        
+
         if (await ListChecker() == true)
         {
             AvaloniaList<string> OldDeviceList = Global.deviceslist;
-            bool GetDeviceListStatus  = await GetDevicesList();
-            if ( GetDeviceListStatus==true && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+            bool GetDeviceListStatus = await GetDevicesList();
+            if (GetDeviceListStatus == true && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
             {
-                if(OldDeviceList != Global.deviceslist)
+                if (OldDeviceList != Global.deviceslist)
                 {
                     CommonDevicesList = true;
                     await ConnectCore();

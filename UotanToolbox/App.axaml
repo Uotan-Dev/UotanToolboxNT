@@ -18,4 +18,9 @@
         <StyleInclude Source="avares://UotanToolbox/Styles/GlassCardStyles.axaml" />
         <avalonia:MaterialIconStyles />
     </Application.Styles>
+	<NativeMenu.Menu>
+		<NativeMenu>
+			<NativeMenuItem Header="UotanToolbox" />
+		</NativeMenu>
+	</NativeMenu.Menu>
 </Application>

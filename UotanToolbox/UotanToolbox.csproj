@@ -18,12 +18,6 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <WarningLevel>2</WarningLevel>
 	</PropertyGroup>
-	<ItemGroup>
-		<AdditionalFiles Remove="Features\Home\ConnectionDialog.axaml" />
-	</ItemGroup>
-	<ItemGroup>
-		<AvaloniaXaml Remove="Features\Appmgr\DashboardView.axaml" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Avalonia" Version="11.0.6" />

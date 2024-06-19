@@ -1,0 +1,14 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UotanToolbox.Features.Components.PureDialog">
+	<StackPanel Spacing="15">
+		<TextBlock FontSize="18"
+                   FontWeight="DemiBold"
+                   Text="{x:Static assets:Resources.ConnectionDialog_Notice}" />
+		<TextBlock x:Name="DialogContent" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+	</StackPanel>
+</UserControl>

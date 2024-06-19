@@ -4,8 +4,8 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Controls;
 using System;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -490,7 +490,7 @@ public partial class AdvancedView : UserControl
         }
     }
 
-    private async void  OpenExtractFile(object sender, RoutedEventArgs args)
+    private async void OpenExtractFile(object sender, RoutedEventArgs args)
     {
         string filepath = string.Format(@"{0}\backup", System.IO.Directory.GetCurrentDirectory());
         FileHelper.OpenFolder(filepath);

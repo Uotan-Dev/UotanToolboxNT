@@ -14,7 +14,7 @@ namespace UotanToolbox.Features.Appmgr;
 
 public partial class AppmgrViewModel : MainPageBase
 {
-    [ObservableProperty]private ObservableCollection<ApplicationInfo> applications;
+    [ObservableProperty] private ObservableCollection<ApplicationInfo> applications;
     [ObservableProperty] private bool isBusy = false, hasItems = false;
     [ObservableProperty] private bool isSystemAppDisplayed = false, isInstalling = false;
     [ObservableProperty] private string _apkFile;
@@ -37,7 +37,7 @@ public partial class AppmgrViewModel : MainPageBase
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
 
             var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
-            if(lines.Length != 0) HasItems = true;
+            if (lines.Length != 0) HasItems = true;
             var applicationInfos = new List<ApplicationInfo>();
 
             var tasks = lines.Select(async line =>
@@ -93,7 +93,7 @@ public partial class AppmgrViewModel : MainPageBase
         await Task.Run(async () =>
         {
             IsBusy = true;
-            if(SelectedApplication()!= "")
+            if (SelectedApplication() != "")
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell monkey -p {SelectedApplication()} 1");
             IsBusy = false;
         });

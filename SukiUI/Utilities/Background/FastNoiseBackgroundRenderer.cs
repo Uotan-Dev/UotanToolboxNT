@@ -4,8 +4,6 @@ using Avalonia.Styling;
 using SukiUI.Models;
 using System;
 using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Threading;
 
 namespace SukiUI.Utilities.Background;
 
@@ -39,7 +37,7 @@ public sealed class FastNoiseBackgroundRenderer : ISukiBackgroundRenderer
 
     public FastNoiseBackgroundRenderer(FastNoiseRendererOptions? options = null)
     {
-        var opt =  new FastNoiseRendererOptions(FastNoiseLite.NoiseType.OpenSimplex2);
+        var opt = new FastNoiseRendererOptions(FastNoiseLite.NoiseType.OpenSimplex2);
         NoiseGen.SetNoiseType(opt.Type);
         _scale = opt.NoiseScale * 100f;
         _xAnim = opt.XAnimSpeed;
@@ -66,8 +64,8 @@ public sealed class FastNoiseBackgroundRenderer : ISukiBackgroundRenderer
 
     public async Task Render(WriteableBitmap bitmap, ThemeVariant baseTheme)
     {
-   
-        
+
+
         _pOffsetX += _xAnim;
         _pOffsetY += _yAnim;
         _aOffsetX -= _xAnim;
@@ -97,11 +95,11 @@ public sealed class FastNoiseBackgroundRenderer : ISukiBackgroundRenderer
                         var firstLayer = BlendPixelOverlay(WithAlpha(_themeColor, alpha), _baseColor);
 
                         noise = NoiseGen.GetNoise((_aOffsetX + x) * frameScale, (_aOffsetY + scanline) * frameScale);
-                        
-                        
-                        noise = (noise + 1f) / 2f * (baseTheme == ThemeVariant.Dark ? _accentAlpha : _accentAlphaLight) ;
-                       
-                        
+
+
+                        noise = (noise + 1f) / 2f * (baseTheme == ThemeVariant.Dark ? _accentAlpha : _accentAlphaLight);
+
+
                         alpha = (byte)(noise * 255);
 
                         dest[x] = BlendPixel(WithAlpha(_accentColor, alpha), firstLayer);

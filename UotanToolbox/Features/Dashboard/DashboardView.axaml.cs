@@ -206,9 +206,10 @@ public partial class DashboardView : UserControl
         {
             try
             {
-                File.Copy(Path.Combine((compPath), "libmagisk64.so"), Path.Combine((compPath), "magisk64"),true);
+                File.Copy(Path.Combine((compPath), "libmagisk64.so"), Path.Combine((compPath), "magisk64"), true);
                 await CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", compPath);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("magisk64组件预处理时 " + ex));
                 return;
@@ -283,7 +284,8 @@ public partial class DashboardView : UserControl
                 File.Delete(Path.Combine(Global.boot_tmp, "config.orig"));
             }
         }
-        catch (Exception e) {
+        catch (Exception e)
+        {
             SukiHost.ShowDialog(new ConnectionDialog("config.orig处理出错" + e));
         }
         //patch ramdisk.cpio
@@ -299,22 +301,23 @@ public partial class DashboardView : UserControl
             .Select(s => s[random.Next(s.Length)]).ToArray());
         string configContent = $"RANDOMSEED=0x{randomStr}";
         File.AppendAllText(config_path, configContent + Environment.NewLine);
-        if (MagiskHelper.comp_copy(compPath)) {
+        if (MagiskHelper.comp_copy(compPath))
+        {
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0750 init magiskinit\" \"mkdir 0750 overlay.d\" \"mkdir 0750 overlay.d/sbin\"", Global.boot_tmp);
             if (ArchList.SelectedItem.ToString() == "armeabi" | ArchList.SelectedItem.ToString() == "X86")
             {
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk32.xz magisk32.xz\"", Global.boot_tmp);
             }
-            if (ArchList.SelectedItem.ToString() =="aarch64" | ArchList.SelectedItem.ToString() == "X86-64")
+            if (ArchList.SelectedItem.ToString() == "aarch64" | ArchList.SelectedItem.ToString() == "X86-64")
             {
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", Global.boot_tmp);
             }
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", Global.boot_tmp);
             //SukiHost.ShowDialog(new ConnectionDialog(mb_output));
             //以上完成ramdisk.cpio的修补
-            string dtb_name =MagiskHelper.dtb_detect(Global.boot_tmp);
+            string dtb_name = MagiskHelper.dtb_detect(Global.boot_tmp);
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
-            if (exitcode != 0) 
+            if (exitcode != 0)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
                 return;
@@ -346,7 +349,7 @@ public partial class DashboardView : UserControl
                         kernel_patched = true;
                     }
                 }
-                if (!kernel_patched) 
+                if (!kernel_patched)
                 {
                     try
                     {
@@ -354,10 +357,10 @@ public partial class DashboardView : UserControl
                     }
                     catch (Exception ex)
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("kernel删除失败"+ex));
+                        SukiHost.ShowDialog(new ConnectionDialog("kernel删除失败" + ex));
                         return;
                     }
-                    
+
                 }
             }
             if (MagiskHelper.clean_boot(Global.boot_tmp))
@@ -371,9 +374,9 @@ public partial class DashboardView : UserControl
 
 
         }
-    
+
     }
-    
+
 
     private async void OpenAFDI(object sender, RoutedEventArgs args)
     {

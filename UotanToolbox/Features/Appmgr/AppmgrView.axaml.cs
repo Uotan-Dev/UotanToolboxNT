@@ -1,18 +1,11 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Layout;
-using Avalonia.Media;
-using System;
-using SukiUI.Controls;
-using UotanToolbox.Features.Home;
-using Avalonia.Input;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
+using Avalonia.Threading;
+using SukiUI.Controls;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
-using Avalonia.Threading;
 using UotanToolbox.Features.Components;
-using Avalonia.Platform.Storage;
-using System.Collections.Generic;
 
 namespace UotanToolbox.Features.Appmgr;
 
@@ -36,7 +29,7 @@ public partial class AppmgrView : UserControl
         {
             var newDialog = new ConnectionDialog("确认删除应用？");
             await SukiHost.ShowDialogAsync(newDialog);
-            if(newDialog.Result == true) await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}");
+            if (newDialog.Result == true) await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}");
             var newAppmgr = new AppmgrViewModel();
             _ = newAppmgr.Connect();
         });

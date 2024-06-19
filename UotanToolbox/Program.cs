@@ -2,9 +2,9 @@
 using Avalonia.Media;
 using ShowMeTheXaml;
 using System;
-using System.Runtime.InteropServices;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using UotanToolbox.Common;
 
 namespace UotanToolbox;
@@ -22,13 +22,13 @@ internal class Program
     public static AppBuilder BuildAvaloniaApp()
     {
         Global.runpath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);//获取工具运行路径
-        Global.tmp_path =Path.GetTempPath();
+        Global.tmp_path = Path.GetTempPath();
         FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
         {
-            FileHelper.CopyDirectory("SukiUI/CustomFont/","/home/localhost/.local/share/fonts/");
+            FileHelper.CopyDirectory("SukiUI/CustomFont/", "/home/localhost/.local/share/fonts/");
             options.DefaultFamilyName = "MiSans";
-            if(RuntimeInformation.OSArchitecture == Architecture.X64)
+            if (RuntimeInformation.OSArchitecture == Architecture.X64)
             {
                 Global.System = "Linux_AMD64";
             }

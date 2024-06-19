@@ -1,15 +1,15 @@
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Interactivity;
 
 namespace SukiUI.Controls;
 
@@ -160,7 +160,8 @@ public class SukiWindow : Window
         {
             background.SetAnimationEnabled(BackgroundAnimationEnabled);
             var bgObs = this.GetObservable(BackgroundAnimationEnabledProperty)
-                .Select<bool, Unit>(enabled => {
+                .Select<bool, Unit>(enabled =>
+                {
                     background.SetAnimationEnabled(enabled);
                     return Unit.Default;
                 })

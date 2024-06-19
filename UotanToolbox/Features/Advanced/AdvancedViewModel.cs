@@ -1,18 +1,11 @@
-﻿using Avalonia.Controls;
-using Avalonia.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
-using ReactiveUI;
-using System.IO;
 using SukiUI.Controls;
-using SukiUI.MessageBox;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -107,7 +100,7 @@ public partial class AdvancedViewModel : MainPageBase
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("写入成功"));
                 }
-             }
+            }
             else
             {
                 SukiHost.ShowDialog(new ConnectionDialog("请先开启901D/9091端口！"));

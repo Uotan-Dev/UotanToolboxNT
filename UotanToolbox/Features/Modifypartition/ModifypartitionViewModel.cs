@@ -1,7 +1,6 @@
 ﻿using Avalonia.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Material.Icons;
-using System;
 using System.Linq;
 
 namespace UotanToolbox.Features.Modifypartition;
@@ -17,7 +16,8 @@ public partial class ModifypartitionViewModel : MainPageBase
 
     public partial class DataGridContentViewModel(int value) : ObservableObject
     {
-        [ObservableProperty] private string _idColumn = $"Content {value}",
+        [ObservableProperty]
+        private string _idColumn = $"Content {value}",
             _startpointColumn = $"Content {value}",
             _endpointColumn = $"Content {value}",
             _sizeColumn = $"Content {value}",

@@ -57,13 +57,6 @@ public partial class HomeViewModel : MainPageBase
         await ConnectCore();
     }
 
-    [RelayCommand]
-    public async Task Connect()
-    {
-        if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
-            await ConnectCore();
-    }
-
     public async Task<bool> GetDevicesList()
     {
         string[] devices = await GetDevicesInfo.DevicesList();
@@ -188,12 +181,26 @@ public partial class HomeViewModel : MainPageBase
     {
         while (true)
         {
-            if (await ListChecker() == true)
-            {
-                await Connect();
-            }
-            await Task.Delay(1000);
+            await FreshDeviceList();
+            await Task.Delay(10000);
         }
+    }
+
+    [RelayCommand]
+    public async Task FreshDeviceList()
+    {
+        CommonDevicesList = true;
+        if (await ListChecker() == true)
+        {
+            string OldDevice = Global.thisdevice;
+            bool GetDeviceListStatus  = await GetDevicesList();
+            if ( GetDeviceListStatus==true && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+            {
+                if(OldDevice != Global.thisdevice)
+                    await ConnectCore();
+            }
+        }
+        CommonDevicesList = false;
     }
 
     private async Task ADBControl(string shell)

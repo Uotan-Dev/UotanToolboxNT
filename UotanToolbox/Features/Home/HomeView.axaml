@@ -611,7 +611,7 @@
 						<ComboBox Width="185" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
 					<StackPanel Spacing="15">
-						<Button Width="175" Command="{Binding ConnectCommand}">
+						<Button Width="175" Command="{Binding FreshDeviceListCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
 								<TextBlock Text="{x:Static assets:Resources.Home_Refresh}"/>

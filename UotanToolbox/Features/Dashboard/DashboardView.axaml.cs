@@ -180,6 +180,8 @@ public partial class DashboardView : UserControl
 
     private async void StartPatch(object sender, RoutedEventArgs args)
     {
+        SukiHost.ShowDialog(new ConnectionDialog("施工中，暂停使用"), allowBackgroundClose: true);
+        return;
         if (!Global.is_boot_ok | !Global.is_magisk_ok)
         {
             SukiHost.ShowDialog(new ConnectionDialog("请选择有效的面具与镜像文件"), allowBackgroundClose: true);

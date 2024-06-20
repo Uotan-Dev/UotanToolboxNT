@@ -67,10 +67,7 @@ namespace UotanToolbox.Common
             {
                 File.Copy(System.IO.Path.Combine(Global.magisk_tmp, "assets", "stub.xz"), System.IO.Path.Combine(Global.boot_tmp, "stub.xz"), true);
                 File.Copy(System.IO.Path.Combine(compPath, "libmagiskinit.so"), System.IO.Path.Combine(Global.boot_tmp, "magiskinit"), true);
-                if (File.Exists(System.IO.Path.Combine((compPath), "magisk32.xz")))
-                {
-                    File.Copy(System.IO.Path.Combine(compPath, "magisk32.xz"), System.IO.Path.Combine(Global.boot_tmp, "magisk32.xz"), true);
-                }
+                File.Copy(System.IO.Path.Combine(compPath, "magisk32.xz"), System.IO.Path.Combine(Global.boot_tmp, "magisk32.xz"), true);
                 if (File.Exists(System.IO.Path.Combine((compPath), "magisk64.xz")))
                 {
                     File.Copy(System.IO.Path.Combine(compPath, "magisk64.xz"), System.IO.Path.Combine(Global.boot_tmp, "magisk64.xz"), true);

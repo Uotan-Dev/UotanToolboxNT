@@ -1,5 +1,6 @@
 ﻿using SukiUI.Controls;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UotanToolbox.Features.Components;
@@ -8,6 +9,47 @@ namespace UotanToolbox.Common
 {
     internal class MagiskHelper
     {
+        public class PatchPlan
+        {
+            public string? MAGISK_VER { get; set; }
+            public string? MAGISK_VER_CODE { get; set; }
+            public bool IsVivoSuuPatch { get; set; }
+        }
+        public static bool Magisk_Validation(string MD5_in, string MAGISK_VER)
+        {
+            string MD5_out = null;
+            string MD5;
+            Dictionary<string, string> patchPlans = new Dictionary<string, string>
+        {
+            {"27.0" , "3b324a47607ae17ac0376c19043bb7b1"},
+            {"26.4" , "3b324a47607ae17ac0376c19043bb7b1"},
+            {"26.3" , "3b324a47607ae17ac0376c19043bb7b1"}
+             /*下面的支持还没写，你要是看到这段文字可以考虑一下帮我写写然后PR到仓库。 -zicai
+            {"26.2" , "daf3cffe200d4e492edd0ca3c676f07f"},
+            {"26.1" , "0e8255080363ee0f895105cdc3dfa419"},
+            {"26.0" , "3d2c5bcc43373eb17939f0592b2b40f9"},
+            {"25.2" , "bf6ef4d02c48875ae3929d26899a868d"},
+            {"25.1" , "c48a22c8ed43cd20fe406acccc600308"},
+            {"25.0" , "7b40f9efd587b59bade9b9ec892e875e"},
+            {"22.1" , "55285c3ad04cdf72e6e2be9d7ba4a333"}
+             */
+        };
+            if (patchPlans.TryGetValue(MAGISK_VER, out MD5_out))
+            {
+                if (MD5_out == MD5_in)
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到有效的" + MAGISK_VER + "面具安装包"));
+                    return true;
+                }
+                SukiHost.ShowDialog(new ConnectionDialog("面具安装包可能失效，继续修补存在风险"));
+                return false;
+            }
+            else
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("面具安装包不被支持"));
+                return false;
+            }
+        }
         public static bool CheckComponentFiles(string magisk_path, string arch)
         {
             string compPathBase = System.IO.Path.Combine(magisk_path, "lib");

@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
+using System.Text;
+using System.Security.Cryptography;
+using System.Linq;
+using System.IO;
 
 namespace UotanToolbox.Common
 {
@@ -13,6 +18,7 @@ namespace UotanToolbox.Common
         public string? Cm { get; set; }
         public int ParamMode { get; set; }
     }
+
 
     public class OnePlus(string ModelVerifyPrjName, int serial, int ATOBuild = 0, int Flash_Mode = 0, int cf = 0, string[] supported_functions = null)
     {
@@ -118,6 +124,148 @@ namespace UotanToolbox.Common
                 throw new KeyNotFoundException($"The device configuration for key '{ModelVerifyPrjName}' was not found.");
             }
         }
+        public string GetProdKey(int projId)
+        {
+            string prodKey;
+            if (projId == 18825 || projId == 18801) // key_guacamoles, fajiita
+            {
+                prodKey = "b2fad511325185e5";
+            }
+            else // key_op7t/op8/N10
+            {
+                prodKey = "7016147d58e8c038";
+            }
+            return prodKey;
+        }
+        public class OnePlus1(string version, string ModelVerifyPrjName, int serial, string pk = "", string prodkey = "", string cf = "0")
+        {
+            private readonly string _pk = pk;
+            private readonly string _prodkey = prodkey;
+            private readonly string _ModelVerifyPrjName = ModelVerifyPrjName;
+            private readonly string _randomPostfix = "0iyFR00pPnoqjVNL";
+            private readonly string _Version = version;
+            private readonly string _cf = cf;
+            private readonly string _socSn = serial.ToString();
+            public static byte[] StringToByteArray(string hex)
+            {
+                int NumberChars = hex.Length;
+                byte[] bytes = new byte[NumberChars / 2];
+                for (int i = 0; i < NumberChars; i += 2)
+                    bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+                return bytes;
+            }
+            public static string CryptToken(string data, string pk, bool decrypt = false, bool demacia = false)
+            {
+                byte[] aesKey, aesIV;
+
+                if (demacia)
+                {
+                    aesKey = [0x01, 0x63, 0xA0, 0xD1, 0xFD, 0xE2, 0x67, 0x11, .. Encoding.UTF8.GetBytes(pk), .. new byte[] { 0x48, 0x27, 0xC2, 0x08, 0xFB, 0xB0, 0xE6, 0xF0 }];
+                    aesIV = [0x96, 0xE0, 0x79, 0x0C, 0xAE, 0x2B, 0xB4, 0xAF, 0x68, 0x4C, 0x36, 0xCB, 0x0B, 0xEC, 0x49, 0xCE];
+                }
+                else
+                {
+                    aesKey = [0x10, 0x45, 0x63, 0x87, 0xE3, 0x7E, 0x23, 0x71, .. Encoding.UTF8.GetBytes(pk), .. new byte[] { 0xA2, 0xD4, 0xA0, 0x74, 0x0f, 0xD3, 0x28, 0x96 }];
+                    aesIV = [0x9D, 0x61, 0x4A, 0x1E, 0xAC, 0x81, 0xC9, 0xB2, 0xD3, 0x76, 0xD7, 0x49, 0x31, 0x03, 0x63, 0x79];
+                }
+
+                if (decrypt)
+                {
+                    byte[] cdata = Unhexlify(data);
+                    string hexString = "3930376865617679776f726b6c6f61644e0260e5250c941b413dba383d7532f01a4a287b0c2e83410f694b9d96e9509d";
+                    cdata = StringToByteArray(hexString);
+                    byte[] result = CryptoHelper.AESCBC(cdata, aesKey, aesIV, true);
+                    Console.WriteLine(result);
+                    result = result.SkipWhile(b => b == 0).ToArray();
+                    if (result.Length >= 16 && result.Take(16).SequenceEqual(Encoding.UTF8.GetBytes("907heavyworkload")))
+                    {
+                        return Encoding.UTF8.GetString(result);
+                    }
+                    else
+                    {
+                        return string.Join(",", Encoding.UTF8.GetString(result).Split(','));
+                    }
+                }
+                else
+                {
+                    //调试用
+                    Console.WriteLine($"data:{data}");
+                    byte[] pdata = Encoding.UTF8.GetBytes(data.PadRight(256, demacia ? '\0' : ' '));
+                    Console.WriteLine($"pdata:{BitConverter.ToString(pdata)}");
+                    byte[] result = CryptoHelper.AESCBC(pdata, aesKey, aesIV, false);
+                    Console.WriteLine($"Result: {BitConverter.ToString(result)}");
+                    string rdata = BitConverter.ToString(result).Replace("-", "").ToUpper();
+                    Console.WriteLine($"rdata:{rdata}");
+                    return rdata;
+                }
+            }
+
+            private static byte[] Unhexlify(string hexString)
+            {
+                if (string.IsNullOrEmpty(hexString))
+                    throw new ArgumentException("hexString cannot be null or empty.", nameof(hexString));
+                if (hexString.Length % 2 != 0)
+                    throw new ArgumentException("The length of the hexString must be even.", nameof(hexString));
+                byte[] bytes = new byte[hexString.Length / 2];
+                for (int i = 0; i < hexString.Length; i += 2)
+                {
+                    bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
+                }
+                return bytes;
+            }
+            public (string, string) GenerateToken(string prodKey, string modelVerifyPrjName, string randomPostfix, string cf, string socSn, string version, bool program = false)
+            {
+                var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
+                var ha = SHA256.Create();
+                // 计算ModelVerifyHashToken
+                var h1 = $"{prodKey}{modelVerifyPrjName}{randomPostfix}";
+                var modelVerifyHashTokenBytes = ha.ComputeHash(Encoding.UTF8.GetBytes(h1));
+                var modelVerifyHashToken = BitConverter.ToString(modelVerifyHashTokenBytes).Replace("-", "").ToUpper();
+                // 计算secret
+                var h2 = $"c4b95538c57df231{modelVerifyPrjName}{cf}{socSn}{version}{timestamp}{modelVerifyHashToken}5b0217457e49381b";
+                var secretBytes = ha.ComputeHash(Encoding.UTF8.GetBytes(h2));
+                var secret = BitConverter.ToString(secretBytes).Replace("-", "").ToUpper();
+                var items = program
+                    ? new[] { timestamp, secret }
+                    : new[] { modelVerifyPrjName, randomPostfix, modelVerifyHashToken, version, cf, socSn, timestamp, secret };
+                var data = string.Join(",", items);
+                var token = CryptToken(data, prodKey);
+
+                return (prodKey, token);
+            }
+        }
+        /*
+        public class Program
+        {
+            public static int Main(string[] args)
+            {
+                string pk = "l8TEcLb3nFPmOE2O";
+                string ModelVerifyPrjName = "18821";
+                string socSn = "753799659";
+                string prodkey;
+                string version = "guacamoles_21_O.22_191107";
+                if (args.Length == 3)
+                {
+                    version = args[2];
+                }
+                if (new[] { "18825", "18801" }.Contains(ModelVerifyPrjName)) // key_guacamoles, fajiita
+                {
+                    prodkey = "b2fad511325185e5";
+                }
+                else // key_op7t/op8/N10
+                {
+                    prodkey = "7016147d58e8c038";
+                }
+                OnePlus1 onePlus1 = new OnePlus1(version, ModelVerifyPrjName, Convert.ToInt32(socSn), pk, prodkey);
+                (string token, string secret) = onePlus1.GenerateToken(prodkey, ModelVerifyPrjName, "0iyFR00pPnoqjVNL", "0", socSn, version, false);
+                Console.WriteLine($"pk: {pk}");
+                Console.WriteLine($"Secret: {secret}");
+                Console.WriteLine($"version: {version}");
+                Console.WriteLine($"Token: {token}");
+                return 0;
+            }
+        }*/
+
     }
 }
 

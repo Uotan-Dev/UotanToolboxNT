@@ -73,7 +73,7 @@ public partial class DashboardView : UserControl
                 {
                     string BOOT_PATCH_PATH = Path.Combine(Global.magisk_tmp, "assets", "boot_patch.sh");
                     string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
-                    bool Magisk_Valid = StringHelper.Magisk_Validation(md5, MAGISK_VER);
+                    bool Magisk_Valid = MagiskHelper.Magisk_Validation(md5, MAGISK_VER);
                     if (Magisk_Valid)
                     {
                         Global.is_magisk_ok = true;

@@ -7,6 +7,7 @@
              xmlns:modifypartition="clr-namespace:UotanToolbox.Features.Modifypartition"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
 			 d:DesignWidth="1024"
              x:DataType="modifypartition:ModifypartitionViewModel"
              mc:Ignorable="d">
@@ -20,13 +21,13 @@
 						  CanUserResizeColumns="False"
 						  ItemsSource="{Binding DataGridContent}">
 					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding IdColumn}" Header="序号" />
-						<DataGridTextColumn Binding="{Binding StartpointColumn}" Header="起始点" />
-						<DataGridTextColumn Binding="{Binding EndpointColumn}" Header="结束点" />
-						<DataGridTextColumn Binding="{Binding SizeColumn}" Header="大小" />
-						<DataGridTextColumn Binding="{Binding FormatColumn}" Header="格式" />
-						<DataGridTextColumn Binding="{Binding NameColumn}" Header="名称" />
-						<DataGridTextColumn Binding="{Binding SignColumn}" Header="标识" />
+						<DataGridTextColumn Binding="{Binding IdColumn}" Header="{x:Static assets:Resources.Modifypartition_Id}" />
+						<DataGridTextColumn Binding="{Binding StartpointColumn}" Header="{x:Static assets:Resources.Modifypartition_Startpoint}" />
+						<DataGridTextColumn Binding="{Binding EndpointColumn}" Header="{x:Static assets:Resources.Modifypartition_Endpoint}" />
+						<DataGridTextColumn Binding="{Binding SizeColumn}" Header="{x:Static assets:Resources.Modifypartition_Size}" />
+						<DataGridTextColumn Binding="{Binding FormatColumn}" Header="{x:Static assets:Resources.Modifypartition_Format}" />
+						<DataGridTextColumn Binding="{Binding NameColumn}" Header="{x:Static assets:Resources.Modifypartition_Name}" />
+						<DataGridTextColumn Binding="{Binding SignColumn}" Header="{x:Static assets:Resources.Modifypartition_Sign}" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</suki:GlassCard>
@@ -37,23 +38,19 @@
 							<TextBlock VerticalAlignment="Center"
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
-									   Text="序号:" />
+									   Text="{x:Static assets:Resources.Modifypartition_IdColon}" />
 							<TextBox Width="115" Name="IdNumber" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="50"
 									HorizontalAlignment="Left"
 									Padding="8">
-								<TextBlock>
-									删除
-								</TextBlock>
+								<TextBlock Text="{x:Static assets:Resources.Modifypartition_Delete}"/>
 							</Button>
 							<Button Width="50"
 									HorizontalAlignment="Left"
 									Padding="8">
-								<TextBlock>
-									标记
-								</TextBlock>
+								<TextBlock Text="{x:Static assets:Resources.Modifypartition_Mark}"/>
 							</Button>
 						</StackPanel>
 					</StackPanel>
@@ -64,37 +61,35 @@
 							<TextBlock VerticalAlignment="Center"
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
-									   Text="分区序号:" />
+									   Text="{x:Static assets:Resources.Modifypartition_PartId}" />
 							<TextBox Width="100" Name="NewPartitionName" />
 						</StackPanel>
 						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
-									   Text="分区格式:" />
+									   Text="{x:Static assets:Resources.Modifypartition_PartFormat}" />
 							<TextBox Width="100" Name="NewPartitionFormat" />
 						</StackPanel>
 						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
-									   Text="起始点:" />
+									   Text="{x:Static assets:Resources.Modifypartition_StartpointColon}" />
 							<TextBox Width="115" Name="NewPartitionStartpoint" />
 						</StackPanel>
 						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
-									   Text="结束点:" />
+									   Text="{x:Static assets:Resources.Modifypartition_EndpointColon}" />
 							<TextBox Width="115" Name="NewPartitionEndpoint" />
 						</StackPanel>
 						<StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="100"
 									HorizontalAlignment="Left"
 									Padding="8">
-								<TextBlock>
-									创建分区
-								</TextBlock>
+								<TextBlock Text="{x:Static assets:Resources.Modifypartition_CreatePart}" />
 							</Button>
 						</StackPanel>
 					</StackPanel>
@@ -120,14 +115,12 @@
 					<TextBlock VerticalAlignment="Center"
 							   FontSize="13"
 							   Foreground="{DynamicResource SukiLowText}"
-							   Text="磁盘总大小:" />
+							   Text="{x:Static assets:Resources.Modifypartition_TotalSize}" />
 					<TextBlock Width="150"></TextBlock>
 					<Button Width="100"
 									HorizontalAlignment="Left"
 									Padding="8">
-						<TextBlock>
-							读取分区表
-						</TextBlock>
+						<TextBlock Text="{x:Static assets:Resources.Modifypartition_ReadPart}" />
 					</Button>
 				</StackPanel>
 			</suki:GlassCard>
@@ -137,9 +130,7 @@
 						<Button Width="100"
 								HorizontalAlignment="Left"
 								Padding="8">
-							<TextBlock>
-								解除限制
-							</TextBlock>
+							<TextBlock Text="{x:Static assets:Resources.Modifypartition_RemoveLimit}" />
 						</Button>
 					</StackPanel>
 				</StackPanel>

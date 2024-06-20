@@ -585,4 +585,61 @@
   <data name="Scrcpy_WindowTopping" xml:space="preserve">
     <value>窗口置顶</value>
   </data>
+  <data name="Modifypartition_CreatePart" xml:space="preserve">
+    <value>创建分区</value>
+  </data>
+  <data name="Modifypartition_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Modifypartition_Endpoint" xml:space="preserve">
+    <value>结束点</value>
+  </data>
+  <data name="Modifypartition_EndpointColon" xml:space="preserve">
+    <value>结束点:</value>
+  </data>
+  <data name="Modifypartition_Format" xml:space="preserve">
+    <value>格式</value>
+  </data>
+  <data name="Modifypartition_Id" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="Modifypartition_IdColon" xml:space="preserve">
+    <value>序号：</value>
+  </data>
+  <data name="Modifypartition_Mark" xml:space="preserve">
+    <value>标记</value>
+  </data>
+  <data name="Modifypartition_Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Modifypartition_PartFormat" xml:space="preserve">
+    <value>分区格式:</value>
+  </data>
+  <data name="Modifypartition_PartId" xml:space="preserve">
+    <value>分区序号:</value>
+  </data>
+  <data name="Modifypartition_ReadPart" xml:space="preserve">
+    <value>读取分区表</value>
+  </data>
+  <data name="Modifypartition_RemoveLimit" xml:space="preserve">
+    <value>解除限制</value>
+  </data>
+  <data name="Modifypartition_Sign" xml:space="preserve">
+    <value>标识</value>
+  </data>
+  <data name="Modifypartition_Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="Modifypartition_Startpoint" xml:space="preserve">
+    <value>起始点</value>
+  </data>
+  <data name="Modifypartition_StartpointColon" xml:space="preserve">
+    <value>起始点:</value>
+  </data>
+  <data name="Modifypartition_TotalSize" xml:space="preserve">
+    <value>磁盘总大小:</value>
+  </data>
+  <data name="Sidebar_ModifyPartition" xml:space="preserve">
+    <value>修改分区</value>
+  </data>
 </root>

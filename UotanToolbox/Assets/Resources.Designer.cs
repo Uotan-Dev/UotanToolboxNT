@@ -1051,6 +1051,168 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 CreatePartition 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_CreatePart {
+            get {
+                return ResourceManager.GetString("Modifypartition_CreatePart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Delete {
+            get {
+                return ResourceManager.GetString("Modifypartition_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Endpoint 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Endpoint {
+            get {
+                return ResourceManager.GetString("Modifypartition_Endpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Endpoint: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_EndpointColon {
+            get {
+                return ResourceManager.GetString("Modifypartition_EndpointColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Format 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Format {
+            get {
+                return ResourceManager.GetString("Modifypartition_Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ID 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Id {
+            get {
+                return ResourceManager.GetString("Modifypartition_Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ID: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_IdColon {
+            get {
+                return ResourceManager.GetString("Modifypartition_IdColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mark 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Mark {
+            get {
+                return ResourceManager.GetString("Modifypartition_Mark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Name 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Name {
+            get {
+                return ResourceManager.GetString("Modifypartition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Partition Format: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_PartFormat {
+            get {
+                return ResourceManager.GetString("Modifypartition_PartFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Partition ID: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_PartId {
+            get {
+                return ResourceManager.GetString("Modifypartition_PartId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Read partition table 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_ReadPart {
+            get {
+                return ResourceManager.GetString("Modifypartition_ReadPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Remove limit 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_RemoveLimit {
+            get {
+                return ResourceManager.GetString("Modifypartition_RemoveLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Sign 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Sign {
+            get {
+                return ResourceManager.GetString("Modifypartition_Sign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Size 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Size {
+            get {
+                return ResourceManager.GetString("Modifypartition_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Startpoint 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Startpoint {
+            get {
+                return ResourceManager.GetString("Modifypartition_Startpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Startpoint: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_StartpointColon {
+            get {
+                return ResourceManager.GetString("Modifypartition_StartpointColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Total Disk Size: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_TotalSize {
+            get {
+                return ResourceManager.GetString("Modifypartition_TotalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Bitrate 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Bitrate {
@@ -1353,6 +1515,15 @@ namespace UotanToolbox.Assets {
         public static string Sidebar_HomePage {
             get {
                 return ResourceManager.GetString("Sidebar_HomePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Modify Partition 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_ModifyPartition {
+            get {
+                return ResourceManager.GetString("Sidebar_ModifyPartition", resourceCulture);
             }
         }
         

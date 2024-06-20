@@ -213,7 +213,8 @@ public partial class DashboardView : UserControl
             {
                 File.Copy(Path.Combine((compPath), "libmagisk64.so"), Path.Combine((compPath), "magisk64"), true);
                 await CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", compPath);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("magisk64组件预处理时 " + ex));
                 return;
@@ -229,91 +230,6 @@ public partial class DashboardView : UserControl
             catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex));
-                return;
-            }
-        }
-        (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(Global.magisk_tmp, "assets"));
-        if (mb_output.Contains("error"))
-        {
-            SukiHost.ShowDialog(new ConnectionDialog("压缩stub.apk时出错"));
-            return;
-        }
-        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{System.IO.Path.Combine(Global.boot_tmp, "ramdisk.cpio")}\" test", Global.boot_tmp);
-        int mode_code = exitcode & 3;
-        switch (mode_code)
-        {
-            case 0:
-                try
-                {
-                    File.Copy(BootFile.Text, Path.Combine(Global.boot_tmp, "stock_boot.img"), true);
-                    break;
-                }
-                catch (Exception e)
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("0文件预处理时出错！" + e));
-                    break;
-                }
-            case 1:
-                try
-                {
-                    File.Copy(Path.Combine(Global.boot_tmp, "ramdisk", ".backup", ".magisk", "config.orig"), Path.Combine(Global.boot_tmp, "comfig.orig"), true);
-                    (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio restore", Global.boot_tmp);
-                    File.Copy(Path.Combine(Global.boot_tmp, "ramdisk.cpio"), Path.Combine(Global.boot_tmp, "ramdisk.cpio.orig"), true);
-                    File.Delete(Path.Combine(Global.boot_tmp, "stock_boot.img"));
-                    break;
-                }
-                catch (Exception e)
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("1文件预处理时出错！" + e));
-                    break;
-                }
-            case 2:
-                SukiHost.ShowDialog(new ConnectionDialog("镜像被未支持软件修补，请选择原生镜像！"));
-                break;
-            default:
-                SukiHost.ShowDialog(new ConnectionDialog("magiskboot error"));
-                break;
-        }
-        string init = "init";
-        if (((mode_code * 3) & 4) != 0)
-        {
-            init = "init.real";
-        }
-        try
-        {
-            if (File.Exists(Path.Combine(Global.boot_tmp, "config.orig")))
-
-                File.Copy(Path.Combine(sub_compPath, "libmagisk32.so"), Path.Combine(compPath, "libmagisk32.so"));
-        }
-        catch (Exception ex)
-        {
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("64位magisk32组件预处理时 " + ex), allowBackgroundClose: true);
-            }
-        }
-        if (File.Exists(Path.Combine((compPath), "libmagisk64.so")))
-        {
-            try
-            {
-                File.Copy(Path.Combine((compPath), "libmagisk64.so"), Path.Combine((compPath), "magisk64"), true);
-                await CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", compPath);
-            }
-            catch (Exception ex)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("magisk64组件预处理时 " + ex), allowBackgroundClose: true);
-                return;
-            }
-        }
-        if (File.Exists(Path.Combine((compPath), "libmagisk32.so")))
-        {
-            try
-            {
-                File.Copy(Path.Combine((compPath), "libmagisk32.so"), Path.Combine((compPath), "magisk32"), true);
-                await CallExternalProgram.MagiskBoot($"compress=xz magisk32 magisk32.xz", compPath);
-            }
-            catch (Exception ex)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex), allowBackgroundClose: true);
                 return;
             }
         }
@@ -360,10 +276,6 @@ public partial class DashboardView : UserControl
                 SukiHost.ShowDialog(new ConnectionDialog("magiskboot error"), allowBackgroundClose: true);
                 break;
         }
-
-        catch (Exception e) {
-            SukiHost.ShowDialog(new ConnectionDialog("config.orig处理出错" + e));
-        }
         //patch ramdisk.cpio
         string config_path = Path.Combine(Global.boot_tmp, "config");
         File.WriteAllText(config_path, "");
@@ -377,155 +289,97 @@ public partial class DashboardView : UserControl
             .Select(s => s[random.Next(s.Length)]).ToArray());
         string configContent = $"RANDOMSEED=0x{randomStr}";
         File.AppendAllText(config_path, configContent + Environment.NewLine);
-        if (MagiskHelper.comp_copy(compPath)) {
+        if (MagiskHelper.comp_copy(compPath))
+        {
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0750 init magiskinit\" \"mkdir 0750 overlay.d\" \"mkdir 0750 overlay.d/sbin\"", Global.boot_tmp);
-            if (ArchList.SelectedItem.ToString() == "armeabi" | ArchList.SelectedItem.ToString() == "X86") ;
-            string init = "init";
-            if (((mode_code * 3) & 4) != 0)
+            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk32.xz magisk32.xz\"", Global.boot_tmp);
+        }
+        if (ArchList.SelectedItem.ToString() == "aarch64" | ArchList.SelectedItem.ToString() == "X86-64")
+        {
+            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", Global.boot_tmp);
+        }
+        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", Global.boot_tmp);
+        //SukiHost.ShowDialog(new ConnectionDialog(mb_output));
+        //以上完成ramdisk.cpio的修补
+        string dtb_name = MagiskHelper.dtb_detect(Global.boot_tmp);
+        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
+        if (exitcode != 0)
+        {
+            SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
+            return;
+        }
+        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp);
+        if (exitcode != 0)
+        {
+            SukiHost.ShowDialog(new ConnectionDialog("dtb修补失败"));
+            return;
+        }
+        bool kernel_patched = false;
+        if (File.Exists(Path.Combine(Global.boot_tmp, "kernel")))
+        {
+            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054", Global.boot_tmp);
+            if (exitcode == 0)
             {
-                init = "init.real";
+                kernel_patched = true;
             }
-            try
+            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 821B8012 E2FF8F12", Global.boot_tmp);
+            if (exitcode == 0)
             {
-                if (File.Exists(Path.Combine(Global.boot_tmp, "config.orig")))
-                {
-                    File.SetAttributes(Path.Combine(Global.boot_tmp, "config.orig"), FileAttributes.Normal);
-                    Global.boot_sha1 = StringHelper.FileRegex(Path.Combine(Global.boot_tmp, "config.orig"), "SHA1=(.*?)$", 1);
-                    File.Delete(Path.Combine(Global.boot_tmp, "config.orig"));
-                }
+                kernel_patched = true;
             }
-            catch (Exception e)
+            if ((bool)LEGACYSAR.IsChecked)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("config.orig处理出错" + e), allowBackgroundClose: true);
-            }
-            //patch ramdisk.cpio
-            string config_path = Path.Combine(Global.boot_tmp, "config");
-            File.WriteAllText(config_path, "");
-            File.AppendAllText(config_path, $"KEEPVERITY={KEEPVERITY.IsChecked.ToString()}\n");
-            File.AppendAllText(config_path, $"KEEPFORCEENCRYPT={KEEPFORCEENCRYPT.IsChecked.ToString()}\n");
-            File.AppendAllText(config_path, $"RECOVERYMODE={RECOVERYMODE.IsChecked.ToString()}\n");
-            File.AppendAllText(config_path, $"SHA1={Global.boot_sha1}\n");
-            string allowedChars = "abcdef0123456789";
-            Random random = new Random();
-            string randomStr = new string(Enumerable.Repeat(allowedChars, 16)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-            string configContent = $"RANDOMSEED=0x{randomStr}";
-            File.AppendAllText(config_path, configContent + Environment.NewLine);
-            if (MagiskHelper.comp_copy(compPath))
-            {
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0750 init magiskinit\" \"mkdir 0750 overlay.d\" \"mkdir 0750 overlay.d/sbin\"", Global.boot_tmp);
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk32.xz magisk32.xz\"", Global.boot_tmp);
-            }
-            if (ArchList.SelectedItem.ToString() =="aarch64" | ArchList.SelectedItem.ToString() == "X86-64")
-            {
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", Global.boot_tmp);
-            }
-            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", Global.boot_tmp);
-            //SukiHost.ShowDialog(new ConnectionDialog(mb_output));
-            //以上完成ramdisk.cpio的修补
-            string dtb_name =MagiskHelper.dtb_detect(Global.boot_tmp);
-            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
-            if (exitcode != 0) 
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
-                return;
-            }
-            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp);
-            if (exitcode != 0)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("dtb修补失败"));
-                return;
-            }
-            bool kernel_patched = false;
-            if (File.Exists(Path.Combine(Global.boot_tmp, "kernel")))
-            {
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054", Global.boot_tmp);
+                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300", Global.boot_tmp);
                 if (exitcode == 0)
                 {
-                    (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", Global.boot_tmp);
+                    kernel_patched = true;
                 }
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\" \"extract .backup/init init\" \"extract .backup/.magisk .magisk\" \"extract .backup/.rmlist .rmlist\" \"rm .backup/init\"", Global.boot_tmp);
-                //SukiHost.ShowDialog(new ConnectionDialog(mb_output), allowBackgroundClose: true);
-                //以上完成ramdisk.cpio的修补
-                string dtb_name = MagiskHelper.dtb_detect(Global.boot_tmp);
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
-                if (exitcode != 0)
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"), allowBackgroundClose: true);
-                    return;
-                }
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp);
-                if (exitcode != 0)
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog("dtb修补失败"), allowBackgroundClose: true);
-                    return;
-                }
-                bool kernel_patched = false;
-                if (File.Exists(Path.Combine(Global.boot_tmp, "kernel")))
-                {
-                    (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054", Global.boot_tmp);
-                    if (exitcode == 0)
-                    {
-                        kernel_patched = true;
-                    }
-                    (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 821B8012 E2FF8F12", Global.boot_tmp);
-                    if (exitcode == 0)
-                    {
-                        kernel_patched = true;
-                    }
-                    if ((bool)LEGACYSAR.IsChecked)
-                    {
-                        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300", Global.boot_tmp);
-                        if (exitcode == 0)
-                        {
-                            kernel_patched = true;
-                        }
-                    }
-                    if (!kernel_patched)
-                    {
-                        try
-                        {
-                            File.Delete(Path.Combine(Global.boot_tmp, "kernel"));
-                        }
-                        catch (Exception ex)
-                        {
-                            SukiHost.ShowDialog(new ConnectionDialog("kernel删除失败" + ex), allowBackgroundClose: true);
-                            return;
-                        }
-
-                    }
-                }
-                await CallExternalProgram.MagiskBoot($"compress=xz init init.xz", Global.boot_tmp);
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio \"mkdir 000 .backup\" \"add 000 .backup/init.xz init.xz\" \"add 000 .backup/.magisk .magisk\" \"add 000 .backup/.rmlist .rmlist\"", Global.boot_tmp);
-                SukiHost.ShowDialog(new ConnectionDialog(mb_output), allowBackgroundClose: true);
+            }
+            if (!kernel_patched)
+            {
                 try
                 {
-                    if (MagiskHelper.CleanBoot(Global.boot_tmp))
-                    {
-                        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{BootFile.Text}\"", Global.boot_tmp);
-                        File.Copy(Path.Combine(Global.boot_tmp, "new-boot.img"), Path.Combine(Path.GetDirectoryName(BootFile.Text), "boot_patched_" + randomStr + ".img"), true);
-                        SukiHost.ShowDialog(new ConnectionDialog("面具修补成功"), allowBackgroundClose: true);
-                        FileHelper.OpenFolder(Path.GetDirectoryName(BootFile.Text));
-                    }
-                    else
-                    {
-                        SukiHost.ShowDialog(new ConnectionDialog("清理打包目录失败"), allowBackgroundClose: true);
-                        return;
-                    }
-                }catch (Exception ex)
+                    File.Delete(Path.Combine(Global.boot_tmp, "kernel"));
+                }
+                catch (Exception ex)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog(ex.Message), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ConnectionDialog("kernel删除失败" + ex), allowBackgroundClose: true);
                     return;
                 }
 
             }
-            if (MagiskHelper.clean_boot(Global.boot_tmp))
+        }
+        await CallExternalProgram.MagiskBoot($"compress=xz init init.xz", Global.boot_tmp);
+        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio \"mkdir 000 .backup\" \"add 000 .backup/init.xz init.xz\" \"add 000 .backup/.magisk .magisk\" \"add 000 .backup/.rmlist .rmlist\"", Global.boot_tmp);
+        SukiHost.ShowDialog(new ConnectionDialog(mb_output), allowBackgroundClose: true);
+        try
+        {
+            if (MagiskHelper.CleanBoot(Global.boot_tmp))
             {
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{Global.boot_tmp}\"", Global.boot_tmp);
-                SukiHost.ShowDialog(new ConnectionDialog(mb_output));
+                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{BootFile.Text}\"", Global.boot_tmp);
+                File.Copy(Path.Combine(Global.boot_tmp, "new-boot.img"), Path.Combine(Path.GetDirectoryName(BootFile.Text), "boot_patched_" + randomStr + ".img"), true);
+                SukiHost.ShowDialog(new ConnectionDialog("面具修补成功"), allowBackgroundClose: true);
+                FileHelper.OpenFolder(Path.GetDirectoryName(BootFile.Text));
+            }
+            else
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("清理打包目录失败"), allowBackgroundClose: true);
+                return;
             }
         }
+        catch (Exception ex)
+        {
+            SukiHost.ShowDialog(new ConnectionDialog(ex.Message), allowBackgroundClose: true);
+            return;
+        }
+        if (MagiskHelper.CleanBoot(Global.boot_tmp))
+        {
+            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{Global.boot_tmp}\"", Global.boot_tmp);
+            SukiHost.ShowDialog(new ConnectionDialog(mb_output));
+        }
     }
+        
+    
     
 
     private async void OpenAFDI(object sender, RoutedEventArgs args)

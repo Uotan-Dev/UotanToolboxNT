@@ -61,6 +61,312 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Basic command unlock 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_BasicCommandUnlock {
+            get {
+                return ResourceManager.GetString("Basicflash_BasicCommandUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choose Boot: 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ChooseBoot {
+            get {
+                return ResourceManager.GetString("Basicflash_ChooseBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choose Magisk: 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ChooseMagisk {
+            get {
+                return ResourceManager.GetString("Basicflash_ChooseMagisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choose Recovery: 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ChooseRecovery {
+            get {
+                return ResourceManager.GetString("Basicflash_ChooseRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Code unlock: 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_CodeUnlock {
+            get {
+                return ResourceManager.GetString("Basicflash_CodeUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Driver Patch 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_DriverPatch {
+            get {
+                return ResourceManager.GetString("Basicflash_DriverPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Easy flash 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_EasyFlash {
+            get {
+                return ResourceManager.GetString("Basicflash_EasyFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Execute unlock command 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ExecuteUnlockCommand {
+            get {
+                return ResourceManager.GetString("Basicflash_ExecuteUnlockCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Executing... 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_Executing {
+            get {
+                return ResourceManager.GetString("Basicflash_Executing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash chosenm agisk 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_FlashChosenMagisk {
+            get {
+                return ResourceManager.GetString("Basicflash_FlashChosenMagisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash recovery 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_FlashRecovery {
+            get {
+                return ResourceManager.GetString("Basicflash_FlashRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Force opening rootfs 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ForceRootfs {
+            get {
+                return ResourceManager.GetString("Basicflash_ForceRootfs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Install Qualcomm 9008 driver 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_Install9008Driver {
+            get {
+                return ResourceManager.GetString("Basicflash_Install9008Driver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Install ADB and Fastboot drover 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_InstallADBAndFastbootDriver {
+            get {
+                return ResourceManager.GetString("Basicflash_InstallADBAndFastbootDriver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Install to Recovery 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_InstallToRecovery {
+            get {
+                return ResourceManager.GetString("Basicflash_InstallToRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Keep AVB2.0/dm-verity 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_KeepAVBOrDM {
+            get {
+                return ResourceManager.GetString("Basicflash_KeepAVBOrDM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Keep strong encryption 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_KeepStrongEncryption {
+            get {
+                return ResourceManager.GetString("Basicflash_KeepStrongEncryption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Normal unlock 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_NormalUnlock {
+            get {
+                return ResourceManager.GetString("Basicflash_NormalUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Prevent from recovering official Recovery 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_PreventRecoverOfficialRecovery {
+            get {
+                return ResourceManager.GetString("Basicflash_PreventRecoverOfficialRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Relock BL 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RelockBL {
+            get {
+                return ResourceManager.GetString("Basicflash_RelockBL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Repair Boot 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RepairBoot {
+            get {
+                return ResourceManager.GetString("Basicflash_RepairBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Repair vbmeta sign 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RepairVbmeta {
+            get {
+                return ResourceManager.GetString("Basicflash_RepairVbmeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_Start {
+            get {
+                return ResourceManager.GetString("Basicflash_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Sync AB Partition 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_SyncABPart {
+            get {
+                return ResourceManager.GetString("Basicflash_SyncABPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Temporary Boot 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_TempBoot {
+            get {
+                return ResourceManager.GetString("Basicflash_TempBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 To Boot A Partition 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ToBootAPart {
+            get {
+                return ResourceManager.GetString("Basicflash_ToBootAPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 To Boot B Partition 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ToBootBPart {
+            get {
+                return ResourceManager.GetString("Basicflash_ToBootBPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 To Recovery 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ToRecovery {
+            get {
+                return ResourceManager.GetString("Basicflash_ToRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 To Recovery A Partition 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ToRecoveryAPart {
+            get {
+                return ResourceManager.GetString("Basicflash_ToRecoveryAPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 To Recovery B Partition 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ToRecoveryBPart {
+            get {
+                return ResourceManager.GetString("Basicflash_ToRecoveryBPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlockfile Unlock: 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_UnlockFileUnlock {
+            get {
+                return ResourceManager.GetString("Basicflash_UnlockFileUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlock Now 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_UnlockNow {
+            get {
+                return ResourceManager.GetString("Basicflash_UnlockNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Patch for Xiaomi USB 3.0 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_XiaomiUSB {
+            get {
+                return ResourceManager.GetString("Basicflash_XiaomiUSB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choose File 的本地化字符串。
+        /// </summary>
+        public static string Common_ChooseFile {
+            get {
+                return ResourceManager.GetString("Common_ChooseFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Cancel 的本地化字符串。
         /// </summary>
         public static string ConnectionDialog_Cancel {

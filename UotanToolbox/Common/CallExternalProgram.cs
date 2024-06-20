@@ -190,8 +190,13 @@ namespace UotanToolbox.Common
             SevenZip.WaitForExit();
             return output;
         }
-        public static async Task<(string Output, int ExitCode)> MagiskBoot(string shell, string workpath)
+        public static async Task<(string Output, int ExitCode)> MagiskBoot(string shell, string workpath,string KEEPVERITY = "true",string KEEPFORCEENCRYPT = "true", string PATCHVBMETAFLAG = "false", string RECOVERYMODE = "false", string LEGACYSAR = "true")
         {
+            Environment.SetEnvironmentVariable("KEEPVERITY", KEEPVERITY);
+            Environment.SetEnvironmentVariable("KEEPFORCEENCRYPT", KEEPFORCEENCRYPT);
+            Environment.SetEnvironmentVariable("PATCHVBMETAFLAG", PATCHVBMETAFLAG);
+            Environment.SetEnvironmentVariable("RECOVERYMODE", RECOVERYMODE);
+            Environment.SetEnvironmentVariable("LEGACYSAR", LEGACYSAR);
             string cmd = Path.Combine(Global.bin_path, "magiskboot");
             Directory.SetCurrentDirectory(workpath);
             ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)

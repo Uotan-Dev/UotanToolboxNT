@@ -191,6 +191,13 @@ public partial class DashboardView : UserControl
             SukiHost.ShowDialog(new ConnectionDialog("文件预处理时出错！"));
             return;
         }
+        //设置环境变量
+        string env_KEEPVERITY= KEEPVERITY.IsChecked.ToString().ToLower();
+        string env_KEEPFORCEENCRYPT = KEEPFORCEENCRYPT.IsChecked.ToString().ToLower();
+        string env_PATCHVBMETAFLAG = PATCHVBMETAFLAG.IsChecked.ToString().ToLower();
+        string env_RECOVERYMODE = RECOVERYMODE.IsChecked.ToString().ToLower();
+        string env_LEGACYSAR = LEGACYSAR.IsChecked.ToString().ToLower();
+
         string compPathBase = System.IO.Path.Combine(Global.magisk_tmp, "lib");
         string archSubfolder = ArchList.SelectedItem.ToString() switch
         {
@@ -275,7 +282,7 @@ public partial class DashboardView : UserControl
             case 1:
                 try
                 {
-                    File.Copy(Path.Combine(Global.boot_tmp, "ramdisk", ".backup", ".magisk", "config.orig"), Path.Combine(Global.boot_tmp, "comfig.orig"), true);
+                    File.Copy(Path.Combine(Global.boot_tmp, "ramdisk", ".backup", ".magisk"), Path.Combine(Global.boot_tmp, "comfig.orig"), true);
                     (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio restore", Global.boot_tmp);
                     Thread.Sleep(1000);
                     File.Copy(Path.Combine(Global.boot_tmp, "ramdisk.cpio"), Path.Combine(Global.boot_tmp, "ramdisk.cpio.orig"), true);
@@ -310,10 +317,9 @@ public partial class DashboardView : UserControl
         if (MagiskHelper.comp_copy(compPath))
         {
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0750 init magiskinit\" \"mkdir 0750 overlay.d\" \"mkdir 0750 overlay.d/sbin\" \"add 0644 overlay.d/sbin/magisk32.xz magisk32.xz\" ", Global.boot_tmp);
-            Thread.Sleep(2000);
-            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", Global.boot_tmp);
-            Thread.Sleep(2000);
-            SukiHost.ShowDialog(new ConnectionDialog(mb_output), allowBackgroundClose: true);
+            Thread.Sleep(1000);
+            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", Global.boot_tmp,env_KEEPVERITY,env_KEEPFORCEENCRYPT,env_PATCHVBMETAFLAG,env_RECOVERYMODE,env_LEGACYSAR);
+            Thread.Sleep(1000);
         }
         if (File.Exists(Path.Combine((compPath), "magisk64.xz")))
         {
@@ -329,12 +335,11 @@ public partial class DashboardView : UserControl
             SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
             return;
         }
-        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp);
+        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp,env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
         Thread.Sleep(1000);
         if (exitcode != 0)
         {
-            SukiHost.ShowDialog(new ConnectionDialog("dtb修补失败"));
-            return;
+            SukiHost.ShowDialog(new ConnectionDialog("dtb疑似修补失败"));
         }
         bool kernel_patched = false;
         if (File.Exists(Path.Combine(Global.boot_tmp, "kernel")))
@@ -378,9 +383,9 @@ public partial class DashboardView : UserControl
         {
             if (MagiskHelper.CleanBoot(Global.boot_tmp))
             {
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{BootFile.Text}\"", Global.boot_tmp);
+                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{BootFile.Text}\"", Global.boot_tmp, env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
                 File.Copy(Path.Combine(Global.boot_tmp, "new-boot.img"), Path.Combine(Path.GetDirectoryName(BootFile.Text), "boot_patched_" + randomStr + ".img"), true);
-                SukiHost.ShowDialog(new ConnectionDialog("面具修补成功"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("面具修补完成"), allowBackgroundClose: true);
                 FileHelper.OpenFolder(Path.GetDirectoryName(BootFile.Text));
                 return;
             }
@@ -396,6 +401,7 @@ public partial class DashboardView : UserControl
             return;
         }
     }
+
     private async void OpenAFDI(object sender, RoutedEventArgs args)
     {
         if (Global.System == "Windows")

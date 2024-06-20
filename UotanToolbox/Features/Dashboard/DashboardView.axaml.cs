@@ -304,9 +304,9 @@ public partial class DashboardView : UserControl
         //patch ramdisk.cpio
         string config_path = Path.Combine(Global.boot_tmp, "config");
         File.WriteAllText(config_path, "");
-        File.AppendAllText(config_path, $"KEEPVERITY={KEEPVERITY.IsChecked.ToString()}\n");
-        File.AppendAllText(config_path, $"KEEPFORCEENCRYPT={KEEPFORCEENCRYPT.IsChecked.ToString()}\n");
-        File.AppendAllText(config_path, $"RECOVERYMODE={RECOVERYMODE.IsChecked.ToString()}\n");
+        File.AppendAllText(config_path, $"KEEPVERITY={KEEPVERITY.IsChecked.ToString().ToLower()}\n");
+        File.AppendAllText(config_path, $"KEEPFORCEENCRYPT={KEEPFORCEENCRYPT.IsChecked.ToString().ToLower()}\n");
+        File.AppendAllText(config_path, $"RECOVERYMODE={RECOVERYMODE.IsChecked.ToString().ToLower()}\n");
         File.AppendAllText(config_path, $"SHA1={Global.boot_sha1}\n");
         string allowedChars = "abcdef0123456789";
         Random random = new Random();
@@ -337,10 +337,6 @@ public partial class DashboardView : UserControl
         }
         (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp,env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
         Thread.Sleep(1000);
-        if (exitcode != 0)
-        {
-            SukiHost.ShowDialog(new ConnectionDialog("dtb疑似修补失败"));
-        }
         bool kernel_patched = false;
         if (File.Exists(Path.Combine(Global.boot_tmp, "kernel")))
         {

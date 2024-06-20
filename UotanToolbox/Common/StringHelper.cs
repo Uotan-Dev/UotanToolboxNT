@@ -354,7 +354,8 @@ namespace UotanToolbox.Common
         {
             {"27.0" , "3b324a47607ae17ac0376c19043bb7b1"},
             {"26.4" , "3b324a47607ae17ac0376c19043bb7b1"},
-            {"26.3" , "3b324a47607ae17ac0376c19043bb7b1"},
+            {"26.3" , "3b324a47607ae17ac0376c19043bb7b1"}
+             /*下面的支持还没写，你要是看到这段文字可以考虑一下帮我写写然后PR到仓库。 -zicai
             {"26.2" , "daf3cffe200d4e492edd0ca3c676f07f"},
             {"26.1" , "0e8255080363ee0f895105cdc3dfa419"},
             {"26.0" , "3d2c5bcc43373eb17939f0592b2b40f9"},
@@ -362,6 +363,7 @@ namespace UotanToolbox.Common
             {"25.1" , "c48a22c8ed43cd20fe406acccc600308"},
             {"25.0" , "7b40f9efd587b59bade9b9ec892e875e"},
             {"22.1" , "55285c3ad04cdf72e6e2be9d7ba4a333"}
+             */
         };
             if (patchPlans.TryGetValue(MAGISK_VER, out MD5_out))
             {

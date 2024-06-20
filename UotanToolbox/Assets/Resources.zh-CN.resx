@@ -525,4 +525,64 @@
   <data name="Common_ChooseFile" xml:space="preserve">
     <value>选择文件</value>
   </data>
+  <data name="Common_ChooseFolder" xml:space="preserve">
+    <value>选择文件夹</value>
+  </data>
+  <data name="Scrcpy_Bitrate" xml:space="preserve">
+    <value>比特率</value>
+  </data>
+  <data name="Scrcpy_Casting" xml:space="preserve">
+    <value>投屏中 ...</value>
+  </data>
+  <data name="Scrcpy_CloseScreenlock" xml:space="preserve">
+    <value>关闭锁屏</value>
+  </data>
+  <data name="Scrcpy_CloseScreenWhenCasting" xml:space="preserve">
+    <value>打开镜像时关闭屏幕</value>
+  </data>
+  <data name="Scrcpy_ComputerControl" xml:space="preserve">
+    <value>电脑控制</value>
+  </data>
+  <data name="Scrcpy_FillInWantedTitle" xml:space="preserve">
+    <value>填写你想要的标题，不填写则为主页显示的手机型号</value>
+  </data>
+  <data name="Scrcpy_Fullscreen" xml:space="preserve">
+    <value>全屏显示</value>
+  </data>
+  <data name="Scrcpy_MaxFps" xml:space="preserve">
+    <value>最大帧率</value>
+  </data>
+  <data name="Scrcpy_MoreSettings" xml:space="preserve">
+    <value>更多设置</value>
+  </data>
+  <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
+    <value>等比缩放</value>
+  </data>
+  <data name="Scrcpy_RecordDictionary" xml:space="preserve">
+    <value>录屏目录</value>
+  </data>
+  <data name="Scrcpy_RecordScreen" xml:space="preserve">
+    <value>录制屏幕</value>
+  </data>
+  <data name="Scrcpy_ScrcpyCastingTool" xml:space="preserve">
+    <value>Scrcpy投屏工具</value>
+  </data>
+  <data name="Scrcpy_ShowBorder" xml:space="preserve">
+    <value>显示边框</value>
+  </data>
+  <data name="Scrcpy_ShowTouch" xml:space="preserve">
+    <value>显示点按位置</value>
+  </data>
+  <data name="Scrcpy_StartCasting" xml:space="preserve">
+    <value>开始投屏</value>
+  </data>
+  <data name="Scrcpy_TransmitAndRecord" xml:space="preserve">
+    <value>传输及录制</value>
+  </data>
+  <data name="Scrcpy_WindowTitle" xml:space="preserve">
+    <value>窗口标题</value>
+  </data>
+  <data name="Scrcpy_WindowTopping" xml:space="preserve">
+    <value>窗口置顶</value>
+  </data>
 </root>

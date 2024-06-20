@@ -525,4 +525,64 @@
   <data name="Basicflash_XiaomiUSB" xml:space="preserve">
     <value>Patch for Xiaomi USB 3.0</value>
   </data>
+  <data name="Common_ChooseFolder" xml:space="preserve">
+    <value>Choose Folder</value>
+  </data>
+  <data name="Scrcpy_Bitrate" xml:space="preserve">
+    <value>Bitrate</value>
+  </data>
+  <data name="Scrcpy_Casting" xml:space="preserve">
+    <value>Casting...</value>
+  </data>
+  <data name="Scrcpy_CloseScreenlock" xml:space="preserve">
+    <value>Close screenlock</value>
+  </data>
+  <data name="Scrcpy_CloseScreenWhenCasting" xml:space="preserve">
+    <value>Close screen when casting</value>
+  </data>
+  <data name="Scrcpy_ComputerControl" xml:space="preserve">
+    <value>Computer control</value>
+  </data>
+  <data name="Scrcpy_FillInWantedTitle" xml:space="preserve">
+    <value>Fill in the title you want, otherwise the phone model in Home will be filled.</value>
+  </data>
+  <data name="Scrcpy_Fullscreen" xml:space="preserve">
+    <value>Fullscreen</value>
+  </data>
+  <data name="Scrcpy_MaxFps" xml:space="preserve">
+    <value>Max FPS</value>
+  </data>
+  <data name="Scrcpy_MoreSettings" xml:space="preserve">
+    <value>More Settings</value>
+  </data>
+  <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
+    <value>Proportional Scaling</value>
+  </data>
+  <data name="Scrcpy_RecordDictionary" xml:space="preserve">
+    <value>Record Dictionary</value>
+  </data>
+  <data name="Scrcpy_RecordScreen" xml:space="preserve">
+    <value>Record Screen</value>
+  </data>
+  <data name="Scrcpy_ScrcpyCastingTool" xml:space="preserve">
+    <value>Scrcpy Casting Tool</value>
+  </data>
+  <data name="Scrcpy_ShowBorder" xml:space="preserve">
+    <value>Show border</value>
+  </data>
+  <data name="Scrcpy_ShowTouch" xml:space="preserve">
+    <value>Show touch</value>
+  </data>
+  <data name="Scrcpy_StartCasting" xml:space="preserve">
+    <value>Start Casting</value>
+  </data>
+  <data name="Scrcpy_TransmitAndRecord" xml:space="preserve">
+    <value>Transmit and Record</value>
+  </data>
+  <data name="Scrcpy_WindowTitle" xml:space="preserve">
+    <value>Window Title</value>
+  </data>
+  <data name="Scrcpy_WindowTopping" xml:space="preserve">
+    <value>Window topping</value>
+  </data>
 </root>

@@ -367,6 +367,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Choose Folder 的本地化字符串。
+        /// </summary>
+        public static string Common_ChooseFolder {
+            get {
+                return ResourceManager.GetString("Common_ChooseFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Cancel 的本地化字符串。
         /// </summary>
         public static string ConnectionDialog_Cancel {
@@ -1038,6 +1047,177 @@ namespace UotanToolbox.Assets {
         public static string MainView_SuccessfullyChangedTheme {
             get {
                 return ResourceManager.GetString("MainView_SuccessfullyChangedTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Bitrate 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_Bitrate {
+            get {
+                return ResourceManager.GetString("Scrcpy_Bitrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Casting... 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_Casting {
+            get {
+                return ResourceManager.GetString("Scrcpy_Casting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Close screenlock 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_CloseScreenlock {
+            get {
+                return ResourceManager.GetString("Scrcpy_CloseScreenlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Close screen when casting 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_CloseScreenWhenCasting {
+            get {
+                return ResourceManager.GetString("Scrcpy_CloseScreenWhenCasting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Computer control 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ComputerControl {
+            get {
+                return ResourceManager.GetString("Scrcpy_ComputerControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fill in the title you want, otherwise the phone model in Home will be filled. 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_FillInWantedTitle {
+            get {
+                return ResourceManager.GetString("Scrcpy_FillInWantedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fullscreen 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_Fullscreen {
+            get {
+                return ResourceManager.GetString("Scrcpy_Fullscreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Max FPS 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_MaxFps {
+            get {
+                return ResourceManager.GetString("Scrcpy_MaxFps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 More Settings 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_MoreSettings {
+            get {
+                return ResourceManager.GetString("Scrcpy_MoreSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Proportional Scaling 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ProportionalScaling {
+            get {
+                return ResourceManager.GetString("Scrcpy_ProportionalScaling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Record Dictionary 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_RecordDictionary {
+            get {
+                return ResourceManager.GetString("Scrcpy_RecordDictionary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Record Screen 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_RecordScreen {
+            get {
+                return ResourceManager.GetString("Scrcpy_RecordScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Scrcpy Casting Tool 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ScrcpyCastingTool {
+            get {
+                return ResourceManager.GetString("Scrcpy_ScrcpyCastingTool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show border 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ShowBorder {
+            get {
+                return ResourceManager.GetString("Scrcpy_ShowBorder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show touch 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ShowTouch {
+            get {
+                return ResourceManager.GetString("Scrcpy_ShowTouch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start Casting 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_StartCasting {
+            get {
+                return ResourceManager.GetString("Scrcpy_StartCasting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Transmit and Record 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_TransmitAndRecord {
+            get {
+                return ResourceManager.GetString("Scrcpy_TransmitAndRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Window Title 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_WindowTitle {
+            get {
+                return ResourceManager.GetString("Scrcpy_WindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Window topping 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_WindowTopping {
+            get {
+                return ResourceManager.GetString("Scrcpy_WindowTopping", resourceCulture);
             }
         }
         

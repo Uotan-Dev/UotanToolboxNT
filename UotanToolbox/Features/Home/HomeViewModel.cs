@@ -46,14 +46,11 @@ public partial class HomeViewModel : MainPageBase
             .Subscribe(option =>
             {
                 if (option != "--" && SimpleContent != null && SimpleContent.Count != 0)
-                    _ = ConnectOption(option);
+                {
+                    Global.thisdevice = option;
+                    _ = ConnectCore();
+                }
             });
-    }
-
-    public async Task ConnectOption(string option)
-    {
-        Global.thisdevice = option;
-        await ConnectCore();
     }
 
     public async Task<bool> GetDevicesList()
@@ -88,12 +85,9 @@ public partial class HomeViewModel : MainPageBase
             });
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             SimpleContent = null;
-            Status = "--"; sukiViewModel.Status = "--"; BLStatus = "--"; sukiViewModel.BLStatus = "--";
-            VABStatus = "--"; sukiViewModel.VABStatus = "--"; CodeName = "--"; sukiViewModel.CodeName = "--";
-            VNDKVersion = "--"; CPUCode = "--"; PowerOnTime = "--"; DeviceBrand = "--"; DeviceModel = "--";
-            AndroidSDK = "--"; CPUABI = "--"; DisplayHW = "--"; Density = "--"; DiskType = "--";
-            BoardID = "--"; Platform = "--"; Compile = "--"; Kernel = "--"; BatteryLevel = "0";
-            BatteryInfo = "--"; MemLevel = "0"; UseMem = "--"; DiskInfo = "--"; ProgressDisk = "0";
+            Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
+            VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
+            BatteryLevel = MemLevel = ProgressDisk = "0";
             return false;
         }
     }
@@ -103,14 +97,10 @@ public partial class HomeViewModel : MainPageBase
         IsConnecting = true;
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
-        Status = DevicesInfo["Status"];
-        sukiViewModel.Status = DevicesInfo["Status"];
-        BLStatus = DevicesInfo["BLStatus"];
-        sukiViewModel.BLStatus = DevicesInfo["BLStatus"];
-        VABStatus = DevicesInfo["VABStatus"];
-        sukiViewModel.VABStatus = DevicesInfo["VABStatus"];
-        CodeName = DevicesInfo["CodeName"];
-        sukiViewModel.CodeName = DevicesInfo["CodeName"];
+        Status = sukiViewModel.Status = DevicesInfo["Status"];
+        BLStatus = sukiViewModel.BLStatus = DevicesInfo["BLStatus"];
+        VABStatus = sukiViewModel.VABStatus = DevicesInfo["VABStatus"];
+        CodeName = sukiViewModel.CodeName = DevicesInfo["CodeName"];
         VNDKVersion = DevicesInfo["VNDKVersion"];
         CPUCode = DevicesInfo["CPUCode"];
         PowerOnTime = DevicesInfo["PowerOnTime"];
@@ -140,14 +130,10 @@ public partial class HomeViewModel : MainPageBase
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             Dictionary<string, string> DevicesInfoLittle = await GetDevicesInfo.DevicesInfoLittle(Global.thisdevice);
-            Status = DevicesInfoLittle["Status"];
-            sukiViewModel.Status = DevicesInfoLittle["Status"];
-            BLStatus = DevicesInfoLittle["BLStatus"];
-            sukiViewModel.BLStatus = DevicesInfoLittle["BLStatus"];
-            VABStatus = DevicesInfoLittle["VABStatus"];
-            sukiViewModel.VABStatus = DevicesInfoLittle["VABStatus"];
-            CodeName = DevicesInfoLittle["CodeName"];
-            sukiViewModel.CodeName = DevicesInfoLittle["CodeName"];
+            Status = sukiViewModel.Status = DevicesInfoLittle["Status"];
+            BLStatus = sukiViewModel.BLStatus = DevicesInfoLittle["BLStatus"];
+            VABStatus = sukiViewModel.VABStatus = DevicesInfoLittle["VABStatus"];
+            CodeName = sukiViewModel.CodeName = DevicesInfoLittle["CodeName"];
         }
     }
 
@@ -239,65 +225,34 @@ public partial class HomeViewModel : MainPageBase
 
 
     [RelayCommand]
-    public async Task Back()
-    {
-        await ADBControl("shell input keyevent 4");
-    }
+    public async Task Back() => await ADBControl("shell input keyevent 4");
 
     [RelayCommand]
-    public async Task Home()
-    {
-        await ADBControl("shell input keyevent 3");
-    }
+    public async Task Home() => await ADBControl("shell input keyevent 3");
 
     [RelayCommand]
-    public async Task Mul()
-    {
-        await ADBControl("shell input keyevent 187");
-    }
+    public async Task Mul() => await ADBControl("shell input keyevent 187");
 
     [RelayCommand]
-    public async Task Lock()
-    {
-        await ADBControl("shell input keyevent 26");
-    }
+    public async Task Lock() => await ADBControl("shell input keyevent 26");
 
     [RelayCommand]
-
-    public async Task VolU()
-    {
-        await ADBControl("shell input keyevent 24");
-    }
+    public async Task VolU() => await ADBControl("shell input keyevent 24");
 
     [RelayCommand]
-    public async Task VolD()
-    {
-        await ADBControl("shell input keyevent 25");
-    }
+    public async Task VolD() => await ADBControl("shell input keyevent 25");
 
     [RelayCommand]
-    public async Task Mute()
-    {
-        await ADBControl("shell input keyevent 164");
-    }
+    public async Task Mute() => await ADBControl("shell input keyevent 164");
 
     [RelayCommand]
-    public async Task SC()
-    {
-        await ADBControl($"shell /system/bin/screencap -p /sdcard/{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}.png");
-    }
+    public async Task SC() => await ADBControl($"shell /system/bin/screencap -p /sdcard/{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}.png");
 
     [RelayCommand]
-    public async Task AReboot()
-    {
-        await ADBControl("reboot");
-    }
+    public async Task AReboot() => await ADBControl("reboot");
 
     [RelayCommand]
-    public async Task ARRec()
-    {
-        await ADBControl("reboot recovery");
-    }
+    public async Task ARRec() => await ADBControl("reboot recovery");
 
     [RelayCommand]
     public async Task ARSide()
@@ -322,28 +277,16 @@ public partial class HomeViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task ARBoot()
-    {
-        await ADBControl("reboot bootloader");
-    }
+    public async Task ARBoot() => await ADBControl("reboot bootloader");
 
     [RelayCommand]
-    public async Task ARFast()
-    {
-        await ADBControl("reboot fastboot");
-    }
+    public async Task ARFast() => await ADBControl("reboot fastboot");
 
     [RelayCommand]
-    public async Task AREDL()
-    {
-        await ADBControl("reboot edl");
-    }
+    public async Task AREDL() => await ADBControl("reboot edl");
 
     [RelayCommand]
-    public async Task FReboot()
-    {
-        await FastbootControl("reboot");
-    }
+    public async Task FReboot() => await FastbootControl("reboot");
 
     [RelayCommand]
     public async Task FRRec()
@@ -394,20 +337,11 @@ public partial class HomeViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task FRBoot()
-    {
-        await FastbootControl("reboot-bootloader");
-    }
+    public async Task FRBoot() => await FastbootControl("reboot-bootloader");
 
     [RelayCommand]
-    public async Task FRFast()
-    {
-        await FastbootControl("reboot-fastboot");
-    }
+    public async Task FRFast() => await FastbootControl("reboot-fastboot");
 
     [RelayCommand]
-    public async Task FREDL()
-    {
-        await FastbootControl("oem edl");
-    }
+    public async Task FREDL() => await FastbootControl("oem edl");
 }

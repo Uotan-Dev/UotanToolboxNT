@@ -6,6 +6,7 @@
              xmlns:dashboard="clr-namespace:UotanToolbox.Features.Dashboard"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
              d:DesignHeight="800"
              d:DesignWidth="1024"
@@ -21,30 +22,30 @@
 			<!--  Unlock  -->
 			<suki:GlassCard Width="630" Margin="10">
 				<suki:BusyArea Name="BusyUnlock"
-								BusyText="执行中 ..."
+								BusyText="{x:Static assets:Resources.Basicflash_Executing}"
 								IsBusy="{Binding Unlocking}">
 					<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="普通设备解锁" />
+								Text="{x:Static assets:Resources.Basicflash_NormalUnlock}" />
 					<StackPanel Orientation="Vertical" Margin="15 10 0 0">
 						<StackPanel Orientation="Horizontal" Spacing="5">
-							<TextBlock VerticalAlignment="Center">解锁文件解锁: </TextBlock>
+							<TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_UnlockFileUnlock}"></TextBlock>
 							<TextBox Width="353" Name="UnlockFile" Text="{Binding UnlockFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="True"/>
 							<Button Height="35"
-									Click="OpenUnlockFile">
-								选择文件
+									Click="OpenUnlockFile"
+									Content="{x:Static assets:Resources.Common_ChooseFile}">
 							</Button>
 						</StackPanel>
 						<StackPanel Orientation="Vertical" Spacing="10">
 							<StackPanel Orientation="Horizontal" Spacing="20">
-								<TextBlock VerticalAlignment="Center">解锁码解锁: </TextBlock>
+								<TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_CodeUnlock}"></TextBlock>
 								<TextBox Width="464" Text="{Binding UnlockCode, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="True"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="120">
-								<Button Command="{Binding Unlock}">立即解锁</Button>
-								<Button Command="{Binding Lock}">回锁BL</Button>
+								<Button Command="{Binding Unlock}" Content="{x:Static assets:Resources.Basicflash_UnlockNow}"></Button>
+								<Button Command="{Binding Lock}" Content="{x:Static assets:Resources.Basicflash_RelockBL}"></Button>
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
@@ -55,19 +56,19 @@
 			<!--  Unlock with command  -->
 			<suki:GlassCard Width="310" Margin="10">
 				<suki:BusyArea Name="BusyBaseUnlock"
-								BusyText="执行中 ..."
+								BusyText="{x:Static assets:Resources.Basicflash_Executing}"
 								IsBusy="{Binding BaseUnlocking}">
 					<StackPanel Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="基本命令解锁" />
+								Text="{x:Static assets:Resources.Basicflash_BasicCommandUnlock}" />
 					<ComboBox Width="220" Margin="0 10" ItemsSource="{Binding SimpleContent}" />
 					<StackPanel Spacing="15">
 						<Button Width="210" Command="{Binding BaseUnlock}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
-								执行解锁命令
+								<TextBlock Text="{x:Static assets:Resources.Basicflash_ExecuteUnlockCommand}" />
 							</TextBlock>
 						</Button>
 					</StackPanel>
@@ -78,17 +79,17 @@
 			<!--  Flash recovery  -->
 			<suki:GlassCard Width="630" Margin="10">
 				<suki:BusyArea Name="BusyFlash"
-								BusyText="执行中 ..."
+								BusyText="{x:Static assets:Resources.Basicflash_Executing}"
 								IsBusy="{Binding Flashing}">
 					<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="刷入Recovery" />
+								Text="{x:Static assets:Resources.Basicflash_FlashRecovery}" />
 					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
-						<TextBlock VerticalAlignment="Center">选择Recovery: </TextBlock>
+						<TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseRecovery}"></TextBlock>
 						<TextBox Width="357" Name="RecFile" Text="{Binding RecFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35" Click ="OpenRecFile">选择文件</Button>
+						<Button Height="35" Click ="OpenRecFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 					</StackPanel>
 					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15" Margin="0 10 0 0">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
@@ -98,7 +99,7 @@
 									Command="{Binding FlashToRec}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="Android" />
-									至Recovery
+									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToRecovery}" />
 								</TextBlock>
 							</Button>
 							<Button Width="166"
@@ -107,7 +108,7 @@
 									Command="{Binding FlashToRecA}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="NetworkOutline" />
-									至Recovery A分区
+									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToRecoveryAPart}" />
 								</TextBlock>
 							</Button>
 							<Button Width="166"
@@ -116,7 +117,7 @@
 									Command="{Binding FlashToRecB}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="NetworkPos" />
-									至Recovery B分区
+									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToRecoveryBPart}" />
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -127,7 +128,7 @@
 									Command="{Binding BootRec}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									临时启动
+									<TextBlock Text="{x:Static assets:Resources.Basicflash_TempBoot}" />
 								</TextBlock>
 							</Button>
 							<Button Width="166"
@@ -136,7 +137,7 @@
 									Command="{Binding FlashToBootA}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									至Boot A分区
+									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToBootAPart}" />
 								</TextBlock>
 							</Button>
 							<Button Width="166"
@@ -145,7 +146,7 @@
 									Command="{Binding FlashToBootB}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									至Boot B分区
+									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToBootBPart}" />
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -160,11 +161,11 @@
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="驱动补丁" />
+								Text="{x:Static assets:Resources.Basicflash_DriverPatch}" />
 					<StackPanel Spacing="15">
-						<Button Width="220" Click="OpenAFDI">安装ADB和Fastboot驱动</Button>
-						<Button Width="220" Click="Open9008DI">安装高通9008驱动</Button>
-						<Button Width="220" Click="OpenUSBP">小米设备USB3.0补丁</Button>
+						<Button Width="220" Click="OpenAFDI" Content="{x:Static assets:Resources.Basicflash_InstallADBAndFastbootDriver}"></Button>
+						<Button Width="220" Click="Open9008DI" Content="{x:Static assets:Resources.Basicflash_Install9008Driver}"></Button>
+						<Button Width="220" Click="OpenUSBP" Content="{x:Static assets:Resources.Basicflash_XiaomiUSB}"></Button>
 					</StackPanel>
 				</StackPanel>
 			</suki:GlassCard>
@@ -175,34 +176,32 @@
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="修补Boot" />
+								Text="{x:Static assets:Resources.Basicflash_RepairBoot}" />
 					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
-						<TextBlock Width="60" VerticalAlignment="Center">选择面具: </TextBlock>
+						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"></TextBlock>
 						<TextBox Width="385" Name="MagiskFile" Text="{Binding MagiskFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35" Click ="OpenMagiskFile">选择文件</Button>
+						<Button Height="35" Click ="OpenMagiskFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
-						<TextBlock Width="60" VerticalAlignment="Center">选择Boot: </TextBlock>
+						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"></TextBlock>
 						<TextBox Width="385" Name="BootFile" Text="{Binding BootFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35" Click ="OpenBootFile">选择文件</Button>
+						<Button Height="35" Click ="OpenBootFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 					</StackPanel>
 					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
 						<StackPanel Orientation="Horizontal" Spacing="75">
-							<CheckBox Name="KEEPVERITY" FontSize="13" Content="保留AVB2.0/dm-verity" IsChecked="True"/>
-							<CheckBox Name="KEEPFORCEENCRYPT" FontSize="13" Content="保持强加密" IsChecked="True"/>
-							<CheckBox Name="PATCHVBMETAFLAG" FontSize="13" Content="修补vbmeta标记"/>
+							<CheckBox Name="KEEPVERITY" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepAVBOrDM}" IsChecked="True"/>
+							<CheckBox Name="KEEPFORCEENCRYPT" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepStrongEncryption}" IsChecked="True"/>
+							<CheckBox Name="PATCHVBMETAFLAG" FontSize="13" Content="{x:Static assets:Resources.Basicflash_RepairVbmeta}"/>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="111.5" Margin="0,-10,0,0">
-							<CheckBox Name="RECOVERYMODE" FontSize="13" Content="安装到Recovery"/>
-							<CheckBox Name="LEGACYSAR" FontSize="13" Content="强开rootfs" IsChecked="True"/>
+							<CheckBox Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ChooseBoot}"/>
+							<CheckBox Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
 							<ComboBox Name="ArchList" Width="135" Margin="-36,0,0,0" ItemsSource="{Binding ArchList}" />
 						</StackPanel>
 					</StackPanel>
 					<StackPanel Spacing="15">
 						<Button Width="210" Margin="0,10,0,0" Click="StartPatch">
-							<TextBlock>
-								开始！
-							</TextBlock>
+							<TextBlock Text="{x:Static assets:Resources.Basicflash_Start}"/>
 						</Button>
 					</StackPanel>
 				</StackPanel>
@@ -215,11 +214,11 @@
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="快捷刷入" />
+								Text="{x:Static assets:Resources.Basicflash_EasyFlash}" />
 					<StackPanel Spacing="20">
-						<Button Width="220" Click="">刷入已选择的面具</Button>
-						<Button Width="220" Click="">阻止恢复官方Recovery</Button>
-						<Button Width="220" Click="">同步AB分区</Button>
+						<Button Width="220" Click="" Content="{x:Static assets:Resources.Basicflash_FlashChosenMagisk}" />
+						<Button Width="220" Click="" Content="{x:Static assets:Resources.Basicflash_PreventRecoverOfficialRecovery}" />
+						<Button Width="220" Click="" Content="{x:Static assets:Resources.Basicflash_SyncABPart}" />
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Spacing="10" Margin="20,5,0,0">
 						<RadioButton FontSize="13" Content="TWRP Install" GroupName="FormatContent" IsChecked="True"/>

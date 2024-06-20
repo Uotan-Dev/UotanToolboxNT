@@ -423,4 +423,166 @@
   <data name="Settings_SpecialThanks" xml:space="preserve">
     <value>Special Thanks</value>
   </data>
+  <data name="Basicflash_BasicCommandUnlock" xml:space="preserve">
+    <value>Basic command unlock</value>
+  </data>
+  <data name="Basicflash_CodeUnlock" xml:space="preserve">
+    <value>Code unlock:</value>
+  </data>
+  <data name="Basicflash_ExecuteUnlockCommand" xml:space="preserve">
+    <value>Execute unlock command</value>
+  </data>
+  <data name="Basicflash_Executing" xml:space="preserve">
+    <value>Executing...</value>
+  </data>
+  <data name="Basicflash_FlashRecovery" xml:space="preserve">
+    <value>Flash recovery</value>
+  </data>
+  <data name="Basicflash_NormalUnlock" xml:space="preserve">
+    <value>Normal unlock</value>
+  </data>
+  <data name="Basicflash_RelockBL" xml:space="preserve">
+    <value>Relock BL</value>
+  </data>
+  <data name="Basicflash_UnlockFileUnlock" xml:space="preserve">
+    <value>Unlockfile Unlock:</value>
+  </data>
+  <data name="Basicflash_UnlockNow" xml:space="preserve">
+    <value>Unlock Now</value>
+  </data>
+  <data name="Common_ChooseFile" xml:space="preserve">
+    <value>Choose File</value>
+  </data>
+  <data name="Basicflash_ChooseBoot" xml:space="preserve">
+    <value>Choose Boot:</value>
+  </data>
+  <data name="Basicflash_ChooseMagisk" xml:space="preserve">
+    <value>Choose Magisk:</value>
+  </data>
+  <data name="Basicflash_ChooseRecovery" xml:space="preserve">
+    <value>Choose Recovery:</value>
+  </data>
+  <data name="Basicflash_DriverPatch" xml:space="preserve">
+    <value>Driver Patch</value>
+  </data>
+  <data name="Basicflash_EasyFlash" xml:space="preserve">
+    <value>Easy flash</value>
+  </data>
+  <data name="Basicflash_FlashChosenMagisk" xml:space="preserve">
+    <value>Flash chosenm agisk</value>
+  </data>
+  <data name="Basicflash_ForceRootfs" xml:space="preserve">
+    <value>Force opening rootfs</value>
+  </data>
+  <data name="Basicflash_Install9008Driver" xml:space="preserve">
+    <value>Install Qualcomm 9008 driver</value>
+  </data>
+  <data name="Basicflash_InstallADBAndFastbootDriver" xml:space="preserve">
+    <value>Install ADB and Fastboot drover</value>
+  </data>
+  <data name="Basicflash_InstallToRecovery" xml:space="preserve">
+    <value>Install to Recovery</value>
+  </data>
+  <data name="Basicflash_KeepAVBOrDM" xml:space="preserve">
+    <value>Keep AVB2.0/dm-verity</value>
+  </data>
+  <data name="Basicflash_KeepStrongEncryption" xml:space="preserve">
+    <value>Keep strong encryption</value>
+  </data>
+  <data name="Basicflash_PreventRecoverOfficialRecovery" xml:space="preserve">
+    <value>Prevent from recovering official Recovery</value>
+  </data>
+  <data name="Basicflash_RepairBoot" xml:space="preserve">
+    <value>Repair Boot</value>
+  </data>
+  <data name="Basicflash_RepairVbmeta" xml:space="preserve">
+    <value>Repair vbmeta sign</value>
+  </data>
+  <data name="Basicflash_Start" xml:space="preserve">
+    <value>Start!</value>
+  </data>
+  <data name="Basicflash_SyncABPart" xml:space="preserve">
+    <value>Sync AB Partition</value>
+  </data>
+  <data name="Basicflash_TempBoot" xml:space="preserve">
+    <value>Temporary Boot</value>
+  </data>
+  <data name="Basicflash_ToBootAPart" xml:space="preserve">
+    <value>To Boot A Partition</value>
+  </data>
+  <data name="Basicflash_ToBootBPart" xml:space="preserve">
+    <value>To Boot B Partition</value>
+  </data>
+  <data name="Basicflash_ToRecovery" xml:space="preserve">
+    <value>To Recovery</value>
+  </data>
+  <data name="Basicflash_ToRecoveryAPart" xml:space="preserve">
+    <value>To Recovery A Partition</value>
+  </data>
+  <data name="Basicflash_ToRecoveryBPart" xml:space="preserve">
+    <value>To Recovery B Partition</value>
+  </data>
+  <data name="Basicflash_XiaomiUSB" xml:space="preserve">
+    <value>Patch for Xiaomi USB 3.0</value>
+  </data>
+  <data name="Common_ChooseFolder" xml:space="preserve">
+    <value>Choose Folder</value>
+  </data>
+  <data name="Scrcpy_Bitrate" xml:space="preserve">
+    <value>Bitrate</value>
+  </data>
+  <data name="Scrcpy_Casting" xml:space="preserve">
+    <value>Casting...</value>
+  </data>
+  <data name="Scrcpy_CloseScreenlock" xml:space="preserve">
+    <value>Close screenlock</value>
+  </data>
+  <data name="Scrcpy_CloseScreenWhenCasting" xml:space="preserve">
+    <value>Close screen when casting</value>
+  </data>
+  <data name="Scrcpy_ComputerControl" xml:space="preserve">
+    <value>Computer control</value>
+  </data>
+  <data name="Scrcpy_FillInWantedTitle" xml:space="preserve">
+    <value>Fill in the title you want, otherwise the phone model in Home will be filled.</value>
+  </data>
+  <data name="Scrcpy_Fullscreen" xml:space="preserve">
+    <value>Fullscreen</value>
+  </data>
+  <data name="Scrcpy_MaxFps" xml:space="preserve">
+    <value>Max FPS</value>
+  </data>
+  <data name="Scrcpy_MoreSettings" xml:space="preserve">
+    <value>More Settings</value>
+  </data>
+  <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
+    <value>Proportional Scaling</value>
+  </data>
+  <data name="Scrcpy_RecordDictionary" xml:space="preserve">
+    <value>Record Dictionary</value>
+  </data>
+  <data name="Scrcpy_RecordScreen" xml:space="preserve">
+    <value>Record Screen</value>
+  </data>
+  <data name="Scrcpy_ScrcpyCastingTool" xml:space="preserve">
+    <value>Scrcpy Casting Tool</value>
+  </data>
+  <data name="Scrcpy_ShowBorder" xml:space="preserve">
+    <value>Show border</value>
+  </data>
+  <data name="Scrcpy_ShowTouch" xml:space="preserve">
+    <value>Show touch</value>
+  </data>
+  <data name="Scrcpy_StartCasting" xml:space="preserve">
+    <value>Start Casting</value>
+  </data>
+  <data name="Scrcpy_TransmitAndRecord" xml:space="preserve">
+    <value>Transmit and Record</value>
+  </data>
+  <data name="Scrcpy_WindowTitle" xml:space="preserve">
+    <value>Window Title</value>
+  </data>
+  <data name="Scrcpy_WindowTopping" xml:space="preserve">
+    <value>Window topping</value>
+  </data>
 </root>

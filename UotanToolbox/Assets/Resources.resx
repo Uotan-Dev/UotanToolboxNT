@@ -774,4 +774,16 @@
   <data name="Advanced_WriteQCN" xml:space="preserve">
     <value>Write QCN</value>
   </data>
+  <data name="Sidebar_Advanced" xml:space="preserve">
+    <value>Advanced</value>
+  </data>
+  <data name="Sidebar_Appmgr" xml:space="preserve">
+    <value>App Manager</value>
+  </data>
+  <data name="Sidebar_Customizedflash" xml:space="preserve">
+    <value>Customized Flash</value>
+  </data>
+  <data name="Sidebar_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
 </root>

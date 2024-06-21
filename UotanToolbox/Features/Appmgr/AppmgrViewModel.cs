@@ -19,7 +19,8 @@ public partial class AppmgrViewModel : MainPageBase
     [ObservableProperty] private bool isSystemAppDisplayed = false, isInstalling = false;
     [ObservableProperty] private string _apkFile;
 
-    public AppmgrViewModel() : base("应用管理", MaterialIconKind.ViewGridPlusOutline, -700)
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
         Applications = [];
     }

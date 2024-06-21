@@ -1897,11 +1897,38 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Advanced 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_Advanced {
+            get {
+                return ResourceManager.GetString("Sidebar_Advanced", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 App Manager 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_Appmgr {
+            get {
+                return ResourceManager.GetString("Sidebar_Appmgr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Basic Flash 的本地化字符串。
         /// </summary>
         public static string Sidebar_Basicflash {
             get {
                 return ResourceManager.GetString("Sidebar_Basicflash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Customized Flash 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_Customizedflash {
+            get {
+                return ResourceManager.GetString("Sidebar_Customizedflash", resourceCulture);
             }
         }
         
@@ -1920,6 +1947,15 @@ namespace UotanToolbox.Assets {
         public static string Sidebar_ModifyPartition {
             get {
                 return ResourceManager.GetString("Sidebar_ModifyPartition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Settings 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_Settings {
+            get {
+                return ResourceManager.GetString("Sidebar_Settings", resourceCulture);
             }
         }
         

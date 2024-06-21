@@ -8,9 +8,7 @@ using ReactiveUI;
 using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -36,9 +34,7 @@ public partial class HomeViewModel : MainPageBase
     [ObservableProperty] private MainPageBase? _activePage;
     [ObservableProperty] private bool _windowLocked = false;
 
-    private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
-    private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
-
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = CheckDeviceList();

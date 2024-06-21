@@ -175,19 +175,6 @@ public partial class AppmgrViewModel : MainPageBase
         IsBusy = false;
     }
 
-    /*private static string GetPackageSize(string sizeLine)
-    {
-        if (!string.IsNullOrEmpty(sizeLine))
-        {
-            string[] parts = sizeLine.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            int sizeInKB = int.Parse(parts[1]);
-            int sizeInMB = sizeInKB / 1024;
-            return $"{sizeInMB}MB";
-        }
-
-        return "未知大小";
-    }*/
-
     private static readonly char[] separatorArray = ['\r', '\n'];
 
     private static string GetInstalledDate(string[] lines)

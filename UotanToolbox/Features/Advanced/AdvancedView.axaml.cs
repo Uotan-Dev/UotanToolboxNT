@@ -15,6 +15,7 @@ namespace UotanToolbox.Features.Advanced;
 
 public partial class AdvancedView : UserControl
 {
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AdvancedView()
     {
         InitializeComponent();
@@ -141,7 +142,7 @@ public partial class AdvancedView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 if (SuperEmptyFile.Text != null)
                 {
@@ -175,7 +176,7 @@ public partial class AdvancedView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery")
+            if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 if (FormatName.Text != null)
                 {
@@ -225,7 +226,7 @@ public partial class AdvancedView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 if (FormatName.Text != null)
                 {
@@ -253,7 +254,7 @@ public partial class AdvancedView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery")
+            if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 if (FormatName.Text != null)
                 {
@@ -279,7 +280,7 @@ public partial class AdvancedView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery")
+            if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 if (FormatName.Text != null)
                 {
@@ -305,7 +306,7 @@ public partial class AdvancedView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery")
+            if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 if (ExtractName.Text != null)
                 {
@@ -351,7 +352,7 @@ public partial class AdvancedView : UserControl
                     SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"));
                 }
             }
-            else if (sukiViewModel.Status == "系统")
+            else if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (ExtractName.Text != null)
                 {
@@ -398,7 +399,7 @@ public partial class AdvancedView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery")
+            if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 if (ExtractName.Text != null)
                 {
@@ -446,7 +447,7 @@ public partial class AdvancedView : UserControl
                     SukiHost.ShowDialog(new ConnectionDialog("请输入需要提取的分区名称！"));
                 }
             }
-            else if (sukiViewModel.Status == "系统")
+            else if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (ExtractName.Text != null)
                 {

@@ -15,6 +15,7 @@ namespace UotanToolbox.Features.Customizedflash;
 
 public partial class CustomizedflashView : UserControl
 {
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public CustomizedflashView()
     {
         InitializeComponent();
@@ -78,7 +79,7 @@ public partial class CustomizedflashView : UserControl
             if (SystemFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -118,7 +119,7 @@ public partial class CustomizedflashView : UserControl
             if (ProductFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -157,7 +158,7 @@ public partial class CustomizedflashView : UserControl
             if (VenderFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -196,7 +197,7 @@ public partial class CustomizedflashView : UserControl
             if (BootFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -235,7 +236,7 @@ public partial class CustomizedflashView : UserControl
             if (SystemextFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -274,7 +275,7 @@ public partial class CustomizedflashView : UserControl
             if (OdmFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -313,7 +314,7 @@ public partial class CustomizedflashView : UserControl
             if (VenderbootFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -352,7 +353,7 @@ public partial class CustomizedflashView : UserControl
             if (InitbootFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -391,7 +392,7 @@ public partial class CustomizedflashView : UserControl
             if (ImageFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
                 {
                     BusyImageFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -415,7 +416,7 @@ public partial class CustomizedflashView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 CustomizedflashLog.Text = "";
                 string shell = String.Format($"-s {Global.thisdevice} --disable-verity --disable-verification flash vbmeta bin/Image/vbmeta.img");
@@ -432,7 +433,7 @@ public partial class CustomizedflashView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 CustomizedflashLog.Text = "";
                 string shell = String.Format($"-s {Global.thisdevice} set_active other");

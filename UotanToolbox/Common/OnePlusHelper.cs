@@ -171,7 +171,7 @@ namespace UotanToolbox.Common
 
                 if (decrypt)
                 {
-                    byte[] cdata = Unhexlify(data);
+                    byte[] cdata = CryptoHelper.Unhexlify(data);
                     string hexString = "3930376865617679776f726b6c6f61644e0260e5250c941b413dba383d7532f01a4a287b0c2e83410f694b9d96e9509d";
                     cdata = StringToByteArray(hexString);
                     byte[] result = CryptoHelper.AESCBC(cdata, aesKey, aesIV, true);
@@ -188,30 +188,11 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    //调试用
-                    Console.WriteLine($"data:{data}");
                     byte[] pdata = Encoding.UTF8.GetBytes(data.PadRight(256, demacia ? '\0' : ' '));
-                    Console.WriteLine($"pdata:{BitConverter.ToString(pdata)}");
                     byte[] result = CryptoHelper.AESCBC(pdata, aesKey, aesIV, false);
-                    Console.WriteLine($"Result: {BitConverter.ToString(result)}");
                     string rdata = BitConverter.ToString(result).Replace("-", "").ToUpper();
-                    Console.WriteLine($"rdata:{rdata}");
                     return rdata;
                 }
-            }
-
-            private static byte[] Unhexlify(string hexString)
-            {
-                if (string.IsNullOrEmpty(hexString))
-                    throw new ArgumentException("hexString cannot be null or empty.", nameof(hexString));
-                if (hexString.Length % 2 != 0)
-                    throw new ArgumentException("The length of the hexString must be even.", nameof(hexString));
-                byte[] bytes = new byte[hexString.Length / 2];
-                for (int i = 0; i < hexString.Length; i += 2)
-                {
-                    bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-                }
-                return bytes;
             }
             public (string, string) GenerateToken(string prodKey, string modelVerifyPrjName, string randomPostfix, string cf, string socSn, string version, bool program = false)
             {
@@ -230,7 +211,6 @@ namespace UotanToolbox.Common
                     : new[] { modelVerifyPrjName, randomPostfix, modelVerifyHashToken, version, cf, socSn, timestamp, secret };
                 var data = string.Join(",", items);
                 var token = CryptToken(data, prodKey);
-
                 return (prodKey, token);
             }
         }

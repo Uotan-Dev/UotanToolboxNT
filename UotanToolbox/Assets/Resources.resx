@@ -585,4 +585,193 @@
   <data name="Scrcpy_WindowTopping" xml:space="preserve">
     <value>Window topping</value>
   </data>
+  <data name="Modifypartition_CreatePart" xml:space="preserve">
+    <value>CreatePartition</value>
+  </data>
+  <data name="Modifypartition_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Modifypartition_Endpoint" xml:space="preserve">
+    <value>Endpoint</value>
+  </data>
+  <data name="Modifypartition_EndpointColon" xml:space="preserve">
+    <value>Endpoint:</value>
+  </data>
+  <data name="Modifypartition_Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="Modifypartition_Id" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="Modifypartition_IdColon" xml:space="preserve">
+    <value>ID:</value>
+  </data>
+  <data name="Modifypartition_Mark" xml:space="preserve">
+    <value>Mark</value>
+  </data>
+  <data name="Modifypartition_Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Modifypartition_PartFormat" xml:space="preserve">
+    <value>Partition Format:</value>
+  </data>
+  <data name="Modifypartition_PartId" xml:space="preserve">
+    <value>Partition ID:</value>
+  </data>
+  <data name="Modifypartition_ReadPart" xml:space="preserve">
+    <value>Read partition table</value>
+  </data>
+  <data name="Modifypartition_RemoveLimit" xml:space="preserve">
+    <value>Remove limit</value>
+  </data>
+  <data name="Modifypartition_Sign" xml:space="preserve">
+    <value>Sign</value>
+  </data>
+  <data name="Modifypartition_Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Modifypartition_Startpoint" xml:space="preserve">
+    <value>Startpoint</value>
+  </data>
+  <data name="Modifypartition_StartpointColon" xml:space="preserve">
+    <value>Startpoint:</value>
+  </data>
+  <data name="Modifypartition_TotalSize" xml:space="preserve">
+    <value>Total Disk Size:</value>
+  </data>
+  <data name="Sidebar_ModifyPartition" xml:space="preserve">
+    <value>Modify Partition</value>
+  </data>
+  <data name="Customizedflash_CustomizedPartFlash" xml:space="preserve">
+    <value>Customized Partition Flash</value>
+  </data>
+  <data name="Customizedflash_DisableVbmeta" xml:space="preserve">
+    <value>Disable vbmeta</value>
+  </data>
+  <data name="Customizedflash_Executing" xml:space="preserve">
+    <value>Executing...</value>
+  </data>
+  <data name="Customizedflash_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Customizedflash_Flash" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="Customizedflash_FlashTo" xml:space="preserve">
+    <value>Flash to</value>
+  </data>
+  <data name="Customizedflash_Log" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="Customizedflash_PresetPartitionFlash" xml:space="preserve">
+    <value>Preset partition flash</value>
+  </data>
+  <data name="Customizedflash_SwitchSlot" xml:space="preserve">
+    <value>Switch slot</value>
+  </data>
+  <data name="Appmgr_ApkFile" xml:space="preserve">
+    <value>Apk File</value>
+  </data>
+  <data name="Appmgr_ApplicationListHasntBeenFetched" xml:space="preserve">
+    <value>Application list hasn't been fetched</value>
+  </data>
+  <data name="Appmgr_AppManager" xml:space="preserve">
+    <value>App Manager</value>
+  </data>
+  <data name="Appmgr_Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Appmgr_DisplaySystemApp" xml:space="preserve">
+    <value>Display system application</value>
+  </data>
+  <data name="Appmgr_Enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Appmgr_ExtractApk" xml:space="preserve">
+    <value>Extract Apk</value>
+  </data>
+  <data name="Appmgr_FetchApplicationList" xml:space="preserve">
+    <value>Fetch application list</value>
+  </data>
+  <data name="Appmgr_Fetching" xml:space="preserve">
+    <value>Fetching</value>
+  </data>
+  <data name="Appmgr_InstallApp" xml:space="preserve">
+    <value>Install App</value>
+  </data>
+  <data name="Appmgr_Installing" xml:space="preserve">
+    <value>Installing</value>
+  </data>
+  <data name="Appmgr_KeepDataUninstall" xml:space="preserve">
+    <value>Keep data uninstall</value>
+  </data>
+  <data name="Appmgr_Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Appmgr_StartInstalling" xml:space="preserve">
+    <value>Start installing</value>
+  </data>
+  <data name="Appmgr_Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="Advanced_ADBFormat" xml:space="preserve">
+    <value>ADB Format</value>
+  </data>
+  <data name="Advanced_BackupQCN" xml:space="preserve">
+    <value>Backup QCN</value>
+  </data>
+  <data name="Advanced_Enable901D" xml:space="preserve">
+    <value>Enable 901D</value>
+  </data>
+  <data name="Advanced_Enable9091" xml:space="preserve">
+    <value>Enable 9091</value>
+  </data>
+  <data name="Advanced_Executing" xml:space="preserve">
+    <value>Executing...</value>
+  </data>
+  <data name="Advanced_Extract" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+  <data name="Advanced_ExtractFolder" xml:space="preserve">
+    <value>Extract Folder</value>
+  </data>
+  <data name="Advanced_FastbootFormat" xml:space="preserve">
+    <value>Fastboot Format</value>
+  </data>
+  <data name="Advanced_FlashFile" xml:space="preserve">
+    <value>Flash file</value>
+  </data>
+  <data name="Advanced_Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="Advanced_FormatDataPart" xml:space="preserve">
+    <value>Format Data Partition</value>
+  </data>
+  <data name="Advanced_FormatTo" xml:space="preserve">
+    <value>Format to</value>
+  </data>
+  <data name="Advanced_Log" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="Advanced_OpenBackup" xml:space="preserve">
+    <value>Open backup</value>
+  </data>
+  <data name="Advanced_PartName" xml:space="preserve">
+    <value>Partition Name</value>
+  </data>
+  <data name="Advanced_PhysicalPart" xml:space="preserve">
+    <value>Physical Partition</value>
+  </data>
+  <data name="Advanced_QCNFile" xml:space="preserve">
+    <value>QCN File</value>
+  </data>
+  <data name="Advanced_TWRPFormatData" xml:space="preserve">
+    <value>TWRP Format Data</value>
+  </data>
+  <data name="Advanced_VirtualPart" xml:space="preserve">
+    <value>Virtual Partition</value>
+  </data>
+  <data name="Advanced_WriteQCN" xml:space="preserve">
+    <value>Write QCN</value>
+  </data>
 </root>

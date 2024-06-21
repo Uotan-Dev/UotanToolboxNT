@@ -61,6 +61,321 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 ADB Format 的本地化字符串。
+        /// </summary>
+        public static string Advanced_ADBFormat {
+            get {
+                return ResourceManager.GetString("Advanced_ADBFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Backup QCN 的本地化字符串。
+        /// </summary>
+        public static string Advanced_BackupQCN {
+            get {
+                return ResourceManager.GetString("Advanced_BackupQCN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable 901D 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Enable901D {
+            get {
+                return ResourceManager.GetString("Advanced_Enable901D", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable 9091 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Enable9091 {
+            get {
+                return ResourceManager.GetString("Advanced_Enable9091", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Executing... 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Executing {
+            get {
+                return ResourceManager.GetString("Advanced_Executing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Extract {
+            get {
+                return ResourceManager.GetString("Advanced_Extract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract Folder 的本地化字符串。
+        /// </summary>
+        public static string Advanced_ExtractFolder {
+            get {
+                return ResourceManager.GetString("Advanced_ExtractFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fastboot Format 的本地化字符串。
+        /// </summary>
+        public static string Advanced_FastbootFormat {
+            get {
+                return ResourceManager.GetString("Advanced_FastbootFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash file 的本地化字符串。
+        /// </summary>
+        public static string Advanced_FlashFile {
+            get {
+                return ResourceManager.GetString("Advanced_FlashFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Format 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Format {
+            get {
+                return ResourceManager.GetString("Advanced_Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Format Data Partition 的本地化字符串。
+        /// </summary>
+        public static string Advanced_FormatDataPart {
+            get {
+                return ResourceManager.GetString("Advanced_FormatDataPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Format to 的本地化字符串。
+        /// </summary>
+        public static string Advanced_FormatTo {
+            get {
+                return ResourceManager.GetString("Advanced_FormatTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Log 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Log {
+            get {
+                return ResourceManager.GetString("Advanced_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open backup 的本地化字符串。
+        /// </summary>
+        public static string Advanced_OpenBackup {
+            get {
+                return ResourceManager.GetString("Advanced_OpenBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Partition Name 的本地化字符串。
+        /// </summary>
+        public static string Advanced_PartName {
+            get {
+                return ResourceManager.GetString("Advanced_PartName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Physical Partition 的本地化字符串。
+        /// </summary>
+        public static string Advanced_PhysicalPart {
+            get {
+                return ResourceManager.GetString("Advanced_PhysicalPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 QCN File 的本地化字符串。
+        /// </summary>
+        public static string Advanced_QCNFile {
+            get {
+                return ResourceManager.GetString("Advanced_QCNFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 TWRP Format Data 的本地化字符串。
+        /// </summary>
+        public static string Advanced_TWRPFormatData {
+            get {
+                return ResourceManager.GetString("Advanced_TWRPFormatData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Virtual Partition 的本地化字符串。
+        /// </summary>
+        public static string Advanced_VirtualPart {
+            get {
+                return ResourceManager.GetString("Advanced_VirtualPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Write QCN 的本地化字符串。
+        /// </summary>
+        public static string Advanced_WriteQCN {
+            get {
+                return ResourceManager.GetString("Advanced_WriteQCN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Apk File 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ApkFile {
+            get {
+                return ResourceManager.GetString("Appmgr_ApkFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Application list hasn&apos;t been fetched 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ApplicationListHasntBeenFetched {
+            get {
+                return ResourceManager.GetString("Appmgr_ApplicationListHasntBeenFetched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 App Manager 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_AppManager {
+            get {
+                return ResourceManager.GetString("Appmgr_AppManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Disable 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Disable {
+            get {
+                return ResourceManager.GetString("Appmgr_Disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Display system application 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_DisplaySystemApp {
+            get {
+                return ResourceManager.GetString("Appmgr_DisplaySystemApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Enable {
+            get {
+                return ResourceManager.GetString("Appmgr_Enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract Apk 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ExtractApk {
+            get {
+                return ResourceManager.GetString("Appmgr_ExtractApk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fetch application list 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_FetchApplicationList {
+            get {
+                return ResourceManager.GetString("Appmgr_FetchApplicationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fetching 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Fetching {
+            get {
+                return ResourceManager.GetString("Appmgr_Fetching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Install App 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_InstallApp {
+            get {
+                return ResourceManager.GetString("Appmgr_InstallApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installing 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Installing {
+            get {
+                return ResourceManager.GetString("Appmgr_Installing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Keep data uninstall 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_KeepDataUninstall {
+            get {
+                return ResourceManager.GetString("Appmgr_KeepDataUninstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Run 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Run {
+            get {
+                return ResourceManager.GetString("Appmgr_Run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start installing 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_StartInstalling {
+            get {
+                return ResourceManager.GetString("Appmgr_StartInstalling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uninstall 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Uninstall {
+            get {
+                return ResourceManager.GetString("Appmgr_Uninstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Basic command unlock 的本地化字符串。
         /// </summary>
         public static string Basicflash_BasicCommandUnlock {
@@ -399,6 +714,87 @@ namespace UotanToolbox.Assets {
         public static string ConnectionDialog_Notice {
             get {
                 return ResourceManager.GetString("ConnectionDialog_Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Customized Partition Flash 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_CustomizedPartFlash {
+            get {
+                return ResourceManager.GetString("Customizedflash_CustomizedPartFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Disable vbmeta 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_DisableVbmeta {
+            get {
+                return ResourceManager.GetString("Customizedflash_DisableVbmeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Executing... 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_Executing {
+            get {
+                return ResourceManager.GetString("Customizedflash_Executing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_File {
+            get {
+                return ResourceManager.GetString("Customizedflash_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_Flash {
+            get {
+                return ResourceManager.GetString("Customizedflash_Flash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash to 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_FlashTo {
+            get {
+                return ResourceManager.GetString("Customizedflash_FlashTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Log 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_Log {
+            get {
+                return ResourceManager.GetString("Customizedflash_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Preset partition flash 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_PresetPartitionFlash {
+            get {
+                return ResourceManager.GetString("Customizedflash_PresetPartitionFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Switch slot 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_SwitchSlot {
+            get {
+                return ResourceManager.GetString("Customizedflash_SwitchSlot", resourceCulture);
             }
         }
         
@@ -1051,6 +1447,168 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 CreatePartition 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_CreatePart {
+            get {
+                return ResourceManager.GetString("Modifypartition_CreatePart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Delete {
+            get {
+                return ResourceManager.GetString("Modifypartition_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Endpoint 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Endpoint {
+            get {
+                return ResourceManager.GetString("Modifypartition_Endpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Endpoint: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_EndpointColon {
+            get {
+                return ResourceManager.GetString("Modifypartition_EndpointColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Format 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Format {
+            get {
+                return ResourceManager.GetString("Modifypartition_Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ID 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Id {
+            get {
+                return ResourceManager.GetString("Modifypartition_Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ID: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_IdColon {
+            get {
+                return ResourceManager.GetString("Modifypartition_IdColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mark 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Mark {
+            get {
+                return ResourceManager.GetString("Modifypartition_Mark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Name 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Name {
+            get {
+                return ResourceManager.GetString("Modifypartition_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Partition Format: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_PartFormat {
+            get {
+                return ResourceManager.GetString("Modifypartition_PartFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Partition ID: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_PartId {
+            get {
+                return ResourceManager.GetString("Modifypartition_PartId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Read partition table 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_ReadPart {
+            get {
+                return ResourceManager.GetString("Modifypartition_ReadPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Remove limit 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_RemoveLimit {
+            get {
+                return ResourceManager.GetString("Modifypartition_RemoveLimit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Sign 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Sign {
+            get {
+                return ResourceManager.GetString("Modifypartition_Sign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Size 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Size {
+            get {
+                return ResourceManager.GetString("Modifypartition_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Startpoint 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Startpoint {
+            get {
+                return ResourceManager.GetString("Modifypartition_Startpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Startpoint: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_StartpointColon {
+            get {
+                return ResourceManager.GetString("Modifypartition_StartpointColon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Total Disk Size: 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_TotalSize {
+            get {
+                return ResourceManager.GetString("Modifypartition_TotalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Bitrate 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Bitrate {
@@ -1353,6 +1911,15 @@ namespace UotanToolbox.Assets {
         public static string Sidebar_HomePage {
             get {
                 return ResourceManager.GetString("Sidebar_HomePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Modify Partition 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_ModifyPartition {
+            get {
+                return ResourceManager.GetString("Sidebar_ModifyPartition", resourceCulture);
             }
         }
         

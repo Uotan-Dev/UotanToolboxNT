@@ -585,4 +585,193 @@
   <data name="Scrcpy_WindowTopping" xml:space="preserve">
     <value>窗口置顶</value>
   </data>
+  <data name="Modifypartition_CreatePart" xml:space="preserve">
+    <value>创建分区</value>
+  </data>
+  <data name="Modifypartition_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Modifypartition_Endpoint" xml:space="preserve">
+    <value>结束点</value>
+  </data>
+  <data name="Modifypartition_EndpointColon" xml:space="preserve">
+    <value>结束点:</value>
+  </data>
+  <data name="Modifypartition_Format" xml:space="preserve">
+    <value>格式</value>
+  </data>
+  <data name="Modifypartition_Id" xml:space="preserve">
+    <value>序号</value>
+  </data>
+  <data name="Modifypartition_IdColon" xml:space="preserve">
+    <value>序号：</value>
+  </data>
+  <data name="Modifypartition_Mark" xml:space="preserve">
+    <value>标记</value>
+  </data>
+  <data name="Modifypartition_Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Modifypartition_PartFormat" xml:space="preserve">
+    <value>分区格式:</value>
+  </data>
+  <data name="Modifypartition_PartId" xml:space="preserve">
+    <value>分区序号:</value>
+  </data>
+  <data name="Modifypartition_ReadPart" xml:space="preserve">
+    <value>读取分区表</value>
+  </data>
+  <data name="Modifypartition_RemoveLimit" xml:space="preserve">
+    <value>解除限制</value>
+  </data>
+  <data name="Modifypartition_Sign" xml:space="preserve">
+    <value>标识</value>
+  </data>
+  <data name="Modifypartition_Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="Modifypartition_Startpoint" xml:space="preserve">
+    <value>起始点</value>
+  </data>
+  <data name="Modifypartition_StartpointColon" xml:space="preserve">
+    <value>起始点:</value>
+  </data>
+  <data name="Modifypartition_TotalSize" xml:space="preserve">
+    <value>磁盘总大小:</value>
+  </data>
+  <data name="Sidebar_ModifyPartition" xml:space="preserve">
+    <value>修改分区</value>
+  </data>
+  <data name="Customizedflash_CustomizedPartFlash" xml:space="preserve">
+    <value>自定义分区刷入</value>
+  </data>
+  <data name="Customizedflash_DisableVbmeta" xml:space="preserve">
+    <value>禁用vbmeta</value>
+  </data>
+  <data name="Customizedflash_Executing" xml:space="preserve">
+    <value>执行中 ...</value>
+  </data>
+  <data name="Customizedflash_File" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Customizedflash_Flash" xml:space="preserve">
+    <value>刷入</value>
+  </data>
+  <data name="Customizedflash_FlashTo" xml:space="preserve">
+    <value>刷入至</value>
+  </data>
+  <data name="Customizedflash_Log" xml:space="preserve">
+    <value>日志输出</value>
+  </data>
+  <data name="Customizedflash_PresetPartitionFlash" xml:space="preserve">
+    <value>预置分区刷入</value>
+  </data>
+  <data name="Customizedflash_SwitchSlot" xml:space="preserve">
+    <value>切换槽位</value>
+  </data>
+  <data name="Appmgr_ApkFile" xml:space="preserve">
+    <value>APK文件</value>
+  </data>
+  <data name="Appmgr_ApplicationListHasntBeenFetched" xml:space="preserve">
+    <value>暂未获取应用列表</value>
+  </data>
+  <data name="Appmgr_AppManager" xml:space="preserve">
+    <value>软件管理</value>
+  </data>
+  <data name="Appmgr_Disable" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="Appmgr_DisplaySystemApp" xml:space="preserve">
+    <value>显示系统应用</value>
+  </data>
+  <data name="Appmgr_Enable" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="Appmgr_ExtractApk" xml:space="preserve">
+    <value>提取安装包</value>
+  </data>
+  <data name="Appmgr_FetchApplicationList" xml:space="preserve">
+    <value>获取应用列表</value>
+  </data>
+  <data name="Appmgr_Fetching" xml:space="preserve">
+    <value>获取中 ...</value>
+  </data>
+  <data name="Appmgr_InstallApp" xml:space="preserve">
+    <value>安装应用</value>
+  </data>
+  <data name="Appmgr_Installing" xml:space="preserve">
+    <value>安装中 ...</value>
+  </data>
+  <data name="Appmgr_KeepDataUninstall" xml:space="preserve">
+    <value>保留数据卸载</value>
+  </data>
+  <data name="Appmgr_Run" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="Appmgr_StartInstalling" xml:space="preserve">
+    <value>开始安装</value>
+  </data>
+  <data name="Appmgr_Uninstall" xml:space="preserve">
+    <value>卸载</value>
+  </data>
+  <data name="Advanced_ADBFormat" xml:space="preserve">
+    <value>ADB格式化</value>
+  </data>
+  <data name="Advanced_BackupQCN" xml:space="preserve">
+    <value>备份QCN</value>
+  </data>
+  <data name="Advanced_Enable901D" xml:space="preserve">
+    <value>开启901D</value>
+  </data>
+  <data name="Advanced_Enable9091" xml:space="preserve">
+    <value>开启9091</value>
+  </data>
+  <data name="Advanced_Executing" xml:space="preserve">
+    <value>执行中 ...</value>
+  </data>
+  <data name="Advanced_Extract" xml:space="preserve">
+    <value>提取</value>
+  </data>
+  <data name="Advanced_ExtractFolder" xml:space="preserve">
+    <value>提取文件夹</value>
+  </data>
+  <data name="Advanced_FastbootFormat" xml:space="preserve">
+    <value>Fastboot格式化</value>
+  </data>
+  <data name="Advanced_FlashFile" xml:space="preserve">
+    <value>刷入文件</value>
+  </data>
+  <data name="Advanced_Format" xml:space="preserve">
+    <value>格式化</value>
+  </data>
+  <data name="Advanced_FormatDataPart" xml:space="preserve">
+    <value>格式化Data分区</value>
+  </data>
+  <data name="Advanced_FormatTo" xml:space="preserve">
+    <value>格式化为</value>
+  </data>
+  <data name="Advanced_Log" xml:space="preserve">
+    <value>日志输出</value>
+  </data>
+  <data name="Advanced_OpenBackup" xml:space="preserve">
+    <value>打开备份</value>
+  </data>
+  <data name="Advanced_PartName" xml:space="preserve">
+    <value>分区名称</value>
+  </data>
+  <data name="Advanced_PhysicalPart" xml:space="preserve">
+    <value>物理分区</value>
+  </data>
+  <data name="Advanced_QCNFile" xml:space="preserve">
+    <value>QCN文件</value>
+  </data>
+  <data name="Advanced_TWRPFormatData" xml:space="preserve">
+    <value>TWRP格式化Data</value>
+  </data>
+  <data name="Advanced_VirtualPart" xml:space="preserve">
+    <value>虚拟分区</value>
+  </data>
+  <data name="Advanced_WriteQCN" xml:space="preserve">
+    <value>写入QCN</value>
+  </data>
 </root>

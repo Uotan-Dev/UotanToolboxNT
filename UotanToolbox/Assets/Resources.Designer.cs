@@ -61,6 +61,186 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 ADB Format 的本地化字符串。
+        /// </summary>
+        public static string Advanced_ADBFormat {
+            get {
+                return ResourceManager.GetString("Advanced_ADBFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Backup QCN 的本地化字符串。
+        /// </summary>
+        public static string Advanced_BackupQCN {
+            get {
+                return ResourceManager.GetString("Advanced_BackupQCN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable 901D 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Enable901D {
+            get {
+                return ResourceManager.GetString("Advanced_Enable901D", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable 9091 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Enable9091 {
+            get {
+                return ResourceManager.GetString("Advanced_Enable9091", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Executing... 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Executing {
+            get {
+                return ResourceManager.GetString("Advanced_Executing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Extract {
+            get {
+                return ResourceManager.GetString("Advanced_Extract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract Folder 的本地化字符串。
+        /// </summary>
+        public static string Advanced_ExtractFolder {
+            get {
+                return ResourceManager.GetString("Advanced_ExtractFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fastboot Format 的本地化字符串。
+        /// </summary>
+        public static string Advanced_FastbootFormat {
+            get {
+                return ResourceManager.GetString("Advanced_FastbootFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash file 的本地化字符串。
+        /// </summary>
+        public static string Advanced_FlashFile {
+            get {
+                return ResourceManager.GetString("Advanced_FlashFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Format 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Format {
+            get {
+                return ResourceManager.GetString("Advanced_Format", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Format Data Partition 的本地化字符串。
+        /// </summary>
+        public static string Advanced_FormatDataPart {
+            get {
+                return ResourceManager.GetString("Advanced_FormatDataPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Format to 的本地化字符串。
+        /// </summary>
+        public static string Advanced_FormatTo {
+            get {
+                return ResourceManager.GetString("Advanced_FormatTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Log 的本地化字符串。
+        /// </summary>
+        public static string Advanced_Log {
+            get {
+                return ResourceManager.GetString("Advanced_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open backup 的本地化字符串。
+        /// </summary>
+        public static string Advanced_OpenBackup {
+            get {
+                return ResourceManager.GetString("Advanced_OpenBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Partition Name 的本地化字符串。
+        /// </summary>
+        public static string Advanced_PartName {
+            get {
+                return ResourceManager.GetString("Advanced_PartName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Physical Partition 的本地化字符串。
+        /// </summary>
+        public static string Advanced_PhysicalPart {
+            get {
+                return ResourceManager.GetString("Advanced_PhysicalPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 QCN File 的本地化字符串。
+        /// </summary>
+        public static string Advanced_QCNFile {
+            get {
+                return ResourceManager.GetString("Advanced_QCNFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 TWRP Format Data 的本地化字符串。
+        /// </summary>
+        public static string Advanced_TWRPFormatData {
+            get {
+                return ResourceManager.GetString("Advanced_TWRPFormatData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Virtual Partition 的本地化字符串。
+        /// </summary>
+        public static string Advanced_VirtualPart {
+            get {
+                return ResourceManager.GetString("Advanced_VirtualPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Write QCN 的本地化字符串。
+        /// </summary>
+        public static string Advanced_WriteQCN {
+            get {
+                return ResourceManager.GetString("Advanced_WriteQCN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Apk File 的本地化字符串。
         /// </summary>
         public static string Appmgr_ApkFile {

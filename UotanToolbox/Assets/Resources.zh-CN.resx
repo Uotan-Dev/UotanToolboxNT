@@ -714,4 +714,64 @@
   <data name="Appmgr_Uninstall" xml:space="preserve">
     <value>卸载</value>
   </data>
+  <data name="Advanced_ADBFormat" xml:space="preserve">
+    <value>ADB格式化</value>
+  </data>
+  <data name="Advanced_BackupQCN" xml:space="preserve">
+    <value>备份QCN</value>
+  </data>
+  <data name="Advanced_Enable901D" xml:space="preserve">
+    <value>开启901D</value>
+  </data>
+  <data name="Advanced_Enable9091" xml:space="preserve">
+    <value>开启9091</value>
+  </data>
+  <data name="Advanced_Executing" xml:space="preserve">
+    <value>执行中 ...</value>
+  </data>
+  <data name="Advanced_Extract" xml:space="preserve">
+    <value>提取</value>
+  </data>
+  <data name="Advanced_ExtractFolder" xml:space="preserve">
+    <value>提取文件夹</value>
+  </data>
+  <data name="Advanced_FastbootFormat" xml:space="preserve">
+    <value>Fastboot格式化</value>
+  </data>
+  <data name="Advanced_FlashFile" xml:space="preserve">
+    <value>刷入文件</value>
+  </data>
+  <data name="Advanced_Format" xml:space="preserve">
+    <value>格式化</value>
+  </data>
+  <data name="Advanced_FormatDataPart" xml:space="preserve">
+    <value>格式化Data分区</value>
+  </data>
+  <data name="Advanced_FormatTo" xml:space="preserve">
+    <value>格式化为</value>
+  </data>
+  <data name="Advanced_Log" xml:space="preserve">
+    <value>日志输出</value>
+  </data>
+  <data name="Advanced_OpenBackup" xml:space="preserve">
+    <value>打开备份</value>
+  </data>
+  <data name="Advanced_PartName" xml:space="preserve">
+    <value>分区名称</value>
+  </data>
+  <data name="Advanced_PhysicalPart" xml:space="preserve">
+    <value>物理分区</value>
+  </data>
+  <data name="Advanced_QCNFile" xml:space="preserve">
+    <value>QCN文件</value>
+  </data>
+  <data name="Advanced_TWRPFormatData" xml:space="preserve">
+    <value>TWRP格式化Data</value>
+  </data>
+  <data name="Advanced_VirtualPart" xml:space="preserve">
+    <value>虚拟分区</value>
+  </data>
+  <data name="Advanced_WriteQCN" xml:space="preserve">
+    <value>写入QCN</value>
+  </data>
 </root>

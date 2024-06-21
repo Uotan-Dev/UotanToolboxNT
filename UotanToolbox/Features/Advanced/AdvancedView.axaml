@@ -7,6 +7,7 @@
              xmlns:advanced="clr-namespace:UotanToolbox.Features.Advanced"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
 			 d:DesignWidth="1240"
              x:DataType="advanced:AdvancedViewModel"
              mc:Ignorable="d">
@@ -33,14 +34,13 @@
 										   VerticalAlignment="Center"
 										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
-										   Text="QCN文件" />
+										   Text="{x:Static assets:Resources.Advanced_QCNFile}" />
 								<TextBox Width="250" Name="QcnFile" Text="{Binding QcnFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
 								<Button Width="105"
 										Height="35"
 										Padding="10,0,10,0"
-										Click="OpenQcnFile">
-									选择文件
-								</Button>
+										Click="OpenQcnFile"
+										Content="{x:Static assets:Resources.Common_ChooseFile}" />
 							</StackPanel>
 						</StackPanel>
 						<StackPanel Spacing="30">
@@ -52,7 +52,7 @@
 											Command="{Binding WriteQcnCommand}">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="PencilAddOutline" />
-											写入QCN
+											<TextBlock Text="{x:Static assets:Resources.Advanced_WriteQCN}"/>
 										</TextBlock>
 									</Button>
 									<Button Width="125"
@@ -61,7 +61,7 @@
 											Command="{Binding BackupQcnCommand}">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
-											备份QCN
+											<TextBlock Text="{x:Static assets:Resources.Advanced_BackupQCN}"/>
 										</TextBlock>
 									</Button>
 									<Button Width="125"
@@ -70,7 +70,7 @@
 											Command="{Binding OpenBackupCommand}">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="FolderOpenOutline" />
-											打开备份
+											<TextBlock Text="{x:Static assets:Resources.Advanced_OpenBackup}"/>
 										</TextBlock>
 									</Button>
 								</StackPanel>
@@ -81,7 +81,7 @@
 											Command="{Binding Enable901dCommand}">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="AndroidStudio" />
-											开启901D
+											<TextBlock Text="{x:Static assets:Resources.Advanced_Enable901D}"/>
 										</TextBlock>
 									</Button>
 									<Button Width="125"
@@ -90,7 +90,7 @@
 											Command="{Binding Enable9091Command}">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="AndroidStudio" />
-											开启9091
+											<TextBlock Text="{x:Static assets:Resources.Advanced_Enable9091}"/>
 										</TextBlock>
 									</Button>
 								</StackPanel>
@@ -106,7 +106,7 @@
                             Margin="10"
                             VerticalAlignment="Top">
 				 <suki:BusyArea Name="BusyFlash"
-								BusyText="执行中 ..."
+								BusyText="{x:Static assets:Resources.Advanced_Executing}"
 								IsBusy="{Binding Flashing}">
 					<Grid>
 						<StackPanel Spacing="30">
@@ -127,9 +127,8 @@
 											 theme:TextBoxExtensions.AddDeleteButton="False"/>
 									<Button Height="35"
 											Padding="10,0,10,0"
-											Click="OpenEmptyFile">
-										选择文件
-									</Button>
+											Click="OpenEmptyFile"
+											Content="{x:Static assets:Resources.Common_ChooseFile}" />
 								</StackPanel>
 							</StackPanel>
 							<StackPanel Spacing="30">
@@ -141,7 +140,7 @@
 												Click="FlashSuperEmpty">
 											<TextBlock>
 												<avalonia:MaterialIcon Kind="PencilAddOutline" />
-												刷入文件
+												<TextBlock Text="{x:Static assets:Resources.Advanced_FlashFile}"/>
 											</TextBlock>
 										</Button>
 									</StackPanel>
@@ -158,7 +157,7 @@
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<suki:BusyArea Name="BusyFormat"
-								BusyText="执行中 ..."
+								BusyText="{x:Static assets:Resources.Advanced_Executing}"
 								IsBusy="{Binding Flashing}">
 					<Grid>
 						<StackPanel Spacing="10">
@@ -166,14 +165,14 @@
 								<TextBlock HorizontalAlignment="Left"
 										   VerticalAlignment="Top"
 										   FontWeight="DemiBold"
-										   Text="格式化" />
+										   Text="{x:Static assets:Resources.Advanced_Format}" />
 								<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 									<TextBlock Width="60"
 											   Margin="8,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
 											   Foreground="{DynamicResource SukiLowText}"
-											   Text="分区名称" />
+											   Text="{x:Static assets:Resources.Advanced_PartName}" />
 									<TextBox Width="355" Name="FormatName"
 											 Text="{Binding FormatName, Mode=TwoWay}"
 											 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -186,7 +185,7 @@
 											   VerticalAlignment="Center"
 											   FontSize="13"
 											   Foreground="{DynamicResource SukiLowText}"
-											   Text="格式化为" />
+											   Text="{x:Static assets:Resources.Advanced_FormatTo}" />
 									<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="0">
 										<StackPanel Orientation="Horizontal" Spacing="10">
 											<RadioButton Name="EXT4" FontSize="12" Content="EXT4" GroupName="FormatContent" IsChecked="True" />
@@ -206,7 +205,7 @@
 											Click="ADBFormat">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="PencilAddOutline" />
-											ADB格式化
+											<TextBlock Text="{x:Static assets:Resources.Advanced_ADBFormat}"/>
 										</TextBlock>
 									</Button>
 									<Button Width="155"
@@ -215,7 +214,7 @@
 											Click="FastbootFormat">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
-											Fastboot格式化
+											<TextBlock Text="{x:Static assets:Resources.Advanced_FastbootFormat}"/>
 										</TextBlock>
 									</Button>
 								</StackPanel>
@@ -226,7 +225,7 @@
 											Click="FormatData">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="AndroidStudio" />
-											格式化Data分区
+											<TextBlock Text="{x:Static assets:Resources.Advanced_FormatDataPart}"/>
 										</TextBlock>
 									</Button>
 									<Button Width="155"
@@ -235,7 +234,7 @@
 											Click="TWRPFormatData">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="AndroidStudio" />
-											TWRP格式化Data
+											<TextBlock Text="{x:Static assets:Resources.Advanced_TWRPFormatData}"/>
 										</TextBlock>
 									</Button>
 								</StackPanel>
@@ -251,7 +250,7 @@
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<suki:BusyArea Name="BusyExtract"
-								BusyText="执行中 ..."
+								BusyText="{x:Static assets:Resources.Advanced_Executing}"
 								IsBusy="{Binding Flashing}">
 					<Grid>
 						<StackPanel Spacing="20">
@@ -259,14 +258,14 @@
 								<TextBlock HorizontalAlignment="Left"
 										   VerticalAlignment="Top"
 										   FontWeight="DemiBold"
-										   Text="提取" />
+										   Text="{x:Static assets:Resources.Advanced_Extract}" />
 								<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 									<TextBlock Width="60"
 											   Margin="8,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
 											   Foreground="{DynamicResource SukiLowText}"
-											   Text="分区名称" />
+											   Text="{x:Static assets:Resources.Advanced_PartName}" />
 									<TextBox Width="350" Name="ExtractName"
 											 Text="{Binding ExtractName, Mode=TwoWay}"
 											 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -280,7 +279,7 @@
 											Click="ExtractPart">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="PencilAddOutline" />
-											物理分区
+											<TextBlock Text="{x:Static assets:Resources.Advanced_PhysicalPart}"/>
 										</TextBlock>
 									</Button>
 									<Button Width="125"
@@ -289,7 +288,7 @@
 											Click="ExtractVPart">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
-											虚拟分区
+											<TextBlock Text="{x:Static assets:Resources.Advanced_VirtualPart}"/>
 										</TextBlock>
 									</Button>
 								</StackPanel>
@@ -300,7 +299,7 @@
 											Click="OpenExtractFile">
 										<TextBlock>
 											<avalonia:MaterialIcon Kind="AndroidStudio" />
-											提取文件夹
+											<TextBlock Text="{x:Static assets:Resources.Advanced_ExtractFolder}"/>
 										</TextBlock>
 									</Button>
 								</StackPanel>
@@ -316,8 +315,8 @@
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<Grid>
-						<TextBox Name="AdvancedLog" Watermark="日志输出" Text="{Binding AdvancedLog, Mode=TwoWay}" Margin="0" Height="210" AcceptsReturn="True" IsReadOnly="True"
-							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
+					<TextBox Name="AdvancedLog" Watermark="{x:Static assets:Resources.Advanced_Log}" Text="{Binding AdvancedLog, Mode=TwoWay}" Margin="0" Height="210" AcceptsReturn="True"
+							 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>
 		</WrapPanel>

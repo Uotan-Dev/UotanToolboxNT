@@ -41,7 +41,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Unlocking = true;
                 if (UnlockFile != null && UnlockCode != null)
@@ -113,7 +113,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Unlocking = true;
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
@@ -150,7 +150,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BaseUnlocking = true;
                 if (SelectedSimpleContent != null)
@@ -193,7 +193,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Flashing = true;
                 if (RecFile != null)
@@ -264,7 +264,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Flashing = true;
                 if (RecFile != null)

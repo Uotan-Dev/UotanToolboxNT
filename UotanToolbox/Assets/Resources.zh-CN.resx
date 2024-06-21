@@ -642,4 +642,31 @@
   <data name="Sidebar_ModifyPartition" xml:space="preserve">
     <value>修改分区</value>
   </data>
+  <data name="Customizedflash_CustomizedPartFlash" xml:space="preserve">
+    <value>自定义分区刷入</value>
+  </data>
+  <data name="Customizedflash_DisableVbmeta" xml:space="preserve">
+    <value>禁用vbmeta</value>
+  </data>
+  <data name="Customizedflash_Executing" xml:space="preserve">
+    <value>执行中 ...</value>
+  </data>
+  <data name="Customizedflash_File" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Customizedflash_Flash" xml:space="preserve">
+    <value>刷入</value>
+  </data>
+  <data name="Customizedflash_FlashTo" xml:space="preserve">
+    <value>刷入至</value>
+  </data>
+  <data name="Customizedflash_Log" xml:space="preserve">
+    <value>日志输出</value>
+  </data>
+  <data name="Customizedflash_PresetPartitionFlash" xml:space="preserve">
+    <value>预置分区刷入</value>
+  </data>
+  <data name="Customizedflash_SwitchSlot" xml:space="preserve">
+    <value>切换槽位</value>
+  </data>
 </root>

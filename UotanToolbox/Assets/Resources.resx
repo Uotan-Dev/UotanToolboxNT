@@ -642,4 +642,31 @@
   <data name="Sidebar_ModifyPartition" xml:space="preserve">
     <value>Modify Partition</value>
   </data>
+  <data name="Customizedflash_CustomizedPartFlash" xml:space="preserve">
+    <value>Customized Partition Flash</value>
+  </data>
+  <data name="Customizedflash_DisableVbmeta" xml:space="preserve">
+    <value>Disable vbmeta</value>
+  </data>
+  <data name="Customizedflash_Executing" xml:space="preserve">
+    <value>Executing...</value>
+  </data>
+  <data name="Customizedflash_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Customizedflash_Flash" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="Customizedflash_FlashTo" xml:space="preserve">
+    <value>Flash to</value>
+  </data>
+  <data name="Customizedflash_Log" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="Customizedflash_PresetPartitionFlash" xml:space="preserve">
+    <value>Preset partition flash</value>
+  </data>
+  <data name="Customizedflash_SwitchSlot" xml:space="preserve">
+    <value>Switch slot</value>
+  </data>
 </root>

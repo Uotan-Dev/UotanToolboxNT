@@ -403,6 +403,87 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Customized Partition Flash 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_CustomizedPartFlash {
+            get {
+                return ResourceManager.GetString("Customizedflash_CustomizedPartFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Disable vbmeta 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_DisableVbmeta {
+            get {
+                return ResourceManager.GetString("Customizedflash_DisableVbmeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Executing... 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_Executing {
+            get {
+                return ResourceManager.GetString("Customizedflash_Executing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_File {
+            get {
+                return ResourceManager.GetString("Customizedflash_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_Flash {
+            get {
+                return ResourceManager.GetString("Customizedflash_Flash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash to 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_FlashTo {
+            get {
+                return ResourceManager.GetString("Customizedflash_FlashTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Log 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_Log {
+            get {
+                return ResourceManager.GetString("Customizedflash_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Preset partition flash 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_PresetPartitionFlash {
+            get {
+                return ResourceManager.GetString("Customizedflash_PresetPartitionFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Switch slot 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_SwitchSlot {
+            get {
+                return ResourceManager.GetString("Customizedflash_SwitchSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Current device does not support this command! 的本地化字符串。
         /// </summary>
         public static string Dialog_NotSupported {

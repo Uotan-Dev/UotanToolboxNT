@@ -669,4 +669,49 @@
   <data name="Customizedflash_SwitchSlot" xml:space="preserve">
     <value>Switch slot</value>
   </data>
+  <data name="Appmgr_ApkFile" xml:space="preserve">
+    <value>Apk File</value>
+  </data>
+  <data name="Appmgr_ApplicationListHasntBeenFetched" xml:space="preserve">
+    <value>Application list hasn't been fetched</value>
+  </data>
+  <data name="Appmgr_AppManager" xml:space="preserve">
+    <value>App Manager</value>
+  </data>
+  <data name="Appmgr_Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Appmgr_DisplaySystemApp" xml:space="preserve">
+    <value>Display system application</value>
+  </data>
+  <data name="Appmgr_Enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Appmgr_ExtractApk" xml:space="preserve">
+    <value>Extract Apk</value>
+  </data>
+  <data name="Appmgr_FetchApplicationList" xml:space="preserve">
+    <value>Fetch application list</value>
+  </data>
+  <data name="Appmgr_Fetching" xml:space="preserve">
+    <value>Fetching</value>
+  </data>
+  <data name="Appmgr_InstallApp" xml:space="preserve">
+    <value>Install App</value>
+  </data>
+  <data name="Appmgr_Installing" xml:space="preserve">
+    <value>Installing</value>
+  </data>
+  <data name="Appmgr_KeepDataUninstall" xml:space="preserve">
+    <value>Keep data uninstall</value>
+  </data>
+  <data name="Appmgr_Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Appmgr_StartInstalling" xml:space="preserve">
+    <value>Start installing</value>
+  </data>
+  <data name="Appmgr_Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
 </root>

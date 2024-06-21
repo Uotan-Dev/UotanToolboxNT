@@ -61,6 +61,141 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Apk File 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ApkFile {
+            get {
+                return ResourceManager.GetString("Appmgr_ApkFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Application list hasn&apos;t been fetched 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ApplicationListHasntBeenFetched {
+            get {
+                return ResourceManager.GetString("Appmgr_ApplicationListHasntBeenFetched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 App Manager 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_AppManager {
+            get {
+                return ResourceManager.GetString("Appmgr_AppManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Disable 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Disable {
+            get {
+                return ResourceManager.GetString("Appmgr_Disable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Display system application 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_DisplaySystemApp {
+            get {
+                return ResourceManager.GetString("Appmgr_DisplaySystemApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Enable {
+            get {
+                return ResourceManager.GetString("Appmgr_Enable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract Apk 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ExtractApk {
+            get {
+                return ResourceManager.GetString("Appmgr_ExtractApk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fetch application list 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_FetchApplicationList {
+            get {
+                return ResourceManager.GetString("Appmgr_FetchApplicationList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Fetching 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Fetching {
+            get {
+                return ResourceManager.GetString("Appmgr_Fetching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Install App 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_InstallApp {
+            get {
+                return ResourceManager.GetString("Appmgr_InstallApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installing 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Installing {
+            get {
+                return ResourceManager.GetString("Appmgr_Installing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Keep data uninstall 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_KeepDataUninstall {
+            get {
+                return ResourceManager.GetString("Appmgr_KeepDataUninstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Run 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Run {
+            get {
+                return ResourceManager.GetString("Appmgr_Run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start installing 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_StartInstalling {
+            get {
+                return ResourceManager.GetString("Appmgr_StartInstalling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uninstall 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Uninstall {
+            get {
+                return ResourceManager.GetString("Appmgr_Uninstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Basic command unlock 的本地化字符串。
         /// </summary>
         public static string Basicflash_BasicCommandUnlock {

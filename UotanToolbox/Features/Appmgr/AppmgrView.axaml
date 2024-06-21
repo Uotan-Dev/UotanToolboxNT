@@ -7,7 +7,8 @@
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="800"
+             xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+			 d:DesignHeight="800"
              d:DesignWidth="1024"
              mc:Ignorable="d"
 			 x:DataType="appmgr:AppmgrViewModel">
@@ -24,7 +25,7 @@
 				<TextBlock HorizontalAlignment="Left"
 						   FontSize="15"
 						   FontWeight="DemiBold"
-						   Text="软件管理" />
+						   Text="{x:Static assets:Resources.Appmgr_AppManager}" />
 				<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
 						<Button Width="125"
@@ -33,7 +34,7 @@
 								Command="{Binding RunAppCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="PlayOutline" />
-								运行
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_Run}" />
 							</TextBlock>
 						</Button>
 						<Button Width="125"
@@ -42,7 +43,7 @@
 								Command="{Binding DisableAppCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Ban" />
-								禁用
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_Disable}" />
 							</TextBlock>
 						</Button>
 						<Button Width="125"
@@ -51,7 +52,7 @@
 								Command="{Binding EnableAppCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Check" />
-								启用
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_Enable}" />
 							</TextBlock>
 						</Button>
 					</StackPanel>
@@ -62,7 +63,7 @@
 								Command="{Binding UninstallAppCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="TrashCanOutline" />
-								卸载
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_Uninstall}" />
 							</TextBlock>
 						</Button>
 						<Button Width="125"
@@ -71,7 +72,7 @@
 								Command="{Binding UninstallAppWithDataCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="TrashCircleOutline" />
-								保留数据卸载
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_KeepDataUninstall}" />
 							</TextBlock>
 						</Button>
 						<Button Width="125"
@@ -80,7 +81,7 @@
 								Command="{Binding ExtractInstallerCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="ProgressDownload" />
-								提取安装包
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_ExtractApk}" />
 							</TextBlock>
 						</Button>
 					</StackPanel>
@@ -94,25 +95,25 @@
 							VerticalAlignment="Top">
 				<Grid>
 					<suki:BusyArea Name="BusyConnection"
-									BusyText="安装中 ..."
+									BusyText="{x:Static assets:Resources.Appmgr_Installing}"
 									IsBusy="{Binding IsInstalling}">
 						<StackPanel>
 							<TextBlock HorizontalAlignment="Left"
 								   FontSize="15"
 								   FontWeight="DemiBold"
-								   Text="安装应用" />
+								   Text="{x:Static assets:Resources.Appmgr_InstallApp}" />
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 								<TextBlock Width="60"
 										   Margin="8,0,0,0"
 										   VerticalAlignment="Center"
 										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
-										   Text="APK文件" />
+										   Text="{x:Static assets:Resources.Appmgr_ApkFile}" />
 								<TextBox Width="250" Name="ApkFile" Text="{Binding ApkFile, Mode=TwoWay}"/>
 								<Button Height="35"
 										Padding="10,0,10,0"
-										Click ="OpenApkFile">
-									选择文件
+										Click ="OpenApkFile"
+										Content="{x:Static assets:Resources.Common_ChooseFile}">
 								</Button>
 							</StackPanel>
 							<Button Name="ButtonSignIn"
@@ -124,9 +125,8 @@
 									theme:ButtonExtensions.ShowProgress="{Binding IsInstalling}"
 									Classes="Flat Rounded"
 									Command="{Binding InstallApkCommand}"
-									FontWeight="DemiBold">
-								开始安装
-							</Button>
+									FontWeight="DemiBold"
+									Content="{x:Static assets:Resources.Appmgr_StartInstalling}" />
 						</StackPanel>
 					</suki:BusyArea>
 				</Grid>
@@ -137,7 +137,7 @@
 						Margin="15"
 						Width="960"
 						Height="535">
-			<suki:BusyArea BusyText="获取中 ..."
+			<suki:BusyArea BusyText="{x:Static assets:Resources.Appmgr_Fetching}"
 						   IsBusy="{Binding IsBusy}">
 				<ScrollViewer>
 					<WrapPanel theme:WrapPanelExtensions.AnimatedScroll="True"
@@ -148,15 +148,15 @@
 									Command="{Binding ConnectCommand}"
 									FontWeight="DemiBold"
 									theme:ButtonExtensions.ShowProgress="{Binding IsBusy}"
-									DockPanel.Dock="Left">
-								获取应用列表
+									DockPanel.Dock="Left"
+									Content="{x:Static assets:Resources.Appmgr_FetchApplicationList}">
 							</Button>
 							<StackPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
-								<TextBlock Classes="h4">显示系统应用</TextBlock>
+								<TextBlock Classes="h4" Text="{x:Static assets:Resources.Appmgr_DisplaySystemApp}"></TextBlock>
 								<ToggleSwitch IsChecked="{Binding IsSystemAppDisplayed}"/>
 							</StackPanel>
 						</DockPanel>
-						<TextBlock Text="暂未获取应用列表" Classes="h4" Margin="15,15,15,15"
+						<TextBlock Text="{x:Static assets:Resources.Appmgr_ApplicationListHasntBeenFetched}" Classes="h4" Margin="15,15,15,15"
 								   IsVisible="{Binding !HasItems}" HorizontalAlignment="Left"/>
 						<ItemsControl ItemsSource="{Binding Applications}">
 							<ItemsControl.ItemsPanel>

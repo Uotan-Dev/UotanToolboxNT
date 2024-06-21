@@ -669,4 +669,49 @@
   <data name="Customizedflash_SwitchSlot" xml:space="preserve">
     <value>切换槽位</value>
   </data>
+  <data name="Appmgr_ApkFile" xml:space="preserve">
+    <value>APK文件</value>
+  </data>
+  <data name="Appmgr_ApplicationListHasntBeenFetched" xml:space="preserve">
+    <value>暂未获取应用列表</value>
+  </data>
+  <data name="Appmgr_AppManager" xml:space="preserve">
+    <value>软件管理</value>
+  </data>
+  <data name="Appmgr_Disable" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="Appmgr_DisplaySystemApp" xml:space="preserve">
+    <value>显示系统应用</value>
+  </data>
+  <data name="Appmgr_Enable" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="Appmgr_ExtractApk" xml:space="preserve">
+    <value>提取安装包</value>
+  </data>
+  <data name="Appmgr_FetchApplicationList" xml:space="preserve">
+    <value>获取应用列表</value>
+  </data>
+  <data name="Appmgr_Fetching" xml:space="preserve">
+    <value>获取中 ...</value>
+  </data>
+  <data name="Appmgr_InstallApp" xml:space="preserve">
+    <value>安装应用</value>
+  </data>
+  <data name="Appmgr_Installing" xml:space="preserve">
+    <value>安装中 ...</value>
+  </data>
+  <data name="Appmgr_KeepDataUninstall" xml:space="preserve">
+    <value>保留数据卸载</value>
+  </data>
+  <data name="Appmgr_Run" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="Appmgr_StartInstalling" xml:space="preserve">
+    <value>开始安装</value>
+  </data>
+  <data name="Appmgr_Uninstall" xml:space="preserve">
+    <value>卸载</value>
+  </data>
 </root>

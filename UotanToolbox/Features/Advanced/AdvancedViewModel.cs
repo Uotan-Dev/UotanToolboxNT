@@ -17,7 +17,8 @@ public partial class AdvancedViewModel : MainPageBase
     [ObservableProperty] private string _qcnFile, _superEmptyFile, _formatName, _extractName, _advancedLog;
     [ObservableProperty] private bool _flashing;
 
-    public AdvancedViewModel() : base("高级", MaterialIconKind.WrenchCogOutline, -300)
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    public AdvancedViewModel() : base(GetTranslation("Sidebar_Advanced"), MaterialIconKind.WrenchCogOutline, -300)
     {
     }
 

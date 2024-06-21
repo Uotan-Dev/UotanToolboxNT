@@ -4,8 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Controls;
-using System.Globalization;
-using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -29,9 +27,7 @@ public partial class DashboardViewModel : MainPageBase
     [ObservableProperty] private string _bootFile;
     [ObservableProperty] private string _selectedArchList;
 
-    private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
-    private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
-
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public DashboardViewModel() : base(GetTranslation("Sidebar_Basicflash"), MaterialIconKind.CableData, -1000)
     {
         StepperIndex = 1;

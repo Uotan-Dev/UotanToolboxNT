@@ -774,4 +774,16 @@
   <data name="Advanced_WriteQCN" xml:space="preserve">
     <value>写入QCN</value>
   </data>
+  <data name="Sidebar_Advanced" xml:space="preserve">
+    <value>高级</value>
+  </data>
+  <data name="Sidebar_Appmgr" xml:space="preserve">
+    <value>应用管理</value>
+  </data>
+  <data name="Sidebar_Customizedflash" xml:space="preserve">
+    <value>自定义刷入</value>
+  </data>
+  <data name="Sidebar_Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
 </root>

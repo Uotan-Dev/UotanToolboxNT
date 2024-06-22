@@ -32,7 +32,7 @@ public partial class DashboardViewModel : MainPageBase
     {
         StepperIndex = 1;
         SimpleContent.AddRange(["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"]);
-        ArchList.AddRange(["AArch64", "armeabi", "X86-64", "X86"]);
+        ArchList.AddRange(["aarch64", "armeabi", "X86-64", "X86"]);
     }
 
     [RelayCommand]

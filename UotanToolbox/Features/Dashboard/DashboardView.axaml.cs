@@ -123,12 +123,38 @@ public partial class DashboardView : UserControl
                     Directory.CreateDirectory(workpath);
                 }
                 (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract", workpath);
-                string init_info = await CallExternalProgram.File($"\"{Path.Combine(Global.boot_tmp, "kernel")}\"");
+                string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
                 //下面是根据镜像的init架构来推定整个Boot.img文件的架构，但是逻辑写的相当的屎，你有更好的想法可以来改
-                if (init_info.Contains("ARM64"))
+                if (init_info.Contains("ARM aarch64"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
-                    ArchList.SelectedItem = "AArch64";
+                    ArchList.SelectedItem = "aarch64";
+                    Global.is_boot_ok = true;
+                }
+                else if (init_info.Contains("X86-64"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
+                    ArchList.SelectedItem = "X86-64";
+                    Global.is_boot_ok = true;
+                }
+                else if (init_info.Contains("ARM,"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
+                    ArchList.SelectedItem = "armeabi";
+                    Global.is_boot_ok = true;
+                }
+                else if (init_info.Contains(" Intel 80386"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
+                    ArchList.SelectedItem = "X86";
+                    Global.is_boot_ok = true;
+                }
+                //有些设备的init路径是/bin/init而不是/init,在这里再做一次检测
+                init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "system", "bin", "init")}\"");
+                if (init_info.Contains("ARM aarch64"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
+                    ArchList.SelectedItem = "aarch64";
                     Global.is_boot_ok = true;
                 }
                 else if (init_info.Contains("X86-64"))
@@ -175,7 +201,7 @@ public partial class DashboardView : UserControl
         string compPathBase = System.IO.Path.Combine(Global.magisk_tmp, "lib");
         string archSubfolder = ArchList.SelectedItem.ToString() switch
         {
-            "AArch64" => "arm64-v8a",
+            "aarch64" => "arm64-v8a",
             "armeabi" => "armeabi-v7a",
             "X86" => "x86",
             "X86-64" => "x86_64",
@@ -183,7 +209,7 @@ public partial class DashboardView : UserControl
         };
         string archSubfolder2 = ArchList.SelectedItem.ToString() switch
         {
-            "AArch64" => "armeabi-v7a",
+            "aarch64" => "armeabi-v7a",
             "X86-64" => "x86",
             _ => ""
         };

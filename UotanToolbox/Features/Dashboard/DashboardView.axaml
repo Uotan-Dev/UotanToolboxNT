@@ -173,7 +173,7 @@
 			<!--  Patch Boot Image  -->
 			<suki:GlassCard Width="630" Margin="10">
 				<suki:BusyArea Name="BusyPatch"
-								BusyText="修补中...">
+								BusyText="处理中...">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
 									FontSize="15"

@@ -56,6 +56,7 @@ public partial class DashboardView : UserControl
             Title = "Open File",
             AllowMultiple = false
         });
+        //BusyPatch.IsBusy = true;
         if (files.Count >= 1)
         {
             MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
@@ -78,15 +79,18 @@ public partial class DashboardView : UserControl
                     {
                         Global.is_magisk_ok = true;
                     }
+                    BusyPatch.IsBusy = false;
                 }
                 else
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("未能获取到有效Magisk版本号"));
+                    BusyPatch.IsBusy = false;
                 }
             }
             else
             {
                 SukiHost.ShowDialog(new ConnectionDialog("清理临时目录出错"));
+                BusyPatch.IsBusy = false;
             }
         }
     }
@@ -99,6 +103,7 @@ public partial class DashboardView : UserControl
             Title = "Open File",
             AllowMultiple = false
         });
+        //BusyPatch.IsBusy = true;
         if (files.Count >= 1)
         {
             BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
@@ -112,6 +117,7 @@ public partial class DashboardView : UserControl
                 if (mb_output.Contains("error"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("解包失败"));
+                    BusyPatch.IsBusy = false;
                     return;
                 }
                 string cpio_path = Path.Combine(Global.boot_tmp, "ramdisk.cpio");
@@ -130,24 +136,28 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
                     ArchList.SelectedItem = "aarch64";
                     Global.is_boot_ok = true;
+                    BusyPatch.IsBusy = false;
                 }
                 else if (init_info.Contains("X86-64"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
                     ArchList.SelectedItem = "X86-64";
                     Global.is_boot_ok = true;
+                    BusyPatch.IsBusy = false;
                 }
                 else if (init_info.Contains("ARM,"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
                     ArchList.SelectedItem = "armeabi";
                     Global.is_boot_ok = true;
+                    BusyPatch.IsBusy = false;
                 }
                 else if (init_info.Contains(" Intel 80386"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
                     ArchList.SelectedItem = "X86";
                     Global.is_boot_ok = true;
+                    BusyPatch.IsBusy = false;
                 }
                 //有些设备的init路径是/bin/init而不是/init,在这里再做一次检测
                 init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "system", "bin", "init")}\"");
@@ -156,24 +166,28 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
                     ArchList.SelectedItem = "aarch64";
                     Global.is_boot_ok = true;
+                    BusyPatch.IsBusy = false;
                 }
                 else if (init_info.Contains("X86-64"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
                     ArchList.SelectedItem = "X86-64";
                     Global.is_boot_ok = true;
+                    BusyPatch.IsBusy = false;
                 }
                 else if (init_info.Contains("ARM,"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
                     ArchList.SelectedItem = "armeabi";
                     Global.is_boot_ok = true;
+                    BusyPatch.IsBusy = false;
                 }
                 else if (init_info.Contains(" Intel 80386"))
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
                     ArchList.SelectedItem = "X86";
                     Global.is_boot_ok = true;
+                    BusyPatch.IsBusy = false;
                 }
             }
         }
@@ -298,7 +312,7 @@ public partial class DashboardView : UserControl
                 SukiHost.ShowDialog(new ConnectionDialog("镜像被未支持软件修补，请选择原生镜像！"), allowBackgroundClose: true);
                 break;
             default:
-                SukiHost.ShowDialog(new ConnectionDialog("magiskboot error"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ConnectionDialog("magiskboot检验出错"), allowBackgroundClose: true);
                 break;
         }
         //patch ramdisk.cpio
@@ -325,14 +339,17 @@ public partial class DashboardView : UserControl
         }
         //以上完成ramdisk.cpio的修补
         string dtb_name = MagiskHelper.dtb_detect(Global.boot_tmp);
-        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
-        if (exitcode != 0)
+        if (dtb_name != null) 
         {
-            SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
-            BusyPatch.IsBusy = false;
-            return;
+            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
+            if (exitcode != 0)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
+                BusyPatch.IsBusy = false;
+                return;
+            }
+            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp, env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
         }
-        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp,env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
         bool kernel_patched = false;
         if (File.Exists(Path.Combine(Global.boot_tmp, "kernel")))
         {
@@ -378,6 +395,10 @@ public partial class DashboardView : UserControl
                 SukiHost.ShowDialog(new ConnectionDialog("面具修补完成"), allowBackgroundClose: true);
                 BusyPatch.IsBusy = false;
                 FileHelper.OpenFolder(Path.GetDirectoryName(BootFile.Text));
+                Global.is_boot_ok = false;
+                Global.is_magisk_ok = false;
+                BootFile.Text = null;
+                MagiskFile.Text = null;
                 return;
             }
             else

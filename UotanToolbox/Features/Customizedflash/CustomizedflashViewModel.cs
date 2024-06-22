@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Material.Icons;
+using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Customizedflash;
 
@@ -7,7 +8,8 @@ public partial class CustomizedflashViewModel : MainPageBase
 {
     [ObservableProperty] private string _fastbootFile, _fastbootdFile, _adbsideloadFile, _fastbootupdatedFile;
 
-    public CustomizedflashViewModel() : base("自定义刷入", MaterialIconKind.WrenchCogOutline, -500)
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    public CustomizedflashViewModel() : base(GetTranslation("Sidebar_Customizedflash"), MaterialIconKind.WrenchCogOutline, -500)
     {
     }
 }

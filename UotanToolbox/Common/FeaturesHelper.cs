@@ -1,9 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Resources;
+using System.Threading.Tasks;
 
 namespace UotanToolbox.Common
 {
     internal class FeaturesHelper
     {
+        private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
+        public static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
+
         public static async void PushMakefs(string device)
         {
             await CallExternalProgram.ADB($"-s {device} push bin/Push/mkfs.f2fs /tmp/");

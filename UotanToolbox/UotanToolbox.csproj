@@ -38,11 +38,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AvaloniaResource Include="Assets\OIG.N5o-removebg-preview.png" />
-		<AvaloniaResource Include="Assets\yuzh.png" />
-		<AvaloniaResource Include="Assets\mjw.jpeg" />
-		<AvaloniaResource Include="Assets\zicai.jpeg" />
-		<AvaloniaResource Include="Assets\mouzei.jpg" />
+		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -17,7 +17,8 @@ public partial class AdvancedViewModel : MainPageBase
     [ObservableProperty] private string _qcnFile, _superEmptyFile, _formatName, _extractName, _advancedLog;
     [ObservableProperty] private bool _flashing;
 
-    public AdvancedViewModel() : base("高级", MaterialIconKind.WrenchCogOutline, -300)
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    public AdvancedViewModel() : base(GetTranslation("Sidebar_Advanced"), MaterialIconKind.WrenchCogOutline, -300)
     {
     }
 
@@ -148,7 +149,7 @@ public partial class AdvancedViewModel : MainPageBase
     private async Task Enable901d()
     {
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == "系统")
+        if (sukiViewModel.Status == GetTranslation("Home_System"))
         {
             var newDialog = new ConnectionDialog("该操作需要ROOT权限，请确保手机已ROOT，\n\r并在接下来的弹窗中授予 Shell ROOT权限！");
             await SukiHost.ShowDialogAsync(newDialog);
@@ -168,7 +169,7 @@ public partial class AdvancedViewModel : MainPageBase
     private async Task Enable9091()
     {
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == "系统")
+        if (sukiViewModel.Status == GetTranslation("Home_System"))
         {
             var newDialog = new ConnectionDialog("该操作仅限小米设备！其它设备将无法使用！");
             await SukiHost.ShowDialogAsync(newDialog);
@@ -193,7 +194,7 @@ public partial class AdvancedViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 if (SuperEmptyFile != null)
                 {

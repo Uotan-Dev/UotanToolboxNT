@@ -4,8 +4,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Controls;
-using System.Globalization;
-using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -29,9 +27,7 @@ public partial class DashboardViewModel : MainPageBase
     [ObservableProperty] private string _bootFile;
     [ObservableProperty] private string _selectedArchList;
 
-    private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
-    private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
-
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public DashboardViewModel() : base(GetTranslation("Sidebar_Basicflash"), MaterialIconKind.CableData, -1000)
     {
         StepperIndex = 1;
@@ -45,7 +41,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Unlocking = true;
                 if (UnlockFile != null && UnlockCode != null)
@@ -117,7 +113,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Unlocking = true;
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
@@ -154,7 +150,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BaseUnlocking = true;
                 if (SelectedSimpleContent != null)
@@ -197,7 +193,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Flashing = true;
                 if (RecFile != null)
@@ -268,7 +264,7 @@ public partial class DashboardViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Fastboot")
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Flashing = true;
                 if (RecFile != null)

@@ -19,7 +19,8 @@ public partial class AppmgrViewModel : MainPageBase
     [ObservableProperty] private bool isSystemAppDisplayed = false, isInstalling = false;
     [ObservableProperty] private string _apkFile;
 
-    public AppmgrViewModel() : base("应用管理", MaterialIconKind.ViewGridPlusOutline, -700)
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
         Applications = [];
     }
@@ -173,19 +174,6 @@ public partial class AppmgrViewModel : MainPageBase
         }
         IsBusy = false;
     }
-
-    /*private static string GetPackageSize(string sizeLine)
-    {
-        if (!string.IsNullOrEmpty(sizeLine))
-        {
-            string[] parts = sizeLine.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            int sizeInKB = int.Parse(parts[1]);
-            int sizeInMB = sizeInKB / 1024;
-            return $"{sizeInMB}MB";
-        }
-
-        return "未知大小";
-    }*/
 
     private static readonly char[] separatorArray = ['\r', '\n'];
 

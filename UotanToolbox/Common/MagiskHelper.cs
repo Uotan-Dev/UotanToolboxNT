@@ -24,7 +24,7 @@ namespace UotanToolbox.Common
             {"27.0" , "3b324a47607ae17ac0376c19043bb7b1"},
             {"26.4" , "3b324a47607ae17ac0376c19043bb7b1"},
             {"26.3" , "3b324a47607ae17ac0376c19043bb7b1"}
-             /*下面的支持还没写，你要是看到这段文字可以考虑一下帮我写写然后PR到仓库。 -zicai
+             /*下面未来将添加的支持，不过暂时还没写，你要是看到这段文字可以考虑一下帮我写写然后PR到仓库。 -zicai
             {"26.2" , "daf3cffe200d4e492edd0ca3c676f07f"},
             {"26.1" , "0e8255080363ee0f895105cdc3dfa419"},
             {"26.0" , "3d2c5bcc43373eb17939f0592b2b40f9"},
@@ -55,7 +55,7 @@ namespace UotanToolbox.Common
             string compPathBase = System.IO.Path.Combine(magisk_path, "lib");
             string archSubfolder = arch switch
             {
-                "aarch64" => "arm64-v8a",
+                "AArch64" => "arm64-v8a",
                 "armeabi" => "armeabi-v7a",
                 "X86" => "x86",
                 "X86-64" => "x86_64",
@@ -65,7 +65,7 @@ namespace UotanToolbox.Common
             string[] commonFiles = { "libmagiskpolicy.so", "libmagiskinit.so", "libmagiskboot.so", "libbusybox.so" };
             string specificFiles = arch switch
             {
-                "aarch64" => "libmagisk64.so",
+                "AArch64" => "libmagisk64.so",
                 "armeabi" => "libmagisk32.so",
                 "X86" => "libmagisk32.so",
                 "X86-64" => "libmagisk64.so",

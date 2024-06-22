@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace UotanToolbox.Common
@@ -214,6 +215,10 @@ namespace UotanToolbox.Common
             {
                 output = await mb.StandardOutput.ReadToEndAsync();
             }
+            await Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+            });
             mb.WaitForExit();
             int exitCode = mb.ExitCode; // 获取进程退出代码
             return (output, exitCode);

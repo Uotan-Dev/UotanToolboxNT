@@ -235,7 +235,6 @@ public partial class DashboardView : UserControl
             {
                 File.Copy(Path.Combine((compPath), "libmagisk32.so"), Path.Combine((compPath), "magisk32"), true);
                 await CallExternalProgram.MagiskBoot($"compress=xz magisk32 magisk32.xz", compPath);
-                Thread.Sleep(500);
             }
             catch (Exception ex)
             {
@@ -250,7 +249,6 @@ public partial class DashboardView : UserControl
             {
                 File.Copy(Path.Combine((compPath), "libmagisk64.so"), Path.Combine((compPath), "magisk64"), true);
                 await CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", compPath);
-                Thread.Sleep(500);
             }
             catch (Exception ex)
             {
@@ -260,7 +258,6 @@ public partial class DashboardView : UserControl
             }
         }
         (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(Global.magisk_tmp, "assets"));
-        Thread.Sleep(1000);
         if (mb_output.Contains("error"))
         {
             SukiHost.ShowDialog(new ConnectionDialog("压缩stub.apk时出错"), allowBackgroundClose: true);
@@ -268,7 +265,6 @@ public partial class DashboardView : UserControl
             return;
         }
         (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio test", Global.boot_tmp);
-        Thread.Sleep(1000);
         int mode_code = exitcode & 3;
         switch (mode_code)
         {
@@ -289,7 +285,6 @@ public partial class DashboardView : UserControl
                 {
                     File.Copy(Path.Combine(Global.boot_tmp, "ramdisk", ".backup", ".magisk"), Path.Combine(Global.boot_tmp, "comfig.orig"), true);
                     (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio restore", Global.boot_tmp);
-                    Thread.Sleep(1000);
                     File.Copy(Path.Combine(Global.boot_tmp, "ramdisk.cpio"), Path.Combine(Global.boot_tmp, "ramdisk.cpio.orig"), true);
                     File.Delete(Path.Combine(Global.boot_tmp, "stock_boot.img"));
                     break;
@@ -322,19 +317,15 @@ public partial class DashboardView : UserControl
         if (MagiskHelper.comp_copy(compPath))
         {
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0750 init magiskinit\" \"mkdir 0750 overlay.d\" \"mkdir 0750 overlay.d/sbin\" \"add 0644 overlay.d/sbin/magisk32.xz magisk32.xz\" ", Global.boot_tmp);
-            Thread.Sleep(1000);
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", Global.boot_tmp,env_KEEPVERITY,env_KEEPFORCEENCRYPT,env_PATCHVBMETAFLAG,env_RECOVERYMODE,env_LEGACYSAR);
-            Thread.Sleep(1000);
         }
         if (File.Exists(Path.Combine((compPath), "magisk64.xz")))
         {
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", Global.boot_tmp);
-            Thread.Sleep(1000);
         }
         //以上完成ramdisk.cpio的修补
         string dtb_name = MagiskHelper.dtb_detect(Global.boot_tmp);
         (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
-        Thread.Sleep(1000);
         if (exitcode != 0)
         {
             SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
@@ -342,18 +333,15 @@ public partial class DashboardView : UserControl
             return;
         }
         (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp,env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
-        Thread.Sleep(1000);
         bool kernel_patched = false;
         if (File.Exists(Path.Combine(Global.boot_tmp, "kernel")))
         {
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054", Global.boot_tmp);
-            Thread.Sleep(1000);
             if (exitcode == 0)
             {
                 kernel_patched = true;
             }
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 821B8012 E2FF8F12", Global.boot_tmp);
-            Thread.Sleep(1000);
             if (exitcode == 0)
             {
                 kernel_patched = true;
@@ -361,7 +349,6 @@ public partial class DashboardView : UserControl
             if ((bool)LEGACYSAR.IsChecked)
             {
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300", Global.boot_tmp);
-                Thread.Sleep(1000);
                 if (exitcode == 0)
                 {
                     kernel_patched = true;

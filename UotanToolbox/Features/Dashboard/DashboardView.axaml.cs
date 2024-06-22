@@ -191,6 +191,7 @@ public partial class DashboardView : UserControl
             SukiHost.ShowDialog(new ConnectionDialog("文件预处理时出错！"));
             return;
         }
+        BusyPatch.IsBusy = true;
         //设置环境变量
         string env_KEEPVERITY= KEEPVERITY.IsChecked.ToString().ToLower();
         string env_KEEPFORCEENCRYPT = KEEPFORCEENCRYPT.IsChecked.ToString().ToLower();
@@ -224,6 +225,7 @@ public partial class DashboardView : UserControl
             catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("64位magisk32组件预处理时 " + ex));
+                BusyPatch.IsBusy = false;
                 return;
             }
         }
@@ -238,6 +240,7 @@ public partial class DashboardView : UserControl
             catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex));
+                BusyPatch.IsBusy = false;
                 return;
             }
         }
@@ -252,6 +255,7 @@ public partial class DashboardView : UserControl
             catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex));
+                BusyPatch.IsBusy = false;
                 return;
             }
         }
@@ -260,6 +264,7 @@ public partial class DashboardView : UserControl
         if (mb_output.Contains("error"))
         {
             SukiHost.ShowDialog(new ConnectionDialog("压缩stub.apk时出错"), allowBackgroundClose: true);
+            BusyPatch.IsBusy = false;
             return;
         }
         (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio test", Global.boot_tmp);
@@ -333,6 +338,7 @@ public partial class DashboardView : UserControl
         if (exitcode != 0)
         {
             SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
+            BusyPatch.IsBusy = false;
             return;
         }
         (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp,env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
@@ -370,6 +376,7 @@ public partial class DashboardView : UserControl
                 catch (Exception ex)
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("kernel删除失败" + ex), allowBackgroundClose: true);
+                    BusyPatch.IsBusy = false;
                     return;
                 }
 
@@ -382,18 +389,21 @@ public partial class DashboardView : UserControl
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{BootFile.Text}\"", Global.boot_tmp, env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
                 File.Copy(Path.Combine(Global.boot_tmp, "new-boot.img"), Path.Combine(Path.GetDirectoryName(BootFile.Text), "boot_patched_" + randomStr + ".img"), true);
                 SukiHost.ShowDialog(new ConnectionDialog("面具修补完成"), allowBackgroundClose: true);
+                BusyPatch.IsBusy = false;
                 FileHelper.OpenFolder(Path.GetDirectoryName(BootFile.Text));
                 return;
             }
             else
             {
                 SukiHost.ShowDialog(new ConnectionDialog("清理打包目录失败"), allowBackgroundClose: true);
+                BusyPatch.IsBusy = false;
                 return;
             }
         }
         catch (Exception ex)
         {
             SukiHost.ShowDialog(new ConnectionDialog(ex.Message), allowBackgroundClose: true);
+            BusyPatch.IsBusy = false;
             return;
         }
     }

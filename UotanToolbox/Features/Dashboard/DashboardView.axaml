@@ -172,40 +172,42 @@
 
 			<!--  Patch Boot Image  -->
 			<suki:GlassCard Width="630" Margin="10">
-				<StackPanel>
-					<TextBlock HorizontalAlignment="Left"
-								FontSize="15"
-								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.Basicflash_RepairBoot}" />
-					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
-						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"></TextBlock>
-						<TextBox Width="385" Name="MagiskFile" Text="{Binding MagiskFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35" Click ="OpenMagiskFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
-						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"></TextBlock>
-						<TextBox Width="385" Name="BootFile" Text="{Binding BootFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35" Click ="OpenBootFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
-					</StackPanel>
-					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
-						<StackPanel Orientation="Horizontal" Spacing="75">
-							<CheckBox Name="KEEPVERITY" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepAVBOrDM}" IsChecked="True"/>
-							<CheckBox Name="KEEPFORCEENCRYPT" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepStrongEncryption}" IsChecked="True"/>
-							<CheckBox Name="PATCHVBMETAFLAG" FontSize="13" Content="{x:Static assets:Resources.Basicflash_RepairVbmeta}"/>
+				<suki:BusyArea Name="BusyPatch"
+								BusyText="修补中...">
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+									FontSize="15"
+									FontWeight="DemiBold"
+									Text="{x:Static assets:Resources.Basicflash_RepairBoot}" />
+						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
+							<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"></TextBlock>
+							<TextBox Width="385" Name="MagiskFile" Text="{Binding MagiskFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Height="35" Click ="OpenMagiskFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal" Spacing="111.5" Margin="0,-10,0,0">
-							<CheckBox Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ChooseBoot}"/>
-							<CheckBox Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
-							<ComboBox Name="ArchList" Width="135" Margin="-36,0,0,0" ItemsSource="{Binding ArchList}" />
+						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
+							<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"></TextBlock>
+							<TextBox Width="385" Name="BootFile" Text="{Binding BootFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Height="35" Click ="OpenBootFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+						</StackPanel>
+						<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
+							<StackPanel Orientation="Horizontal" Spacing="75">
+								<CheckBox Name="KEEPVERITY" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepAVBOrDM}" IsChecked="True"/>
+								<CheckBox Name="KEEPFORCEENCRYPT" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepStrongEncryption}" IsChecked="True"/>
+								<CheckBox Name="PATCHVBMETAFLAG" FontSize="13" Content="{x:Static assets:Resources.Basicflash_RepairVbmeta}"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Spacing="111.5" Margin="0,-10,0,0">
+								<CheckBox Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ChooseBoot}"/>
+								<CheckBox Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
+								<ComboBox Name="ArchList" Width="135" Margin="-36,0,0,0" ItemsSource="{Binding ArchList}" />
+							</StackPanel>
+						</StackPanel>
+						<StackPanel Spacing="15">
+							<Button Width="210" Margin="0,10,0,0" Click="StartPatch">
+								<TextBlock Text="{x:Static assets:Resources.Basicflash_Start}"/>
+							</Button>
 						</StackPanel>
 					</StackPanel>
-					<StackPanel Spacing="15">
-						<Button Width="210" Margin="0,10,0,0" Click="StartPatch">
-							<TextBlock Text="{x:Static assets:Resources.Basicflash_Start}"/>
-						</Button>
-					</StackPanel>
-				</StackPanel>
-
+				</suki:BusyArea>
 			</suki:GlassCard>
 
 			<!--  Unlock with command  -->

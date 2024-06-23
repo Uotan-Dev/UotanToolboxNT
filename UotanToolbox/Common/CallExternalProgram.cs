@@ -172,7 +172,18 @@ namespace UotanToolbox.Common
         public static async Task<string> SevenZip(string args)
         {
             string cmd;
-            cmd = $"bin/{Global.System}/{(Global.System == "Windows" ? "7z\\7za.exe" : Global.System == "MacOS" ? "7zz" : "7zzs")}";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                cmd = Path.Combine(Global.bin_path, "7z", "7za.exe");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) | (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)))
+            {
+                cmd = Path.Combine(Global.bin_path, "7zza");
+            }
+            else
+            {
+                throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux.");
+            }
             ProcessStartInfo SevenZipexe = new ProcessStartInfo(cmd, args)
             {
                 CreateNoWindow = true,

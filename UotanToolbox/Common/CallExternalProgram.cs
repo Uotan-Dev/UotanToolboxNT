@@ -55,7 +55,7 @@ namespace UotanToolbox.Common
 
         public static async Task<string> Devcon(string shell)
         {
-            string cmd = "bin\\Windows\\devcon.exe";
+            string cmd = Path.Combine(Global.bin_path, "devcon");
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,

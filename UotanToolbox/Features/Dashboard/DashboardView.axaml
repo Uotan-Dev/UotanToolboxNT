@@ -196,7 +196,7 @@
 								<CheckBox Name="PATCHVBMETAFLAG" FontSize="13" Content="{x:Static assets:Resources.Basicflash_RepairVbmeta}"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="111.5" Margin="0,-10,0,0">
-								<CheckBox Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ChooseBoot}"/>
+								<CheckBox Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_InstallToRecovery}"/>
 								<CheckBox Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
 								<ComboBox Name="ArchList" Width="135" Margin="-36,0,0,0" ItemsSource="{Binding ArchList}" />
 							</StackPanel>

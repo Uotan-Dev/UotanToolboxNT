@@ -26,7 +26,8 @@ internal class Program
         FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
         {
-            FileHelper.CopyDirectory("SukiUI/CustomFont/", "/home/localhost/.local/share/fonts/");
+            string FontPath = Path.Combine(Global.runpath, "Font");
+            FileHelper.CopyDirectory(FontPath, $"/home/{System.Environment.UserName}/.local/share/fonts/");
             options.DefaultFamilyName = "MiSans";
             if (RuntimeInformation.OSArchitecture == Architecture.X64)
             {
@@ -46,7 +47,7 @@ internal class Program
             Global.System = "macOS";
             options.DefaultFamilyName = "MiSans";
         }
-        Global.bin_path = Path.Combine(Global.runpath, "bin");
+        Global.bin_path = Path.Combine(Global.runpath, "Bin");
         // No need to set default for Windows
         return AppBuilder.Configure<App>()
                 .UsePlatformDetect()

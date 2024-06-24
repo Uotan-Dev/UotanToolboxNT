@@ -194,17 +194,16 @@ namespace UotanToolbox.Common
                     return rdata;
                 }
             }
-            public (string, string) GenerateToken(string prodKey, string modelVerifyPrjName, string randomPostfix, string cf, string socSn, string version, bool program = false)
+            public static (string, string) GenerateToken(string prodKey, string modelVerifyPrjName, string randomPostfix, string cf, string socSn, string version, bool program = false)
             {
                 var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString();
-                var ha = SHA256.Create();
                 // 计算ModelVerifyHashToken
                 var h1 = $"{prodKey}{modelVerifyPrjName}{randomPostfix}";
-                var modelVerifyHashTokenBytes = ha.ComputeHash(Encoding.UTF8.GetBytes(h1));
+                var modelVerifyHashTokenBytes = SHA256.HashData(Encoding.UTF8.GetBytes(h1));
                 var modelVerifyHashToken = BitConverter.ToString(modelVerifyHashTokenBytes).Replace("-", "").ToUpper();
                 // 计算secret
                 var h2 = $"c4b95538c57df231{modelVerifyPrjName}{cf}{socSn}{version}{timestamp}{modelVerifyHashToken}5b0217457e49381b";
-                var secretBytes = ha.ComputeHash(Encoding.UTF8.GetBytes(h2));
+                var secretBytes = SHA256.HashData(Encoding.UTF8.GetBytes(h2));
                 var secret = BitConverter.ToString(secretBytes).Replace("-", "").ToUpper();
                 var items = program
                     ? new[] { timestamp, secret }

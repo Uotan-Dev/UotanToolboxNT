@@ -138,7 +138,7 @@ public partial class AdvancedViewModel : MainPageBase
         }
     }
     [RelayCommand]
-    private void OpenBackup()
+    private static void OpenBackup()
     {
         // Open QCN Backup file directory
         string filepath = string.Format(@"{0}\Backup", Global.runpath);
@@ -146,7 +146,7 @@ public partial class AdvancedViewModel : MainPageBase
     }
 
     [RelayCommand]
-    private async Task Enable901d()
+    private static async Task Enable901d()
     {
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == GetTranslation("Home_System"))
@@ -166,7 +166,7 @@ public partial class AdvancedViewModel : MainPageBase
     }
 
     [RelayCommand]
-    private async Task Enable9091()
+    private static async Task Enable9091()
     {
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == GetTranslation("Home_System"))

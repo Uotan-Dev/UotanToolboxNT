@@ -79,7 +79,7 @@ namespace UotanToolbox.Common
 
         public static async Task<Dictionary<string, string>> DevicesInfo(string devicename)
         {
-            Dictionary<string, string> devices = new Dictionary<string, string>();
+            Dictionary<string, string> devices = [];
             string status = "--";
             string blstatus = "--";
             string codename = "--";
@@ -172,7 +172,7 @@ namespace UotanToolbox.Common
             if (adb.Contains(devicename))
             {
                 string thisdevice = "";
-                string[] Lines = adb.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] Lines = adb.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
                     if (Lines[i].Contains(devicename))
@@ -312,7 +312,7 @@ namespace UotanToolbox.Common
             if (devcon.Contains(devicename))
             {
                 string thisdevice = "";
-                string[] Lines = devcon.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] Lines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
                     if (Lines[i].Contains(devicename))
@@ -344,7 +344,7 @@ namespace UotanToolbox.Common
             }
             if (devicename == "Unknown device")
             {
-                string[] Lines = devcon.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] Lines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
                     if (Lines[i].Contains(":900e"))
@@ -454,7 +454,7 @@ namespace UotanToolbox.Common
             if (adb.Contains(devicename))
             {
                 string thisdevice = "";
-                string[] Lines = adb.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] Lines = adb.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
                     if (Lines[i].Contains(devicename))
@@ -534,7 +534,7 @@ namespace UotanToolbox.Common
             }
             if (devicename == "Unknown device")
             {
-                string[] Lines = devcon.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] Lines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
                     if (Lines[i].Contains(":900e"))

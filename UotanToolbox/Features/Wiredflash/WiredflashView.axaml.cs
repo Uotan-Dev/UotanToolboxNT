@@ -15,7 +15,7 @@ namespace UotanToolbox.Features.Wiredflash;
 
 public partial class WiredflashView : UserControl
 {
-    private readonly string adb_log_path = Path.Combine(Global.runpath, "log", "adb.txt");
+    private readonly string adb_log_path = Path.Combine(Global.runpath, "Log", "adb.txt");
     private string output = "";
 
     public WiredflashView()

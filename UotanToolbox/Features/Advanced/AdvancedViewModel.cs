@@ -121,7 +121,7 @@ public partial class AdvancedViewModel : MainPageBase
         {
             AdvancedLog = "正在备份...";
             int com = StringHelper.Onlynum(Global.thisdevice);
-            string shell = string.Format("-r -p {0} -f {1}\\backup -n 00000.qcn", com, Global.runpath);
+            string shell = string.Format("-r -p {0} -f {1}/Backup -n 00000.qcn", com, Global.runpath);
             await QCNTool(shell);
             if (AdvancedLog.Contains("error"))
             {
@@ -140,8 +140,8 @@ public partial class AdvancedViewModel : MainPageBase
     [RelayCommand]
     private void OpenBackup()
     {
-        // Open QCN backup file directory
-        string filepath = string.Format(@"{0}\backup", Global.runpath);
+        // Open QCN Backup file directory
+        string filepath = string.Format(@"{0}\Backup", Global.runpath);
         FileHelper.OpenFolder(filepath);
     }
 

@@ -21,7 +21,7 @@ internal class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
     {
-        Global.runpath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);//获取工具运行路径
+        Global.runpath = System.AppDomain.CurrentDomain.BaseDirectory;//获取工具运行路径
         Global.tmp_path = Path.GetTempPath();
         FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())

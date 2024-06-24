@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -425,7 +426,25 @@ public partial class DashboardView : UserControl
     {
         if (Global.System == "Windows")
         {
-            Process.Start(@"drive\adb.exe");
+            if (RuntimeInformation.OSArchitecture == Architecture.X64)
+            {
+                Process.Start(@"Drive\adb.exe");
+            }
+            else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                string drvpath = String.Format(@"{0}\Drive\adb\*.inf", Global.runpath);
+                string shell = String.Format("/add-driver {0} /subdirs /install", drvpath);
+                string drvlog = await CallExternalProgram.Pnputil(shell);
+                FileHelper.Write($"{Global.runpath}/Log/drive.txt", drvlog);
+                if (drvlog.Contains("成功"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("安装完成！"));
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("安装失败！"));
+                }
+            }
         }
         else
         {
@@ -440,7 +459,25 @@ public partial class DashboardView : UserControl
     {
         if (Global.System == "Windows")
         {
-            Process.Start(@"drive\Qualcomm_HS-USB_Driver.exe");
+            if (RuntimeInformation.OSArchitecture == Architecture.X64)
+            {
+                Process.Start(@"Drive\Qualcomm_HS-USB_Driver.exe");
+            }
+            else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
+            {
+                string drvpath = String.Format(@"{0}\drive\9008\*.inf", Global.runpath);
+                string shell = String.Format("/add-driver {0} /subdirs /install", drvpath);
+                string drvlog = await CallExternalProgram.Pnputil(shell);
+                FileHelper.Write($"{Global.runpath}/Log/drive.txt", drvlog);
+                if (drvlog.Contains("成功"))
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("安装完成！"));
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("安装失败！"));
+                }
+            }
         }
         else
         {

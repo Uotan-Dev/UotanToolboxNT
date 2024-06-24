@@ -212,21 +212,24 @@
 
 			<!--  Unlock with command  -->
 			<suki:GlassCard Width="310" Margin="10">
-				<StackPanel Orientation="Vertical" Spacing="15">
-					<TextBlock HorizontalAlignment="Left"
-								FontSize="15"
-								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.Basicflash_EasyFlash}" />
-					<StackPanel Spacing="20">
-						<Button Width="220" Click="" Content="{x:Static assets:Resources.Basicflash_FlashChosenMagisk}" />
-						<Button Width="220" Click="" Content="{x:Static assets:Resources.Basicflash_PreventRecoverOfficialRecovery}" />
-						<Button Width="220" Click="" Content="{x:Static assets:Resources.Basicflash_SyncABPart}" />
+				<suki:BusyArea Name="BusyInstall"
+								BusyText="安装中...">
+					<StackPanel Orientation="Vertical" Spacing="15">
+						<TextBlock HorizontalAlignment="Left"
+									FontSize="15"
+									FontWeight="DemiBold"
+									Text="{x:Static assets:Resources.Basicflash_EasyFlash}" />
+						<StackPanel Spacing="20">
+							<Button Width="220" Click="FlashMagisk" Content="{x:Static assets:Resources.Basicflash_FlashChosenMagisk}" />
+							<Button Width="220" Click="DisableOffRec" Content="{x:Static assets:Resources.Basicflash_PreventRecoverOfficialRecovery}" />
+							<Button Width="220" Click="SyncAB" Content="{x:Static assets:Resources.Basicflash_SyncABPart}" />
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="10" Margin="20,5,0,0">
+							<RadioButton Name="TWRPInstall" FontSize="13" Content="TWRP Install" GroupName="FormatContent" IsChecked="True"/>
+							<RadioButton Name="ADBSideload" FontSize="13" Content="ADB Sideload" GroupName="FormatContent"/>
+						</StackPanel>
 					</StackPanel>
-					<StackPanel Orientation="Horizontal" Spacing="10" Margin="20,5,0,0">
-						<RadioButton FontSize="13" Content="TWRP Install" GroupName="FormatContent" IsChecked="True"/>
-						<RadioButton FontSize="13" Content="ADB Sideload" GroupName="FormatContent"/>
-					</StackPanel>
-				</StackPanel>
+				</suki:BusyArea>
 			</suki:GlassCard>
 		</WrapPanel>
 	</ScrollViewer>

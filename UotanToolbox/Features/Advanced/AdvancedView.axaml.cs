@@ -20,7 +20,7 @@ public partial class AdvancedView : UserControl
     {
         InitializeComponent();
     }
-    private readonly static string adb_log_path = Path.Combine(Global.runpath, "log", "adb.txt");
+    private readonly static string adb_log_path = Path.Combine(Global.runpath, "Log", "adb.txt");
     private string output = "";
     public async Task QCNTool(string shell)
     {
@@ -328,14 +328,14 @@ public partial class AdvancedView : UserControl
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/Backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.runpath}/backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.runpath}/Backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
@@ -370,7 +370,7 @@ public partial class AdvancedView : UserControl
                             string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
                             string shell = String.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/Backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                             await ADB(shell);
@@ -423,14 +423,14 @@ public partial class AdvancedView : UserControl
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/Backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.runpath}/backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.runpath}/Backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
@@ -467,7 +467,7 @@ public partial class AdvancedView : UserControl
                             string devicepoint = line[line.Length - 1];
                             shell = String.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/Backup/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                             await ADB(shell);
@@ -493,7 +493,7 @@ public partial class AdvancedView : UserControl
 
     private async void OpenExtractFile(object sender, RoutedEventArgs args)
     {
-        string filepath = string.Format(@"{0}\backup", System.IO.Directory.GetCurrentDirectory());
+        string filepath = string.Format(@"{0}\Backup", System.IO.Directory.GetCurrentDirectory());
         FileHelper.OpenFolder(filepath);
     }
 }

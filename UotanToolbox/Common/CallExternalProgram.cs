@@ -76,7 +76,7 @@ namespace UotanToolbox.Common
         }
         public static async Task<string> QCNTool(string shell)
         {
-            string cmd = "bin\\Windows\\qsml\\QCNTool.exe";
+            string cmd = "Bin\\QSML\\QCNTool.exe";
             ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
@@ -96,12 +96,33 @@ namespace UotanToolbox.Common
             return output;
         }
 
+        public static async Task<string> Pnputil(string shell)
+        {
+            string cmd = @"pnputil.exe";
+            ProcessStartInfo pnputil = new ProcessStartInfo(cmd, shell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process pnp = new Process();
+            pnp.StartInfo = pnputil;
+            pnp.Start();
+            string output = await pnp.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await pnp.StandardOutput.ReadToEndAsync();
+            }
+            return output;
+        }
+
         public static async Task<string> LsUSB()
         {
             string cmd;
             if (Global.System == "macOS")
             {
-                cmd = "bin/macOS/lsusb";
+                cmd = Path.Combine(Global.bin_path, "lsusb");
             }
             else
             {

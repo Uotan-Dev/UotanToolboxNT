@@ -21,7 +21,7 @@ internal class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
     {
-        Global.runpath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);//获取工具运行路径
+        Global.runpath = System.AppDomain.CurrentDomain.BaseDirectory;//获取工具运行路径
         Global.tmp_path = Path.GetTempPath();
         FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
@@ -47,7 +47,7 @@ internal class Program
             Global.System = "macOS";
             options.DefaultFamilyName = "MiSans";
         }
-        Global.bin_path = Path.Combine(Global.runpath, "bin");
+        Global.bin_path = Path.Combine(Global.runpath, "Bin");
         // No need to set default for Windows
         return AppBuilder.Configure<App>()
                 .UsePlatformDetect()

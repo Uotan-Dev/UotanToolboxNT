@@ -121,7 +121,7 @@ public partial class AdvancedViewModel : MainPageBase
         {
             AdvancedLog = "正在备份...";
             int com = StringHelper.Onlynum(Global.thisdevice);
-            string shell = string.Format("-r -p {0} -f {1}\\backup -n 00000.qcn", com, Global.runpath);
+            string shell = string.Format("-r -p {0} -f {1}/Backup -n 00000.qcn", com, Global.runpath);
             await QCNTool(shell);
             if (AdvancedLog.Contains("error"))
             {
@@ -140,8 +140,8 @@ public partial class AdvancedViewModel : MainPageBase
     [RelayCommand]
     private void OpenBackup()
     {
-        // Open QCN backup file directory
-        string filepath = string.Format(@"{0}\backup", Global.runpath);
+        // Open QCN Backup file directory
+        string filepath = string.Format(@"{0}\Backup", Global.runpath);
         FileHelper.OpenFolder(filepath);
     }
 
@@ -175,7 +175,7 @@ public partial class AdvancedViewModel : MainPageBase
             await SukiHost.ShowDialogAsync(newDialog);
             if (newDialog.Result == true)
             {
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} push bin/APK/mi_diag.apk /sdcard");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
                 SukiHost.ShowDialog(new ConnectionDialog("已将名为\"mi_diag.apk\"的文件推送至设备根目录，请安装完成后点击确定！"));
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");

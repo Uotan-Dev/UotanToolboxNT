@@ -513,4 +513,123 @@ public partial class DashboardView : UserControl
             });
         }
     }
+
+    private async void FlashMagisk(object sender, RoutedEventArgs args)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == "Recovery")
+            {
+                if (MagiskFile.Text != null)
+                {
+                    BusyInstall.IsBusy = true;
+                    if (TWRPInstall.IsChecked == true)
+                    {
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /tmp/");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/{Path.GetFileName(MagiskFile.Text)}");
+                    }
+                    else if (ADBSideload.IsChecked == true)
+                    {
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload \"{MagiskFile.Text}\"");
+                    }
+                    SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
+                    BusyInstall.IsBusy = false;
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("请在右侧选择Magisk文件！"));
+                }
+            }
+            else if (sukiViewModel.Status == "系统")
+            {
+                if (MagiskFile.Text != null)
+                {
+                    BusyInstall.IsBusy = true;
+                    var newDialog = new ConnectionDialog("检测到当前为系统模式，是否推送Magisk应用？");
+                    await SukiHost.ShowDialogAsync(newDialog);
+                    if (newDialog.Result == true)
+                    {
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /sdcard");
+                        SukiHost.ShowDialog(new ConnectionDialog("已推送至根目录，请自行安装。"));
+                    }
+                    BusyInstall.IsBusy = false;
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog("请在右侧选择Magisk文件！"));
+                }
+            }
+            else
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("请进入Recovery模式！"));
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new ConnectionDialog("设备未连接！"));
+        }
+    }
+
+    private async void DisableOffRec(object sender, RoutedEventArgs args)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == "Recovery")
+            {
+                BusyInstall.IsBusy = true;
+                if (TWRPInstall.IsChecked == true)
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push ZIP/DisableAutoRecovery.zip /tmp/");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/DisableAutoRecovery.zip");
+                }
+                else if (ADBSideload.IsChecked == true)
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/DisableAutoRecovery.zip");
+                }
+                SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
+                BusyInstall.IsBusy = false;
+            }
+            else
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("请进入Recovery模式！"));
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new ConnectionDialog("设备未连接！"));
+        }
+    }
+
+    private async void SyncAB(object sender, RoutedEventArgs args)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == "Recovery")
+            {
+                BusyInstall.IsBusy = true;
+                if (TWRPInstall.IsChecked == true)
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push ZIP/copy-partitions.zip /tmp/");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/copy-partitions.zip");
+                }
+                else if (ADBSideload.IsChecked == true)
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/copy-partitions.zip");
+                }
+                SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
+                BusyInstall.IsBusy = false;
+            }
+            else
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("请进入Recovery模式！"));
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new ConnectionDialog("设备未连接！"));
+        }
+    }
 }

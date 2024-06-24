@@ -175,7 +175,7 @@ public partial class AdvancedViewModel : MainPageBase
             await SukiHost.ShowDialogAsync(newDialog);
             if (newDialog.Result == true)
             {
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} push bin/APK/mi_diag.apk /sdcard");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
                 SukiHost.ShowDialog(new ConnectionDialog("已将名为\"mi_diag.apk\"的文件推送至设备根目录，请安装完成后点击确定！"));
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");

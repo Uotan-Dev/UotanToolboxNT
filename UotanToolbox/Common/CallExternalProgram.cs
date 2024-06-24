@@ -76,7 +76,7 @@ namespace UotanToolbox.Common
         }
         public static async Task<string> QCNTool(string shell)
         {
-            string cmd = "bin\\Windows\\qsml\\QCNTool.exe";
+            string cmd = "Bin\\QSML\\QCNTool.exe";
             ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
@@ -101,7 +101,7 @@ namespace UotanToolbox.Common
             string cmd;
             if (Global.System == "macOS")
             {
-                cmd = "bin/macOS/lsusb";
+                cmd = Path.Combine(Global.bin_path, "lsusb");
             }
             else
             {

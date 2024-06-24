@@ -174,7 +174,7 @@
 			<suki:GlassCard Width="630" Margin="10">
 				<suki:BusyArea Name="BusyPatch"
 								BusyText="处理中...">
-					<StackPanel>
+					<StackPanel Name="PanelPatch">
 						<TextBlock HorizontalAlignment="Left"
 									FontSize="15"
 									FontWeight="DemiBold"

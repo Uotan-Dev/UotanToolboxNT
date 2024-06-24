@@ -20,6 +20,19 @@ public partial class DashboardView : UserControl
     {
         InitializeComponent();
     }
+    public void patch_busy(bool is_busy)
+    {
+        if (is_busy)
+        {
+            BusyPatch.IsBusy = true;
+            PanelPatch.IsEnabled = false;
+        }
+        else 
+        {
+            BusyPatch.IsBusy = false;
+            PanelPatch.IsEnabled = true;
+        }
+    }
 
     private async void OpenUnlockFile(object sender, RoutedEventArgs args)
     {
@@ -51,7 +64,7 @@ public partial class DashboardView : UserControl
 
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
     {
-        BusyPatch.IsBusy = true;
+        patch_busy(true);
         var topLevel = TopLevel.GetTopLevel(this);
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
@@ -60,7 +73,7 @@ public partial class DashboardView : UserControl
         });
         if (files.Count == 0)
         {
-            BusyPatch.IsBusy = false;
+            patch_busy(false);
             return;
         }
         MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
@@ -83,25 +96,25 @@ public partial class DashboardView : UserControl
                 {
                     Global.is_magisk_ok = true;
                 }
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
             else
             {
                 SukiHost.ShowDialog(new ConnectionDialog("未能获取到有效Magisk版本号"));
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
         }
         else
         {
             SukiHost.ShowDialog(new ConnectionDialog("清理临时目录出错"));
-            BusyPatch.IsBusy = false;
+            patch_busy(false);
         }
 
     }
 
     private async void OpenBootFile(object sender, RoutedEventArgs args)
     {
-        BusyPatch.IsBusy = true;
+        patch_busy(true);
         var topLevel = TopLevel.GetTopLevel(this);
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
@@ -110,7 +123,7 @@ public partial class DashboardView : UserControl
         });
         if (files.Count == 0)
         {
-            BusyPatch.IsBusy = false;
+            patch_busy(false);
             return;
         }
         BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
@@ -124,7 +137,7 @@ public partial class DashboardView : UserControl
             if (mb_output.Contains("error"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("解包失败"));
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
                 return;
             }
             string cpio_path = Path.Combine(Global.boot_tmp, "ramdisk.cpio");
@@ -143,28 +156,28 @@ public partial class DashboardView : UserControl
                 SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
                 ArchList.SelectedItem = "aarch64";
                 Global.is_boot_ok = true;
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
             else if (init_info.Contains("X86-64"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
                 ArchList.SelectedItem = "X86-64";
                 Global.is_boot_ok = true;
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
             else if (init_info.Contains("ARM,"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
                 ArchList.SelectedItem = "armeabi";
                 Global.is_boot_ok = true;
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
             else if (init_info.Contains(" Intel 80386"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
                 ArchList.SelectedItem = "X86";
                 Global.is_boot_ok = true;
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
             //有些设备的init路径是/bin/init而不是/init,在这里再做一次检测
             init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "system", "bin", "init")}\"");
@@ -173,28 +186,28 @@ public partial class DashboardView : UserControl
                 SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
                 ArchList.SelectedItem = "aarch64";
                 Global.is_boot_ok = true;
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
             else if (init_info.Contains("X86-64"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
                 ArchList.SelectedItem = "X86-64";
                 Global.is_boot_ok = true;
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
             else if (init_info.Contains("ARM,"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
                 ArchList.SelectedItem = "armeabi";
                 Global.is_boot_ok = true;
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
             else if (init_info.Contains(" Intel 80386"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
                 ArchList.SelectedItem = "X86";
                 Global.is_boot_ok = true;
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
             }
         }
     }
@@ -210,7 +223,7 @@ public partial class DashboardView : UserControl
             SukiHost.ShowDialog(new ConnectionDialog("文件预处理时出错！"));
             return;
         }
-        BusyPatch.IsBusy = true;
+        patch_busy(true);
         //设置环境变量
         string env_KEEPVERITY = KEEPVERITY.IsChecked.ToString().ToLower();
         string env_KEEPFORCEENCRYPT = KEEPFORCEENCRYPT.IsChecked.ToString().ToLower();
@@ -244,7 +257,7 @@ public partial class DashboardView : UserControl
             catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("64位magisk32组件预处理时 " + ex));
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
                 return;
             }
         }
@@ -258,7 +271,7 @@ public partial class DashboardView : UserControl
             catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex));
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
                 return;
             }
         }
@@ -272,7 +285,7 @@ public partial class DashboardView : UserControl
             catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex));
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
                 return;
             }
         }
@@ -280,7 +293,7 @@ public partial class DashboardView : UserControl
         if (mb_output.Contains("error"))
         {
             SukiHost.ShowDialog(new ConnectionDialog("压缩stub.apk时出错"));
-            BusyPatch.IsBusy = false;
+            patch_busy(false);
             return;
         }
         (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio test", Global.boot_tmp);
@@ -350,7 +363,7 @@ public partial class DashboardView : UserControl
             if (exitcode != 0)
             {
                 SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
                 return;
             }
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} patch", Global.boot_tmp, env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
@@ -385,7 +398,7 @@ public partial class DashboardView : UserControl
                 catch (Exception ex)
                 {
                     SukiHost.ShowDialog(new ConnectionDialog("kernel删除失败" + ex));
-                    BusyPatch.IsBusy = false;
+                    patch_busy(false);
                     return;
                 }
 
@@ -398,7 +411,7 @@ public partial class DashboardView : UserControl
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{BootFile.Text}\"", Global.boot_tmp, env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
                 File.Copy(Path.Combine(Global.boot_tmp, "new-boot.img"), Path.Combine(Path.GetDirectoryName(BootFile.Text), "boot_patched_" + randomStr + ".img"), true);
                 SukiHost.ShowDialog(new ConnectionDialog("面具修补完成"));
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
                 FileHelper.OpenFolder(Path.GetDirectoryName(BootFile.Text));
                 Global.is_boot_ok = false;
                 Global.is_magisk_ok = false;
@@ -410,14 +423,14 @@ public partial class DashboardView : UserControl
             else
             {
                 SukiHost.ShowDialog(new ConnectionDialog("清理打包目录失败"));
-                BusyPatch.IsBusy = false;
+                patch_busy(false);
                 return;
             }
         }
         catch (Exception ex)
         {
             SukiHost.ShowDialog(new ConnectionDialog(ex.Message));
-            BusyPatch.IsBusy = false;
+            patch_busy(false);
             return;
         }
     }

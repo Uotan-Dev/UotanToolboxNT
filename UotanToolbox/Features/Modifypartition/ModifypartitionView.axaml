@@ -24,15 +24,6 @@
 							  FontSize="15"
 							  AutoGenerateColumns="True"
 							  CanUserResizeColumns="True">
-						<DataGrid.Columns>
-							<DataGridTextColumn Width="70" Header="{x:Static assets:Resources.Modifypartition_Id}" />
-							<DataGridTextColumn Width="90" Header="{x:Static assets:Resources.Modifypartition_Startpoint}" />
-							<DataGridTextColumn Width="90" Header="{x:Static assets:Resources.Modifypartition_Endpoint}" />
-							<DataGridTextColumn Width="90" Header="{x:Static assets:Resources.Modifypartition_Size}" />
-							<DataGridTextColumn Width="80" Header="{x:Static assets:Resources.Modifypartition_Format}" />
-							<DataGridTextColumn Width="100" Header="{x:Static assets:Resources.Modifypartition_Name}" />
-							<DataGridTextColumn Width="100" Header="{x:Static assets:Resources.Modifypartition_Sign}" />
-						</DataGrid.Columns>
 					</DataGrid>
 				</suki:BusyArea>
 			</suki:GlassCard>
@@ -48,12 +39,14 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="90"
+									Name="RMPartBut"
 									Click="RMPart"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_Delete}"/>
 							</Button>
 							<Button Width="90"
+									Name="ESPONBut"
 									Click="ESPON"
 									HorizontalAlignment="Left"
 									Padding="8">
@@ -70,7 +63,7 @@
 									   FontSize="15"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="分区名称:" />
-							<TextBox Width="145" FontSize="15" Name="NewPartitionName" />
+							<TextBox Width="145" FontSize="15" Text="" Name="NewPartitionName" />
 						</StackPanel>
 						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
@@ -78,7 +71,7 @@
 									   FontSize="15"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Modifypartition_PartFormat}" />
-							<TextBox Width="145" FontSize="15" Name="NewPartitionFormat" />
+							<TextBox Width="145" FontSize="15" Text="" Name="NewPartitionFormat" />
 						</StackPanel>
 						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
@@ -86,7 +79,7 @@
 									   FontSize="15"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Modifypartition_StartpointColon}" />
-							<TextBox Width="145" FontSize="15" Name="NewPartitionStartpoint" />
+							<TextBox Width="145" FontSize="15" Text="" Name="NewPartitionStartpoint" />
 						</StackPanel>
 						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
@@ -94,10 +87,11 @@
 									   FontSize="15"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Modifypartition_EndpointColon}" />
-							<TextBox Width="145" FontSize="15" Name="NewPartitionEndpoint" />
+							<TextBox Width="145" FontSize="15" Text="" Name="NewPartitionEndpoint" />
 						</StackPanel>
 						<StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="200"
+									Name="MKPartBut"
 									Click="MKPart"
 									HorizontalAlignment="Left"
 									Padding="8">
@@ -147,6 +141,7 @@
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 						<Button Width="200"
 								Height="40"
+								Name="RemoveLimitBut"
 								Click="RemoveLimit"
 								HorizontalAlignment="Left"
 								Padding="8">

@@ -8,18 +8,18 @@ namespace UotanToolbox.Common
 {
     public class PartModel
     {
-        public string Id { get; set; }
-        public string Startpoint { get; set; }
-        public string Endpoint { get; set; }
+        public string ID { get; set; }
+        public string StartPoint { get; set; }
+        public string EndPoint { get; set; }
         public string Size { get; set; }
         public string Format { get; set; }
         public string Name { get; set; }
         public string Sign { get; set; }
-        public PartModel(string _id, string _startpoint, string _endpoint, string _size, string _format, string _name, string _sign)
+        public PartModel(string _iD, string _startPoint, string _endPoint, string _size, string _format, string _name, string _sign)
         {
-            Id = _id;
-            Startpoint = _startpoint;
-            Endpoint = _endpoint;
+            ID = _iD;
+            StartPoint = _startPoint;
+            EndPoint = _endPoint;
             Size = _size;
             Format = _format;
             Name = _name;

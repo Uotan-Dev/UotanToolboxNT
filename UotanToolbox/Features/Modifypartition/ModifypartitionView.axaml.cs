@@ -332,7 +332,7 @@ public partial class ModifypartitionView : UserControl
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == true)
                     {
-                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push Push/sgdisk /tmp/");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/Push/sgdisk /tmp/");
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} shell chmod +x /tmp/sgdisk");
                         string shell = String.Format($"-s {Global.thisdevice} shell /tmp/sgdisk --resize-table=128 /dev/block/{choice}");
                         string limit = await CallExternalProgram.ADB(shell);

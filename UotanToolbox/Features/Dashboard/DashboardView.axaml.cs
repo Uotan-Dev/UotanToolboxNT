@@ -595,7 +595,7 @@ public partial class DashboardView : UserControl
                 BusyInstall.IsBusy = true;
                 if (TWRPInstall.IsChecked == true)
                 {
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push ZIP/DisableAutoRecovery.zip /tmp/");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/DisableAutoRecovery.zip /tmp/");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/DisableAutoRecovery.zip");
                 }
                 else if (ADBSideload.IsChecked == true)
@@ -626,7 +626,7 @@ public partial class DashboardView : UserControl
                 BusyInstall.IsBusy = true;
                 if (TWRPInstall.IsChecked == true)
                 {
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push ZIP/copy-partitions.zip /tmp/");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/copy-partitions.zip /tmp/");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/copy-partitions.zip");
                 }
                 else if (ADBSideload.IsChecked == true)

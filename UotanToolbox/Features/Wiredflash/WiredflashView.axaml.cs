@@ -71,14 +71,38 @@ public partial class WiredflashView : UserControl
         });
     }
 
-    public async Task RunBat(string batpatch)//调用Bat
+    public async Task RunBat(string batpath)//调用Bat
     {
         await Task.Run(() =>
         {
             string wkdir = Path.Combine(Global.bin_path, "platform-tools");
             Process process = null;
             process = new Process();
-            process.StartInfo.FileName = batpatch;
+            process.StartInfo.FileName = batpath;
+            process.StartInfo.WorkingDirectory = wkdir;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.CreateNoWindow = true;
+            process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            process.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            process.Close();
+        });
+    }
+
+    public async Task RunSH(string shpath)
+    {
+        await Task.Run(() =>
+        {
+            string wkdir = Path.Combine(Global.bin_path, "platform-tools");
+            Process process = null;
+            process = new Process();
+            process.StartInfo.FileName = "/bin/bash";
+            process.StartInfo.Arguments = $"-c \"{shpath}\"";
             process.StartInfo.WorkingDirectory = wkdir;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
@@ -501,7 +525,14 @@ public partial class WiredflashView : UserControl
                 {
                     BusyFlash.IsBusy = true;
                     WiredflashLog.Text = "";
-                    await RunBat(BatFile.Text);
+                    if (Global.System == "Windows")
+                    {
+                        await RunBat(BatFile.Text);
+                    }
+                    else
+                    {
+                        await RunSH(BatFile.Text);
+                    }
                     SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
                     BusyFlash.IsBusy = false;
                 }

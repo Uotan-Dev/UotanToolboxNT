@@ -16,21 +16,25 @@
                    theme:WrapPanelExtensions.AnimatedScroll="True"
                    Orientation="Horizontal">
 			<suki:GlassCard Classes="Card" Margin="15">
-				<DataGrid Width="620"
-						  Height="565"
-						  FontSize="15"
-						  CanUserResizeColumns="True"
-						  ItemsSource="">
-					<DataGrid.Columns>
-						<DataGridTextColumn Width="70" Header="{x:Static assets:Resources.Modifypartition_Id}" />
-						<DataGridTextColumn Width="90" Header="{x:Static assets:Resources.Modifypartition_Startpoint}" />
-						<DataGridTextColumn Width="90" Header="{x:Static assets:Resources.Modifypartition_Endpoint}" />
-						<DataGridTextColumn Width="90" Header="{x:Static assets:Resources.Modifypartition_Size}" />
-						<DataGridTextColumn Width="80" Header="{x:Static assets:Resources.Modifypartition_Format}" />
-						<DataGridTextColumn Width="100" Header="{x:Static assets:Resources.Modifypartition_Name}" />
-						<DataGridTextColumn Width="100" Header="{x:Static assets:Resources.Modifypartition_Sign}" />
-					</DataGrid.Columns>
-				</DataGrid>
+				<suki:BusyArea  Name="BusyPart"
+								BusyText="载入中...">
+					<DataGrid Name="PartList"
+					          Width="620"
+							  Height="565"
+							  FontSize="15"
+							  AutoGenerateColumns="True"
+							  CanUserResizeColumns="True">
+						<DataGrid.Columns>
+							<DataGridTextColumn Width="70" Header="{x:Static assets:Resources.Modifypartition_Id}" />
+							<DataGridTextColumn Width="90" Header="{x:Static assets:Resources.Modifypartition_Startpoint}" />
+							<DataGridTextColumn Width="90" Header="{x:Static assets:Resources.Modifypartition_Endpoint}" />
+							<DataGridTextColumn Width="90" Header="{x:Static assets:Resources.Modifypartition_Size}" />
+							<DataGridTextColumn Width="80" Header="{x:Static assets:Resources.Modifypartition_Format}" />
+							<DataGridTextColumn Width="100" Header="{x:Static assets:Resources.Modifypartition_Name}" />
+							<DataGridTextColumn Width="100" Header="{x:Static assets:Resources.Modifypartition_Sign}" />
+						</DataGrid.Columns>
+					</DataGrid>
+				</suki:BusyArea>
 			</suki:GlassCard>
 			<StackPanel Orientation="Vertical">
 				<suki:GlassCard Classes="Card" Margin="15" Width="265" Height="180">
@@ -44,11 +48,13 @@
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="90"
+									Click="RMPart"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_Delete}"/>
 							</Button>
 							<Button Width="90"
+									Click="ESPON"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_Mark}"/>
@@ -92,6 +98,7 @@
 						</StackPanel>
 						<StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="200"
+									Click="MKPart"
 									HorizontalAlignment="Left"
 									Padding="8">
 								<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_CreatePart}" />
@@ -121,8 +128,14 @@
 							   FontSize="15"
 							   Foreground="{DynamicResource SukiLowText}"
 							   Text="{x:Static assets:Resources.Modifypartition_TotalSize}" />
-					<TextBlock Width="90"></TextBlock>
+					<TextBlock Name="PartSize"
+							   VerticalAlignment="Center"
+							   FontSize="15"
+							   Foreground="{DynamicResource SukiLowText}"
+							   Width="90"></TextBlock>
 					<Button Width="100"
+							Name="ReadPartBut"
+							Click="ReadPart"
 							HorizontalAlignment="Left"
 							Padding="8">
 						<TextBlock Text="{x:Static assets:Resources.Modifypartition_ReadPart}" />
@@ -134,6 +147,7 @@
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 						<Button Width="200"
 								Height="40"
+								Click="RemoveLimit"
 								HorizontalAlignment="Left"
 								Padding="8">
 							<TextBlock Text="{x:Static assets:Resources.Modifypartition_RemoveLimit}" />

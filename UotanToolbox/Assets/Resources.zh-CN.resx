@@ -637,7 +637,7 @@
     <value>起始点:</value>
   </data>
   <data name="Modifypartition_TotalSize" xml:space="preserve">
-    <value>磁盘总大小:</value>
+    <value>磁盘总大小：</value>
   </data>
   <data name="Sidebar_ModifyPartition" xml:space="preserve">
     <value>修改分区</value>

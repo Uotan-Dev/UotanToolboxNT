@@ -223,6 +223,15 @@ namespace UotanToolbox.Common
             }
             return null;
         }
+
+        public static string DiskSize(string PartTable)
+        {
+            string[] Lines = PartTable.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] NeedLine = Lines[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string size = NeedLine[NeedLine.Length - 1];
+            return size;
+        }
+
         /// <summary>
         /// 根据提供的正则表达式，提取指定指定路径文本文件中的内容。
         /// </summary>

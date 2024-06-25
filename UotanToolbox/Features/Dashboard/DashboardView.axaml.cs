@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
 
@@ -540,7 +541,7 @@ public partial class DashboardView : UserControl
                     if (TWRPInstall.IsChecked == true)
                     {
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /tmp/");
-                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/{Path.GetFileName(MagiskFile.Text)}");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/{Path.GetFileNameWithoutExtension(MagiskFile.Text)}.");
                     }
                     else if (ADBSideload.IsChecked == true)
                     {

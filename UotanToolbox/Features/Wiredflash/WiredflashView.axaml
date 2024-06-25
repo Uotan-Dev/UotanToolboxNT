@@ -39,7 +39,7 @@
 													   Foreground="{DynamicResource SukiLowText}"
 													   Text="{x:Static assets:Resources.Wiredflash_Fastboot}" />
 											<TextBox Width="600" Name="FastbootFile"
-													 Text="{Binding FastbootFile, Mode=TwoWay}"
+													 Text=""
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
 											<Button Height="35"
 													Padding="10,0,10,0"
@@ -55,7 +55,7 @@
 													   Foreground="{DynamicResource SukiLowText}"
 													   Text="FASTBOOTD" />
 											<TextBox Width="600" Name="FastbootdFile"
-													 Text="{Binding FastbootdFile, Mode=TwoWay}"
+													 Text=""
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
 											<Button Height="35"
 													Padding="10,0,10,0"
@@ -110,7 +110,7 @@
 													   Foreground="{DynamicResource SukiLowText}"
 													   Text="ADB Sideload" />
 											<TextBox Width="570" Name="AdbSideloadFile"
-													 Text="{Binding AdbsideloadFile, Mode=TwoWay}"
+													 Text=""
 													 theme:TextBoxExtensions.AddDeleteButton="True"/>
 											<Button Height="35"
 													Padding="10,0,10,0"
@@ -126,7 +126,7 @@
 													   Foreground="{DynamicResource SukiLowText}"
 													   Text="Fastboot Updated" />
 											<TextBox Width="570" Name="FastbootUpdatedFile"
-													 Text="{Binding FastbootupdatedFile, Mode=TwoWay}"
+													 Text=""
 													 theme:TextBoxExtensions.AddDeleteButton="True"/>
 											<Button Height="35"
 													Padding="10,0,10,0"
@@ -141,7 +141,7 @@
 													   FontSize="13"
 													   Foreground="{DynamicResource SukiLowText}"
 													   Text="{x:Static assets:Resources.Wiredflash_XiaomiFlashScript}" />
-											<TextBox Width="570" Name="BatFile"
+											<TextBox Width="570" Name="BatFile" Text=""
 													 theme:TextBoxExtensions.AddDeleteButton="True"/>
 											<Button Height="35"
 													Padding="10,0,10,0"

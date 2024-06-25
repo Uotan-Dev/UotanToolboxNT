@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -190,15 +191,19 @@ public partial class AdvancedView : UserControl
                     if (FAT32.IsChecked != null && (bool)FAT32.IsChecked)
                         formatsystem = "mkfs.fat -F32 -s1";
                     if (exFAT.IsChecked != null && (bool)exFAT.IsChecked)
-                        formatsystem = "/tmp/mkntfs -f";
-                    if (NTFS.IsChecked != null && (bool)NTFS.IsChecked)
                         formatsystem = "mkexfatfs -n exfat";
+                    if (NTFS.IsChecked != null && (bool)NTFS.IsChecked)
+                        formatsystem = "/tmp/mkntfs -f";
                     string partname = FormatName.Text;
                     await FeaturesHelper.GetPartTable(Global.thisdevice);
                     FeaturesHelper.PushMakefs(Global.thisdevice);
                     string sdxx = FeaturesHelper.FindDisk(partname);
                     if (sdxx != "")
                     {
+                        await Task.Run(() =>
+                        {
+                            Thread.Sleep(1000);
+                        });
                         string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
                         string shell = String.Format($"-s {Global.thisdevice} shell {formatsystem} /dev/block/{sdxx}{partnum}");
                         await ADB(shell);

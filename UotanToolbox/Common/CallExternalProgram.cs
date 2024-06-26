@@ -28,7 +28,7 @@ namespace UotanToolbox.Common
                     adbProcess.StartInfo = startInfo;
                     if (!adbProcess.Start())
                     {
-                        if (!debug)
+                        if (debug)
                         {
                             SukiHost.ShowDialog(new ConnectionDialog("Failed to start ADB process."));
                         }
@@ -42,7 +42,7 @@ namespace UotanToolbox.Common
                     adbProcess.WaitForExit();
                     if (adbProcess.ExitCode != 0)
                     {
-                        if (!debug)
+                        if (debug)
                         {
                             SukiHost.ShowDialog(new ConnectionDialog($"ADB failed with code {adbProcess.ExitCode}. Command: {adbShellCommand}"));
                         }
@@ -54,7 +54,7 @@ namespace UotanToolbox.Common
             }
             catch (Exception ex)
             {
-                if (!debug)
+                if (debug)
                 {
                     SukiHost.ShowDialog(new ConnectionDialog(ex.Message));
                 }
@@ -80,7 +80,7 @@ namespace UotanToolbox.Common
 
                     if (!fastbootProcess.Start())
                     {
-                        if (!debug)
+                        if (debug)
                         {
                             SukiHost.ShowDialog(new ConnectionDialog("Failed to start Fastboot process."));
                         }
@@ -94,7 +94,7 @@ namespace UotanToolbox.Common
                     fastbootProcess.WaitForExit();
                     if (fastbootProcess.ExitCode != 0)
                     {
-                        if (!debug)
+                        if (debug)
                         {
                             SukiHost.ShowDialog(new ConnectionDialog($"Fastboot command execution failed with exit code {fastbootProcess.ExitCode}. Command: {fastbootCommand}"));
                         }
@@ -104,7 +104,7 @@ namespace UotanToolbox.Common
             }
             catch (Exception ex)
             {
-                if (!debug)
+                if (debug)
                 {
                     SukiHost.ShowDialog(new ConnectionDialog($"An error occurred in Fastboot operation: {ex.Message}"));
                 }

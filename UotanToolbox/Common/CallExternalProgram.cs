@@ -266,35 +266,45 @@ namespace UotanToolbox.Common
         }
         public static async Task<(string Output, int ExitCode)> MagiskBoot(string shell, string workpath, string KEEPVERITY = "true", string KEEPFORCEENCRYPT = "true", string PATCHVBMETAFLAG = "false", string RECOVERYMODE = "false", string LEGACYSAR = "true")
         {
-            Environment.SetEnvironmentVariable("KEEPVERITY", KEEPVERITY);
-            Environment.SetEnvironmentVariable("KEEPFORCEENCRYPT", KEEPFORCEENCRYPT);
-            Environment.SetEnvironmentVariable("PATCHVBMETAFLAG", PATCHVBMETAFLAG);
-            Environment.SetEnvironmentVariable("RECOVERYMODE", RECOVERYMODE);
-            Environment.SetEnvironmentVariable("LEGACYSAR", LEGACYSAR);
-            string cmd = Path.Combine(Global.bin_path, "magiskboot");
-            Directory.SetCurrentDirectory(workpath);
-            ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
+            try
             {
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            using Process mb = new Process();
-            mb.StartInfo = magiskboot;
-            mb.Start();
-            string output = await mb.StandardError.ReadToEndAsync();
-            if (output == "")
-            {
-                output = await mb.StandardOutput.ReadToEndAsync();
+                Environment.SetEnvironmentVariable("KEEPVERITY", KEEPVERITY);
+                Environment.SetEnvironmentVariable("KEEPFORCEENCRYPT", KEEPFORCEENCRYPT);
+                Environment.SetEnvironmentVariable("PATCHVBMETAFLAG", PATCHVBMETAFLAG);
+                Environment.SetEnvironmentVariable("RECOVERYMODE", RECOVERYMODE);
+                Environment.SetEnvironmentVariable("LEGACYSAR", LEGACYSAR);
+                string cmd = Path.Combine(Global.bin_path, "magiskboot");
+                Directory.SetCurrentDirectory(workpath);
+                ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+                using Process mb = new Process();
+                mb.StartInfo = magiskboot;
+                mb.Start();
+                string output = await mb.StandardError.ReadToEndAsync();
+                if (output == "")
+                {
+                    output = await mb.StandardOutput.ReadToEndAsync();
+                }
+                await Task.Run(() =>
+                {
+                    Thread.Sleep(1000);
+                });
+                mb.WaitForExit();
+                int exitCode = mb.ExitCode; // 获取进程退出代码
+                return (output, exitCode);
             }
-            await Task.Run(() =>
+            catch (Exception ex)
             {
-                Thread.Sleep(1000);
-            });
-            mb.WaitForExit();
-            int exitCode = mb.ExitCode; // 获取进程退出代码
-            return (output, exitCode);
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog($"An error occurred in Magiskboot operation: {ex.Message}"));
+                    return (null, 1);
+                }
+            }
         }
 
         /// <summary>

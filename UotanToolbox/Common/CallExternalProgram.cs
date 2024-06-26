@@ -32,7 +32,7 @@ namespace UotanToolbox.Common
                         {
                             SukiHost.ShowDialog(new ConnectionDialog("Failed to start ADB process."));
                         }
-                        return "--";
+                        return null;
                     }
                     string output = await adbProcess.StandardOutput.ReadToEndAsync();
                     if (string.IsNullOrEmpty(output))
@@ -46,9 +46,8 @@ namespace UotanToolbox.Common
                         {
                             SukiHost.ShowDialog(new ConnectionDialog($"ADB failed with code {adbProcess.ExitCode}. Command: {adbShellCommand}"));
                         }
-                        return "--";
+                        return output.Trim();
                     }
-
                     return output.Trim();
                 }
             }
@@ -108,7 +107,7 @@ namespace UotanToolbox.Common
                 {
                     SukiHost.ShowDialog(new ConnectionDialog($"An error occurred in Fastboot operation: {ex.Message}"));
                 }
-                return null;
+                return "";
             }
         }
 

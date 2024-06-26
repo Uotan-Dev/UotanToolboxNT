@@ -22,7 +22,7 @@ public partial class HomeViewModel : MainPageBase
     _vABStatus = "--", _codeName = "--", _vNDKVersion = "--", _cPUCode = "--",
     _powerOnTime = "--", _deviceBrand = "--", _deviceModel = "--", _androidSDK = "--",
     _cPUABI = "--", _displayHW = "--", _density = "--", _boardID = "--", _platform = "--",
-    _compile = "--", _kernel = "--", _selectedSimpleContent = "--", _diskType = "--",
+    _compile = "--", _kernel = "--", _selectedSimpleContent = null, _diskType = "--",
     _batteryLevel = "0", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
     [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private bool _commonDevicesList;
@@ -41,7 +41,7 @@ public partial class HomeViewModel : MainPageBase
         this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe(option =>
             {
-                if (option != "--" && SimpleContent != null && SimpleContent.Count != 0)
+                if (option != null && option != Global.thisdevice && SimpleContent != null && SimpleContent.Count != 0)
                 {
                     Global.thisdevice = option;
                     _ = ConnectCore();
@@ -54,7 +54,6 @@ public partial class HomeViewModel : MainPageBase
         string[] devices = await GetDevicesInfo.DevicesList();
         if (devices.Length != 0)
         {
-            CommonDevicesList = true;
             Global.deviceslist = new AvaloniaList<string>(devices);
             SimpleContent = Global.deviceslist;
             if (SelectedSimpleContent == null || !string.Join("", SimpleContent).Contains(SelectedSimpleContent))
@@ -65,11 +64,9 @@ public partial class HomeViewModel : MainPageBase
                 }
                 else
                 {
-                    Global.thisdevice = SimpleContent.First();
                     SelectedSimpleContent = SimpleContent.First();
                 }
             }
-            CommonDevicesList = false;
             return true;
         }
         else
@@ -79,11 +76,6 @@ public partial class HomeViewModel : MainPageBase
                 var newDialog = new ConnectionDialog(GetTranslation("Dialog_Unconnected"));
                 await SukiHost.ShowDialogAsync(newDialog);
             });
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            SimpleContent = null;
-            Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
-            VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
-            BatteryLevel = MemLevel = ProgressDisk = "0";
             return false;
         }
     }
@@ -133,7 +125,7 @@ public partial class HomeViewModel : MainPageBase
         }
     }
 
-    public static async Task<bool> ListChecker()
+    public async Task<bool> ListChecker()
     {
         string[] devices = await GetDevicesInfo.DevicesList();
         if (devices.Length != 0)
@@ -152,7 +144,13 @@ public partial class HomeViewModel : MainPageBase
             if (Global.deviceslist != null && Global.deviceslist.Count != 0)
             {
                 Global.deviceslist.Clear();
-                return true;
+                Global.thisdevice = null;
+                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                SimpleContent = null;
+                Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
+                VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
+                BatteryLevel = MemLevel = ProgressDisk = "0";
+                return false;
             }
         }
         return false;
@@ -164,7 +162,16 @@ public partial class HomeViewModel : MainPageBase
         {
             if (await ListChecker() == true)
             {
-                await FreshDeviceList();
+                AvaloniaList<string> OldDeviceList = Global.deviceslist;
+                if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+                {
+                    if (OldDeviceList != Global.deviceslist)
+                    {
+                        CommonDevicesList = true;
+                        await GetDevicesList();
+                        CommonDevicesList = false;
+                    }
+                }
             }
             await Task.Delay(1000);
         }
@@ -174,8 +181,7 @@ public partial class HomeViewModel : MainPageBase
     public async Task FreshDeviceList()
     {
         AvaloniaList<string> OldDeviceList = Global.deviceslist;
-        bool GetDeviceListStatus = await GetDevicesList();
-        if (GetDeviceListStatus == true && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
+        if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
         {
             if (OldDeviceList != Global.deviceslist)
             {

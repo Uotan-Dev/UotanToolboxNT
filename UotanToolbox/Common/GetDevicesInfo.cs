@@ -68,11 +68,6 @@ namespace UotanToolbox.Common
                 sukiViewModel.BLStatus = "--";
                 sukiViewModel.VABStatus = "--";
                 sukiViewModel.CodeName = "--";
-                await Dispatcher.UIThread.InvokeAsync(async () =>
-                {
-                    var newDialog = new ConnectionDialog(GetTranslation("Dialog_Unconnected"));
-                    await SukiHost.ShowDialogAsync(newDialog);
-                });
                 return false;
             }
         }

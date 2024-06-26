@@ -11,7 +11,7 @@ namespace UotanToolbox.Common
 {
     internal class CallExternalProgram
     {
-        public static async Task<string> ADB(string adbShellCommand)
+        public static async Task<string> ADB(string adbShellCommand,bool debug =false)
         {
             try
             {
@@ -28,7 +28,10 @@ namespace UotanToolbox.Common
                     adbProcess.StartInfo = startInfo;
                     if (!adbProcess.Start())
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("Failed to start ADB process."));
+                        if (!debug)
+                        {
+                            SukiHost.ShowDialog(new ConnectionDialog("Failed to start ADB process."));
+                        }
                         return null;
                     }
                     string output = await adbProcess.StandardOutput.ReadToEndAsync();
@@ -39,7 +42,10 @@ namespace UotanToolbox.Common
                     adbProcess.WaitForExit();
                     if (adbProcess.ExitCode != 0)
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog($"ADB failed with code {adbProcess.ExitCode}. Command: {adbShellCommand}"));
+                        if (!debug)
+                        {
+                            SukiHost.ShowDialog(new ConnectionDialog($"ADB failed with code {adbProcess.ExitCode}. Command: {adbShellCommand}"));
+                        }
                         return null;
                     }
 
@@ -48,12 +54,15 @@ namespace UotanToolbox.Common
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog(ex.Message));
+                if (!debug)
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog(ex.Message));
+                }
                 return null;
             }
         }
 
-        public static async Task<string> Fastboot(string fastbootCommand)
+        public static async Task<string> Fastboot(string fastbootCommand,bool debug =false)
         {
             try
             {
@@ -71,7 +80,10 @@ namespace UotanToolbox.Common
 
                     if (!fastbootProcess.Start())
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog("Failed to start Fastboot process."));
+                        if (!debug)
+                        {
+                            SukiHost.ShowDialog(new ConnectionDialog("Failed to start Fastboot process."));
+                        }
                         return null;
                     }
                     var outputTask = fastbootProcess.StandardOutput.ReadToEndAsync();
@@ -80,16 +92,22 @@ namespace UotanToolbox.Common
                     string output = !string.IsNullOrEmpty(await errorTask) ? await errorTask : await outputTask;
                     output = output.Trim();
                     fastbootProcess.WaitForExit();
-                    if (fastbootProcess.ExitCode != 0) 
+                    if (fastbootProcess.ExitCode != 0)
                     {
-                        SukiHost.ShowDialog(new ConnectionDialog($"Fastboot command execution failed with exit code {fastbootProcess.ExitCode}. Command: {fastbootCommand}"));
+                        if (!debug)
+                        {
+                            SukiHost.ShowDialog(new ConnectionDialog($"Fastboot command execution failed with exit code {fastbootProcess.ExitCode}. Command: {fastbootCommand}"));
+                        }
                     }
                     return output;
                 }
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"An error occurred in Fastboot operation: {ex.Message}"));
+                if (!debug)
+                {
+                    SukiHost.ShowDialog(new ConnectionDialog($"An error occurred in Fastboot operation: {ex.Message}"));
+                }
                 return null;
             }
         }

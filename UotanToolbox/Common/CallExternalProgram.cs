@@ -32,7 +32,7 @@ namespace UotanToolbox.Common
                         {
                             SukiHost.ShowDialog(new ConnectionDialog("Failed to start ADB process."));
                         }
-                        return null;
+                        return "--";
                     }
                     string output = await adbProcess.StandardOutput.ReadToEndAsync();
                     if (string.IsNullOrEmpty(output))
@@ -46,7 +46,7 @@ namespace UotanToolbox.Common
                         {
                             SukiHost.ShowDialog(new ConnectionDialog($"ADB failed with code {adbProcess.ExitCode}. Command: {adbShellCommand}"));
                         }
-                        return null;
+                        return "--";
                     }
 
                     return output.Trim();

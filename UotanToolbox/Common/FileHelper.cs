@@ -52,13 +52,31 @@ namespace UotanToolbox.Common
         /// <returns>文件的SHA1哈希值，表示为32位小写字母和数字的字符串。</returns>
         public static string SHA1Hash(string filePath)
         {
-            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            try
             {
-                using (var sha1 = SHA1.Create())
+                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
-                    var hashBytes = sha1.ComputeHash(fileStream);
-                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                    using (var sha1 = SHA1.Create())
+                    {
+                        var hashBytes = sha1.ComputeHash(fileStream);
+                        return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                    }
                 }
+            }
+            catch (FileNotFoundException)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"The file '{filePath}' was not found."));
+                throw;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"Access to the file '{filePath}' is denied."));
+                throw; 
+            }
+            catch (Exception ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}"));
+                return null; 
             }
         }
         /// <summary>

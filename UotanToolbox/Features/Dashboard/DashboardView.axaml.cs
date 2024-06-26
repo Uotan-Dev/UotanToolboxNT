@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
 
@@ -75,7 +76,7 @@ public partial class DashboardView : UserControl
             patch_busy(false);
             return;
         }
-        MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+        MagiskFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
         Global.magisk_tmp = Path.Combine(Global.tmp_path, "Magisk-" + StringHelper.RandomString(8));
         bool istempclean = FileHelper.ClearFolder(Global.magisk_tmp);
         if (istempclean)
@@ -125,10 +126,15 @@ public partial class DashboardView : UserControl
             patch_busy(false);
             return;
         }
-        BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+        BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
         Global.boot_sha1 = FileHelper.SHA1Hash(BootFile.Text);
+        if (Global.boot_sha1 == null)
+        {
+            patch_busy(false);
+            return;
+        }
         //在临时目录创建临时boot目录，这破东西跨平台解压各种问题，直接即用即丢了
-        Global.boot_tmp = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
+        Global.boot_tmp = Path.Combine(Global.tmp_path, "Boot -" + StringHelper.RandomString(8));
         string workpath = Global.boot_tmp; // 不这样搞会报错，莫名其妙
         if (FileHelper.ClearFolder(workpath))
         {

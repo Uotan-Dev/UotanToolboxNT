@@ -173,5 +173,5 @@ namespace UotanToolbox.Common
                 return false;
             }
         }
-        }
     }
+}

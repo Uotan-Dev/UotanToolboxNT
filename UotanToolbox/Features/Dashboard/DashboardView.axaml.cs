@@ -8,8 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
 
@@ -28,7 +26,7 @@ public partial class DashboardView : UserControl
             BusyPatch.IsBusy = true;
             PanelPatch.IsEnabled = false;
         }
-        else 
+        else
         {
             BusyPatch.IsBusy = false;
             PanelPatch.IsEnabled = true;

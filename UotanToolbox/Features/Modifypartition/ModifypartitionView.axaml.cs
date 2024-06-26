@@ -1,12 +1,7 @@
-﻿using Avalonia.Collections;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
-using CommunityToolkit.Mvvm.ComponentModel;
 using SukiUI.Controls;
 using System;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
 using System.Text.RegularExpressions;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;

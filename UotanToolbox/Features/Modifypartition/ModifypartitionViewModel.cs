@@ -1,7 +1,4 @@
-﻿using Avalonia.Collections;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Material.Icons;
-using System.Linq;
+﻿using Material.Icons;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Modifypartition;

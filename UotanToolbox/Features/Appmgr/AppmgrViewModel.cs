@@ -22,7 +22,11 @@ public partial class AppmgrViewModel : MainPageBase
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
-        Applications = [];
+        if(Global.load_times == 0)
+        {
+            Applications = [];
+            Global.load_times = 1;
+        }
     }
 
     [RelayCommand]

@@ -29,28 +29,11 @@ public partial class AppmgrViewModel : MainPageBase
     }
 
     [RelayCommand]
-    private async Task<bool> IsDeviceConnected()
-    {
-        try
-        {
-            var devicesListOutput = await CallExternalProgram.ADB("devices");
-            return devicesListOutput.Contains($"{Global.thisdevice} device");
-        }
-        catch
-        {
-            return false;
-        }
-    }
     public async Task Connect()
     {
         IsBusy = true;
         try
         {
-            if (!await IsDeviceConnected()) 
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("Device not found."));
-                return;
-            }
             if (!await GetDevicesInfo.SetDevicesInfoLittle())
                 return;
             string fullApplicationsList;
@@ -58,7 +41,11 @@ public partial class AppmgrViewModel : MainPageBase
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
             else
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
-
+            if (fullApplicationsList.Contains("\' not found"))
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("请在设备系统内运行命令"));
+                return;
+            }
             var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
             HasItems = lines.Length > 0;
             var applicationInfosTasks = lines.AsParallel()

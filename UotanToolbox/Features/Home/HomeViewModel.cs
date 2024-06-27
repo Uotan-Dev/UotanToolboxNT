@@ -162,16 +162,9 @@ public partial class HomeViewModel : MainPageBase
         {
             if (await ListChecker() == true)
             {
-                AvaloniaList<string> OldDeviceList = Global.deviceslist;
-                if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
-                {
-                    if (OldDeviceList != Global.deviceslist)
-                    {
-                        CommonDevicesList = true;
-                        await GetDevicesList();
-                        CommonDevicesList = false;
-                    }
-                }
+                CommonDevicesList = true;
+                await GetDevicesList();
+                CommonDevicesList = false;
             }
             await Task.Delay(1000);
         }

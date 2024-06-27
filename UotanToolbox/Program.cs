@@ -26,7 +26,9 @@ internal class Program
         if (OperatingSystem.IsLinux())
         {
             string FontPath = Path.Combine(Global.runpath, "Font");
-            FileHelper.CopyDirectory(FontPath, $"/home/{System.Environment.UserName}/.local/share/fonts/");
+            string SystemFontPath = $"/home/{System.Environment.UserName}/.local/share/fonts/";
+            Directory.CreateDirectory(SystemFontPath);
+            FileHelper.CopyDirectory(FontPath, SystemFontPath);
             options.DefaultFamilyName = "MiSans";
             if (RuntimeInformation.OSArchitecture == Architecture.X64)
             {

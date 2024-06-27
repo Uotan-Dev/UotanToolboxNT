@@ -79,7 +79,7 @@ public partial class CustomizedflashView : UserControl
             if (SystemFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -119,7 +119,7 @@ public partial class CustomizedflashView : UserControl
             if (ProductFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -158,7 +158,7 @@ public partial class CustomizedflashView : UserControl
             if (VenderFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -197,7 +197,7 @@ public partial class CustomizedflashView : UserControl
             if (BootFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -236,7 +236,7 @@ public partial class CustomizedflashView : UserControl
             if (SystemextFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -275,7 +275,7 @@ public partial class CustomizedflashView : UserControl
             if (OdmFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -314,7 +314,7 @@ public partial class CustomizedflashView : UserControl
             if (VenderbootFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -353,7 +353,7 @@ public partial class CustomizedflashView : UserControl
             if (InitbootFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     BusyFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -392,7 +392,7 @@ public partial class CustomizedflashView : UserControl
             if (ImageFile.Text != null)
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     BusyImageFlash.IsBusy = true;
                     CustomizedflashLog.Text = "";
@@ -416,7 +416,7 @@ public partial class CustomizedflashView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 CustomizedflashLog.Text = "";
                 string shell = String.Format($"-s {Global.thisdevice} --disable-verity --disable-verification flash vbmeta {Global.runpath}/Image/vbmeta.img");
@@ -433,7 +433,7 @@ public partial class CustomizedflashView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 CustomizedflashLog.Text = "";
                 string shell = String.Format($"-s {Global.thisdevice} set_active other");

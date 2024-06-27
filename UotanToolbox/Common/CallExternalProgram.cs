@@ -230,22 +230,22 @@ namespace UotanToolbox.Common
         public static async Task<string> Scrcpy(string arg)
         {
             string cmd = Path.Combine(Global.bin_path, "platform-tools", "scrcpy");
-            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, arg)
+            ProcessStartInfo scrcpy = new ProcessStartInfo(cmd, arg)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process scrcpy = new Process();
-            scrcpy.StartInfo = fastboot;
-            scrcpy.Start();
-            string output = await scrcpy.StandardError.ReadToEndAsync();
+            using Process sc = new Process();
+            sc.StartInfo = scrcpy;
+            sc.Start();
+            string output = await sc.StandardError.ReadToEndAsync();
             if (output == "")
             {
-                output = await scrcpy.StandardOutput.ReadToEndAsync();
+                output = await sc.StandardOutput.ReadToEndAsync();
             }
-            scrcpy.WaitForExit();
+            sc.WaitForExit();
             return output;
         }
         public static async Task<string> SevenZip(string args)

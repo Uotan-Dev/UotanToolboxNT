@@ -260,7 +260,7 @@ public partial class HomeViewModel : MainPageBase
     {
         await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
+        if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
         {
             string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
             if (output.Contains("not found"))
@@ -294,13 +294,17 @@ public partial class HomeViewModel : MainPageBase
     {
         await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+        if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
         {
             string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
             if (output.Contains("unknown command"))
             {
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc bin/img/misc.img");
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
+            }
+            else
+            {
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot recovery");
             }
         }
         else

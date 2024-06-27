@@ -4,6 +4,7 @@ namespace UotanToolbox.Common
 {
     internal class Global
     {
+        public static bool checkdevice = true;
         public static string runpath = null;
         public static string bin_path = null;
         public static string tmp_path = null;

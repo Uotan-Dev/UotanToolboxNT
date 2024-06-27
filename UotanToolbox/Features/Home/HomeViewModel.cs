@@ -159,7 +159,7 @@ public partial class HomeViewModel : MainPageBase
 
     public async Task CheckDeviceList()
     {
-        while (true)
+        while (Global.checkdevice)
         {
             if (await ListChecker() == true)
             {

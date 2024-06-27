@@ -36,6 +36,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             if (!await GetDevicesInfo.SetDevicesInfoLittle())
                 return;
+
             string fullApplicationsList;
             if (!isSystemAppDisplayed)
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
@@ -93,7 +94,15 @@ public partial class AppmgrViewModel : MainPageBase
         IsInstalling = true;
         if (!string.IsNullOrEmpty(ApkFile))
         {
-            await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r {ApkFile}");
+            string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{ApkFile}\"");
+            if (output.Contains("Success"))
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("安装成功！"));
+            }
+            else
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"安装失败：\r\n{output}"));
+            }
         }
         else
         {

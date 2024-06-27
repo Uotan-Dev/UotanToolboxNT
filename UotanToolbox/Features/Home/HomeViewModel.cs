@@ -6,6 +6,7 @@ using Material.Icons;
 using Microsoft.VisualBasic;
 using ReactiveUI;
 using SukiUI.Controls;
+using SukiUI.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -240,7 +241,12 @@ public partial class HomeViewModel : MainPageBase
     public async Task Mute() => await ADBControl("shell input keyevent 164");
 
     [RelayCommand]
-    public async Task SC() => await ADBControl($"shell /system/bin/screencap -p /sdcard/{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}.png");
+    public async Task SC()
+    {
+        string pngname = String.Format($"{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}");
+        await ADBControl($"shell /system/bin/screencap -p /sdcard/{pngname}.png");
+        await SukiHost.ShowToast("执行成功", $"已保存 {pngname}.png 至手机储存", NotificationType.Success);
+    }
 
     [RelayCommand]
     public async Task AReboot() => await ADBControl("reboot");

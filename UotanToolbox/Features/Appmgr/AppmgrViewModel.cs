@@ -44,7 +44,7 @@ public partial class AppmgrViewModel : MainPageBase
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
             if (fullApplicationsList.Contains("\' not found"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请在设备系统内运行命令"));
+                SukiHost.ShowDialog(new ConnectionDialog("请在系统内执行"));
                 return;
             }
             var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);

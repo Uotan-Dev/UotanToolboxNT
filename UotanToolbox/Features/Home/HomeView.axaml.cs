@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using SukiUI.Controls;
+using SukiUI.Enums;
 
 namespace UotanToolbox.Features.Home;
 
@@ -30,6 +32,7 @@ public partial class HomeView : UserControl
             }
             if (clipboard != null)
                 await clipboard.SetDataObjectAsync(dataObject);
+            await SukiHost.ShowToast("已复制到剪贴板", "o(*≧▽≦)ツ", NotificationType.Success);
         }
     }
 }

@@ -6,6 +6,7 @@ using Material.Icons;
 using Microsoft.VisualBasic;
 using ReactiveUI;
 using SukiUI.Controls;
+using SukiUI.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -162,16 +163,9 @@ public partial class HomeViewModel : MainPageBase
         {
             if (await ListChecker() == true)
             {
-                AvaloniaList<string> OldDeviceList = Global.deviceslist;
-                if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
-                {
-                    if (OldDeviceList != Global.deviceslist)
-                    {
-                        CommonDevicesList = true;
-                        await GetDevicesList();
-                        CommonDevicesList = false;
-                    }
-                }
+                CommonDevicesList = true;
+                await GetDevicesList();
+                CommonDevicesList = false;
             }
             await Task.Delay(1000);
         }
@@ -247,7 +241,12 @@ public partial class HomeViewModel : MainPageBase
     public async Task Mute() => await ADBControl("shell input keyevent 164");
 
     [RelayCommand]
-    public async Task SC() => await ADBControl($"shell /system/bin/screencap -p /sdcard/{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}.png");
+    public async Task SC()
+    {
+        string pngname = String.Format($"{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}");
+        await ADBControl($"shell /system/bin/screencap -p /sdcard/{pngname}.png");
+        await SukiHost.ShowToast("执行成功", $"已保存 {pngname}.png 至手机储存", NotificationType.Success);
+    }
 
     [RelayCommand]
     public async Task AReboot() => await ADBControl("reboot");
@@ -260,7 +259,7 @@ public partial class HomeViewModel : MainPageBase
     {
         await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
+        if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
         {
             string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
             if (output.Contains("not found"))
@@ -294,13 +293,17 @@ public partial class HomeViewModel : MainPageBase
     {
         await ConnectLittle();
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+        if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
         {
             string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
             if (output.Contains("unknown command"))
             {
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc bin/img/misc.img");
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
+            }
+            else
+            {
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot recovery");
             }
         }
         else

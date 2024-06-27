@@ -10,21 +10,11 @@ namespace UotanToolbox.Utilities
         public static void OpenURL(string url)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "cmd.exe",
-                    WorkingDirectory = Path.Combine(Global.bin_path, "platform-tools"),
-                    UseShellExecute = true
-                });
+                Process.Start(new ProcessStartInfo(url.Replace("&", "^&")) { UseShellExecute = true });
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "/usr/bin/gnome-terminal",  // 可以根据实际情况选择合适的终端程序
-                    Arguments = $"--working-directory={Path.Combine(Global.bin_path, "platform-tools", "adb")}",
-                    UseShellExecute = false
-                });
+                Process.Start("xdg-open", url);
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                Process.Start("open", "-a Terminal " + Path.Combine(Global.bin_path, "platform-tools", "adb"));
+                Process.Start("open", url);
         }
     }
 }

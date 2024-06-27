@@ -11,7 +11,7 @@ namespace UotanToolbox.Common
 {
     internal class CallExternalProgram
     {
-        public static async Task<string> ADB(string adbShellCommand,bool debug =false)
+        public static async Task<string> ADB(string adbShellCommand, bool debug = false)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace UotanToolbox.Common
             }
         }
 
-        public static async Task<string> Fastboot(string fastbootCommand,bool debug =false)
+        public static async Task<string> Fastboot(string fastbootCommand, bool debug = false)
         {
             try
             {

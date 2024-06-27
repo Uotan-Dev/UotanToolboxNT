@@ -27,6 +27,30 @@ namespace UotanToolbox.Common
                 throw;
             }
         }
+        /// <summary>
+        /// 从文件路径读取内容为字节数组。
+        /// </summary>
+        /// <param name="filePath">文件的完整路径。</param>
+        /// <returns>文件内容对应的字节数组。</returns>
+        public static byte[] ReadFileToByteArray(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentException("FilePath cannot be null or empty.", nameof(filePath));
+            try
+            {
+                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    var fileSize = (int)fileStream.Length;
+                    var byteArray = new byte[fileSize];
+
+                    fileStream.Read(byteArray, 0, fileSize);
+                    return byteArray;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new IOException($"An error occurred while reading the file: {ex.Message}", ex);
+            }
+        }
 
         public static void Write(string file, string text)//写入到txt文件
         {
@@ -71,12 +95,12 @@ namespace UotanToolbox.Common
             catch (UnauthorizedAccessException)
             {
                 SukiHost.ShowDialog(new ConnectionDialog($"Access to the file '{filePath}' is denied."));
-                throw; 
+                throw;
             }
             catch (Exception ex)
             {
                 SukiHost.ShowDialog(new ConnectionDialog($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}"));
-                return null; 
+                return null;
             }
         }
         /// <summary>

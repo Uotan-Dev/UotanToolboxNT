@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
@@ -172,6 +173,80 @@ namespace UotanToolbox.Common
             {
                 return false;
             }
+        }
+        /// <summary>
+        /// 检查路径下的init文件的实际路径
+        /// </summary>
+        /// <param name="filePath">ramdisk解包路径</param>
+        /// <returns>如果前9个字节与目标序列匹配则返回true，否则返回false。</returns>
+        public static string CheckInitPath(string ramdisk_Path)
+        {
+            // 目标字节序列
+            byte[] symlinkBytes = { 0x21, 0x3C, 0x73, 0x79, 0x6D, 0x6C, 0x69, 0x6E, 0x6B };
+            byte[] elfBytes = { 0x7F, 0x45, 0x4C, 0x46, 0x02, 0x01, 0x01, 0x00, 0x00 };
+            try
+            {
+                string init_path = Path.Combine(ramdisk_Path, "init");
+                using (FileStream fileStream = new FileStream(init_path, FileMode.Open, FileAccess.Read))
+                using (BinaryReader reader = new BinaryReader(fileStream))
+                {
+                    byte[] headerBytes = reader.ReadBytes(9);
+                    if (!(headerBytes.Length == symlinkBytes.Length))
+                    {
+                        return null;
+                    }
+                    if (headerBytes == elfBytes)
+                    {
+                        return init_path;
+                    }
+                    if (headerBytes == symlinkBytes)
+                    {
+                        return read_symlink(init_path);
+                    }
+                    return null;
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("文件未找到。");
+                return null;
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine($"读取文件时发生错误: {ex.Message}");
+                return null;
+            }
+        }
+        public static string read_symlink(string symlink)
+        {
+            string filePath = symlink;
+            byte[] source;
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentException("FilePath cannot be null or empty.", nameof(filePath));
+            try
+            {
+                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    var fileSize = (int)fileStream.Length;
+                    var byteArray = new byte[fileSize];
+                    fileStream.Read(byteArray, 0, fileSize);
+                    source = byteArray;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new IOException($"An error occurred while reading the file: {ex.Message}", ex);
+            }
+            int startIndex = 12;
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException(nameof(startIndex));
+            var result = new byte[(source.Length - startIndex + 1) / 2];
+            for (int i = startIndex, j = 0; i < source.Length && j < result.Length; i += 2, j++)
+            {
+                result[j] = source[i];
+            }
+            string ramdisk = Path.GetDirectoryName(filePath);
+            string output = Path.Combine(filePath, Encoding.ASCII.GetString(result).Trim());
+            return output;
         }
     }
 }

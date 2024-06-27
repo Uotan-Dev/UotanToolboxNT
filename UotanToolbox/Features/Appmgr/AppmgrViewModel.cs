@@ -29,30 +29,14 @@ public partial class AppmgrViewModel : MainPageBase
     }
 
     [RelayCommand]
-    private async Task<bool> IsDeviceConnected()
-    {
-        try
-        {
-            var devicesListOutput = await CallExternalProgram.ADB("devices");
-            return devicesListOutput.Contains($"{Global.thisdevice} device");
-        }
-        catch
-        {
-            return false;
-        }
-    }
     public async Task Connect()
     {
         IsBusy = true;
         try
         {
-            if (!await IsDeviceConnected()) 
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("Device not found."));
-                return;
-            }
             if (!await GetDevicesInfo.SetDevicesInfoLittle())
                 return;
+
             string fullApplicationsList;
             if (!isSystemAppDisplayed)
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
@@ -106,7 +90,15 @@ public partial class AppmgrViewModel : MainPageBase
         IsInstalling = true;
         if (!string.IsNullOrEmpty(ApkFile))
         {
-            await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r {ApkFile}");
+            string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{ApkFile}\"");
+            if (output.Contains("Success"))
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("安装成功！"));
+            }
+            else
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"安装失败：\r\n{output}"));
+            }
         }
         else
         {

@@ -46,8 +46,11 @@ public partial class AppmgrViewModel : MainPageBase
         IsBusy = true;
         try
         {
-            if (!await IsDeviceConnected())
+            if (!await IsDeviceConnected()) 
+            {
                 SukiHost.ShowDialog(new ConnectionDialog("Device not found."));
+                return;
+            }
             if (!await GetDevicesInfo.SetDevicesInfoLittle())
                 return;
             string fullApplicationsList;

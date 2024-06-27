@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Controls;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +21,7 @@ public partial class AppmgrViewModel : MainPageBase
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
-        if(Global.load_times == 0)
+        if (Global.load_times == 0)
         {
             Applications = [];
             Global.load_times = 1;
@@ -64,7 +63,8 @@ public partial class AppmgrViewModel : MainPageBase
                                              .ThenBy(app => app.Name)
                                              .ToList();
             Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
-        }catch(Exception ex)
+        }
+        catch (Exception ex)
         {
             SukiHost.ShowDialog(new ConnectionDialog(ex.Message));
         }

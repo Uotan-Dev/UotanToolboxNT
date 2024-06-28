@@ -3,25 +3,26 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using SukiUI.Controls;
 
-namespace SukiUI.Demo.Features.ControlsLibrary.Dialogs;
-
-public partial class StandardDialog : UserControl
+namespace UotanToolbox.Features.Components
 {
-    public StandardDialog(string DialogContent)
+    public partial class ErrorDialog : UserControl
     {
-        Dispatcher.UIThread.Post(() =>
+        public ErrorDialog(string DialogContent)
         {
-            var dialogueTextBlock = this.FindControl<TextBlock>("DialogContent");
-            if (dialogueTextBlock != null)
+            Dispatcher.UIThread.Post(() =>
             {
-                dialogueTextBlock.Text = DialogContent;
-            }
-        });
-        InitializeComponent();
-    }
+                var dialogueTextBlock = this.FindControl<TextBlock>("DialogContent");
+                if (dialogueTextBlock != null)
+                {
+                    dialogueTextBlock.Text = DialogContent;
+                }
+            });
+            InitializeComponent();
+        }
 
-    private void Button_OnClick(object? sender, RoutedEventArgs e)
-    {
-        SukiHost.CloseDialog();
+        private void Button_OnClick(object? sender, RoutedEventArgs e)
+        {
+            SukiHost.CloseDialog();
+        }
     }
 }

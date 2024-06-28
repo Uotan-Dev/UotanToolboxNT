@@ -17,12 +17,12 @@ namespace UotanToolbox.Common
             public bool IsVivoSuuPatch { get; set; }
         }
         public static readonly Dictionary<string, string> ArchMappings = new Dictionary<string, string>
-{
-    {"ARM aarch64", "aarch64"},
-    {"X86-64", "X86-64"},
-    {"ARM,", "armeabi"},
-    {"Intel 80386", "X86"}
-};
+        {
+            {"ARM aarch64", "aarch64"},
+            {"X86-64", "X86-64"},
+            {"ARM,", "armeabi"},
+            {"Intel 80386", "X86"}
+        };
 
         public static (bool, string) ArchDetect(string init_info)
         {
@@ -219,7 +219,7 @@ namespace UotanToolbox.Common
                     }
                     if (BitConverter.ToString(headerBytes) == BitConverter.ToString(symlinkBytes))
                     {
-                        return read_symlink(init_path);
+                        return Path.Join(ramdisk_Path, read_symlink(init_path));
                     }
                     SukiHost.ShowDialog(new ConnectionDialog("错误文件类型" + BitConverter.ToString(symlinkBytes)));
                     return "2";

@@ -391,7 +391,7 @@ public partial class DashboardView : UserControl
             }
             (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract", workpath);
             string init_path = BootPatchHelper.CheckInitPath(ramdisk);
-            string init_info = await CallExternalProgram.File($"\"{Path.Join(ramdisk, init_path)}\"");
+            string init_info = await CallExternalProgram.File($"\"{init_path}\"");
             (bool valid, string arch) = BootPatchHelper.ArchDetect(init_info);
             if (valid)
             {

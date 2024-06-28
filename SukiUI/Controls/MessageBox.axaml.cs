@@ -1,7 +1,8 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using System;
+using Avalonia.Markup.Xaml;
 
 namespace SukiUI.Controls
 {
@@ -11,16 +12,16 @@ namespace SukiUI.Controls
         {
             InitializeComponent();
         }
-
+        
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
 
             e.NameScope.Get<Button>("ButtonAction").Click += ((sender, args) => _onActionCallback?.Invoke());
         }
-
+        
         public Action? _onActionCallback;
-
+        
         public static readonly StyledProperty<object?> IconProperty =
             AvaloniaProperty.Register<MessageBox, object?>(nameof(Icon));
 
@@ -29,7 +30,7 @@ namespace SukiUI.Controls
             get => GetValue(IconProperty);
             set => SetValue(IconProperty, value);
         }
-
+    
         public static readonly StyledProperty<string> TitleProperty =
             AvaloniaProperty.Register<MessageBox, string>(nameof(Title));
 
@@ -38,7 +39,7 @@ namespace SukiUI.Controls
             get => GetValue(TitleProperty);
             set => SetValue(TitleProperty, value);
         }
-
+    
         public static readonly StyledProperty<bool> ShowActionButtonProperty =
             AvaloniaProperty.Register<MessageBox, bool>(nameof(ShowActionButton));
 
@@ -47,7 +48,7 @@ namespace SukiUI.Controls
             get => GetValue(ShowActionButtonProperty);
             set => SetValue(ShowActionButtonProperty, value);
         }
-
+    
         public static readonly StyledProperty<string> ActionButtonContentProperty =
             AvaloniaProperty.Register<MessageBox, string>(nameof(ActionButtonContent));
 

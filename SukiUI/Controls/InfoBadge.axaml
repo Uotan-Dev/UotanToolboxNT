@@ -3,66 +3,66 @@
                     xmlns:controls="clr-namespace:SukiUI.Controls"
                     xmlns:converters="clr-namespace:SukiUI.Converters">
 
-	<Design.PreviewWith>
-		<StackPanel Width="300"
+    <Design.PreviewWith>
+        <StackPanel Width="300"
                     Height="400"
                     Margin="0,20,0,0"
                     Spacing="20">
-			<controls:InfoBadge Appearance="Info" Header="Info"
+            <controls:InfoBadge Appearance="Info" Header="Info"
                                 CornerPosition="TopRight"
                                 >
-
-				<Button Content="Log In" />
-			</controls:InfoBadge>
-			<controls:InfoBadge Appearance="Warning"
+            
+                <Button Content="Log In" />
+            </controls:InfoBadge>
+            <controls:InfoBadge Appearance="Warning"
                                 CornerPosition="TopLeft"
                                 Header="Warning">
-				<Button />
-			</controls:InfoBadge>
-			<controls:InfoBadge Appearance="Success"
+                <Button />
+            </controls:InfoBadge>
+            <controls:InfoBadge Appearance="Success"
                                 CornerPosition="BottomRight"
                                 Header="Success">
-				<Button />
-			</controls:InfoBadge>
-			<controls:InfoBadge Appearance="Error"
+                <Button />
+            </controls:InfoBadge>
+            <controls:InfoBadge Appearance="Error"
                                 CornerPosition="BottomLeft"
                                 Header="Error">
-				<Button />
-			</controls:InfoBadge>
-			<controls:InfoBadge Appearance="Error"
+                <Button />
+            </controls:InfoBadge>
+            <controls:InfoBadge Appearance="Error"
                                 CornerPosition="TopRight"
                                 IsDot="True">
-				<Button />
-			</controls:InfoBadge>
-			<controls:InfoBadge Appearance="Info"
+                <Button />
+            </controls:InfoBadge>
+            <controls:InfoBadge Appearance="Info"
                                 CornerPosition="TopRight"
                                 Header="100"
                                 Overflow="99">
-				<Button />
-			</controls:InfoBadge>
-		</StackPanel>
-	</Design.PreviewWith>
+                <Button />
+            </controls:InfoBadge>
+        </StackPanel>
+    </Design.PreviewWith>
 
-	<converters:InfoBadgeOverflowConverter x:Key="InfoBadgeContentConverter" />
+    <converters:InfoBadgeOverflowConverter x:Key="InfoBadgeContentConverter" />
 
-	<ControlTheme x:Key="{x:Type controls:InfoBadge}" TargetType="{x:Type controls:InfoBadge}">
-		<Setter Property="CornerRadius" Value="{DynamicResource MediumCornerRadius}" />
-		<Setter Property="Foreground" Value="{DynamicResource SukiText}" />
-		<Setter Property="ClipToBounds" Value="False" />
-		<Setter Property="HorizontalAlignment" Value="Center" />
-		<Setter Property="VerticalAlignment" Value="Center" />
-		<Setter Property="UseLayoutRounding" Value="False" />
-		<Setter Property="Template">
-			<ControlTemplate TargetType="{x:Type controls:InfoBadge}">
-				<Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+    <ControlTheme x:Key="{x:Type controls:InfoBadge}" TargetType="{x:Type controls:InfoBadge}">
+        <Setter Property="CornerRadius" Value="{DynamicResource MediumCornerRadius}" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="UseLayoutRounding" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate TargetType="{x:Type controls:InfoBadge}">
+                <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                       VerticalAlignment="{TemplateBinding VerticalAlignment}"
                       ClipToBounds="False">
-					<ContentPresenter Name="PART_ContentPresenter"
+                    <ContentPresenter Name="PART_ContentPresenter"
                                       HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                       Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}" />
-					<Border Name="BadgeBorder"
+                    <Border Name="BadgeBorder"
                             MinWidth="18"
                             MinHeight="18"
                             Padding="5,2,5,2"
@@ -72,41 +72,41 @@
                             CornerRadius="{TemplateBinding CornerRadius}"
                             IsVisible="{Binding !!Header, RelativeSource={RelativeSource TemplatedParent}}"
                             UseLayoutRounding="False">
-						<ContentPresenter Name="PART_HeaderPresenter" Margin="2"
+                        <ContentPresenter Name="PART_HeaderPresenter" Margin="2"  
                                           HorizontalAlignment="Center" FontWeight="DemiBold"
-                                          VerticalAlignment="Center" Foreground="White"
+                                          VerticalAlignment="Center" Foreground="White" 
                                           Focusable="False"
                                           IsTabStop="False">
-							<ContentPresenter.Styles>
-								<Style Selector="TextBlock">
-									<Setter Property="FontSize" Value="13"></Setter>
-								</Style>
-							</ContentPresenter.Styles>
-							<ContentPresenter.Content>
-								<MultiBinding Converter="{StaticResource InfoBadgeContentConverter}">
-									<Binding Path="Header" RelativeSource="{RelativeSource TemplatedParent}" />
-									<Binding Path="Overflow" RelativeSource="{RelativeSource TemplatedParent}" />
-								</MultiBinding>
-							</ContentPresenter.Content>
-						</ContentPresenter>
-					</Border>
-				</Grid>
-			</ControlTemplate>
-		</Setter>
+                            <ContentPresenter.Styles>
+                                <Style Selector="TextBlock">
+                                    <Setter Property="FontSize" Value="13"></Setter>
+                                </Style>
+                            </ContentPresenter.Styles>
+                            <ContentPresenter.Content>
+                                <MultiBinding Converter="{StaticResource InfoBadgeContentConverter}">
+                                    <Binding Path="Header" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="Overflow" RelativeSource="{RelativeSource TemplatedParent}" />
+                                </MultiBinding>
+                            </ContentPresenter.Content>
+                        </ContentPresenter>
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
 
-		<Style Selector="^[IsDot=True]">
-			<Setter Property="Template">
-				<ControlTemplate TargetType="{x:Type controls:InfoBadge}">
-					<Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+        <Style Selector="^[IsDot=True]">
+            <Setter Property="Template">
+                <ControlTemplate TargetType="{x:Type controls:InfoBadge}">
+                    <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
                           ClipToBounds="False">
-						<ContentPresenter Name="PART_ContentPresenter"
+                        <ContentPresenter Name="PART_ContentPresenter"
                                           Margin="-1"
                                           HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                           Content="{TemplateBinding Content}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}" />
-						<Border Name="BadgeBorder"
+                        <Border Name="BadgeBorder"
                                 Width="14"
                                 Height="14"
                                 HorizontalAlignment="Right"
@@ -114,26 +114,26 @@
                                 Background="{TemplateBinding Background}"
                                 CornerRadius="{TemplateBinding CornerRadius}"
                                 IsVisible="{Binding !!Header, RelativeSource={RelativeSource TemplatedParent}}" />
-					</Grid>
-				</ControlTemplate>
-			</Setter>
-		</Style>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </Style>
 
-		<Style Selector="^[CornerPosition=TopLeft] /template/ Border#BadgeBorder">
-			<Setter Property="HorizontalAlignment" Value="Left" />
-			<Setter Property="VerticalAlignment" Value="Top" />
-		</Style>
-		<Style Selector="^[CornerPosition=TopRight] /template/ Border#BadgeBorder">
-			<Setter Property="HorizontalAlignment" Value="Right" />
-			<Setter Property="VerticalAlignment" Value="Top" />
-		</Style>
-		<Style Selector="^[CornerPosition=BottomLeft] /template/ Border#BadgeBorder">
-			<Setter Property="HorizontalAlignment" Value="Left" />
-			<Setter Property="VerticalAlignment" Value="Bottom" />
-		</Style>
-		<Style Selector="^[CornerPosition=BottomRight] /template/ Border#BadgeBorder">
-			<Setter Property="HorizontalAlignment" Value="Right" />
-			<Setter Property="VerticalAlignment" Value="Bottom" />
-		</Style>
-	</ControlTheme>
+        <Style Selector="^[CornerPosition=TopLeft] /template/ Border#BadgeBorder">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style Selector="^[CornerPosition=TopRight] /template/ Border#BadgeBorder">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+        <Style Selector="^[CornerPosition=BottomLeft] /template/ Border#BadgeBorder">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+        </Style>
+        <Style Selector="^[CornerPosition=BottomRight] /template/ Border#BadgeBorder">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+        </Style>
+    </ControlTheme>
 </ResourceDictionary>

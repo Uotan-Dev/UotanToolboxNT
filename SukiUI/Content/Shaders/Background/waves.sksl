@@ -1,0 +1,55 @@
+const int POINTS = 5; // Point rows are determined like N / 10, from bottom to up
+const float WAVE_OFFSET = 5000.0;
+const float SPEED = 0.05;
+
+float mod(float x, float y) {
+    return x - y * floor(x / y);
+}
+
+float smoothstep(float a, float b, float x) {
+    float t = clamp((x - a) / (b - a), 0.0, 1.0);
+    return t * t * (3.0 - 2.0 * t);
+}
+
+vec3 blendOverlay(vec3 base, vec3 blend) {
+    return vec3(
+        base.r < 0.5 ? (2.0 * base.r * blend.r) : (1.0 - 2.0 * (1.0 - base.r) * (1.0 - blend.r)),
+        base.g < 0.5 ? (2.0 * base.g * blend.g) : (1.0 - 2.0 * (1.0 - base.g) * (1.0 - blend.g)),
+        base.b < 0.5 ? (2.0 * base.b * blend.b) : (1.0 - 2.0 * (1.0 - base.b) * (1.0 - blend.b))
+    );
+}
+
+void voronoi(vec2 uv, inout vec3 col)
+{
+    vec3 voronoi = vec3(0.0);
+    float time = (iTime + WAVE_OFFSET)*SPEED;
+    float bestDistance = 999.0;
+    float lastBestDistance = bestDistance;
+    for (int i = 0; i < POINTS; i++)
+    {
+        float fi = float(i);
+        vec2 p = vec2(mod(fi, 1.0) * 0.1 + sin(fi),
+                      -0.05 + 0.15 * float(i / 10) + cos(fi + time * cos(uv.x * 0.025)));
+        float d = distance(uv, p);
+        if (d < bestDistance)
+        {
+            lastBestDistance = bestDistance;
+            bestDistance = d;
+            voronoi.x = p.x;
+            voronoi.yz = vec2(p.x * 0.4 + p.y, p.y) * vec2(0.9, 0.87);
+        }
+    }
+    col *= 0.68 + 0.19 * voronoi;
+    col += smoothstep(0.99, 1.05, 1.0 - abs(bestDistance - lastBestDistance)) * 0.9;
+    col += smoothstep(0.95, 1.01, 1.0 - abs(bestDistance - lastBestDistance)) * 0.1 * col;
+    col += (voronoi) * 0.1 * smoothstep(0.5, 1.0, 1.0 - abs(bestDistance - lastBestDistance));
+}
+
+vec4 main(vec2 fragCoord )
+{
+    vec2 uv = fragCoord/iResolution.xy;
+    vec3 col = mix(iPrimary, iAccent, uv.x);
+    voronoi(uv * 4.0 - 1.0, col);
+    vec3 finalCol = blendOverlay(iBase, col);
+    return vec4(finalCol, iAlpha);
+}

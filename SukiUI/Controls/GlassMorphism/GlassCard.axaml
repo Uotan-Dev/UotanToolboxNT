@@ -36,7 +36,7 @@
                         </Border.Transitions>
                     </Border>
                     <Border Name="PART_ClipBorder"
-                            Background="Transparent"
+                            Background="{DynamicResource SukiPrimaryColor1}"
                             BorderBrush="{DynamicResource SukiPrimaryColor0}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="{TemplateBinding ClipToBounds}"
@@ -71,10 +71,10 @@
             <Setter Property="BorderBrush" Value="{DynamicResource SukiAccentColor}" />
         </Style>
         <Style Selector="^.Accent /template/ Border#PART_BorderCard">
-			<Setter Property="Background" Value="{DynamicResource SukiAccentColor25}" />
-		</Style>
-		<Style Selector="^.Primary /template/ Border#PART_BorderCard">
-			<Setter Property="Background" Value="{DynamicResource SukiPrimaryColor25}" />
+            <Setter Property="Background" Value="{DynamicResource SukiAccentColor25}" />
+        </Style>
+        <Style Selector="^.Primary /template/ Border#PART_BorderCard">
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor25}" />
         </Style>
         
         <Style Selector="^[IsVisible=True] /template/ Panel#RootPanel">

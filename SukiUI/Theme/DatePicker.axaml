@@ -50,8 +50,9 @@
 
                         <Button Name="PART_FlyoutButton"
                                 Height="{TemplateBinding Height}"
-                                Background="Transparent" CornerRadius="0"
+                                Background="Transparent"
                                 BorderThickness="0,0,0,1"
+                                CornerRadius="0"
                                 IsEnabled="{TemplateBinding IsEnabled}"
                                 TemplatedControl.IsTemplateFocusTarget="True">
                             <Grid Margin="0,1,0,0" ColumnDefinitions="Auto,Auto">
@@ -96,7 +97,9 @@
                                                HorizontalAlignment="Center"
                                                Fill="{DynamicResource DatePickerSpacerFill}" />
                                 </Grid>
-                                <PathIcon Grid.Column="1"  Height="16" Width="16"
+                                <PathIcon Grid.Column="1"
+                                          Width="16"
+                                          Height="16"
                                           Margin="12,0,0,0"
                                           HorizontalAlignment="Right"
                                           Data="{x:Static icons:Icons.Calendar}"
@@ -151,14 +154,14 @@
                         <Grid Name="PART_PickerContainer" Margin="0,-15,0,15">
                             <Grid.OpacityMask>
                                 <LinearGradientBrush StartPoint="48%,0%" EndPoint="50%,100%">
-                                    <GradientStop Offset="0"  />
+                                    <GradientStop Offset="0" />
                                     <GradientStop Offset="0.5" Color="Black" />
-                                    <GradientStop Offset="1"  />
+                                    <GradientStop Offset="1" />
                                 </LinearGradientBrush>
                             </Grid.OpacityMask>
                             <Grid.Styles>
                                 <Style Selector="ListBoxItem:selected TextBlock">
-                                    <Setter Property="FontWeight" Value="Bold"></Setter>
+                                    <Setter Property="FontWeight" Value="Bold" />
                                 </Style>
                                 <Style Selector="DateTimePickerPanel &gt; ListBoxItem">
                                     <Setter Property="Background" Value="Transparent" />
@@ -254,11 +257,12 @@
                                     Classes="Basic">
                                 <StackPanel Margin="20,0" Orientation="Horizontal">
                                     <PathIcon Width="12"
-                                              Height="12" 
+                                              Height="12"
                                               Data="{x:Static icons:Icons.Check}"
                                               Foreground="{DynamicResource SukiPrimaryColor}" />
                                     <TextBlock Margin="10,0,0,0"
-                                               FontWeight="DemiBold" FontSize="16"
+                                               FontSize="16"
+                                               FontWeight="DemiBold"
                                                Foreground="{DynamicResource SukiPrimaryColor}"
                                                Text="Apply" />
                                 </StackPanel>

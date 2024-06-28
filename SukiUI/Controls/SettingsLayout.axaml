@@ -124,7 +124,7 @@
                 <ControlTemplate>
                     <DockPanel MaxWidth="1400" SizeChanged="DockPanel_SizeChanged">
                         <StackPanel Name="StackSummary"
-                                    Width="0"
+                                    Width="400"
                                     Margin="0,25,0,0"
                                     HorizontalAlignment="Left"
                                     DockPanel.Dock="Left" />

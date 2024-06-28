@@ -82,11 +82,11 @@
                                             BoxShadow="{DynamicResource SukiPopupShadow}"
                                             ClipToBounds="True"
                                             CornerRadius="5">
-										<Panel Background="{DynamicResource PopupGradientBrush}">
+                                        <Panel Background="{DynamicResource PopupGradientBrush}">
                                         <ScrollViewer>
                                             <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
                                         </ScrollViewer>
-										</Panel>
+                                        </Panel>
                                     </Border>
                                 </Panel>
                             </LayoutTransformControl>

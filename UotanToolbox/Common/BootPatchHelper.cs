@@ -8,13 +8,30 @@ using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
 {
-    internal class MagiskHelper
+    internal class BootPatchHelper
     {
         public class PatchPlan
         {
             public string? MAGISK_VER { get; set; }
             public string? MAGISK_VER_CODE { get; set; }
             public bool IsVivoSuuPatch { get; set; }
+        }
+        public static readonly Dictionary<string, string> ArchMappings = new Dictionary<string, string>
+{
+    {"ARM aarch64", "aarch64"},
+    {"X86-64", "X86-64"},
+    {"ARM,", "armeabi"},
+    {"Intel 80386", "X86"}
+};
+
+        public static (bool, string) ArchDetect(string init_info)
+        {
+            foreach (var entry in ArchMappings)
+            {
+                if (init_info.Contains(entry.Key))
+                    return (true, entry.Value);
+            }
+            return (false, null);
         }
         public static bool Magisk_Validation(string MD5_in, string MAGISK_VER)
         {
@@ -108,7 +125,7 @@ namespace UotanToolbox.Common
         {
             try
             {
-                File.Copy(System.IO.Path.Combine(Global.magisk_tmp, "assets", "stub.xz"), System.IO.Path.Combine(Global.boot_tmp, "stub.xz"), true);
+                File.Copy(System.IO.Path.Combine(Global.zip_tmp, "assets", "stub.xz"), System.IO.Path.Combine(Global.boot_tmp, "stub.xz"), true);
                 File.Copy(System.IO.Path.Combine(compPath, "libmagiskinit.so"), System.IO.Path.Combine(Global.boot_tmp, "magiskinit"), true);
                 File.Copy(System.IO.Path.Combine(compPath, "magisk32.xz"), System.IO.Path.Combine(Global.boot_tmp, "magisk32.xz"), true);
                 if (File.Exists(System.IO.Path.Combine((compPath), "magisk64.xz")))
@@ -193,27 +210,29 @@ namespace UotanToolbox.Common
                     byte[] headerBytes = reader.ReadBytes(9);
                     if (!(headerBytes.Length == symlinkBytes.Length))
                     {
-                        return null;
+                        SukiHost.ShowDialog(new ConnectionDialog("长度不一致"));
+                        return "1";
                     }
-                    if (headerBytes == elfBytes)
+                    if (BitConverter.ToString(headerBytes) == BitConverter.ToString(elfBytes))
                     {
                         return init_path;
                     }
-                    if (headerBytes == symlinkBytes)
+                    if (BitConverter.ToString(headerBytes) == BitConverter.ToString(symlinkBytes))
                     {
                         return read_symlink(init_path);
                     }
-                    return null;
+                    SukiHost.ShowDialog(new ConnectionDialog("错误文件类型" + BitConverter.ToString(symlinkBytes)));
+                    return "2";
                 }
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("文件未找到。");
+                SukiHost.ShowDialog(new ConnectionDialog("文件未找到。"));
                 return null;
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"读取文件时发生错误: {ex.Message}");
+                SukiHost.ShowDialog(new ConnectionDialog($"读取文件时发生错误: {ex.Message}"));
                 return null;
             }
         }

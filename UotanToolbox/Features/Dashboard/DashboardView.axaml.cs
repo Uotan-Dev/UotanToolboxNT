@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -314,24 +313,24 @@ public partial class DashboardView : UserControl
             return;
         }
         MagiskFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
-        Global.magisk_tmp = Path.Combine(Global.tmp_path, "Magisk-" + StringHelper.RandomString(8));
-        bool istempclean = FileHelper.ClearFolder(Global.magisk_tmp);
+        Global.zip_tmp = Path.Combine(Global.tmp_path, "Magisk-" + StringHelper.RandomString(8));
+        bool istempclean = FileHelper.ClearFolder(Global.zip_tmp);
         if (istempclean)
         {
-            string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{Global.magisk_tmp}\" -y");
+            string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{Global.zip_tmp}\" -y");
             string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
             string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
-            string Magisk_sh_path = Path.Combine(Global.magisk_tmp, "assets", "util_functions.sh");
+            string Magisk_sh_path = Path.Combine(Global.zip_tmp, "assets", "util_functions.sh");
             string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
             string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
             if ((MAGISK_VER != null) & (MAGISK_VER_CODE != null))
             {
-                string BOOT_PATCH_PATH = Path.Combine(Global.magisk_tmp, "assets", "boot_patch.sh");
+                string BOOT_PATCH_PATH = Path.Combine(Global.zip_tmp, "assets", "boot_patch.sh");
                 string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
-                bool Magisk_Valid = MagiskHelper.Magisk_Validation(md5, MAGISK_VER);
+                bool Magisk_Valid = BootPatchHelper.Magisk_Validation(md5, MAGISK_VER);
                 if (Magisk_Valid)
                 {
-                    Global.is_magisk_ok = true;
+                    Global.is_zip_ok = true;
                 }
                 patch_busy(false);
             }
@@ -372,7 +371,7 @@ public partial class DashboardView : UserControl
         }
         //在临时目录创建临时boot目录，这破东西跨平台解压各种问题，直接即用即丢了
         Global.boot_tmp = Path.Combine(Global.tmp_path, "Boot -" + StringHelper.RandomString(8));
-        string workpath = Global.boot_tmp; // 不这样搞会报错，莫名其妙
+        string workpath = Global.boot_tmp;
         if (FileHelper.ClearFolder(workpath))
         {
             (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"", Global.boot_tmp);
@@ -391,76 +390,31 @@ public partial class DashboardView : UserControl
                 Directory.CreateDirectory(workpath);
             }
             (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract", workpath);
-            string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
-            //下面是根据镜像的init架构来推定整个Boot.img文件的架构，但是逻辑写的相当的屎，你有更好的想法可以来改
-            if (init_info.Contains("ARM aarch64"))
+            string init_path = BootPatchHelper.CheckInitPath(ramdisk);
+            string init_info = await CallExternalProgram.File($"\"{Path.Join(ramdisk, init_path)}\"");
+            (bool valid, string arch) = BootPatchHelper.ArchDetect(init_info);
+            if (valid)
             {
-                SukiHost.ShowDialog(new PureDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
-                ArchList.SelectedItem = "aarch64";
+                SukiHost.ShowDialog(new PureDialog($"检测到可用{arch}镜像"), allowBackgroundClose: true);
+                ArchList.SelectedItem = arch;
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
-            else if (init_info.Contains("X86-64"))
+            else
             {
-                SukiHost.ShowDialog(new PureDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
-                ArchList.SelectedItem = "X86-64";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains("ARM,"))
-            {
-                SukiHost.ShowDialog(new PureDialog("检测到可用ARM镜像"), allowBackgroundClose: true);
-                ArchList.SelectedItem = "armeabi";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains(" Intel 80386"))
-            {
-                SukiHost.ShowDialog(new PureDialog("检测到可用X86镜像"), allowBackgroundClose: true);
-                ArchList.SelectedItem = "X86";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            //有些设备的init路径是/bin/init而不是/init,在这里再做一次检测
-            init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "system", "bin", "init")}\"");
-            if (init_info.Contains("ARM aarch64"))
-            {
-                SukiHost.ShowDialog(new PureDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
-                ArchList.SelectedItem = "aarch64";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains("X86-64"))
-            {
-                SukiHost.ShowDialog(new PureDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
-                ArchList.SelectedItem = "X86-64";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains("ARM,"))
-            {
-                SukiHost.ShowDialog(new PureDialog("检测到可用ARM镜像"), allowBackgroundClose: true);
-                ArchList.SelectedItem = "armeabi";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains(" Intel 80386"))
-            {
-                SukiHost.ShowDialog(new PureDialog("检测到可用X86镜像"), allowBackgroundClose: true);
-                ArchList.SelectedItem = "X86";
-                Global.is_boot_ok = true;
+                SukiHost.ShowDialog(new PureDialog(init_info), allowBackgroundClose: true);
                 patch_busy(false);
             }
         }
     }
     private async void StartPatch(object sender, RoutedEventArgs args)
     {
-        if (!Global.is_boot_ok | !Global.is_magisk_ok)
+        if (!Global.is_boot_ok | !Global.is_zip_ok)
         {
             SukiHost.ShowDialog(new PureDialog("请选择有效的面具与镜像文件"), allowBackgroundClose: true);
             return;
         }
-        if (!MagiskHelper.CheckComponentFiles(Global.magisk_tmp, ArchList.SelectedItem.ToString()))
+        if (!BootPatchHelper.CheckComponentFiles(Global.zip_tmp, ArchList.SelectedItem.ToString()))
         {
             SukiHost.ShowDialog(new PureDialog("文件预处理时出错！"), allowBackgroundClose: true);
             return;
@@ -472,8 +426,7 @@ public partial class DashboardView : UserControl
         string env_PATCHVBMETAFLAG = PATCHVBMETAFLAG.IsChecked.ToString().ToLower();
         string env_RECOVERYMODE = RECOVERYMODE.IsChecked.ToString().ToLower();
         string env_LEGACYSAR = LEGACYSAR.IsChecked.ToString().ToLower();
-
-        string compPathBase = System.IO.Path.Combine(Global.magisk_tmp, "lib");
+        string compPathBase = System.IO.Path.Combine(Global.zip_tmp, "lib");
         string archSubfolder = ArchList.SelectedItem.ToString() switch
         {
             "aarch64" => "arm64-v8a",
@@ -488,8 +441,8 @@ public partial class DashboardView : UserControl
             "X86-64" => "x86",
             _ => ""
         };
-        string compPath = System.IO.Path.Combine(compPathBase, archSubfolder);
-        string sub_compPath = System.IO.Path.Combine(compPathBase, archSubfolder2);
+        string compPath = Path.Combine(compPathBase, archSubfolder);
+        string sub_compPath = Path.Combine(compPathBase, archSubfolder2);
         if (archSubfolder2 != "")
         {
             try
@@ -531,7 +484,7 @@ public partial class DashboardView : UserControl
                 return;
             }
         }
-        (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(Global.magisk_tmp, "assets"));
+        (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(Global.zip_tmp, "assets"));
         if (mb_output.Contains("error"))
         {
             SukiHost.ShowDialog(new PureDialog("压缩stub.apk时出错"), allowBackgroundClose: true);
@@ -588,7 +541,7 @@ public partial class DashboardView : UserControl
             .Select(s => s[random.Next(s.Length)]).ToArray());
         string configContent = $"RANDOMSEED=0x{randomStr}";
         File.AppendAllText(config_path, configContent + Environment.NewLine);
-        if (MagiskHelper.comp_copy(compPath))
+        if (BootPatchHelper.comp_copy(compPath))
         {
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0750 init magiskinit\" \"mkdir 0750 overlay.d\" \"mkdir 0750 overlay.d/sbin\" \"add 0644 overlay.d/sbin/magisk32.xz magisk32.xz\" ", Global.boot_tmp);
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", Global.boot_tmp, env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
@@ -598,7 +551,7 @@ public partial class DashboardView : UserControl
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", Global.boot_tmp);
         }
         //以上完成ramdisk.cpio的修补
-        string dtb_name = MagiskHelper.dtb_detect(Global.boot_tmp);
+        string dtb_name = BootPatchHelper.dtb_detect(Global.boot_tmp);
         if (dtb_name != null)
         {
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
@@ -648,7 +601,7 @@ public partial class DashboardView : UserControl
         }
         try
         {
-            if (MagiskHelper.CleanBoot(Global.boot_tmp))
+            if (BootPatchHelper.CleanBoot(Global.boot_tmp))
             {
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{BootFile.Text}\"", Global.boot_tmp, env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
                 File.Copy(Path.Combine(Global.boot_tmp, "new-boot.img"), Path.Combine(Path.GetDirectoryName(BootFile.Text), "boot_patched_" + randomStr + ".img"), true);
@@ -656,7 +609,7 @@ public partial class DashboardView : UserControl
                 patch_busy(false);
                 FileHelper.OpenFolder(Path.GetDirectoryName(BootFile.Text));
                 Global.is_boot_ok = false;
-                Global.is_magisk_ok = false;
+                Global.is_zip_ok = false;
                 BootFile.Text = null;
                 MagiskFile.Text = null;
                 ArchList.SelectedItem = null;

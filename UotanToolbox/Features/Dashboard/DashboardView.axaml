@@ -22,8 +22,7 @@
 			<!--  Unlock  -->
 			<suki:GlassCard Width="630" Margin="10">
 				<suki:BusyArea Name="BusyUnlock"
-								BusyText="{x:Static assets:Resources.Basicflash_Executing}"
-								IsBusy="{Binding Unlocking}">
+								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
 					<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
@@ -32,7 +31,7 @@
 					<StackPanel Orientation="Vertical" Margin="15 10 0 0">
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_UnlockFileUnlock}"></TextBlock>
-							<TextBox Width="353" Name="UnlockFile" Text="{Binding UnlockFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="True"/>
+							<TextBox Width="353" Name="UnlockFile" theme:TextBoxExtensions.AddDeleteButton="True"/>
 							<Button Height="35"
 									Click="OpenUnlockFile"
 									Content="{x:Static assets:Resources.Common_ChooseFile}">
@@ -41,11 +40,11 @@
 						<StackPanel Orientation="Vertical" Spacing="10">
 							<StackPanel Orientation="Horizontal" Spacing="20">
 								<TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_CodeUnlock}"></TextBlock>
-								<TextBox Width="464" Text="{Binding UnlockCode, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="True"/>
+								<TextBox Name="UnlockCode" Width="464" theme:TextBoxExtensions.AddDeleteButton="True"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="120">
-								<Button Command="{Binding Unlock}" Content="{x:Static assets:Resources.Basicflash_UnlockNow}"></Button>
-								<Button Command="{Binding Lock}" Content="{x:Static assets:Resources.Basicflash_RelockBL}"></Button>
+								<Button Click="Unlock" Content="{x:Static assets:Resources.Basicflash_UnlockNow}"></Button>
+								<Button Click="Lock" Content="{x:Static assets:Resources.Basicflash_RelockBL}"></Button>
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
@@ -56,16 +55,15 @@
 			<!--  Unlock with command  -->
 			<suki:GlassCard Width="310" Margin="10">
 				<suki:BusyArea Name="BusyBaseUnlock"
-								BusyText="{x:Static assets:Resources.Basicflash_Executing}"
-								IsBusy="{Binding BaseUnlocking}">
+								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
 					<StackPanel Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="{x:Static assets:Resources.Basicflash_BasicCommandUnlock}" />
-					<ComboBox Width="220" Margin="0 10" ItemsSource="{Binding SimpleContent}" />
+					<ComboBox Name="SimpleContent" Width="220" Margin="0 10"/>
 					<StackPanel Spacing="15">
-						<Button Width="210" Command="{Binding BaseUnlock}">
+						<Button Width="210" Click="BaseUnlock">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
 								<TextBlock Text="{x:Static assets:Resources.Basicflash_ExecuteUnlockCommand}" />
@@ -79,8 +77,7 @@
 			<!--  Flash recovery  -->
 			<suki:GlassCard Width="630" Margin="10">
 				<suki:BusyArea Name="BusyFlash"
-								BusyText="{x:Static assets:Resources.Basicflash_Executing}"
-								IsBusy="{Binding Flashing}">
+								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
 					<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
@@ -88,7 +85,7 @@
 								Text="{x:Static assets:Resources.Basicflash_FlashRecovery}" />
 					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
 						<TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseRecovery}"></TextBlock>
-						<TextBox Width="357" Name="RecFile" Text="{Binding RecFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+						<TextBox Width="357" Name="RecFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
 						<Button Height="35" Click ="OpenRecFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 					</StackPanel>
 					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15" Margin="0 10 0 0">
@@ -96,7 +93,7 @@
 							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FlashToRec}">
+									Click="FlashToRec">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="Android" />
 									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToRecovery}" />
@@ -105,7 +102,7 @@
 							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FlashToRecA}">
+									Click="FlashToRecA">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="NetworkOutline" />
 									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToRecoveryAPart}" />
@@ -114,7 +111,7 @@
 							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FlashToRecB}">
+									Click="FlashToRecB">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="NetworkPos" />
 									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToRecoveryBPart}" />
@@ -125,7 +122,7 @@
 							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding BootRec}">
+									Click="BootRec">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
 									<TextBlock Text="{x:Static assets:Resources.Basicflash_TempBoot}" />
@@ -134,7 +131,7 @@
 							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FlashToBootA}">
+									Click="FlashToBootA">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
 									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToBootAPart}" />
@@ -143,7 +140,7 @@
 							<Button Width="166"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FlashToBootB}">
+									Click="FlashToBootB">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
 									<TextBlock Text="{x:Static assets:Resources.Basicflash_ToBootBPart}" />
@@ -181,12 +178,12 @@
 									Text="{x:Static assets:Resources.Basicflash_RepairBoot}" />
 						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
 							<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"></TextBlock>
-							<TextBox Width="385" Name="MagiskFile" Text="{Binding MagiskFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<TextBox Width="385" Name="MagiskFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
 							<Button Height="35" Click ="OpenMagiskFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
 							<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"></TextBlock>
-							<TextBox Width="385" Name="BootFile" Text="{Binding BootFile, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<TextBox Width="385" Name="BootFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
 							<Button Height="35" Click ="OpenBootFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 						</StackPanel>
 						<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
@@ -198,7 +195,7 @@
 							<StackPanel Orientation="Horizontal" Spacing="111.5" Margin="0,-10,0,0">
 								<CheckBox Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_InstallToRecovery}"/>
 								<CheckBox Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
-								<ComboBox Name="ArchList" Width="135" Margin="-36,0,0,0" ItemsSource="{Binding ArchList}" />
+								<ComboBox Name="ArchList" Width="135" Margin="-36,0,0,0"/>
 							</StackPanel>
 						</StackPanel>
 						<StackPanel Spacing="15">

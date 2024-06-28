@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia.Collections;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
 
@@ -16,9 +18,15 @@ namespace UotanToolbox.Features.Dashboard;
 
 public partial class DashboardView : UserControl
 {
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    public AvaloniaList<string> SimpleUnlock = ["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"];
+    public AvaloniaList<string> Arch = ["aarch64", "armeabi", "X86-64", "X86"];
+
     public DashboardView()
     {
         InitializeComponent();
+        SimpleContent.ItemsSource = SimpleUnlock;
+        ArchList.ItemsSource = Arch;
     }
     public void patch_busy(bool is_busy)
     {
@@ -48,6 +56,126 @@ public partial class DashboardView : UserControl
         }
     }
 
+    private async void Unlock(object sender, RoutedEventArgs args)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            {
+                BusyUnlock.IsBusy = true;
+                if (!string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
+                {
+                    SukiHost.ShowDialog(new PureDialog("请勿同时填写两种方式！"), allowBackgroundClose: true);
+                }
+                else if (!string.IsNullOrEmpty(UnlockFile.Text) && string.IsNullOrEmpty(UnlockCode.Text))
+                {
+                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash unlock \"{UnlockFile.Text}\"");
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock-go");
+                    if (output.Contains("OKAY"))
+                    {
+                        SukiHost.ShowDialog(new PureDialog("解锁成功!"), allowBackgroundClose: true);
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog("解锁失败！"), allowBackgroundClose: true);
+                    }
+                }
+                else if (string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
+                {
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {UnlockCode.Text}");
+                    if (output.Contains("OKAY"))
+                    {
+                        SukiHost.ShowDialog(new PureDialog("解锁成功！"), allowBackgroundClose: true);
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog("解锁失败！"), allowBackgroundClose: true);
+                    }
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog("请选择解锁文件,或输入解锁码！"), allowBackgroundClose: true);
+                }
+                BusyUnlock.IsBusy = false;
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+        }
+    }
+
+    private async void Lock(object sender, RoutedEventArgs args)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            {
+                BusyUnlock.IsBusy = true;
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
+                if (output.Contains("OKAY"))
+                {
+                    SukiHost.ShowDialog(new PureDialog("回锁成功！"), allowBackgroundClose: true);
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog("回锁失败！"), allowBackgroundClose: true);
+                }
+                BusyUnlock.IsBusy = false;
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+        }
+    }
+
+    private async void BaseUnlock(object sender, RoutedEventArgs args)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            {
+                BusyBaseUnlock.IsBusy = true;
+                if (SimpleContent.SelectedItem != null)
+                {
+                    var newDialog = new ConnectionDialog("该功能仅支持部分品牌设备！\n\r执行后您的设备应当出现确认解锁提示，\n\r若未出现则为您的设备不支持该操作。");
+                    await SukiHost.ShowDialogAsync(newDialog);
+                    if (newDialog.Result == true)
+                    {
+                        await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {SimpleContent.SelectedItem}");
+                        SukiHost.ShowDialog(new PureDialog("执行完成，请查看您的设备！"), allowBackgroundClose: true);
+                    }
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog("请选择解锁命令！"), allowBackgroundClose: true);
+                }
+                BusyBaseUnlock.IsBusy = false;
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+        }
+    }
+
     private async void OpenRecFile(object sender, RoutedEventArgs args)
     {
         var topLevel = TopLevel.GetTopLevel(this);
@@ -60,6 +188,115 @@ public partial class DashboardView : UserControl
         {
             RecFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
+    }
+
+    private async Task FlashRec(string shell)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            {
+                BusyFlash.IsBusy = true;
+                if (string.IsNullOrEmpty(RecFile.Text))
+                {
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile.Text}\"");
+                    if (!output.Contains("FAILED") && !output.Contains("error"))
+                    {
+                        var newDialog = new ConnectionDialog("刷入成功！是否重启到Recovery？");
+                        await SukiHost.ShowDialogAsync(newDialog);
+                        if (newDialog.Result == true)
+                        {
+                            output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
+                            if (output.Contains("unknown command"))
+                            {
+                                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc bin/img/misc.img");
+                                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog("刷入失败！"), allowBackgroundClose: true);
+                    }
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog("请选择Recovery文件！"), allowBackgroundClose: true);
+                }
+                BusyFlash.IsBusy = false;
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+        }
+    }
+
+    private async void FlashToRec(object sender, RoutedEventArgs args)
+    {
+        await FlashRec("flash recovery");
+    }
+
+    private async void FlashToRecA(object sender, RoutedEventArgs args)
+    {
+        await FlashRec("flash recovery_a");
+    }
+
+    private async void FlashToRecB(object sender, RoutedEventArgs args)
+    {
+        await FlashRec("flash recovery_b");
+    }
+
+    private async void BootRec(object sender, RoutedEventArgs args)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            {
+                BusyFlash.IsBusy = true;
+                if (string.IsNullOrEmpty(RecFile.Text))
+                {
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} boot \"{RecFile.Text}\"");
+                    if (output.Contains("Finished"))
+                    {
+                        SukiHost.ShowDialog(new PureDialog("启动成功！"), allowBackgroundClose: true);
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog("启动失败！"), allowBackgroundClose: true);
+                    }
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog("请选择Recovery文件！"), allowBackgroundClose: true);
+                }
+                BusyFlash.IsBusy = false;
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+        }
+    }
+
+    private async void FlashToBootA(object sender, RoutedEventArgs args)
+    {
+        await FlashRec("flash boot_a");
+    }
+
+    private async void FlashToBootB(object sender, RoutedEventArgs args)
+    {
+        await FlashRec("flash boot_b");
     }
 
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
@@ -100,13 +337,13 @@ public partial class DashboardView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("未能获取到有效Magisk版本号"));
+                SukiHost.ShowDialog(new PureDialog("未能获取到有效Magisk版本号"), allowBackgroundClose: true);
                 patch_busy(false);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("清理临时目录出错"));
+            SukiHost.ShowDialog(new PureDialog("清理临时目录出错"), allowBackgroundClose: true);
             patch_busy(false);
         }
 
@@ -141,7 +378,7 @@ public partial class DashboardView : UserControl
             (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"", Global.boot_tmp);
             if (mb_output.Contains("error"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("解包失败"));
+                SukiHost.ShowDialog(new PureDialog("解包失败"), allowBackgroundClose: true);
                 patch_busy(false);
                 return;
             }
@@ -158,28 +395,28 @@ public partial class DashboardView : UserControl
             //下面是根据镜像的init架构来推定整个Boot.img文件的架构，但是逻辑写的相当的屎，你有更好的想法可以来改
             if (init_info.Contains("ARM aarch64"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
+                SukiHost.ShowDialog(new PureDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
                 ArchList.SelectedItem = "aarch64";
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
             else if (init_info.Contains("X86-64"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
+                SukiHost.ShowDialog(new PureDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
                 ArchList.SelectedItem = "X86-64";
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
             else if (init_info.Contains("ARM,"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
+                SukiHost.ShowDialog(new PureDialog("检测到可用ARM镜像"), allowBackgroundClose: true);
                 ArchList.SelectedItem = "armeabi";
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
             else if (init_info.Contains(" Intel 80386"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
+                SukiHost.ShowDialog(new PureDialog("检测到可用X86镜像"), allowBackgroundClose: true);
                 ArchList.SelectedItem = "X86";
                 Global.is_boot_ok = true;
                 patch_busy(false);
@@ -188,28 +425,28 @@ public partial class DashboardView : UserControl
             init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "system", "bin", "init")}\"");
             if (init_info.Contains("ARM aarch64"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
+                SukiHost.ShowDialog(new PureDialog("检测到可用AArch64镜像"), allowBackgroundClose: true);
                 ArchList.SelectedItem = "aarch64";
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
             else if (init_info.Contains("X86-64"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
+                SukiHost.ShowDialog(new PureDialog("检测到可用X86-64镜像"), allowBackgroundClose: true);
                 ArchList.SelectedItem = "X86-64";
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
             else if (init_info.Contains("ARM,"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
+                SukiHost.ShowDialog(new PureDialog("检测到可用ARM镜像"), allowBackgroundClose: true);
                 ArchList.SelectedItem = "armeabi";
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
             else if (init_info.Contains(" Intel 80386"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
+                SukiHost.ShowDialog(new PureDialog("检测到可用X86镜像"), allowBackgroundClose: true);
                 ArchList.SelectedItem = "X86";
                 Global.is_boot_ok = true;
                 patch_busy(false);
@@ -220,12 +457,12 @@ public partial class DashboardView : UserControl
     {
         if (!Global.is_boot_ok | !Global.is_magisk_ok)
         {
-            SukiHost.ShowDialog(new ConnectionDialog("请选择有效的面具与镜像文件"));
+            SukiHost.ShowDialog(new PureDialog("请选择有效的面具与镜像文件"), allowBackgroundClose: true);
             return;
         }
         if (!MagiskHelper.CheckComponentFiles(Global.magisk_tmp, ArchList.SelectedItem.ToString()))
         {
-            SukiHost.ShowDialog(new ConnectionDialog("文件预处理时出错！"));
+            SukiHost.ShowDialog(new PureDialog("文件预处理时出错！"), allowBackgroundClose: true);
             return;
         }
         patch_busy(true);
@@ -261,7 +498,7 @@ public partial class DashboardView : UserControl
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("64位magisk32组件预处理时 " + ex));
+                SukiHost.ShowDialog(new PureDialog("64位magisk32组件预处理时 " + ex), allowBackgroundClose: true);
                 patch_busy(false);
                 return;
             }
@@ -275,7 +512,7 @@ public partial class DashboardView : UserControl
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex));
+                SukiHost.ShowDialog(new PureDialog("magisk32组件预处理时 " + ex), allowBackgroundClose: true);
                 patch_busy(false);
                 return;
             }
@@ -289,7 +526,7 @@ public partial class DashboardView : UserControl
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("magisk32组件预处理时 " + ex));
+                SukiHost.ShowDialog(new PureDialog("magisk32组件预处理时 " + ex), allowBackgroundClose: true);
                 patch_busy(false);
                 return;
             }
@@ -297,7 +534,7 @@ public partial class DashboardView : UserControl
         (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(Global.magisk_tmp, "assets"));
         if (mb_output.Contains("error"))
         {
-            SukiHost.ShowDialog(new ConnectionDialog("压缩stub.apk时出错"));
+            SukiHost.ShowDialog(new PureDialog("压缩stub.apk时出错"), allowBackgroundClose: true);
             patch_busy(false);
             return;
         }
@@ -314,7 +551,7 @@ public partial class DashboardView : UserControl
                 }
                 catch (Exception e)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("0文件预处理时出错！" + e));
+                    SukiHost.ShowDialog(new PureDialog("0文件预处理时出错！" + e), allowBackgroundClose: true);
                     break;
                 }
             case 1:
@@ -328,14 +565,14 @@ public partial class DashboardView : UserControl
                 }
                 catch (Exception e)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("1文件预处理时出错！" + e));
+                    SukiHost.ShowDialog(new PureDialog("1文件预处理时出错！" + e), allowBackgroundClose: true);
                     break;
                 }
             case 2:
-                SukiHost.ShowDialog(new ConnectionDialog("镜像被未支持软件修补，请选择原生镜像！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog("镜像被未支持软件修补，请选择原生镜像！"), allowBackgroundClose: true);
                 break;
             default:
-                SukiHost.ShowDialog(new ConnectionDialog("magiskboot检验出错"));
+                SukiHost.ShowDialog(new PureDialog("magiskboot检验出错"), allowBackgroundClose: true);
                 break;
         }
         //patch ramdisk.cpio
@@ -367,7 +604,7 @@ public partial class DashboardView : UserControl
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {dtb_name} test", Global.boot_tmp);
             if (exitcode != 0)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("dtb验证失败"));
+                SukiHost.ShowDialog(new PureDialog("dtb验证失败"), allowBackgroundClose: true);
                 patch_busy(false);
                 return;
             }
@@ -402,7 +639,7 @@ public partial class DashboardView : UserControl
                 }
                 catch (Exception ex)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("kernel删除失败" + ex));
+                    SukiHost.ShowDialog(new PureDialog("kernel删除失败" + ex), allowBackgroundClose: true);
                     patch_busy(false);
                     return;
                 }
@@ -415,7 +652,7 @@ public partial class DashboardView : UserControl
             {
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{BootFile.Text}\"", Global.boot_tmp, env_KEEPVERITY, env_KEEPFORCEENCRYPT, env_PATCHVBMETAFLAG, env_RECOVERYMODE, env_LEGACYSAR);
                 File.Copy(Path.Combine(Global.boot_tmp, "new-boot.img"), Path.Combine(Path.GetDirectoryName(BootFile.Text), "boot_patched_" + randomStr + ".img"), true);
-                SukiHost.ShowDialog(new ConnectionDialog("面具修补完成"));
+                SukiHost.ShowDialog(new PureDialog("面具修补完成"), allowBackgroundClose: true);
                 patch_busy(false);
                 FileHelper.OpenFolder(Path.GetDirectoryName(BootFile.Text));
                 Global.is_boot_ok = false;
@@ -427,14 +664,14 @@ public partial class DashboardView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("清理打包目录失败"));
+                SukiHost.ShowDialog(new PureDialog("清理打包目录失败"), allowBackgroundClose: true);
                 patch_busy(false);
                 return;
             }
         }
         catch (Exception ex)
         {
-            SukiHost.ShowDialog(new ConnectionDialog(ex.Message));
+            SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
             patch_busy(false);
             return;
         }
@@ -456,11 +693,11 @@ public partial class DashboardView : UserControl
                 FileHelper.Write($"{Global.runpath}/Log/drive.txt", drvlog);
                 if (drvlog.Contains("成功"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("安装完成！"));
+                    SukiHost.ShowDialog(new PureDialog("安装完成！"), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("安装失败！"));
+                    SukiHost.ShowDialog(new PureDialog("安装失败！"), allowBackgroundClose: true);
                 }
             }
         }
@@ -468,7 +705,7 @@ public partial class DashboardView : UserControl
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("当前设备无需进行此操作！"));
+                SukiHost.ShowDialog(new PureDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
             });
         }
     }
@@ -489,11 +726,11 @@ public partial class DashboardView : UserControl
                 FileHelper.Write($"{Global.runpath}/Log/drive.txt", drvlog);
                 if (drvlog.Contains("成功"))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("安装完成！"));
+                    SukiHost.ShowDialog(new PureDialog("安装完成！"), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("安装失败！"));
+                    SukiHost.ShowDialog(new PureDialog("安装失败！"), allowBackgroundClose: true);
                 }
             }
         }
@@ -501,7 +738,7 @@ public partial class DashboardView : UserControl
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("当前设备无需进行此操作！"));
+                SukiHost.ShowDialog(new PureDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
             });
         }
     }
@@ -520,14 +757,14 @@ public partial class DashboardView : UserControl
             Process? f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
+                SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
             });
         }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("当前设备无需进行此操作！"));
+                SukiHost.ShowDialog(new PureDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
             });
         }
     }
@@ -551,12 +788,12 @@ public partial class DashboardView : UserControl
                     {
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload \"{MagiskFile.Text}\"");
                     }
-                    SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
+                    SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
                     BusyInstall.IsBusy = false;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请在右侧选择Magisk文件！"));
+                    SukiHost.ShowDialog(new PureDialog("请在右侧选择Magisk文件！"), allowBackgroundClose: true);
                 }
             }
             else if (sukiViewModel.Status == "系统")
@@ -569,23 +806,23 @@ public partial class DashboardView : UserControl
                     if (newDialog.Result == true)
                     {
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /sdcard");
-                        SukiHost.ShowDialog(new ConnectionDialog("已推送至根目录，请自行安装。"));
+                        SukiHost.ShowDialog(new PureDialog("已推送至根目录，请自行安装。"), allowBackgroundClose: true);
                     }
                     BusyInstall.IsBusy = false;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请在右侧选择Magisk文件！"));
+                    SukiHost.ShowDialog(new PureDialog("请在右侧选择Magisk文件！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请进入Recovery模式！"));
+                SukiHost.ShowDialog(new PureDialog("请进入Recovery模式！"), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("设备未连接！"));
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
 
@@ -606,17 +843,17 @@ public partial class DashboardView : UserControl
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/DisableAutoRecovery.zip");
                 }
-                SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
+                SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
                 BusyInstall.IsBusy = false;
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请进入Recovery模式！"));
+                SukiHost.ShowDialog(new PureDialog("请进入Recovery模式！"), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("设备未连接！"));
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
 
@@ -637,17 +874,17 @@ public partial class DashboardView : UserControl
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/copy-partitions.zip");
                 }
-                SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
+                SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
                 BusyInstall.IsBusy = false;
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请进入Recovery模式！"));
+                SukiHost.ShowDialog(new PureDialog("请进入Recovery模式！"), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("设备未连接！"));
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
 }

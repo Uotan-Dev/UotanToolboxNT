@@ -1,15 +1,18 @@
 using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reflection;
+using Avalonia.Collections;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Interactivity;
+using SukiUI.Enums;
+using SukiUI.Utilities;
 
 namespace SukiUI.Controls;
 
@@ -81,14 +84,6 @@ public class SukiWindow : Window
         set => SetValue(MenuItemsProperty, value);
     }
 
-    public static readonly StyledProperty<bool> BackgroundAnimationEnabledProperty =
-        AvaloniaProperty.Register<SukiWindow, bool>(nameof(BackgroundAnimationEnabled), defaultValue: false);
-
-    public bool BackgroundAnimationEnabled
-    {
-        get => GetValue(BackgroundAnimationEnabledProperty);
-        set => SetValue(BackgroundAnimationEnabledProperty, value);
-    }
 
     public static readonly StyledProperty<bool> CanMinimizeProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMinimize), defaultValue: true);
@@ -108,12 +103,76 @@ public class SukiWindow : Window
         set => SetValue(CanMoveProperty, value);
     }
 
+    // BACKGROUND PROPERTIES
+    public static readonly StyledProperty<bool> BackgroundAnimationEnabledProperty =
+        AvaloniaProperty.Register<SukiWindow, bool>(nameof(BackgroundAnimationEnabled), defaultValue: false);
+
+    public bool BackgroundAnimationEnabled
+    {
+        get => GetValue(BackgroundAnimationEnabledProperty);
+        set => SetValue(BackgroundAnimationEnabledProperty, value);
+    }
+
+    public static readonly StyledProperty<SukiBackgroundStyle> BackgroundStyleProperty =
+        AvaloniaProperty.Register<SukiWindow, SukiBackgroundStyle>(nameof(BackgroundStyle),
+            defaultValue: SukiBackgroundStyle.Gradient);
+
+    
+    /// <inheritdoc cref="SukiBackground.Style"/>
+    public SukiBackgroundStyle BackgroundStyle
+    {
+        get => GetValue(BackgroundStyleProperty);
+        set => SetValue(BackgroundStyleProperty, value);
+    }
+
+    public static readonly StyledProperty<string?> BackgroundShaderFileProperty =
+        AvaloniaProperty.Register<SukiWindow, string?>(nameof(BackgroundShaderFile));
+
+    /// <inheritdoc cref="SukiBackground.ShaderFile"/>
+    public string? BackgroundShaderFile
+    {
+        get => GetValue(BackgroundShaderFileProperty);
+        set => SetValue(BackgroundShaderFileProperty, value);
+    }
+
+    public static readonly StyledProperty<string?> BackgroundShaderCodeProperty =
+        AvaloniaProperty.Register<SukiWindow, string?>(nameof(BackgroundShaderCode));
+
+    
+    /// <inheritdoc cref="SukiBackground.ShaderCode"/>
+    public string? BackgroundShaderCode
+    {
+        get => GetValue(BackgroundShaderCodeProperty);
+        set => SetValue(BackgroundShaderCodeProperty, value);
+    }
+    
+    public static readonly StyledProperty<bool> BackgroundTransitionsEnabledProperty =
+        AvaloniaProperty.Register<SukiBackground, bool>(nameof(BackgroundTransitionsEnabled), defaultValue: false);
+    
+    /// <inheritdoc cref="SukiBackground.TransitionsEnabled"/>
+    public bool BackgroundTransitionsEnabled
+    {
+        get => GetValue(BackgroundTransitionsEnabledProperty);
+        set => SetValue(BackgroundTransitionsEnabledProperty, value);
+    }
+
+    public static readonly StyledProperty<double> BackgroundTransitionTimeProperty =
+        AvaloniaProperty.Register<SukiBackground, double>(nameof(BackgroundTransitionTime), defaultValue: 1.0);
+    
+    /// <inheritdoc cref="SukiBackground.TransitionTime"/>
+    public double BackgroundTransitionTime
+    {
+        get => GetValue(BackgroundTransitionTimeProperty);
+        set => SetValue(BackgroundTransitionTimeProperty, value);
+    }
+
     public SukiWindow()
     {
         MenuItems = new AvaloniaList<MenuItem>();
     }
 
     private IDisposable? _subscriptionDisposables;
+    private SukiBackground? _background;
 
     protected override void OnLoaded(RoutedEventArgs e)
     {
@@ -128,6 +187,7 @@ public class SukiWindow : Window
         }
     }
 
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -135,42 +195,28 @@ public class SukiWindow : Window
         var stateObs = this.GetObservable(WindowStateProperty)
             .Select(windowState => windowState == WindowState.Maximized ? Unit.Default : Unit.Default);
 
-        // Create handlers for buttons
-        if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
-        {
-            maximize.Click += (_, _) =>
+            // Create handlers for buttons
+            if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
             {
-                if (!CanResize) return;
-                WindowState = WindowState == WindowState.Maximized
-                    ? WindowState.Normal
-                    : WindowState.Maximized;
-            };
-        }
-
-        if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
-            minimize.Click += (_, _) => WindowState = WindowState.Minimized;
-
-        if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
-            close.Click += (_, _) => Close();
-
-        if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
-            titleBar.PointerPressed += OnTitleBarPointerPressed;
-
-        if (e.NameScope.Get<SukiBackground>("PART_Background") is { } background)
-        {
-            background.SetAnimationEnabled(BackgroundAnimationEnabled);
-            var bgObs = this.GetObservable(BackgroundAnimationEnabledProperty)
-                .Select<bool, Unit>(enabled =>
+                maximize.Click += (_, _) =>
                 {
-                    background.SetAnimationEnabled(enabled);
-                    return Unit.Default;
-                })
-                .Merge(stateObs)
-                .ObserveOn(new AvaloniaSynchronizationContext());
+                    if (!CanResize) return;
+                    WindowState = WindowState == WindowState.Maximized
+                        ? WindowState.Normal
+                        : WindowState.Maximized;
+                };
+            }
 
-            _subscriptionDisposables = bgObs.Subscribe();
-        }
+            if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
+                minimize.Click += (_, _) => WindowState = WindowState.Minimized;
+
+            if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
+                close.Click += (_, _) => Close();
+
+            if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
+                titleBar.PointerPressed += OnTitleBarPointerPressed;
     }
+
 
     private void OnWindowStateChanged(WindowState state)
     {
@@ -183,14 +229,7 @@ public class SukiWindow : Window
     private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         base.OnPointerPressed(e);
-        if (e.ClickCount >= 2 && CanResize)
-        {
-            WindowState = WindowState == WindowState.Maximized
-                ? WindowState.Normal
-                : WindowState.Maximized;
-        }
-        else if (CanMove)
-            BeginMoveDrag(e);
+        BeginMoveDrag(e);
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)
@@ -198,4 +237,5 @@ public class SukiWindow : Window
         base.OnUnloaded(e);
         _subscriptionDisposables?.Dispose();
     }
+
 }

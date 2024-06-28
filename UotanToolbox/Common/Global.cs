@@ -8,12 +8,12 @@ namespace UotanToolbox.Common
         public static string runpath = null;
         public static string bin_path = null;
         public static string tmp_path = null;
-        public static string magisk_tmp, boot_tmp, boot_sha1 = null;
+        public static string zip_tmp, boot_tmp, boot_sha1 = null;
         public static string System = "Windows";
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
         public static int mb_exitcode, cpio_exitcode, load_times;
-        public static bool is_magisk_ok, is_boot_ok = false;
+        public static bool is_zip_ok, is_boot_ok = false;
         //分区表储存
         public static string sdatable = "";
         public static string sdbtable = "";

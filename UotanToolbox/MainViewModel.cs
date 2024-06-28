@@ -4,7 +4,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SukiUI;
 using SukiUI.Controls;
+using SukiUI.Enums;
 using SukiUI.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -12,6 +14,7 @@ using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
+using UotanToolbox.Features.Settings;
 using UotanToolbox.Services;
 using UotanToolbox.Utilities;
 
@@ -23,15 +26,22 @@ public partial class MainViewModel : ObservableObject
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
 
+    public IAvaloniaReadOnlyList<SukiBackgroundStyle> BackgroundStyles { get; }
+
     [ObservableProperty] private ThemeVariant _baseTheme;
     [ObservableProperty] private bool _animationsEnabled;
     [ObservableProperty] private bool _windowLocked = true;
     [ObservableProperty] private MainPageBase? _activePage;
+    [ObservableProperty] private SukiBackgroundStyle _backgroundStyle = SukiBackgroundStyle.Gradient;
+    [ObservableProperty] private string? _customShaderFile;
+    [ObservableProperty] private bool _transitionsEnabled;
+    [ObservableProperty] private double _transitionTime;
 
     [ObservableProperty]
     private string _status, _codeName, _bLStatus, _vABStatus;
 
     private readonly SukiTheme _theme;
+    private readonly SettingsViewModel _theming;
 
     private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
     private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
@@ -40,6 +50,13 @@ public partial class MainViewModel : ObservableObject
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         DemoPages = new AvaloniaList<MainPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);
+        _theming.BackgroundStyleChanged += style => BackgroundStyle = style;
+        _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
+        _theming.CustomBackgroundStyleChanged += shader => CustomShaderFile = shader;
+        _theming.BackgroundTransitionsChanged += enabled => TransitionsEnabled = enabled;
+
+        BackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         _theme = SukiTheme.GetInstance();
         nav.NavigationRequested += t =>
         {
@@ -56,8 +73,6 @@ public partial class MainViewModel : ObservableObject
         };
         _theme.OnColorThemeChanged += async theme =>
             await SukiHost.ShowToast($"{GetTranslation("MainView_SuccessfullyChangedColor")}", $"{GetTranslation("MainView_ChangedColorTo")} {theme.DisplayName}.");
-        _theme.OnBackgroundAnimationChanged +=
-            value => AnimationsEnabled = value;
         GlobalData.MainViewModelInstance = this;
     }
 

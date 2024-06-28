@@ -9,7 +9,7 @@
         <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        
+
         <Setter Property="FontSize" Value="15" />
         <Setter Property="Padding" Value="20,8" />
         <Setter Property="Template">
@@ -47,6 +47,7 @@
         <Setter Property="Transitions">
             <Transitions>
                 <BrushTransition Property="Background" Duration="0:0:0.35" />
+                <DoubleTransition Property="Opacity" Duration="0:0:0.35" />
             </Transitions>
         </Setter>
 
@@ -61,7 +62,7 @@
             </Setter>
         </Style>
         <Style Selector="^ /template/ controls|Loading">
-          <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
         </Style>
 
 
@@ -112,26 +113,30 @@
                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
             </Style>
         </Style>
-        
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <!--  Classes  -->
         <Style Selector="^.NoPressedAnimation">
-        <Style Selector="^:pressed">
-            <Style Selector="^ /template/ TextBlock">
-                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
-            </Style>
-            <Style Selector="^ /template/ Border">
-                <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
-                <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
-                <Setter Property="RenderTransform">
-                    <Setter.Value>
-                        <ScaleTransform ScaleX="1" ScaleY="1" />
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <Style Selector="^ /template/ ContentPresenter">
-                <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+            <Style Selector="^:pressed">
+                <Style Selector="^ /template/ TextBlock">
+                    <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+                </Style>
+                <Style Selector="^ /template/ Border">
+                    <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style Selector="^ /template/ ContentPresenter">
+                    <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+                </Style>
             </Style>
         </Style>
-            </Style>
 
         <!--  Classes  -->
         <Style Selector="^.Accent">
@@ -262,7 +267,7 @@
             <Style Selector="^ /template/ TextBlock">
                 <Setter Property="Foreground" Value="White" />
             </Style>
-            
+
             <Style Selector="^ /template/ controls|Loading">
                 <Setter Property="Foreground" Value="White" />
             </Style>
@@ -310,7 +315,7 @@
                     </Transitions>
                 </Setter>
             </Style>
-            
+
             <Style Selector="^ /template/ controls|Loading">
                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
             </Style>
@@ -452,9 +457,9 @@
 
                                 <Setter Property="Transitions">
                                     <Setter.Value>
-                                        <Transitions>
-                                            <BrushTransition Property="Foreground" Duration="{DynamicResource ShortAnimationDuration}" />
-                                        </Transitions>
+                                    <Transitions>
+                                        <BrushTransition Property="Foreground" Duration="{DynamicResource ShortAnimationDuration}" />
+                                    </Transitions>
                                     </Setter.Value>
                                 </Setter>
                                 <Style Selector="^:pointerover">

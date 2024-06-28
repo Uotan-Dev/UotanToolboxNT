@@ -1,0 +1,44 @@
+vec3 blendOverlay(vec3 base, vec3 blend) {
+     return vec3(
+         base.r < 0.5 ? (2.0 * base.r * blend.r) : (1.0 - 2.0 * (1.0 - base.r) * (1.0 - blend.r)),
+         base.g < 0.5 ? (2.0 * base.g * blend.g) : (1.0 - 2.0 * (1.0 - base.g) * (1.0 - blend.g)),
+         base.b < 0.5 ? (2.0 * base.b * blend.b) : (1.0 - 2.0 * (1.0 - base.b) * (1.0 - blend.b))
+     );
+}
+
+vec2 ran(vec2 uv) {
+    uv *= vec2(dot(uv, vec2(127.1, 311.7)), dot(uv, vec2(227.1, 521.7)));
+    return 1.0 - fract(tan(cos(uv) * 123.6) * 3533.3) * fract(tan(cos(uv) * 123.6) * 3533.3);
+}
+vec2 pt(vec2 id) {
+    return sin(iTime * 0.5 * (ran(id + .5) - 0.5) + ran(id - 20.1) * 8.0) * 0.5;
+}
+
+vec4 main(vec2 fragCoord)
+{
+    float SIZE = 10.;
+    vec2 uv = (fragCoord - .5 * iResolution.xy) / iResolution.x;
+    vec2 off = iTime / vec2(200., 120.);
+    uv += off;
+    uv *= SIZE;
+
+    vec2 gv = fract(uv) - .5;
+    vec2 id = floor(uv);
+
+    float mindist = 1e9;
+    vec2 vorv = vec2(0);
+    for (float i = -1.;i <= 1.; i++) {
+        for (float j = -1.;j <= 1.; j++) {
+            vec2 offv = vec2(i, j);
+            float dist = length(gv + pt(id + offv) - offv);
+            if (dist < mindist) {
+                mindist = dist;
+                vorv = (id + pt(id + offv) + offv) / SIZE - off;
+            }
+        }
+    }
+
+    vec3 col = mix(iPrimary, iAccent, clamp(vorv.x * 2.2 + vorv.y, -1., 1.) * 0.5 + 0.5);
+    vec3 comp = blendOverlay(iBase, col);
+    return vec4(comp, iAlpha);
+}

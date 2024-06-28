@@ -4,11 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Layout;
-using Avalonia.LogicalTree;
-using Avalonia.Media;
-using Avalonia.Rendering.Composition;
 using Avalonia.Threading;
-using SukiUI.Content;
 using SukiUI.Enums;
 using SukiUI.Helpers;
 using SukiUI.Models;
@@ -16,6 +12,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
+using Avalonia.Media;
+using Avalonia.Rendering.Composition;
+using Avalonia.Rendering.Composition.Animations;
+using Avalonia.VisualTree;
+using SukiUI.Content;
 
 namespace SukiUI.Controls;
 
@@ -24,6 +27,9 @@ namespace SukiUI.Controls;
 /// </summary>
 public class SukiHost : ContentControl
 {
+    
+  
+
     protected override Type StyleKeyOverride => typeof(SukiHost);
 
     public static readonly StyledProperty<bool> IsDialogOpenProperty =
@@ -108,14 +114,17 @@ public class SukiHost : ContentControl
             toastLoc == ToastLocation.BottomLeft
                 ? HorizontalAlignment.Left
                 : HorizontalAlignment.Right;
-
+        
         var b = e.NameScope.Get<Border>("PART_DialogBackground");
         b.Loaded += (sender, args) =>
         {
             var v = ElementComposition.GetElementVisual(b);
             CompositionAnimationHelper.MakeOpacityAnimated(v, 400);
-        };
+        }; 
+        
+     
     }
+    
 
     // TODO: Dialog API desperately needs to support a result or on-close callback.
     // TODO: Toasts and dialogs should be dragged out into their own discrete service and provided by a higher level service locator.
@@ -168,7 +177,7 @@ public class SukiHost : ContentControl
         host.PropertyChanged += dialogOpenChanged;
         return tcs.Task;
     }
-
+    
     /// <summary>
     /// <inheritdoc cref="ShowDialog(Avalonia.Controls.Window,object?,bool,bool)"/>
     /// </summary>
@@ -185,15 +194,12 @@ public class SukiHost : ContentControl
 
     public static void ShowMessageBox(MessageBoxModel model, bool allowbackgroundclose = true)
     {
-
-
-        SukiHost.ShowDialog(new MessageBox()
-        {
+        
+        
+        SukiHost.ShowDialog(new MessageBox(){
             _onActionCallback = model.ActionButton,
-            Title = model.Title,
-            Content = model.Content,
-            ShowActionButton = model.ActionButtonContent != null,
-            ActionButtonContent = model.ActionButtonContent,
+            Title = model.Title, Content = model.Content, ShowActionButton = model.ActionButtonContent != null, 
+            ActionButtonContent = model.ActionButtonContent, 
             Icon = model.Type switch
             {
                 NotificationType.Info => Icons.InformationOutline,
@@ -202,16 +208,14 @@ public class SukiHost : ContentControl
                 NotificationType.Error => Icons.AlertOutline,
                 _ => Icons.InformationOutline
             }
-            ,
-            Foreground = model.Type switch
+            , Foreground = model.Type switch
             {
-                NotificationType.Info => SukiHost.GetGradient(Color.FromRgb(47, 84, 235)),
-                NotificationType.Success => SukiHost.GetGradient(Color.FromRgb(82, 196, 26)),
-                NotificationType.Warning => SukiHost.GetGradient(Color.FromRgb(240, 140, 22)),
-                NotificationType.Error => SukiHost.GetGradient(Color.FromRgb(245, 34, 45)),
-                _ => SukiHost.GetGradient(Color.FromRgb(89, 126, 255))
-            }
-        }, false, allowbackgroundclose);
+                NotificationType.Info => SukiHost.GetGradient(Color.FromRgb(47,84,235)),
+                NotificationType.Success => SukiHost.GetGradient(Color.FromRgb(82,196,26)),
+                NotificationType.Warning => SukiHost.GetGradient(Color.FromRgb(240,140,22)),
+                NotificationType.Error => SukiHost.GetGradient(Color.FromRgb(245,34,45)),
+                _ => SukiHost.GetGradient(Color.FromRgb(89,126,255))
+            }}, false, allowbackgroundclose);
 
     }
 
@@ -228,7 +232,7 @@ public class SukiHost : ContentControl
             }
         };
     }
-
+    
     /// <summary>
     /// Attempts to close a dialog if one is shown in a specific window.
     /// </summary>
@@ -237,13 +241,14 @@ public class SukiHost : ContentControl
         if (!Instances.TryGetValue(window, out var host))
             throw new InvalidOperationException("No SukiHost present in this window");
         host.IsDialogOpen = false;
+       
     }
 
     /// <summary>
     /// Attempts to close a dialog if one is shown in the earliest of any opened windows.
     /// </summary>
     public static void CloseDialog() => CloseDialog(_mainWindow);
-
+    
     /// <summary>
     /// Used to close the open dialog when the background is clicked, if this is allowed.
     /// </summary>
@@ -252,7 +257,7 @@ public class SukiHost : ContentControl
         if (!host.AllowBackgroundClose) return;
         host.IsDialogOpen = false;
     }
-
+    
     /// <summary>
     /// Shows a toast in the SukiHost - The default location is in the bottom right.
     /// This can be changed with an attached property in SukiWindow.
@@ -278,16 +283,15 @@ public class SukiHost : ContentControl
                 toast.Animate(MarginProperty, new Thickness(0, 10, 0, -10), new Thickness(),
                     TimeSpan.FromMilliseconds(500));
             });
-        }
-        catch { }
+        }catch{}
     }
-
+    
     /// <summary>
     /// <inheritdoc cref="ShowToast(Window, SukiToastModel)"/>
     /// This method will show the toast in the earliest opened window.
     /// </summary>
     /// <param name="model">A pre-constructed <see cref="SukiToastModel"/>.</param>
-    public static Task ShowToast(ToastModel model) =>
+    public static Task ShowToast(ToastModel model) => 
         ShowToast(_mainWindow, model);
 
     /// <summary>

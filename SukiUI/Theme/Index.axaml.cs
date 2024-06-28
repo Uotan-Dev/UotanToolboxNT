@@ -47,12 +47,6 @@ public partial class SukiTheme : Styles
     public Action<ThemeVariant>? OnBaseThemeChanged { get; set; }
 
     /// <summary>
-    /// Called whenever the application's Background animation state changes.
-    /// Useful where controls need to adapt to the change in background state.
-    /// </summary>
-    public Action<bool>? OnBackgroundAnimationChanged { get; set; }
-
-    /// <summary>
     /// Currently active <see cref="SukiColorTheme"/>
     /// If you want to change this please use <see cref="ChangeColorTheme(SukiUI.Models.SukiColorTheme)"/>
     /// </summary>
@@ -69,17 +63,11 @@ public partial class SukiTheme : Styles
     /// </summary>
     public ThemeVariant ActiveBaseTheme => _app.ActualThemeVariant;
 
-    /// <summary>
-    /// Tells you if the background is currently animated, if one has been registered.
-    /// </summary>
-    public bool IsBackgroundAnimated => _background != null && _background.AnimationEnabled;
-
     private readonly Application _app;
 
     private readonly HashSet<SukiColorTheme> _colorThemeHashset = new();
     private readonly AvaloniaList<SukiColorTheme> _allThemes = new();
 
-    private SukiBackground? _background;
 
     public SukiTheme()
     {
@@ -161,25 +149,6 @@ public partial class SukiTheme : Styles
     }
 
     /// <summary>
-    /// Attempts to switch the currently active background animation state to a specific value.
-    /// </summary>
-    /// <param name="value"></param>
-    public void SetBackgroundAnimationsEnabled(bool value) =>
-        _background?.SetAnimationEnabled(value);
-
-    /// <summary>
-    /// Attempts to switch the currently active background animation state from whatever it is, to the opposite.
-    /// </summary>
-    public void SwitchBackgroundAnimationsEnabled() =>
-        _background?.SetAnimationEnabled(_background.AnimationEnabled);
-
-    /// <summary>
-    /// Registers a background with the instance, if one hasn't already been registered.
-    /// </summary>
-    internal void RegisterBackground(SukiBackground background) =>
-        _background ??= background;
-
-    /// <summary>
     /// Initializes the color theme resources whenever the property is changed.
     /// In an ideal world people wouldn't use the property
     /// </summary>
@@ -209,6 +178,7 @@ public partial class SukiTheme : Styles
         SetResource($"{baseName}7", baseColor.WithAlpha(0.07));
         SetResource($"{baseName}5", baseColor.WithAlpha(0.05));
         SetResource($"{baseName}3", baseColor.WithAlpha(0.03));
+        SetResource($"{baseName}1", baseColor.WithAlpha(0.01));
         SetResource($"{baseName}0", baseColor.WithAlpha(0.00));
     }
 

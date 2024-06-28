@@ -45,6 +45,7 @@
                                         <CircularEaseOut />
                                     </ThicknessTransition.Easing>
                                 </ThicknessTransition>
+                                
                                 <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
                                 <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.25">
                                     <TransformOperationsTransition.Easing>
@@ -52,7 +53,7 @@
                                     </TransformOperationsTransition.Easing>
                                 </TransformOperationsTransition>
                             </Transitions>
-                        </Border.Transitions>
+                        </Border.Transitions> 
 
                         <Panel>
                             <Border Name="BorderDialog1"

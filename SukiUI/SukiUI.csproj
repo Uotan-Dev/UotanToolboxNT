@@ -28,11 +28,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.0.11" />
-		<PackageReference Include="Avalonia.Skia" Version="11.0.11" />
+		<PackageReference Include="Avalonia" Version="11.1.0-rc1" />
+		<PackageReference Include="Avalonia.Skia" Version="11.1.0-rc1" />
 		<PackageReference Include="SkiaSharp" Version="2.88.8" />
-		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.11" />
-		<PackageReference Include="Avalonia.Themes.Simple" Version="11.0.11" />
+		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.1.0-rc1" />
+		<PackageReference Include="Avalonia.Themes.Simple" Version="11.1.0-rc1" />
 		<PackageReference Include="ReactiveUI" Version="20.1.1" />
 	</ItemGroup>
 
@@ -49,11 +49,6 @@
 		<AvaloniaResource Include="CustomFont\MiSans-Medium.ttf" />
 		<AvaloniaResource Include="CustomFont\MiSans-Regular.ttf" />
 		<AvaloniaResource Include="CustomFont\MiSans-SemiBold.ttf" />
-		<Content Include="suki_photo.ico" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="..\LICENSE" Link="LICENSE" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -75,6 +70,13 @@
 	    <DependentUpon>WaveProgress.axaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Content\Shaders\Background\cells.sksl" />
+	  <EmbeddedResource Include="Content\Shaders\Background\flat.sksl" />
+	  <EmbeddedResource Include="Content\Shaders\Background\gradient.sksl" />
+	  <EmbeddedResource Include="Content\Shaders\Background\waves.sksl" />
 	</ItemGroup>
 
 </Project>

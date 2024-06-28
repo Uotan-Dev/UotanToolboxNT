@@ -3,29 +3,29 @@
                     xmlns:sys="using:System"
                     x:ClassModifier="internal">
 
-	<Design.PreviewWith>
-		<Border Width="800"
+    <Design.PreviewWith>
+        <Border Width="800"
                 Height="800"
                 Padding="50">
-			<CalendarDatePicker />
-		</Border>
-	</Design.PreviewWith>
+            <CalendarDatePicker  />
+        </Border>
+    </Design.PreviewWith>
 
-	<ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
-		<Setter Property="Background" Value="Transparent" />
-		<Setter Property="BorderThickness" Value="0,0,0,1" />
-		<Setter Property="FontSize" Value="14" />
-		<Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
-		<Setter Property="Padding" Value="4" />
-		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="Template">
-			<ControlTemplate>
-				<Grid ColumnDefinitions="*,Auto">
-					<Grid.Styles>
-						<Style Selector="Button.CalendarDropDown">
-							<Setter Property="Template">
-								<ControlTemplate>
-									<Grid Width="22"
+    <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid ColumnDefinitions="*,Auto">
+                    <Grid.Styles>
+                        <Style Selector="Button.CalendarDropDown">
+                            <Setter Property="Template">
+                                <ControlTemplate>
+                                    <Grid Width="22"
                                           Height="20"
                                           Margin="0,0,0,0"
                                           HorizontalAlignment="Center"
@@ -35,7 +35,7 @@
                                           ColumnDefinitions="*,*,*,*"
                                           RowDefinitions="23*,19*,19*,19*">
 
-										<Border Name="Background"
+                                        <Border Name="Background"
                                                 Grid.Row="1"
                                                 Grid.RowSpan="3"
                                                 Grid.Column="0"
@@ -45,7 +45,7 @@
                                                 BorderThickness="1"
                                                 CornerRadius="0,0,2,2" />
 
-										<Border Grid.Row="0"
+                                        <Border Grid.Row="0"
                                                 Grid.Column="0"
                                                 Grid.ColumnSpan="4"
                                                 Background="{DynamicResource SukiPrimaryColor}"
@@ -53,7 +53,7 @@
                                                 BorderThickness="1"
                                                 CornerRadius="3,3,0,0" />
 
-										<TextBlock Grid.Row="1"
+                                        <TextBlock Grid.Row="1"
                                                    Grid.RowSpan="3"
                                                    Grid.Column="0"
                                                    Grid.ColumnSpan="4"
@@ -64,7 +64,7 @@
                                                    Foreground="{DynamicResource SukiLowText}"
                                                    Text="{Binding Source={x:Static sys:DateTime.Today}, Path=Day}" />
 
-										<Ellipse Grid.Row="0"
+                                        <Ellipse Grid.Row="0"
                                                  Grid.Column="0"
                                                  Grid.ColumnSpan="4"
                                                  Width="2"
@@ -73,17 +73,17 @@
                                                  VerticalAlignment="Center"
                                                  Fill="{DynamicResource SukiControlBorderBrush}"
                                                  StrokeThickness="0" />
-									</Grid>
-								</ControlTemplate>
-							</Setter>
-						</Style>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter>
+                        </Style>
 
-						<Style Selector="Button.CalendarDropDown:pointerover /template/ Border#Background">
-							<Setter Property="Background" Value="{DynamicResource SukiPrimaryColor5}" />
-						</Style>
-					</Grid.Styles>
+                        <Style Selector="Button.CalendarDropDown:pointerover /template/ Border#Background">
+                            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor5}" />
+                        </Style>
+                    </Grid.Styles>
 
-					<TextBox Name="PART_TextBox"
+                    <TextBox Name="PART_TextBox"
                              Grid.Column="0"
                              Padding="{TemplateBinding Padding}"
                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -96,7 +96,7 @@
                              UseFloatingWatermark="{TemplateBinding UseFloatingWatermark}"
                              Watermark="{TemplateBinding Watermark}" />
 
-					<Button Name="PART_Button"
+                    <Button Name="PART_Button"
                             Grid.Column="1"
                             Width="20"
                             Margin="6,0"
@@ -108,19 +108,19 @@
                             Focusable="False"
                             Foreground="{TemplateBinding Foreground}" />
 
-					<Popup Name="PART_Popup"
+                    <Popup Name="PART_Popup"
                            Grid.Column="0" Topmost="False"
                            IsLightDismissEnabled="True"
                            PlacementTarget="{TemplateBinding}">
-
-						<Border Margin="15"
+                        
+                            <Border Margin="15"
                                    
-								Background="{DynamicResource SukiStrongBackground}"
-								BoxShadow="{DynamicResource SukiPopupShadow}"
-								CornerRadius="14">
-							<Border CornerRadius="14" ClipToBounds="True">
-								<Panel  Background="{DynamicResource PopupGradientBrush}">
-								<Calendar  Margin="15,8,8,12" Name="PART_Calendar"
+                                    Background="{DynamicResource SukiStrongBackground}"
+                                    BoxShadow="{DynamicResource SukiPopupShadow}"
+                                    CornerRadius="14">
+                                <Border CornerRadius="14" ClipToBounds="True">
+                                <Panel  Background="{DynamicResource PopupGradientBrush}">
+                                <Calendar  Margin="15,8,8,12" Name="PART_Calendar"
                                            DisplayDate="{TemplateBinding DisplayDate}"
                                            DisplayDateEnd="{TemplateBinding DisplayDateEnd}"
                                            DisplayDateStart="{TemplateBinding DisplayDateStart}"
@@ -128,17 +128,17 @@
                                            Foreground="{DynamicResource SukiText}"
                                            IsTodayHighlighted="{TemplateBinding IsTodayHighlighted}"
                                            SelectedDate="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=SelectedDate, Mode=TwoWay}" />
-							</Panel>
-							</Border>
-						</Border>
+                                </Panel>
+                                </Border>
+                            </Border>
+                        
+                    </Popup>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
 
-					</Popup>
-				</Grid>
-			</ControlTemplate>
-		</Setter>
-
-		<Style Selector="^:focus /template/ TextBox#PART_TextBox">
-			<Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderHighBrush}" />
-		</Style>
-	</ControlTheme>
+        <Style Selector="^:focus /template/ TextBox#PART_TextBox">
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderHighBrush}" />
+        </Style>
+    </ControlTheme>
 </ResourceDictionary>

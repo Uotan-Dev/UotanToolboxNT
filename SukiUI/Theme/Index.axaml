@@ -82,7 +82,7 @@
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiSideMenuItem.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/SukiTransitioningContentControl.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/Stepper.axaml" />
-				<ResourceInclude Source="avares://sukiUI/Controls/InfoBadge.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Controls/InfoBadge.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/InfoBar.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/GlassMorphism/GlassCard.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Controls/ContentExpandControl.axaml" />

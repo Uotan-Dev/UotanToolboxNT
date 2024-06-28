@@ -232,6 +232,29 @@
             </Style>
         </Style>
 
+		<Style Selector="^.Toolbox">
+			<Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="Cursor" Value="Hand" />
+			<Setter Property="VerticalAlignment" Value="Bottom" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Background" Value="Transparent" />
+			<!--  Events  -->
+			<Style Selector="^:pointerover">
+				<Setter Property="Background" Value="Transparent" />
+				<Style Selector="^ /template/ Border">
+					<Setter Property="RenderTransform">
+						<Setter.Value>
+							<ScaleTransform ScaleX="1.03" ScaleY="1.03" />
+						</Setter.Value>
+					</Setter>
+				</Style>
+			</Style>
+			<Style Selector="^:pressed /template/ Border">
+				<Setter Property="Background" Value="Transparent" />
+			</Style>
+		</Style>
+
         <Style Selector="^.Void">
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="BorderBrush" Value="Transparent" />

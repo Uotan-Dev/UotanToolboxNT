@@ -10,13 +10,16 @@
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
 		<PublishAot>False</PublishAot>
 		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>
+		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <Optimize>False</Optimize>
 	  <WarningLevel>2</WarningLevel>
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <WarningLevel>2</WarningLevel>
+	  <DebugType>none</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>

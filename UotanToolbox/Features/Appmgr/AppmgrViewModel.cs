@@ -31,6 +31,7 @@ public partial class AppmgrViewModel : MainPageBase
     [RelayCommand]
     public async Task Connect()
     {
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         IsBusy = true;
         try
         {
@@ -42,7 +43,7 @@ public partial class AppmgrViewModel : MainPageBase
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
             else
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
-            if (fullApplicationsList.Contains("\' not found"))
+            if (!(sukiViewModel.Status == "系统"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("请在系统内执行"));
                 return;

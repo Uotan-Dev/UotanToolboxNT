@@ -3,7 +3,6 @@ using Avalonia.Media;
 using ShowMeTheXaml;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using UotanToolbox.Common;
 
@@ -21,12 +20,15 @@ internal class Program
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
     {
-        Global.runpath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);//获取工具运行路径
+        Global.runpath = System.AppDomain.CurrentDomain.BaseDirectory;//获取工具运行路径
         Global.tmp_path = Path.GetTempPath();
         FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
         {
-            FileHelper.CopyDirectory("SukiUI/CustomFont/", "/home/localhost/.local/share/fonts/");
+            string FontPath = Path.Combine(Global.runpath, "Font");
+            string SystemFontPath = $"/home/{System.Environment.UserName}/.local/share/fonts/";
+            Directory.CreateDirectory(SystemFontPath);
+            FileHelper.CopyDirectory(FontPath, SystemFontPath);
             options.DefaultFamilyName = "MiSans";
             if (RuntimeInformation.OSArchitecture == Architecture.X64)
             {
@@ -46,7 +48,7 @@ internal class Program
             Global.System = "macOS";
             options.DefaultFamilyName = "MiSans";
         }
-        Global.bin_path = Path.Combine(Global.runpath, "bin", Global.System);
+        Global.bin_path = Path.Combine(Global.runpath, "Bin");
         // No need to set default for Windows
         return AppBuilder.Configure<App>()
                 .UsePlatformDetect()

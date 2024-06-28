@@ -15,7 +15,7 @@ namespace UotanToolbox.Features.Wiredflash;
 
 public partial class WiredflashView : UserControl
 {
-    private readonly string adb_log_path = Path.Combine(Global.runpath, "log", "adb.txt");
+    private readonly string adb_log_path = Path.Combine(Global.runpath, "Log", "adb.txt");
     private string output = "";
 
     public WiredflashView()
@@ -71,22 +71,38 @@ public partial class WiredflashView : UserControl
         });
     }
 
-    public async Task RunBat(string batpatch, string exepatch)//调用Bat
+    public async Task RunBat(string batpath)//调用Bat
     {
         await Task.Run(() =>
         {
-            string wkdir;
-            if (Global.System == "Windows")
-            {
-                wkdir = $"{exepatch}\\Windows\\bin\\platform-tools";
-            }
-            else
-            {
-                wkdir = $"{exepatch}/bin/{Global.System}/platform-tools";
-            }
+            string wkdir = Path.Combine(Global.bin_path, "platform-tools");
             Process process = null;
             process = new Process();
-            process.StartInfo.FileName = batpatch;
+            process.StartInfo.FileName = batpath;
+            process.StartInfo.WorkingDirectory = wkdir;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+            process.StartInfo.CreateNoWindow = true;
+            process.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
+            process.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            process.Close();
+        });
+    }
+
+    public async Task RunSH(string shpath)
+    {
+        await Task.Run(() =>
+        {
+            string wkdir = Path.Combine(Global.bin_path, "platform-tools");
+            Process process = null;
+            process = new Process();
+            process.StartInfo.FileName = "/bin/bash";
+            process.StartInfo.Arguments = $"-c \"{shpath}\"";
             process.StartInfo.WorkingDirectory = wkdir;
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
@@ -166,8 +182,9 @@ public partial class WiredflashView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Fastboot" || sukiViewModel.Status == "Fastbootd")
             {
-                if (FastbootFile.Text != null || FastbootdFile.Text != null)
+                if (FastbootFile.Text != "" || FastbootdFile.Text != "")
                 {
+                    Global.checkdevice = false;
                     BusyTXTFlash.IsBusy = true;
                     bool succ = true;
                     string fbtxt = FastbootFile.Text;
@@ -175,9 +192,9 @@ public partial class WiredflashView : UserControl
                     WiredflashLog.Text = "";
                     output = "";
                     string imgpath;
-                    if (fbtxt != null && fbtxt != "")
+                    if (fbtxt != "")
                     {
-                        imgpath = fbtxt.Substring(0, fbdtxt.LastIndexOf("/")) + "/images";
+                        imgpath = fbtxt.Substring(0, fbtxt.LastIndexOf("/")) + "/images";
                         string fbparts = FileHelper.Readtxt(fbtxt);
                         char[] charSeparators = new char[] { '\r', '\n' };
                         string[] fbflashparts = fbparts.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
@@ -195,6 +212,7 @@ public partial class WiredflashView : UserControl
                                 SukiHost.ShowDialog(new ConnectionDialog("机型错误无法刷入！"));
                                 succ = false;
                                 BusyTXTFlash.IsBusy = false;
+                                Global.checkdevice = true;
                                 return;
                             }
                         }
@@ -210,16 +228,21 @@ public partial class WiredflashView : UserControl
                             }
                         }
                     }
-                    if (fbdtxt != null && fbdtxt != "" && succ)
+                    if (fbdtxt != "" && succ)
                     {
-                        await Fastboot($"-s {Global.thisdevice} reboot fastboot");
-                        FileHelper.Write(adb_log_path, output);
-                        if (output.Contains("FAILED") || output.Contains("error"))
+                        if (sukiViewModel.Status != "Fastbootd")
                         {
-                            SukiHost.ShowDialog(new ConnectionDialog("未能重启到Fastbootd模式！无法继续刷入！"));
-                            succ = false;
-                            BusyTXTFlash.IsBusy = false;
-                            return;
+                            await Fastboot($"-s {Global.thisdevice} reboot fastboot");
+                            FileHelper.Write(adb_log_path, output);
+                            if (output.Contains("FAILED") || output.Contains("error"))
+                            {
+                                SukiHost.ShowDialog(new ConnectionDialog("未能重启到Fastbootd模式！无法继续刷入！"));
+                                succ = false;
+                                BusyTXTFlash.IsBusy = false;
+                                Global.checkdevice = true;
+                                return;
+                            }
+                            await GetDevicesInfo.SetDevicesInfoLittle();
                         }
                         imgpath = fbdtxt.Substring(0, fbdtxt.LastIndexOf("/")) + "/images";
                         string fbdparts = FileHelper.Readtxt(fbdtxt);
@@ -238,6 +261,7 @@ public partial class WiredflashView : UserControl
                                 SukiHost.ShowDialog(new ConnectionDialog("机型错误无法刷入！"));
                                 succ = false;
                                 BusyTXTFlash.IsBusy = false;
+                                Global.checkdevice = true;
                                 return;
                             }
                         }
@@ -255,11 +279,11 @@ public partial class WiredflashView : UserControl
                         {
                             slot = null;
                         }
+                        string cow = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                         string[] parts = { "odm", "system", "system_ext", "product", "vendor", "mi_ext" };
                         for (int i = 0; i < parts.Length; i++)
                         {
                             string cowpart = String.Format("{0}{1}-cow", parts[i], slot);
-                            string cow = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                             if (cow.Contains(cowpart))
                             {
                                 string shell = String.Format($"-s {Global.thisdevice} delete-logical-partition {cowpart}");
@@ -283,11 +307,11 @@ public partial class WiredflashView : UserControl
                             {
                                 deleteslot = "_a";
                             }
+                            string part = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                             for (int i = 0; i < parts.Length; i++)
                             {
                                 string deletepart = String.Format("{0}{1}", parts[i], deleteslot);
                                 string find = String.Format(":{0}:", deletepart);
-                                string part = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                                 if (part.Contains(find))
                                 {
                                     string shell = String.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
@@ -365,6 +389,7 @@ public partial class WiredflashView : UserControl
                         SukiHost.ShowDialog(new ConnectionDialog("刷入出现错误，请检查日志！"));
                     }
                     BusyTXTFlash.IsBusy = false;
+                    Global.checkdevice = true;
                 }
                 else
                 {
@@ -401,7 +426,7 @@ public partial class WiredflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            FastbootdFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            AdbSideloadFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
 
@@ -416,7 +441,7 @@ public partial class WiredflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            FastbootdFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            FastbootUpdatedFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
     private async void OpenBatFile(object sender, RoutedEventArgs args)
@@ -430,7 +455,7 @@ public partial class WiredflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            FastbootdFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
 
@@ -471,7 +496,7 @@ public partial class WiredflashView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (AdbSideloadFile.Text != null && FastbootUpdatedFile.Text == null && BatFile.Text == null)
+            if (AdbSideloadFile.Text != "" && FastbootUpdatedFile.Text == "" && BatFile.Text == "")
             {
                 if (sukiViewModel.Status == "Sideload")
                 {
@@ -487,7 +512,7 @@ public partial class WiredflashView : UserControl
                     SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Sideload模式后执行！"));
                 }
             }
-            else if (AdbSideloadFile.Text == null && FastbootUpdatedFile.Text != null && BatFile.Text == null)
+            else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text != "" && BatFile.Text == "")
             {
                 if (sukiViewModel.Status == "Fastboot")
                 {
@@ -503,13 +528,20 @@ public partial class WiredflashView : UserControl
                     SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
-            else if (AdbSideloadFile.Text == null && FastbootUpdatedFile.Text == null && BatFile.Text != null)
+            else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text == "" && BatFile.Text != "")
             {
                 if (sukiViewModel.Status == "Fastboot")
                 {
                     BusyFlash.IsBusy = true;
                     WiredflashLog.Text = "";
-                    await RunBat(BatFile.Text, Global.runpath);
+                    if (Global.System == "Windows")
+                    {
+                        await RunBat(BatFile.Text);
+                    }
+                    else
+                    {
+                        await RunSH(BatFile.Text);
+                    }
                     SukiHost.ShowDialog(new ConnectionDialog("执行完成！"));
                     BusyFlash.IsBusy = false;
                 }
@@ -518,7 +550,7 @@ public partial class WiredflashView : UserControl
                     SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
                 }
             }
-            else if (AdbSideloadFile.Text == null && FastbootUpdatedFile.Text == null && BatFile.Text == null)
+            else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text == "" && BatFile.Text == "")
             {
                 SukiHost.ShowDialog(new ConnectionDialog("请选择刷机文件！"));
             }

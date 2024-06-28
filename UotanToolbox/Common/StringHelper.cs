@@ -1,6 +1,5 @@
 ﻿using SukiUI.Controls;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,22 +8,19 @@ using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
 {
-    public class PatchPlan
-    {
-        public string? MAGISK_VER { get; set; }
-        public string? MAGISK_VER_CODE { get; set; }
-        public bool IsVivoSuuPatch { get; set; }
-    }
+
 
     internal class StringHelper
     {
+        internal static readonly char[] separator = ['\r', '\n'];
+
         public static string[] ADBDevices(string ADBInfo)
         {
             string[] devices = new string[20];
-            string[] Lines = ADBInfo.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] Lines = ADBInfo.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < Lines.Length; i++)
             {
-                if (Lines[i].IndexOf('\t') != -1)
+                if (Lines[i].Contains('\t'))
                 {
                     string[] device = Lines[i].Split('\t', StringSplitOptions.RemoveEmptyEntries);
                     devices[i] = device[0];
@@ -37,10 +33,10 @@ namespace UotanToolbox.Common
         public static string[] FastbootDevices(string FastbootInfo)
         {
             string[] devices = new string[20];
-            string[] Lines = FastbootInfo.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] Lines = FastbootInfo.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < Lines.Length; i++)
             {
-                if (Lines[i].IndexOf('\t') != -1)
+                if (Lines[i].Contains('\t'))
                 {
                     string[] device = Lines[i].Split('\t', StringSplitOptions.RemoveEmptyEntries);
                     devices[i] = device[0];
@@ -55,17 +51,14 @@ namespace UotanToolbox.Common
             if (Global.System == "Windows")
             {
                 string[] devices = new string[100];
-                string[] Lines = COMInfo.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] Lines = COMInfo.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
-                    int Find9008 = Lines[i].IndexOf("QDLoader");
-                    int Find900E = Lines[i].IndexOf("900E (");
-                    int Find901D = Lines[i].IndexOf("901D (");
-                    int Find9091 = Lines[i].IndexOf("9091 (");
-                    if (Find9008 != -1 || Find900E != -1 || Find901D != -1 || Find9091 != -1)
+                    if (Lines[i].Contains("QDLoader") || Lines[i].Contains("900E (") || Lines[i].Contains("901D (") || Lines[i].Contains("9091 ("))
                     {
-                        string[] device = Lines[i].Split(new char[2] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
-                        devices[i] = device[1];
+                        string[] deviceParts = Lines[i].Split(new[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (deviceParts.Length > 1)
+                            devices[i] = deviceParts[1];
                     }
                 }
                 devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
@@ -75,19 +68,15 @@ namespace UotanToolbox.Common
             {
                 int j = 0;
                 string[] devices = new string[100];
-                string[] Lines = COMInfo.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] Lines = COMInfo.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
-                    int Find9008 = Lines[i].IndexOf(":9008");
-                    if (Find9008 != -1)
+                    if (Lines[i].Contains(":9008"))
                     {
-                        devices[i] = String.Format($"/dev/ttyUSB{j}");
+                        devices[i] = $"/dev/ttyUSB{j}";
                         j++;
                     }
-                    int Find900E = Lines[i].IndexOf(":900e");
-                    int Find901D = Lines[i].IndexOf(":901d");
-                    int Find9091 = Lines[i].IndexOf(":9091");
-                    if (Find900E != -1 || Find901D != -1 || Find9091 != -1)
+                    else if (Lines[i].Contains(":900e") || Lines[i].Contains(":901d") || Lines[i].Contains(":9091"))
                     {
                         devices[i] = "Unknown device";
                     }
@@ -101,7 +90,7 @@ namespace UotanToolbox.Common
         {
             if (info.IndexOf("FAILED") == -1)
             {
-                string[] infos = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] infos = info.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 string[] product = infos[0].Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 return product[1];
             }
@@ -115,55 +104,37 @@ namespace UotanToolbox.Common
         {
             string[] lines = str.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             string result = string.Concat(lines);
-            if (result == "" || result.IndexOf("not found") != -1 || result.IndexOf("dialog on your device") != -1 || result.IndexOf("device offline") != -1 || result.IndexOf("closed") != -1)
-            {
+            if (string.IsNullOrEmpty(result) || result.Contains("not found") || result.Contains("dialog on your device") || result.Contains("device offline") || result.Contains("closed"))
                 return "--";
-            }
             return result;
         }
 
         public static string ColonSplit(string info)
         {
-            if (info.IndexOf(':') != -1)
-            {
-                string[] text = info.Split(':', StringSplitOptions.RemoveEmptyEntries);
-                return text[text.Length - 1];
-            }
-            else
-            {
-                return "--";
-            }
+            var parts = info.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length > 0 ? parts.Last() : "--";
         }
 
         public static string Density(string info)
         {
-            if (info == "" || info.IndexOf("not found") != -1 || info.IndexOf("dialog on your device") != -1 || info.IndexOf("device offline") != -1 || info.IndexOf("closed") != -1)
-            {
+            if (string.IsNullOrEmpty(info) || info.Contains("not found") || info.Contains("dialog on your device") || info.Contains("device offline") || info.Contains("closed"))
                 return "--";
-            }
             else
             {
-                string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                if (Lines.Length == 2)
-                {
-                    return ColonSplit(Lines[1]);
-                }
-                else
-                {
-                    return ColonSplit(Lines[0]);
-                }
+                string[] Lines = info.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                return Lines.Length == 2 ? ColonSplit(Lines[1]) : ColonSplit(Lines[0]);
             }
         }
 
         public static string[] Battery(string info)
         {
             string[] infos = new string[100];
-            string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] Lines = info.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < Lines.Length; i++)
             {
-                if (Lines[i].IndexOf("Max charging voltage") == -1 && Lines[i].IndexOf("Charger voltage") == -1)
+                if (!Lines[i].Contains("Max charging voltage") && !Lines[i].Contains("Charger voltage"))
                 {
-                    if (Lines[i].IndexOf("level") != -1 || Lines[i].IndexOf("voltage") != -1 || Lines[i].IndexOf("temperature") != -1)
+                    if (Lines[i].Contains("level") || Lines[i].Contains("voltage") || Lines[i].Contains("temperature"))
                     {
                         string[] device = Lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
                         infos[i] = device[device.Length - 1];
@@ -177,10 +148,10 @@ namespace UotanToolbox.Common
         public static string[] Mem(string info)
         {
             string[] infos = new string[20];
-            string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] Lines = info.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < Lines.Length; i++)
             {
-                if (Lines[i].IndexOf("MemTotal") != -1 || Lines[i].IndexOf("MemAvailable") != -1)
+                if (Lines[i].Contains("MemTotal") || Lines[i].Contains("MemAvailable"))
                 {
                     string[] device = Lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
                     infos[i] = device[device.Length - 2];
@@ -196,45 +167,33 @@ namespace UotanToolbox.Common
             string[] lines = info.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             string targetLine = lines.FirstOrDefault(line => line.Contains(find));
             if (targetLine != null)
-            {
                 columns = targetLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            }
             columns = columns.Where(s => !String.IsNullOrEmpty(s)).ToArray();
             return columns;
         }
 
         public static string FastbootVar(string info, string find)
         {
-            string[] infos = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < infos.Length; i++)
-            {
-                if (infos[i].IndexOf(find) != -1)
-                {
-                    return ColonSplit(RemoveLineFeed(infos[i]));
-                }
-            }
+            string[] infos = info.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string targetInfo = infos.FirstOrDefault(info => info.Contains(find));
+            if (targetInfo != null)
+                return ColonSplit(RemoveLineFeed(targetInfo));
             return "--";
         }
 
         public static string FilePath(string path)
         {
-            if (path.IndexOf("file:///") != -1)
+            if (path.Contains("file:///"))
             {
-                if (Global.System == "Windows")
-                {
-                    return path.Substring(8, path.Length - 8);
-                }
-                else
-                {
-                    return path.Substring(7, path.Length - 7);
-                }
+                int startIndex = Global.System == "Windows" ? 8 : 7;
+                return path.Substring(startIndex);
             }
             return path;
         }
 
         public static int TextBoxLine(string info)
         {
-            string[] Lines = info.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] Lines = info.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             return Lines.Length;
         }
 
@@ -248,31 +207,30 @@ namespace UotanToolbox.Common
 
         public static string Partno(string parttable, string findpart)//分区号
         {
-            char[] charSeparators = new char[] { ' ' };
-            string[] parts = parttable.Split(new char[2] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-            string partneed = "";
-            string[] partno = null;
+            char[] charSeparators = [' '];
+            string[] parts = parttable.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 6; i < parts.Length; i++)
             {
-                partneed = parts[i];
-                int find = partneed.IndexOf(findpart);
-                if (find != -1)
+                string partneed = parts[i];
+                if (partneed.Contains(findpart))
                 {
-                    partno = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-                    if (partno.Length == 5)
-                    {
-                        if (partno[4] == findpart)
-                            return partno[0];
-                    }
-                    else
-                    {
-                        if (partno[4] == findpart || partno[5] == findpart)
-                            return partno[0];
-                    }
+                    string[] partno = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                    int lastPartIndex = partno.Length == 5 ? 4 : 5;
+                    if (partno[lastPartIndex] == findpart)
+                        return partno[0];
                 }
             }
             return null;
         }
+
+        public static string DiskSize(string PartTable)
+        {
+            string[] Lines = PartTable.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] NeedLine = Lines[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string size = NeedLine[NeedLine.Length - 1];
+            return size;
+        }
+
         /// <summary>
         /// 根据提供的正则表达式，提取指定指定路径文本文件中的内容。
         /// </summary>
@@ -346,40 +304,72 @@ namespace UotanToolbox.Common
             }
             return result.ToString();
         }
-        public static bool Magisk_Validation(string MD5_in, string MAGISK_VER)
+        /// <summary>
+        /// 从源字节数组的指定索引开始，每隔一个字节读取数据并保存到新的字节数组。
+        /// </summary>
+        /// <param name="source">原始字节数组。</param>
+        /// <param name="startIndex">开始读取的索引位置，从0开始计数。</param>
+        /// <returns>包含按指定规则读取的数据的新字节数组。</returns>
+        public static byte[] ReadBytesWithInterval(byte[] source, int startIndex)
         {
-            string MD5_out = null;
-            string MD5;
-            Dictionary<string, string> patchPlans = new Dictionary<string, string>
-        {
-            {"27.0" , "3b324a47607ae17ac0376c19043bb7b1"},
-            {"26.4" , "3b324a47607ae17ac0376c19043bb7b1"},
-            {"26.3" , "3b324a47607ae17ac0376c19043bb7b1"}
-             /*下面的支持还没写，你要是看到这段文字可以考虑一下帮我写写然后PR到仓库。 -zicai
-            {"26.2" , "daf3cffe200d4e492edd0ca3c676f07f"},
-            {"26.1" , "0e8255080363ee0f895105cdc3dfa419"},
-            {"26.0" , "3d2c5bcc43373eb17939f0592b2b40f9"},
-            {"25.2" , "bf6ef4d02c48875ae3929d26899a868d"},
-            {"25.1" , "c48a22c8ed43cd20fe406acccc600308"},
-            {"25.0" , "7b40f9efd587b59bade9b9ec892e875e"},
-            {"22.1" , "55285c3ad04cdf72e6e2be9d7ba4a333"}
-             */
-        };
-            if (patchPlans.TryGetValue(MAGISK_VER, out MD5_out))
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException(nameof(startIndex));
+
+            var result = new byte[(source.Length - startIndex + 1) / 2]; // 计算目标数组的最大可能长度
+
+            for (int i = startIndex, j = 0; i < source.Length && j < result.Length; i += 2, j++)
             {
-                if (MD5_out == MD5_in)
+                result[j] = source[i];
+            }
+            return result;
+        }
+        public static string ByteToHex(byte comByte)
+        {
+            return comByte.ToString("X2") + " ";
+        }
+        public static string ByteToHex(byte[] comByte, int len)
+        {
+            string returnStr = "";
+            if (comByte != null)
+            {
+                for (int i = 0; i < len; i++)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到有效的" + MAGISK_VER + "面具安装包"));
-                    return true;
+                    returnStr += comByte[i].ToString("X2") + " ";
                 }
-                SukiHost.ShowDialog(new ConnectionDialog("面具安装包可能失效，继续修补存在风险"));
-                return false;
             }
-            else
+            return returnStr;
+        }
+        public static byte[] HexToByte(string msg)
+        {
+            msg = msg.Replace(" ", "");
+
+            byte[] comBuffer = new byte[msg.Length / 2];
+            for (int i = 0; i < msg.Length; i += 2)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("面具安装包不被支持"));
-                return false;
+                comBuffer[i / 2] = (byte)Convert.ToByte(msg.Substring(i, 2), 16);
             }
+
+            return comBuffer;
+        }
+        public static string HEXToASCII(string data)
+        {
+            data = data.Replace(" ", "");
+            byte[] comBuffer = new byte[data.Length / 2];
+            for (int i = 0; i < data.Length; i += 2)
+            {
+                comBuffer[i / 2] = (byte)Convert.ToByte(data.Substring(i, 2), 16);
+            }
+            string result = Encoding.Default.GetString(comBuffer);
+            return result;
+        }
+        public static string ASCIIToHEX(string data)
+        {
+            StringBuilder result = new StringBuilder(data.Length * 2);
+            for (int i = 0; i < data.Length; i++)
+            {
+                result.Append(((int)data[i]).ToString("X2") + " ");
+            }
+            return Convert.ToString(result);
         }
     }
 }

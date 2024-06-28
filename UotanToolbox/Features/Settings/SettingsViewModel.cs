@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI;
 using SukiUI.Models;
-using System.Globalization;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Settings;

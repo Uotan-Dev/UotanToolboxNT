@@ -20,17 +20,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.0.6" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.0.6" />
-		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.6" />
+		<PackageReference Include="Avalonia" Version="11.0.11" />
+		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.0.11" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.11" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.11" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.11" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="Material.Icons.Avalonia" Version="2.1.0" />
+		<PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.4.1" />
-		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.4.1" />
+		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.5.1" />
+		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.5.1" />
+		<PackageReference Include="SkiaSharp" Version="2.88.8" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,11 +40,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AvaloniaResource Include="Assets\OIG.N5o-removebg-preview.png" />
-		<AvaloniaResource Include="Assets\yuzh.png" />
-		<AvaloniaResource Include="Assets\mjw.jpeg" />
-		<AvaloniaResource Include="Assets\zicai.jpeg" />
-		<AvaloniaResource Include="Assets\mouzei.jpg" />
+		<AvaloniaResource Include="Assets\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -63,6 +61,9 @@
 		</Compile>
 		<Compile Update="Features\Appmgr\DashboardView.axaml.cs">
 			<DependentUpon>%(Filename)</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Components\ErrorDialog.axaml.cs">
+		  <DependentUpon>ErrorDialog.axaml</DependentUpon>
 		</Compile>
 		<Compile Update="Features\Home\HomeView.axaml.cs">
 			<DependentUpon>HomeView.axaml</DependentUpon>

@@ -1,11 +1,13 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Threading;
+using SukiUI.Controls;
 
 namespace UotanToolbox.Features.Components
 {
-    public partial class PureDialog : UserControl
+    public partial class ErrorDialog : UserControl
     {
-        public PureDialog(string DialogContent)
+        public ErrorDialog(string DialogContent)
         {
             Dispatcher.UIThread.Post(() =>
             {
@@ -16,6 +18,11 @@ namespace UotanToolbox.Features.Components
                 }
             });
             InitializeComponent();
+        }
+
+        private void Button_OnClick(object? sender, RoutedEventArgs e)
+        {
+            SukiHost.CloseDialog();
         }
     }
 }

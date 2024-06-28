@@ -11,15 +11,15 @@ namespace UotanToolbox.Common
 
         public static async void PushMakefs(string device)
         {
-            await CallExternalProgram.ADB($"-s {device} push bin/Push/mkfs.f2fs /tmp/");
+            await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/mkfs.f2fs /tmp/");
             await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/mkfs.f2fs");
-            await CallExternalProgram.ADB($"-s {device} push bin/Push/mkntfs /tmp/");
+            await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/mkntfs /tmp/");
             await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/mkntfs");
         }
 
         public static async Task GetPartTable(string device)
         {
-            await CallExternalProgram.ADB($"-s {device} push bin/Push/parted /tmp/");
+            await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/parted /tmp/");
             await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/parted");
             Global.sdatable = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/sda print");
             Global.sdbtable = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/sdb print");
@@ -32,7 +32,7 @@ namespace UotanToolbox.Common
 
         public static async Task GetPartTableSystem(string device)
         {
-            await CallExternalProgram.ADB($"-s {device} push bin/Push/parted /data/local/tmp/");
+            await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/parted /data/local/tmp/");
             await CallExternalProgram.ADB($"-s {device} shell su -c \"chmod +x /data/local/tmp/parted\"");
             Global.sdatable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sda print\"");
             Global.sdbtable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sdb print\"");

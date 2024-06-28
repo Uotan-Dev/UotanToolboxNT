@@ -66,68 +66,68 @@
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
 								   Text="{x:Static assets:Resources.Scrcpy_TransmitAndRecord}" />
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="60"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_RecordScreen}" />
-								<ToggleSwitch IsChecked="{Binding RecordScreen}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="60"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_RecordDictionary}" />
-								<TextBox Width="250" Name="RecordFolder" Text="{Binding RecordFolder, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-								<Button Height="35"
-										Padding="10,0,10,0"
-										Click="OpenFolderButton_Clicked"
-										Content="{x:Static assets:Resources.Common_ChooseFolder}">
-								</Button>
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="60"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_Bitrate}" />
-								<Slider Width="300" IsSnapToTickEnabled="True" Maximum="10" Minimum="0" TickFrequency="1" Value="{Binding BitRate}"></Slider>
-								<TextBlock Margin="12,0,0,0"
-                                   VerticalAlignment="Center"
-                                   FontWeight="DemiBold"
-                                   Text="{Binding BitRate}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="60"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_MaxFps}" />
-								<Slider Width="300" IsSnapToTickEnabled="True" Maximum="180" Minimum="0" TickFrequency="1" Value="{Binding FrameRate}"></Slider>
-								<TextBlock Margin="12,0,0,0"
-                                   VerticalAlignment="Center"
-                                   FontWeight="DemiBold"
-                                   Text="{Binding FrameRate}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="60"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_ProportionalScaling}" />
-								<Slider Width="300" IsSnapToTickEnabled="True" Maximum="2048" Minimum="0" TickFrequency="1" Value="{Binding SizeResolution}"></Slider>
-								<TextBlock Margin="12,0,0,0"
-                                   VerticalAlignment="Center"
-                                   FontWeight="DemiBold"
-                                   Text="{Binding SizeResolution}" />
-							</StackPanel>
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="60"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Foreground="{DynamicResource SukiLowText}"
+									   Text="{x:Static assets:Resources.Scrcpy_RecordScreen}" />
+							<ToggleSwitch IsChecked="{Binding RecordScreen}" />
+						</StackPanel>
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="60"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Foreground="{DynamicResource SukiLowText}"
+									   Text="{x:Static assets:Resources.Scrcpy_RecordDictionary}" />
+							<TextBox Width="250" Name="RecordFolder" Text="{Binding RecordFolder, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Height="35"
+									Padding="10,0,10,0"
+									Click="OpenFolderButton_Clicked"
+									Content="{x:Static assets:Resources.Common_ChooseFolder}">
+							</Button>
+						</StackPanel>
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="60"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Foreground="{DynamicResource SukiLowText}"
+									   Text="{x:Static assets:Resources.Scrcpy_Bitrate}" />
+							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="10" Minimum="0" TickFrequency="1" Value="{Binding BitRate}"></Slider>
+							<TextBlock Margin="12,0,0,0"
+							   VerticalAlignment="Center"
+							   FontWeight="DemiBold"
+							   Text="{Binding BitRate}" />
+						</StackPanel>
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="60"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Foreground="{DynamicResource SukiLowText}"
+									   Text="{x:Static assets:Resources.Scrcpy_MaxFps}" />
+							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="180" Minimum="0" TickFrequency="1" Value="{Binding FrameRate}"></Slider>
+							<TextBlock Margin="12,0,0,0"
+							   VerticalAlignment="Center"
+							   FontWeight="DemiBold"
+							   Text="{Binding FrameRate}" />
+						</StackPanel>
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="60"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Foreground="{DynamicResource SukiLowText}"
+									   Text="{x:Static assets:Resources.Scrcpy_ProportionalScaling}" />
+							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="2048" Minimum="0" TickFrequency="1" Value="{Binding SizeResolution}"></Slider>
+							<TextBlock Margin="12,0,0,0"
+							   VerticalAlignment="Center"
+							   FontWeight="DemiBold"
+							   Text="{Binding SizeResolution}" />
+						</StackPanel>
 					</StackPanel>
 				</Grid>
 			</suki:GlassCard>

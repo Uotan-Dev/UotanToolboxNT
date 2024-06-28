@@ -27,6 +27,30 @@ namespace UotanToolbox.Common
                 throw;
             }
         }
+        /// <summary>
+        /// 从文件路径读取内容为字节数组。
+        /// </summary>
+        /// <param name="filePath">文件的完整路径。</param>
+        /// <returns>文件内容对应的字节数组。</returns>
+        public static byte[] ReadFileToByteArray(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath)) throw new ArgumentException("FilePath cannot be null or empty.", nameof(filePath));
+            try
+            {
+                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    var fileSize = (int)fileStream.Length;
+                    var byteArray = new byte[fileSize];
+
+                    fileStream.Read(byteArray, 0, fileSize);
+                    return byteArray;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new IOException($"An error occurred while reading the file: {ex.Message}", ex);
+            }
+        }
 
         public static void Write(string file, string text)//写入到txt文件
         {
@@ -52,13 +76,31 @@ namespace UotanToolbox.Common
         /// <returns>文件的SHA1哈希值，表示为32位小写字母和数字的字符串。</returns>
         public static string SHA1Hash(string filePath)
         {
-            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            try
             {
-                using (var sha1 = SHA1.Create())
+                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
-                    var hashBytes = sha1.ComputeHash(fileStream);
-                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                    using (var sha1 = SHA1.Create())
+                    {
+                        var hashBytes = sha1.ComputeHash(fileStream);
+                        return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                    }
                 }
+            }
+            catch (FileNotFoundException)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"The file '{filePath}' was not found."));
+                throw;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"Access to the file '{filePath}' is denied."));
+                throw;
+            }
+            catch (Exception ex)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}"));
+                return null;
             }
         }
         /// <summary>

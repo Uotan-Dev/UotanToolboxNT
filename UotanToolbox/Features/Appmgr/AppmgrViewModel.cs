@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Controls;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,55 +21,71 @@ public partial class AppmgrViewModel : MainPageBase
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
-        Applications = [];
+        if (Global.load_times == 0)
+        {
+            Applications = [];
+            Global.load_times = 1;
+        }
     }
 
     [RelayCommand]
     public async Task Connect()
     {
         IsBusy = true;
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        try
         {
-            var fullApplicationsList = "";
-            if (isSystemAppDisplayed == false)
+            if (!await GetDevicesInfo.SetDevicesInfoLittle())
+                return;
+
+            string fullApplicationsList;
+            if (!isSystemAppDisplayed)
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
             else
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
-
-            var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
-            if (lines.Length != 0) HasItems = true;
-            var applicationInfos = new List<ApplicationInfo>();
-
-            var tasks = lines.Select(async line =>
+            if (fullApplicationsList.Contains("\' not found"))
             {
-                var parts = line.Split(':');
-                if (parts.Length >= 2)
-                {
-                    var packageName = parts[1][(parts[1].LastIndexOf('/') + 1)..];
-                    if (string.IsNullOrEmpty(packageName)) return;
-                    var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
-                    var lineOutput = combinedOutput.Split('\n');
-                    //var sizeLine = lineOutput.FirstOrDefault(line => line.Contains("TOTAL"));
-                    //var size = GetPackageSize(sizeLine);
-                    var installedDate = GetInstalledDate(lineOutput);
-                    var applicationInfo = new ApplicationInfo
-                    {
-                        Name = packageName,
-                        //Size = size,
-                        InstalledDate = installedDate
-                    };
-                    lock (applicationInfos)
-                    {
-                        applicationInfos.Add(applicationInfo);
-                    }
-                }
-            });
+                SukiHost.ShowDialog(new ConnectionDialog("请在系统内执行"));
+                return;
+            }
+            var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
+            HasItems = lines.Length > 0;
+            var applicationInfosTasks = lines.AsParallel()
+                                           .Select(async line =>
+                                           {
+                                               var packageName = ExtractPackageName(line);
+                                               if (string.IsNullOrEmpty(packageName)) return null;
+                                               var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
+                                               var installedDate = GetInstalledDate(combinedOutput.Split('\n'));
 
-            await Task.WhenAll(tasks);
-            applicationInfos = [.. applicationInfos.OrderByDescending(app => app.Size).ThenBy(app => app.Name)];
+                                               return packageName != null && installedDate != null
+                                                     ? new ApplicationInfo { Name = packageName, InstalledDate = installedDate }
+                                                     : null;
+                                           });
+            var applicationInfos = (await Task.WhenAll(applicationInfosTasks))
+                                             .Where(info => info != null)
+                                             .OrderByDescending(app => app.Size)
+                                             .ThenBy(app => app.Name)
+                                             .ToList();
             Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
         }
-        IsBusy = false;
+        catch (Exception ex)
+        {
+            SukiHost.ShowDialog(new ConnectionDialog(ex.Message));
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+        static string ExtractPackageName(string line)
+        {
+            var parts = line.Split(':');
+            if (parts.Length < 2) return null;
+            var packageNamePart = parts[1];
+            var packageNameStartIndex = packageNamePart.LastIndexOf('/') + 1;
+            return packageNameStartIndex < packageNamePart.Length
+                ? packageNamePart.Substring(packageNameStartIndex)
+                : null;
+        }
     }
 
     [RelayCommand]
@@ -79,7 +94,15 @@ public partial class AppmgrViewModel : MainPageBase
         IsInstalling = true;
         if (!string.IsNullOrEmpty(ApkFile))
         {
-            await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r {ApkFile}");
+            string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{ApkFile}\"");
+            if (output.Contains("Success"))
+            {
+                SukiHost.ShowDialog(new ConnectionDialog("安装成功！"));
+            }
+            else
+            {
+                SukiHost.ShowDialog(new ConnectionDialog($"安装失败：\r\n{output}"));
+            }
         }
         else
         {

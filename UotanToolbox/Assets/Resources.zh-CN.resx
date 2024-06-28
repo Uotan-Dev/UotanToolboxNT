@@ -786,4 +786,7 @@
   <data name="Sidebar_Settings" xml:space="preserve">
     <value>设置</value>
   </data>
+  <data name="Sidebar_Others" xml:space="preserve">
+    <value>杂项控制</value>
+  </data>
 </root>

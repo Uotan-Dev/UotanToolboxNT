@@ -1951,6 +1951,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Others 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_Others {
+            get {
+                return ResourceManager.GetString("Sidebar_Others", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Settings 的本地化字符串。
         /// </summary>
         public static string Sidebar_Settings {

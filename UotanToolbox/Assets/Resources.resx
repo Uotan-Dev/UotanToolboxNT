@@ -786,4 +786,7 @@
   <data name="Sidebar_Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="Sidebar_Others" xml:space="preserve">
+    <value>Others</value>
+  </data>
 </root>

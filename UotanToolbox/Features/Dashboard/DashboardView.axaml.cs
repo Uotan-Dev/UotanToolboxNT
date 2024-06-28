@@ -135,7 +135,7 @@ public partial class DashboardView : UserControl
         }
         //在临时目录创建临时boot目录，这破东西跨平台解压各种问题，直接即用即丢了
         Global.boot_tmp = Path.Combine(Global.tmp_path, "Boot -" + StringHelper.RandomString(8));
-        string workpath = Global.boot_tmp; // 不这样搞会报错，莫名其妙
+        string workpath = Global.boot_tmp;
         if (FileHelper.ClearFolder(workpath))
         {
             (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"", Global.boot_tmp);
@@ -154,19 +154,9 @@ public partial class DashboardView : UserControl
                 Directory.CreateDirectory(workpath);
             }
             (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract", workpath);
-            string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
-            //下面是根据镜像的init架构来推定整个Boot.img文件的架构，但是逻辑写的相当的屎，你有更好的想法可以来改
+            string init_path = MagiskHelper.CheckInitPath(ramdisk);
+            string init_info = await CallExternalProgram.File($"\"{Path.Join(ramdisk,init_path)}\"");
             (bool valid, string arch) = MagiskHelper.ArchDetect(init_info);
-            if (valid)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog($"检测到可用{arch}镜像"));
-                ArchList.SelectedItem = arch;
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            //有些设备的init路径是/bin/init而不是/init,在这里再做一次检测
-            init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "system", "bin", "init")}\"");
-            (valid, arch) = MagiskHelper.ArchDetect(init_info);
             if (valid)
             {
                 SukiHost.ShowDialog(new ConnectionDialog($"检测到可用{arch}镜像"));
@@ -176,7 +166,7 @@ public partial class DashboardView : UserControl
             }
             else 
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"镜像不可用"));
+                SukiHost.ShowDialog(new ConnectionDialog(init_info));
                 patch_busy(false);
             }
         }
@@ -200,7 +190,6 @@ public partial class DashboardView : UserControl
         string env_PATCHVBMETAFLAG = PATCHVBMETAFLAG.IsChecked.ToString().ToLower();
         string env_RECOVERYMODE = RECOVERYMODE.IsChecked.ToString().ToLower();
         string env_LEGACYSAR = LEGACYSAR.IsChecked.ToString().ToLower();
-
         string compPathBase = System.IO.Path.Combine(Global.magisk_tmp, "lib");
         string archSubfolder = ArchList.SelectedItem.ToString() switch
         {

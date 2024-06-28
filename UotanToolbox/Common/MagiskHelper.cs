@@ -210,27 +210,29 @@ namespace UotanToolbox.Common
                     byte[] headerBytes = reader.ReadBytes(9);
                     if (!(headerBytes.Length == symlinkBytes.Length))
                     {
-                        return null;
+                        SukiHost.ShowDialog(new ConnectionDialog("长度不一致"));
+                        return "1";
                     }
-                    if (headerBytes == elfBytes)
+                    if (BitConverter.ToString(headerBytes) == BitConverter.ToString(elfBytes))
                     {
                         return init_path;
                     }
-                    if (headerBytes == symlinkBytes)
+                    if (BitConverter.ToString(headerBytes) == BitConverter.ToString(symlinkBytes))
                     {
                         return read_symlink(init_path);
                     }
-                    return null;
+                    SukiHost.ShowDialog(new ConnectionDialog("错误文件类型"+ BitConverter.ToString(symlinkBytes)));
+                    return "2";
                 }
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("文件未找到。");
+                SukiHost.ShowDialog(new ConnectionDialog("文件未找到。"));
                 return null;
             }
             catch (IOException ex)
             {
-                Console.WriteLine($"读取文件时发生错误: {ex.Message}");
+                SukiHost.ShowDialog(new ConnectionDialog($"读取文件时发生错误: {ex.Message}"));
                 return null;
             }
         }

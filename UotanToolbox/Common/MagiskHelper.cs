@@ -16,6 +16,23 @@ namespace UotanToolbox.Common
             public string? MAGISK_VER_CODE { get; set; }
             public bool IsVivoSuuPatch { get; set; }
         }
+        public static readonly Dictionary<string, string> ArchMappings = new Dictionary<string, string>
+{
+    {"ARM aarch64", "aarch64"},
+    {"X86-64", "X86-64"},
+    {"ARM,", "armeabi"},
+    {"Intel 80386", "X86"}
+};
+
+        public static (bool,string) ArchDetect(string init_info)
+        {
+            foreach (var entry in ArchMappings)
+            {
+                if (init_info.Contains(entry.Key))
+                    return (true,entry.Value);
+            }
+            return (false, null);
+        }
         public static bool Magisk_Validation(string MD5_in, string MAGISK_VER)
         {
             string MD5_out = null;

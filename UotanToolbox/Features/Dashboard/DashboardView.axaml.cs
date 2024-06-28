@@ -156,62 +156,27 @@ public partial class DashboardView : UserControl
             (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract", workpath);
             string init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "init")}\"");
             //下面是根据镜像的init架构来推定整个Boot.img文件的架构，但是逻辑写的相当的屎，你有更好的想法可以来改
-            if (init_info.Contains("ARM aarch64"))
+            (bool valid, string arch) = MagiskHelper.ArchDetect(init_info);
+            if (valid)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
-                ArchList.SelectedItem = "aarch64";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains("X86-64"))
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
-                ArchList.SelectedItem = "X86-64";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains("ARM,"))
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
-                ArchList.SelectedItem = "armeabi";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains(" Intel 80386"))
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
-                ArchList.SelectedItem = "X86";
+                SukiHost.ShowDialog(new ConnectionDialog($"检测到可用{arch}镜像"));
+                ArchList.SelectedItem = arch;
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
             //有些设备的init路径是/bin/init而不是/init,在这里再做一次检测
             init_info = await CallExternalProgram.File($"\"{Path.Combine(ramdisk, "system", "bin", "init")}\"");
-            if (init_info.Contains("ARM aarch64"))
+            (valid, arch) = MagiskHelper.ArchDetect(init_info);
+            if (valid)
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用AArch64镜像"));
-                ArchList.SelectedItem = "aarch64";
+                SukiHost.ShowDialog(new ConnectionDialog($"检测到可用{arch}镜像"));
+                ArchList.SelectedItem = arch;
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
-            else if (init_info.Contains("X86-64"))
+            else 
             {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86-64镜像"));
-                ArchList.SelectedItem = "X86-64";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains("ARM,"))
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用ARM镜像"));
-                ArchList.SelectedItem = "armeabi";
-                Global.is_boot_ok = true;
-                patch_busy(false);
-            }
-            else if (init_info.Contains(" Intel 80386"))
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("检测到可用X86镜像"));
-                ArchList.SelectedItem = "X86";
-                Global.is_boot_ok = true;
+                SukiHost.ShowDialog(new ConnectionDialog($"镜像不可用"));
                 patch_busy(false);
             }
         }

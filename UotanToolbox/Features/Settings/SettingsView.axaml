@@ -66,23 +66,81 @@
                         </controls:SettingsLayoutItem>
 						
                         <controls:SettingsLayoutItem Header="{x:Static assets:Resources.Settings_Other}">
-                            <controls:SettingsLayoutItem.Content>
-                                <controls:GlassCard Margin="15">
-                                    <DockPanel>
-                                        <ToggleButton VerticalAlignment="Top"
-                                                      Classes="Switch"
-                                                      DockPanel.Dock="Right"
-                                                      IsChecked="{Binding IsBackgroundAnimated}" />
-                                        <StackPanel HorizontalAlignment="Left">
-                                            <TextBlock FontSize="16"
-                                                       FontWeight="DemiBold"
-                                                       Text="{x:Static assets:Resources.Settings_AnimatedBackground}" />
-                                            <TextBlock Margin="0,12,70,0"
-                                                       Foreground="{DynamicResource SukiLowText}"
-                                                       Text="{x:Static assets:Resources.Settings_EnableCloudEffect}"
-                                                       TextWrapping="Wrap" />
-                                        </StackPanel>
-                                    </DockPanel>
+							<controls:SettingsLayoutItem.Content>
+								<controls:GlassCard Margin="0,25,0,0">
+									<StackPanel Spacing="25">
+										<DockPanel>
+											<ToggleButton VerticalAlignment="Top"
+														  Classes="Switch"
+														  DockPanel.Dock="Right"
+														  IsChecked="{Binding BackgroundAnimations}" />
+											<StackPanel HorizontalAlignment="Left">
+												<TextBlock FontSize="16"
+														   FontWeight="DemiBold"
+														   Text="{x:Static assets:Resources.Settings_AnimatedBackground}" />
+												<TextBlock Margin="0,12,70,0"
+														   Foreground="{DynamicResource SukiLowText}"
+														   Text="Enable/disable the animations for the background, which are driven by the currently active effect."
+														   TextWrapping="Wrap" />
+											</StackPanel>
+										</DockPanel>
+										<DockPanel>
+											<ToggleButton VerticalAlignment="Top"
+                                                          Classes="Switch"
+                                                          DockPanel.Dock="Right"
+                                                          IsChecked="{Binding BackgroundTransitions}" />
+											<StackPanel HorizontalAlignment="Left">
+												<TextBlock FontSize="16"
+                                                           FontWeight="DemiBold"
+                                                           Text="Background Transitions" />
+												<TextBlock Margin="0,12,70,0"
+                                                           Foreground="{DynamicResource SukiLowText}"
+                                                           Text="Enable/disable the transitions for the background, these will fade between the active effects when changed."
+                                                           TextWrapping="Wrap" />
+											</StackPanel>
+										</DockPanel>
+										<DockPanel>
+											<ComboBox DockPanel.Dock="Right"
+                                                      ItemsSource="{Binding AvailableBackgroundStyles}"
+                                                      SelectedItem="{Binding BackgroundStyle}" />
+											<StackPanel HorizontalAlignment="Left">
+												<TextBlock FontSize="16"
+                                                           FontWeight="DemiBold"
+                                                           Text="Background Style" />
+												<TextBlock Margin="0,12,70,0"
+                                                           Foreground="{DynamicResource SukiLowText}"
+                                                           Text="Select from the included background styles."
+                                                           TextWrapping="Wrap" />
+											</StackPanel>
+										</DockPanel>
+										<DockPanel>
+											<StackPanel HorizontalAlignment="Left" DockPanel.Dock="Top">
+												<TextBlock FontSize="16"
+                                                           FontWeight="DemiBold"
+                                                           Text="Custom Shaders" />
+												<TextBlock Margin="0,12,70,0"
+                                                           Foreground="{DynamicResource SukiLowText}"
+                                                           Text="Click any of the buttons below to enable a background shader. Click it again to disable it. These are likely to put quite a load on your GPU and are purely to demonstrate and test the capabilities of the background renderer."
+                                                           TextWrapping="Wrap" />
+											</StackPanel>
+											<ItemsControl ItemsSource="{Binding CustomShaders}">
+												<ItemsControl.ItemTemplate>
+													<DataTemplate>
+														<Button Margin="10"
+                                                                Classes="Flat"
+                                                                Command="{Binding $parent[settings:SettingsView].((settings:SettingsViewModel)DataContext).TryCustomShaderCommand}"
+                                                                CommandParameter="{Binding}"
+                                                                Content="{Binding}" />
+													</DataTemplate>
+												</ItemsControl.ItemTemplate>
+												<ItemsControl.ItemsPanel>
+													<ItemsPanelTemplate>
+														<UniformGrid Rows="1" />
+													</ItemsPanelTemplate>
+												</ItemsControl.ItemsPanel>
+											</ItemsControl>
+										</DockPanel>
+									</StackPanel>
                                 </controls:GlassCard>
                             </controls:SettingsLayoutItem.Content>
                         </controls:SettingsLayoutItem>

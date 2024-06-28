@@ -451,7 +451,7 @@ public partial class DashboardView : UserControl
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new PureDialog("64位magisk32组件预处理时 " + ex), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ErrorDialog("64位magisk32组件预处理时 " + ex));
                 patch_busy(false);
                 return;
             }
@@ -465,7 +465,7 @@ public partial class DashboardView : UserControl
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new PureDialog("magisk32组件预处理时 " + ex), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ErrorDialog("magisk32组件预处理时 " + ex));
                 patch_busy(false);
                 return;
             }
@@ -479,7 +479,7 @@ public partial class DashboardView : UserControl
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new PureDialog("magisk32组件预处理时 " + ex), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new ErrorDialog("magisk32组件预处理时 " + ex));
                 patch_busy(false);
                 return;
             }
@@ -504,7 +504,7 @@ public partial class DashboardView : UserControl
                 }
                 catch (Exception e)
                 {
-                    SukiHost.ShowDialog(new PureDialog("0文件预处理时出错！" + e), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ErrorDialog("0文件预处理时出错！" + e));
                     break;
                 }
             case 1:
@@ -518,7 +518,7 @@ public partial class DashboardView : UserControl
                 }
                 catch (Exception e)
                 {
-                    SukiHost.ShowDialog(new PureDialog("1文件预处理时出错！" + e), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ErrorDialog("1文件预处理时出错！" + e));
                     break;
                 }
             case 2:
@@ -592,7 +592,7 @@ public partial class DashboardView : UserControl
                 }
                 catch (Exception ex)
                 {
-                    SukiHost.ShowDialog(new PureDialog("kernel删除失败" + ex), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new ErrorDialog("kernel删除失败" + ex));
                     patch_busy(false);
                     return;
                 }
@@ -624,7 +624,7 @@ public partial class DashboardView : UserControl
         }
         catch (Exception ex)
         {
-            SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new ErrorDialog(ex.Message));
             patch_busy(false);
             return;
         }
@@ -656,10 +656,7 @@ public partial class DashboardView : UserControl
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new PureDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
-            });
+            SukiHost.ShowDialog(new PureDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
         }
     }
 
@@ -689,10 +686,7 @@ public partial class DashboardView : UserControl
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new PureDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
-            });
+            SukiHost.ShowDialog(new PureDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
         }
     }
 
@@ -715,10 +709,7 @@ public partial class DashboardView : UserControl
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new PureDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
-            });
+            SukiHost.ShowDialog(new PureDialog("当前设备无需进行此操作！"), allowBackgroundClose: true);
         }
     }
 

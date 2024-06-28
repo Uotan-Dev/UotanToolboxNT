@@ -24,12 +24,12 @@ namespace UotanToolbox.Common
     {"Intel 80386", "X86"}
 };
 
-        public static (bool,string) ArchDetect(string init_info)
+        public static (bool, string) ArchDetect(string init_info)
         {
             foreach (var entry in ArchMappings)
             {
                 if (init_info.Contains(entry.Key))
-                    return (true,entry.Value);
+                    return (true, entry.Value);
             }
             return (false, null);
         }
@@ -221,7 +221,7 @@ namespace UotanToolbox.Common
                     {
                         return read_symlink(init_path);
                     }
-                    SukiHost.ShowDialog(new ConnectionDialog("错误文件类型"+ BitConverter.ToString(symlinkBytes)));
+                    SukiHost.ShowDialog(new ConnectionDialog("错误文件类型" + BitConverter.ToString(symlinkBytes)));
                     return "2";
                 }
             }

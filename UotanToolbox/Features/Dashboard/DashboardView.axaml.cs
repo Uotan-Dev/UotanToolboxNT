@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
 
@@ -155,7 +154,7 @@ public partial class DashboardView : UserControl
             }
             (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_path}\" extract", workpath);
             string init_path = MagiskHelper.CheckInitPath(ramdisk);
-            string init_info = await CallExternalProgram.File($"\"{Path.Join(ramdisk,init_path)}\"");
+            string init_info = await CallExternalProgram.File($"\"{Path.Join(ramdisk, init_path)}\"");
             (bool valid, string arch) = MagiskHelper.ArchDetect(init_info);
             if (valid)
             {
@@ -164,7 +163,7 @@ public partial class DashboardView : UserControl
                 Global.is_boot_ok = true;
                 patch_busy(false);
             }
-            else 
+            else
             {
                 SukiHost.ShowDialog(new ConnectionDialog(init_info));
                 patch_busy(false);
@@ -205,8 +204,8 @@ public partial class DashboardView : UserControl
             "X86-64" => "x86",
             _ => ""
         };
-        string compPath = System.IO.Path.Combine(compPathBase, archSubfolder);
-        string sub_compPath = System.IO.Path.Combine(compPathBase, archSubfolder2);
+        string compPath = Path.Combine(compPathBase, archSubfolder);
+        string sub_compPath = Path.Combine(compPathBase, archSubfolder2);
         if (archSubfolder2 != "")
         {
             try

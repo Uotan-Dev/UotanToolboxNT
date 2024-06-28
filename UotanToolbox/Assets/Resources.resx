@@ -789,4 +789,7 @@
   <data name="Sidebar_Others" xml:space="preserve">
     <value>Others</value>
   </data>
+  <data name="Dialog_ErrorLog" xml:space="preserve">
+    <value>Error Log:</value>
+  </data>
 </root>

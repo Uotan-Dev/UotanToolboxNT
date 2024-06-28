@@ -799,6 +799,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Error Log: 的本地化字符串。
+        /// </summary>
+        public static string Dialog_ErrorLog {
+            get {
+                return ResourceManager.GetString("Dialog_ErrorLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Current device does not support this command! 的本地化字符串。
         /// </summary>
         public static string Dialog_NotSupported {

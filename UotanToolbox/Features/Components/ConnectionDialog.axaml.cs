@@ -25,14 +25,12 @@ namespace UotanToolbox.Features.Components
 
         private void Cancel_OnClick(object? sender, RoutedEventArgs e)
         {
-            // return false;
             Result = false;
             SukiHost.CloseDialog();
         }
 
         private void Confirm_OnClick(object? sender, RoutedEventArgs e)
         {
-            // return true;
             Result = true;
             SukiHost.CloseDialog();
         }

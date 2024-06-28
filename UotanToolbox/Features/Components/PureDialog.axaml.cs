@@ -5,8 +5,6 @@ namespace UotanToolbox.Features.Components
 {
     public partial class PureDialog : UserControl
     {
-        public bool Result { get; private set; }
-
         public PureDialog(string DialogContent)
         {
             Dispatcher.UIThread.Post(() =>
@@ -17,7 +15,6 @@ namespace UotanToolbox.Features.Components
                     dialogueTextBlock.Text = DialogContent;
                 }
             });
-            Result = false;
             InitializeComponent();
         }
     }

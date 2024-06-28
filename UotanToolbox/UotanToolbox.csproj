@@ -62,6 +62,9 @@
 		<Compile Update="Features\Appmgr\DashboardView.axaml.cs">
 			<DependentUpon>%(Filename)</DependentUpon>
 		</Compile>
+		<Compile Update="Features\Components\ErrorDialog.axaml.cs">
+		  <DependentUpon>ErrorDialog.axaml</DependentUpon>
+		</Compile>
 		<Compile Update="Features\Home\HomeView.axaml.cs">
 			<DependentUpon>HomeView.axaml</DependentUpon>
 		</Compile>

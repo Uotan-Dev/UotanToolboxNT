@@ -39,36 +39,31 @@ public partial class AppmgrViewModel : MainPageBase
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
             else
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
-
             if (!(sukiViewModel.Status == "系统"))
             {
                 SukiHost.ShowDialog(new ConnectionDialog("请在系统内执行"));
                 return;
             }
-
             var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
             HasItems = lines.Length > 0;
+            var applicationInfosTasks = lines.AsParallel()
+                                           .Select(async line =>
+                                           {
+                                               var packageName = ExtractPackageName(line);
+                                               if (string.IsNullOrEmpty(packageName)) return null;
+                                               var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
+                                               var installedDate = GetInstalledDate(combinedOutput.Split('\n'));
 
-            // 使用async LINQ直接处理每个应用信息的获取，避免AsParallel可能带来的额外开销
-            var applicationInfos = await Task.WhenAll(lines.Select(async line =>
-            {
-                var packageName = ExtractPackageName(line);
-                if (string.IsNullOrEmpty(packageName)) return null;
-
-                var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
-                var installedDate = GetInstalledDate(combinedOutput.Split('\n'));
-
-                return packageName != null && installedDate != null
-                    ? new ApplicationInfo { Name = packageName, InstalledDate = installedDate }
-                    : null;
-            }));
-
-            // 过滤掉null值，然后排序
-            var validApplicationInfos = applicationInfos.Where(info => info != null).ToList();
-            validApplicationInfos.Sort((x, y) =>
-                y.Size.CompareTo(x.Size) != 0 ? y.Size.CompareTo(x.Size) : string.Compare(x.Name, y.Name, StringComparison.Ordinal));
-
-            Applications = new ObservableCollection<ApplicationInfo>(validApplicationInfos);
+                                               return packageName != null && installedDate != null
+                                                     ? new ApplicationInfo { Name = packageName, InstalledDate = installedDate }
+                                                     : null;
+                                           });
+            var applicationInfos = (await Task.WhenAll(applicationInfosTasks))
+                                             .Where(info => info != null)
+                                             .OrderByDescending(app => app.Size)
+                                             .ThenBy(app => app.Name)
+                                             .ToList();
+                Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
         }
         catch (Exception ex)
         {

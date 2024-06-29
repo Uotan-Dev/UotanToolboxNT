@@ -128,30 +128,32 @@ public partial class HomeViewModel : MainPageBase
 
     public async Task<bool> ListChecker()
     {
-        string[] devices = await GetDevicesInfo.DevicesList();
-        if (devices.Length != 0)
+        if (Global.checkdevice)
         {
-            var tempDeviceslist = new AvaloniaList<string>(devices);
-            if (Global.deviceslist != null)
+            string[] devices = await GetDevicesInfo.DevicesList();
+            if (devices.Length != 0)
             {
-                if (Global.deviceslist.SequenceEqual(tempDeviceslist) != true)
+                var tempDeviceslist = new AvaloniaList<string>(devices);
+                if (Global.deviceslist != null)
+                {
+                    if (Global.deviceslist.SequenceEqual(tempDeviceslist) != true)
+                        return true;
+                }
+                else if (Global.deviceslist == null)
                     return true;
             }
-            else if (Global.deviceslist == null)
-                return true;
-        }
-        else
-        {
-            if (Global.deviceslist != null && Global.deviceslist.Count != 0)
+            else
             {
-                Global.deviceslist.Clear();
-                Global.thisdevice = null;
-                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                SimpleContent = null;
-                Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
-                VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
-                BatteryLevel = MemLevel = ProgressDisk = "0";
-                return false;
+                if (Global.deviceslist != null && Global.deviceslist.Count != 0)
+                {
+                    Global.deviceslist.Clear();
+                    Global.thisdevice = null;
+                    MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                    SimpleContent = null;
+                    Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
+                    VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
+                    BatteryLevel = MemLevel = ProgressDisk = "0";
+                }
             }
         }
         return false;
@@ -159,7 +161,7 @@ public partial class HomeViewModel : MainPageBase
 
     public async Task CheckDeviceList()
     {
-        while (Global.checkdevice)
+        while (true)
         {
             if (await ListChecker() == true)
             {

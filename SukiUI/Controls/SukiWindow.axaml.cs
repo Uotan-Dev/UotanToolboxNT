@@ -38,7 +38,6 @@ public class SukiWindow : Window
     }
 
     protected override Type StyleKeyOverride => typeof(SukiWindow);
-
     public static readonly StyledProperty<double> TitleFontSizeProperty =
         AvaloniaProperty.Register<SukiWindow, double>(nameof(TitleFontSize), defaultValue: 13);
 
@@ -199,8 +198,15 @@ public class SukiWindow : Window
             // This would be nice to do, but obviously LogoContent is a control and you can't attach it twice.
             // if (LogoContent is null) LogoContent = s.LogoContent;
         }
-    }
 
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            //SystemDecorations = None;
+        }
+        else{
+            //SystemDecorations = BorderOnly;
+        }
+    }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {

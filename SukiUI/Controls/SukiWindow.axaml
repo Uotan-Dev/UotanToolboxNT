@@ -4,7 +4,7 @@
                     xmlns:suki="clr-namespace:SukiUI.Controls">
     <ControlTheme x:Key="SukiWindowTheme" TargetType="suki:SukiWindow">
         <Setter Property="Margin" Value="0" />
-        <Setter Property="SystemDecorations" Value="BorderOnly" />
+		<Setter Property="SystemDecorations" Value="None"/>
         <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
         <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />

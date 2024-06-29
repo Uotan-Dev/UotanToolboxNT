@@ -13,7 +13,11 @@ public partial class AppmgrView : UserControl
 {
     public AppmgrView()
     {
-        InitializeComponent();
+        if (Global.load_times == 0)
+        {
+            InitializeComponent();
+            Global.load_times++;
+        }
     }
 
     private async void UninstallButton_Click(object sender, RoutedEventArgs e)

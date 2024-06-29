@@ -8,6 +8,7 @@ using SukiUI.Enums;
 using SukiUI.Models;
 using System;
 using UotanToolbox.Common;
+using UotanToolbox.Utilities;
 
 namespace UotanToolbox.Features.Settings;
 
@@ -67,4 +68,7 @@ public partial class SettingsViewModel : MainPageBase
         _customShader = _customShader == shaderType ? null : shaderType;
         CustomBackgroundStyleChanged?.Invoke(_customShader);
     }
+
+    [RelayCommand]
+    private void OpenURL(string url) => UrlUtilities.OpenURL(url);
 }

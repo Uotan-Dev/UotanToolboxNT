@@ -27,13 +27,13 @@ public partial class AppmgrViewModel : MainPageBase
     [RelayCommand]
     public async Task Connect()
     {
+        SukiHost.ShowDialog(new PureDialog("0"), allowBackgroundClose: true);
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         IsBusy = true;
         try
         {
             if (!await GetDevicesInfo.SetDevicesInfoLittle())
                 return;
-
             string fullApplicationsList;
             if (!isSystemAppDisplayed)
                 fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
@@ -46,24 +46,22 @@ public partial class AppmgrViewModel : MainPageBase
             }
             var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
             HasItems = lines.Length > 0;
-            var applicationInfosTasks = lines.AsParallel()
-                                           .Select(async line =>
-                                           {
-                                               var packageName = ExtractPackageName(line);
-                                               if (string.IsNullOrEmpty(packageName)) return null;
-                                               var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
-                                               var installedDate = GetInstalledDate(combinedOutput.Split('\n'));
-
-                                               return packageName != null && installedDate != null
-                                                     ? new ApplicationInfo { Name = packageName, InstalledDate = installedDate }
-                                                     : null;
-                                           });
-            var applicationInfos = (await Task.WhenAll(applicationInfosTasks))
-                                             .Where(info => info != null)
-                                             .OrderByDescending(app => app.Size)
-                                             .ThenBy(app => app.Name)
-                                             .ToList();
-                Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+            var applicationInfosTasks = lines.Select(async line =>
+            {
+                var packageName = ExtractPackageName(line);
+                if (string.IsNullOrEmpty(packageName)) return null;
+                var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
+                var installedDate = GetInstalledDate(combinedOutput.Split('\n'));
+                return installedDate != null
+                    ? new ApplicationInfo { Name = packageName, InstalledDate = installedDate }
+                    : null;
+            });
+            ApplicationInfo[] allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
+            var applicationInfos = allApplicationInfos.Where(info => info != null)
+                                                     .OrderByDescending(app => app.Size)
+                                                     .ThenBy(app => app.Name)
+                                                     .ToList();
+            Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
         }
         catch (Exception ex)
         {

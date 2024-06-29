@@ -16,48 +16,52 @@ namespace UotanToolbox.Common
             try
             {
                 string cmdPath = Path.Combine(Global.bin_path, "platform-tools", "adb");
-                ProcessStartInfo startInfo = new ProcessStartInfo(cmdPath, adbShellCommand)
-                {
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true
-                };
                 using (Process adbProcess = new Process())
                 {
+                    ProcessStartInfo startInfo = new ProcessStartInfo(cmdPath, adbShellCommand)
+                    {
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true
+                    };
                     adbProcess.StartInfo = startInfo;
+
                     if (!adbProcess.Start())
                     {
-                        if (debug)
-                        {
-                            SukiHost.ShowDialog(new ConnectionDialog("Failed to start ADB process."));
-                        }
+                        LogError(debug, "Failed to start ADB process.");
                         return null;
                     }
-                    string output = await adbProcess.StandardOutput.ReadToEndAsync();
+                    var outputTask = adbProcess.StandardOutput.ReadToEndAsync();
+                    var errorTask = adbProcess.StandardError.ReadToEndAsync();
+                    await Task.WhenAll(outputTask, errorTask);
+                    string output = await Task.Run(() => outputTask.Result.Trim());
+                    string error = await Task.Run(() => errorTask.Result.Trim());
                     if (string.IsNullOrEmpty(output))
                     {
-                        output = await adbProcess.StandardError.ReadToEndAsync();
+                        output = error;
                     }
                     adbProcess.WaitForExit();
                     if (adbProcess.ExitCode != 0)
                     {
-                        if (debug)
-                        {
-                            SukiHost.ShowDialog(new ConnectionDialog($"ADB failed with code {adbProcess.ExitCode}. Command: {adbShellCommand}"));
-                        }
-                        return output.Trim();
+                        LogError(debug, $"ADB failed with code {adbProcess.ExitCode}. Command: {adbShellCommand}");
+                        return output;
                     }
-                    return output.Trim();
+                    return output;
                 }
             }
             catch (Exception ex)
             {
-                if (debug)
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog(ex.Message));
-                }
+                LogError(debug, ex.Message);
                 return null;
+            }
+        }
+
+        private static void LogError(bool debug, string message)
+        {
+            if (debug)
+            {
+                SukiHost.ShowDialog(new ConnectionDialog(message));
             }
         }
 

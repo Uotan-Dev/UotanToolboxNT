@@ -23,10 +23,6 @@ internal class Program
         Global.runpath = System.AppDomain.CurrentDomain.BaseDirectory;//获取工具运行路径
         Global.tmp_path = Path.GetTempPath();
         FontManagerOptions options = new();
-        if (OperatingSystem.IsWindows())
-        {
-
-        }
             if (OperatingSystem.IsLinux())
         {
             string FontPath = Path.Combine(Global.runpath, "Font");

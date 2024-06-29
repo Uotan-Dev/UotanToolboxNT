@@ -21,10 +21,7 @@ public partial class AppmgrViewModel : MainPageBase
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
-        if (Global.load_times == 0)
-        {
             Applications = new ObservableCollection<ApplicationInfo>();
-        }
     }
 
     [RelayCommand]
@@ -66,19 +63,7 @@ public partial class AppmgrViewModel : MainPageBase
                                              .OrderByDescending(app => app.Size)
                                              .ThenBy(app => app.Name)
                                              .ToList();
-            if (Global.load_times == 0)
-            {
                 Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
-                Global.load_times = 1;
-            }
-            else
-            {
-                Applications.Clear();
-                foreach (var info in applicationInfos)
-                {
-                    Applications.Add(info);
-                }
-            }
         }
         catch (Exception ex)
         {

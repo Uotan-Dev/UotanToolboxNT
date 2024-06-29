@@ -23,7 +23,7 @@
 			<suki:GlassCard Width="630" Margin="10">
 				<suki:BusyArea Name="BusyUnlock"
 								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
-					<StackPanel>
+					<StackPanel Name="UnlockPanel">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
@@ -56,7 +56,7 @@
 			<suki:GlassCard Width="310" Margin="10">
 				<suki:BusyArea Name="BusyBaseUnlock"
 								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
-					<StackPanel Orientation="Vertical" Spacing="10">
+					<StackPanel Name="BaseUnlockPanel" Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"

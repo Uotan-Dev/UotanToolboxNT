@@ -156,6 +156,18 @@
 											<StackPanel Margin="15">
 												<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" />
 											</StackPanel>
+											<StackPanel Margin="15,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
+												<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+													<TextBlock>工具箱版本:</TextBlock>
+													<TextBlock>3.0.0-beta</TextBlock>
+												</StackPanel>
+												<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+													<Button Classes="Basic"
+															Content="官方网站" 
+															Command="{Binding OpenURLCommand}"
+															CommandParameter="https://toolbox.uotan.cn" />
+												</StackPanel>
+											</StackPanel>
 											<TextBlock FontSize="16"
                                                        FontWeight="DemiBold"
                                                        Text="{x:Static assets:Resources.Settings_Developers}" />

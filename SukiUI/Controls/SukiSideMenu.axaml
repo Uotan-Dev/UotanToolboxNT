@@ -25,7 +25,7 @@
                                             Classes="Basic"
                                             DockPanel.Dock="Top">
                                         <Panel>
-                                            <PathIcon Name="PART_ExpandIcon"
+											<!--<PathIcon Name="PART_ExpandIcon"
                                                       Width="12"
                                                       Height="12"
                                                       Data="{x:Static content:Icons.ChevronLeft}"
@@ -35,7 +35,7 @@
                                                         <TransformOperationsTransition Property="RenderTransform" Duration="{StaticResource MediumAnimationDuration}" />
                                                     </Transitions>
                                                 </PathIcon.Transitions>
-                                            </PathIcon>
+                                            </PathIcon>-->
                                         </Panel>
                                     </Button>
                                     <Grid MinHeight="{TemplateBinding HeaderMinHeight}"

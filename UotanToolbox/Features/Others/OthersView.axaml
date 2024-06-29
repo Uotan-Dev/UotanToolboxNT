@@ -15,9 +15,9 @@
 		<WrapPanel Margin="15"
                    theme:WrapPanelExtensions.AnimatedScroll="True"
                    Orientation="Horizontal">
-			<suki:GlassCard Width="270"
+			<suki:GlassCard Width="320"
 							Height="310"
-                            Margin="10"
+                            Margin="15,20"
                             VerticalAlignment="Top">
 				<Grid>
 					<StackPanel>
@@ -25,57 +25,63 @@
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
 								   Text="显示属性" />
-						<StackPanel Margin="8,5,0,0" Orientation="Vertical" Spacing="10">
+						<StackPanel Margin="15,10,0,0" Orientation="Vertical" Spacing="10">
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Margin="5,0,0,0"
+										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="分辨率:" />
 								<TextBlock Margin="5,0,0,0"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="{Binding ScrResolution}"/>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal">
+							<StackPanel Orientation="Horizontal" Spacing="20">
 								<StackPanel Orientation="Horizontal" Width="115">
 									<TextBlock Margin="5,0,0,0"
+											   FontSize="13"
 											   Foreground="{DynamicResource SukiLowText}"
-											   Text="DPI:" />
+											   Text="显示密度(DPI):" />
 									<TextBlock Margin="5,0,0,0"
+											   FontSize="13"
 											   Foreground="{DynamicResource SukiLowText}"
 											   Text="{Binding ScrDPI}"/>
 								</StackPanel>
 								<StackPanel Orientation="Horizontal" Width="115">
-									<TextBlock Text="DP:" />
+									<TextBlock FontSize="13"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="最小宽度(DP):" />
 									<TextBlock Margin="5,0,0,0"
+											   FontSize="13"
 											   Foreground="{DynamicResource SukiLowText}"
 											   Text="{Binding ScrDP}"/>
 								</StackPanel>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="5">
-								<TextBox Width="95" Name="ImageFile"
+								<TextBox Width="110" Name="ImageFile"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
-								<TextBlock Width="13"
+								<TextBlock Width="15"
 										   FontSize="15"
 										   VerticalAlignment="Center"
 										   Foreground="{DynamicResource SukiLowText}"
-										   Text="x" />
-								<TextBox Width="95" Name="Part"
+										   Text=" x" />
+								<TextBox Width="110" Name="Part"
 										 theme:TextBoxExtensions.AddDeleteButton="False"/>
 							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-								<ComboBox Width="90" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
-								<TextBox Width="120"/>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="25">
+								<ComboBox Width="110" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
+								<TextBox Width="110"/>
 							</StackPanel>
-							<StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
-								<Button Content="修改" />
-								<Button Content="恢复" />
+							<StackPanel Margin="-15,20,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20">
+								<Button Width="110" Content="修改" />
+								<Button Width="110" Content="恢复" />
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
 				</Grid>
 			</suki:GlassCard>
-			<suki:GlassCard Width="270"
+			<suki:GlassCard Width="305"
 							Height="310"
-                            Margin="10"
+                            Margin="15"
                             VerticalAlignment="Top">
 				<Grid>
 					<StackPanel>
@@ -83,55 +89,51 @@
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
 								   Text="电池" />
-						<StackPanel Margin="8,0,0,0" Orientation="Vertical">
+						<StackPanel Margin="15,0,0,0" Orientation="Vertical">
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-								<TextBox Width="150" />
+								<TextBox Width="170" />
 								<Button Height="35"
 										Padding="10,0,10,0"
 										Content="修改">
 								</Button>
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-								<TextBox Width="150" />
+								<TextBox Width="170" />
 								<Button Height="35"
 										Padding="10,0,10,0"
 										Content="修改">
 								</Button>
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="150"
-										   Margin="8,0,0,0"
+								<TextBlock Width="170"
+										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
-										   Text="XXXXX" />
+										   Text="模拟非充电" />
 								<ToggleSwitch />
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="150"
-										   Margin="8,0,0,0"
+								<TextBlock Width="170"
+										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
-										   Text="XXXXX" />
+										   Text="模拟无线充电" />
 								<ToggleSwitch />
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="150"
-										   Margin="8,0,0,0"
+								<TextBlock Width="170"
+										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
-										   Text="XXXXX" />
+										   Text="模拟USB充电" />
 								<ToggleSwitch />
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="150"
-										   Margin="8,0,0,0"
+								<TextBlock Width="170"
+										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
-										   Text="XXXXX" />
+										   Text="模拟直流充电" />
 								<ToggleSwitch />
 							</StackPanel>
 						</StackPanel>
@@ -140,7 +142,39 @@
 			</suki:GlassCard>
 			<suki:GlassCard Width="270"
 							Height="310"
-                            Margin="10"
+                            Margin="15"
+                            VerticalAlignment="Top">
+				<Grid>
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="锁屏时间" />
+						<StackPanel Margin="8,5,0,0" Orientation="Vertical" Spacing="10">
+							<StackPanel Margin="0,35,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+								<TextBlock Margin="5,0,0,0"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="当前锁屏时间:" />
+								<TextBlock Width="40"
+										   Margin="5,0,0,0"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text=""/>
+							</StackPanel>
+							<StackPanel Margin="0,20,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+								<TextBox Width="200" Name="LockTime"
+									 theme:TextBoxExtensions.AddDeleteButton="False"/>
+							</StackPanel>
+							<StackPanel Margin="0,50,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
+								<Button Width="200" Content="修改" />
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+
+			<suki:GlassCard Width="955"
+							Height="380"
+                            Margin="15"
                             VerticalAlignment="Top">
 				<Grid>
 					<StackPanel Orientation="Vertical" Spacing="10">
@@ -149,42 +183,69 @@
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
 									   Text="字体调节" />
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<StackPanel Margin="0,10,0,0" Orientation="Horizontal">
 								<TextBlock Width="40"
 										   Margin="8,0,0,0"
 										   VerticalAlignment="Center"
 										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="缩放" />
-								<Slider Width="100"
+								<Slider Width="700"
+										Margin="20,0,0,0"
 										IsSnapToTickEnabled="True"
-										Maximum="4" Minimum="1"
-										TickFrequency="1"
+										Maximum="10" Minimum="0.01"
+										TickFrequency="0.01"
 										Value="{Binding FontScale}" />
-								<TextBlock Margin="12,0,0,0"
-										   VerticalAlignment="Center"
-										   FontWeight="DemiBold"
-										   Text="{Binding FontScale}" />
 							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Spacing="5" HorizontalAlignment="Left">
+							<StackPanel Margin="0,-37,10,0" Spacing="5" HorizontalAlignment="Right">
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Width="80"
-											   Margin="8,0,0,0"
+									<TextBlock Width="70"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="当前倍数:" />
+									<TextBlock Margin="5,0,0,0"
+											   Width="40"
 											   VerticalAlignment="Center"
-											   FontSize="13"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="当前倍数:" />
-									<TextBlock />
+											   FontWeight="DemiBold"
+											   Text="{Binding FontScale}" />
 								</StackPanel>
 								<StackPanel Orientation="Horizontal">
-									<TextBlock Width="80"
-											   Margin="8,0,0,0"
+									<TextBlock Width="70"
+										   Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="设置倍数:" />
+									<TextBlock Margin="5,0,0,0"
+											   Width="40"
 											   VerticalAlignment="Center"
-											   FontSize="13"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="设置倍数:" />
-									<TextBlock />
+											   FontWeight="DemiBold"
+											   Text="{Binding FontScale}" />
 								</StackPanel>
+							</StackPanel>
+							<StackPanel Margin="142.5,0,0,0" Spacing="93.25" Orientation="Horizontal">
+								<TextBlock Margin="0,0,0,0"
+										   Width="40"
+										   VerticalAlignment="Center"
+										   Text="1X" />
+								<TextBlock Margin="0,0,0,0"
+										   Width="40"
+										   VerticalAlignment="Center"
+										   Text="3X" />
+								<TextBlock Margin="0,0,0,0"
+										   Width="40"
+										   VerticalAlignment="Center"
+										   Text="5X" />
+								<TextBlock Margin="0,0,0,0"
+										   Width="40"
+										   VerticalAlignment="Center"
+										   Text="7X" />
+								<TextBlock Margin="0,0,0,0"
+										   Width="40"
+										   VerticalAlignment="Center"
+										   Text="9X" />
 							</StackPanel>
 						</StackPanel>
 						<StackPanel>
@@ -192,56 +253,148 @@
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
 									   Text="动画速度" />
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="60"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="窗口缩放" />
-								<Slider Width="100"
-										IsSnapToTickEnabled="True"
-										Maximum="4" Minimum="1"
-										TickFrequency="1"
-										Value="{Binding WindowScale}" />
-								<TextBlock Margin="12,0,0,0"
-										   VerticalAlignment="Center"
-										   FontWeight="DemiBold"
-										   Text="{Binding WindowScale}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="60"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="过渡缩放" />
-								<Slider Width="100"
-										IsSnapToTickEnabled="True"
-										Maximum="4" Minimum="1"
-										TickFrequency="1"
-										Value="{Binding TransitionScale}" />
-								<TextBlock Margin="12,0,0,0"
-										   VerticalAlignment="Center"
-										   FontWeight="DemiBold"
-										   Text="{Binding TransitionScale}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="60"
-										   Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="动画时长" />
-								<Slider Width="100"
-										IsSnapToTickEnabled="True"
-										Maximum="4" Minimum="1"
-										TickFrequency="1"
-										Value="{Binding AnimationLast}" />
-								<TextBlock Margin="12,0,0,0"
-										   VerticalAlignment="Center"
-										   FontWeight="DemiBold"
-										   Text="{Binding AnimationLast}" />
+							<StackPanel Orientation="Vertical" Spacing="20">
+								<StackPanel>
+									<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+										<TextBlock Width="60"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="窗口缩放" />
+										<Slider Width="700"
+												IsSnapToTickEnabled="True"
+												Maximum="10" Minimum="0"
+												TickFrequency="0.01"
+												Value="{Binding WindowScale}" />
+										<TextBlock Width="70"
+												   Margin="21,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="设置倍数:" />
+										<TextBlock Margin="5,0,0,0"
+												   VerticalAlignment="Center"
+												   FontWeight="DemiBold"
+												   Text="{Binding WindowScale}" />
+									</StackPanel>
+									<StackPanel Margin="142.5,0,0,0" Spacing="93.25" Orientation="Horizontal">
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="1X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="3X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="5X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="7X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="9X" />
+									</StackPanel>
+								</StackPanel>
+								<StackPanel>
+									<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+										<TextBlock Width="60"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="过渡缩放" />
+										<Slider Width="700"
+												IsSnapToTickEnabled="True"
+												Maximum="10" Minimum="0"
+												TickFrequency="0.01"
+												Value="{Binding TransitionScale}" />
+										<TextBlock Width="70"
+												   Margin="21,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="设置倍数:" />
+										<TextBlock Margin="5,0,0,0"
+												   VerticalAlignment="Center"
+												   FontWeight="DemiBold"
+												   Text="{Binding TransitionScale}" />
+									</StackPanel>
+									<StackPanel Margin="142.5,0,0,0" Spacing="93.25" Orientation="Horizontal">
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="1X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="3X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="5X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="7X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="9X" />
+									</StackPanel>
+								</StackPanel>
+								<StackPanel>
+									<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+										<TextBlock Width="60"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="动画时长" />
+										<Slider Width="700"
+												IsSnapToTickEnabled="True"
+												Maximum="10" Minimum="0"
+												TickFrequency="0.01"
+												Value="{Binding AnimationLast}" />
+										<TextBlock Width="70"
+												   Margin="21,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Foreground="{DynamicResource SukiLowText}"
+												   Text="设置倍数:" />
+										<TextBlock Margin="5,0,0,0"
+												   VerticalAlignment="Center"
+												   FontWeight="DemiBold"
+												   Text="{Binding AnimationLast}" />
+									</StackPanel>
+									<StackPanel Margin="142.5,0,0,0" Spacing="93.25" Orientation="Horizontal">
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="1X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="3X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="5X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="7X" />
+										<TextBlock Margin="0,0,0,0"
+												   Width="40"
+												   VerticalAlignment="Center"
+												   Text="9X" />
+									</StackPanel>
+								</StackPanel>
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>

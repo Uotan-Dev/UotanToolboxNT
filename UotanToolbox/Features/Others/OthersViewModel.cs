@@ -12,7 +12,7 @@ public partial class OthersViewModel : MainPageBase
     [ObservableProperty] private int _scrDPI = 520, _scrDP = 380;
     [ObservableProperty] private static AvaloniaList<string>? _simpleContent;
 
-    [ObservableProperty][Range(1d, 4d)] private double _fontScale = 1, _windowScale = 1, _transitionScale = 1, _animationLast = 1;
+    [ObservableProperty][Range(1d, 4d)] private float _fontScale = 1, _windowScale = 1, _transitionScale = 1, _animationLast = 1;
 
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public OthersViewModel() : base(GetTranslation("Sidebar_Others"), MaterialIconKind.WrenchCogOutline, -350)

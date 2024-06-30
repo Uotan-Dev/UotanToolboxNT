@@ -412,6 +412,10 @@ public partial class WiredflashView : UserControl
                 SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
             }
         }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+        }
     }
 
     public static FilePickerFileType ZIP { get; } = new("ZIP")
@@ -484,6 +488,10 @@ public partial class WiredflashView : UserControl
                 SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
             }
         }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+        }
     }
 
     private async void SetToB(object sender, RoutedEventArgs args)
@@ -499,6 +507,10 @@ public partial class WiredflashView : UserControl
             {
                 SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
 
@@ -575,6 +587,10 @@ public partial class WiredflashView : UserControl
             {
                 SukiHost.ShowDialog(new PureDialog("请勿同时填写多种方式！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
 }

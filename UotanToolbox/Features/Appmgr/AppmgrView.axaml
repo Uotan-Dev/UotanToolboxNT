@@ -119,7 +119,7 @@
 							<Button Name="ButtonSignIn"
 									Width="150"
 									Height="40"
-									Margin="0,20,0,0"
+									Margin="0,15,0,0"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Bottom"
 									theme:ButtonExtensions.ShowProgress="{Binding IsInstalling}"

@@ -86,7 +86,7 @@ public partial class AppmgrViewModel : MainPageBase
         }
         catch (Exception ex)
         {
-            SukiHost.ShowDialog(new ConnectionDialog(ex.Message));
+            SukiHost.ShowDialog(new ErrorDialog(ex.Message));
         }
         finally
         {
@@ -113,16 +113,16 @@ public partial class AppmgrViewModel : MainPageBase
             string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{ApkFile}\"");
             if (output.Contains("Success"))
             {
-                SukiHost.ShowDialog(new ConnectionDialog("安装成功！"));
+                SukiHost.ShowDialog(new PureDialog("安装成功！"), allowBackgroundClose: true);
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"安装失败：\r\n{output}"));
+                SukiHost.ShowDialog(new ErrorDialog($"安装失败：\r\n{output}"));
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("未选择APK文件!"));
+            SukiHost.ShowDialog(new PureDialog("未选择APK文件!"), allowBackgroundClose: true);
         }
         IsInstalling = false;
     }

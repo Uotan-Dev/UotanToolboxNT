@@ -81,21 +81,27 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
-                    BusyFlash.IsBusy = true;
-                    CustomizedflashLog.Text = "";
+                    OpenSystemFileBut.IsEnabled = false;
+                    FlashSystemFileBut.IsEnabled = false;
+                    CustomizedflashLog.Text = "正在刷入...\n";
                     string shell = String.Format($"-s {Global.thisdevice} flash system \"{SystemFile.Text}\"");
                     await Fastboot(shell);
-                    BusyFlash.IsBusy = false;
+                    OpenSystemFileBut.IsEnabled = true;
+                    FlashSystemFileBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
                 }
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
 
@@ -121,21 +127,27 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
-                    BusyFlash.IsBusy = true;
-                    CustomizedflashLog.Text = "";
+                    OpenProductFileBut.IsEnabled = false;
+                    FlashProductFileBut.IsEnabled = false;
+                    CustomizedflashLog.Text = "正在刷入...\n";
                     string shell = String.Format($"-s {Global.thisdevice} flash product \"{ProductFile.Text}\"");
                     await Fastboot(shell);
-                    BusyFlash.IsBusy = false;
+                    OpenProductFileBut.IsEnabled = true;
+                    FlashProductFileBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
     private async void OpenVenderFile(object sender, RoutedEventArgs args)
@@ -160,21 +172,27 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
-                    BusyFlash.IsBusy = true;
-                    CustomizedflashLog.Text = "";
+                    OpenVenderFileBut.IsEnabled = false;
+                    FlashVenderFileBut.IsEnabled = false;
+                    CustomizedflashLog.Text = "正在刷入...\n";
                     string shell = String.Format($"-s {Global.thisdevice} flash vendor \"{VenderFile.Text}\"");
                     await Fastboot(shell);
-                    BusyFlash.IsBusy = false;
+                    OpenVenderFileBut.IsEnabled = true;
+                    FlashVenderFileBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
     private async void OpenBootFile(object sender, RoutedEventArgs args)
@@ -199,21 +217,27 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
-                    BusyFlash.IsBusy = true;
-                    CustomizedflashLog.Text = "";
+                    OpenBootFileBut.IsEnabled = false;
+                    FlashBootFileBut.IsEnabled = false;
+                    CustomizedflashLog.Text = "正在刷入...\n";
                     string shell = String.Format($"-s {Global.thisdevice} flash boot \"{BootFile.Text}\"");
                     await Fastboot(shell);
-                    BusyFlash.IsBusy = false;
+                    OpenBootFileBut.IsEnabled = true;
+                    FlashBootFileBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
     private async void OpenSystemextFile(object sender, RoutedEventArgs args)
@@ -238,21 +262,27 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
-                    BusyFlash.IsBusy = true;
-                    CustomizedflashLog.Text = "";
+                    OpenSystemextFileBut.IsEnabled = false;
+                    FlashSystemextFileBut.IsEnabled = false;
+                    CustomizedflashLog.Text = "正在刷入...\n";
                     string shell = String.Format($"-s {Global.thisdevice} flash system_ext \"{SystemextFile.Text}\"");
                     await Fastboot(shell);
-                    BusyFlash.IsBusy = false;
+                    OpenSystemextFileBut.IsEnabled = true;
+                    FlashSystemextFileBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
     private async void OpenOdmFile(object sender, RoutedEventArgs args)
@@ -277,21 +307,27 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
-                    BusyFlash.IsBusy = true;
-                    CustomizedflashLog.Text = "";
+                    OpenOdmFileBut.IsEnabled = false;
+                    FlashOdmFileBut.IsEnabled = false;
+                    CustomizedflashLog.Text = "正在刷入...\n";
                     string shell = String.Format($"-s {Global.thisdevice} flash odm \"{OdmFile.Text}\"");
                     await Fastboot(shell);
-                    BusyFlash.IsBusy = false;
+                    OpenOdmFileBut.IsEnabled = true;
+                    FlashOdmFileBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
     private async void OpenVenderbootFile(object sender, RoutedEventArgs args)
@@ -316,21 +352,27 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
-                    BusyFlash.IsBusy = true;
-                    CustomizedflashLog.Text = "";
+                    OpenVenderbootFileBut.IsEnabled = false;
+                    FlashVenderbootFileBut.IsEnabled = false;
+                    CustomizedflashLog.Text = "正在刷入...\n";
                     string shell = String.Format($"-s {Global.thisdevice} flash vendor_boot \"{VenderbootFile.Text}\"");
                     await Fastboot(shell);
-                    BusyFlash.IsBusy = false;
+                    OpenVenderbootFileBut.IsEnabled = true;
+                    FlashVenderbootFileBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
     private async void OpenInitbootFile(object sender, RoutedEventArgs args)
@@ -355,21 +397,27 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
-                    BusyFlash.IsBusy = true;
-                    CustomizedflashLog.Text = "";
+                    OpenInitbootFileBut.IsEnabled = false;
+                    FlashInitbootFileBut.IsEnabled = false;
+                    CustomizedflashLog.Text = "正在刷入...\n";
                     string shell = String.Format($"-s {Global.thisdevice} flash init_boot \"{InitbootFile.Text}\"");
                     await Fastboot(shell);
-                    BusyFlash.IsBusy = false;
+                    OpenInitbootFileBut.IsEnabled = true;
+                    FlashInitbootFileBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true    );
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
     private async void OpenImageFile(object sender, RoutedEventArgs args)
@@ -394,21 +442,27 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
-                    BusyImageFlash.IsBusy = true;
-                    CustomizedflashLog.Text = "";
+                    OpenImageFileBut.IsEnabled = false;
+                    FlashImageFileBut.IsEnabled = false;
+                    CustomizedflashLog.Text = "正在刷入...\n";
                     string shell = String.Format($"-s {Global.thisdevice} flash {Part.Text} \"{ImageFile.Text}\"");
                     await Fastboot(shell);
-                    BusyImageFlash.IsBusy = false;
+                    OpenImageFileBut.IsEnabled = true;
+                    FlashImageFileBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请选择文件！"));
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
     private async void DisableVbmeta(object sender, RoutedEventArgs args)
@@ -424,8 +478,12 @@ public partial class CustomizedflashView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
     private async void SetOther(object sender, RoutedEventArgs args)
@@ -441,8 +499,12 @@ public partial class CustomizedflashView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请将设备进入Fastboot模式后执行！"));
+                SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
             }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
 }

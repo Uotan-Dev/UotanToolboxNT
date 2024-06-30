@@ -132,6 +132,7 @@ public partial class HomeViewModel : MainPageBase
                     Global.deviceslist.Clear();
                     Global.thisdevice = null;
                     SimpleContent = null;
+                    IsConnecting = false;
                     await SukiHost.ShowToast("提示", "设备已断开连接！", NotificationType.Warning);
                     MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                     Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";

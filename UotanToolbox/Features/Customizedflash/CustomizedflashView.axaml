@@ -20,8 +20,6 @@
 							Height="240"
                             Margin="10"
                             VerticalAlignment="Top">
-				<suki:BusyArea  Name="BusyFlash"
-								BusyText="{x:Static assets:Resources.Customizedflash_Executing}">
 					<Grid>
 						<StackPanel Spacing="30">
 							<StackPanel>
@@ -40,11 +38,13 @@
 													   Text="System" />
 											<TextBox Width="270" Name="SystemFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
+											<Button Name="OpenSystemFileBut"
+												    Height="35"
 													Padding="10,0,10,0"
 													Click="OpenSystemFile"
 													Content="{x:Static assets:Resources.Customizedflash_File}"/>
-											<Button Height="35"
+											<Button Name="FlashSystemFileBut"
+												    Height="35"
 													Margin="5,0,0,0"
 													Padding="10,0,10,0"
 													Click="FlashSystemFile"
@@ -59,11 +59,13 @@
 													   Text="Product" />
 											<TextBox Width="270" Name="ProductFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
+											<Button Name="OpenProductFileBut"
+												    Height="35"
 													Padding="10,0,10,0"
 													Click="OpenProductFile"
 													Content="{x:Static assets:Resources.Customizedflash_File}"/>
-											<Button Height="35"
+											<Button Name="FlashProductFileBut"
+												    Height="35"
 													Margin="5,0,0,0"
 													Padding="10,0,10,0"
 													Click="FlashProductFile"
@@ -78,11 +80,13 @@
 													   Text="Vender" />
 											<TextBox Width="270" Name="VenderFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
+											<Button Name="OpenVenderFileBut"
+												    Height="35"
 													Padding="10,0,10,0"
 													Click="OpenVenderFile"
 													Content="{x:Static assets:Resources.Customizedflash_File}"/>
-											<Button Height="35"
+											<Button Name="FlashVenderFileBut"
+												    Height="35"
 													Margin="5,0,0,0"
 													Padding="10,0,10,0"
 													Click="FlashVenderFile"
@@ -97,11 +101,13 @@
 													   Text="Boot" />
 											<TextBox Width="270" Name="BootFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
+											<Button Name="OpenBootFileBut"
+												    Height="35"
 													Padding="10,0,10,0"
 													Click="OpenBootFile"
 													Content="{x:Static assets:Resources.Customizedflash_File}"/>
-											<Button Height="35"
+											<Button Name="FlashBootFileBut"
+												    Height="35"
 													Margin="5,0,0,0"
 													Padding="10,0,10,0"
 													Click="FlashBootFile"
@@ -118,11 +124,13 @@
 													   Text="System_ext" />
 											<TextBox Width="240" Name="SystemextFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
+											<Button Name="OpenSystemextFileBut"
+												    Height="35"
 													Padding="10,0,10,0"
 													Click="OpenSystemextFile"
 													Content="{x:Static assets:Resources.Customizedflash_File}"/>
-											<Button Height="35"
+											<Button Name="FlashSystemextFileBut"
+												    Height="35"
 													Margin="5,0,0,0"
 													Padding="10,0,10,0"
 													Click="FlashSystemextFile"
@@ -137,11 +145,13 @@
 													   Text="Odm" />
 											<TextBox Width="240" Name="OdmFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
+											<Button Name="OpenOdmFileBut"
+												    Height="35"
 													Padding="10,0,10,0"
 													Click="OpenOdmFile"
 													Content="{x:Static assets:Resources.Customizedflash_File}"/>
-											<Button Height="35"
+											<Button Name="FlashOdmFileBut"
+												    Height="35"
 													Margin="5,0,0,0"
 													Padding="10,0,10,0"
 													Click="FlashOdmFile"
@@ -156,11 +166,13 @@
 													   Text="Vender_boot" />
 											<TextBox Width="240" Name="VenderbootFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
+											<Button Name="OpenVenderbootFileBut"
+												    Height="35"
 													Padding="10,0,10,0"
 													Click="OpenVenderbootFile"
 													Content="{x:Static assets:Resources.Customizedflash_File}"/>
-											<Button Height="35"
+											<Button Name="FlashVenderbootFileBut"
+												    Height="35"
 													Margin="5,0,0,0"
 													Padding="10,0,10,0"
 													Click="FlashVenderbootFile"
@@ -175,11 +187,13 @@
 													   Text="Init_boot" />
 											<TextBox Width="240" Name="InitbootFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
+											<Button Name="OpenInitbootFileBut"
+												    Height="35"
 													Padding="10,0,10,0"
 													Click="OpenInitbootFile"
 													Content="{x:Static assets:Resources.Customizedflash_File}"/>
-											<Button Height="35"
+											<Button Name="FlashInitbootFileBut"
+												    Height="35"
 													Margin="5,0,0,0"
 													Padding="10,0,10,0"
 													Click="FlashInitbootFile"
@@ -190,23 +204,21 @@
 							</StackPanel>
 						</StackPanel>
 					</Grid>
-				</suki:BusyArea>
 			</suki:GlassCard>
 
-			<!-- Log -->
+
 			<suki:GlassCard Width="750"
 							Height="120"
 			                Margin="10"
 			                VerticalAlignment="Top">
-				<suki:BusyArea  Name="BusyImageFlash"
-								BusyText="{x:Static assets:Resources.Customizedflash_Executing}">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
 											   VerticalAlignment="Top"
 											   FontWeight="DemiBold"
 											   Text="{x:Static assets:Resources.Customizedflash_CustomizedPartFlash}" />
 						<StackPanel Margin="0,10,0,0" Orientation="Horizontal" Spacing="5">
-							<Button Height="35"
+							<Button Name="OpenImageFileBut"
+									Height="35"
 									Padding="10,0,10,0"
 									Click="OpenImageFile"
 									Content="{x:Static assets:Resources.Customizedflash_File}"/>
@@ -219,14 +231,14 @@
 									   Text="{x:Static assets:Resources.Customizedflash_FlashTo}" />
 							<TextBox Width="160" Name="Part"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
-							<Button Height="35"
+							<Button Name="FlashImageFileBut"
+									Height="35"
 									Margin="5,0,0,0"
 									Padding="10,0,10,0"
 									Click="FlashImageFile"
 									Content="{x:Static assets:Resources.Customizedflash_Flash}"/>
 						</StackPanel>
 					</StackPanel>
-				</suki:BusyArea>
 			</suki:GlassCard>
 
 			<!-- Button Panel -->

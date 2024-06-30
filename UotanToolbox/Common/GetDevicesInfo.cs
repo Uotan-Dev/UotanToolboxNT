@@ -492,8 +492,12 @@ namespace UotanToolbox.Common
                 {
                     vabstatus = GetTranslation("Info_AOnly");
                 }
-                codename = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.board"));
+                codename = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.device"));
                 blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate"));
+                if (blstatus == "--")
+                {
+                    blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.vbmeta.device_state"));
+                }
             }
             if (devcon.Contains(devicename))
             {

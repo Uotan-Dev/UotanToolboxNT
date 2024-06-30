@@ -253,7 +253,7 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog($"Unable to find MAGISK_VER in the file: {filePath}"));
+                    SukiHost.ShowDialog(new ConnectionDialog($"Unable to find {regex} in the file: {filePath}"));
                     return null;
                 }
             }

@@ -1,10 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Controls;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -27,41 +29,52 @@ public partial class AppmgrViewModel : MainPageBase
     [RelayCommand]
     public async Task Connect()
     {
-        SukiHost.ShowDialog(new PureDialog("0"), allowBackgroundClose: true);
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         IsBusy = true;
         try
         {
-            if (!await GetDevicesInfo.SetDevicesInfoLittle())
-                return;
-            string fullApplicationsList;
-            if (!isSystemAppDisplayed)
-                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
-            else
-                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
-            if (!(sukiViewModel.Status == "系统"))
+            await Task.Run(async () =>
             {
-                SukiHost.ShowDialog(new ConnectionDialog("请在系统内执行"));
-                return;
-            }
-            var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
-            HasItems = lines.Length > 0;
-            var applicationInfosTasks = lines.Select(async line =>
-            {
-                var packageName = ExtractPackageName(line);
-                if (string.IsNullOrEmpty(packageName)) return null;
-                var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
-                var installedDate = GetInstalledDate(combinedOutput.Split('\n'));
-                return installedDate != null
-                    ? new ApplicationInfo { Name = packageName, InstalledDate = installedDate }
-                    : null;
+                if (!await GetDevicesInfo.SetDevicesInfoLittle())
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        SukiHost.ShowDialog(new PureDialog("设备未连接"), allowBackgroundClose: true);
+                    });
+                    return;
+                }
+                string fullApplicationsList;
+                if (!isSystemAppDisplayed)
+                    fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
+                else
+                    fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
+                if (!(sukiViewModel.Status == "系统"))
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        SukiHost.ShowDialog(new PureDialog("请在系统内执行"), allowBackgroundClose: true);
+                    });
+                    return;
+                }
+                var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
+                HasItems = lines.Length > 0;
+                var applicationInfosTasks = lines.Select(async line =>
+                {
+                    var packageName = ExtractPackageName(line);
+                    if (string.IsNullOrEmpty(packageName)) return null;
+                    var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
+                    var installedDate = GetInstalledDate(combinedOutput.Split('\n'));
+                    return installedDate != null
+                        ? new ApplicationInfo { Name = packageName, InstalledDate = installedDate }
+                        : null;
+                });
+                ApplicationInfo[] allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
+                var applicationInfos = allApplicationInfos.Where(info => info != null)
+                                                         .OrderByDescending(app => app.Size)
+                                                         .ThenBy(app => app.Name)
+                                                         .ToList();
+                Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
             });
-            ApplicationInfo[] allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
-            var applicationInfos = allApplicationInfos.Where(info => info != null)
-                                                     .OrderByDescending(app => app.Size)
-                                                     .ThenBy(app => app.Name)
-                                                     .ToList();
-            Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
         }
         catch (Exception ex)
         {

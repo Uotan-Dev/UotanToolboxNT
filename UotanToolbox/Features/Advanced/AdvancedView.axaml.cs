@@ -225,7 +225,7 @@ public partial class AdvancedView : UserControl
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
                     SukiHost.ShowDialog(new PureDialog("执行完成，请查看您的设备！"), allowBackgroundClose: true);
                 }
-                BusyQCN.IsEnabled = false;
+                BusyQCN.IsBusy = false;
                 QCN.IsEnabled = true;
             }
             else
@@ -258,7 +258,7 @@ public partial class AdvancedView : UserControl
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
                 }
-                BusyQCN.IsEnabled = false;
+                BusyQCN.IsBusy = false;
                 QCN.IsEnabled = true;
             }
             else

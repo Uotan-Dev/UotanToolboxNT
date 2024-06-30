@@ -15,14 +15,17 @@ namespace UotanToolbox.Features.Appmgr;
 
 public partial class AppmgrViewModel : MainPageBase
 {
-    [ObservableProperty] private ObservableCollection<ApplicationInfo> applications = [];
-    [ObservableProperty] private bool isBusy = false, hasItems = false;
-    [ObservableProperty] private bool isSystemAppDisplayed = false, isInstalling = false;
-    [ObservableProperty] private string _apkFile;
+    [ObservableProperty]
+    private ObservableCollection<ApplicationInfo> applications = new ObservableCollection<ApplicationInfo>();
+    [ObservableProperty]
+    private bool isBusy = false, hasItems = false;
+    [ObservableProperty]
+    private bool isSystemAppDisplayed = false, isInstalling = false;
+    [ObservableProperty]
+    private string _apkFile;
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
-        Applications = [];
     }
 
     [RelayCommand]
@@ -188,15 +191,7 @@ public partial class AppmgrViewModel : MainPageBase
 
     public string SelectedApplication()
     {
-        var selectedApp = Applications.FirstOrDefault(app => app.IsSelected);
-        if (selectedApp != null)
-        {
-            return selectedApp.Name;
-        }
-        else
-        {
-            return "";
-        }
+        return Applications.FirstOrDefault(app => app.IsSelected)?.Name ?? "";
     }
 
     [RelayCommand]
@@ -228,34 +223,17 @@ public partial class AppmgrViewModel : MainPageBase
     }
 }
 
-public class ApplicationInfo : ObservableObject
+public partial class ApplicationInfo : ObservableObject
 {
+    [ObservableProperty]
     private bool isSelected;
 
-    private string _name;
+    [ObservableProperty]
+    private string name;
 
-    public string Name
-    {
-        get { return _name; }
-        set
-        {
-            _name = value;
-            OnPropertyChanged(nameof(Name));
-        }
-    }
+    [ObservableProperty]
+    private string size;
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-    public string? Size { get; set; }
-    public string? InstalledDate { get; set; }
-
-    public bool IsSelected
-    {
-        get => isSelected;
-        set => SetProperty(ref isSelected, value);
-    }
+    [ObservableProperty]
+    private string installedDate;
 }

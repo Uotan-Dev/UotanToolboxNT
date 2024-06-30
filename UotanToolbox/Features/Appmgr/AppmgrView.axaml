@@ -170,8 +170,7 @@
 										<StackPanel Orientation="Vertical" Spacing="10">
 											<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0">
 												<TextBlock FontSize="15" FontWeight="DemiBold" Text="{Binding Name}" HorizontalAlignment="Left" />
-												<!--<RadioButton Name="{Binding Name}" GroupName="ApplicationSelection" HorizontalAlignment="Right" IsChecked="{Binding IsSelected, Mode=TwoWay}" />-->
-											</StackPanel>
+												<RadioButton GroupName="ApplicationSelection" HorizontalAlignment="Right" IsChecked="{Binding IsSelected, Mode=TwoWay}" />											</StackPanel>
 											<TextBlock FontSize="12" Text="{Binding Size}" />
 											<TextBlock FontSize="12" Text="{Binding InstalledDate}" />
 											<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="卸载" Click="UninstallButton_Click" HorizontalAlignment="Right"/>

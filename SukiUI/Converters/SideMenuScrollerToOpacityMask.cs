@@ -1,18 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using Avalonia;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace SukiUI.Converters
 {
     public class SideMenuScrollerToOpacityMask : IMultiValueConverter
     {
         private readonly Func<double, double, IBrush?> _func;
-        
-        public static SideMenuScrollerToOpacityMask Top { get; } = new((x,y) => x > y ? TopBrush : Brushes.White);
-        public static SideMenuScrollerToOpacityMask Bottom { get; } = new((x,y) => x < y ? BottomBrush : Brushes.White);
+
+        public static SideMenuScrollerToOpacityMask Top { get; } = new((x, y) => x > y ? TopBrush : Brushes.White);
+        public static SideMenuScrollerToOpacityMask Bottom { get; } = new((x, y) => x < y ? BottomBrush : Brushes.White);
 
         private static readonly LinearGradientBrush BottomBrush = new()
         {
@@ -24,7 +24,7 @@ namespace SukiUI.Converters
                 new(Colors.Transparent,1 )
             }
         };
-        
+
         private static readonly LinearGradientBrush TopBrush = new()
         {
             StartPoint = new RelativePoint(0.5, 1, RelativeUnit.Relative),
@@ -35,12 +35,12 @@ namespace SukiUI.Converters
                 new(Colors.Transparent,1 )
             }
         };
-        
+
         public SideMenuScrollerToOpacityMask(Func<double, double, IBrush?> func)
         {
             _func = func;
         }
-        
+
         public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
             if (values.Count != 2) return null;

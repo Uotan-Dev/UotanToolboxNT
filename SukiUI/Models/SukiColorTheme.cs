@@ -1,6 +1,6 @@
-using System;
 using Avalonia.Media;
 using SukiUI.Enums;
+using System;
 
 namespace SukiUI.Models;
 

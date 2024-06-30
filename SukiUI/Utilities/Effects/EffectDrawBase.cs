@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Media;
 using Avalonia.Platform;
@@ -7,6 +5,8 @@ using Avalonia.Rendering.SceneGraph;
 using Avalonia.Skia;
 using Avalonia.Styling;
 using SkiaSharp;
+using System;
+using System.Diagnostics;
 
 namespace SukiUI.Utilities.Effects
 {
@@ -41,11 +41,11 @@ namespace SukiUI.Utilities.Effects
         }
 
         protected float AnimationSpeedScale { get; set; } = 0.1f;
-        
+
         protected ThemeVariant ActiveVariant { get; private set; }
-        
+
         protected float AnimationSeconds => (float)_animationTick.Elapsed.TotalSeconds;
-        
+
         private readonly Stopwatch _animationTick = Stopwatch.StartNew();
 
         protected EffectDrawBase(Rect bounds)
@@ -66,24 +66,24 @@ namespace SukiUI.Utilities.Effects
 
         protected abstract void Render(SKCanvas canvas, SKRect rect);
 
-        protected SKShader? EffectWithUniforms(float alpha = 1f) => 
+        protected SKShader? EffectWithUniforms(float alpha = 1f) =>
             EffectWithUniforms(Effect, alpha);
 
-        protected SKShader? EffectWithUniforms(SukiEffect? effect, float alpha = 1f) => 
+        protected SKShader? EffectWithUniforms(SukiEffect? effect, float alpha = 1f) =>
             effect?.ToShaderWithUniforms(AnimationSeconds, ActiveVariant, Bounds, AnimationSpeedScale, alpha);
 
         protected virtual void EffectChanged(SukiEffect? oldValue, SukiEffect? newValue)
         {
             // no-op
         }
-        
+
         public virtual void Dispose()
         {
             // no-op
         }
-        
+
         public virtual bool Equals(ICustomDrawOperation other) => false;
-        
+
         public virtual bool HitTest(Point p) => false;
     }
 }

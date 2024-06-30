@@ -1,18 +1,15 @@
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
-using Avalonia.Threading;
+using SukiUI.Enums;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reflection;
-using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Interactivity;
-using SukiUI.Enums;
-using SukiUI.Utilities;
 using System.Runtime.InteropServices;
 
 namespace SukiUI.Controls;
@@ -135,7 +132,7 @@ public class SukiWindow : Window
         AvaloniaProperty.Register<SukiWindow, SukiBackgroundStyle>(nameof(BackgroundStyle),
             defaultValue: SukiBackgroundStyle.Gradient);
 
-    
+
     /// <inheritdoc cref="SukiBackground.Style"/>
     public SukiBackgroundStyle BackgroundStyle
     {
@@ -156,17 +153,17 @@ public class SukiWindow : Window
     public static readonly StyledProperty<string?> BackgroundShaderCodeProperty =
         AvaloniaProperty.Register<SukiWindow, string?>(nameof(BackgroundShaderCode));
 
-    
+
     /// <inheritdoc cref="SukiBackground.ShaderCode"/>
     public string? BackgroundShaderCode
     {
         get => GetValue(BackgroundShaderCodeProperty);
         set => SetValue(BackgroundShaderCodeProperty, value);
     }
-    
+
     public static readonly StyledProperty<bool> BackgroundTransitionsEnabledProperty =
         AvaloniaProperty.Register<SukiBackground, bool>(nameof(BackgroundTransitionsEnabled), defaultValue: false);
-    
+
     /// <inheritdoc cref="SukiBackground.TransitionsEnabled"/>
     public bool BackgroundTransitionsEnabled
     {
@@ -176,7 +173,7 @@ public class SukiWindow : Window
 
     public static readonly StyledProperty<double> BackgroundTransitionTimeProperty =
         AvaloniaProperty.Register<SukiBackground, double>(nameof(BackgroundTransitionTime), defaultValue: 1.0);
-    
+
     /// <inheritdoc cref="SukiBackground.TransitionTime"/>
     public double BackgroundTransitionTime
     {
@@ -203,7 +200,8 @@ public class SukiWindow : Window
         {
             //SystemDecorations = None;
         }
-        else{
+        else
+        {
             //SystemDecorations = BorderOnly;
         }
     }
@@ -215,26 +213,26 @@ public class SukiWindow : Window
         var stateObs = this.GetObservable(WindowStateProperty)
             .Select(windowState => windowState == WindowState.Maximized ? Unit.Default : Unit.Default);
 
-            // Create handlers for buttons
-            if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
+        // Create handlers for buttons
+        if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
+        {
+            maximize.Click += (_, _) =>
             {
-                maximize.Click += (_, _) =>
-                {
-                    if (!CanResize) return;
-                    WindowState = WindowState == WindowState.Maximized
-                        ? WindowState.Normal
-                        : WindowState.Maximized;
-                };
-            }
+                if (!CanResize) return;
+                WindowState = WindowState == WindowState.Maximized
+                    ? WindowState.Normal
+                    : WindowState.Maximized;
+            };
+        }
 
-            if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
-                minimize.Click += (_, _) => WindowState = WindowState.Minimized;
+        if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
+            minimize.Click += (_, _) => WindowState = WindowState.Minimized;
 
-            if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
-                close.Click += (_, _) => Close();
+        if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
+            close.Click += (_, _) => Close();
 
-            if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
-                titleBar.PointerPressed += OnTitleBarPointerPressed;
+        if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
+            titleBar.PointerPressed += OnTitleBarPointerPressed;
     }
 
 

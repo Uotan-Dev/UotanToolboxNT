@@ -152,7 +152,7 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BusyBaseUnlock.IsBusy = true;
-                BaseUnlockPanel.IsEnabled = false ;
+                BaseUnlockPanel.IsEnabled = false;
                 if (SimpleContent.SelectedItem != null)
                 {
                     var newDialog = new ConnectionDialog("该功能仅支持部分品牌设备！\n\r执行后您的设备应当出现确认解锁提示，\n\r若未出现则为您的设备不支持该操作。");

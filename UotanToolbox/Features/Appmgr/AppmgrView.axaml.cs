@@ -13,7 +13,7 @@ public partial class AppmgrView : UserControl
 {
     public AppmgrView()
     {
-            InitializeComponent();
+        InitializeComponent();
     }
 
     private async void UninstallButton_Click(object sender, RoutedEventArgs e)

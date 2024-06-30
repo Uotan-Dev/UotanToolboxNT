@@ -1,10 +1,10 @@
-﻿using System;
-using System.Globalization;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Avalonia.Styling;
+using System;
+using System.Globalization;
 
 namespace SukiUI.Converters.WaveProgress;
 
@@ -16,7 +16,7 @@ internal class WaveProgressGradientOffsetConverter : IValueConverter
     {
         if (value is not double v)
             return Brushes.Blue;
-            
+
         var primaryColor = (Color)(Application.Current!.FindResource("SukiPrimaryColor") ?? Colors.DodgerBlue);
         var accentColor = (Color)(Application.Current!.FindResource("SukiAccentColor") ?? Colors.Transparent);
 

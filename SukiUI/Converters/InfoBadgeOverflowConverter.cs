@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Avalonia.Data.Converters;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Avalonia.Data.Converters;
 
 namespace SukiUI.Converters;
 
-public class InfoBadgeOverflowConverter: IMultiValueConverter
+public class InfoBadgeOverflowConverter : IMultiValueConverter
 {
     public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -19,7 +19,7 @@ public class InfoBadgeOverflowConverter: IMultiValueConverter
         {
             return overflowValue + overflowSuffix;
         }
-        
+
         return values[0];
     }
 }

@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Material.Icons;
+﻿using Material.Icons;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Wiredflash;

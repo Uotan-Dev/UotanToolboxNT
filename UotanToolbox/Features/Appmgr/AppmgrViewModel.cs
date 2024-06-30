@@ -5,8 +5,8 @@ using Material.Icons;
 using SukiUI.Controls;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -15,20 +15,20 @@ namespace UotanToolbox.Features.Appmgr;
 
 public partial class AppmgrViewModel : MainPageBase
 {
-    [ObservableProperty] private ObservableCollection<ApplicationInfo> applications;
+    [ObservableProperty] private ObservableCollection<ApplicationInfo> applications = [];
     [ObservableProperty] private bool isBusy = false, hasItems = false;
     [ObservableProperty] private bool isSystemAppDisplayed = false, isInstalling = false;
     [ObservableProperty] private string _apkFile;
-
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
-            Applications = new ObservableCollection<ApplicationInfo>();
+        Applications = [];
     }
 
     [RelayCommand]
     public async Task Connect()
     {
+        hasItems = false;
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         IsBusy = true;
         try
@@ -48,6 +48,14 @@ public partial class AppmgrViewModel : MainPageBase
                     fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
                 else
                     fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
+                if (fullApplicationsList.Contains("cannot connect to daemon"))
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        SukiHost.ShowDialog(new PureDialog("设备连接失败"), allowBackgroundClose: true);
+                    });
+                    return;
+                }
                 if (!(sukiViewModel.Status == "系统"))
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
@@ -224,7 +232,24 @@ public class ApplicationInfo : ObservableObject
 {
     private bool isSelected;
 
-    public string? Name { get; set; }
+    private string _name;
+
+    public string Name
+    {
+        get { return _name; }
+        set
+        {
+            _name = value;
+            OnPropertyChanged(nameof(Name));
+        }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
     public string? Size { get; set; }
     public string? InstalledDate { get; set; }
 

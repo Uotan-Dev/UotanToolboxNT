@@ -12,7 +12,8 @@
              x:DataType="modifypartition:ModifypartitionViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
+		<WrapPanel Name="Modifypartition"
+				   Margin="15"
                    theme:WrapPanelExtensions.AnimatedScroll="True"
                    Orientation="Horizontal">
 			<suki:GlassCard Classes="Card" Margin="15">
@@ -128,6 +129,7 @@
 							   Foreground="{DynamicResource SukiLowText}"
 							   Width="90"></TextBlock>
 					<Button Width="100"
+							Margin="-15,0,0,0"
 							Name="ReadPartBut"
 							Click="ReadPart"
 							HorizontalAlignment="Left"

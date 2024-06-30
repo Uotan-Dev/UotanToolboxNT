@@ -72,11 +72,7 @@ public partial class HomeViewModel : MainPageBase
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(async () =>
-            {
-                var newDialog = new ConnectionDialog(GetTranslation("Dialog_Unconnected"));
-                await SukiHost.ShowDialogAsync(newDialog);
-            });
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_Unconnected")), allowBackgroundClose: true);
             return false;
         }
     }
@@ -148,8 +144,9 @@ public partial class HomeViewModel : MainPageBase
                 {
                     Global.deviceslist.Clear();
                     Global.thisdevice = null;
-                    MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                     SimpleContent = null;
+                    await SukiHost.ShowToast("提示", "设备已断开连接！", NotificationType.Warning);
+                    MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                     Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
                     VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
                     BatteryLevel = MemLevel = ProgressDisk = "0";
@@ -197,10 +194,7 @@ public partial class HomeViewModel : MainPageBase
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")));
-            });
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
         }
     }
 
@@ -213,10 +207,7 @@ public partial class HomeViewModel : MainPageBase
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")));
-            });
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
         }
     }
 
@@ -271,10 +262,7 @@ public partial class HomeViewModel : MainPageBase
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")));
-            });
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
         }
     }
 
@@ -310,10 +298,7 @@ public partial class HomeViewModel : MainPageBase
         }
         else
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_WrongStatus")));
-            });
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_WrongStatus")), allowBackgroundClose: true);
         }
     }
 
@@ -327,17 +312,11 @@ public partial class HomeViewModel : MainPageBase
             string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
             if (output.Contains("unknown command"))
             {
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_NotSupported")));
-                });
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_NotSupported")), allowBackgroundClose: true);
             }
             else
             {
-                await Dispatcher.UIThread.InvokeAsync(() =>
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("Dialog_Successful")));
-                });
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_Successful")), allowBackgroundClose: true);
             }
         }
     }

@@ -23,7 +23,7 @@
 				<suki:BusyArea  Name="BusyTXTFlash"
 								BusyText="{x:Static assets:Resources.Wiredflash_Executing}">
 					<Grid>
-						<StackPanel Spacing="30">
+						<StackPanel Name="TXTFlash" Spacing="30">
 							<StackPanel>
 								<TextBlock HorizontalAlignment="Left"
 										   VerticalAlignment="Top"
@@ -94,7 +94,7 @@
 				<suki:BusyArea  Name="BusyFlash"
 								BusyText="{x:Static assets:Resources.Wiredflash_Executing}">
 					<Grid>
-						<StackPanel Spacing="30">
+						<StackPanel Name="MoreWiredFlash" Spacing="30">
 							<StackPanel>
 								<TextBlock HorizontalAlignment="Left"
 										   VerticalAlignment="Top"

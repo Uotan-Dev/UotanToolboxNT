@@ -40,7 +40,7 @@
 						<StackPanel Orientation="Vertical" Spacing="10">
 							<StackPanel Orientation="Horizontal" Spacing="20">
 								<TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_CodeUnlock}"></TextBlock>
-								<TextBox Name="UnlockCode" Width="464" theme:TextBoxExtensions.AddDeleteButton="True"/>
+								<TextBox Name="UnlockCode" Watermark="使用解锁码解锁您可能需要自行添加“0x”" Width="464" theme:TextBoxExtensions.AddDeleteButton="True"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="120">
 								<Button Click="Unlock" Content="{x:Static assets:Resources.Basicflash_UnlockNow}"></Button>

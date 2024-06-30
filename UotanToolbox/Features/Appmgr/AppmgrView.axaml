@@ -161,7 +161,7 @@
 						<ItemsControl ItemsSource="{Binding Applications}">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
-									<WrapPanel Orientation="Horizontal" />
+									<VirtualizingStackPanel Orientation="Horizontal" />
 								</ItemsPanelTemplate>
 							</ItemsControl.ItemsPanel>
 							<ItemsControl.ItemTemplate>

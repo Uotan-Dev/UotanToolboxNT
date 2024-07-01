@@ -69,7 +69,7 @@ namespace UotanToolbox.Common
             }
         }
         /// <summary>
-        /// 见擦汗指定目录下是否存在面具组件
+        /// 检查指定目录下是否存在面具组件
         /// </summary>
         /// <param name="magisk_path">面具解压后的路径</param>
         /// <param name="arch">识别到的Boot路径</param>

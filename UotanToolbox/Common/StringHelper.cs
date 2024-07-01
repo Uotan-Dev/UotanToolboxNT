@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Reactive.Joins;
 using System.Text;
 using System.Text.RegularExpressions;
 using UotanToolbox.Features.Components;
@@ -203,6 +204,30 @@ namespace UotanToolbox.Common
             string num = Regex.Replace(size[0], @"[^0-9]+", "");
             int numint = int.Parse(num);
             return numint;
+        }
+
+        public static float OnlynumFloat(string text)//只保留数字(含小数）
+        {
+            string pattern = @"[-+]?\d*\.\d+|[-+]?\d+";
+            Match match = Regex.Match(text, pattern);
+            if (float.TryParse(match.Value, out float result))
+                return result;
+            else
+                return 0;
+        }
+
+        public static int GetDP(string wm, string dpi)
+        {
+            string[] wh = wm.Split("x");
+            int dp = Onlynum(wh[0]) * 160 / Onlynum(dpi);
+            return dp;
+        }
+
+        public static int GetDPI(string wm, string dp)
+        {
+            string[] wh = wm.Split("x");
+            int dpi = Onlynum(wh[0]) * 160 / Onlynum(dp);
+            return dpi;
         }
 
         public static string Partno(string parttable, string findpart)//分区号

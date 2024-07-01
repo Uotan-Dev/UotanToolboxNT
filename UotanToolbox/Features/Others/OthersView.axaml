@@ -19,8 +19,9 @@
 							Height="310"
                             Margin="15,20"
                             VerticalAlignment="Top">
-				<Grid>
-					<StackPanel>
+				<suki:BusyArea Name="BusyDisplay"
+							   BusyText="修改中...">
+					<StackPanel Name="Display">
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
@@ -31,9 +32,11 @@
 										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="分辨率:" />
-								<TextBlock Margin="5,0,0,0"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{Binding ScrResolution}"/>
+								<TextBlock Name="ScrResolution"
+										   FontSize="13"
+										   Margin="5,0,0,0"
+										   Text="--"
+										   Foreground="{DynamicResource SukiLowText}"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="20">
 								<StackPanel Orientation="Horizontal" Width="115">
@@ -41,111 +44,135 @@
 											   FontSize="13"
 											   Foreground="{DynamicResource SukiLowText}"
 											   Text="显示密度(DPI):" />
-									<TextBlock Margin="5,0,0,0"
+									<TextBlock Name="ScrDPI"
+											   Margin="5,0,0,0"
 											   FontSize="13"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="{Binding ScrDPI}"/>
+											   Text="--"
+											   Foreground="{DynamicResource SukiLowText}"/>
 								</StackPanel>
 								<StackPanel Orientation="Horizontal" Width="115">
 									<TextBlock FontSize="13"
 											   Foreground="{DynamicResource SukiLowText}"
 											   Text="最小宽度(DP):" />
-									<TextBlock Margin="5,0,0,0"
+									<TextBlock Name="ScrDP"
+											   Margin="5,0,0,0"
 											   FontSize="13"
-											   Foreground="{DynamicResource SukiLowText}"
-											   Text="{Binding ScrDP}"/>
+											   Text="--"
+											   Foreground="{DynamicResource SukiLowText}"/>
 								</StackPanel>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="5">
-								<TextBox Width="110" Name="ImageFile"
+								<TextBox Name="Transverse" Width="110" 
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 								<TextBlock Width="15"
 										   FontSize="15"
 										   VerticalAlignment="Center"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text=" x" />
-								<TextBox Width="110" Name="Part"
+								<TextBox Name="Direction" Width="110" 
 										 theme:TextBoxExtensions.AddDeleteButton="False"/>
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="25">
-								<ComboBox Width="110" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
-								<TextBox Width="110"/>
+								<ComboBox Name="SetUnit" Width="110"/>
+								<TextBox Name="DPIorDP" Width="110"/>
 							</StackPanel>
 							<StackPanel Margin="-15,20,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20">
-								<Button Width="110" Content="修改" />
-								<Button Width="110" Content="恢复" />
+								<Button Name="SetInfoBut" Width="110" Click="SetInfo" Content="修改" />
+								<Button Name="BackInfoBut" Width="110" Click="BackInfo" Content="恢复" />
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
-				</Grid>
+				</suki:BusyArea>
 			</suki:GlassCard>
 			<suki:GlassCard Width="305"
 							Height="310"
                             Margin="15"
                             VerticalAlignment="Top">
-				<Grid>
-					<StackPanel>
+				<suki:BusyArea Name="BusyBattery"
+							   BusyText="修改中...">
+					<Grid>
+					<StackPanel Name="Battery">
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
 								   Text="电池" />
-						<StackPanel Margin="15,0,0,0" Orientation="Vertical">
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-								<TextBox Width="170" />
-								<Button Height="35"
-										Padding="10,0,10,0"
-										Content="修改">
-								</Button>
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-								<TextBox Width="170" />
-								<Button Height="35"
-										Padding="10,0,10,0"
-										Content="修改">
-								</Button>
+						<StackPanel Margin="3,0,0,0" Orientation="Vertical">
+							<StackPanel Orientation="Horizontal">
+								<StackPanel>
+									<Button Name="BuckBatteryBut"
+											Height="85"
+											Margin="5,10,5,0"
+											Padding="10,0,10,0"
+											Click="BuckBattery"
+											Content="恢复">
+									</Button>
+								</StackPanel>
+								<StackPanel>
+									<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
+										<TextBox Name="Temp" Width="130" />
+										<Button Name="SetTempBut"
+												Height="35"
+												Padding="10,0,10,0"
+												Click="SetTemp"
+												Content="修改">
+										</Button>
+									</StackPanel>
+									<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
+										<TextBox Name="BLevel" Width="130" />
+										<Button Name="SetBLevelBut"
+												Height="35"
+												Padding="10,0,10,0"
+												Click="SetBLevel"
+												Content="修改">
+										</Button>
+									</StackPanel>
+								</StackPanel>
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="170"
+								<TextBlock Width="200"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="模拟非充电" />
-								<ToggleSwitch />
+								<ToggleSwitch Name="NoCharge" IsCheckedChanged="SetNoCharge"/>
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="170"
+								<TextBlock Width="200"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="模拟无线充电" />
-								<ToggleSwitch />
+								<ToggleSwitch Name="WirelessCharge" IsCheckedChanged="SetWirelessCharge"/>
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="170"
+								<TextBlock Width="200"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="模拟USB充电" />
-								<ToggleSwitch />
+								<ToggleSwitch Name="USUCharge" IsCheckedChanged="SetUSUCharge"/>
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="170"
+								<TextBlock Width="200"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="模拟直流充电" />
-								<ToggleSwitch />
+								<ToggleSwitch Name="ACCharge" IsCheckedChanged="SetACCharge"/>
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
 				</Grid>
+				</suki:BusyArea>
 			</suki:GlassCard>
 			<suki:GlassCard Width="270"
 							Height="310"
                             Margin="15"
                             VerticalAlignment="Top">
-				<Grid>
-					<StackPanel>
+				<suki:BusyArea Name="BusyLock"
+							   BusyText="修改中...">
+					<Grid>
+					<StackPanel Name="Lock">
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
@@ -155,21 +182,23 @@
 								<TextBlock Margin="5,0,0,0"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="当前锁屏时间:" />
-								<TextBlock Width="40"
+								<TextBlock Name="LockTime"
+										   Width="40"
 										   Margin="5,0,0,0"
 										   Foreground="{DynamicResource SukiLowText}"
-										   Text=""/>
+										   Text="--"/>
 							</StackPanel>
 							<StackPanel Margin="0,20,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
-								<TextBox Width="200" Name="LockTime"
+								<TextBox Width="200" Name="NewLockTime"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 							</StackPanel>
 							<StackPanel Margin="0,50,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
-								<Button Width="200" Content="修改" />
+								<Button Width="200" Click="SetLockTime" Content="修改" />
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
 				</Grid>
+				</suki:BusyArea>
 			</suki:GlassCard>
 
 			<suki:GlassCard Width="955"
@@ -190,10 +219,11 @@
 										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="缩放" />
-								<Slider Width="700"
+								<Slider Name="FontZoom"
+										Width="630"
 										Margin="20,0,0,0"
 										IsSnapToTickEnabled="True"
-										Maximum="10" Minimum="0.01"
+										Maximum="5" Minimum="0"
 										TickFrequency="0.01"
 										Value="{Binding FontScale}" />
 							</StackPanel>
@@ -205,11 +235,11 @@
 										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="当前倍数:" />
-									<TextBlock Margin="5,0,0,0"
+									<TextBlock Name="NowFontZoom"
+											   Margin="5,0,0,0"
 											   Width="40"
 											   VerticalAlignment="Center"
-											   FontWeight="DemiBold"
-											   Text="{Binding FontScale}" />
+											   FontWeight="DemiBold"/>
 								</StackPanel>
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Width="70"
@@ -223,29 +253,34 @@
 											   VerticalAlignment="Center"
 											   FontWeight="DemiBold"
 											   Text="{Binding FontScale}" />
+									<Button Name="SetFontZoomBut"
+											Width="75" 
+											Height="50" 
+											FontSize="14" 
+											Margin="0,-30,0,0" 
+											Click="FontZoomBut" 
+											Content="修改" />
 								</StackPanel>
 							</StackPanel>
-							<StackPanel Margin="142.5,0,0,0" Spacing="93.25" Orientation="Horizontal">
-								<TextBlock Margin="0,0,0,0"
-										   Width="40"
-										   VerticalAlignment="Center"
-										   Text="1X" />
-								<TextBlock Margin="0,0,0,0"
-										   Width="40"
-										   VerticalAlignment="Center"
-										   Text="3X" />
-								<TextBlock Margin="0,0,0,0"
-										   Width="40"
-										   VerticalAlignment="Center"
-										   Text="5X" />
-								<TextBlock Margin="0,0,0,0"
-										   Width="40"
-										   VerticalAlignment="Center"
-										   Text="7X" />
-								<TextBlock Margin="0,0,0,0"
-										   Width="40"
-										   VerticalAlignment="Center"
-										   Text="9X" />
+							<StackPanel Margin="183,0,0,0" Spacing="200" Orientation="Horizontal">
+								<Button Classes="Toolbox"
+										FontSize="13"
+										Width="40"
+										VerticalAlignment="Center"
+										Click="SetFontZoom"
+										Content="1X" />
+								<Button Classes="Toolbox"
+										FontSize="13"
+										Width="40"
+										VerticalAlignment="Center"
+										Click="SetFontZoom"
+										Content="3X" />
+								<Button Classes="Toolbox"
+										FontSize="13"
+										Width="40"
+										VerticalAlignment="Center"
+										Click="SetFontZoom"
+										Content="5X" />
 							</StackPanel>
 						</StackPanel>
 						<StackPanel>
@@ -262,43 +297,61 @@
 												   FontSize="13"
 												   Foreground="{DynamicResource SukiLowText}"
 												   Text="窗口缩放" />
-										<Slider Width="700"
+										<Slider Name="WindowZoom"
+												Width="630"
 												IsSnapToTickEnabled="True"
 												Maximum="10" Minimum="0"
 												TickFrequency="0.01"
 												Value="{Binding WindowScale}" />
 										<TextBlock Width="70"
-												   Margin="21,0,0,0"
+												   Margin="16,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
 												   Foreground="{DynamicResource SukiLowText}"
 												   Text="设置倍数:" />
 										<TextBlock Margin="5,0,0,0"
+												   Width="40"
 												   VerticalAlignment="Center"
 												   FontWeight="DemiBold"
 												   Text="{Binding WindowScale}" />
+										<Button Name="SetWindowZoomBut"
+											    Width="75" 
+												Height="35" 
+												FontSize="14" 
+												Click="WindowZoomBut" 
+												Content="修改" />
 									</StackPanel>
-									<StackPanel Margin="142.5,0,0,0" Spacing="93.25" Orientation="Horizontal">
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="1X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="3X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="5X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="7X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="9X" />
+									<StackPanel Margin="125,0,0,0" Spacing="79" Orientation="Horizontal">
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetWindowZoom"
+												Content="1X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetWindowZoom"
+												Content="3X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetWindowZoom"
+												Content="5X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetWindowZoom"
+												Content="7X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetWindowZoom"
+												Content="9X" />
 									</StackPanel>
 								</StackPanel>
 								<StackPanel>
@@ -309,43 +362,61 @@
 												   FontSize="13"
 												   Foreground="{DynamicResource SukiLowText}"
 												   Text="过渡缩放" />
-										<Slider Width="700"
+										<Slider Name="TransitionZoom"
+												Width="630"
 												IsSnapToTickEnabled="True"
 												Maximum="10" Minimum="0"
 												TickFrequency="0.01"
 												Value="{Binding TransitionScale}" />
 										<TextBlock Width="70"
-												   Margin="21,0,0,0"
+												   Margin="16,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
 												   Foreground="{DynamicResource SukiLowText}"
 												   Text="设置倍数:" />
 										<TextBlock Margin="5,0,0,0"
+												   Width="40"
 												   VerticalAlignment="Center"
 												   FontWeight="DemiBold"
 												   Text="{Binding TransitionScale}" />
+										<Button Name="SetTransitionZoomBut"
+												Width="75" 
+												Height="35" 
+												FontSize="14" 
+												Click="TransitionZoomBut" 
+												Content="修改" />
 									</StackPanel>
-									<StackPanel Margin="142.5,0,0,0" Spacing="93.25" Orientation="Horizontal">
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="1X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="3X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="5X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="7X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="9X" />
+									<StackPanel Margin="125,0,0,0" Spacing="79" Orientation="Horizontal">
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetTransitionZoom"
+												Content="1X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetTransitionZoom"
+												Content="3X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetTransitionZoom"
+												Content="5X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetTransitionZoom"
+												Content="7X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetTransitionZoom"
+												Content="9X" />
 									</StackPanel>
 								</StackPanel>
 								<StackPanel>
@@ -356,43 +427,61 @@
 												   FontSize="13"
 												   Foreground="{DynamicResource SukiLowText}"
 												   Text="动画时长" />
-										<Slider Width="700"
+										<Slider Name="AnimationDuration"
+												Width="630"
 												IsSnapToTickEnabled="True"
 												Maximum="10" Minimum="0"
 												TickFrequency="0.01"
 												Value="{Binding AnimationLast}" />
 										<TextBlock Width="70"
-												   Margin="21,0,0,0"
+												   Margin="16,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
 												   Foreground="{DynamicResource SukiLowText}"
 												   Text="设置倍数:" />
 										<TextBlock Margin="5,0,0,0"
+												   Width="40"
 												   VerticalAlignment="Center"
 												   FontWeight="DemiBold"
 												   Text="{Binding AnimationLast}" />
+										<Button Name="SetAnimationDurationBut"
+												Width="75" 
+												Height="35" 
+												FontSize="14" 
+												Click="AnimationDurationBut" 
+												Content="修改" />
 									</StackPanel>
-									<StackPanel Margin="142.5,0,0,0" Spacing="93.25" Orientation="Horizontal">
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="1X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="3X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="5X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="7X" />
-										<TextBlock Margin="0,0,0,0"
-												   Width="40"
-												   VerticalAlignment="Center"
-												   Text="9X" />
+									<StackPanel Margin="125,0,0,0" Spacing="79" Orientation="Horizontal">
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetAnimationDuration"
+												Content="1X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetAnimationDuration"
+												Content="3X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetAnimationDuration"
+												Content="5X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetAnimationDuration"
+												Content="7X" />
+										<Button Classes="Toolbox"
+												FontSize="13"
+												Width="40"
+												VerticalAlignment="Center"
+												Click="SetAnimationDuration"
+												Content="9X" />
 									</StackPanel>
 								</StackPanel>
 							</StackPanel>

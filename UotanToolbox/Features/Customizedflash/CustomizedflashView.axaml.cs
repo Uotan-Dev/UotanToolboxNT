@@ -412,7 +412,7 @@ public partial class CustomizedflashView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true    );
+                SukiHost.ShowDialog(new PureDialog("请选择文件！"), allowBackgroundClose: true);
             }
         }
         else

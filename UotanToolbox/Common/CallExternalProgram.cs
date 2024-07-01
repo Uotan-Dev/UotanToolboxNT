@@ -1,11 +1,8 @@
-﻿using SukiUI.Controls;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Threading.Tasks;
-using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
 {
@@ -13,107 +10,55 @@ namespace UotanToolbox.Common
     {
         public static async Task<string> ADB(string adbShellCommand, bool debug = false)
         {
-            try
-            {
-                string cmdPath = Path.Combine(Global.bin_path, "platform-tools", "adb");
-                using (Process adbProcess = new Process())
-                {
-                    ProcessStartInfo startInfo = new ProcessStartInfo(cmdPath, adbShellCommand)
-                    {
-                        CreateNoWindow = true,
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true
-                    };
-                    adbProcess.StartInfo = startInfo;
 
-                    if (!adbProcess.Start())
-                    {
-                        LogError(debug, "Failed to start ADB process.");
-                        return null;
-                    }
-                    var outputTask = adbProcess.StandardOutput.ReadToEndAsync();
-                    var errorTask = adbProcess.StandardError.ReadToEndAsync();
-                    await Task.WhenAll(outputTask, errorTask);
-                    string output = await Task.Run(() => outputTask.Result.Trim());
-                    string error = await Task.Run(() => errorTask.Result.Trim());
-                    if (string.IsNullOrEmpty(output))
-                    {
-                        output = error;
-                    }
-                    adbProcess.WaitForExit();
-                    if (adbProcess.ExitCode != 0)
-                    {
-                        LogError(debug, $"ADB failed with code {adbProcess.ExitCode}. Command: {adbShellCommand}");
-                        return output;
-                    }
-                    return output;
-                }
-            }
-            catch (Exception ex)
+            string cmdPath = Path.Combine(Global.bin_path, "platform-tools", "adb");
+            using (Process adbProcess = new Process())
             {
-                LogError(debug, ex.Message);
-                return null;
-            }
-        }
-
-        private static void LogError(bool debug, string message)
-        {
-            if (debug)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog(message));
-            }
-        }
-
-        public static async Task<string> Fastboot(string fastbootCommand, bool debug = false)
-        {
-            try
-            {
-                string cmdPath = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
-                ProcessStartInfo startInfo = new ProcessStartInfo(cmdPath, fastbootCommand)
+                ProcessStartInfo startInfo = new ProcessStartInfo(cmdPath, adbShellCommand)
                 {
                     CreateNoWindow = true,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true
                 };
-                using (Process fastbootProcess = new Process())
+                adbProcess.StartInfo = startInfo;
+                var outputTask = adbProcess.StandardOutput.ReadToEndAsync();
+                var errorTask = adbProcess.StandardError.ReadToEndAsync();
+                await Task.WhenAll(outputTask, errorTask);
+                string output = await Task.Run(() => outputTask.Result.Trim());
+                string error = await Task.Run(() => errorTask.Result.Trim());
+                if (string.IsNullOrEmpty(output))
                 {
-                    fastbootProcess.StartInfo = startInfo;
-
-                    if (!fastbootProcess.Start())
-                    {
-                        if (debug)
-                        {
-                            SukiHost.ShowDialog(new ConnectionDialog("Failed to start Fastboot process."));
-                        }
-                        return null;
-                    }
-                    var outputTask = fastbootProcess.StandardOutput.ReadToEndAsync();
-                    var errorTask = fastbootProcess.StandardError.ReadToEndAsync();
-                    await Task.WhenAll(outputTask, errorTask);
-                    string output = !string.IsNullOrEmpty(await errorTask) ? await errorTask : await outputTask;
-                    output = output.Trim();
-                    fastbootProcess.WaitForExit();
-                    if (fastbootProcess.ExitCode != 0)
-                    {
-                        if (debug)
-                        {
-                            SukiHost.ShowDialog(new ConnectionDialog($"Fastboot command execution failed with exit code {fastbootProcess.ExitCode}. Command: {fastbootCommand}"));
-                        }
-                    }
-                    return output;
+                    output = error;
                 }
-            }
-            catch (Exception ex)
-            {
-                if (debug)
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog($"An error occurred in Fastboot operation: {ex.Message}"));
-                }
-                return "";
+                adbProcess.WaitForExit();
+                return output;
             }
         }
+
+        public static async Task<string> Fastboot(string fastbootCommand, bool debug = false)
+        {
+            string cmdPath = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
+            ProcessStartInfo startInfo = new ProcessStartInfo(cmdPath, fastbootCommand)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using (Process fastbootProcess = new Process())
+            {
+                fastbootProcess.StartInfo = startInfo;
+                var outputTask = fastbootProcess.StandardOutput.ReadToEndAsync();
+                var errorTask = fastbootProcess.StandardError.ReadToEndAsync();
+                await Task.WhenAll(outputTask, errorTask);
+                string output = !string.IsNullOrEmpty(await errorTask) ? await errorTask : await outputTask;
+                output = output.Trim();
+                fastbootProcess.WaitForExit();
+                return output;
+            }
+        }
+
 
         public static async Task<string> Devcon(string shell)
         {
@@ -285,46 +230,38 @@ namespace UotanToolbox.Common
             SevenZip.WaitForExit();
             return output;
         }
-        public static async Task<(string Output, int ExitCode)> MagiskBoot(string shell, string workpath, string KEEPVERITY = "true", string KEEPFORCEENCRYPT = "true", string PATCHVBMETAFLAG = "false", string RECOVERYMODE = "false", string LEGACYSAR = "true")
+        /// <summary>
+        /// 调用MagiskBoot执行命令，环境变量由EnvironmentVariable变量设置
+        /// </summary>
+        /// <param name="shell">需要执行的命令</param>
+        /// <param name="workpath">工作目录</param>
+        /// <returns>执行结果输出与执行结果代码</returns>
+        public static async Task<(string Output, int ExitCode)> MagiskBoot(string shell, string workpath)
         {
-            try
+            Environment.SetEnvironmentVariable("KEEPVERITY", EnvironmentVariable.KEEPVERITY);
+            Environment.SetEnvironmentVariable("KEEPFORCEENCRYPT", EnvironmentVariable.KEEPFORCEENCRYPT);
+            Environment.SetEnvironmentVariable("PATCHVBMETAFLAG", EnvironmentVariable.PATCHVBMETAFLAG);
+            Environment.SetEnvironmentVariable("RECOVERYMODE", EnvironmentVariable.RECOVERYMODE);
+            Environment.SetEnvironmentVariable("LEGACYSAR", EnvironmentVariable.LEGACYSAR);
+            string cmd = Path.Combine(Global.bin_path, "magiskboot");
+            Directory.SetCurrentDirectory(workpath);
+            ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
             {
-                Environment.SetEnvironmentVariable("KEEPVERITY", KEEPVERITY);
-                Environment.SetEnvironmentVariable("KEEPFORCEENCRYPT", KEEPFORCEENCRYPT);
-                Environment.SetEnvironmentVariable("PATCHVBMETAFLAG", PATCHVBMETAFLAG);
-                Environment.SetEnvironmentVariable("RECOVERYMODE", RECOVERYMODE);
-                Environment.SetEnvironmentVariable("LEGACYSAR", LEGACYSAR);
-                string cmd = Path.Combine(Global.bin_path, "magiskboot");
-                Directory.SetCurrentDirectory(workpath);
-                ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
-                {
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true
-                };
-                using Process mb = new Process();
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using (Process mb = new Process())
+            {
                 mb.StartInfo = magiskboot;
                 mb.Start();
-                string output = await mb.StandardError.ReadToEndAsync();
-                if (output == "")
-                {
-                    output = await mb.StandardOutput.ReadToEndAsync();
-                }
-                await Task.Run(() =>
-                {
-                    Thread.Sleep(1000);
-                });
-                mb.WaitForExit();
-                int exitCode = mb.ExitCode; // 获取进程退出代码
+                string output = string.IsNullOrEmpty(await mb.StandardError.ReadToEndAsync())
+                                   ? await mb.StandardOutput.ReadToEndAsync()
+                                   : await mb.StandardError.ReadToEndAsync();
+                await mb.WaitForExitAsync();
+                int exitCode = mb.ExitCode;
                 return (output, exitCode);
-            }
-            catch (Exception ex)
-            {
-                {
-                    SukiHost.ShowDialog(new ConnectionDialog($"An error occurred in Magiskboot operation: {ex.Message}"));
-                    return (null, 1);
-                }
             }
         }
 

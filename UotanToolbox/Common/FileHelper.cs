@@ -125,6 +125,13 @@ namespace UotanToolbox.Common
                 }
             }
         }
+        /// <summary>
+        /// 传入一个字符串数组，检查指定目录下是否存在给出文件
+        /// </summary>
+        /// <param name="directoryPath">检查目录</param>
+        /// <param name="fileNames">需要检查的文件名组成的字符串数组</param>
+        /// <returns>返回一个字典，key是传入的文件名，value是文件否存在</returns>
+        /// <exception cref="DirectoryNotFoundException">给定目录不存在时抛出</exception>
         public static Dictionary<string, bool> CheckFilesExistInDirectory(string directoryPath, params string[] fileNames)
         {
             if (!Directory.Exists(directoryPath))
@@ -141,7 +148,7 @@ namespace UotanToolbox.Common
         }
 
         /// <summary>
-        /// 删除指定目录及其所有内容。
+        /// 删除指定目录及其所有内容,若目录不存在则新建目录。
         /// </summary>
         /// <param name="folderPath">要删除的目录路径。</param>
         /// <returns>删除目录是否成功</returns>
@@ -187,7 +194,10 @@ namespace UotanToolbox.Common
                 return false;
             }
         }
-
+        /// <summary>
+        /// 跨平台打开指定文件夹。
+        /// </summary>
+        /// <param name="folderPath">需要打开的文件路径</param>
         public static void OpenFolder(string folderPath)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
@@ -208,38 +218,35 @@ namespace UotanToolbox.Common
             }
             Process.Start(startInfo);
         }
+        /// <summary>
+        /// 通过向文件路径写入随机数据流并且取消文件只读属性来删除文件。
+        /// </summary>
+        /// <param name="filename">需要删除的文件绝对路径</param>
+        /// <returns>是否删除成功</returns>
         public static bool WipeFile(string filename)
         {
-            try
+            if (File.Exists(filename))
             {
-                if (File.Exists(filename))
+                File.SetAttributes(filename, FileAttributes.Normal);
+                double sectors = Math.Ceiling(new FileInfo(filename).Length / 512.0);
+                byte[] dummyBuffer = new byte[512];
+                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                FileStream inputStream = new FileStream(filename, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
+                inputStream.Position = 0;
+                for (int sectorsWritten = 0; sectorsWritten < sectors; sectorsWritten++)
                 {
-                    File.SetAttributes(filename, FileAttributes.Normal);
-                    double sectors = Math.Ceiling(new FileInfo(filename).Length / 512.0);
-                    byte[] dummyBuffer = new byte[512];
-                    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                    FileStream inputStream = new FileStream(filename, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
-                    inputStream.Position = 0;
-                    for (int sectorsWritten = 0; sectorsWritten < sectors; sectorsWritten++)
-                    {
-                        rng.GetBytes(dummyBuffer);
-                        inputStream.Write(dummyBuffer, 0, dummyBuffer.Length);
-                    }
-                    inputStream.SetLength(0);
-                    inputStream.Close();
-                    DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0);
-                    File.SetCreationTime(filename, dt);
-                    File.SetLastAccessTime(filename, dt);
-                    File.SetLastWriteTime(filename, dt);
-                    File.Delete(filename);
+                    rng.GetBytes(dummyBuffer);
+                    inputStream.Write(dummyBuffer, 0, dummyBuffer.Length);
                 }
-                return true;
+                inputStream.SetLength(0);
+                inputStream.Close();
+                DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0);
+                File.SetCreationTime(filename, dt);
+                File.SetLastAccessTime(filename, dt);
+                File.SetLastWriteTime(filename, dt);
+                File.Delete(filename);
             }
-            catch (Exception ex)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"));
-                return false;
-            }
+            return true;
         }
     }
 }

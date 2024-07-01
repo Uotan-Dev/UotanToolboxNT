@@ -1,5 +1,4 @@
 ﻿using Avalonia.Collections;
-using System.Security.Cryptography;
 
 namespace UotanToolbox.Common
 {
@@ -24,12 +23,12 @@ namespace UotanToolbox.Common
     }
     public class BootInfo
     {
-        public static string SHA1 ="";
+        public static string SHA1 = "";
         public static string tmp_path = "";
-        public static bool userful=false;
+        public static bool userful = false;
         public static bool gki2 = false;
-        public static string kmi ="";
-        public static bool have_kernel =false;
+        public static string kmi = "";
+        public static bool have_kernel = false;
         public static bool have_dtb = false;
         public static string arch = "aarch64";
     }
@@ -38,9 +37,17 @@ namespace UotanToolbox.Common
         public static string SHA1 = "";
         public static string ver = "";
         public static string tmp_path = "";
-        public static bool userful=false;
+        public static bool userful = false;
         public static bool is_magisk = false;
-        public static string patch_SHA1 ="";
+        public static string patch_SHA1 = "";
+    }
+    public class EnvironmentVariable
+    {
+        public static string KEEPVERITY = "true";
+        public static string KEEPFORCEENCRYPT = "true";
+        public static string PATCHVBMETAFLAG = "false";
+        public static string RECOVERYMODE = "false";
+        public static string LEGACYSAR = "true";
     }
 
     public static class GlobalData

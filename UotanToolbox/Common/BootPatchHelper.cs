@@ -10,12 +10,6 @@ namespace UotanToolbox.Common
 {
     internal class BootPatchHelper
     {
-        public class PatchPlan
-        {
-            public string? MAGISK_VER { get; set; }
-            public string? MAGISK_VER_CODE { get; set; }
-            public bool IsVivoSuuPatch { get; set; }
-        }
         public static readonly Dictionary<string, string> ArchMappings = new Dictionary<string, string>
         {
             {"ARM aarch64", "aarch64"},
@@ -33,6 +27,12 @@ namespace UotanToolbox.Common
             }
             return (false, null);
         }
+        /// <summary>
+        /// 验证Magisk版本号是否与修补脚本的MD5值相匹配来验证面具包可用性
+        /// </summary>
+        /// <param name="MD5_in">脚本的MD5值</param>
+        /// <param name="MAGISK_VER">面具版本号</param>
+        /// <returns>是否可用</returns>
         public static bool Magisk_Validation(string MD5_in, string MAGISK_VER)
         {
             string MD5_out = null;
@@ -68,9 +68,17 @@ namespace UotanToolbox.Common
                 return false;
             }
         }
+        /// <summary>
+        /// 见擦汗指定目录下是否存在面具组件
+        /// </summary>
+        /// <param name="magisk_path">面具解压后的路径</param>
+        /// <param name="arch">识别到的Boot路径</param>
+        /// <returns>是否所有组件文件都存在</returns>
+        /// <exception cref="ArgumentException">arch传入错误时抛出</exception>
+        /// <exception cref="InvalidOperationException">同上，但是基本只抛出上面的错误</exception>
         public static bool CheckComponentFiles(string magisk_path, string arch)
         {
-            string compPathBase = System.IO.Path.Combine(magisk_path, "lib");
+            string compPathBase = Path.Combine(magisk_path, "lib");
             string archSubfolder = arch switch
             {
                 "aarch64" => "arm64-v8a",
@@ -79,8 +87,8 @@ namespace UotanToolbox.Common
                 "X86-64" => "x86_64",
                 _ => throw new ArgumentException($"未知架构：{arch}")
             };
-            string compPath = System.IO.Path.Combine(compPathBase, archSubfolder);
-            string[] commonFiles = { "libmagiskpolicy.so", "libmagiskinit.so", "libmagiskboot.so", "libbusybox.so" };
+            string compPath = Path.Combine(compPathBase, archSubfolder);
+            string[] commonFiles = { "libmagiskpolicy.so", "libmagiskinit.so", "libmagiskboot.so", "libbusybox.so", "libmagisk32.so" };
             string specificFiles = arch switch
             {
                 "aarch64" => "libmagisk64.so",
@@ -89,17 +97,22 @@ namespace UotanToolbox.Common
                 "X86-64" => "libmagisk64.so",
                 _ => throw new InvalidOperationException() // 前面不出问题，这个东西应该不会被抛出
             };
-            commonFiles = commonFiles.Concat(new[] { specificFiles }).ToArray();
+            commonFiles = commonFiles.Concat(new[] { specificFiles }).Distinct().ToArray();
             var results = FileHelper.CheckFilesExistInDirectory(compPath, commonFiles);
             bool allFilesExist = results.Values.All(result => result);
             return allFilesExist;
         }
+        /// <summary>
+        /// 对于原生Boot进行预处理，复制源boot以及备份ramdisk
+        /// </summary>
+        /// <param name="boot_path">boot.img源文件绝对路径</param>
+        /// <returns>预处理是否成功</returns>
         public static bool boot_img_pre(string boot_path)
         {
             try
             {
-                File.Copy(boot_path, System.IO.Path.Combine(Global.boot_tmp, "stock_boot.img"), true);
-                File.Copy(System.IO.Path.Combine(Global.boot_tmp, "ramdisk.cpio"), System.IO.Path.Combine(Global.boot_tmp, "ramdisk.cpio.orig"), true);
+                File.Copy(boot_path, Path.Combine(BootInfo.tmp_path, "stock_boot.img"), true);
+                File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio"), Path.Combine(BootInfo.tmp_path, "ramdisk.cpio.orig"), true);
                 return true;
             }
             catch (Exception e)
@@ -108,11 +121,16 @@ namespace UotanToolbox.Common
                 return false;
             }
         }
+        /// <summary>
+        /// 对面具修补后的Boot预处理，尝试恢复原来的boot映像
+        /// </summary>
+        /// <param name="boot_path">源boot地址，但是实际上没被用到</param>
+        /// <returns>预处理是否成功</returns>
         public static bool patched_img_pre(string boot_path)
         {
             try
             {
-                File.Copy(System.IO.Path.Combine(Global.boot_tmp, "ramdisk", ".backup", ".magisk", "config.orig"), System.IO.Path.Combine(Global.boot_tmp, "config.orig"));
+                File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk", ".backup", ".magisk", "config.orig"), Path.Combine(BootInfo.tmp_path, "config.orig"));
                 return true;
             }
             catch (Exception e)
@@ -125,12 +143,12 @@ namespace UotanToolbox.Common
         {
             try
             {
-                File.Copy(System.IO.Path.Combine(Global.zip_tmp, "assets", "stub.xz"), System.IO.Path.Combine(Global.boot_tmp, "stub.xz"), true);
-                File.Copy(System.IO.Path.Combine(compPath, "libmagiskinit.so"), System.IO.Path.Combine(Global.boot_tmp, "magiskinit"), true);
-                File.Copy(System.IO.Path.Combine(compPath, "magisk32.xz"), System.IO.Path.Combine(Global.boot_tmp, "magisk32.xz"), true);
-                if (File.Exists(System.IO.Path.Combine((compPath), "magisk64.xz")))
+                File.Copy(Path.Combine(ZipInfo.tmp_path, "assets", "stub.xz"), Path.Combine(BootInfo.tmp_path, "stub.xz"), true);
+                File.Copy(Path.Combine(compPath, "libmagiskinit.so"), Path.Combine(BootInfo.tmp_path, "magiskinit"), true);
+                File.Copy(Path.Combine(compPath, "magisk32.xz"), Path.Combine(BootInfo.tmp_path, "magisk32.xz"), true);
+                if (File.Exists(Path.Combine((compPath), "magisk64.xz")))
                 {
-                    File.Copy(System.IO.Path.Combine(compPath, "magisk64.xz"), System.IO.Path.Combine(Global.boot_tmp, "magisk64.xz"), true);
+                    File.Copy(Path.Combine(compPath, "magisk64.xz"), Path.Combine(BootInfo.tmp_path, "magisk64.xz"), true);
                 }
                 return true;
             }
@@ -140,21 +158,29 @@ namespace UotanToolbox.Common
                 return false;
             }
         }
+        /// <summary>
+        /// 检测Boot文件夹下是否存在dtb文件
+        /// </summary>
+        /// <param name="path">Boot.img解包后所在路径</param>
+        /// <returns>dtb文件名，不存在返回“”</returns>
         public static string dtb_detect(string path)
         {
-            if (File.Exists(System.IO.Path.Combine(Global.boot_tmp, "dtb")))
+            if (File.Exists(Path.Combine(BootInfo.tmp_path, "dtb")))
             {
+                BootInfo.have_dtb = true;
                 return "dtb";
             }
-            if (File.Exists(System.IO.Path.Combine(Global.boot_tmp, "kernel_dtb")))
+            if (File.Exists(Path.Combine(BootInfo.tmp_path, "kernel_dtb")))
             {
+                BootInfo.have_dtb = true;
                 return "kernel_dtb";
             }
-            if (File.Exists(System.IO.Path.Combine(Global.boot_tmp, "extra")))
+            if (File.Exists(Path.Combine(BootInfo.tmp_path, "extra")))
             {
+                BootInfo.have_dtb = true;
                 return "extra";
             }
-            return null;
+            return "";
         }
         public static bool CleanBoot(string path)
         {
@@ -178,7 +204,7 @@ namespace UotanToolbox.Common
                 foreach (string file in filesToDelete)
 
                 {
-                    string filePath = System.IO.Path.Combine(path, file);
+                    string filePath = Path.Combine(path, file);
                     if (File.Exists(filePath))
                     {
                         FileHelper.WipeFile(filePath);
@@ -192,7 +218,7 @@ namespace UotanToolbox.Common
             }
         }
         /// <summary>
-        /// 检查路径下的init文件的实际路径
+        /// 检查路径下的init文件的实际路径，跳读字节流实现软连接读取
         /// </summary>
         /// <param name="filePath">ramdisk解包路径</param>
         /// <returns>如果前9个字节与目标序列匹配则返回true，否则返回false。</returns>

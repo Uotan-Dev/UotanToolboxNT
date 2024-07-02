@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
@@ -8,6 +9,8 @@ using SukiUI.Controls;
 using SukiUI.Enums;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -37,6 +40,7 @@ public partial class HomeViewModel : MainPageBase
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
+        _ = CheckEnvironment();
         _ = CheckDeviceList();
         this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe(option =>
@@ -47,6 +51,30 @@ public partial class HomeViewModel : MainPageBase
                     _ = ConnectCore();
                 }
             });
+    }
+
+    public async Task CheckEnvironment()
+    {
+        string filepath1 = "";
+        string filepath2 = "";
+        if (Global.System == "Windows")
+        {
+            filepath1 = Path.Combine(Global.bin_path, "platform-tools", "adb.exe");
+            filepath2 = Path.Combine(Global.bin_path, "platform-tools", "fastboot.exe");
+        }
+        else
+        {
+            filepath1 = Path.Combine(Global.bin_path, "platform-tools", "adb");
+            filepath2 = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
+        }
+        if (!File.Exists(filepath1) || !File.Exists(filepath2))
+        {
+            await Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                await SukiHost.ShowDialogAsync(new ErrorDialog("缺少程序运行的必须组件！"));
+                Process.GetCurrentProcess().Kill();
+            });
+        }
     }
 
     public async Task<bool> GetDevicesList()

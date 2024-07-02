@@ -8,6 +8,8 @@ namespace UotanToolbox.Common
         public static string runpath = null;
         public static string bin_path = null;
         public static string tmp_path = null;
+        public static string log_path = null;
+        public static string backup_path = null;
         public static string System = "Windows";
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;

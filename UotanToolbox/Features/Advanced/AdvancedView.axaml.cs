@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Controls;
@@ -21,7 +22,7 @@ public partial class AdvancedView : UserControl
     {
         InitializeComponent();
     }
-    private readonly static string adb_log_path = Path.Combine(Global.runpath, "Log", "adb.txt");
+    private readonly static string adb_log_path = Path.Combine(Global.log_path, "adb.txt");
     private string output = "";
     public async Task QCNTool(string shell)
     {
@@ -171,6 +172,32 @@ public partial class AdvancedView : UserControl
     private async void BackupQcn(object sender, RoutedEventArgs args)
     {
         // Backup QCN file
+        if (OperatingSystem.IsLinux() && Global.backup_path == null)
+        {
+            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            await SukiHost.ShowDialogAsync(newDialog);
+            if (newDialog.Result == true)
+            {
+                var topLevel = TopLevel.GetTopLevel(this);
+                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                {
+                    Title = "Select Buckup Folder",
+                    AllowMultiple = false
+                });
+                if (files.Count >= 1)
+                {
+                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
@@ -180,7 +207,7 @@ public partial class AdvancedView : UserControl
                 QCN.IsEnabled = false;
                 AdvancedLog.Text = "正在备份...\n";
                 int com = StringHelper.Onlynum(Global.thisdevice);
-                string shell = string.Format("-r -p {0} -f {1}/Backup -n 00000.qcn", com, Global.runpath);
+                string shell = string.Format("-r -p {0} -f \"{1}\" -n 00000.qcn", com, Global.backup_path);
                 await QCNTool(shell);
                 if (AdvancedLog.Text.Contains("error"))
                 {
@@ -204,9 +231,38 @@ public partial class AdvancedView : UserControl
         }
     }
 
-    private void OpenBackup(object sender, RoutedEventArgs args)
+    private async void OpenBackup(object sender, RoutedEventArgs args)
     {
-        FileHelper.OpenFolder(Path.Combine(Global.runpath, "Backup"));
+        if (OperatingSystem.IsLinux() && Global.backup_path == null)
+        {
+            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            await SukiHost.ShowDialogAsync(newDialog);
+            if (newDialog.Result == true)
+            {
+                var topLevel = TopLevel.GetTopLevel(this);
+                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                {
+                    Title = "Select Buckup Folder",
+                    AllowMultiple = false
+                });
+                if (files.Count >= 1)
+                {
+                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+        if (Global.backup_path != null)
+        {
+            FileHelper.OpenFolder(Path.Combine(Global.backup_path));
+        }
     }
 
     private async void Enable901d(object sender, RoutedEventArgs args)
@@ -486,6 +542,32 @@ public partial class AdvancedView : UserControl
 
     private async void ExtractPart(object sender, RoutedEventArgs args)
     {
+        if (OperatingSystem.IsLinux() && Global.backup_path == null)
+        {
+            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            await SukiHost.ShowDialogAsync(newDialog);
+            if (newDialog.Result == true)
+            {
+                var topLevel = TopLevel.GetTopLevel(this);
+                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                {
+                    Title = "Select Buckup Folder",
+                    AllowMultiple = false
+                });
+                if (files.Count >= 1)
+                {
+                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
@@ -512,14 +594,14 @@ public partial class AdvancedView : UserControl
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/Backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.runpath}/Backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.backup_path}/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
@@ -556,7 +638,7 @@ public partial class AdvancedView : UserControl
                             string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
                             string shell = String.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/Backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                             await ADB(shell);
@@ -615,14 +697,14 @@ public partial class AdvancedView : UserControl
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/Backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.runpath}/Backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.backup_path}/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
@@ -661,7 +743,7 @@ public partial class AdvancedView : UserControl
                             string devicepoint = line[line.Length - 1];
                             shell = String.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.runpath}/Backup/");
+                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                             await ADB(shell);
@@ -690,8 +772,37 @@ public partial class AdvancedView : UserControl
         }
     }
 
-    private void OpenExtractFile(object sender, RoutedEventArgs args)
+    private async void OpenExtractFile(object sender, RoutedEventArgs args)
     {
-        FileHelper.OpenFolder(Path.Combine(Global.runpath, "Backup"));
+        if (OperatingSystem.IsLinux() && Global.backup_path == null)
+        {
+            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            await SukiHost.ShowDialogAsync(newDialog);
+            if (newDialog.Result == true)
+            {
+                var topLevel = TopLevel.GetTopLevel(this);
+                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                {
+                    Title = "Select Buckup Folder",
+                    AllowMultiple = false
+                });
+                if (files.Count >= 1)
+                {
+                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+        if (Global.backup_path != null)
+        {
+            FileHelper.OpenFolder(Path.Combine(Global.backup_path));
+        }
     }
 }

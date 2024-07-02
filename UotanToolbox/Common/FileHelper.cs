@@ -230,9 +230,11 @@ namespace UotanToolbox.Common
                 File.SetAttributes(filename, FileAttributes.Normal);
                 double sectors = Math.Ceiling(new FileInfo(filename).Length / 512.0);
                 byte[] dummyBuffer = new byte[512];
-                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                FileStream inputStream = new FileStream(filename, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
-                inputStream.Position = 0;
+                RandomNumberGenerator rng = RandomNumberGenerator.Create();
+                FileStream inputStream = new FileStream(filename, FileMode.Open, FileAccess.Write, FileShare.ReadWrite)
+                {
+                    Position = 0
+                };
                 for (int sectorsWritten = 0; sectorsWritten < sectors; sectorsWritten++)
                 {
                     rng.GetBytes(dummyBuffer);

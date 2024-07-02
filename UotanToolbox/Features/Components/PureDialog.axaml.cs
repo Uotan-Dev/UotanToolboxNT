@@ -5,6 +5,7 @@ namespace UotanToolbox.Features.Components
 {
     public partial class PureDialog : UserControl
     {
+        public PureDialog(){ }
         public PureDialog(string DialogContent)
         {
             Dispatcher.UIThread.Post(() =>

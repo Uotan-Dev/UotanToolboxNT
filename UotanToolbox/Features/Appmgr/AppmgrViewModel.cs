@@ -30,7 +30,7 @@ public partial class AppmgrViewModel : MainPageBase
     [RelayCommand]
     public async Task Connect()
     {
-        hasItems = false;
+        HasItems = false;
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         IsBusy = true;
         try
@@ -46,7 +46,7 @@ public partial class AppmgrViewModel : MainPageBase
                     return;
                 }
                 string fullApplicationsList;
-                if (!isSystemAppDisplayed)
+                if (!IsSystemAppDisplayed)
                     fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
                 else
                     fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");

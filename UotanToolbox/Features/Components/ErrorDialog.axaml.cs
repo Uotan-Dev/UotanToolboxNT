@@ -7,6 +7,7 @@ namespace UotanToolbox.Features.Components
 {
     public partial class ErrorDialog : UserControl
     {
+        public ErrorDialog() { }
         public ErrorDialog(string DialogContent)
         {
             Dispatcher.UIThread.Post(() =>

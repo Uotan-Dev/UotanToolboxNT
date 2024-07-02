@@ -9,6 +9,7 @@ namespace UotanToolbox.Features.Components
     {
         public bool Result { get; private set; }
 
+        public ConnectionDialog() { }
         public ConnectionDialog(string DialogContent)
         {
             Dispatcher.UIThread.Post(() =>

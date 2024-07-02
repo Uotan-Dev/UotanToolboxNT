@@ -204,7 +204,7 @@ public partial class AdvancedView : UserControl
         }
     }
 
-    private async void OpenBackup(object sender, RoutedEventArgs args)
+    private void OpenBackup(object sender, RoutedEventArgs args)
     {
         FileHelper.OpenFolder(Path.Combine(Global.runpath, "Backup"));
     }
@@ -690,7 +690,7 @@ public partial class AdvancedView : UserControl
         }
     }
 
-    private async void OpenExtractFile(object sender, RoutedEventArgs args)
+    private void OpenExtractFile(object sender, RoutedEventArgs args)
     {
         FileHelper.OpenFolder(Path.Combine(Global.runpath, "Backup"));
     }

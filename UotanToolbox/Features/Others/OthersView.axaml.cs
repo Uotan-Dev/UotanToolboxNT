@@ -463,7 +463,7 @@ public partial class OthersView : UserControl
         }
     }
 
-    private async void SetFontZoom(object sender, RoutedEventArgs args)
+    private void SetFontZoom(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {
@@ -475,7 +475,7 @@ public partial class OthersView : UserControl
                     int zoom = StringHelper.Onlynum(text);
                     FontZoom.Value = zoom;
                     FontZoomBut(sender, args);
-                }   
+                }
             }
         }
     }
@@ -504,7 +504,7 @@ public partial class OthersView : UserControl
         SetFalse(false);
     }
 
-    private async void SetWindowZoom(object sender, RoutedEventArgs args)
+    private void SetWindowZoom(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {
@@ -544,7 +544,7 @@ public partial class OthersView : UserControl
         SetFalse(false);
     }
 
-    private async void SetTransitionZoom(object sender, RoutedEventArgs args)
+    private void SetTransitionZoom(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {
@@ -584,7 +584,7 @@ public partial class OthersView : UserControl
         SetFalse(false);
     }
 
-    private async void SetAnimationDuration(object sender, RoutedEventArgs args)
+    private void SetAnimationDuration(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {

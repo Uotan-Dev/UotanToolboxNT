@@ -28,6 +28,7 @@ namespace UotanToolbox.Common
         public static bool userful = false;
         public static bool gki2 = false;
         public static string kmi = "";
+        public static bool have_ramdisk=false;
         public static bool have_kernel = false;
         public static bool have_dtb = false;
         public static string arch = "aarch64";

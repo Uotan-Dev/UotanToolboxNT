@@ -22,7 +22,7 @@ public partial class MainView : SukiWindow
         Icon = new WindowIcon(bitmap);
     }
 
-    private void MenuItem_OnClick(object? sender, RoutedEventArgs e)
+    private void MenuItem_OnClick(object sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
         if (e.Source is not MenuItem mItem) return;
@@ -30,12 +30,12 @@ public partial class MainView : SukiWindow
         vm.ChangeTheme(cTheme);
     }
 
-    private void InputElement_OnPointerPressed(object? sender, PointerPressedEventArgs e)
+    private void InputElement_OnPointerPressed(object sender, PointerPressedEventArgs e)
     {
         IsMenuVisible = !IsMenuVisible;
     }
 
-    private void OpenTerminal(object? sender, RoutedEventArgs e)
+    private void OpenTerminal(object sender, RoutedEventArgs e)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             Process.Start(new ProcessStartInfo

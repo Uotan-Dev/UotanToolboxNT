@@ -166,7 +166,7 @@
 							</ItemsControl.ItemsPanel>
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
-									<suki:GlassCard Width="290" Margin="0,10,10,0">
+									<suki:GlassCard Width="289" Margin="0,10,10,0">
 										<StackPanel Orientation="Vertical" Spacing="10">
 											<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0">
 												<TextBlock FontSize="15" FontWeight="DemiBold" Text="{Binding Name}" HorizontalAlignment="Left" />

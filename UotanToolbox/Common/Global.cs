@@ -5,12 +5,12 @@ namespace UotanToolbox.Common
     internal class Global
     {
         public static bool checkdevice = true;
-        public static string? runpath = null;
-        public static string? bin_path = null;
-        public static string? tmp_path = null;
+        public static string runpath = null;
+        public static string bin_path = null;
+        public static string tmp_path = null;
         public static string System = "Windows";
-        public static AvaloniaList<string>? deviceslist;
-        public static string? thisdevice = null;
+        public static AvaloniaList<string> deviceslist;
+        public static string thisdevice = null;
         public static int mb_exitcode, cpio_exitcode, load_times;
         //分区表储存
         public static string sdatable = "";

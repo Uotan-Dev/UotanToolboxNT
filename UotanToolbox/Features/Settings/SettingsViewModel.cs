@@ -14,10 +14,10 @@ namespace UotanToolbox.Features.Settings;
 
 public partial class SettingsViewModel : MainPageBase
 {
-    public Action<SukiBackgroundStyle>? BackgroundStyleChanged { get; set; }
-    public Action<bool>? BackgroundAnimationsChanged { get; set; }
-    public Action<bool>? BackgroundTransitionsChanged { get; set; }
-    public Action<string?>? CustomBackgroundStyleChanged { get; set; }
+    public Action<SukiBackgroundStyle> BackgroundStyleChanged { get; set; }
+    public Action<bool> BackgroundAnimationsChanged { get; set; }
+    public Action<bool> BackgroundTransitionsChanged { get; set; }
+    public Action<string> CustomBackgroundStyleChanged { get; set; }
 
     public IAvaloniaReadOnlyList<SukiColorTheme> AvailableColors { get; }
     public IAvaloniaReadOnlyList<SukiBackgroundStyle> AvailableBackgroundStyles { get; }
@@ -30,7 +30,7 @@ public partial class SettingsViewModel : MainPageBase
     [ObservableProperty] private bool _backgroundAnimations;
     [ObservableProperty] private bool _backgroundTransitions;
 
-    private string? _customShader = null;
+    private string _customShader = null;
 
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public SettingsViewModel() : base(GetTranslation("Sidebar_Settings"), MaterialIconKind.SettingsOutline, -200)

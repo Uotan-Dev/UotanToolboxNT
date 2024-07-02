@@ -14,7 +14,7 @@ namespace UotanToolbox;
 
 public partial class App : Application
 {
-    private IServiceProvider? _provider;
+    private IServiceProvider _provider;
 
     public override void Initialize()
     {

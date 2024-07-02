@@ -9,7 +9,7 @@ namespace UotanToolbox.Common
     public class DeviceConfig
     {
         public int Version { get; set; }
-        public string? Cm { get; set; }
+        public string Cm { get; set; }
         public int ParamMode { get; set; }
     }
 

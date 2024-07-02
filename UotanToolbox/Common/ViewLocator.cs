@@ -15,7 +15,7 @@ public class ViewLocator : IDataTemplate
         _controlCache = new Dictionary<object, Control>();
     }
 
-    public Control Build(object? data)
+    public Control Build(object data)
     {
         var fullName = data?.GetType().FullName;
         if (fullName is null)
@@ -35,5 +35,5 @@ public class ViewLocator : IDataTemplate
         return res;
     }
 
-    public bool Match(object? data) => data is INotifyPropertyChanged;
+    public bool Match(object data) => data is INotifyPropertyChanged;
 }

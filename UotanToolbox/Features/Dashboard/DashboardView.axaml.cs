@@ -674,13 +674,13 @@ public partial class DashboardView : UserControl
         if (Global.System == "Windows")
         {
             string cmd = @"drive\USB3.bat";
-            ProcessStartInfo? cmdshell = null;
+            ProcessStartInfo cmdshell = null;
             cmdshell = new ProcessStartInfo(cmd)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false
             };
-            Process? f = Process.Start(cmdshell);
+            Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);

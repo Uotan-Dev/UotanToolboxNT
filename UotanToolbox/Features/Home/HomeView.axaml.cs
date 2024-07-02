@@ -18,7 +18,7 @@ public partial class HomeView : UserControl
         InitializeComponent();
     }
 
-    private async void CopyButton_OnClick(object? sender, RoutedEventArgs args)
+    private async void CopyButton_OnClick(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {

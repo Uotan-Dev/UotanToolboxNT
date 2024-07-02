@@ -26,12 +26,12 @@ public partial class HomeViewModel : MainPageBase
     _batteryLevel = "0", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
     [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private bool _commonDevicesList;
-    [ObservableProperty] private static AvaloniaList<string>? _simpleContent;
+    [ObservableProperty] private static AvaloniaList<string> _simpleContent;
 
-    public IAvaloniaReadOnlyList<MainPageBase>? DemoPages { get; }
+    public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
 
     [ObservableProperty] private bool _animationsEnabled;
-    [ObservableProperty] private MainPageBase? _activePage;
+    [ObservableProperty] private MainPageBase _activePage;
     [ObservableProperty] private bool _windowLocked = false;
 
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);

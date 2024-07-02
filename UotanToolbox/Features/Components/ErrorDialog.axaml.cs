@@ -20,7 +20,7 @@ namespace UotanToolbox.Features.Components
             InitializeComponent();
         }
 
-        private void Button_OnClick(object? sender, RoutedEventArgs e)
+        private void Button_OnClick(object sender, RoutedEventArgs e)
         {
             SukiHost.CloseDialog();
         }

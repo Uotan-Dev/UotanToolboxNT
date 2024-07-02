@@ -23,13 +23,13 @@ namespace UotanToolbox.Features.Components
             InitializeComponent();
         }
 
-        private void Cancel_OnClick(object? sender, RoutedEventArgs e)
+        private void Cancel_OnClick(object sender, RoutedEventArgs e)
         {
             Result = false;
             SukiHost.CloseDialog();
         }
 
-        private void Confirm_OnClick(object? sender, RoutedEventArgs e)
+        private void Confirm_OnClick(object sender, RoutedEventArgs e)
         {
             Result = true;
             SukiHost.CloseDialog();

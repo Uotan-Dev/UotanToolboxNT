@@ -8,57 +8,49 @@ namespace UotanToolbox.Common
 {
     internal class CallExternalProgram
     {
-        public static async Task<string> ADB(string adbShellCommand, bool debug = false)
+        public static async Task<string> ADB(string adbshell)
         {
-
-            string cmdPath = Path.Combine(Global.bin_path, "platform-tools", "adb");
-            using (Process adbProcess = new Process())
-            {
-                ProcessStartInfo startInfo = new ProcessStartInfo(cmdPath, adbShellCommand)
-                {
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true
-                };
-                adbProcess.StartInfo = startInfo;
-                var outputTask = adbProcess.StandardOutput.ReadToEndAsync();
-                var errorTask = adbProcess.StandardError.ReadToEndAsync();
-                await Task.WhenAll(outputTask, errorTask);
-                string output = await Task.Run(() => outputTask.Result.Trim());
-                string error = await Task.Run(() => errorTask.Result.Trim());
-                if (string.IsNullOrEmpty(output))
-                {
-                    output = error;
-                }
-                adbProcess.WaitForExit();
-                return output;
-            }
-        }
-
-        public static async Task<string> Fastboot(string fastbootCommand, bool debug = false)
-        {
-            string cmdPath = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
-            ProcessStartInfo startInfo = new ProcessStartInfo(cmdPath, fastbootCommand)
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
+            ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using (Process fastbootProcess = new Process())
+            using Process adb = new Process();
+            adb.StartInfo = adbexe;
+            adb.Start();
+            string output = await adb.StandardOutput.ReadToEndAsync();
+            if (output == "")
             {
-                fastbootProcess.StartInfo = startInfo;
-                var outputTask = fastbootProcess.StandardOutput.ReadToEndAsync();
-                var errorTask = fastbootProcess.StandardError.ReadToEndAsync();
-                await Task.WhenAll(outputTask, errorTask);
-                string output = !string.IsNullOrEmpty(await errorTask) ? await errorTask : await outputTask;
-                output = output.Trim();
-                fastbootProcess.WaitForExit();
-                return output;
+                output = await adb.StandardError.ReadToEndAsync();
             }
+            adb.WaitForExit();
+            return output;
         }
 
+        public static async Task<string> Fastboot(string fbshell)
+        {
+            string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
+            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process fb = new Process();
+            fb.StartInfo = fastboot;
+            fb.Start();
+            string output = await fb.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await fb.StandardOutput.ReadToEndAsync();
+            }
+            fb.WaitForExit();
+            return output;
+        }
 
         public static async Task<string> Devcon(string shell)
         {
@@ -81,6 +73,7 @@ namespace UotanToolbox.Common
             devcon.WaitForExit();
             return output;
         }
+
         public static async Task<string> QCNTool(string shell)
         {
             string cmd = "Bin\\QSML\\QCNTool.exe";

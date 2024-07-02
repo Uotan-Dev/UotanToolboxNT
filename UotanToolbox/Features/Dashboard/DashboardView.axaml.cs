@@ -619,10 +619,10 @@ public partial class DashboardView : UserControl
             }
             else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
-                string drvpath = String.Format(@"{0}\Drive\adb\*.inf", Global.runpath);
+                string drvpath = String.Format($"{Global.runpath}/Drive/adb/*.inf");
                 string shell = String.Format("/add-driver {0} /subdirs /install", drvpath);
                 string drvlog = await CallExternalProgram.Pnputil(shell);
-                FileHelper.Write($"{Global.runpath}/Log/drive.txt", drvlog);
+                FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains("成功"))
                 {
                     SukiHost.ShowDialog(new PureDialog("安装完成！"), allowBackgroundClose: true);
@@ -649,10 +649,10 @@ public partial class DashboardView : UserControl
             }
             else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
-                string drvpath = String.Format(@"{0}\drive\9008\*.inf", Global.runpath);
+                string drvpath = String.Format($"{Global.runpath}/drive/9008/*.inf");
                 string shell = String.Format("/add-driver {0} /subdirs /install", drvpath);
                 string drvlog = await CallExternalProgram.Pnputil(shell);
-                FileHelper.Write($"{Global.runpath}/Log/drive.txt", drvlog);
+                FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains("成功"))
                 {
                     SukiHost.ShowDialog(new PureDialog("安装完成！"), allowBackgroundClose: true);

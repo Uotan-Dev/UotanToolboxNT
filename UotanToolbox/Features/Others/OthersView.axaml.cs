@@ -1,13 +1,8 @@
 ﻿using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Threading;
 using SukiUI.Controls;
 using SukiUI.Enums;
-using SukiUI.Theme;
-using System.Reflection.Metadata;
-using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
@@ -75,26 +70,6 @@ public partial class OthersView : UserControl
                 SetNull();
             }
             await Task.Delay(1000);
-        }
-    }
-
-    private async Task ADBControl(string shell)
-    {
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
-            {
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
-            }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
-            }
-        }
-        else
-        {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
         }
     }
 

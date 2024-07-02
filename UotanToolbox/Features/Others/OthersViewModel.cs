@@ -1,5 +1,4 @@
-﻿using Avalonia.Collections;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Material.Icons;
 using System.ComponentModel.DataAnnotations;
 using UotanToolbox.Common;

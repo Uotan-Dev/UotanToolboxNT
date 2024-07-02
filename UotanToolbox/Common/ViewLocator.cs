@@ -8,18 +8,14 @@ namespace UotanToolbox.Common;
 
 public class ViewLocator : IDataTemplate
 {
-    private readonly Dictionary<object, Control> _controlCache;
-
-    public ViewLocator()
-    {
-        _controlCache = new Dictionary<object, Control>();
-    }
+    private readonly Dictionary<object, Control> _controlCache = new();
 
     public Control Build(object data)
     {
         var fullName = data?.GetType().FullName;
         if (fullName is null)
             return new TextBlock { Text = "Data is null or has no name." };
+        if (fullName.Contains("ApplicationInfo")) fullName = "UotanToolbox.Features.Appmgr.AppmgrViewModel";
         var name = fullName.Replace("ViewModel", "View");
         var type = Type.GetType(name);
         if (type is null)

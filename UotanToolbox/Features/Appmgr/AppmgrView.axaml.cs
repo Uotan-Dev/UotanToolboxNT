@@ -47,12 +47,13 @@ public partial class AppmgrView : UserControl
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open File",
-            AllowMultiple = false,
+            AllowMultiple = true,
             FileTypeFilter = new[] { ApkPicker, FilePickerFileTypes.TextPlain }
         });
         if (files.Count >= 1)
         {
-            ApkFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            for (int i=0;i<files.Count;i++)
+                ApkFile.Text = ApkFile.Text + StringHelper.FilePath(files[i].Path.ToString()) + "|||";
         }
     }
 }

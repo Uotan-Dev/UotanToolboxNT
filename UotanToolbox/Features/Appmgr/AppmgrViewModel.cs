@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI.Controls;
+using SukiUI.Enums;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace UotanToolbox.Features.Appmgr;
 public partial class AppmgrViewModel : MainPageBase
 {
     [ObservableProperty]
-    private ObservableCollection<ApplicationInfo> applications = new ObservableCollection<ApplicationInfo>();
+    private ObservableCollection<ApplicationInfo> applications = [];
     [ObservableProperty]
     private bool isBusy = false, hasItems = false;
     [ObservableProperty]
@@ -73,10 +74,9 @@ public partial class AppmgrViewModel : MainPageBase
                     var packageName = ExtractPackageName(line);
                     if (string.IsNullOrEmpty(packageName)) return null;
                     var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
-                    var installedDate = GetInstalledDate(combinedOutput.Split('\n'));
-                    return installedDate != null
-                        ? new ApplicationInfo { Name = packageName, InstalledDate = installedDate }
-                        : null;
+                    var splitOutput = combinedOutput.Split('\n', ' ');
+                    var otherInfo = GetVersionName(splitOutput) + " | " + GetInstalledDate(splitOutput) + " | " + GetSdkVersion(splitOutput);
+                    return new ApplicationInfo { Name = packageName, OtherInfo = otherInfo  };
                 });
                 ApplicationInfo[] allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
                 var applicationInfos = allApplicationInfos.Where(info => info != null)
@@ -112,14 +112,21 @@ public partial class AppmgrViewModel : MainPageBase
         IsInstalling = true;
         if (!string.IsNullOrEmpty(ApkFile))
         {
-            string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{ApkFile}\"");
-            if (output.Contains("Success"))
+            var fileArray = ApkFile.Split("|||");
+            for (int i = 0; i < fileArray.Length; i++)
             {
-                SukiHost.ShowDialog(new PureDialog("安装成功！"), allowBackgroundClose: true);
-            }
-            else
-            {
-                SukiHost.ShowDialog(new ErrorDialog($"安装失败：\r\n{output}"));
+                if (!string.IsNullOrEmpty(fileArray[i]))
+                {
+                    string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{fileArray[i]}\"");
+                    if (output.Contains("Success"))
+                    {
+                        await SukiHost.ShowToast("安装成功！", "o(*≧▽≦)ツ", NotificationType.Success);
+                    }
+                    else
+                    {
+                        await SukiHost.ShowToast("安装失败！", $"\r\n{output}", NotificationType.Error);
+                    }
+                }
             }
         }
         else
@@ -196,7 +203,8 @@ public partial class AppmgrViewModel : MainPageBase
     [RelayCommand]
     public async Task ExtractInstaller()
     {
-        IsBusy = true; var selectedApp = SelectedApplication();
+        IsBusy = true;
+        var selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
             // Get the apk file of the selected app, and save it to the user's desktop.
@@ -212,13 +220,35 @@ public partial class AppmgrViewModel : MainPageBase
 
     private static string GetInstalledDate(string[] lines)
     {
-        var installedDateLine = lines.FirstOrDefault(x => x.Contains("firstInstallTime"));
+        var installedDateLine = lines.FirstOrDefault(x => x.Contains("lastUpdateTime"));
         if (installedDateLine != null)
         {
             var installedDate = installedDateLine[(installedDateLine.IndexOf('=') + 1)..].Trim();
             return installedDate;
         }
         return "未知时间";
+    }
+
+    private static string GetSdkVersion(string[] lines)
+    {
+        var sdkVersion = lines.FirstOrDefault(x => x.Contains("targetSdk"));
+        if (sdkVersion != null)
+        {
+            var installedDate = "SDK"  + sdkVersion[(sdkVersion.IndexOf('=') + 1)..].Trim();
+            return installedDate;
+        }
+        return "未知SDK版本";
+    }
+
+    private static string GetVersionName(string[] lines)
+    {
+        var versionName = lines.FirstOrDefault(x => x.Contains("versionName"));
+        if (versionName != null)
+        {
+            var installedDate = versionName[(versionName.IndexOf('=') + 1)..].Trim();
+            return installedDate;
+        }
+        return "未知SDK版本";
     }
 }
 
@@ -234,5 +264,5 @@ public partial class ApplicationInfo : ObservableObject
     private string size;
 
     [ObservableProperty]
-    private string installedDate;
+    private string otherInfo;
 }

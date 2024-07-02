@@ -30,9 +30,7 @@ public partial class App : Application
             var mainVm = _provider?.GetRequiredService<MainViewModel>();
 
             desktop.MainWindow = viewLocator?.Build(mainVm) as Window;
-#pragma warning disable CS8602
             desktop.MainWindow.Width = 1240;
-#pragma warning restore CS8602
             desktop.MainWindow.Height = 840;
         }
 

@@ -161,19 +161,19 @@
 						<ItemsControl ItemsSource="{Binding Applications}">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
-									<WrapPanel Orientation="Horizontal" />
+									<VirtualizingStackPanel Orientation="Vertical" />
 								</ItemsPanelTemplate>
 							</ItemsControl.ItemsPanel>
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
-									<suki:GlassCard Width="289" Margin="0,10,10,0">
-										<StackPanel Orientation="Vertical" Spacing="10">
+									<suki:GlassCard Width="890" Margin="0,10,10,0">
+										<StackPanel Orientation="Vertical" Spacing="5">
 											<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0">
+												<RadioButton GroupName="ApplicationSelection" HorizontalAlignment="Right" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
 												<TextBlock FontSize="15" FontWeight="DemiBold" Text="{Binding Name}" HorizontalAlignment="Left" />
-												<RadioButton GroupName="ApplicationSelection" HorizontalAlignment="Right" IsChecked="{Binding IsSelected, Mode=TwoWay}" />											</StackPanel>
-											<TextBlock FontSize="12" Text="{Binding Size}" />
-											<TextBlock FontSize="12" Text="{Binding InstalledDate}" />
-											<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="x:Static assets:Resources.Appmgr_Uninstall}" Click="UninstallButton_Click" HorizontalAlignment="Right"/>
+											</StackPanel>
+											<TextBlock FontSize="12" Text="{Binding OtherInfo}" />
+											<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="{x:Static assets:Resources.Appmgr_Uninstall}" Click="UninstallButton_Click" HorizontalAlignment="Right"/>
 										</StackPanel>
 									</suki:GlassCard>
 								</DataTemplate>

@@ -31,7 +31,13 @@
 			<StackPanel Orientation="Vertical">
 				<suki:GlassCard Classes="Card" Margin="15" Width="265" Height="180">
 					<StackPanel Orientation="Vertical" Spacing="15">
-						<StackPanel Margin="15,20,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock VerticalAlignment="Center"
+								   FontSize="13"
+								   Margin="30,10,0,0"
+								   Height="15"
+								   Foreground="{DynamicResource SukiLowText}"
+								   Text="一次只能输入一个分区序号！" />
+						<StackPanel Margin="15,-10,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
 									   FontSize="15"
 									   Foreground="{DynamicResource SukiLowText}"
@@ -64,7 +70,7 @@
 									   FontSize="15"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="分区名称:" />
-							<TextBox Width="145" FontSize="15" Text="" Name="NewPartitionName" />
+							<TextBox Width="145" FontSize="15" Name="NewPartitionName" />
 						</StackPanel>
 						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
@@ -72,7 +78,7 @@
 									   FontSize="15"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Modifypartition_PartFormat}" />
-							<TextBox Width="145" FontSize="15" Text="" Name="NewPartitionFormat" />
+							<TextBox Width="145" FontSize="15" Name="NewPartitionFormat" />
 						</StackPanel>
 						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
@@ -80,7 +86,7 @@
 									   FontSize="15"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Modifypartition_StartpointColon}" />
-							<TextBox Width="145" FontSize="15" Text="" Name="NewPartitionStartpoint" />
+							<TextBox Width="145" FontSize="15" Watermark="请添加单位！" Name="NewPartitionStartpoint" />
 						</StackPanel>
 						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock VerticalAlignment="Center"
@@ -88,7 +94,7 @@
 									   FontSize="15"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Modifypartition_EndpointColon}" />
-							<TextBox Width="145" FontSize="15" Text="" Name="NewPartitionEndpoint" />
+							<TextBox Width="145" FontSize="15" Watermark="请添加单位！" Name="NewPartitionEndpoint" />
 						</StackPanel>
 						<StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="200"

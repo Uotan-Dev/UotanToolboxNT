@@ -62,15 +62,14 @@
 								</StackPanel>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="5">
-								<TextBox Name="Transverse" Width="110" 
+								<TextBox Name="Transverse" Watermark="横向" Width="110" 
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 								<TextBlock Width="15"
 										   FontSize="15"
 										   VerticalAlignment="Center"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text=" x" />
-								<TextBox Name="Direction" Width="110" 
-										 theme:TextBoxExtensions.AddDeleteButton="False"/>
+								<TextBox Name="Direction" Watermark="竖向" Width="110" />
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="25">
 								<ComboBox Name="SetUnit" Width="110"/>
@@ -109,7 +108,7 @@
 								</StackPanel>
 								<StackPanel>
 									<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-										<TextBox Name="Temp" Width="130" />
+										<TextBox Name="Temp" Watermark="温度(℃)" Width="130" />
 										<Button Name="SetTempBut"
 												Height="35"
 												Padding="10,0,10,0"
@@ -118,7 +117,7 @@
 										</Button>
 									</StackPanel>
 									<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-										<TextBox Name="BLevel" Width="130" />
+										<TextBox Name="BLevel" Watermark="电量(%)" Width="130" />
 										<Button Name="SetBLevelBut"
 												Height="35"
 												Padding="10,0,10,0"

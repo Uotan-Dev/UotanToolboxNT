@@ -11,6 +11,7 @@ namespace UotanToolbox.Features.Modifypartition;
 
 public partial class ModifypartitionView : UserControl
 {
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public ModifypartitionView()
     {
         InitializeComponent();
@@ -36,7 +37,7 @@ public partial class ModifypartitionView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery" || sukiViewModel.Status == "系统")
+            if (sukiViewModel.Status == "Recovery" || sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 BusyPart.IsBusy = true;
                 ReadPartBut.IsEnabled = false;
@@ -45,7 +46,7 @@ public partial class ModifypartitionView : UserControl
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp unmount data");
                 }
-                if (sukiViewModel.Status == "系统")
+                if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
                     var newDialog = new ConnectionDialog("当前为系统模式，在系统下提取分区需要ROOT权限，\n\r请确保手机已ROOT，并在接下来的弹窗中授予 Shell ROOT权限！");
                     await SukiHost.ShowDialogAsync(newDialog);

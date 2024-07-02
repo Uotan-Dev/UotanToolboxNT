@@ -58,7 +58,7 @@ public partial class AppmgrViewModel : MainPageBase
                     });
                     return;
                 }
-                if (!(sukiViewModel.Status == "系统"))
+                if (!(sukiViewModel.Status == GetTranslation("Home_System")))
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {

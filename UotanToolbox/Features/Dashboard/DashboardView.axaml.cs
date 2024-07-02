@@ -719,7 +719,7 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new PureDialog("请在右侧选择Magisk文件！"), allowBackgroundClose: true);
                 }
             }
-            else if (sukiViewModel.Status == "系统")
+            else if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (MagiskFile.Text != null)
                 {

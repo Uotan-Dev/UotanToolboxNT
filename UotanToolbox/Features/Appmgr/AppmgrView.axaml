@@ -173,7 +173,7 @@
 												<RadioButton GroupName="ApplicationSelection" HorizontalAlignment="Right" IsChecked="{Binding IsSelected, Mode=TwoWay}" />											</StackPanel>
 											<TextBlock FontSize="12" Text="{Binding Size}" />
 											<TextBlock FontSize="12" Text="{Binding InstalledDate}" />
-											<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="卸载" Click="UninstallButton_Click" HorizontalAlignment="Right"/>
+											<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="x:Static assets:Resources.Appmgr_Uninstall}" Click="UninstallButton_Click" HorizontalAlignment="Right"/>
 										</StackPanel>
 									</suki:GlassCard>
 								</DataTemplate>

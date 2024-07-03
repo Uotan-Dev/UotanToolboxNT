@@ -115,7 +115,7 @@ public partial class OthersView : UserControl
                 {
                     SukiHost.ShowDialog(new PureDialog("请输入要修改的参数！"), allowBackgroundClose: true);
                 }
-                
+
             }
             else
             {

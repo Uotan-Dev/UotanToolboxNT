@@ -203,6 +203,7 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BusyFlash.IsBusy = true;
+                FlashRecovery.IsEnabled = false;
                 if (!string.IsNullOrEmpty(RecFile.Text))
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile.Text}\"");
@@ -230,6 +231,7 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new PureDialog("请选择Recovery文件！"), allowBackgroundClose: true);
                 }
                 BusyFlash.IsBusy = false;
+                FlashRecovery.IsEnabled = true;
             }
             else
             {
@@ -265,6 +267,7 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BusyFlash.IsBusy = true;
+                FlashRecovery.IsEnabled = false;
                 if (!string.IsNullOrEmpty(RecFile.Text))
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} boot \"{RecFile.Text}\"");
@@ -282,6 +285,7 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new PureDialog("请选择Recovery文件！"), allowBackgroundClose: true);
                 }
                 BusyFlash.IsBusy = false;
+                FlashRecovery.IsEnabled = true;
             }
             else
             {
@@ -702,10 +706,11 @@ public partial class DashboardView : UserControl
                 if (MagiskFile.Text != null)
                 {
                     BusyInstall.IsBusy = true;
+                    InstallZIP.IsEnabled = false;
                     if (TWRPInstall.IsChecked == true)
                     {
-                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /tmp/");
-                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/{Path.GetFileNameWithoutExtension(MagiskFile.Text)}.");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /tmp/magisk.apk");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/magisk.apk");
                     }
                     else if (ADBSideload.IsChecked == true)
                     {
@@ -713,6 +718,7 @@ public partial class DashboardView : UserControl
                     }
                     SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
                     BusyInstall.IsBusy = false;
+                    InstallZIP.IsEnabled = true;
                 }
                 else
                 {
@@ -724,14 +730,16 @@ public partial class DashboardView : UserControl
                 if (MagiskFile.Text != null)
                 {
                     BusyInstall.IsBusy = true;
+                    InstallZIP.IsEnabled = false;
                     var newDialog = new ConnectionDialog("检测到当前为系统模式，是否推送Magisk应用？");
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == true)
                     {
-                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /sdcard");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /sdcard/magisk.apk");
                         SukiHost.ShowDialog(new PureDialog("已推送至根目录，请自行安装。"), allowBackgroundClose: true);
                     }
                     BusyInstall.IsBusy = false;
+                    InstallZIP.IsEnabled = true;
                 }
                 else
                 {
@@ -757,6 +765,7 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == "Recovery")
             {
                 BusyInstall.IsBusy = true;
+                InstallZIP.IsEnabled = false;
                 if (TWRPInstall.IsChecked == true)
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/DisableAutoRecovery.zip /tmp/");
@@ -768,6 +777,7 @@ public partial class DashboardView : UserControl
                 }
                 SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
                 BusyInstall.IsBusy = false;
+                InstallZIP.IsEnabled = true;
             }
             else
             {
@@ -788,6 +798,7 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == "Recovery")
             {
                 BusyInstall.IsBusy = true;
+                InstallZIP.IsEnabled = false;
                 if (TWRPInstall.IsChecked == true)
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/copy-partitions.zip /tmp/");
@@ -799,6 +810,7 @@ public partial class DashboardView : UserControl
                 }
                 SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
                 BusyInstall.IsBusy = false;
+                InstallZIP.IsEnabled = true;
             }
             else
             {

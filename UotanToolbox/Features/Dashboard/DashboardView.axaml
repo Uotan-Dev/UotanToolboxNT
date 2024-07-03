@@ -78,7 +78,7 @@
 			<suki:GlassCard Width="630" Margin="10">
 				<suki:BusyArea Name="BusyFlash"
 								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
-					<StackPanel>
+					<StackPanel Name="FlashRecovery">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
@@ -152,7 +152,7 @@
 				</suki:BusyArea>
 			</suki:GlassCard>
 
-			<!--  Unlock with command  -->
+			<!--    -->
 			<suki:GlassCard Width="310" Margin="10">
 				<StackPanel Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
@@ -207,11 +207,11 @@
 				</suki:BusyArea>
 			</suki:GlassCard>
 
-			<!--  Unlock with command  -->
+			<!--    -->
 			<suki:GlassCard Width="310" Margin="10">
 				<suki:BusyArea Name="BusyInstall"
 								BusyText="安装中...">
-					<StackPanel Orientation="Vertical" Spacing="15">
+					<StackPanel Name="InstallZIP" Orientation="Vertical" Spacing="15">
 						<TextBlock HorizontalAlignment="Left"
 									FontSize="15"
 									FontWeight="DemiBold"

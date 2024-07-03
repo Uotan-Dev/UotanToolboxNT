@@ -203,7 +203,7 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BusyFlash.IsBusy = true;
-                if (string.IsNullOrEmpty(RecFile.Text))
+                if (!string.IsNullOrEmpty(RecFile.Text))
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile.Text}\"");
                     if (!output.Contains("FAILED") && !output.Contains("error"))
@@ -265,7 +265,7 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BusyFlash.IsBusy = true;
-                if (string.IsNullOrEmpty(RecFile.Text))
+                if (!string.IsNullOrEmpty(RecFile.Text))
                 {
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} boot \"{RecFile.Text}\"");
                     if (output.Contains("Finished"))

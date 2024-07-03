@@ -1,4 +1,5 @@
-﻿using SukiUI.Controls;
+﻿using Avalonia.Controls.Shapes;
+using SukiUI.Controls;
 using System;
 using System.IO;
 using System.Linq;
@@ -44,6 +45,13 @@ namespace UotanToolbox.Common
                 }
             }
             devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            return devices;
+        }
+
+        public static string[] HDCDevices(string HDCInfo)
+        {
+            string[] devices = HDCInfo.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            devices = devices.Where(s => !String.IsNullOrEmpty(s) && !s.Contains("[Empty]")).ToArray();
             return devices;
         }
 
@@ -110,10 +118,39 @@ namespace UotanToolbox.Common
             return result;
         }
 
+        public static string RemoveSpace(string str)
+        {
+            string[] lines = str.Split(new char[] { ' '}, StringSplitOptions.RemoveEmptyEntries);
+            string result = string.Concat(lines);
+            if (string.IsNullOrEmpty(result))
+                return "--";
+            return result;
+        }
+
         public static string ColonSplit(string info)
         {
-            var parts = info.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = info.Split(':', StringSplitOptions.RemoveEmptyEntries);
             return parts.Length > 0 ? parts.Last() : "--";
+        }
+
+        public static string OHColonSplit(string info)
+        {
+            string[] infos = info.Split(new char[] { '\r', '\n', ','}, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < infos.Length; i++)
+            {
+                if (infos[i].Contains("physical screen resolution"))
+                {
+                    string[] device = infos[i].Split(':', StringSplitOptions.RemoveEmptyEntries);
+                    return device[1];
+                }
+            }
+            return "--";
+        }
+
+        public static string OHKernel(string info)
+        {
+            string[] infos = info.Split('#', StringSplitOptions.RemoveEmptyEntries);
+            return infos[0];
         }
 
         public static string Density(string info)
@@ -144,6 +181,28 @@ namespace UotanToolbox.Common
             }
             infos = infos.Where(s => !String.IsNullOrEmpty(s)).ToArray();
             return infos;
+        }
+
+        public static string[] BatteryOH(string info)
+        {
+            string[] infos = new string[100];
+            string[] Lines = info.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < Lines.Length; i++)
+            {
+                if (Lines[i].Contains("capacity") || Lines[i].Contains("voltage") || Lines[i].Contains("temperature"))
+                {
+                    string[] device = Lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    infos[i] = device[device.Length - 1];
+                }
+            }
+            infos = infos.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            return infos;
+        }
+
+        public static string OHVersion(string info)
+        {
+            string[] version = info.Split(new char[] { ' ', '(' }, StringSplitOptions.RemoveEmptyEntries);
+            return version[1];
         }
 
         public static string[] Mem(string info)

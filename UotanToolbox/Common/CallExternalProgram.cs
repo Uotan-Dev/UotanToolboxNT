@@ -30,6 +30,28 @@ namespace UotanToolbox.Common
             return output;
         }
 
+        public static async Task<string> HDC(string hdcshell)
+        {
+            string cmd = Path.Combine(Global.bin_path, "toolchains", "hdc");
+            ProcessStartInfo hdcexe = new ProcessStartInfo(cmd, hdcshell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process hdc = new Process();
+            hdc.StartInfo = hdcexe;
+            hdc.Start();
+            string output = await hdc.StandardOutput.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await hdc.StandardError.ReadToEndAsync();
+            }
+            hdc.WaitForExit();
+            return output;
+        }
+
         public static async Task<string> Fastboot(string fbshell)
         {
             string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");

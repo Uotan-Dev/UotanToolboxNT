@@ -17,6 +17,7 @@ namespace UotanToolbox.Common
         {
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
+            string hdc = await CallExternalProgram.HDC("list targets");
             string devcon;
             if (Global.System == "Windows")
             {
@@ -28,11 +29,13 @@ namespace UotanToolbox.Common
             }
             string[] adbdevices = StringHelper.ADBDevices(adb);
             string[] fbdevices = StringHelper.FastbootDevices(fastboot);
+            string[] hdcdevice = StringHelper.HDCDevices(hdc);
             string[] comdevices = StringHelper.COMDevices(devcon);
-            string[] devices = new string[adbdevices.Length + fbdevices.Length + comdevices.Length];
+            string[] devices = new string[adbdevices.Length + fbdevices.Length + hdcdevice.Length + comdevices.Length];
             Array.Copy(adbdevices, 0, devices, 0, adbdevices.Length);
             Array.Copy(fbdevices, 0, devices, adbdevices.Length, fbdevices.Length);
-            Array.Copy(comdevices, 0, devices, adbdevices.Length + fbdevices.Length, comdevices.Length);
+            Array.Copy(hdcdevice, 0, devices, adbdevices.Length + fbdevices.Length, hdcdevice.Length);
+            Array.Copy(comdevices, 0, devices, adbdevices.Length + fbdevices.Length + hdcdevice.Length, comdevices.Length);
             return devices;
         }
 
@@ -81,7 +84,7 @@ namespace UotanToolbox.Common
             string powerontime = "--";
             string devicebrand = "--";
             string devicemodel = "--";
-            string androidsdk = "--";
+            string systemsdk = "--";
             string cpuabi = "--";
             string displayhw = "--";
             string density = "--";
@@ -98,6 +101,7 @@ namespace UotanToolbox.Common
             string progressdisk = "0";
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
+            string hdc = await CallExternalProgram.HDC("list targets");
             string devcon;
             if (Global.System == "Windows")
             {
@@ -210,13 +214,13 @@ namespace UotanToolbox.Common
                 {
                     string android = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.release");
                     string sdk = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.sdk");
-                    androidsdk = String.Format($"Android {StringHelper.RemoveLineFeed(android)}({StringHelper.RemoveLineFeed(sdk)})");
+                    systemsdk = String.Format($"Android {StringHelper.RemoveLineFeed(android)}({StringHelper.RemoveLineFeed(sdk)})");
                     displayhw = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell wm size")));
                     density = StringHelper.Density(await CallExternalProgram.ADB($"-s {devicename} shell wm density"));
                 }
                 else if (status == GetTranslation("Home_Recovery") || status == GetTranslation("Home_Sideload"))
                 {
-                    androidsdk = GetTranslation("Home_Recovery");
+                    systemsdk = GetTranslation("Home_Recovery");
                     displayhw = "--";
                     density = "--";
                 }
@@ -305,6 +309,31 @@ namespace UotanToolbox.Common
                     diskinfo = "--";
                 }
             }
+            if (hdc.Contains(devicename))
+            {
+                status = "系统";
+                blstatus = "--";
+                string harmony = StringHelper.OHVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.software.version"));
+                string sdk = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.ohos.apiversion"));
+                systemsdk = String.Format($"OpenHarmony {harmony}({StringHelper.RemoveSpace(sdk)})");
+                codename = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.model"));
+                devicebrand = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.brand"));
+                devicemodel = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.name"));
+                displayhw = StringHelper.OHColonSplit(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s RenderService -a screen"));
+                kernel = StringHelper.OHKernel(await CallExternalProgram.HDC($"-t {devicename} shell uname -a"));
+                cpuabi = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.cpu.abilist"));
+                try
+                {
+                    string[] battery = StringHelper.BatteryOH(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s BatteryService -a -i"));
+                    batterylevel = battery[0];
+                    batteryinfo = String.Format($"{Double.Parse(battery[1]) / 1000000.0}V {Double.Parse(battery[2]) / 10.0}℃");
+                }
+                catch
+                {
+                    batterylevel = "0";
+                    batteryinfo = "--";
+                }
+            }
             if (devcon.Contains(devicename))
             {
                 string thisdevice = "";
@@ -369,7 +398,7 @@ namespace UotanToolbox.Common
             devices.Add("PowerOnTime", powerontime);
             devices.Add("DeviceBrand", devicebrand);
             devices.Add("DeviceModel", devicemodel);
-            devices.Add("AndroidSDK", androidsdk);
+            devices.Add("SystemSDK", systemsdk);
             devices.Add("CPUABI", cpuabi);
             devices.Add("DisplayHW", displayhw);
             devices.Add("DiskType", disktype);

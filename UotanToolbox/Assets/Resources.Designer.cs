@@ -1807,7 +1807,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Uotan Toolbox NT is a modern toolbox for Android developers, mainly based on the original code of UotanToolBox. 的本地化字符串。
+        ///   查找类似 Uotan Toolbox is a modern toolbox for Android and OpenHarmony developers, mainly based on the original code of UotanToolBox. 的本地化字符串。
         /// </summary>
         public static string Settings_AboutToolboxContent {
             get {
@@ -1821,6 +1821,24 @@ namespace UotanToolbox.Assets {
         public static string Settings_AnimatedBackground {
             get {
                 return ResourceManager.GetString("Settings_AnimatedBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Background Style 的本地化字符串。
+        /// </summary>
+        public static string Settings_BackgroundStyle {
+            get {
+                return ResourceManager.GetString("Settings_BackgroundStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Background Transitions 的本地化字符串。
+        /// </summary>
+        public static string Settings_BackgroundTransitions {
+            get {
+                return ResourceManager.GetString("Settings_BackgroundTransitions", resourceCulture);
             }
         }
         
@@ -1843,6 +1861,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Current Version:  的本地化字符串。
+        /// </summary>
+        public static string Settings_CurrentVersion {
+            get {
+                return ResourceManager.GetString("Settings_CurrentVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Custom Shaders 的本地化字符串。
+        /// </summary>
+        public static string Settings_CustomShaders {
+            get {
+                return ResourceManager.GetString("Settings_CustomShaders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Dark Mode 的本地化字符串。
         /// </summary>
         public static string Settings_DarkMode {
@@ -1861,11 +1897,38 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Enable a &apos;cloud&apos; effect in the background. The background will be dynamic and the colors spaces will change over time. 的本地化字符串。
+        ///   查找类似 The open source projects below are presented in alphabetical order 的本地化字符串。
         /// </summary>
-        public static string Settings_EnableCloudEffect {
+        public static string Settings_DisplayedProjects {
             get {
-                return ResourceManager.GetString("Settings_EnableCloudEffect", resourceCulture);
+                return ResourceManager.GetString("Settings_DisplayedProjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable/disable the animations for the background, which are driven by the currently active effect. 的本地化字符串。
+        /// </summary>
+        public static string Settings_EnableAnimationsForBackground {
+            get {
+                return ResourceManager.GetString("Settings_EnableAnimationsForBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Click any of the buttons below to enable a background shader. Click it again to disable it. These are likely to put quite a load on your GPU and are purely to demonstrate and test the capabilities of the background renderer. 的本地化字符串。
+        /// </summary>
+        public static string Settings_EnableBackgroundShader {
+            get {
+                return ResourceManager.GetString("Settings_EnableBackgroundShader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable/disable the transitions for the background, these will fade between the active effects when changed. 的本地化字符串。
+        /// </summary>
+        public static string Settings_EnableBackgroundTransitions {
+            get {
+                return ResourceManager.GetString("Settings_EnableBackgroundTransitions", resourceCulture);
             }
         }
         
@@ -1879,11 +1942,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Official Website 的本地化字符串。
+        /// </summary>
+        public static string Settings_OfficialWebsite {
+            get {
+                return ResourceManager.GetString("Settings_OfficialWebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Other 的本地化字符串。
         /// </summary>
         public static string Settings_Other {
             get {
                 return ResourceManager.GetString("Settings_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select from the included background styles. 的本地化字符串。
+        /// </summary>
+        public static string Settings_SelectFromIncludedBackgroundStyles {
+            get {
+                return ResourceManager.GetString("Settings_SelectFromIncludedBackgroundStyles", resourceCulture);
             }
         }
         
@@ -1902,6 +1983,15 @@ namespace UotanToolbox.Assets {
         public static string Settings_SpecialThanks {
             get {
                 return ResourceManager.GetString("Settings_SpecialThanks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uotan Community 的本地化字符串。
+        /// </summary>
+        public static string Settings_UotanCommunity {
+            get {
+                return ResourceManager.GetString("Settings_UotanCommunity", resourceCulture);
             }
         }
         

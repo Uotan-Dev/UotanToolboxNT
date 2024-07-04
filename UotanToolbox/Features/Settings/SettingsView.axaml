@@ -80,7 +80,7 @@
 														   Text="{x:Static assets:Resources.Settings_AnimatedBackground}" />
 												<TextBlock Margin="0,12,70,0"
 														   Foreground="{DynamicResource SukiLowText}"
-														   Text="Enable/disable the animations for the background, which are driven by the currently active effect."
+														   Text="{x:Static assets:Resources.Settings_EnableAnimationsForBackground}"
 														   TextWrapping="Wrap" />
 											</StackPanel>
 										</DockPanel>
@@ -92,10 +92,10 @@
 											<StackPanel HorizontalAlignment="Left">
 												<TextBlock FontSize="16"
                                                            FontWeight="DemiBold"
-                                                           Text="Background Transitions" />
+                                                           Text="{x:Static assets:Resources.Settings_BackgroundTransitions}" />
 												<TextBlock Margin="0,12,70,0"
                                                            Foreground="{DynamicResource SukiLowText}"
-                                                           Text="Enable/disable the transitions for the background, these will fade between the active effects when changed."
+                                                           Text="{x:Static assets:Resources.Settings_EnableBackgroundTransitions}"
                                                            TextWrapping="Wrap" />
 											</StackPanel>
 										</DockPanel>
@@ -106,10 +106,10 @@
 											<StackPanel HorizontalAlignment="Left">
 												<TextBlock FontSize="16"
                                                            FontWeight="DemiBold"
-                                                           Text="Background Style" />
+                                                           Text="{x:Static assets:Resources.Settings_BackgroundStyle}" />
 												<TextBlock Margin="0,12,70,0"
                                                            Foreground="{DynamicResource SukiLowText}"
-                                                           Text="Select from the included background styles."
+                                                           Text="{x:Static assets:Resources.Settings_SelectFromIncludedBackgroundStyles}"
                                                            TextWrapping="Wrap" />
 											</StackPanel>
 										</DockPanel>
@@ -117,10 +117,10 @@
 											<StackPanel HorizontalAlignment="Left" DockPanel.Dock="Top">
 												<TextBlock FontSize="16"
                                                            FontWeight="DemiBold"
-                                                           Text="Custom Shaders" />
+                                                           Text="{x:Static assets:Resources.Settings_CustomShaders}" />
 												<TextBlock Margin="0,12,70,0"
                                                            Foreground="{DynamicResource SukiLowText}"
-                                                           Text="Click any of the buttons below to enable a background shader. Click it again to disable it. These are likely to put quite a load on your GPU and are purely to demonstrate and test the capabilities of the background renderer."
+                                                           Text="{x:Static assets:Resources.Settings_EnableBackgroundShader}"
                                                            TextWrapping="Wrap" />
 											</StackPanel>
 											<ItemsControl ItemsSource="{Binding CustomShaders}">
@@ -156,18 +156,39 @@
 											<StackPanel Margin="15">
 												<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" />
 											</StackPanel>
-											<StackPanel Margin="15,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-												<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-													<TextBlock>工具箱版本:</TextBlock>
-													<TextBlock>3.0.0-beta</TextBlock>
+											<Grid Margin="15,0,0,15" VerticalAlignment="Center">
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="*"/>
+													<ColumnDefinition Width="Auto"/>
+												</Grid.ColumnDefinitions>
+
+												<StackPanel Grid.Column="0">
+													<StackPanel Orientation="Horizontal">
+														<TextBlock Text="{x:Static assets:Resources.Settings_CurrentVersion}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+														<TextBlock Text="3.0.0-beta" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+													</StackPanel>
+													<TextBlock FontSize="12">© UOTAN 2024</TextBlock>
 												</StackPanel>
-												<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-													<Button Classes="Basic"
-															Content="官方网站" 
+
+												<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
+													<Button Classes="Classic"
+															Content="{x:Static assets:Resources.Settings_OfficialWebsite}"
 															Command="{Binding OpenURLCommand}"
-															CommandParameter="https://toolbox.uotan.cn" />
+															CommandParameter="https://toolbox.uotan.cn"
+															HorizontalAlignment="Right"/>
+													<Button Classes="Classic"
+														Content="{x:Static assets:Resources.Settings_UotanCommunity}"
+														Command="{Binding OpenURLCommand}"
+														CommandParameter="https://www.uotan.cn"
+														HorizontalAlignment="Right"/>
+													<Button Classes="Classic"
+														Content="Bilibili"
+														Command="{Binding OpenURLCommand}"
+														CommandParameter="https://space.bilibili.com/522676659"
+														HorizontalAlignment="Right"/>
 												</StackPanel>
-											</StackPanel>
+											</Grid>
+											
 											<TextBlock FontSize="16"
                                                        FontWeight="DemiBold"
                                                        Text="{x:Static assets:Resources.Settings_Developers}" />
@@ -175,7 +196,7 @@
 												<suki:GlassCard Margin="15" IsInteractive="True">
 													<suki:GroupBox>
 														<suki:GroupBox.Header>
-															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@yuzh" CommandParameter="https://github.com/yuzh0816"/>
+															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@yuzh" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/yuzh0816"/>
 														</suki:GroupBox.Header>
 														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
 															<Rectangle.Fill>
@@ -187,7 +208,7 @@
 												<suki:GlassCard Margin="15" IsInteractive="True">
 													<suki:GroupBox>
 														<suki:GroupBox.Header>
-															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@暮间雾" CommandParameter="https://github.com/mujianwu"/>
+															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@暮间雾" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/mujianwu"/>
 														</suki:GroupBox.Header>
 														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
 															<Rectangle.Fill>
@@ -199,7 +220,7 @@
 												<suki:GlassCard Margin="15" IsInteractive="True">
 													<suki:GroupBox>
 														<suki:GroupBox.Header>
-															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@赵紫菜" CommandParameter="https://github.com/13584452567"/>
+															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@赵紫菜" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/13584452567"/>
 														</suki:GroupBox.Header>
 														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
 															<Rectangle.Fill>
@@ -223,6 +244,21 @@
 													</suki:GroupBox>
 												</suki:GlassCard>
 											</StackPanel>
+										</StackPanel>
+									</DockPanel>
+								</controls:GlassCard>
+							</controls:SettingsLayoutItem.Content>
+						</controls:SettingsLayoutItem>
+
+						<controls:SettingsLayoutItem Header="开源项目">
+							<controls:SettingsLayoutItem.Content>
+								<controls:GlassCard Margin="15">
+									<DockPanel>
+										<StackPanel Orientation="Vertical">
+											<TextBlock Text="{x:Static assets:Resources.Settings_DisplayedProjects}" />
+											<TextBlock>
+												Avalonia
+											</TextBlock>
 										</StackPanel>
 									</DockPanel>
 								</controls:GlassCard>

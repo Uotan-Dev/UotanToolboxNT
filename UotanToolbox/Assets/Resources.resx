@@ -327,8 +327,8 @@
   <data name="Settings_DarkMode" xml:space="preserve">
     <value>Dark Mode</value>
   </data>
-  <data name="Settings_EnableCloudEffect" xml:space="preserve">
-    <value>Enable a 'cloud' effect in the background. The background will be dynamic and the colors spaces will change over time.</value>
+  <data name="Settings_EnableAnimationsForBackground" xml:space="preserve">
+    <value>Enable/disable the animations for the background, which are driven by the currently active effect.</value>
   </data>
   <data name="Settings_LightMode" xml:space="preserve">
     <value>Light Mode</value>
@@ -418,7 +418,7 @@
     <value>About Toolbox</value>
   </data>
   <data name="Settings_AboutToolboxContent" xml:space="preserve">
-    <value>Uotan Toolbox NT is a modern toolbox for Android developers, mainly based on the original code of UotanToolBox.</value>
+    <value>Uotan Toolbox is a modern toolbox for Android and OpenHarmony developers, mainly based on the original code of UotanToolBox.</value>
   </data>
   <data name="Settings_SpecialThanks" xml:space="preserve">
     <value>Special Thanks</value>
@@ -791,5 +791,35 @@
   </data>
   <data name="Dialog_ErrorLog" xml:space="preserve">
     <value>Error Log:</value>
+  </data>
+  <data name="Settings_BackgroundStyle" xml:space="preserve">
+    <value>Background Style</value>
+  </data>
+  <data name="Settings_BackgroundTransitions" xml:space="preserve">
+    <value>Background Transitions</value>
+  </data>
+  <data name="Settings_CurrentVersion" xml:space="preserve">
+    <value>Current Version: </value>
+  </data>
+  <data name="Settings_CustomShaders" xml:space="preserve">
+    <value>Custom Shaders</value>
+  </data>
+  <data name="Settings_DisplayedProjects" xml:space="preserve">
+    <value>The open source projects below are presented in alphabetical order</value>
+  </data>
+  <data name="Settings_EnableBackgroundShader" xml:space="preserve">
+    <value>Click any of the buttons below to enable a background shader. Click it again to disable it. These are likely to put quite a load on your GPU and are purely to demonstrate and test the capabilities of the background renderer.</value>
+  </data>
+  <data name="Settings_EnableBackgroundTransitions" xml:space="preserve">
+    <value>Enable/disable the transitions for the background, these will fade between the active effects when changed.</value>
+  </data>
+  <data name="Settings_OfficialWebsite" xml:space="preserve">
+    <value>Official Website</value>
+  </data>
+  <data name="Settings_SelectFromIncludedBackgroundStyles" xml:space="preserve">
+    <value>Select from the included background styles.</value>
+  </data>
+  <data name="Settings_UotanCommunity" xml:space="preserve">
+    <value>Uotan Community</value>
   </data>
 </root>

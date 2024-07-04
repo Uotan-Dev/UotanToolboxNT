@@ -327,8 +327,8 @@
   <data name="Settings_DarkMode" xml:space="preserve">
     <value>暗色</value>
   </data>
-  <data name="Settings_EnableCloudEffect" xml:space="preserve">
-    <value>开启背景云朵特效。背景将会动态化，颜色之间的空隙也会随时间发生变化。</value>
+  <data name="Settings_EnableAnimationsForBackground" xml:space="preserve">
+    <value>启用/禁用由当前活动效果驱动的背景动画。</value>
   </data>
   <data name="Settings_LightMode" xml:space="preserve">
     <value>亮色</value>
@@ -418,7 +418,7 @@
     <value>关于工具箱</value>
   </data>
   <data name="Settings_AboutToolboxContent" xml:space="preserve">
-    <value>Uotan Toolbox NT是一个基于柚坛搞机工具箱源码，为Android开发者设计的现代化工具箱。</value>
+    <value>Uotan Toolbox是一个基于柚坛搞机工具箱源码，为Android、OpenHarmony开发者设计的现代化工具箱。</value>
   </data>
   <data name="Settings_SpecialThanks" xml:space="preserve">
     <value>特别感谢</value>
@@ -791,5 +791,35 @@
   </data>
   <data name="Dialog_ErrorLog" xml:space="preserve">
     <value>错误日志如下:</value>
+  </data>
+  <data name="Settings_BackgroundStyle" xml:space="preserve">
+    <value>背景样式</value>
+  </data>
+  <data name="Settings_BackgroundTransitions" xml:space="preserve">
+    <value>背景过渡</value>
+  </data>
+  <data name="Settings_CurrentVersion" xml:space="preserve">
+    <value>当前版本: </value>
+  </data>
+  <data name="Settings_CustomShaders" xml:space="preserve">
+    <value>自定义着色器</value>
+  </data>
+  <data name="Settings_DisplayedProjects" xml:space="preserve">
+    <value>下方开源项目以字母顺序展示</value>
+  </data>
+  <data name="Settings_EnableBackgroundShader" xml:space="preserve">
+    <value>单击下面的任何按钮来启用背景着色器。再次单击以禁用它。这些可能会给你的GPU带来相当大的负载，并且纯粹是为了演示和测试后台渲染器的功能。</value>
+  </data>
+  <data name="Settings_EnableBackgroundTransitions" xml:space="preserve">
+    <value>启用/禁用背景过渡，以在改变背景效果时拥有渐变效果。</value>
+  </data>
+  <data name="Settings_OfficialWebsite" xml:space="preserve">
+    <value>官方网站</value>
+  </data>
+  <data name="Settings_SelectFromIncludedBackgroundStyles" xml:space="preserve">
+    <value>从包含的背景样式中选择。</value>
+  </data>
+  <data name="Settings_UotanCommunity" xml:space="preserve">
+    <value>柚坛社区</value>
   </data>
 </root>

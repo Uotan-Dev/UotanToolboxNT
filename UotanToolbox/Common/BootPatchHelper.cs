@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
@@ -139,6 +140,11 @@ namespace UotanToolbox.Common
                 return false;
             }
         }
+        /// <summary>
+        /// 将组件文件从面具文件夹中复制到boot文件夹
+        /// </summary>
+        /// <param name="compPath">组件路径</param>
+        /// <returns>是否成功</returns>
         public static bool comp_copy(string compPath)
         {
             try
@@ -161,27 +167,131 @@ namespace UotanToolbox.Common
         /// <summary>
         /// 检测Boot文件夹下是否存在dtb文件
         /// </summary>
-        /// <param name="path">Boot.img解包后所在路径</param>
-        /// <returns>dtb文件名，不存在返回“”</returns>
-        public static string dtb_detect(string path)
+        public static void dtb_detect()
         {
             if (File.Exists(Path.Combine(BootInfo.tmp_path, "dtb")))
             {
                 BootInfo.have_dtb = true;
-                return "dtb";
+                BootInfo.dtb_name = "dtb";
             }
-            if (File.Exists(Path.Combine(BootInfo.tmp_path, "kernel_dtb")))
+            else if (File.Exists(Path.Combine(BootInfo.tmp_path, "kernel_dtb")))
             {
                 BootInfo.have_dtb = true;
-                return "kernel_dtb";
+                BootInfo.dtb_name = "kernel_dtb";
             }
-            if (File.Exists(Path.Combine(BootInfo.tmp_path, "extra")))
+            else if (File.Exists(Path.Combine(BootInfo.tmp_path, "extra")))
             {
                 BootInfo.have_dtb = true;
-                return "extra";
+                BootInfo.dtb_name = "extra";
             }
-            return "";
+            else
+            {
+                BootInfo.have_dtb = false;
+                BootInfo.dtb_name = "";
+            }
         }
+
+        /// <summary>
+        /// 检测Boot文件夹下是否存在kernel文件
+        /// </summary>
+        public static async Task kernel_detect()
+        {
+            if (File.Exists(Path.Combine(BootInfo.tmp_path, "kernel")))
+            {
+                BootInfo.have_kernel = true;
+            }
+            else
+            {
+                BootInfo.have_kernel = false;
+            }
+        }
+        /// <summary>
+        /// 进行ramdisk修补
+        /// </summary>
+        /// <param name="compPath">组件目录</param>
+        /// <returns>是否成功</returns>
+        public static async Task<bool> ramdisk_patch(string compPath)
+        {
+            string mb_output;
+            int exitcode;
+            if (comp_copy(compPath))
+            {
+                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0750 init magiskinit\" \"mkdir 0750 overlay.d\" \"mkdir 0750 overlay.d/sbin\" \"add 0644 overlay.d/sbin/magisk32.xz magisk32.xz\" ", BootInfo.tmp_path);
+                if (exitcode != 0) 
+                {
+                    return false;
+                }
+                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", BootInfo.tmp_path);
+                if (exitcode != 0)
+                {
+                    return false;
+                }
+            }
+            if (File.Exists(Path.Combine((compPath), "magisk64.xz")))
+            {
+                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", BootInfo.tmp_path);
+                if (exitcode != 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// 进行面具修补流程中的kernel修补
+        /// </summary>
+        /// <param name="LEGACYSAR">legacysar是否选中</param>
+        /// <returns></returns>
+        public static async Task<bool> kernel_patch(bool LEGACYSAR)
+        {
+                if (BootInfo.have_kernel)
+                {
+                    bool kernel_patched = false;
+                    (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054", BootInfo.tmp_path);
+                    if (exitcode == 0)
+                    {
+                        kernel_patched = true;
+                    }
+                    (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 821B8012 E2FF8F12", BootInfo.tmp_path);
+                    if (exitcode == 0)
+                    {
+                        kernel_patched = true;
+                    }
+                    if (LEGACYSAR)
+                    {
+                        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300", BootInfo.tmp_path);
+                        if (exitcode == 0)
+                        {
+                            kernel_patched = true;
+                        }
+                    }
+                    if (!kernel_patched)
+                    {
+                        File.Delete(Path.Combine(BootInfo.tmp_path, "kernel"));
+                    }
+                }
+            return true;
+        }
+        public async static Task<bool> dtb_patch()
+        {
+            if (BootInfo.have_dtb)
+            {
+                (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"dtb {BootInfo.dtb_name} test", BootInfo.tmp_path);
+                if (exitcode != 0)
+                {
+                    SukiHost.ShowDialog(new PureDialog("dtb验证失败"), allowBackgroundClose: true);
+                    return false;
+                }
+                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {BootInfo.dtb_name} patch", BootInfo.tmp_path);
+            }
+            return true;
+        }
+    
+        /// <summary>
+        /// 打包之前清理boot文件夹，避免不必要的报错
+        /// </summary>
+        /// <param name="path">boot文件夹路径</param>
+        /// <returns>是否成功</returns>
         public static bool CleanBoot(string path)
         {
             string[] filesToDelete =
@@ -262,6 +372,15 @@ namespace UotanToolbox.Common
                 return null;
             }
         }
+        /// <summary>
+        /// 读取符号文件链接并转化为系统内通用路径
+        /// </summary>
+        /// <param name="symlink">符号文件路径</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">符号文件路径错误</exception>
+        /// <exception cref="IOException">符号文件读取出错</exception>
+        /// <exception cref="ArgumentNullException">符号文件无内容</exception>
+        /// <exception cref="ArgumentOutOfRangeException">数组下标越界，一般不会出现</exception>
         public static string read_symlink(string symlink)
         {
             string filePath = symlink;

@@ -30,9 +30,12 @@ namespace UotanToolbox.Common
         public static bool userful = false;
         public static bool gki2 = false;
         public static string kmi = "";
-        public static bool have_ramdisk=false;
+        public static string os_version="";
+        public static string patch_level="";
+        public static bool have_ramdisk = false;
         public static bool have_kernel = false;
         public static bool have_dtb = false;
+        public static string dtb_name = "";
         public static string arch = "aarch64";
     }
     public class ZipInfo
@@ -56,6 +59,12 @@ namespace UotanToolbox.Common
     public static class GlobalData
     {
         public static MainViewModel MainViewModelInstance { get; set; }
+    }
+    enum PatchMode
+    {
+        Magisk,
+        apatch,
+        kernelsu
     }
 
 }

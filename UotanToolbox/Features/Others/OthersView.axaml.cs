@@ -100,7 +100,7 @@ public partial class OthersView : UserControl
                     }
                     else if (SetUnit.SelectedItem.ToString() == "DP")
                     {
-                        if (string.IsNullOrEmpty(ScrResolution.Text) && ScrResolution.Text != "--")
+                        if (!string.IsNullOrEmpty(ScrResolution.Text) && ScrResolution.Text != "--")
                         {
                             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density {StringHelper.GetDPI(ScrResolution.Text, DPIorDP.Text)}");
                             SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
@@ -115,7 +115,7 @@ public partial class OthersView : UserControl
                 {
                     SukiHost.ShowDialog(new PureDialog("请输入要修改的参数！"), allowBackgroundClose: true);
                 }
-                
+
             }
             else
             {

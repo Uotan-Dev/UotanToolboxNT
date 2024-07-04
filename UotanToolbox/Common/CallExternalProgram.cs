@@ -245,18 +245,18 @@ namespace UotanToolbox.Common
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using (Process mb = new Process())
+            Process mb = new Process();
+            mb.StartInfo = magiskboot;
+            mb.Start();
+            string output = await mb.StandardError.ReadToEndAsync();
+            if (output == "")
             {
-                mb.StartInfo = magiskboot;
-                mb.Start();
-                string output = string.IsNullOrEmpty(await mb.StandardError.ReadToEndAsync())
-                                   ? await mb.StandardOutput.ReadToEndAsync()
-                                   : await mb.StandardError.ReadToEndAsync();
-                await mb.WaitForExitAsync();
-                int exitCode = mb.ExitCode;
-                return (output, exitCode);
+                output = await mb.StandardOutput.ReadToEndAsync();
             }
-        }
+            int exitCode = mb.ExitCode;
+            return (output, exitCode);
+            }
+        
 
         /// <summary>
         /// 使用file命令判断文件的类型和指令集。暂不支持FAT Binary多架构检测

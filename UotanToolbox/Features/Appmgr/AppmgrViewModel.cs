@@ -76,7 +76,7 @@ public partial class AppmgrViewModel : MainPageBase
                     var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
                     var splitOutput = combinedOutput.Split('\n', ' ');
                     var otherInfo = GetVersionName(splitOutput) + " | " + GetInstalledDate(splitOutput) + " | " + GetSdkVersion(splitOutput);
-                    return new ApplicationInfo { Name = packageName, OtherInfo = otherInfo  };
+                    return new ApplicationInfo { Name = packageName, OtherInfo = otherInfo };
                 });
                 ApplicationInfo[] allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
                 var applicationInfos = allApplicationInfos.Where(info => info != null)
@@ -234,7 +234,7 @@ public partial class AppmgrViewModel : MainPageBase
         var sdkVersion = lines.FirstOrDefault(x => x.Contains("targetSdk"));
         if (sdkVersion != null)
         {
-            var installedDate = "SDK"  + sdkVersion[(sdkVersion.IndexOf('=') + 1)..].Trim();
+            var installedDate = "SDK" + sdkVersion[(sdkVersion.IndexOf('=') + 1)..].Trim();
             return installedDate;
         }
         return "未知SDK版本";

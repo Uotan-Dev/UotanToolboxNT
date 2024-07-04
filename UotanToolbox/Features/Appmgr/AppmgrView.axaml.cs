@@ -52,7 +52,7 @@ public partial class AppmgrView : UserControl
         });
         if (files.Count >= 1)
         {
-            for (int i=0;i<files.Count;i++)
+            for (int i = 0; i < files.Count; i++)
                 ApkFile.Text = ApkFile.Text + StringHelper.FilePath(files[i].Path.ToString()) + "|||";
         }
     }

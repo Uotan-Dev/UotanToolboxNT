@@ -198,11 +198,48 @@ namespace UotanToolbox.Common
         {
             if (File.Exists(Path.Combine(BootInfo.tmp_path, "kernel")))
             {
+                string comp_path = Path.Combine(BootInfo.tmp_path, "kernel-component"); //kernel内解压出来的文件路径
                 BootInfo.have_kernel = true;
+                await CallExternalProgram.SevenZip($"e -t#:e -aoa -o{comp_path} kernel -y");
+                string[] gz_names = FileHelper.FindConfigGzFiles(comp_path);
+                string[] decompress_file_names = await FileHelper.DecompressConfigGzFiles(gz_names);
+                BootInfo.gki2 = FileHelper.CheckGkiConfig(decompress_file_names);
+
+
             }
             else
             {
                 BootInfo.have_kernel = false;
+            }
+        }
+
+        public static async Task<bool> ramdisk_detect()
+        {
+            try
+            {
+
+
+                if (File.Exists(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio")))
+                {
+                    string workpath = BootInfo.tmp_path;
+                    string cpio_file = Path.Combine(BootInfo.tmp_path, "ramdisk.cpio");
+                    string ramdisk_path = Path.Combine(BootInfo.tmp_path, "ramdisk");
+                    //适配Windows的抽象magiskboot（使用cygwin），其他平台都是原生编译的，可以直接用参数提取ramdisk
+                    if (Global.System != "Windows")
+                    {
+                        workpath = Path.Combine(BootInfo.tmp_path, "ramdisk");
+                        Directory.CreateDirectory(workpath);
+                    }
+                    (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
+                    string init_info = await CallExternalProgram.File($"\"{CheckInitPath(ramdisk_path)}\"");
+                    (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
+
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
         /// <summary>
@@ -217,7 +254,7 @@ namespace UotanToolbox.Common
             if (comp_copy(compPath))
             {
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0750 init magiskinit\" \"mkdir 0750 overlay.d\" \"mkdir 0750 overlay.d/sbin\" \"add 0644 overlay.d/sbin/magisk32.xz magisk32.xz\" ", BootInfo.tmp_path);
-                if (exitcode != 0) 
+                if (exitcode != 0)
                 {
                     return false;
                 }
@@ -244,32 +281,32 @@ namespace UotanToolbox.Common
         /// <returns></returns>
         public static async Task<bool> kernel_patch(bool LEGACYSAR)
         {
-                if (BootInfo.have_kernel)
+            if (BootInfo.have_kernel)
+            {
+                bool kernel_patched = false;
+                (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054", BootInfo.tmp_path);
+                if (exitcode == 0)
                 {
-                    bool kernel_patched = false;
-                    (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054", BootInfo.tmp_path);
+                    kernel_patched = true;
+                }
+                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 821B8012 E2FF8F12", BootInfo.tmp_path);
+                if (exitcode == 0)
+                {
+                    kernel_patched = true;
+                }
+                if (LEGACYSAR)
+                {
+                    (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300", BootInfo.tmp_path);
                     if (exitcode == 0)
                     {
                         kernel_patched = true;
-                    }
-                    (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 821B8012 E2FF8F12", BootInfo.tmp_path);
-                    if (exitcode == 0)
-                    {
-                        kernel_patched = true;
-                    }
-                    if (LEGACYSAR)
-                    {
-                        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300", BootInfo.tmp_path);
-                        if (exitcode == 0)
-                        {
-                            kernel_patched = true;
-                        }
-                    }
-                    if (!kernel_patched)
-                    {
-                        File.Delete(Path.Combine(BootInfo.tmp_path, "kernel"));
                     }
                 }
+                if (!kernel_patched)
+                {
+                    File.Delete(Path.Combine(BootInfo.tmp_path, "kernel"));
+                }
+            }
             return true;
         }
         public async static Task<bool> dtb_patch()
@@ -286,7 +323,7 @@ namespace UotanToolbox.Common
             }
             return true;
         }
-    
+
         /// <summary>
         /// 打包之前清理boot文件夹，避免不必要的报错
         /// </summary>

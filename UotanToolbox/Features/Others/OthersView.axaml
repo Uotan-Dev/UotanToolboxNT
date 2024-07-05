@@ -17,7 +17,7 @@
                    Orientation="Horizontal">
 			<suki:GlassCard Width="320"
 							Height="310"
-                            Margin="15,20"
+                            Margin="15, 10"
                             VerticalAlignment="Top">
 				<suki:BusyArea Name="BusyDisplay"
 							   BusyText="修改中...">
@@ -79,7 +79,7 @@
 			</suki:GlassCard>
 			<suki:GlassCard Width="305"
 							Height="310"
-                            Margin="15"
+                            Margin="15,10"
                             VerticalAlignment="Top">
 				<suki:BusyArea Name="BusyBattery"
 							   BusyText="修改中...">
@@ -156,7 +156,7 @@
 			</suki:GlassCard>
 			<suki:GlassCard Width="270"
 							Height="310"
-                            Margin="15"
+                            Margin="15,10"
                             VerticalAlignment="Top">
 				<suki:BusyArea Name="BusyLock"
 							   BusyText="修改中...">
@@ -189,8 +189,42 @@
 			</suki:GlassCard>
 
 			<suki:GlassCard Width="955"
-							Height="380"
-                            Margin="15"
+							Height="90"
+                            Margin="15,10"
+                            VerticalAlignment="Top">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock HorizontalAlignment="Left"
+							   VerticalAlignment="Top"
+							   FontWeight="DemiBold"
+							   Margin="0,15,0,0"
+							   Text="图标隐藏" />
+					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="30,0,0,0" Spacing="10">
+						<StackPanel Orientation="Horizontal" Spacing="35">
+							<CheckBox Width="60" Name="Time" FontSize="13" Content="时间"/>
+							<CheckBox Width="60" Name="GPS" FontSize="13" Content="定位"/>
+							<CheckBox Width="60" Name="Headset" FontSize="13" Content="耳机"/>
+							<CheckBox Width="60" Name="Clack" FontSize="13" Content="闹钟"/>
+							<CheckBox Width="60" Name="Voice" FontSize="13" Content="声音"/>
+							<CheckBox Width="60" Name="LTE" FontSize="13" Content="信号"/>
+							<CheckBox Name="Fly" FontSize="13" Content="旋转提示"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="35">
+							<CheckBox Width="60" Name="Bluetooth" FontSize="13" Content="蓝牙"/>
+							<CheckBox Width="60" Name="BatteryICO" FontSize="13" Content="电池"/>
+							<CheckBox Width="60" Name="WIFI" FontSize="13" Content="无线"/>
+							<CheckBox Width="60" Name="Second" FontSize="13" Content="显秒"/>
+							<CheckBox Width="60" Name="NFC" FontSize="13" Content="NFC"/>
+							<CheckBox Width="60" Name="Rotate" FontSize="13" Content="飞行"/>
+							<CheckBox Name="RemoveX" FontSize="13" Content="WiFi的x或！"/>
+						</StackPanel>
+					</StackPanel>
+					<Button Margin="35,0,0,0" Content="隐藏/显示"></Button>
+				</StackPanel>
+			</suki:GlassCard>
+
+			<suki:GlassCard Width="955"
+							Height="310"
+                            Margin="15,10"
                             VerticalAlignment="Top">
 				<Grid>
 					<StackPanel Orientation="Vertical" Spacing="10">
@@ -199,7 +233,7 @@
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
 									   Text="字体调节" />
-							<StackPanel Margin="0,10,0,0" Orientation="Horizontal">
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 								<TextBlock Width="40"
 										   Margin="8,0,0,0"
 										   VerticalAlignment="Center"
@@ -246,7 +280,7 @@
 											Content="修改" />
 								</StackPanel>
 							</StackPanel>
-							<StackPanel Margin="183,0,0,0" Spacing="200" Orientation="Horizontal">
+							<StackPanel Margin="183,-10,0,0" Spacing="200" Orientation="Horizontal">
 								<Button Classes="Toolbox"
 										FontSize="13"
 										Width="40"
@@ -267,12 +301,12 @@
 										Content="5X" />
 							</StackPanel>
 						</StackPanel>
-						<StackPanel>
+						<StackPanel Margin="0,-10,0,0">
 							<TextBlock HorizontalAlignment="Left"
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
 									   Text="动画速度" />
-							<StackPanel Orientation="Vertical" Spacing="20">
+							<StackPanel Orientation="Vertical" Spacing="0">
 								<StackPanel>
 									<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 										<TextBlock Width="60"

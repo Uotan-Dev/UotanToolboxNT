@@ -188,14 +188,14 @@
 						</StackPanel>
 						<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
 							<StackPanel Orientation="Horizontal" Spacing="75">
-								<CheckBox Name="KEEPVERITY" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepAVBOrDM}" IsChecked="True"/>
-								<CheckBox Name="KEEPFORCEENCRYPT" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepStrongEncryption}" IsChecked="True"/>
+								<CheckBox Width="170" Name="KEEPVERITY" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepAVBOrDM}" IsChecked="True"/>
+								<CheckBox Width="100" Name="KEEPFORCEENCRYPT" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepStrongEncryption}" IsChecked="True"/>
 								<CheckBox Name="PATCHVBMETAFLAG" FontSize="13" Content="{x:Static assets:Resources.Basicflash_RepairVbmeta}"/>
 							</StackPanel>
-							<StackPanel Orientation="Horizontal" Spacing="111.5" Margin="0,-10,0,0">
-								<CheckBox Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_InstallToRecovery}"/>
-								<CheckBox Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
-								<ComboBox Name="ArchList" Width="135" Margin="-36,0,0,0"/>
+							<StackPanel Orientation="Horizontal" Spacing="75" Margin="0,-10,0,0">
+								<CheckBox Width="170" Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_InstallToRecovery}"/>
+								<CheckBox Width="100" Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
+								<ComboBox Width="135" Name="ArchList"/>
 							</StackPanel>
 						</StackPanel>
 						<StackPanel Spacing="15">

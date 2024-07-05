@@ -831,6 +831,9 @@
   <data name="Scrcpy_RecordFileNotChosen" xml:space="preserve">
     <value>录屏文件未选择！</value>
   </data>
+	<data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
+    <value>所选录屏文件夹无写入权限！</value>
+  </data>
   <data name="Settings_NewVersionAvailable" xml:space="preserve">
     <value>新版本可用！</value>
   </data>

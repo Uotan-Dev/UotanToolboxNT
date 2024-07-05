@@ -48,18 +48,21 @@ public partial class ScrcpyViewModel : MainPageBase
             string arg = $"-s {Global.thisdevice} ";
             if (RecordScreen)
             {
-                if (RecordFolder != null && RecordFolder != "")
-                {
-                    DateTime now = DateTime.Now;
-                    string formattedDateTime = now.ToString("yyyy-MM-dd-HH-mm-ss");
-                    arg += $"--record {RecordFolder}/{Global.thisdevice}-{formattedDateTime}.mp4 ";
-                }
-                else
+                if (String.IsNullOrEmpty(RecordFolder))
                 {
                     SukiHost.ShowDialog(new ErrorDialog(GetTranslation("Scrcpy_RecordFileNotChosen")));
                     IsConnecting = false;
                     return;
                 }
+                if (!FileHelper.TestPermission(RecordFolder))
+                {
+                    SukiHost.ShowDialog(new ErrorDialog(GetTranslation("Scrcpy_RecordFolderNoPermission")));
+                    IsConnecting = false;
+                    return;
+                }
+                DateTime now = DateTime.Now;
+                string formattedDateTime = now.ToString("yyyy-MM-dd-HH-mm-ss");
+                arg += $"--record {RecordFolder}/{Global.thisdevice}-{formattedDateTime}.mp4 ";
             }
             arg += $"--video-bit-rate {BitRate}M --max-fps {FrameRate} ";
             if (SizeResolution != 0) arg += $"--max-size {SizeResolution} ";

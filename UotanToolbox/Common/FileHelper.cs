@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -313,6 +314,34 @@ namespace UotanToolbox.Common
                 }
             }
             return false;
+        }
+        /// <summary>
+        /// 通过写入，读取，删除文件来判断程序是否拥有指定目录的写入权限
+        /// </summary>
+        /// <param name="directoryPath">给定程序目录</param>
+        /// <returns>是否拥有权限</returns>
+        public static bool TestPermission(string directoryPath)
+        {
+            string tempFileName = Path.Combine(directoryPath, Guid.NewGuid().ToString() + ".tmp");
+            try
+            {
+                byte[] content = { 0x48, 0x65, 0x6C, 0x6C, 0x6F };//Hello
+                using (FileStream fs = File.Create(tempFileName))
+                {
+                    fs.Write(content, 0, content.Length);
+                }
+                byte[] readContent = File.ReadAllBytes(tempFileName);
+                if (!content.SequenceEqual(readContent))
+                {
+                    return false;
+                }
+                File.Delete(tempFileName);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

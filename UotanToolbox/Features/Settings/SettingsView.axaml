@@ -165,16 +165,15 @@
 												<StackPanel Grid.Column="0">
 													<StackPanel Orientation="Horizontal">
 														<TextBlock Text="{x:Static assets:Resources.Settings_CurrentVersion}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-														<TextBlock Text="3.0.0-beta" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+														<TextBlock Text="{Binding CurrentVersion}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 													</StackPanel>
 													<TextBlock FontSize="12">© UOTAN 2024</TextBlock>
 												</StackPanel>
 
 												<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
 													<Button Classes="Classic"
-															Content="{x:Static assets:Resources.Settings_OfficialWebsite}"
-															Command="{Binding OpenURLCommand}"
-															CommandParameter="https://toolbox.uotan.cn"
+															Content="{x:Static assets:Resources.Settings_CheckUpdate}"
+															Command="{Binding GetUpdateCommand}"
 															HorizontalAlignment="Right"/>
 													<Button Classes="Classic"
 														Content="{x:Static assets:Resources.Settings_UotanCommunity}"

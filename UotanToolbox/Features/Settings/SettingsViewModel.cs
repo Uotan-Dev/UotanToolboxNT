@@ -4,11 +4,17 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using SukiUI;
+using SukiUI.Controls;
 using SukiUI.Enums;
 using SukiUI.Models;
 using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
+using UotanToolbox.Features.Components;
 using UotanToolbox.Utilities;
+using Newtonsoft.Json;
+using System.Text.Json.Nodes;
 
 namespace UotanToolbox.Features.Settings;
 
@@ -29,6 +35,7 @@ public partial class SettingsViewModel : MainPageBase
     [ObservableProperty] private SukiBackgroundStyle _backgroundStyle;
     [ObservableProperty] private bool _backgroundAnimations;
     [ObservableProperty] private bool _backgroundTransitions;
+    [ObservableProperty] private string _currentVersion = Global.currentVersion;
 
     private string _customShader = null;
 
@@ -71,4 +78,38 @@ public partial class SettingsViewModel : MainPageBase
 
     [RelayCommand]
     private void OpenURL(string url) => UrlUtilities.OpenURL(url);
+
+    [RelayCommand]
+    private static async Task GetUpdate()
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                string url = "https://toolbox.uotan.cn/api/list";
+                var content = new StringContent("{}", System.Text.Encoding.UTF8);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
+                SettingsViewModel vm = new SettingsViewModel();
+                if(convertedBody.release_version != vm.CurrentVersion && convertedBody.beta_version != vm.CurrentVersion)
+                {
+                    var dialog = new ConnectionDialog(GetTranslation("Settings_NewVersionAvailable"));
+                    await SukiHost.ShowDialogAsync(dialog, allowBackgroundClose: true);
+                    if (dialog.Result == true) UrlUtilities.OpenURL("https://toolbox.uotan.cn");
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Settings_UpToDate")), allowBackgroundClose: true);
+                }
+            }
+        }
+        catch (HttpRequestException e)
+        {
+            SukiHost.ShowDialog(new ErrorDialog(e.Message));
+        }
+    }
 }

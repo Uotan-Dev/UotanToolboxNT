@@ -22,6 +22,9 @@ namespace UotanToolbox.Common
         public static string sdetable = "";
         public static string sdftable = "";
         public static string emmcrom = "";
+
+        //工具箱版本
+        public static string currentVersion = "819a867";
     }
     public class BootInfo
     {

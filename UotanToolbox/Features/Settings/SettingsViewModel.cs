@@ -3,6 +3,7 @@ using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
+using Newtonsoft.Json;
 using SukiUI;
 using SukiUI.Controls;
 using SukiUI.Enums;
@@ -13,8 +14,6 @@ using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
 using UotanToolbox.Utilities;
-using Newtonsoft.Json;
-using System.Text.Json.Nodes;
 
 namespace UotanToolbox.Features.Settings;
 

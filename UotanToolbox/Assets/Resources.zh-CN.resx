@@ -828,4 +828,7 @@
   <data name="Scrcpy_ClipboardSync" xml:space="preserve">
     <value>剪贴板同步</value>
   </data>
+  <data name="Scrcpy_RecordFileNotChosen" xml:space="preserve">
+    <value>录屏文件未选择！</value>
+  </data>
 </root>

@@ -1735,6 +1735,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Record file isn&apos;t chosen! 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_RecordFileNotChosen {
+            get {
+                return ResourceManager.GetString("Scrcpy_RecordFileNotChosen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Record Screen 的本地化字符串。
         /// </summary>
         public static string Scrcpy_RecordScreen {

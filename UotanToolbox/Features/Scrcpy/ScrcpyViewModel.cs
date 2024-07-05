@@ -24,6 +24,7 @@ public partial class ScrcpyViewModel : MainPageBase
     [ObservableProperty][Range(0d, 180d)] private double _frameRate = 60;
     [ObservableProperty][Range(0d, 2048d)] private double _sizeResolution = 0;
 
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public ScrcpyViewModel() : base("Scrcpy", MaterialIconKind.CellphoneLink, -500)
     {
         this.WhenAnyValue(x => x.ComputerControl)
@@ -55,7 +56,7 @@ public partial class ScrcpyViewModel : MainPageBase
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ErrorDialog("录屏文件未选择！"));
+                    SukiHost.ShowDialog(new ErrorDialog(GetTranslation("Scrcpy_RecordFileNotChosen")));
                     IsConnecting = false;
                     return;
                 }

@@ -828,4 +828,7 @@
   <data name="Scrcpy_ClipboardSync" xml:space="preserve">
     <value>Clipboard Sync</value>
   </data>
+  <data name="Scrcpy_RecordFileNotChosen" xml:space="preserve">
+    <value>Record file isn't chosen!</value>
+  </data>
 </root>

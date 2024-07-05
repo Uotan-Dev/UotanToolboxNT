@@ -1744,6 +1744,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_RecordFolderNoPermission {
+            get {
+                return ResourceManager.GetString("Scrcpy_RecordFolderNoPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Record Screen 的本地化字符串。
         /// </summary>
         public static string Scrcpy_RecordScreen {

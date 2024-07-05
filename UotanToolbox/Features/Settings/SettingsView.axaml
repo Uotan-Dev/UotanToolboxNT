@@ -255,9 +255,17 @@
 									<DockPanel>
 										<StackPanel Orientation="Vertical">
 											<TextBlock Text="{x:Static assets:Resources.Settings_DisplayedProjects}" />
-											<TextBlock>
-												Avalonia
-											</TextBlock>
+											
+												<TextBlock>7Zip (download from https://www.7-zip.org/download.html)</TextBlock>
+											<TextBlock>Android-Platform-Tools (from AOSP)</TextBlock>
+												<TextBlock>Avalonia (Avalonia™ is a registered trademark of AvaloniaUI OÜ.)</TextBlock>
+												<TextBlock>File (cross compiled from Github repo https://github.com/file/file)</TextBlock>
+												<TextBlock>MagiskBoot of unix (from Github repo https://github.com/ookiineko/magiskboot_build)</TextBlock>
+												<TextBlock>MagiskBoot of win (from Github repo https://github.com/affggh/Magisk_patcher)</TextBlock>
+												<TextBlock>QCNTool (from Github repo https://github.com/MindowsToolBox/QCNTool)</TextBlock>
+												<TextBlock>QMSL_MSVC10R.dll (from QPST)</TextBlock>
+												<TextBlock>Suki UI (modified from Github repo https://github.com/kikipoulet/SukiUI)</TextBlock>
+											
 										</StackPanel>
 									</DockPanel>
 								</controls:GlassCard>

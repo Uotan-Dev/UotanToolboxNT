@@ -94,13 +94,13 @@ public partial class SettingsViewModel : MainPageBase
 
                 dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
                 SettingsViewModel vm = new SettingsViewModel();
-                if(convertedBody.release_version != vm.CurrentVersion)
+                if (convertedBody.release_version != vm.CurrentVersion)
                 {
                     var dialog = new CustomizedDialog(GetTranslation("Settings_NewVersionAvailable"), convertedBody.release_content);
                     await SukiHost.ShowDialogAsync(dialog);
                     if (dialog.Result == true) UrlUtilities.OpenURL("https://toolbox.uotan.cn");
                 }
-                else if(convertedBody.beta_version != vm.CurrentVersion)
+                else if (convertedBody.beta_version != vm.CurrentVersion)
                 {
                     var dialog = new CustomizedDialog(GetTranslation("Settings_NewVersionAvailable"), convertedBody.beta_content);
                     await SukiHost.ShowDialogAsync(dialog);

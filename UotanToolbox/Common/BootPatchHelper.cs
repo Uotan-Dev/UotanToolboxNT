@@ -217,10 +217,9 @@ namespace UotanToolbox.Common
         {
             try
             {
-
-
                 if (File.Exists(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio")))
                 {
+                    BootInfo.have_ramdisk = true;
                     string workpath = BootInfo.tmp_path;
                     string cpio_file = Path.Combine(BootInfo.tmp_path, "ramdisk.cpio");
                     string ramdisk_path = Path.Combine(BootInfo.tmp_path, "ramdisk");

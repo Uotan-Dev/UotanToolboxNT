@@ -383,47 +383,30 @@ public partial class DashboardView : UserControl
         }
         //在临时目录创建临时boot目录，这破东西跨平台解压各种问题，直接即用即丢了
         BootInfo.tmp_path = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
-        string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
-        string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
         string workpath = BootInfo.tmp_path;
         if (FileHelper.ClearFolder(workpath))
         {
+            string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
+            string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
             (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"", BootInfo.tmp_path);
-            BootInfo.os_version = StringHelper.StringRegex(mb_output, osVersionPattern, 1);
-            BootInfo.patch_level = StringHelper.StringRegex(mb_output, osPatchLevelPattern, 1);
             if (mb_output.Contains("error"))
             {
                 SukiHost.ShowDialog(new PureDialog("请选择有效Boot文件"), allowBackgroundClose: true);
                 patch_busy(false);
                 return;
             }
+            BootInfo.os_version = StringHelper.StringRegex(mb_output, osVersionPattern, 1);
+            BootInfo.patch_level = StringHelper.StringRegex(mb_output, osPatchLevelPattern, 1);
             BootPatchHelper.dtb_detect();
             await BootPatchHelper.kernel_detect();
-            string cpio_file = Path.Combine(BootInfo.tmp_path, "ramdisk.cpio");
-            string ramdisk_path = Path.Combine(BootInfo.tmp_path, "ramdisk");
-            //适配Windows的抽象magiskboot（使用cygwin），其他平台都是原生编译的，可以直接用参数提取ramdisk
-            if (Global.System != "Windows")
-            {
-                workpath = Path.Combine(BootInfo.tmp_path, "ramdisk");
-                Directory.CreateDirectory(workpath);
-            }
-            (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
-            string init_info = await CallExternalProgram.File($"\"{BootPatchHelper.CheckInitPath(ramdisk_path)}\"");
-            (bool valid, BootInfo.arch) = BootPatchHelper.ArchDetect(init_info);
-            if (!valid)
-            {
-                SukiHost.ShowDialog(new PureDialog(init_info), allowBackgroundClose: true);
-                patch_busy(false);
-            }
-            SukiHost.ShowDialog(new PureDialog($"检测到有效镜像文件\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}"), allowBackgroundClose: true);
-            ArchList.SelectedItem = BootInfo.arch;
-            BootInfo.userful = true;
+            await BootPatchHelper.ramdisk_detect();
+            SukiHost.ShowDialog(new PureDialog($"Boot内检测到\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}"), allowBackgroundClose: true);
             patch_busy(false);
         }
     }
     private async void StartPatch(object sender, RoutedEventArgs args)
     {
-        if (!BootInfo.userful | !ZipInfo.userful)
+        if (!BootInfo.userful | !ZipInfo.userful | !BootInfo.have_ramdisk)
         {
             SukiHost.ShowDialog(new PureDialog("请选择有效的面具与镜像文件"), allowBackgroundClose: true);
             return;

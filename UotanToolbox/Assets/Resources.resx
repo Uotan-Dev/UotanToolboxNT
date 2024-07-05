@@ -822,4 +822,10 @@
   <data name="Settings_UotanCommunity" xml:space="preserve">
     <value>Uotan Community</value>
   </data>
+  <data name="Scrcpy_CameraMirror" xml:space="preserve">
+    <value>Camera Mirror</value>
+  </data>
+  <data name="Scrcpy_ClipboardSync" xml:space="preserve">
+    <value>Clipboard Sync</value>
+  </data>
 </root>

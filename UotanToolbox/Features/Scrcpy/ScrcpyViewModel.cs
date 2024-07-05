@@ -1,11 +1,14 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using ReactiveUI;
+using SukiUI.Controls;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
+using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Scrcpy;
 
@@ -13,7 +16,7 @@ public partial class ScrcpyViewModel : MainPageBase
 {
     [ObservableProperty]
     private bool _recordScreen = false, _windowFixed = false, _computerControl = true, _fullScreen = false, _showBorder = true,
-                        _showTouch = true, _closeScreen = false, _screenAwake = false, _screenAwakeStatus = true;
+                        _showTouch = true, _closeScreen = false, _screenAwake = false, _screenAwakeStatus = true, _clipboardSync = true, _cameraMirror = false;
     [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private string _windowTitle, _recordFolder;
 
@@ -39,16 +42,22 @@ public partial class ScrcpyViewModel : MainPageBase
     public Task Connect()
     {
         IsConnecting = true;
-        return Task.Run(async () =>
+        return Dispatcher.UIThread.InvokeAsync(async () =>
         {
             string arg = $"-s {Global.thisdevice} ";
             if (RecordScreen)
             {
-                if (RecordFolder != null)
+                if (RecordFolder != null && RecordFolder != "")
                 {
                     DateTime now = DateTime.Now;
                     string formattedDateTime = now.ToString("yyyy-MM-dd-HH-mm-ss");
                     arg += $"--record {RecordFolder}/{Global.thisdevice}-{formattedDateTime}.mp4 ";
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new ErrorDialog("录屏文件未选择！"));
+                    IsConnecting = false;
+                    return;
                 }
             }
             arg += $"--video-bit-rate {BitRate}M --max-fps {FrameRate} ";
@@ -65,8 +74,10 @@ public partial class ScrcpyViewModel : MainPageBase
             if (!ComputerControl) arg += "--no-control ";
             if (CloseScreen) arg += "--turn-screen-off ";
             if (ScreenAwake) arg += "--stay-awake ";
-            await CallExternalProgram.Scrcpy(arg);
+            if (!ClipboardSync) arg += "--no-clipboard-autosync";
+            if (CameraMirror) arg += "--video-source=camera";
             IsConnecting = false;
+            await CallExternalProgram.Scrcpy(arg);
         });
     }
 }

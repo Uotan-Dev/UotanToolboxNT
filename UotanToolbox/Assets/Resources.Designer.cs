@@ -1627,11 +1627,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Camera Mirror 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_CameraMirror {
+            get {
+                return ResourceManager.GetString("Scrcpy_CameraMirror", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Casting... 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Casting {
             get {
                 return ResourceManager.GetString("Scrcpy_Casting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clipboard Sync 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ClipboardSync {
+            get {
+                return ResourceManager.GetString("Scrcpy_ClipboardSync", resourceCulture);
             }
         }
         

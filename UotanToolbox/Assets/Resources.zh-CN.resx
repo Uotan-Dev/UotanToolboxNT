@@ -822,4 +822,10 @@
   <data name="Settings_UotanCommunity" xml:space="preserve">
     <value>柚坛社区</value>
   </data>
+  <data name="Scrcpy_CameraMirror" xml:space="preserve">
+    <value>相机镜像</value>
+  </data>
+  <data name="Scrcpy_ClipboardSync" xml:space="preserve">
+    <value>剪贴板同步</value>
+  </data>
 </root>

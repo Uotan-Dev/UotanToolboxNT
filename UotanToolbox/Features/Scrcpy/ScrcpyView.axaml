@@ -57,7 +57,7 @@
 
 			<!--  Transmit and record  -->
 			<suki:GlassCard Width="460"
-							Height="250"
+							Height="295"
                             Margin="15"
                             VerticalAlignment="Top">
 				<Grid>
@@ -66,7 +66,7 @@
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
 								   Text="{x:Static assets:Resources.Scrcpy_TransmitAndRecord}" />
-						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+						<StackPanel Margin="0,15,0,0" Orientation="Horizontal">
 							<TextBlock Width="60"
 									   Margin="8,0,0,0"
 									   VerticalAlignment="Center"
@@ -134,7 +134,7 @@
 
 			<!--  More settings  -->
 			<suki:GlassCard Width="460"
-							Height="250"
+							Height="295"
                             Margin="15"
                             VerticalAlignment="Top">
 				<Grid>
@@ -199,6 +199,22 @@
 										   FontSize="13"
 										   Foreground="{DynamicResource SukiLowText}"
 										   Text="{x:Static assets:Resources.Scrcpy_CloseScreenlock}" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding ClipboardSync}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="{x:Static assets:Resources.Scrcpy_ClipboardSync}" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding CameraMirror}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="{x:Static assets:Resources.Scrcpy_CameraMirror}" />
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>

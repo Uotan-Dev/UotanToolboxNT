@@ -36,7 +36,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="{x:Static assets:Resources.Wiredflash_Fastboot}" />
 											<TextBox Width="600" Name="FastbootFile"
 													 Text=""
@@ -52,7 +51,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="FASTBOOTD" />
 											<TextBox Width="600" Name="FastbootdFile"
 													 Text=""
@@ -69,7 +67,6 @@
 											<CheckBox Name="ErasData" IsChecked="False" />
 											<TextBlock VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="{x:Static assets:Resources.Wiredflash_ClearAllData}" />
 										</StackPanel>
 										<Button Width="115"
@@ -107,7 +104,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="ADB Sideload" />
 											<TextBox Width="570" Name="AdbSideloadFile"
 													 Text=""
@@ -123,7 +119,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="Fastboot Updated" />
 											<TextBox Width="570" Name="FastbootUpdatedFile"
 													 Text=""
@@ -139,7 +134,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="{x:Static assets:Resources.Wiredflash_XiaomiFlashScript}" />
 											<TextBox Width="570" Name="BatFile" Text=""
 													 theme:TextBoxExtensions.AddDeleteButton="True"/>

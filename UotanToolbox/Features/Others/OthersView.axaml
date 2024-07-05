@@ -30,35 +30,29 @@
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Margin="5,0,0,0"
 										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="分辨率:" />
 								<TextBlock Name="ScrResolution"
 										   FontSize="13"
 										   Margin="5,0,0,0"
-										   Text="--"
-										   Foreground="{DynamicResource SukiLowText}"/>
+										   Text="--"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="20">
 								<StackPanel Orientation="Horizontal" Width="115">
 									<TextBlock Margin="5,0,0,0"
 											   FontSize="13"
-											   Foreground="{DynamicResource SukiLowText}"
 											   Text="显示密度(DPI):" />
 									<TextBlock Name="ScrDPI"
 											   Margin="5,0,0,0"
 											   FontSize="13"
-											   Text="--"
-											   Foreground="{DynamicResource SukiLowText}"/>
+											   Text="--"/>
 								</StackPanel>
 								<StackPanel Orientation="Horizontal" Width="115">
 									<TextBlock FontSize="13"
-											   Foreground="{DynamicResource SukiLowText}"
 											   Text="最小宽度(DP):" />
 									<TextBlock Name="ScrDP"
 											   Margin="5,0,0,0"
 											   FontSize="13"
-											   Text="--"
-											   Foreground="{DynamicResource SukiLowText}"/>
+											   Text="--"/>
 								</StackPanel>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="5">
@@ -131,7 +125,6 @@
 								<TextBlock Width="200"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="模拟非充电" />
 								<ToggleSwitch Name="NoCharge" IsCheckedChanged="SetNoCharge"/>
 							</StackPanel>
@@ -139,7 +132,6 @@
 								<TextBlock Width="200"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="模拟无线充电" />
 								<ToggleSwitch Name="WirelessCharge" IsCheckedChanged="SetWirelessCharge"/>
 							</StackPanel>
@@ -147,7 +139,6 @@
 								<TextBlock Width="200"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="模拟USB充电" />
 								<ToggleSwitch Name="USUCharge" IsCheckedChanged="SetUSUCharge"/>
 							</StackPanel>
@@ -155,7 +146,6 @@
 								<TextBlock Width="200"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="模拟直流充电" />
 								<ToggleSwitch Name="ACCharge" IsCheckedChanged="SetACCharge"/>
 							</StackPanel>
@@ -179,12 +169,10 @@
 						<StackPanel Margin="8,5,0,0" Orientation="Vertical" Spacing="10">
 							<StackPanel Margin="0,35,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
 								<TextBlock Margin="5,0,0,0"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="当前锁屏时间:" />
 								<TextBlock Name="LockTime"
 										   Width="40"
 										   Margin="5,0,0,0"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="--"/>
 							</StackPanel>
 							<StackPanel Margin="0,20,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -216,7 +204,6 @@
 										   Margin="8,0,0,0"
 										   VerticalAlignment="Center"
 										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="缩放" />
 								<Slider Name="FontZoom"
 										Width="630"
@@ -232,7 +219,6 @@
 										   Margin="8,0,0,0"
 										   VerticalAlignment="Center"
 										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="当前倍数:" />
 									<TextBlock Name="NowFontZoom"
 											   Margin="5,0,0,0"
@@ -245,7 +231,6 @@
 										   Margin="8,0,0,0"
 										   VerticalAlignment="Center"
 										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="设置倍数:" />
 									<TextBlock Margin="5,0,0,0"
 											   Width="40"
@@ -294,7 +279,6 @@
 												   Margin="8,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
-												   Foreground="{DynamicResource SukiLowText}"
 												   Text="窗口缩放" />
 										<Slider Name="WindowZoom"
 												Width="630"
@@ -306,7 +290,6 @@
 												   Margin="16,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
-												   Foreground="{DynamicResource SukiLowText}"
 												   Text="设置倍数:" />
 										<TextBlock Margin="5,0,0,0"
 												   Width="40"
@@ -359,7 +342,6 @@
 												   Margin="8,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
-												   Foreground="{DynamicResource SukiLowText}"
 												   Text="过渡缩放" />
 										<Slider Name="TransitionZoom"
 												Width="630"
@@ -371,7 +353,6 @@
 												   Margin="16,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
-												   Foreground="{DynamicResource SukiLowText}"
 												   Text="设置倍数:" />
 										<TextBlock Margin="5,0,0,0"
 												   Width="40"
@@ -424,7 +405,6 @@
 												   Margin="8,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
-												   Foreground="{DynamicResource SukiLowText}"
 												   Text="动画时长" />
 										<Slider Name="AnimationDuration"
 												Width="630"
@@ -436,7 +416,6 @@
 												   Margin="16,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
-												   Foreground="{DynamicResource SukiLowText}"
 												   Text="设置倍数:" />
 										<TextBlock Margin="5,0,0,0"
 												   Width="40"

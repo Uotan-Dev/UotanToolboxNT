@@ -107,7 +107,6 @@
 										   Margin="8,0,0,0"
 										   VerticalAlignment="Center"
 										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
 										   Text="{x:Static assets:Resources.Appmgr_ApkFile}" />
 								<TextBox Width="250" Name="ApkFile" Text="{Binding ApkFile, Mode=TwoWay}"/>
 								<Button Height="35"

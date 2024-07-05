@@ -34,7 +34,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="System" />
 											<TextBox Width="270" Name="SystemFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -55,7 +54,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="Product" />
 											<TextBox Width="270" Name="ProductFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -76,7 +74,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="Vender" />
 											<TextBox Width="270" Name="VenderFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -97,7 +94,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="Boot" />
 											<TextBox Width="270" Name="BootFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -120,7 +116,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="System_ext" />
 											<TextBox Width="240" Name="SystemextFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -141,7 +136,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="Odm" />
 											<TextBox Width="240" Name="OdmFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -162,7 +156,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="Vender_boot" />
 											<TextBox Width="240" Name="VenderbootFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -183,7 +176,6 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Foreground="{DynamicResource SukiLowText}"
 													   Text="Init_boot" />
 											<TextBox Width="240" Name="InitbootFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
@@ -227,7 +219,6 @@
 							<TextBlock Width="50"
 									   FontSize="15"
 									   VerticalAlignment="Center"
-									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Customizedflash_FlashTo}" />
 							<TextBox Width="160" Name="Part"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>

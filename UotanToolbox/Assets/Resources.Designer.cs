@@ -1744,6 +1744,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_RecordFolderNoPermission {
+            get {
+                return ResourceManager.GetString("Scrcpy_RecordFolderNoPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Record Screen 的本地化字符串。
         /// </summary>
         public static string Scrcpy_RecordScreen {
@@ -1879,6 +1888,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Check Update 的本地化字符串。
+        /// </summary>
+        public static string Settings_CheckUpdate {
+            get {
+                return ResourceManager.GetString("Settings_CheckUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Color Theme 的本地化字符串。
         /// </summary>
         public static string Settings_ColorTheme {
@@ -1969,11 +1987,11 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Official Website 的本地化字符串。
+        ///   查找类似 New version available! 的本地化字符串。
         /// </summary>
-        public static string Settings_OfficialWebsite {
+        public static string Settings_NewVersionAvailable {
             get {
-                return ResourceManager.GetString("Settings_OfficialWebsite", resourceCulture);
+                return ResourceManager.GetString("Settings_NewVersionAvailable", resourceCulture);
             }
         }
         
@@ -2019,6 +2037,15 @@ namespace UotanToolbox.Assets {
         public static string Settings_UotanCommunity {
             get {
                 return ResourceManager.GetString("Settings_UotanCommunity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This software is up to date 的本地化字符串。
+        /// </summary>
+        public static string Settings_UpToDate {
+            get {
+                return ResourceManager.GetString("Settings_UpToDate", resourceCulture);
             }
         }
         

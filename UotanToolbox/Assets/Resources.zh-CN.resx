@@ -813,8 +813,8 @@
   <data name="Settings_EnableBackgroundTransitions" xml:space="preserve">
     <value>启用/禁用背景过渡，以在改变背景效果时拥有渐变效果。</value>
   </data>
-  <data name="Settings_OfficialWebsite" xml:space="preserve">
-    <value>官方网站</value>
+  <data name="Settings_CheckUpdate" xml:space="preserve">
+    <value>检查更新</value>
   </data>
   <data name="Settings_SelectFromIncludedBackgroundStyles" xml:space="preserve">
     <value>从包含的背景样式中选择。</value>
@@ -830,5 +830,14 @@
   </data>
   <data name="Scrcpy_RecordFileNotChosen" xml:space="preserve">
     <value>录屏文件未选择！</value>
+  </data>
+	<data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
+    <value>所选录屏文件夹无写入权限！</value>
+  </data>
+  <data name="Settings_NewVersionAvailable" xml:space="preserve">
+    <value>新版本可用！</value>
+  </data>
+  <data name="Settings_UpToDate" xml:space="preserve">
+    <value>当前已是最新版本</value>
   </data>
 </root>

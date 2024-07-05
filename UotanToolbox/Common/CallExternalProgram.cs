@@ -255,8 +255,8 @@ namespace UotanToolbox.Common
             }
             int exitCode = mb.ExitCode;
             return (output, exitCode);
-            }
-        
+        }
+
 
         /// <summary>
         /// 使用file命令判断文件的类型和指令集。暂不支持FAT Binary多架构检测

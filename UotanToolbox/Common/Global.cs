@@ -22,6 +22,9 @@ namespace UotanToolbox.Common
         public static string sdetable = "";
         public static string sdftable = "";
         public static string emmcrom = "";
+
+        //工具箱版本
+        public static string currentVersion = "819a867";
     }
     public class BootInfo
     {
@@ -30,8 +33,8 @@ namespace UotanToolbox.Common
         public static bool userful = false;
         public static bool gki2 = false;
         public static string kmi = "";
-        public static string os_version="";
-        public static string patch_level="";
+        public static string os_version = "";
+        public static string patch_level = "";
         public static bool have_ramdisk = false;
         public static bool have_kernel = false;
         public static bool have_dtb = false;

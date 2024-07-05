@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
@@ -249,6 +251,96 @@ namespace UotanToolbox.Common
                 File.Delete(filename);
             }
             return true;
+        }
+        /// <summary>
+        /// 检索目录下大小在10KB到200KB为后缀为gz的文件
+        /// </summary>
+        /// <param name="directoryPath">需要检索的目录</param>
+        /// <returns>符合条件的文件名组成的字符串列表</returns>
+        /// <exception cref="DirectoryNotFoundException">指定的目录不存在</exception>
+        public static string[] FindConfigGzFiles(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                throw new DirectoryNotFoundException($"The directory {directoryPath} does not exist.");
+            }
+            string[] allGzFiles = Directory.GetFiles(directoryPath, "*.gz", SearchOption.TopDirectoryOnly);
+            var filteredFiles = allGzFiles.Where(path =>
+            {
+                var fileInfo = new FileInfo(path);
+                return fileInfo.Length >= 10 * 1024 && fileInfo.Length <= 200 * 1024;
+            });
+            string[] fileNames = filteredFiles.Select(Path.GetFileName).ToArray();
+            return fileNames;
+        }
+        /// <summary>
+        /// 从给定的压缩文件名数组中解压出文件
+        /// </summary>
+        /// <param name="gzFileNames">给定的压缩文件名数组</param>
+        /// <returns>解压成功的文件名数组（无后缀）</returns>
+        public static async Task<string[]> DecompressConfigGzFiles(string[] gzFileNames)
+        {
+            string decompressedFileName;
+            string[] decompressedFileNames = new string[gzFileNames.Length];
+            int a = 0;
+            for (int i = 0; i < gzFileNames.Length; i++)
+            {
+                string gzFilePath = Path.Combine(BootInfo.tmp_path, "kernel-component", gzFileNames[i]);
+                string output = await CallExternalProgram.SevenZip($"e -o{Path.Combine(BootInfo.tmp_path, "kernel-component")} {gzFilePath} -y");
+                if (output.Contains("Everything is Ok"))
+                {
+                    decompressedFileNames[a] = Path.GetFileNameWithoutExtension(gzFilePath);
+                    a = a + 1;
+                }
+            }
+            decompressedFileNames = decompressedFileNames.Where(str => str != null).ToArray();
+            return decompressedFileNames;
+        }
+        /// <summary>
+        /// 根据config文件中的配置选项推断内核是否支持gki2.0（方法完善性不佳，仅作拒绝筛选）
+        /// </summary>
+        /// <param name="filePaths"></param>
+        /// <returns>是否可能为gki2.0内核</returns>
+        public static bool CheckGkiConfig(string[] filePaths)
+        {
+            foreach (string filePath in filePaths)
+            {
+                string fullPath = Path.Combine(BootInfo.tmp_path, "kernel-component", filePath);
+                string content = File.ReadAllText(fullPath);
+                if (content.Contains("CONFIG_MODVERSIONS=y") & content.Contains("CONFIG_MODULES=y") & content.Contains("CONFIG_MODULE_UNLOAD=y") & content.Contains("CONFIG_MODVERSIONS=y"))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// 通过写入，读取，删除文件来判断程序是否拥有指定目录的写入权限
+        /// </summary>
+        /// <param name="directoryPath">给定程序目录</param>
+        /// <returns>是否拥有权限</returns>
+        public static bool TestPermission(string directoryPath)
+        {
+            string tempFileName = Path.Combine(directoryPath, Guid.NewGuid().ToString() + ".tmp");
+            try
+            {
+                byte[] content = { 0x48, 0x65, 0x6C, 0x6C, 0x6F };//Hello
+                using (FileStream fs = File.Create(tempFileName))
+                {
+                    fs.Write(content, 0, content.Length);
+                }
+                byte[] readContent = File.ReadAllBytes(tempFileName);
+                if (!content.SequenceEqual(readContent))
+                {
+                    return false;
+                }
+                File.Delete(tempFileName);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

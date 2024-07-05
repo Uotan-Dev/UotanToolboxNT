@@ -20,8 +20,8 @@ public partial class ScrcpyViewModel : MainPageBase
     [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private string _windowTitle, _recordFolder;
 
-    [ObservableProperty][Range(0d, 10d)] private double _bitRate = 8;
-    [ObservableProperty][Range(0d, 180d)] private double _frameRate = 60;
+    [ObservableProperty][Range(0d, 50d)] private double _bitRate = 8;
+    [ObservableProperty][Range(0d, 144d)] private double _frameRate = 60;
     [ObservableProperty][Range(0d, 2048d)] private double _sizeResolution = 0;
 
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);

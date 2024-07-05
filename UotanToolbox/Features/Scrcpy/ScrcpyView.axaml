@@ -96,7 +96,7 @@
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Scrcpy_Bitrate}" />
-							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="10" Minimum="0" TickFrequency="1" Value="{Binding BitRate}"></Slider>
+							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="50" Minimum="0" TickFrequency="1" Value="{Binding BitRate}"></Slider>
 							<TextBlock Margin="12,0,0,0"
 							   VerticalAlignment="Center"
 							   FontWeight="DemiBold"
@@ -109,7 +109,7 @@
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Scrcpy_MaxFps}" />
-							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="180" Minimum="0" TickFrequency="1" Value="{Binding FrameRate}"></Slider>
+							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="144" Minimum="0" TickFrequency="1" Value="{Binding FrameRate}"></Slider>
 							<TextBlock Margin="12,0,0,0"
 							   VerticalAlignment="Center"
 							   FontWeight="DemiBold"

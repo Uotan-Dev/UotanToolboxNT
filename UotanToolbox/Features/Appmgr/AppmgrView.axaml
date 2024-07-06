@@ -20,7 +20,7 @@
 	<WrapPanel Margin="15"
                theme:WrapPanelExtensions.AnimatedScroll="True"
                Orientation="Horizontal">
-		<suki:GlassCard Height="170" Width="464.25" HorizontalAlignment="Left" Margin="15" VerticalAlignment="Top">
+		<suki:GlassCard Height="205" Width="464.25" HorizontalAlignment="Left" Margin="15" VerticalAlignment="Top">
 			<StackPanel Spacing="10">
 				<TextBlock HorizontalAlignment="Left"
 						   FontSize="15"
@@ -62,7 +62,7 @@
 								Padding="8"
 								Command="{Binding UninstallAppCommand}">
 							<TextBlock>
-								<avalonia:MaterialIcon Kind="TrashCanOutline" />
+								<avalonia:MaterialIcon Kind="DeleteOutline" />
 								<TextBlock Text="{x:Static assets:Resources.Appmgr_Uninstall}" />
 							</TextBlock>
 						</Button>
@@ -85,13 +85,42 @@
 							</TextBlock>
 						</Button>
 					</StackPanel>
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding ClearAppCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="TrashCanOutline" />
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_ClearData}" />
+							</TextBlock>
+						</Button>
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding ForceStopAppCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="StopCircleOutline" />
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_ForceStop}" />
+							</TextBlock>
+						</Button>
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding ActivateAppCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="StarFourPointsCircleOutline" />
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_ActivateSwitch}" />
+							</TextBlock>
+						</Button>
+					</StackPanel>
 				</StackPanel>
 			</StackPanel>
 		</suki:GlassCard>
 
 		<Grid Margin="15">
 			<suki:GlassCard Width="464.25"
-							Height="170"
+							Height="205"
 							VerticalAlignment="Top">
 				<Grid>
 					<suki:BusyArea Name="BusyConnection"
@@ -104,7 +133,7 @@
 								   Text="{x:Static assets:Resources.Appmgr_InstallApp}" />
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 								<TextBlock Width="60"
-										   Margin="8,0,0,0"
+										   Margin="8,15,0,0"
 										   VerticalAlignment="Center"
 										   FontSize="13"
 										   Text="{x:Static assets:Resources.Appmgr_ApkFile}" />
@@ -118,7 +147,7 @@
 							<Button Name="ButtonSignIn"
 									Width="150"
 									Height="40"
-									Margin="0,15,0,0"
+									Margin="0,30,0,0"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Bottom"
 									theme:ButtonExtensions.ShowProgress="{Binding IsInstalling}"
@@ -135,7 +164,7 @@
 		<suki:GlassCard Classes="Card"
 						Margin="15"
 						Width="960"
-						Height="535">
+						Height="510">
 			<suki:BusyArea BusyText="{x:Static assets:Resources.Appmgr_Fetching}"
 						   IsBusy="{Binding IsBusy}">
 				<ScrollViewer>

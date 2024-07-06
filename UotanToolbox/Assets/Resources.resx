@@ -831,8 +831,8 @@
   <data name="Scrcpy_RecordFileNotChosen" xml:space="preserve">
     <value>Record file isn't chosen!</value>
   </data>
-	<data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
-    <value>Has no permission for writing file to Record folder</value>
+  <data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
+    <value />
   </data>
   <data name="Settings_NewVersionAvailable" xml:space="preserve">
     <value>New version available!</value>
@@ -840,7 +840,13 @@
   <data name="Settings_UpToDate" xml:space="preserve">
     <value>This software is up to date</value>
   </data>
-  <data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
-    <value />
+  <data name="Appmgr_ActivateSwitch" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="Appmgr_ClearData" xml:space="preserve">
+    <value>Clear Data</value>
+  </data>
+  <data name="Appmgr_ForceStop" xml:space="preserve">
+    <value>Force Stop</value>
   </data>
 </root>

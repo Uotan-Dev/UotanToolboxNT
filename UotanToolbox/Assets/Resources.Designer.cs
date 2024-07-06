@@ -241,6 +241,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Activate 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ActivateSwitch {
+            get {
+                return ResourceManager.GetString("Appmgr_ActivateSwitch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Apk File 的本地化字符串。
         /// </summary>
         public static string Appmgr_ApkFile {
@@ -264,6 +273,15 @@ namespace UotanToolbox.Assets {
         public static string Appmgr_AppManager {
             get {
                 return ResourceManager.GetString("Appmgr_AppManager", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Clear Data 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ClearData {
+            get {
+                return ResourceManager.GetString("Appmgr_ClearData", resourceCulture);
             }
         }
         
@@ -318,6 +336,15 @@ namespace UotanToolbox.Assets {
         public static string Appmgr_Fetching {
             get {
                 return ResourceManager.GetString("Appmgr_Fetching", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Force Stop 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ForceStop {
+            get {
+                return ResourceManager.GetString("Appmgr_ForceStop", resourceCulture);
             }
         }
         

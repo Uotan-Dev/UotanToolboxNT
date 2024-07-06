@@ -831,7 +831,7 @@
   <data name="Scrcpy_RecordFileNotChosen" xml:space="preserve">
     <value>录屏文件未选择！</value>
   </data>
-	<data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
+  <data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
     <value>所选录屏文件夹无写入权限！</value>
   </data>
   <data name="Settings_NewVersionAvailable" xml:space="preserve">
@@ -839,5 +839,14 @@
   </data>
   <data name="Settings_UpToDate" xml:space="preserve">
     <value>当前已是最新版本</value>
+  </data>
+  <data name="Appmgr_ActivateSwitch" xml:space="preserve">
+    <value>激活切换</value>
+  </data>
+  <data name="Appmgr_ClearData" xml:space="preserve">
+    <value>清除数据</value>
+  </data>
+  <data name="Appmgr_ForceStop" xml:space="preserve">
+    <value>强制停止</value>
   </data>
 </root>

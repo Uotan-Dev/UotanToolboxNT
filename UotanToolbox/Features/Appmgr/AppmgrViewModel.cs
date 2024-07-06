@@ -216,6 +216,34 @@ public partial class AppmgrViewModel : MainPageBase
         IsBusy = false;
     }
 
+    [RelayCommand]
+    public async Task ClearApp()
+    {
+        IsBusy = true; var selectedApp = SelectedApplication(); if (!string.IsNullOrEmpty(selectedApp))
+        {
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm clear {selectedApp}");
+        }
+        IsBusy = false;
+    }
+
+    [RelayCommand]
+    public async Task ForceStopApp()
+    {
+        IsBusy = true; var selectedApp = SelectedApplication(); if (!string.IsNullOrEmpty(selectedApp))
+        {
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell am force-stop {selectedApp}");
+        }
+        IsBusy = false;
+    }
+
+    [RelayCommand]
+    public async Task ActivateApp()
+    {
+        IsBusy = true;
+
+        IsBusy = false;
+    }
+
     private static readonly char[] separatorArray = ['\r', '\n'];
 
     private static string GetInstalledDate(string[] lines)

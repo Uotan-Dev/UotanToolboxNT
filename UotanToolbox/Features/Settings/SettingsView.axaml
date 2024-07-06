@@ -9,8 +9,8 @@
              xmlns:settings="clr-namespace:UotanToolbox.Features.Settings"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
 			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
+             d:DesignHeight="1950"
+             d:DesignWidth="1024"
              x:DataType="settings:SettingsViewModel"
              mc:Ignorable="d">
 	<controls:SukiStackPage Margin="20">
@@ -172,19 +172,22 @@
 
 												<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
 													<Button Classes="Classic"
+															Width="110"
 															Content="{x:Static assets:Resources.Settings_CheckUpdate}"
 															Command="{Binding GetUpdateCommand}"
 															HorizontalAlignment="Right"/>
 													<Button Classes="Classic"
-														Content="{x:Static assets:Resources.Settings_UotanCommunity}"
-														Command="{Binding OpenURLCommand}"
-														CommandParameter="https://www.uotan.cn"
-														HorizontalAlignment="Right"/>
+															Width="110"
+															Content="{x:Static assets:Resources.Settings_UotanCommunity}"
+															Command="{Binding OpenURLCommand}"
+															CommandParameter="https://www.uotan.cn"
+															HorizontalAlignment="Right"/>
 													<Button Classes="Classic"
-														Content="Bilibili"
-														Command="{Binding OpenURLCommand}"
-														CommandParameter="https://space.bilibili.com/522676659"
-														HorizontalAlignment="Right"/>
+															Width="110"
+															Content="Bilibili"
+															Command="{Binding OpenURLCommand}"
+															CommandParameter="https://space.bilibili.com/522676659"
+															HorizontalAlignment="Right"/>
 												</StackPanel>
 											</Grid>
 											

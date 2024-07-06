@@ -106,13 +106,13 @@
 				<StackPanel Orientation="Horizontal" Spacing="0">
 					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="10">
 						<StackPanel Orientation="Horizontal" Spacing="30">
-							<RadioButton Name="sda" FontSize="15" Content="sda" GroupName="FormatContent" />
-							<RadioButton Name="sdb" FontSize="15" Content="sdb" GroupName="FormatContent" />
+							<RadioButton Name="sda" Width="55" FontSize="15" Content="sda" GroupName="FormatContent" />
+							<RadioButton Name="sdb" Width="55" FontSize="15" Content="sdb" GroupName="FormatContent" />
 							<RadioButton Name="sdc" FontSize="15" Content="sdc" GroupName="FormatContent" />
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="30">
-							<RadioButton Name="sdd" FontSize="15" Content="sdd" GroupName="FormatContent" />
-							<RadioButton Name="sde" FontSize="15" Content="sde" GroupName="FormatContent" />
+							<RadioButton Name="sdd" Width="55" FontSize="15" Content="sdd" GroupName="FormatContent" />
+							<RadioButton Name="sde" Width="55" FontSize="15" Content="sde" GroupName="FormatContent" />
 							<RadioButton Name="sdf" FontSize="15" Content="sdf" GroupName="FormatContent" />
 						</StackPanel>
 					</StackPanel>

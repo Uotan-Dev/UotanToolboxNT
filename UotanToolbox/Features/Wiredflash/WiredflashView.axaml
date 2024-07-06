@@ -11,176 +11,174 @@
 			 d:DesignWidth="1024"
              x:DataType="wiredflash:WiredflashViewModel"
              mc:Ignorable="d">
-	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
-                   theme:WrapPanelExtensions.AnimatedScroll="True"
-                   Orientation="Horizontal">
-			<!-- Fastboot -->
-			<suki:GlassCard Width="960"
-							Height="160"
-                            Margin="10"
-                            VerticalAlignment="Top">
-				<suki:BusyArea  Name="BusyTXTFlash"
-								BusyText="{x:Static assets:Resources.Wiredflash_Executing}">
-					<Grid>
-						<StackPanel Name="TXTFlash" Spacing="30">
-							<StackPanel>
-								<TextBlock HorizontalAlignment="Left"
-										   VerticalAlignment="Top"
-										   FontWeight="DemiBold"
-										   Text="{x:Static assets:Resources.Wiredflash_TXTFlash}" />
-								<StackPanel Orientation="Horizontal" Spacing="20">
-									<StackPanel>
-										<StackPanel Margin="0" Orientation="Horizontal">
-											<TextBlock Width="80"
-													   Margin="8,0,0,0"
-													   VerticalAlignment="Center"
-													   FontSize="13"
-													   Text="{x:Static assets:Resources.Wiredflash_Fastboot}" />
-											<TextBox Width="600" Name="FastbootFile"
-													 Text=""
-													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
-													Padding="10,0,10,0"
-													Click="OpenFastbootFile"
-													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
-											</Button>
-										</StackPanel>
-										<StackPanel Margin="0" Orientation="Horizontal">
-											<TextBlock Width="80"
-													   Margin="8,0,0,0"
-													   VerticalAlignment="Center"
-													   FontSize="13"
-													   Text="FASTBOOTD" />
-											<TextBox Width="600" Name="FastbootdFile"
-													 Text=""
-													 theme:TextBoxExtensions.AddDeleteButton="False"/>
-											<Button Height="35"
-													Padding="10,0,10,0"
-													Click="OpenFastbootdFile"
-													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
-											</Button>
-										</StackPanel>
+	<WrapPanel Margin="15"
+			   theme:WrapPanelExtensions.AnimatedScroll="True"
+			   Orientation="Horizontal">
+		<!-- Fastboot -->
+		<suki:GlassCard Width="960"
+						Height="160"
+						Margin="10"
+						VerticalAlignment="Top">
+			<suki:BusyArea  Name="BusyTXTFlash"
+							BusyText="{x:Static assets:Resources.Wiredflash_Executing}">
+				<Grid>
+					<StackPanel Name="TXTFlash" Spacing="30">
+						<StackPanel>
+							<TextBlock HorizontalAlignment="Left"
+									   VerticalAlignment="Top"
+									   FontWeight="DemiBold"
+									   Text="{x:Static assets:Resources.Wiredflash_TXTFlash}" />
+							<StackPanel Orientation="Horizontal" Spacing="20">
+								<StackPanel>
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="80"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Text="{x:Static assets:Resources.Wiredflash_Fastboot}" />
+										<TextBox Width="600" Name="FastbootFile"
+												 Text=""
+												 theme:TextBoxExtensions.AddDeleteButton="False"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenFastbootFile"
+												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
+										</Button>
 									</StackPanel>
-									<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-										<StackPanel Height="35" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
-											<CheckBox Name="ErasData" IsChecked="False" />
-											<TextBlock VerticalAlignment="Center"
-													   FontSize="13"
-													   Text="{x:Static assets:Resources.Wiredflash_ClearAllData}" />
-										</StackPanel>
-										<Button Width="115"
-												Height="35"
-												HorizontalAlignment="Left"
-												Click="StartTXTFlash"
-												Content="{x:Static assets:Resources.Wiredflash_StartFlashing}">
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="80"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Text="FASTBOOTD" />
+										<TextBox Width="600" Name="FastbootdFile"
+												 Text=""
+												 theme:TextBoxExtensions.AddDeleteButton="False"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenFastbootdFile"
+												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
 										</Button>
 									</StackPanel>
 								</StackPanel>
-							</StackPanel>
-						</StackPanel>
-					</Grid>
-				</suki:BusyArea>
-			</suki:GlassCard>
-
-			<!-- More Wired Flash -->
-			<suki:GlassCard Width="960"
-							Height="210"
-							Margin="10"
-                            VerticalAlignment="Top">
-				<suki:BusyArea  Name="BusyFlash"
-								BusyText="{x:Static assets:Resources.Wiredflash_Executing}">
-					<Grid>
-						<StackPanel Name="MoreWiredFlash" Spacing="30">
-							<StackPanel>
-								<TextBlock HorizontalAlignment="Left"
-										   VerticalAlignment="Top"
-										   FontWeight="DemiBold"
-										   Text="{x:Static assets:Resources.Wiredflash_MoreFlash}" />
-								<StackPanel Orientation="Horizontal" Spacing="20">
-									<StackPanel>
-										<StackPanel Margin="0" Orientation="Horizontal">
-											<TextBlock Width="110"
-													   Margin="8,0,0,0"
-													   VerticalAlignment="Center"
-													   FontSize="13"
-													   Text="ADB Sideload" />
-											<TextBox Width="570" Name="AdbSideloadFile"
-													 Text=""
-													 theme:TextBoxExtensions.AddDeleteButton="True"/>
-											<Button Height="35"
-													Padding="10,0,10,0"
-													Click="OpenSideloadFile"
-													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
-											</Button>
-										</StackPanel>
-										<StackPanel Margin="0" Orientation="Horizontal">
-											<TextBlock Width="110"
-													   Margin="8,0,0,0"
-													   VerticalAlignment="Center"
-													   FontSize="13"
-													   Text="Fastboot Updated" />
-											<TextBox Width="570" Name="FastbootUpdatedFile"
-													 Text=""
-													 theme:TextBoxExtensions.AddDeleteButton="True"/>
-											<Button Height="35"
-													Padding="10,0,10,0"
-													Click="OpenUpdatedFile"
-													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
-											</Button>
-										</StackPanel>
-										<StackPanel Margin="0" Orientation="Horizontal">
-											<TextBlock Width="110"
-													   Margin="8,0,0,0"
-													   VerticalAlignment="Center"
-													   FontSize="13"
-													   Text="{x:Static assets:Resources.Wiredflash_XiaomiFlashScript}" />
-											<TextBox Width="570" Name="BatFile" Text=""
-													 theme:TextBoxExtensions.AddDeleteButton="True"/>
-											<Button Height="35"
-													Padding="10,0,10,0"
-													Click="OpenBatFile"
-													Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
-											</Button>
-										</StackPanel>
+								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+									<StackPanel Height="35" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+										<CheckBox Name="ErasData" IsChecked="False" />
+										<TextBlock VerticalAlignment="Center"
+												   FontSize="13"
+												   Text="{x:Static assets:Resources.Wiredflash_ClearAllData}" />
 									</StackPanel>
-									<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-										<Button Width="115"
-												Height="35"
-												HorizontalAlignment="Left"
-												Click="SetToA"
-												Content="{x:Static assets:Resources.Wiredflash_SwitchToASlot}">
-										</Button>
-										<Button Width="115"
-												Height="35"
-												HorizontalAlignment="Left"
-												Click="SetToB"
-												Content="{x:Static assets:Resources.Wiredflash_SwitchToBSlot}">
-										</Button>
-										<Button Width="115"
-												Height="35"
-												HorizontalAlignment="Left"
-												Click="StartFlash"
-												Content="{x:Static assets:Resources.Wiredflash_StartFlashing}">
-										</Button>
-									</StackPanel>
+									<Button Width="115"
+											Height="35"
+											HorizontalAlignment="Left"
+											Click="StartTXTFlash"
+											Content="{x:Static assets:Resources.Wiredflash_StartFlashing}">
+									</Button>
 								</StackPanel>
 							</StackPanel>
 						</StackPanel>
-					</Grid>
-				</suki:BusyArea>
-			</suki:GlassCard>
-
-			<!-- Log -->
-			<suki:GlassCard Width="960"
-							Height="340"
-			                Margin="10"
-			                VerticalAlignment="Top">
-				<Grid VerticalAlignment="Top">
-					<TextBox Name="WiredflashLog" Watermark="{x:Static assets:Resources.Wiredflash_Log}" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
-							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
+					</StackPanel>
 				</Grid>
-			</suki:GlassCard>
-		</WrapPanel>
-	</ScrollViewer>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+		<!-- More Wired Flash -->
+		<suki:GlassCard Width="960"
+						Height="210"
+						Margin="10"
+						VerticalAlignment="Top">
+			<suki:BusyArea  Name="BusyFlash"
+							BusyText="{x:Static assets:Resources.Wiredflash_Executing}">
+				<Grid>
+					<StackPanel Name="MoreWiredFlash" Spacing="30">
+						<StackPanel>
+							<TextBlock HorizontalAlignment="Left"
+									   VerticalAlignment="Top"
+									   FontWeight="DemiBold"
+									   Text="{x:Static assets:Resources.Wiredflash_MoreFlash}" />
+							<StackPanel Orientation="Horizontal" Spacing="20">
+								<StackPanel>
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="110"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Text="ADB Sideload" />
+										<TextBox Width="570" Name="AdbSideloadFile"
+												 Text=""
+												 theme:TextBoxExtensions.AddDeleteButton="True"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenSideloadFile"
+												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
+										</Button>
+									</StackPanel>
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="110"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Text="Fastboot Updated" />
+										<TextBox Width="570" Name="FastbootUpdatedFile"
+												 Text=""
+												 theme:TextBoxExtensions.AddDeleteButton="True"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenUpdatedFile"
+												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
+										</Button>
+									</StackPanel>
+									<StackPanel Margin="0" Orientation="Horizontal">
+										<TextBlock Width="110"
+												   Margin="8,0,0,0"
+												   VerticalAlignment="Center"
+												   FontSize="13"
+												   Text="{x:Static assets:Resources.Wiredflash_XiaomiFlashScript}" />
+										<TextBox Width="570" Name="BatFile" Text=""
+												 theme:TextBoxExtensions.AddDeleteButton="True"/>
+										<Button Height="35"
+												Padding="10,0,10,0"
+												Click="OpenBatFile"
+												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
+										</Button>
+									</StackPanel>
+								</StackPanel>
+								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+									<Button Width="115"
+											Height="35"
+											HorizontalAlignment="Left"
+											Click="SetToA"
+											Content="{x:Static assets:Resources.Wiredflash_SwitchToASlot}">
+									</Button>
+									<Button Width="115"
+											Height="35"
+											HorizontalAlignment="Left"
+											Click="SetToB"
+											Content="{x:Static assets:Resources.Wiredflash_SwitchToBSlot}">
+									</Button>
+									<Button Width="115"
+											Height="35"
+											HorizontalAlignment="Left"
+											Click="StartFlash"
+											Content="{x:Static assets:Resources.Wiredflash_StartFlashing}">
+									</Button>
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+		<!-- Log -->
+		<suki:GlassCard Width="960"
+						Height="340"
+						Margin="10"
+						VerticalAlignment="Top">
+			<Grid VerticalAlignment="Top">
+				<TextBox Name="WiredflashLog" Watermark="{x:Static assets:Resources.Wiredflash_Log}" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
+						 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
+			</Grid>
+		</suki:GlassCard>
+	</WrapPanel>
 </UserControl>

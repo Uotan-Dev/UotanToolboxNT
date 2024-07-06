@@ -13,17 +13,15 @@
              x:DataType="dashboard:DashboardViewModel"
              mc:Ignorable="d">
 
-	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+	<WrapPanel Margin="15"
+			   theme:WrapPanelExtensions.AnimatedScroll="True"
+			   Orientation="Horizontal">
 
-		<WrapPanel Margin="15"
-                   theme:WrapPanelExtensions.AnimatedScroll="True"
-                   Orientation="Horizontal">
-
-			<!--  Unlock  -->
-			<suki:GlassCard Width="630" Margin="10">
-				<suki:BusyArea Name="BusyUnlock"
-								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
-					<StackPanel Name="UnlockPanel">
+		<!--  Unlock  -->
+		<suki:GlassCard Width="630" Margin="10">
+			<suki:BusyArea Name="BusyUnlock"
+							BusyText="{x:Static assets:Resources.Basicflash_Executing}">
+				<StackPanel Name="UnlockPanel">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
@@ -49,14 +47,14 @@
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
-				</suki:BusyArea>
-			</suki:GlassCard>
+			</suki:BusyArea>
+		</suki:GlassCard>
 
-			<!--  Unlock with command  -->
-			<suki:GlassCard Width="310" Margin="10">
-				<suki:BusyArea Name="BusyBaseUnlock"
-								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
-					<StackPanel Name="BaseUnlockPanel" Orientation="Vertical" Spacing="10">
+		<!--  Unlock with command  -->
+		<suki:GlassCard Width="310" Margin="10">
+			<suki:BusyArea Name="BusyBaseUnlock"
+							BusyText="{x:Static assets:Resources.Basicflash_Executing}">
+				<StackPanel Name="BaseUnlockPanel" Orientation="Vertical" Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
@@ -71,14 +69,14 @@
 						</Button>
 					</StackPanel>
 				</StackPanel>
-				</suki:BusyArea>
-			</suki:GlassCard>
+			</suki:BusyArea>
+		</suki:GlassCard>
 
-			<!--  Flash recovery  -->
-			<suki:GlassCard Width="630" Margin="10">
-				<suki:BusyArea Name="BusyFlash"
-								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
-					<StackPanel Name="FlashRecovery">
+		<!--  Flash recovery  -->
+		<suki:GlassCard Width="630" Margin="10">
+			<suki:BusyArea Name="BusyFlash"
+							BusyText="{x:Static assets:Resources.Basicflash_Executing}">
+				<StackPanel Name="FlashRecovery">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
@@ -149,85 +147,84 @@
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
-				</suki:BusyArea>
-			</suki:GlassCard>
+			</suki:BusyArea>
+		</suki:GlassCard>
 
-			<!--    -->
-			<suki:GlassCard Width="310" Margin="10">
-				<StackPanel Orientation="Vertical" Spacing="10">
+		<!--    -->
+		<suki:GlassCard Width="310" Margin="10">
+			<StackPanel Orientation="Vertical" Spacing="10">
+				<TextBlock HorizontalAlignment="Left"
+							FontSize="15"
+							FontWeight="DemiBold"
+							Text="{x:Static assets:Resources.Basicflash_DriverPatch}" />
+				<StackPanel Spacing="15">
+					<Button Width="220" Click="OpenAFDI" Content="{x:Static assets:Resources.Basicflash_InstallADBAndFastbootDriver}"></Button>
+					<Button Width="220" Click="Open9008DI" Content="{x:Static assets:Resources.Basicflash_Install9008Driver}"></Button>
+					<Button Width="220" Click="OpenUSBP" Content="{x:Static assets:Resources.Basicflash_XiaomiUSB}"></Button>
+				</StackPanel>
+			</StackPanel>
+		</suki:GlassCard>
+
+		<!--  Patch Boot Image  -->
+		<suki:GlassCard Width="630" Margin="10">
+			<suki:BusyArea Name="BusyPatch"
+							BusyText="处理中...">
+				<StackPanel Name="PanelPatch">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.Basicflash_DriverPatch}" />
+								Text="{x:Static assets:Resources.Basicflash_RepairBoot}" />
+					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
+						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"></TextBlock>
+						<TextBox Width="385" Name="MagiskFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
+						<Button Height="35" Click ="OpenMagiskFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
+						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"></TextBlock>
+						<TextBox Width="385" Name="BootFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
+						<Button Height="35" Click ="OpenBootFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+					</StackPanel>
+					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
+						<StackPanel Orientation="Horizontal" Spacing="75">
+							<CheckBox Width="170" Name="KEEPVERITY" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepAVBOrDM}" IsChecked="True"/>
+							<CheckBox Width="100" Name="KEEPFORCEENCRYPT" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepStrongEncryption}" IsChecked="True"/>
+							<CheckBox Name="PATCHVBMETAFLAG" FontSize="13" Content="{x:Static assets:Resources.Basicflash_RepairVbmeta}"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="75" Margin="0,-10,0,0">
+							<CheckBox Width="170" Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_InstallToRecovery}"/>
+							<CheckBox Width="100" Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
+							<ComboBox Width="135" Name="ArchList"/>
+						</StackPanel>
+					</StackPanel>
 					<StackPanel Spacing="15">
-						<Button Width="220" Click="OpenAFDI" Content="{x:Static assets:Resources.Basicflash_InstallADBAndFastbootDriver}"></Button>
-						<Button Width="220" Click="Open9008DI" Content="{x:Static assets:Resources.Basicflash_Install9008Driver}"></Button>
-						<Button Width="220" Click="OpenUSBP" Content="{x:Static assets:Resources.Basicflash_XiaomiUSB}"></Button>
+						<Button Width="210" Margin="0,10,0,0" Click="StartPatch">
+							<TextBlock Text="{x:Static assets:Resources.Basicflash_Start}"/>
+						</Button>
 					</StackPanel>
 				</StackPanel>
-			</suki:GlassCard>
+			</suki:BusyArea>
+		</suki:GlassCard>
 
-			<!--  Patch Boot Image  -->
-			<suki:GlassCard Width="630" Margin="10">
-				<suki:BusyArea Name="BusyPatch"
-								BusyText="处理中...">
-					<StackPanel Name="PanelPatch">
-						<TextBlock HorizontalAlignment="Left"
-									FontSize="15"
-									FontWeight="DemiBold"
-									Text="{x:Static assets:Resources.Basicflash_RepairBoot}" />
-						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
-							<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"></TextBlock>
-							<TextBox Width="385" Name="MagiskFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
-							<Button Height="35" Click ="OpenMagiskFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
-							<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"></TextBlock>
-							<TextBox Width="385" Name="BootFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
-							<Button Height="35" Click ="OpenBootFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
-						</StackPanel>
-						<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
-							<StackPanel Orientation="Horizontal" Spacing="75">
-								<CheckBox Width="170" Name="KEEPVERITY" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepAVBOrDM}" IsChecked="True"/>
-								<CheckBox Width="100" Name="KEEPFORCEENCRYPT" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepStrongEncryption}" IsChecked="True"/>
-								<CheckBox Name="PATCHVBMETAFLAG" FontSize="13" Content="{x:Static assets:Resources.Basicflash_RepairVbmeta}"/>
-							</StackPanel>
-							<StackPanel Orientation="Horizontal" Spacing="75" Margin="0,-10,0,0">
-								<CheckBox Width="170" Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_InstallToRecovery}"/>
-								<CheckBox Width="100" Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
-								<ComboBox Width="135" Name="ArchList"/>
-							</StackPanel>
-						</StackPanel>
-						<StackPanel Spacing="15">
-							<Button Width="210" Margin="0,10,0,0" Click="StartPatch">
-								<TextBlock Text="{x:Static assets:Resources.Basicflash_Start}"/>
-							</Button>
-						</StackPanel>
+		<!--    -->
+		<suki:GlassCard Width="310" Margin="10">
+			<suki:BusyArea Name="BusyInstall"
+							BusyText="安装中...">
+				<StackPanel Name="InstallZIP" Orientation="Vertical" Spacing="15">
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="{x:Static assets:Resources.Basicflash_EasyFlash}" />
+					<StackPanel Spacing="20">
+						<Button Width="220" Click="FlashMagisk" Content="{x:Static assets:Resources.Basicflash_FlashChosenMagisk}" />
+						<Button Width="220" Click="DisableOffRec" Content="{x:Static assets:Resources.Basicflash_PreventRecoverOfficialRecovery}" />
+						<Button Width="220" Click="SyncAB" Content="{x:Static assets:Resources.Basicflash_SyncABPart}" />
 					</StackPanel>
-				</suki:BusyArea>
-			</suki:GlassCard>
-
-			<!--    -->
-			<suki:GlassCard Width="310" Margin="10">
-				<suki:BusyArea Name="BusyInstall"
-								BusyText="安装中...">
-					<StackPanel Name="InstallZIP" Orientation="Vertical" Spacing="15">
-						<TextBlock HorizontalAlignment="Left"
-									FontSize="15"
-									FontWeight="DemiBold"
-									Text="{x:Static assets:Resources.Basicflash_EasyFlash}" />
-						<StackPanel Spacing="20">
-							<Button Width="220" Click="FlashMagisk" Content="{x:Static assets:Resources.Basicflash_FlashChosenMagisk}" />
-							<Button Width="220" Click="DisableOffRec" Content="{x:Static assets:Resources.Basicflash_PreventRecoverOfficialRecovery}" />
-							<Button Width="220" Click="SyncAB" Content="{x:Static assets:Resources.Basicflash_SyncABPart}" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" Spacing="10" Margin="20,5,0,0">
-							<RadioButton Name="TWRPInstall" FontSize="13" Content="TWRP Install" GroupName="FormatContent" IsChecked="True"/>
-							<RadioButton Name="ADBSideload" FontSize="13" Content="ADB Sideload" GroupName="FormatContent"/>
-						</StackPanel>
+					<StackPanel Orientation="Horizontal" Spacing="10" Margin="20,5,0,0">
+						<RadioButton Name="TWRPInstall" FontSize="13" Content="TWRP Install" GroupName="FormatContent" IsChecked="True"/>
+						<RadioButton Name="ADBSideload" FontSize="13" Content="ADB Sideload" GroupName="FormatContent"/>
 					</StackPanel>
-				</suki:BusyArea>
-			</suki:GlassCard>
-		</WrapPanel>
-	</ScrollViewer>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+	</WrapPanel>
 </UserControl>

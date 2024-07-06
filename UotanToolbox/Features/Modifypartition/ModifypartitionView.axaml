@@ -11,145 +11,143 @@
 			 d:DesignWidth="1024"
              x:DataType="modifypartition:ModifypartitionViewModel"
              mc:Ignorable="d">
-	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Name="Modifypartition"
-				   Margin="15"
-                   theme:WrapPanelExtensions.AnimatedScroll="True"
-                   Orientation="Horizontal">
-			<suki:GlassCard Classes="Card" Margin="15">
-				<suki:BusyArea  Name="BusyPart"
-								BusyText="载入中...">
-					<DataGrid Name="PartList"
-					          Width="620"
-							  Height="565"
-							  FontSize="15"
-							  AutoGenerateColumns="True"
-							  CanUserResizeColumns="True">
-					</DataGrid>
-				</suki:BusyArea>
-			</suki:GlassCard>
-			<StackPanel Orientation="Vertical">
-				<suki:GlassCard Classes="Card" Margin="15" Width="265" Height="180">
-					<StackPanel Orientation="Vertical" Spacing="15">
-						<TextBlock VerticalAlignment="Center"
-								   FontSize="13"
-								   Margin="30,10,0,0"
-								   Height="15"
-								   Text="一次只能输入一个分区序号！" />
-						<StackPanel Margin="15,-10,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-							<TextBlock VerticalAlignment="Center"
-									   FontSize="15"
-									   Text="{x:Static assets:Resources.Modifypartition_IdColon}" />
-							<TextBox Width="150" FontSize="15" Name="IdNumber" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-							<Button Width="90"
-									Name="RMPartBut"
-									Click="RMPart"
-									HorizontalAlignment="Left"
-									Padding="8">
-								<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_Delete}"/>
-							</Button>
-							<Button Width="90"
-									Name="ESPONBut"
-									Click="ESPON"
-									HorizontalAlignment="Left"
-									Padding="8">
-								<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_Mark}"/>
-							</Button>
-						</StackPanel>
-					</StackPanel>
-				</suki:GlassCard>
-				<suki:GlassCard Classes="Card" Margin="15" Width="265" Height="400">
-					<StackPanel Orientation="Vertical" Spacing="20">
-						<StackPanel Margin="8,25,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-							<TextBlock VerticalAlignment="Center"
-									   Width="65"
-									   FontSize="15"
-									   Text="分区名称:" />
-							<TextBox Width="145" FontSize="15" Name="NewPartitionName" />
-						</StackPanel>
-						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-							<TextBlock VerticalAlignment="Center"
-									   Width="65"
-									   FontSize="15"
-									   Text="{x:Static assets:Resources.Modifypartition_PartFormat}" />
-							<TextBox Width="145" FontSize="15" Name="NewPartitionFormat" />
-						</StackPanel>
-						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-							<TextBlock VerticalAlignment="Center"
-									   Width="65"
-									   FontSize="15"
-									   Text="{x:Static assets:Resources.Modifypartition_StartpointColon}" />
-							<TextBox Width="145" FontSize="15" Watermark="请添加单位！" Name="NewPartitionStartpoint" />
-						</StackPanel>
-						<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-							<TextBlock VerticalAlignment="Center"
-									   Width="65"
-									   FontSize="15"
-									   Text="{x:Static assets:Resources.Modifypartition_EndpointColon}" />
-							<TextBox Width="145" FontSize="15" Watermark="请添加单位！" Name="NewPartitionEndpoint" />
-						</StackPanel>
-						<StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-							<Button Width="200"
-									Name="MKPartBut"
-									Click="MKPart"
-									HorizontalAlignment="Left"
-									Padding="8">
-								<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_CreatePart}" />
-							</Button>
-						</StackPanel>
-					</StackPanel>
-				</suki:GlassCard>
-			</StackPanel>
-			<suki:GlassCard Classes="Card" Margin="15" Height="100" Width="662.5">
-				<StackPanel Orientation="Horizontal" Spacing="0">
-					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="10">
-						<StackPanel Orientation="Horizontal" Spacing="30">
-							<RadioButton Name="sda" Width="55" FontSize="15" Content="sda" GroupName="FormatContent" />
-							<RadioButton Name="sdb" Width="55" FontSize="15" Content="sdb" GroupName="FormatContent" />
-							<RadioButton Name="sdc" FontSize="15" Content="sdc" GroupName="FormatContent" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" Spacing="30">
-							<RadioButton Name="sdd" Width="55" FontSize="15" Content="sdd" GroupName="FormatContent" />
-							<RadioButton Name="sde" Width="55" FontSize="15" Content="sde" GroupName="FormatContent" />
-							<RadioButton Name="sdf" FontSize="15" Content="sdf" GroupName="FormatContent" />
-						</StackPanel>
-					</StackPanel>
-					<StackPanel Orientation="Vertical" Margin="30,0,30,0" VerticalAlignment="Center">
-							<RadioButton Name="emmc" FontSize="15" Content="EMMC" GroupName="FormatContent" />
-					</StackPanel>
+	<WrapPanel Name="Modifypartition"
+			   Margin="15"
+			   theme:WrapPanelExtensions.AnimatedScroll="True"
+			   Orientation="Horizontal">
+		<suki:GlassCard Classes="Card" Margin="15">
+			<suki:BusyArea  Name="BusyPart"
+							BusyText="载入中...">
+				<DataGrid Name="PartList"
+						  Width="620"
+						  Height="565"
+						  FontSize="15"
+						  AutoGenerateColumns="True"
+						  CanUserResizeColumns="True">
+				</DataGrid>
+			</suki:BusyArea>
+		</suki:GlassCard>
+		<StackPanel Orientation="Vertical">
+			<suki:GlassCard Classes="Card" Margin="15" Width="265" Height="180">
+				<StackPanel Orientation="Vertical" Spacing="15">
 					<TextBlock VerticalAlignment="Center"
-							   FontSize="15"
-							   Text="{x:Static assets:Resources.Modifypartition_TotalSize}" />
-					<TextBlock Name="PartSize"
-							   VerticalAlignment="Center"
-							   FontSize="15"
-							   Width="90"></TextBlock>
-					<Button Width="100"
-							Margin="-15,0,0,0"
-							Name="ReadPartBut"
-							Click="ReadPart"
-							HorizontalAlignment="Left"
-							Padding="8">
-						<TextBlock Text="{x:Static assets:Resources.Modifypartition_ReadPart}" />
-					</Button>
-				</StackPanel>
-			</suki:GlassCard>
-			<suki:GlassCard Classes="Card" Margin="15" Width="265" Height="100" VerticalAlignment="Center">
-				<StackPanel Orientation="Vertical" Spacing="15" VerticalAlignment="Center">
+							   FontSize="13"
+							   Margin="30,10,0,0"
+							   Height="15"
+							   Text="一次只能输入一个分区序号！" />
+					<StackPanel Margin="15,-10,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock VerticalAlignment="Center"
+								   FontSize="15"
+								   Text="{x:Static assets:Resources.Modifypartition_IdColon}" />
+						<TextBox Width="150" FontSize="15" Name="IdNumber" />
+					</StackPanel>
 					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-						<Button Width="200"
-								Height="40"
-								Name="RemoveLimitBut"
-								Click="RemoveLimit"
+						<Button Width="90"
+								Name="RMPartBut"
+								Click="RMPart"
 								HorizontalAlignment="Left"
 								Padding="8">
-							<TextBlock Text="{x:Static assets:Resources.Modifypartition_RemoveLimit}" />
+							<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_Delete}"/>
+						</Button>
+						<Button Width="90"
+								Name="ESPONBut"
+								Click="ESPON"
+								HorizontalAlignment="Left"
+								Padding="8">
+							<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_Mark}"/>
 						</Button>
 					</StackPanel>
 				</StackPanel>
 			</suki:GlassCard>
-		</WrapPanel>
-	</ScrollViewer>
+			<suki:GlassCard Classes="Card" Margin="15" Width="265" Height="400">
+				<StackPanel Orientation="Vertical" Spacing="20">
+					<StackPanel Margin="8,25,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock VerticalAlignment="Center"
+								   Width="65"
+								   FontSize="15"
+								   Text="分区名称:" />
+						<TextBox Width="145" FontSize="15" Name="NewPartitionName" />
+					</StackPanel>
+					<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock VerticalAlignment="Center"
+								   Width="65"
+								   FontSize="15"
+								   Text="{x:Static assets:Resources.Modifypartition_PartFormat}" />
+						<TextBox Width="145" FontSize="15" Name="NewPartitionFormat" />
+					</StackPanel>
+					<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock VerticalAlignment="Center"
+								   Width="65"
+								   FontSize="15"
+								   Text="{x:Static assets:Resources.Modifypartition_StartpointColon}" />
+						<TextBox Width="145" FontSize="15" Watermark="请添加单位！" Name="NewPartitionStartpoint" />
+					</StackPanel>
+					<StackPanel Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock VerticalAlignment="Center"
+								   Width="65"
+								   FontSize="15"
+								   Text="{x:Static assets:Resources.Modifypartition_EndpointColon}" />
+						<TextBox Width="145" FontSize="15" Watermark="请添加单位！" Name="NewPartitionEndpoint" />
+					</StackPanel>
+					<StackPanel Margin="0,10,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+						<Button Width="200"
+								Name="MKPartBut"
+								Click="MKPart"
+								HorizontalAlignment="Left"
+								Padding="8">
+							<TextBlock FontSize="15" Text="{x:Static assets:Resources.Modifypartition_CreatePart}" />
+						</Button>
+					</StackPanel>
+				</StackPanel>
+			</suki:GlassCard>
+		</StackPanel>
+		<suki:GlassCard Classes="Card" Margin="15" Height="100" Width="662.5">
+			<StackPanel Orientation="Horizontal" Spacing="0">
+				<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="10">
+					<StackPanel Orientation="Horizontal" Spacing="30">
+						<RadioButton Name="sda" Width="55" FontSize="15" Content="sda" GroupName="FormatContent" />
+						<RadioButton Name="sdb" Width="55" FontSize="15" Content="sdb" GroupName="FormatContent" />
+						<RadioButton Name="sdc" FontSize="15" Content="sdc" GroupName="FormatContent" />
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" Spacing="30">
+						<RadioButton Name="sdd" Width="55" FontSize="15" Content="sdd" GroupName="FormatContent" />
+						<RadioButton Name="sde" Width="55" FontSize="15" Content="sde" GroupName="FormatContent" />
+						<RadioButton Name="sdf" FontSize="15" Content="sdf" GroupName="FormatContent" />
+					</StackPanel>
+				</StackPanel>
+				<StackPanel Orientation="Vertical" Margin="30,0,30,0" VerticalAlignment="Center">
+					<RadioButton Name="emmc" FontSize="15" Content="EMMC" GroupName="FormatContent" />
+				</StackPanel>
+				<TextBlock VerticalAlignment="Center"
+						   FontSize="15"
+						   Text="{x:Static assets:Resources.Modifypartition_TotalSize}" />
+				<TextBlock Name="PartSize"
+						   VerticalAlignment="Center"
+						   FontSize="15"
+						   Width="90"></TextBlock>
+				<Button Width="100"
+						Margin="-15,0,0,0"
+						Name="ReadPartBut"
+						Click="ReadPart"
+						HorizontalAlignment="Left"
+						Padding="8">
+					<TextBlock Text="{x:Static assets:Resources.Modifypartition_ReadPart}" />
+				</Button>
+			</StackPanel>
+		</suki:GlassCard>
+		<suki:GlassCard Classes="Card" Margin="15" Width="265" Height="100" VerticalAlignment="Center">
+			<StackPanel Orientation="Vertical" Spacing="15" VerticalAlignment="Center">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+					<Button Width="200"
+							Height="40"
+							Name="RemoveLimitBut"
+							Click="RemoveLimit"
+							HorizontalAlignment="Left"
+							Padding="8">
+						<TextBlock Text="{x:Static assets:Resources.Modifypartition_RemoveLimit}" />
+					</Button>
+				</StackPanel>
+			</StackPanel>
+		</suki:GlassCard>
+	</WrapPanel>
 </UserControl>

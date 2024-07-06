@@ -11,298 +11,296 @@
 			 d:DesignWidth="1240"
              x:DataType="advanced:AdvancedViewModel"
              mc:Ignorable="d">
-	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
-                   theme:WrapPanelExtensions.AnimatedScroll="True"
-                   Orientation="Horizontal">
+	<WrapPanel Margin="15"
+			   theme:WrapPanelExtensions.AnimatedScroll="True"
+			   Orientation="Horizontal">
 
-			<!--  QCN  -->
-			<suki:GlassCard Width="470"
-							Height="210"
-                            Margin="10"
-                            VerticalAlignment="Top">
-				<suki:BusyArea Name="BusyQCN"
-							   BusyText="执行中...">
-						<StackPanel Name="QCN" Spacing="10">
-							<StackPanel>
-								<TextBlock HorizontalAlignment="Left"
-										   VerticalAlignment="Top"
-										   FontWeight="DemiBold"
-										   Text="QCN" />
-								<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-									<TextBlock Width="60"
-											   Margin="8,0,0,0"
-											   VerticalAlignment="Center"
-											   FontSize="13"
-											   Text="{x:Static assets:Resources.Advanced_QCNFile}" />
-									<TextBox Width="250" Name="QcnFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
-									<Button Width="105"
-											Height="35"
-											Padding="10,0,10,0"
-											Click="OpenQcnFile"
-											Content="{x:Static assets:Resources.Common_ChooseFile}" />
-								</StackPanel>
+		<!--  QCN  -->
+		<suki:GlassCard Width="470"
+						Height="210"
+						Margin="10"
+						VerticalAlignment="Top">
+			<suki:BusyArea Name="BusyQCN"
+						   BusyText="执行中...">
+				<StackPanel Name="QCN" Spacing="10">
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="QCN" />
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="60"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Text="{x:Static assets:Resources.Advanced_QCNFile}" />
+							<TextBox Width="250" Name="QcnFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Width="105"
+									Height="35"
+									Padding="10,0,10,0"
+									Click="OpenQcnFile"
+									Content="{x:Static assets:Resources.Common_ChooseFile}" />
+						</StackPanel>
+					</StackPanel>
+					<StackPanel Spacing="30">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+								<Button Width="125"
+										HorizontalAlignment="Left"
+										Padding="8"
+										Click="WriteQcn">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="PencilAddOutline" />
+										<TextBlock Text="{x:Static assets:Resources.Advanced_WriteQCN}"/>
+									</TextBlock>
+								</Button>
+								<Button Width="125"
+										HorizontalAlignment="Left"
+										Padding="8"
+										Click="BackupQcn">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
+										<TextBlock Text="{x:Static assets:Resources.Advanced_BackupQCN}"/>
+									</TextBlock>
+								</Button>
+								<Button Width="125"
+										HorizontalAlignment="Left"
+										Padding="8"
+										Click="OpenBackup">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="FolderOpenOutline" />
+										<TextBlock Text="{x:Static assets:Resources.Advanced_OpenBackup}"/>
+									</TextBlock>
+								</Button>
 							</StackPanel>
-							<StackPanel Spacing="30">
-								<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-									<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-										<Button Width="125"
-												HorizontalAlignment="Left"
-												Padding="8"
-												Click="WriteQcn">
-											<TextBlock>
-												<avalonia:MaterialIcon Kind="PencilAddOutline" />
-												<TextBlock Text="{x:Static assets:Resources.Advanced_WriteQCN}"/>
-											</TextBlock>
-										</Button>
-										<Button Width="125"
-												HorizontalAlignment="Left"
-												Padding="8"
-												Click="BackupQcn">
-											<TextBlock>
-												<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
-												<TextBlock Text="{x:Static assets:Resources.Advanced_BackupQCN}"/>
-											</TextBlock>
-										</Button>
-										<Button Width="125"
-												HorizontalAlignment="Left"
-												Padding="8"
-												Click="OpenBackup">
-											<TextBlock>
-												<avalonia:MaterialIcon Kind="FolderOpenOutline" />
-												<TextBlock Text="{x:Static assets:Resources.Advanced_OpenBackup}"/>
-											</TextBlock>
-										</Button>
-									</StackPanel>
-									<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-										<Button Width="125"
-												HorizontalAlignment="Left"
-												Padding="8"
-												Click="Enable901d">
-											<TextBlock>
-												<avalonia:MaterialIcon Kind="AndroidStudio" />
-												<TextBlock Text="{x:Static assets:Resources.Advanced_Enable901D}"/>
-											</TextBlock>
-										</Button>
-										<Button Width="125"
-												HorizontalAlignment="Left"
-												Padding="8"
-												Click="Enable9091">
-											<TextBlock>
-												<avalonia:MaterialIcon Kind="AndroidStudio" />
-												<TextBlock Text="{x:Static assets:Resources.Advanced_Enable9091}"/>
-											</TextBlock>
-										</Button>
-									</StackPanel>
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+								<Button Width="125"
+										HorizontalAlignment="Left"
+										Padding="8"
+										Click="Enable901d">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="AndroidStudio" />
+										<TextBlock Text="{x:Static assets:Resources.Advanced_Enable901D}"/>
+									</TextBlock>
+								</Button>
+								<Button Width="125"
+										HorizontalAlignment="Left"
+										Padding="8"
+										Click="Enable9091">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="AndroidStudio" />
+										<TextBlock Text="{x:Static assets:Resources.Advanced_Enable9091}"/>
+									</TextBlock>
+								</Button>
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+		<!-- SuperEmpty -->
+		<suki:GlassCard Width="470"
+						Height="210"
+						Margin="10"
+						VerticalAlignment="Top">
+			<suki:BusyArea Name="BusyFlash"
+						   BusyText="{x:Static assets:Resources.Advanced_Executing}">
+				<StackPanel Name="SuperEmpty" Spacing="30">
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="SuperEmpty" />
+						<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+							<TextBlock Width="80"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Text="SuperEmpty" />
+							<TextBox Width="250" Name="SuperEmptyFile"
+									 theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<Button Height="35"
+									Padding="10,0,10,0"
+									Click="OpenEmptyFile"
+									Content="{x:Static assets:Resources.Common_ChooseFile}" />
+						</StackPanel>
+					</StackPanel>
+					<StackPanel Spacing="30">
+						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+								<Button Width="125"
+										HorizontalAlignment="Left"
+										Padding="8"
+										Click="FlashSuperEmpty">
+									<TextBlock>
+										<avalonia:MaterialIcon Kind="PencilAddOutline" />
+										<TextBlock Text="{x:Static assets:Resources.Advanced_FlashFile}"/>
+									</TextBlock>
+								</Button>
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+		<!-- Format -->
+		<suki:GlassCard Width="470"
+						Height="250"
+						Margin="10"
+						VerticalAlignment="Top">
+			<suki:BusyArea Name="BusyFormat"
+						   BusyText="{x:Static assets:Resources.Advanced_Executing}">
+				<StackPanel Name="Format" Spacing="10">
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="{x:Static assets:Resources.Advanced_Format}" />
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="60"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Text="{x:Static assets:Resources.Advanced_PartName}" />
+							<TextBox Width="355" Name="FormatName" Watermark="仅ADB格式化支持指定文件系统"
+									 theme:TextBoxExtensions.AddDeleteButton="False"/>
+						</StackPanel>
+					</StackPanel>
+					<StackPanel>
+						<StackPanel Margin="0,5,0,5" Orientation="Horizontal">
+							<TextBlock Width="65"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Text="{x:Static assets:Resources.Advanced_FormatTo}" />
+							<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="0">
+								<StackPanel Orientation="Horizontal" Spacing="10">
+									<RadioButton Name="EXT4" FontSize="12" Content="EXT4" GroupName="FormatContent" IsChecked="True" />
+									<RadioButton Name="F2FS" FontSize="12" Content="F2FS" GroupName="FormatContent" />
+									<RadioButton Name="FAT32" FontSize="12" Content="FAT32" GroupName="FormatContent" />
+									<RadioButton Name="exFAT" FontSize="12" Content="exFAT" GroupName="FormatContent" />
+									<RadioButton Name="NTFS" FontSize="12" Content="NTFS" GroupName="FormatContent" />
 								</StackPanel>
 							</StackPanel>
 						</StackPanel>
-				</suki:BusyArea>
-			</suki:GlassCard>
-			
-			<!-- SuperEmpty -->
-			<suki:GlassCard Width="470"
-							Height="210"
-                            Margin="10"
-                            VerticalAlignment="Top">
-				 <suki:BusyArea Name="BusyFlash"
-								BusyText="{x:Static assets:Resources.Advanced_Executing}">
-						<StackPanel Name="SuperEmpty" Spacing="30">
-							<StackPanel>
-								<TextBlock HorizontalAlignment="Left"
-										   VerticalAlignment="Top"
-										   FontWeight="DemiBold"
-										   Text="SuperEmpty" />
-								<StackPanel Margin="0,20,0,0" Orientation="Horizontal">
-									<TextBlock Width="80"
-											   Margin="8,0,0,0"
-											   VerticalAlignment="Center"
-											   FontSize="13"
-											   Text="SuperEmpty" />
-									<TextBox Width="250" Name="SuperEmptyFile"
-											 theme:TextBoxExtensions.AddDeleteButton="False"/>
-									<Button Height="35"
-											Padding="10,0,10,0"
-											Click="OpenEmptyFile"
-											Content="{x:Static assets:Resources.Common_ChooseFile}" />
-								</StackPanel>
-							</StackPanel>
-							<StackPanel Spacing="30">
-								<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-									<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-										<Button Width="125"
-												HorizontalAlignment="Left"
-												Padding="8"
-												Click="FlashSuperEmpty">
-											<TextBlock>
-												<avalonia:MaterialIcon Kind="PencilAddOutline" />
-												<TextBlock Text="{x:Static assets:Resources.Advanced_FlashFile}"/>
-											</TextBlock>
-										</Button>
-									</StackPanel>
-								</StackPanel>
-							</StackPanel>
+					</StackPanel>
+					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+							<Button Width="155"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Click="ADBFormat">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="PencilAddOutline" />
+									<TextBlock Text="{x:Static assets:Resources.Advanced_ADBFormat}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="155"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Click="FastbootFormat">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
+									<TextBlock Text="{x:Static assets:Resources.Advanced_FastbootFormat}"/>
+								</TextBlock>
+							</Button>
 						</StackPanel>
-				</suki:BusyArea>
-			</suki:GlassCard>
-			
-			<!-- Format -->
-			<suki:GlassCard Width="470"
-							Height="250"
-			                Margin="10"
-			                VerticalAlignment="Top">
-				<suki:BusyArea Name="BusyFormat"
-							   BusyText="{x:Static assets:Resources.Advanced_Executing}">
-						<StackPanel Name="Format" Spacing="10">
-							<StackPanel>
-								<TextBlock HorizontalAlignment="Left"
-										   VerticalAlignment="Top"
-										   FontWeight="DemiBold"
-										   Text="{x:Static assets:Resources.Advanced_Format}" />
-								<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-									<TextBlock Width="60"
-											   Margin="8,0,0,0"
-											   VerticalAlignment="Center"
-											   FontSize="13"
-											   Text="{x:Static assets:Resources.Advanced_PartName}" />
-									<TextBox Width="355" Name="FormatName" Watermark="仅ADB格式化支持指定文件系统"
-											 theme:TextBoxExtensions.AddDeleteButton="False"/>
-								</StackPanel>
-							</StackPanel>
-							<StackPanel>
-								<StackPanel Margin="0,5,0,5" Orientation="Horizontal">
-									<TextBlock Width="65"
-											   Margin="8,0,0,0"
-											   VerticalAlignment="Center"
-											   FontSize="13"
-											   Text="{x:Static assets:Resources.Advanced_FormatTo}" />
-									<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="0">
-										<StackPanel Orientation="Horizontal" Spacing="10">
-											<RadioButton Name="EXT4" FontSize="12" Content="EXT4" GroupName="FormatContent" IsChecked="True" />
-											<RadioButton Name="F2FS" FontSize="12" Content="F2FS" GroupName="FormatContent" />
-											<RadioButton Name="FAT32" FontSize="12" Content="FAT32" GroupName="FormatContent" />
-											<RadioButton Name="exFAT" FontSize="12" Content="exFAT" GroupName="FormatContent" />
-											<RadioButton Name="NTFS" FontSize="12" Content="NTFS" GroupName="FormatContent" />
-										</StackPanel>
-									</StackPanel>
-								</StackPanel>
-							</StackPanel>
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
-								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
-									<Button Width="155"
-											HorizontalAlignment="Left"
-											Padding="8"
-											Click="ADBFormat">
-										<TextBlock>
-											<avalonia:MaterialIcon Kind="PencilAddOutline" />
-											<TextBlock Text="{x:Static assets:Resources.Advanced_ADBFormat}"/>
-										</TextBlock>
-									</Button>
-									<Button Width="155"
-											HorizontalAlignment="Left"
-											Padding="8"
-											Click="FastbootFormat">
-										<TextBlock>
-											<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
-											<TextBlock Text="{x:Static assets:Resources.Advanced_FastbootFormat}"/>
-										</TextBlock>
-									</Button>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
-									<Button Width="155"
-											HorizontalAlignment="Left"
-											Padding="8"
-											Click="FormatData">
-										<TextBlock>
-											<avalonia:MaterialIcon Kind="AndroidStudio" />
-											<TextBlock Text="{x:Static assets:Resources.Advanced_FormatDataPart}"/>
-										</TextBlock>
-									</Button>
-									<Button Width="155"
-											HorizontalAlignment="Left"
-											Padding="8"
-											Click="TWRPFormatData">
-										<TextBlock>
-											<avalonia:MaterialIcon Kind="AndroidStudio" />
-											<TextBlock Text="{x:Static assets:Resources.Advanced_TWRPFormatData}"/>
-										</TextBlock>
-									</Button>
-								</StackPanel>
-							</StackPanel>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+							<Button Width="155"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Click="FormatData">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="AndroidStudio" />
+									<TextBlock Text="{x:Static assets:Resources.Advanced_FormatDataPart}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="155"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Click="TWRPFormatData">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="AndroidStudio" />
+									<TextBlock Text="{x:Static assets:Resources.Advanced_TWRPFormatData}"/>
+								</TextBlock>
+							</Button>
 						</StackPanel>
-				</suki:BusyArea>
-			</suki:GlassCard>
-			
-			<!-- Extract -->
-			<suki:GlassCard Width="470"
-							Height="250"
-			                Margin="10"
-			                VerticalAlignment="Top">
-				<suki:BusyArea Name="BusyExtract"
-							   BusyText="{x:Static assets:Resources.Advanced_Executing}">
-						<StackPanel Name="Extract" Spacing="20">
-							<StackPanel Spacing="15">
-								<TextBlock HorizontalAlignment="Left"
-										   VerticalAlignment="Top"
-										   FontWeight="DemiBold"
-										   Text="{x:Static assets:Resources.Advanced_Extract}" />
-								<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-									<TextBlock Width="60"
-											   Margin="8,0,0,0"
-											   VerticalAlignment="Center"
-											   FontSize="13"
-											   Text="{x:Static assets:Resources.Advanced_PartName}" />
-									<TextBox Width="350" Name="ExtractName" Watermark="AB分区请自行添加_a或_b后缀"
-											 theme:TextBoxExtensions.AddDeleteButton="False"/>
-								</StackPanel>
-							</StackPanel>
-							<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="60">
-									<Button Width="125"
-											HorizontalAlignment="Left"
-											Padding="8"
-											Click="ExtractPart">
-										<TextBlock>
-											<avalonia:MaterialIcon Kind="PencilAddOutline" />
-											<TextBlock Text="{x:Static assets:Resources.Advanced_PhysicalPart}"/>
-										</TextBlock>
-									</Button>
-									<Button Width="125"
-											HorizontalAlignment="Left"
-											Padding="8"
-											Click="ExtractVPart">
-										<TextBlock>
-											<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
-											<TextBlock Text="{x:Static assets:Resources.Advanced_VirtualPart}"/>
-										</TextBlock>
-									</Button>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
-									<Button Width="125"
-											HorizontalAlignment="Left"
-											Padding="8"
-											Click="OpenExtractFile">
-										<TextBlock>
-											<avalonia:MaterialIcon Kind="AndroidStudio" />
-											<TextBlock Text="{x:Static assets:Resources.Advanced_ExtractFolder}"/>
-										</TextBlock>
-									</Button>
-								</StackPanel>
-							</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+		<!-- Extract -->
+		<suki:GlassCard Width="470"
+						Height="250"
+						Margin="10"
+						VerticalAlignment="Top">
+			<suki:BusyArea Name="BusyExtract"
+						   BusyText="{x:Static assets:Resources.Advanced_Executing}">
+				<StackPanel Name="Extract" Spacing="20">
+					<StackPanel Spacing="15">
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="{x:Static assets:Resources.Advanced_Extract}" />
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="60"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Text="{x:Static assets:Resources.Advanced_PartName}" />
+							<TextBox Width="350" Name="ExtractName" Watermark="AB分区请自行添加_a或_b后缀"
+									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 						</StackPanel>
-				</suki:BusyArea>
-			</suki:GlassCard>
-			
-			<!-- Log -->
-			<suki:GlassCard Width="960"
-							Height="250"
-			                Margin="10"
-			                VerticalAlignment="Top">
-				<Grid>
-					<TextBox Name="AdvancedLog" Watermark="{x:Static assets:Resources.Advanced_Log}" Margin="0" Height="210" AcceptsReturn="True"
-							 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
-				</Grid>
-			</suki:GlassCard>
-		</WrapPanel>
-	</ScrollViewer>
+					</StackPanel>
+					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="60">
+							<Button Width="125"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Click="ExtractPart">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="PencilAddOutline" />
+									<TextBlock Text="{x:Static assets:Resources.Advanced_PhysicalPart}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="125"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Click="ExtractVPart">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
+									<TextBlock Text="{x:Static assets:Resources.Advanced_VirtualPart}"/>
+								</TextBlock>
+							</Button>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+							<Button Width="125"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Click="OpenExtractFile">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="AndroidStudio" />
+									<TextBlock Text="{x:Static assets:Resources.Advanced_ExtractFolder}"/>
+								</TextBlock>
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+		<!-- Log -->
+		<suki:GlassCard Width="960"
+						Height="250"
+						Margin="10"
+						VerticalAlignment="Top">
+			<Grid>
+				<TextBox Name="AdvancedLog" Watermark="{x:Static assets:Resources.Advanced_Log}" Margin="0" Height="210" AcceptsReturn="True"
+						 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
+			</Grid>
+		</suki:GlassCard>
+	</WrapPanel>
 </UserControl>

@@ -202,10 +202,10 @@
 						<CheckBox Width="60" Name="Time" FontSize="13" Content="时间"/>
 						<CheckBox Width="60" Name="GPS" FontSize="13" Content="定位"/>
 						<CheckBox Width="60" Name="Headset" FontSize="13" Content="耳机"/>
-						<CheckBox Width="60" Name="Clack" FontSize="13" Content="闹钟"/>
+						<CheckBox Width="60" Name="Clock" FontSize="13" Content="闹钟"/>
 						<CheckBox Width="60" Name="Voice" FontSize="13" Content="声音"/>
 						<CheckBox Width="60" Name="LTE" FontSize="13" Content="信号"/>
-						<CheckBox Name="Fly" FontSize="13" Content="旋转提示"/>
+						<CheckBox Name="Rotate" FontSize="13" Content="旋转提示"/>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Spacing="35">
 						<CheckBox Width="60" Name="Bluetooth" FontSize="13" Content="蓝牙"/>
@@ -213,11 +213,11 @@
 						<CheckBox Width="60" Name="WIFI" FontSize="13" Content="无线"/>
 						<CheckBox Width="60" Name="Second" FontSize="13" Content="显秒"/>
 						<CheckBox Width="60" Name="NFC" FontSize="13" Content="NFC"/>
-						<CheckBox Width="60" Name="Rotate" FontSize="13" Content="飞行"/>
+						<CheckBox Width="60" Name="Fly" FontSize="13" Content="飞行"/>
 						<CheckBox Name="RemoveX" FontSize="13" Content="WiFi的x或！"/>
 					</StackPanel>
 				</StackPanel>
-				<Button Margin="35,0,0,0" Content="隐藏/显示"></Button>
+				<Button Name="ShowAndHide" Margin="35,0,0,0" Click="ShowOrHide" Content="隐藏/显示"></Button>
 			</StackPanel>
 		</suki:GlassCard>
 

@@ -525,6 +525,7 @@ public partial class WiredflashView : UserControl
                 {
                     BusyFlash.IsBusy = true;
                     MoreWiredFlash.IsEnabled = false;
+                    output = "";
                     WiredflashLog.Text = "";
                     string shell = String.Format($"-s {Global.thisdevice} sideload \"{AdbSideloadFile.Text}\"");
                     await ADB(shell);
@@ -543,6 +544,7 @@ public partial class WiredflashView : UserControl
                 {
                     BusyFlash.IsBusy = true;
                     MoreWiredFlash.IsEnabled = false;
+                    output = "";
                     WiredflashLog.Text = "";
                     string shell = String.Format($"-s {Global.thisdevice} update \"{FastbootUpdatedFile.Text}\"");
                     await Fastboot(shell);
@@ -561,6 +563,7 @@ public partial class WiredflashView : UserControl
                 {
                     BusyFlash.IsBusy = true;
                     MoreWiredFlash.IsEnabled = false;
+                    output = "";
                     WiredflashLog.Text = "";
                     if (Global.System == "Windows")
                     {

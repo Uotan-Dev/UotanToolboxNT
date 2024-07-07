@@ -137,6 +137,7 @@ public partial class AdvancedView : UserControl
                 {
                     BusyQCN.IsBusy = true;
                     QCN.IsEnabled = false;
+                    output = "";
                     AdvancedLog.Text = "正在写入...\n";
                     int com = StringHelper.Onlynum(Global.thisdevice);
                     string shell = string.Format("-w -p {0} -f \"{1}\"", com, qcnfilepatch);
@@ -204,6 +205,7 @@ public partial class AdvancedView : UserControl
             {
                 BusyQCN.IsBusy = true;
                 QCN.IsEnabled = false;
+                output = "";
                 AdvancedLog.Text = "正在备份...\n";
                 int com = StringHelper.Onlynum(Global.thisdevice);
                 string shell = string.Format("-r -p {0} -f \"{1}\" -n 00000.qcn", com, Global.backup_path);
@@ -352,8 +354,9 @@ public partial class AdvancedView : UserControl
                 {
                     BusyFlash.IsBusy = true;
                     SuperEmpty.IsEnabled = false;
+                    output = "";
                     AdvancedLog.Text = "正在刷入...\n";
-                    await Fastboot($"-s {Global.thisdevice} flash cust \"{SuperEmptyFile.Text}\"");
+                    await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile.Text}\"");
                     if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
                         SukiHost.ShowDialog(new PureDialog("刷入成功！"), allowBackgroundClose: true);
@@ -392,6 +395,7 @@ public partial class AdvancedView : UserControl
                 {
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
+                    output = "";
                     AdvancedLog.Text = "正在格式化...\n";
                     string formatsystem = "";
                     if (EXT4.IsChecked != null && (bool)EXT4.IsChecked)
@@ -452,6 +456,7 @@ public partial class AdvancedView : UserControl
                 {
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
+                    output = "";
                     AdvancedLog.Text = "正在格式化...\n";
                     string partname = FormatName.Text;
                     string shell = String.Format($"-s {Global.thisdevice} erase {partname}");
@@ -486,6 +491,7 @@ public partial class AdvancedView : UserControl
                 {
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
+                    output = "";
                     AdvancedLog.Text = "正在格式化...\n";
                     await ADB($"-s {Global.thisdevice} shell recovery --wipe_data");
                     BusyFormat.IsBusy = false;
@@ -518,6 +524,7 @@ public partial class AdvancedView : UserControl
                 {
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
+                    output = "";
                     AdvancedLog.Text = "正在格式化...\n";
                     await ADB($"-s {Global.thisdevice} shell twrp format data");
                     BusyFormat.IsBusy = false;
@@ -576,6 +583,7 @@ public partial class AdvancedView : UserControl
                 {
                     BusyExtract.IsBusy = true;
                     Extract.IsEnabled = false;
+                    output = "";
                     AdvancedLog.Text = "正在提取...\n";
                     string partname = ExtractName.Text;
                     await FeaturesHelper.GetPartTable(Global.thisdevice);
@@ -628,6 +636,7 @@ public partial class AdvancedView : UserControl
                     {
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
+                        output = "";
                         AdvancedLog.Text = "正在提取...\n";
                         string partname = ExtractName.Text;
                         await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
@@ -677,6 +686,7 @@ public partial class AdvancedView : UserControl
                 {
                     BusyExtract.IsBusy = true;
                     Extract.IsEnabled = false;
+                    output = "";
                     AdvancedLog.Text = "正在提取...\n";
                     string partname = ExtractName.Text;
                     string shell = String.Format($"-s {Global.thisdevice} shell ls -l /dev/block/mapper/{partname}");
@@ -731,6 +741,7 @@ public partial class AdvancedView : UserControl
                     {
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
+                        output = "";
                         AdvancedLog.Text = "正在提取...\n";
                         string partname = ExtractName.Text;
                         string shell = String.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");

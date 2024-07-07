@@ -420,6 +420,75 @@ public partial class OthersView : UserControl
         Lock.IsEnabled = true;
     }
 
+    private async void ShowOrHide(object sender, RoutedEventArgs args)
+    {
+        ShowAndHide.IsEnabled = false;
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            {
+                string addshell = "";
+                if (Time.IsChecked == true)
+                    addshell += "clock,";
+                if (GPS.IsChecked == true)
+                    addshell += "location,";
+                if (Headset.IsChecked == true)
+                    addshell += "headset,";
+                if (Clock.IsChecked == true)
+                    addshell += "alarm_clock,";
+                if (Voice.IsChecked == true)
+                    addshell += "volume,";
+                if (LTE.IsChecked == true)
+                    addshell += "mobile,";
+                if (Bluetooth.IsChecked == true)
+                    addshell += "bluetooth,";
+                if (BatteryICO.IsChecked == true)
+                    addshell += "battery,";
+                if (WIFI.IsChecked == true)
+                    addshell += "wifi,";
+                if (NFC.IsChecked == true)
+                    addshell += "nfc,";
+                if (Fly.IsChecked == true)
+                    addshell += "airplane,";
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure icon_blacklist rotate,ime,{addshell}");
+                if (Second.IsChecked == true)
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure clock_seconds 1");
+                }
+                else
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure clock_seconds 0");
+                }
+                if (Rotate.IsChecked == true)
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure show_rotation_suggestions 0");
+                }
+                else
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure show_rotation_suggestions 1");
+                }
+                if (RemoveX.IsChecked == true)
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global captive_portal_http_url \"http://connect.rom.miui.com/generate_204\"");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global captive_portal_https_url \"https://connect.rom.miui.com/generate_204\"");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global time_zone Asia/Shanghai");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global ntp_server ntp1.aliyun.com");
+                }
+                await SukiHost.ShowToast("执行成功！", "但不一定生效哦！", NotificationType.Success);
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+        }
+        ShowAndHide.IsEnabled = true;
+    }
+
     public void SetFalse(bool totf)
     {
         if (totf)

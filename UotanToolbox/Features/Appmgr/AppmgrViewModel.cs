@@ -6,6 +6,7 @@ using SukiUI.Controls;
 using SukiUI.Enums;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -34,8 +35,6 @@ public partial class AppmgrViewModel : MainPageBase
         HasItems = false;
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         IsBusy = true;
-        try
-        {
             await Task.Run(async () =>
             {
                 if (!await GetDevicesInfo.SetDevicesInfoLittle())
@@ -84,16 +83,10 @@ public partial class AppmgrViewModel : MainPageBase
                                                          .ThenBy(app => app.Name)
                                                          .ToList();
                 Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+                IsBusy = false;
             });
-        }
-        catch (Exception ex)
-        {
-            SukiHost.ShowDialog(new ErrorDialog(ex.Message));
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+        
+            
         static string ExtractPackageName(string line)
         {
             var parts = line.Split(':');
@@ -239,8 +232,11 @@ public partial class AppmgrViewModel : MainPageBase
     [RelayCommand]
     public async Task ActivateApp()
     {
-        IsBusy = true;
-
+        IsBusy = true; // Assuming this sets a flag that indicates the operation is in progress.
+        string focus_name, package_name;
+        string dumpsys = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"dumpsys window | grep mCurrentFocus\"");
+        string text = await StringHelper.ActiveApp(dumpsys);
+        await SukiHost.ShowToast("应用激活器", $"\r\n{text}", NotificationType.Info);
         IsBusy = false;
     }
 

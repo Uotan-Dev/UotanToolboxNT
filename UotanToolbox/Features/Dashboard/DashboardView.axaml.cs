@@ -331,8 +331,6 @@ public partial class DashboardView : UserControl
             string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
             string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
             string Magisk_sh_path = Path.Combine(ZipInfo.tmp_path, "assets", "util_functions.sh");
-            File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "arm64-v8a", "libmagisk32.so"));
-            File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "x86_64", "libmagisk32.so"));
             string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
             string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
             if ((MAGISK_VER != null) & (MAGISK_VER_CODE != null))
@@ -342,6 +340,8 @@ public partial class DashboardView : UserControl
                 bool Magisk_Valid = BootPatchHelper.Magisk_Validation(md5, MAGISK_VER);
                 if (Magisk_Valid)
                 {
+                    File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "arm64-v8a", "libmagisk32.so"));
+                    File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "x86_64", "libmagisk32.so"));
                     ZipInfo.userful = true;
                 }
                 patch_busy(false);
@@ -401,6 +401,7 @@ public partial class DashboardView : UserControl
             await BootPatchHelper.kernel_detect();
             await BootPatchHelper.ramdisk_detect();
             SukiHost.ShowDialog(new PureDialog($"Boot内检测到\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}"), allowBackgroundClose: true);
+            ArchList.SelectedItem = BootInfo.arch;
             patch_busy(false);
         }
     }

@@ -6,7 +6,6 @@ using SukiUI.Controls;
 using SukiUI.Enums;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -35,58 +34,58 @@ public partial class AppmgrViewModel : MainPageBase
         HasItems = false;
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         IsBusy = true;
-            await Task.Run(async () =>
+        await Task.Run(async () =>
+        {
+            if (!await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                if (!await GetDevicesInfo.SetDevicesInfoLittle())
+                await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        SukiHost.ShowDialog(new PureDialog("设备未连接"), allowBackgroundClose: true);
-                    });
-                    return;
-                }
-                string fullApplicationsList;
-                if (!IsSystemAppDisplayed)
-                    fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
-                else
-                    fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
-                if (fullApplicationsList.Contains("cannot connect to daemon"))
-                {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        SukiHost.ShowDialog(new PureDialog("设备连接失败"), allowBackgroundClose: true);
-                    });
-                    return;
-                }
-                if (!(sukiViewModel.Status == GetTranslation("Home_System")))
-                {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        SukiHost.ShowDialog(new PureDialog("请在系统内执行"), allowBackgroundClose: true);
-                    });
-                    return;
-                }
-                var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
-                HasItems = lines.Length > 0;
-                var applicationInfosTasks = lines.Select(async line =>
-                {
-                    var packageName = ExtractPackageName(line);
-                    if (string.IsNullOrEmpty(packageName)) return null;
-                    var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
-                    var splitOutput = combinedOutput.Split('\n', ' ');
-                    var otherInfo = GetVersionName(splitOutput) + " | " + GetInstalledDate(splitOutput) + " | " + GetSdkVersion(splitOutput);
-                    return new ApplicationInfo { Name = packageName, OtherInfo = otherInfo };
+                    SukiHost.ShowDialog(new PureDialog("设备未连接"), allowBackgroundClose: true);
                 });
-                ApplicationInfo[] allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
-                var applicationInfos = allApplicationInfos.Where(info => info != null)
-                                                         .OrderByDescending(app => app.Size)
-                                                         .ThenBy(app => app.Name)
-                                                         .ToList();
-                Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
-                IsBusy = false;
+                return;
+            }
+            string fullApplicationsList;
+            if (!IsSystemAppDisplayed)
+                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
+            else
+                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
+            if (fullApplicationsList.Contains("cannot connect to daemon"))
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    SukiHost.ShowDialog(new PureDialog("设备连接失败"), allowBackgroundClose: true);
+                });
+                return;
+            }
+            if (!(sukiViewModel.Status == GetTranslation("Home_System")))
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    SukiHost.ShowDialog(new PureDialog("请在系统内执行"), allowBackgroundClose: true);
+                });
+                return;
+            }
+            var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
+            HasItems = lines.Length > 0;
+            var applicationInfosTasks = lines.Select(async line =>
+            {
+                var packageName = ExtractPackageName(line);
+                if (string.IsNullOrEmpty(packageName)) return null;
+                var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
+                var splitOutput = combinedOutput.Split('\n', ' ');
+                var otherInfo = GetVersionName(splitOutput) + " | " + GetInstalledDate(splitOutput) + " | " + GetSdkVersion(splitOutput);
+                return new ApplicationInfo { Name = packageName, OtherInfo = otherInfo };
             });
-        
-            
+            ApplicationInfo[] allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
+            var applicationInfos = allApplicationInfos.Where(info => info != null)
+                                                     .OrderByDescending(app => app.Size)
+                                                     .ThenBy(app => app.Name)
+                                                     .ToList();
+            Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+            IsBusy = false;
+        });
+
+
         static string ExtractPackageName(string line)
         {
             var parts = line.Split(':');

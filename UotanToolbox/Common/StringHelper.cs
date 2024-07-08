@@ -363,9 +363,10 @@ namespace UotanToolbox.Common
                 {
                     return "Shizuku激活疑似失败";
                 }
-            }else if (output.Contains("com.oasisfeng.greenify"))
+            }
+            else if (output.Contains("com.oasisfeng.greenify"))
             {
-                int a=0;
+                int a = 0;
                 adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.greenify android.permission.WRITE_SECURE_SETTINGS");
                 if (!String.IsNullOrEmpty(adb_output))
                 {
@@ -394,7 +395,8 @@ namespace UotanToolbox.Common
                 {
                     return "绿色守护可能激活失败";
                 }
-            }else if (output.Contains("com.rosan.dhizuku"))
+            }
+            else if (output.Contains("com.rosan.dhizuku"))
             {
                 adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dpm set-device-owner com.rosan.dhizuku/.server.DhizukuDAReceiver");
                 if (adb_output.Contains("Success: Device owner set to package"))
@@ -405,7 +407,8 @@ namespace UotanToolbox.Common
                 {
                     return "Dhizuku激活疑似失败";
                 }
-            }else if (output.Contains("com.oasisfeng.island"))
+            }
+            else if (output.Contains("com.oasisfeng.island"))
             {
                 adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.island android.permission.INTERACT_ACROSS_USERS");
                 if (String.IsNullOrEmpty(adb_output))
@@ -416,7 +419,8 @@ namespace UotanToolbox.Common
                 {
                     return "Island可能激活失败";
                 }
-            }else if (output.Contains("me.piebridge.brevent"))
+            }
+            else if (output.Contains("me.piebridge.brevent"))
             {
                 adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /data/data/me.piebridge.brevent/brevent.sh");
                 if (adb_output.Contains("..success"))
@@ -427,7 +431,8 @@ namespace UotanToolbox.Common
                 {
                     return "Brevent可能激活失败";
                 }
-            }else if (output.Contains("com.catchingnow.icebox"))
+            }
+            else if (output.Contains("com.catchingnow.icebox"))
             {
                 adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /sdcard/Android/data/com.catchingnow.icebox/files/start.sh");
                 if (adb_output.Contains("success"))
@@ -438,7 +443,8 @@ namespace UotanToolbox.Common
                 {
                     return "IceBox可能激活失败";
                 }
-            }else if (output.Contains("web1n.stopapp"))
+            }
+            else if (output.Contains("web1n.stopapp"))
             {
                 adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /storage/emulated/0/Android/data/web1n.stopapp/files/starter.sh");
                 if (adb_output.Contains("success to register app changed listener."))
@@ -449,7 +455,8 @@ namespace UotanToolbox.Common
                 {
                     return "小黑屋可能激活失败";
                 }
-            }else if (output.Contains("com.web1n.permissiondog"))
+            }
+            else if (output.Contains("com.web1n.permissiondog"))
             {
                 adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /storage/emulated/0/Android/data/com.web1n.permissiondog/files/starter.sh");
                 if (adb_output.Contains("success to register app changed listener."))
@@ -462,7 +469,7 @@ namespace UotanToolbox.Common
                 }
             }
             return "当前主界面应用不被支持！";
-            
+
         }
         public static string ByteToHex(byte comByte)
         {

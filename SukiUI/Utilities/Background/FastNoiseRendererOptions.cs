@@ -19,12 +19,12 @@ public readonly struct FastNoiseRendererOptions
         float accentAlpha = 0.08f,
         float accentAlphaLight = 0.09f,
         float animSeedScale = 0.1f
-                                                                      /* float noiseScale = 1f,
-                                                                       float xAnimSpeed = 0.05f,
-                                                                       float yAnimSpeed = 0.025f,
-                                                                       float primaryAlpha = 0.75f,
-                                                                       float accentAlpha = 0.2f,
-                                                                       float animSeedScale = 0.1f*/)
+                                                                          /* float noiseScale = 1f,
+                                                                           float xAnimSpeed = 0.05f,
+                                                                           float yAnimSpeed = 0.025f,
+                                                                           float primaryAlpha = 0.75f,
+                                                                           float accentAlpha = 0.2f,
+                                                                           float animSeedScale = 0.1f*/)
     {
         Type = type;
         NoiseScale = noiseScale;

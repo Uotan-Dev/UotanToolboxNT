@@ -40,6 +40,26 @@
 						<Button Width="125"
 								HorizontalAlignment="Left"
 								Padding="8"
+								Command="{Binding ForceStopAppCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="StopCircleOutline" />
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_ForceStop}" />
+							</TextBlock>
+						</Button>
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding ActivateAppCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="StarFourPointsCircleOutline" />
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_ActivateSwitch}" />
+							</TextBlock>
+						</Button>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
 								Command="{Binding DisableAppCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Ban" />
@@ -53,6 +73,16 @@
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Check" />
 								<TextBlock Text="{x:Static assets:Resources.Appmgr_Enable}" />
+							</TextBlock>
+						</Button>
+						
+						<Button Width="125"
+								HorizontalAlignment="Left"
+								Padding="8"
+								Command="{Binding ExtractInstallerCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="ProgressDownload" />
+								<TextBlock Text="{x:Static assets:Resources.Appmgr_ExtractApk}" />
 							</TextBlock>
 						</Button>
 					</StackPanel>
@@ -78,39 +108,10 @@
 						<Button Width="125"
 								HorizontalAlignment="Left"
 								Padding="8"
-								Command="{Binding ExtractInstallerCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="ProgressDownload" />
-								<TextBlock Text="{x:Static assets:Resources.Appmgr_ExtractApk}" />
-							</TextBlock>
-						</Button>
-					</StackPanel>
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-						<Button Width="125"
-								HorizontalAlignment="Left"
-								Padding="8"
 								Command="{Binding ClearAppCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="TrashCanOutline" />
 								<TextBlock Text="{x:Static assets:Resources.Appmgr_ClearData}" />
-							</TextBlock>
-						</Button>
-						<Button Width="125"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding ForceStopAppCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="StopCircleOutline" />
-								<TextBlock Text="{x:Static assets:Resources.Appmgr_ForceStop}" />
-							</TextBlock>
-						</Button>
-						<Button Width="125"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding ActivateAppCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="StarFourPointsCircleOutline" />
-								<TextBlock Text="{x:Static assets:Resources.Appmgr_ActivateSwitch}" />
 							</TextBlock>
 						</Button>
 					</StackPanel>
@@ -131,7 +132,7 @@
 								   FontSize="15"
 								   FontWeight="DemiBold"
 								   Text="{x:Static assets:Resources.Appmgr_InstallApp}" />
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<StackPanel Margin="0,15,0,0" Orientation="Horizontal">
 								<TextBlock Width="60"
 										   Margin="8,15,0,0"
 										   VerticalAlignment="Center"
@@ -147,7 +148,7 @@
 							<Button Name="ButtonSignIn"
 									Width="150"
 									Height="40"
-									Margin="0,30,0,0"
+									Margin="0,35,0,0"
 									HorizontalAlignment="Center"
 									VerticalAlignment="Bottom"
 									theme:ButtonExtensions.ShowProgress="{Binding IsInstalling}"

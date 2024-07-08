@@ -841,7 +841,7 @@
     <value>当前已是最新版本</value>
   </data>
   <data name="Appmgr_ActivateSwitch" xml:space="preserve">
-    <value>激活切换</value>
+    <value>激活应用</value>
   </data>
   <data name="Appmgr_ClearData" xml:space="preserve">
     <value>清除数据</value>

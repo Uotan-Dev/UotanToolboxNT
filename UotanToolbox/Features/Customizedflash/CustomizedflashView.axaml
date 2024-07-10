@@ -74,7 +74,7 @@
 													   Margin="8,0,0,0"
 													   VerticalAlignment="Center"
 													   FontSize="13"
-													   Text="Vender" />
+													   Text="Vendor" />
 											<TextBox Width="270" Name="VenderFile"
 													 theme:TextBoxExtensions.AddDeleteButton="False"/>
 											<Button Name="OpenVenderFileBut"

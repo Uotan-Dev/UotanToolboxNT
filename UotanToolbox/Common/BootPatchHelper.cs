@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
 
@@ -204,8 +205,8 @@ namespace UotanToolbox.Common
                 string[] gz_names = FileHelper.FindConfigGzFiles(comp_path);
                 string[] decompress_file_names = await FileHelper.DecompressConfigGzFiles(gz_names);
                 BootInfo.gki2 = FileHelper.CheckGkiConfig(decompress_file_names);
-
-
+                BootInfo.version = ReadKernelVersion(Path.Combine(BootInfo.tmp_path, "kernel"));
+                BootInfo.kmi =ExtractKMI(BootInfo.version);
             }
             else
             {
@@ -232,7 +233,6 @@ namespace UotanToolbox.Common
                     (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
                     string init_info = await CallExternalProgram.File($"\"{CheckInitPath(ramdisk_path)}\"");
                     (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
-
                 }
                 return true;
             }
@@ -447,6 +447,66 @@ namespace UotanToolbox.Common
             string ramdisk = Path.GetDirectoryName(filePath);
             string output = Path.Combine(filePath, Encoding.ASCII.GetString(result).Trim());
             return output;
+        }
+        /// <summary>
+        /// 走kernel文件中提取编译签名信息
+        /// </summary>
+        /// <param name="filePath">内核文件路径</param>
+        /// <returns>内核编译签名信息</returns>
+        public static string ReadKernelVersion(string filePath)
+        {
+            byte[] Signature = new byte[] { 0x69, 0x6e, 0x69, 0x74, 0x63, 0x61, 0x6c, 0x6c, 0x5f, 0x64, 0x65, 0x62, 0x75, 0x67, 0x00 };
+            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            using var br = new BinaryReader(fs);
+            long signaturePosition = FindSignaturePosition(br, Signature);
+            if (signaturePosition == -1)
+            {
+                return "";
+            }
+            fs.Seek(signaturePosition + Signature.Length, SeekOrigin.Begin);
+            return ReadUntilTerminator(br);
+        }
+        private static long FindSignaturePosition(BinaryReader reader, byte[] signature)
+        {
+            byte[] buffer = new byte[signature.Length];
+            long position = 0;
+            while (position + signature.Length <= reader.BaseStream.Length)
+            {
+                reader.BaseStream.Seek(position, SeekOrigin.Begin);
+                reader.Read(buffer, 0, signature.Length);
+                if (buffer.SequenceEqual(signature))
+                {
+                    return position;
+                }
+                position++;
+            }
+            return -1;
+        }
+        private static string ReadUntilTerminator(BinaryReader reader)
+        {
+            var sb = new StringBuilder();
+            int b;
+            while ((b = reader.ReadByte()) != 0x00)
+            {
+                sb.Append((char)b);
+            }
+            while ((b = reader.ReadByte()) != 0x00)
+            {
+                sb.Append((char)b);
+            }
+            return sb.ToString();
+        }
+        public static string ExtractKMI(string version)
+        {
+            var pattern = @"(.* )?(\d+\.\d+)(\S+)?(android\d+)(.*)";
+            var match = Regex.Match(version, pattern);
+            if (!match.Success)
+            {
+                throw new ArgumentException("Failed to get KMI from boot/modules");
+            }
+            var androidVersion = match.Groups[4].Value;
+            var kernelVersion = match.Groups[2].Value;
+            return $"{androidVersion}-{kernelVersion}";
         }
     }
 }

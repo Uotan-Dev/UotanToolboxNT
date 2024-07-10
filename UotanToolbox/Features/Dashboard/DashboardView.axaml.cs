@@ -400,7 +400,7 @@ public partial class DashboardView : UserControl
             BootPatchHelper.dtb_detect();
             await BootPatchHelper.kernel_detect();
             await BootPatchHelper.ramdisk_detect();
-            SukiHost.ShowDialog(new PureDialog($"Boot内检测到\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog($"Boot内检测到\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
             ArchList.SelectedItem = BootInfo.arch;
             patch_busy(false);
         }

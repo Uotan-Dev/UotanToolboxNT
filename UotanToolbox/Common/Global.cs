@@ -28,27 +28,28 @@ namespace UotanToolbox.Common
     }
     public class BootInfo
     {
-        public static string SHA1 = "";
-        public static string tmp_path = "";
-        public static bool userful = false;
-        public static bool gki2 = false;
-        public static string kmi = "";
-        public static string os_version = "";
-        public static string patch_level = "";
-        public static bool have_ramdisk = false;
-        public static bool have_kernel = false;
-        public static bool have_dtb = false;
-        public static string dtb_name = "";
-        public static string arch = "aarch64";
+        public static string SHA1;
+        public static string tmp_path;
+        public static bool userful;
+        public static bool gki2;
+        public static string version;
+        public static string kmi;
+        public static string os_version;
+        public static string patch_level;
+        public static bool have_ramdisk;
+        public static bool have_kernel;
+        public static bool have_dtb;
+        public static string dtb_name;
+        public static string arch;
     }
     public class ZipInfo
     {
-        public static string SHA1 = "";
-        public static string ver = "";
-        public static string tmp_path = "";
-        public static bool userful = false;
-        public static bool is_magisk = false;
-        public static string patch_SHA1 = "";
+        public static string SHA1;
+        public static string ver;
+        public static string tmp_path;
+        public static bool userful;
+        public static bool is_magisk;
+        public static string patch_SHA1;
     }
     public class EnvironmentVariable
     {

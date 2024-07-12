@@ -22,17 +22,8 @@ internal class Program
     {
         Global.runpath = System.AppDomain.CurrentDomain.BaseDirectory;//获取工具运行路径
         Global.tmp_path = Path.GetTempPath();
-        FontManagerOptions options = new();
         if (OperatingSystem.IsLinux())
         {
-            string FontPath = Path.Combine(Global.runpath, "Font");
-            string SystemFontPath = $"/home/{System.Environment.UserName}/.local/share/fonts/";
-            if (!File.Exists(SystemFontPath))
-            {
-                Directory.CreateDirectory(SystemFontPath);
-            }
-            FileHelper.CopyDirectory(FontPath, SystemFontPath);
-            options.DefaultFamilyName = "MiSans";
             if (RuntimeInformation.OSArchitecture == Architecture.X64)
             {
                 Global.System = "Linux_AMD64";
@@ -50,7 +41,6 @@ internal class Program
         else if (OperatingSystem.IsMacOS())
         {
             Global.System = "macOS";
-            options.DefaultFamilyName = "MiSans";
             Global.log_path = Path.Combine(Global.runpath, "Log");
             if (!File.Exists(Global.log_path))
             {
@@ -81,7 +71,6 @@ internal class Program
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace()
-                .UseXamlDisplay()
-                .With(options);
+                .UseXamlDisplay();
     }
 }

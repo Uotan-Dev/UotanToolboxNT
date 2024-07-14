@@ -71,7 +71,7 @@ public partial class HomeViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(async () =>
             {
-                await SukiHost.ShowDialogAsync(new ErrorDialog("缺少程序运行的必须组件！"));
+                await SukiHost.ShowDialogAsync(new ErrorDialog(GetTranslation("Home_Missing")));
                 Process.GetCurrentProcess().Kill();
             });
         }
@@ -160,7 +160,7 @@ public partial class HomeViewModel : MainPageBase
                     Global.thisdevice = null;
                     SimpleContent = null;
                     IsConnecting = false;
-                    await SukiHost.ShowToast("提示", "设备已断开连接！", NotificationType.Warning);
+                    await SukiHost.ShowToast(GetTranslation("Home_Prompt"), GetTranslation("Home_Disconnected"), NotificationType.Warning);
                     MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                     Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
                     VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
@@ -211,12 +211,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入Recovery模式或开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -231,12 +231,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -267,7 +267,7 @@ public partial class HomeViewModel : MainPageBase
     {
         string pngname = String.Format($"{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}");
         await ADBControl($"shell /system/bin/screencap -p /sdcard/{pngname}.png");
-        await SukiHost.ShowToast("执行成功", $"已保存 {pngname}.png 至手机储存", NotificationType.Success);
+        await SukiHost.ShowToast(GetTranslation("Home_Succeeded"), $"{GetTranslation("Home_Saved")} {pngname}.png {GetTranslation("Home_ToStorage")}", NotificationType.Success);
     }
 
     [RelayCommand]
@@ -292,12 +292,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入Recovery模式或开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -334,12 +334,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -363,12 +363,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
         }
     }
 

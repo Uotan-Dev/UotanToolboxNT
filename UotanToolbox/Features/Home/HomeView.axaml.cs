@@ -3,11 +3,13 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using SukiUI.Controls;
 using SukiUI.Enums;
+using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Home;
 
 public partial class HomeView : UserControl
 {
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public HomeView()
     {
         /* Sample of using i18n resources
@@ -32,7 +34,7 @@ public partial class HomeView : UserControl
             }
             if (clipboard != null)
                 await clipboard.SetDataObjectAsync(dataObject);
-            await SukiHost.ShowToast("已复制到剪贴板", "o(*≧▽≦)ツ", NotificationType.Success);
+            await SukiHost.ShowToast(GetTranslation("Home_Copy"), "o(*≧▽≦)ツ", NotificationType.Success);
         }
     }
 }

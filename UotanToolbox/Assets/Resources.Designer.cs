@@ -979,6 +979,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Copy to clipboard 的本地化字符串。
+        /// </summary>
+        public static string Home_Copy {
+            get {
+                return ResourceManager.GetString("Home_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 CPU Framework 的本地化字符串。
         /// </summary>
         public static string Home_CPUABI {
@@ -1024,11 +1033,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 The device has been disconnected 的本地化字符串。
+        /// </summary>
+        public static string Home_Disconnected {
+            get {
+                return ResourceManager.GetString("Home_Disconnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 DisplayDensity 的本地化字符串。
         /// </summary>
         public static string Home_DisplayDensity {
             get {
                 return ResourceManager.GetString("Home_DisplayDensity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter Fastboot mode! 的本地化字符串。
+        /// </summary>
+        public static string Home_EnterFastboot {
+            get {
+                return ResourceManager.GetString("Home_EnterFastboot", resourceCulture);
             }
         }
         
@@ -1105,6 +1132,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Missing essential components for program execution 的本地化字符串。
+        /// </summary>
+        public static string Home_Missing {
+            get {
+                return ResourceManager.GetString("Home_Missing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 MotherboardID 的本地化字符串。
         /// </summary>
         public static string Home_MotherboardID {
@@ -1123,6 +1159,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Device not connected! 的本地化字符串。
+        /// </summary>
+        public static string Home_NotConnected {
+            get {
+                return ResourceManager.GetString("Home_NotConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter Recovery mode or enable USB debugging! 的本地化字符串。
+        /// </summary>
+        public static string Home_OpenADB {
+            get {
+                return ResourceManager.GetString("Home_OpenADB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Platform 的本地化字符串。
         /// </summary>
         public static string Home_Platform {
@@ -1137,6 +1191,15 @@ namespace UotanToolbox.Assets {
         public static string Home_PowerOnTime {
             get {
                 return ResourceManager.GetString("Home_PowerOnTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Prompt 的本地化字符串。
+        /// </summary>
+        public static string Home_Prompt {
+            get {
+                return ResourceManager.GetString("Home_Prompt", resourceCulture);
             }
         }
         
@@ -1164,6 +1227,15 @@ namespace UotanToolbox.Assets {
         public static string Home_Resolution {
             get {
                 return ResourceManager.GetString("Home_Resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Saved 的本地化字符串。
+        /// </summary>
+        public static string Home_Saved {
+            get {
+                return ResourceManager.GetString("Home_Saved", resourceCulture);
             }
         }
         
@@ -1204,6 +1276,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Execution succeeded 的本地化字符串。
+        /// </summary>
+        public static string Home_Succeeded {
+            get {
+                return ResourceManager.GetString("Home_Succeeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 System 的本地化字符串。
         /// </summary>
         public static string Home_System {
@@ -1213,7 +1294,16 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Vab Stadus 的本地化字符串。
+        ///   查找类似 to mobile phone storage 的本地化字符串。
+        /// </summary>
+        public static string Home_ToStorage {
+            get {
+                return ResourceManager.GetString("Home_ToStorage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A/B Slot 的本地化字符串。
         /// </summary>
         public static string Home_VabStadus {
             get {
@@ -1402,7 +1492,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 VAB Status 的本地化字符串。
+        ///   查找类似 A/B Slot 的本地化字符串。
         /// </summary>
         public static string Main_VABStatus {
             get {

@@ -165,6 +165,9 @@
   <data name="Home_ConnectionStatus" xml:space="preserve">
     <value>ConnectionStatus</value>
   </data>
+  <data name="Home_Copy" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
   <data name="Home_CPUABI" xml:space="preserve">
     <value>CPU Framework</value>
   </data>
@@ -247,7 +250,7 @@
     <value>System</value>
   </data>
   <data name="Home_VabStadus" xml:space="preserve">
-    <value>Vab Stadus</value>
+    <value>A/B Slot</value>
   </data>
   <data name="Home_VNDKVersion" xml:space="preserve">
     <value>VNDK Version</value>
@@ -260,6 +263,33 @@
   </data>
   <data name="Home_VolumeUp" xml:space="preserve">
     <value>Volume +</value>
+  </data>
+  <data name="Home_Missing" xml:space="preserve">
+    <value>Missing essential components for program execution</value>
+  </data>
+  <data name="Home_Prompt" xml:space="preserve">
+    <value>Prompt</value>
+  </data>
+  <data name="Home_Disconnected" xml:space="preserve">
+    <value>The device has been disconnected</value>
+  </data>
+  <data name="Home_OpenADB" xml:space="preserve">
+    <value>Please enter Recovery mode or enable USB debugging!</value>
+  </data>
+  <data name="Home_NotConnected" xml:space="preserve">
+    <value>Device not connected!</value>
+  </data>
+  <data name="Home_EnterFastboot" xml:space="preserve">
+    <value>Please enter Fastboot mode!</value>
+  </data>
+  <data name="Home_Succeeded" xml:space="preserve">
+    <value>Execution succeeded</value>
+  </data>
+  <data name="Home_Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="Home_ToStorage" xml:space="preserve">
+    <value>to mobile phone storage</value>
   </data>
   <data name="Info_AOnly" xml:space="preserve">
     <value>A-Only device</value>
@@ -358,7 +388,7 @@
     <value>Status</value>
   </data>
   <data name="Main_VABStatus" xml:space="preserve">
-    <value>VAB Status</value>
+    <value>A/B Slot</value>
   </data>
   <data name="ConnectionDialog_Cancel" xml:space="preserve">
     <value>Cancel</value>

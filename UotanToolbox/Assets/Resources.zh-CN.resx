@@ -117,17 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Dialog_NotSupported" xml:space="preserve">
+  <data name="Home_NotSupported" xml:space="preserve">
     <value>当前设备不支持此命令！</value>
   </data>
-  <data name="Dialog_Successful" xml:space="preserve">
+  <data name="Home_Successful" xml:space="preserve">
     <value>执行成功！</value>
-  </data>
-  <data name="Dialog_Unconnected" xml:space="preserve">
-    <value>设备未连接！</value>
-  </data>
-  <data name="Dialog_WrongStatus" xml:space="preserve">
-    <value>设备连接状态错误！</value>
   </data>
   <data name="Home_AdbRebootTo" xml:space="preserve">
     <value>ADB 重启至</value>
@@ -273,13 +267,13 @@
   <data name="Home_Disconnected" xml:space="preserve">
     <value>设备已断开连接</value>
   </data>
-  <data name="Home_OpenADB" xml:space="preserve">
+  <data name="Common_OpenADB" xml:space="preserve">
     <value>请进入Recovery模式或开启USB调试！</value>
   </data>
-  <data name="Home_NotConnected" xml:space="preserve">
+  <data name="Common_NotConnected" xml:space="preserve">
     <value>设备未连接！</value>
   </data>
-  <data name="Home_EnterFastboot" xml:space="preserve">
+  <data name="Common_EnterFastboot" xml:space="preserve">
     <value>请进入Fastboot模式！</value>
   </data>
   <data name="Home_Succeeded" xml:space="preserve">
@@ -520,7 +514,7 @@
     <value>修补vbmeta标记</value>
   </data>
   <data name="Basicflash_Start" xml:space="preserve">
-    <value>开始！</value>
+    <value>开始修补</value>
   </data>
   <data name="Basicflash_SyncABPart" xml:space="preserve">
     <value>同步AB分区</value>
@@ -878,5 +872,128 @@
   </data>
   <data name="Appmgr_ForceStop" xml:space="preserve">
     <value>强制停止</value>
+  </data>
+  <data name="Basicflash_Easyinstall" xml:space="preserve">
+    <value>安装中...</value>
+  </data>
+  <data name="Basicflash_PatchBoot" xml:space="preserve">
+    <value>处理中...</value>
+  </data>
+  <data name="Basicflash_UseUnlockCode" xml:space="preserve">
+    <value>使用解锁码解锁您可能需要自行添加“0x”</value>
+  </data>
+  <data name="Basicflash_BasicUnlock" xml:space="preserve">
+    <value>该功能仅支持部分品牌设备！执行后您的设备应当出现确认解锁提示，若未出现则为您的设备不支持该操作。</value>
+  </data>
+  <data name="Basicflash_BootFailed" xml:space="preserve">
+    <value>启动失败！</value>
+  </data>
+  <data name="Basicflash_BootSucc" xml:space="preserve">
+    <value>启动成功！</value>
+  </data>
+  <data name="Basicflash_CheckError" xml:space="preserve">
+    <value>magiskboot检验出错</value>
+  </data>
+  <data name="Basicflash_CheckUnlock" xml:space="preserve">
+    <value>执行完成，请查看您的设备！</value>
+  </data>
+  <data name="Basicflash_CleanDirError" xml:space="preserve">
+    <value>清理打包目录失败</value>
+  </data>
+  <data name="Basicflash_DetectdBoot" xml:space="preserve">
+    <value>Boot内检测到</value>
+  </data>
+  <data name="Basicflash_ErrorClean" xml:space="preserve">
+    <value>清理临时目录出错</value>
+  </data>
+  <data name="Basicflash_ErrorComp" xml:space="preserve">
+    <value>压缩stub.apk时出错</value>
+  </data>
+  <data name="Basicflash_Execution" xml:space="preserve">
+    <value>执行完成！</value>
+  </data>
+  <data name="Basicflash_FileError" xml:space="preserve">
+    <value>文件预处理时出错！</value>
+  </data>
+  <data name="Basicflash_FlashBoot" xml:space="preserve">
+    <value>刷入Boot</value>
+  </data>
+  <data name="Basicflash_FlashSucc" xml:space="preserve">
+    <value>刷入成功！</value>
+  </data>
+  <data name="Basicflash_InstallFailed" xml:space="preserve">
+    <value>安装失败！</value>
+  </data>
+  <data name="Basicflash_InstallMagisk" xml:space="preserve">
+    <value>已推送至根目录，请自行安装。</value>
+  </data>
+  <data name="Basicflash_InstallSuccess" xml:space="preserve">
+    <value>安装成功！</value>
+  </data>
+  <data name="Basicflash_MagsikNotSupport" xml:space="preserve">
+    <value>未能获取到有效Magisk版本号</value>
+  </data>
+  <data name="Basicflash_NoBoth" xml:space="preserve">
+    <value>请勿同时填写两种方式！</value>
+  </data>
+  <data name="Basicflash_NotUsed" xml:space="preserve">
+    <value>当前设备无需进行此操作！</value>
+  </data>
+  <data name="Basicflash_PatchDone" xml:space="preserve">
+    <value>面具修补完成</value>
+  </data>
+  <data name="Basicflash_PreMagisk" xml:space="preserve">
+    <value>Magisk组件预处理时</value>
+  </data>
+  <data name="Basicflash_PushMagisk" xml:space="preserve">
+    <value>检测到当前为系统模式，是否推送Magisk应用？</value>
+  </data>
+  <data name="Basicflash_RecoveryFailed" xml:space="preserve">
+    <value>刷入失败！</value>
+  </data>
+  <data name="Basicflash_RecoverySucc" xml:space="preserve">
+    <value>刷入成功！是否重启到Recovery？</value>
+  </data>
+  <data name="Basicflash_RelockFailed" xml:space="preserve">
+    <value>回锁失败！</value>
+  </data>
+  <data name="Basicflash_RelockSucc" xml:space="preserve">
+    <value>回锁成功！</value>
+  </data>
+  <data name="Basicflash_SelectBoot" xml:space="preserve">
+    <value>请选择有效Boot文件!</value>
+  </data>
+  <data name="Basicflash_SelectBootMagisk" xml:space="preserve">
+    <value>请选择有效的面具与镜像文件!</value>
+  </data>
+  <data name="Basicflash_SelectCommand" xml:space="preserve">
+    <value>请选择解锁命令！</value>
+  </data>
+  <data name="Basicflash_SelectMagiskRight" xml:space="preserve">
+    <value>请在右侧选择Magisk文件！</value>
+  </data>
+  <data name="Basicflash_SelectRecovery" xml:space="preserve">
+    <value>请选择Recovery文件！</value>
+  </data>
+  <data name="Basicflash_SelectUnlock" xml:space="preserve">
+    <value>请选择解锁文件,或输入解锁码！</value>
+  </data>
+  <data name="Basicflash_Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Basicflash_UnknowArch" xml:space="preserve">
+    <value>未知架构：</value>
+  </data>
+  <data name="Basicflash_UnlockFailed" xml:space="preserve">
+    <value>解锁失败！</value>
+  </data>
+  <data name="Basicflash_UnlockSucc" xml:space="preserve">
+    <value>解锁成功!</value>
+  </data>
+  <data name="Basicflash_UnsupportImage" xml:space="preserve">
+    <value>镜像被未支持软件修补，请选择原生镜像！</value>
+  </data>
+  <data name="Common_EnterRecovery" xml:space="preserve">
+    <value>请进入Recovery模式！</value>
   </data>
 </root>

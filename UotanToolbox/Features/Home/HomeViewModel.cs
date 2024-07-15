@@ -99,7 +99,7 @@ public partial class HomeViewModel : MainPageBase
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_Unconnected")), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
             return false;
         }
     }
@@ -211,12 +211,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_OpenADB")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -231,12 +231,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_EnterFastboot")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -292,12 +292,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_OpenADB")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -334,12 +334,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_EnterFastboot")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -354,21 +354,21 @@ public partial class HomeViewModel : MainPageBase
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
                 if (output.Contains("unknown command"))
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_NotSupported")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotSupported")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Dialog_Successful")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_Successful")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_EnterFastboot")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Home_NotConnected")), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 

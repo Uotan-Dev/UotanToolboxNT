@@ -502,7 +502,7 @@ namespace UotanToolbox.Common
             var match = Regex.Match(version, pattern);
             if (!match.Success)
             {
-                throw new ArgumentException("Failed to get KMI from boot/modules");
+                return "";
             }
             var androidVersion = match.Groups[4].Value;
             var kernelVersion = match.Groups[2].Value;

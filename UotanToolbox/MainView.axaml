@@ -19,7 +19,7 @@
 				 CanMinimize="{Binding !WindowLocked}"
                  CanResize="{Binding !WindowLocked}"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
-                 IsMenuVisible="True"
+                 IsMenuVisible="False"
                  mc:Ignorable="d">
 	<suki:SukiWindow.LogoContent>
 		<avalonia:MaterialIcon Width="20"
@@ -34,15 +34,6 @@
 			</avalonia:MaterialIcon.Transitions>
 		</avalonia:MaterialIcon>
 	</suki:SukiWindow.LogoContent>
-	
-	<suki:SukiWindow.MenuItems>
-		<MenuItem Header="Toggles">
-			<MenuItem Command="{Binding ToggleWindowLockCommand}"
-                      Header="Window Lock"
-                      ToolTip.Tip="Toggles minimizing and resizing.">
-			</MenuItem>
-		</MenuItem>
-	</suki:SukiWindow.MenuItems>
 	
     <suki:SukiSideMenu ItemsSource="{Binding DemoPages}"
                        SelectedItem="{Binding ActivePage}">

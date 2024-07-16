@@ -1,27 +1,21 @@
 using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Media;
-using SukiUI.Enums;
+using Avalonia.Threading;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using Avalonia.Collections;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Interactivity;
 using System.Runtime.InteropServices;
 
 namespace SukiUI.Controls;
 
 public class SukiWindow : Window
 {
-    public SukiWindow()
-    {
-        MenuItems = new AvaloniaList<MenuItem>();
-        SetSystemDecorationsBasedOnPlatform();
-    }
-
     private void SetSystemDecorationsBasedOnPlatform()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -35,6 +29,7 @@ public class SukiWindow : Window
     }
 
     protected override Type StyleKeyOverride => typeof(SukiWindow);
+
     public static readonly StyledProperty<double> TitleFontSizeProperty =
         AvaloniaProperty.Register<SukiWindow, double>(nameof(TitleFontSize), defaultValue: 13);
 
@@ -99,6 +94,14 @@ public class SukiWindow : Window
         set => SetValue(MenuItemsProperty, value);
     }
 
+    public static readonly StyledProperty<bool> BackgroundAnimationEnabledProperty =
+        AvaloniaProperty.Register<SukiWindow, bool>(nameof(BackgroundAnimationEnabled), defaultValue: false);
+
+    public bool BackgroundAnimationEnabled
+    {
+        get => GetValue(BackgroundAnimationEnabledProperty);
+        set => SetValue(BackgroundAnimationEnabledProperty, value);
+    }
 
     public static readonly StyledProperty<bool> CanMinimizeProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMinimize), defaultValue: true);
@@ -118,6 +121,14 @@ public class SukiWindow : Window
         set => SetValue(CanMoveProperty, value);
     }
 
+    public SukiWindow()
+    {
+        MenuItems = new AvaloniaList<MenuItem>();
+        SetSystemDecorationsBasedOnPlatform();
+    }
+
+    private IDisposable? _subscriptionDisposables;
+
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
@@ -129,15 +140,6 @@ public class SukiWindow : Window
             // This would be nice to do, but obviously LogoContent is a control and you can't attach it twice.
             // if (LogoContent is null) LogoContent = s.LogoContent;
         }
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            //SystemDecorations = None;
-        }
-        else
-        {
-            //SystemDecorations = BorderOnly;
-        }
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -145,8 +147,9 @@ public class SukiWindow : Window
         base.OnApplyTemplate(e);
 
         var stateObs = this.GetObservable(WindowStateProperty)
-            .Select(windowState => windowState == WindowState.Maximized ? Unit.Default : Unit.Default);
-
+            .Do(OnWindowStateChanged)
+            .Select(_ => Unit.Default);
+try{
         // Create handlers for buttons
         if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
         {
@@ -167,9 +170,22 @@ public class SukiWindow : Window
 
         if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
             titleBar.PointerPressed += OnTitleBarPointerPressed;
+        
+    
+            if (e.NameScope.Get<SukiBackground>("PART_Background") is { } background)
+            {
+                background.SetAnimationEnabled(BackgroundAnimationEnabled);
+                var bgObs = this.GetObservable(BackgroundAnimationEnabledProperty)
+                    .Do(enabled => background.SetAnimationEnabled(enabled))
+                    .Select(_ => Unit.Default)
+                    .Merge(stateObs)
+                    .ObserveOn(new AvaloniaSynchronizationContext());
+
+                _subscriptionDisposables = bgObs.Subscribe();
+            }
+        }catch{}
     }
-
-
+    
     private void OnWindowStateChanged(WindowState state)
     {
         if (state == WindowState.FullScreen)
@@ -180,7 +196,14 @@ public class SukiWindow : Window
 
     private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        base.OnPointerPressed(e);
-        BeginMoveDrag(e);
+      base.OnPointerPressed(e);
+      BeginMoveDrag(e);
+        
+    }
+
+    protected override void OnUnloaded(RoutedEventArgs e)
+    {
+        base.OnUnloaded(e);
+        _subscriptionDisposables?.Dispose();
     }
 }

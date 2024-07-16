@@ -58,7 +58,7 @@
                                 <theme:WindowManagedConverter x:Key="WindowManaged" />
                             </Grid.Resources>
                             <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource WindowManaged}}" />
-                            <controls:SukiBackground AnimationEnabled="False" Style="Flat" />
+                            <controls:SukiBackground />
                             <Button Name="PART_CloseButton"
                                     Margin="13,10"
                                     HorizontalAlignment="Right"

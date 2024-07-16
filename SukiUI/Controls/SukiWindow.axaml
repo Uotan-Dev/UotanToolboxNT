@@ -4,7 +4,7 @@
                     xmlns:suki="clr-namespace:SukiUI.Controls">
     <ControlTheme x:Key="SukiWindowTheme" TargetType="suki:SukiWindow">
         <Setter Property="Margin" Value="0" />
-        <Setter Property="SystemDecorations" Value="Full" />
+		<Setter Property="SystemDecorations" Value="None"/>
         <Setter Property="ExtendClientAreaChromeHints" Value="NoChrome" />
         <Setter Property="ExtendClientAreaTitleBarHeightHint" Value="-1" />
         <Setter Property="ExtendClientAreaToDecorationsHint" Value="True" />
@@ -28,8 +28,6 @@
                                                  Style="{TemplateBinding BackgroundStyle}"
                                                  TransitionTime="{TemplateBinding BackgroundTransitionTime}"
                                                  TransitionsEnabled="{TemplateBinding BackgroundTransitionsEnabled}" />
-                            <Panel Background="White" Opacity="0.1" IsVisible="{DynamicResource IsLight}" />
-                           
                             <DockPanel LastChildFill="True">
                                 <Panel DockPanel.Dock="Top">
                                     <Panel.Styles>
@@ -75,13 +73,6 @@
                                                                       VerticalAlignment="Bottom"
                                                                       Data="{x:Static icons:Icons.WindowMinimize}" />
                                                         </Button>
-                                                        <ItemsControl ItemsSource="{TemplateBinding RightWindowTitleBarControls}">
-                                                            <ItemsControl.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft"/>
-                                                                </ItemsPanelTemplate>
-                                                            </ItemsControl.ItemsPanel>
-                                                        </ItemsControl>
                                                     </StackPanel>
                                                     <StackPanel VerticalAlignment="Center"
                                                                 IsHitTestVisible="False"

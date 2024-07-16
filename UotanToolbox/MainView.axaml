@@ -16,7 +16,6 @@
 				 BackgroundShaderFile="{Binding CustomShaderFile}"
 				 BackgroundStyle="{Binding BackgroundStyle}"
 				 BackgroundTransitionsEnabled="{Binding TransitionsEnabled}"
-				 CanMinimize="{Binding !WindowLocked}"
                  CanResize="{Binding !WindowLocked}"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"

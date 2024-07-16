@@ -63,7 +63,6 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BusyUnlock.IsBusy = true;
-                UnlockPanel.IsEnabled = false;
                 if (!string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
                 {
                     SukiHost.ShowDialog(new PureDialog("请勿同时填写两种方式！"), allowBackgroundClose: true);
@@ -98,7 +97,6 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new PureDialog("请选择解锁文件,或输入解锁码！"), allowBackgroundClose: true);
                 }
                 BusyUnlock.IsBusy = false;
-                UnlockPanel.IsEnabled = true;
             }
             else
             {
@@ -119,7 +117,6 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BusyUnlock.IsBusy = true;
-                UnlockPanel.IsEnabled = false;
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
                 if (output.Contains("OKAY"))
@@ -131,7 +128,6 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new PureDialog("回锁失败！"), allowBackgroundClose: true);
                 }
                 BusyUnlock.IsBusy = false;
-                UnlockPanel.IsEnabled = true;
             }
             else
             {
@@ -152,7 +148,6 @@ public partial class DashboardView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 BusyBaseUnlock.IsBusy = true;
-                BaseUnlockPanel.IsEnabled = false;
                 if (SimpleContent.SelectedItem != null)
                 {
                     var newDialog = new ConnectionDialog("该功能仅支持部分品牌设备！\n\r执行后您的设备应当出现确认解锁提示，\n\r若未出现则为您的设备不支持该操作。");
@@ -168,7 +163,6 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new PureDialog("请选择解锁命令！"), allowBackgroundClose: true);
                 }
                 BusyBaseUnlock.IsBusy = false;
-                BaseUnlockPanel.IsEnabled = true;
             }
             else
             {

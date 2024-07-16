@@ -14,8 +14,8 @@
                 <Border Margin="{TemplateBinding Margin}"
                         ClipToBounds="True"
                         CornerRadius="{OnPlatform '0',
-                                                  Linux='10',
-                                                  x:TypeArguments=CornerRadius}">
+                                       Linux='10',
+                                       x:TypeArguments=CornerRadius}">
                     <VisualLayerManager Name="PART_VisualLayerManager" IsHitTestVisible="True">
                         <VisualLayerManager.ChromeOverlayLayer>
                             <suki:SukiHost />

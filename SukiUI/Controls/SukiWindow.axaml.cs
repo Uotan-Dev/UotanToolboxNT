@@ -11,6 +11,7 @@ using Avalonia.Collections;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using SukiUI.Enums;
+using System.Runtime.InteropServices;
 
 namespace SukiUI.Controls;
 
@@ -20,6 +21,24 @@ public class SukiWindow : Window
 
     public static readonly StyledProperty<double> TitleFontSizeProperty =
         AvaloniaProperty.Register<SukiWindow, double>(nameof(TitleFontSize), defaultValue: 13);
+
+    public SukiWindow()
+    {
+        MenuItems = new AvaloniaList<MenuItem>();
+        SetSystemDecorationsBasedOnPlatform();
+    }
+
+    private void SetSystemDecorationsBasedOnPlatform()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            this.SystemDecorations = SystemDecorations.None;
+        }
+        else
+        {
+            this.SystemDecorations = SystemDecorations.BorderOnly;
+        }
+    }
 
     public double TitleFontSize
     {
@@ -173,11 +192,6 @@ public class SukiWindow : Window
     {
         get => GetValue(RightWindowTitleBarControlsProperty);
         set => SetValue(RightWindowTitleBarControlsProperty, value);
-    }
-
-    public SukiWindow()
-    {
-        MenuItems = new AvaloniaList<MenuItem>();
     }
 
     private IDisposable? _subscriptionDisposables;

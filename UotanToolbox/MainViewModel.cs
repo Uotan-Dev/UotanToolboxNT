@@ -30,12 +30,9 @@ public partial class MainViewModel : ObservableObject
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
 
-    public IAvaloniaReadOnlyList<SukiBackgroundStyle> BackgroundStyles { get; }
-
     [ObservableProperty] private ThemeVariant _baseTheme;
     [ObservableProperty] private bool _animationsEnabled;
     [ObservableProperty] private MainPageBase _activePage;
-    [ObservableProperty] private SukiBackgroundStyle _backgroundStyle = SukiBackgroundStyle.Gradient;
     [ObservableProperty] private string _customShaderFile;
     [ObservableProperty] private bool _transitionsEnabled;
     [ObservableProperty] private double _transitionTime;
@@ -53,13 +50,6 @@ public partial class MainViewModel : ObservableObject
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         DemoPages = new AvaloniaList<MainPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
-        _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);
-        _theming.BackgroundStyleChanged += style => BackgroundStyle = style;
-        _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
-        _theming.CustomBackgroundStyleChanged += shader => CustomShaderFile = shader;
-        _theming.BackgroundTransitionsChanged += enabled => TransitionsEnabled = enabled;
-
-        BackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         _theme = SukiTheme.GetInstance();
         nav.NavigationRequested += t =>
         {

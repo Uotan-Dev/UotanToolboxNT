@@ -118,72 +118,6 @@ public class SukiWindow : Window
         set => SetValue(CanMoveProperty, value);
     }
 
-    // BACKGROUND PROPERTIES
-    public static readonly StyledProperty<bool> BackgroundAnimationEnabledProperty =
-        AvaloniaProperty.Register<SukiWindow, bool>(nameof(BackgroundAnimationEnabled), defaultValue: false);
-
-    public bool BackgroundAnimationEnabled
-    {
-        get => GetValue(BackgroundAnimationEnabledProperty);
-        set => SetValue(BackgroundAnimationEnabledProperty, value);
-    }
-
-    public static readonly StyledProperty<SukiBackgroundStyle> BackgroundStyleProperty =
-        AvaloniaProperty.Register<SukiWindow, SukiBackgroundStyle>(nameof(BackgroundStyle),
-            defaultValue: SukiBackgroundStyle.Waves);
-
-
-    /// <inheritdoc cref="SukiBackground.Style"/>
-    public SukiBackgroundStyle BackgroundStyle
-    {
-        get => GetValue(BackgroundStyleProperty);
-        set => SetValue(BackgroundStyleProperty, value);
-    }
-
-    public static readonly StyledProperty<string?> BackgroundShaderFileProperty =
-        AvaloniaProperty.Register<SukiWindow, string?>(nameof(BackgroundShaderFile));
-
-    /// <inheritdoc cref="SukiBackground.ShaderFile"/>
-    public string? BackgroundShaderFile
-    {
-        get => GetValue(BackgroundShaderFileProperty);
-        set => SetValue(BackgroundShaderFileProperty, value);
-    }
-
-    public static readonly StyledProperty<string?> BackgroundShaderCodeProperty =
-        AvaloniaProperty.Register<SukiWindow, string?>(nameof(BackgroundShaderCode));
-
-
-    /// <inheritdoc cref="SukiBackground.ShaderCode"/>
-    public string? BackgroundShaderCode
-    {
-        get => GetValue(BackgroundShaderCodeProperty);
-        set => SetValue(BackgroundShaderCodeProperty, value);
-    }
-
-    public static readonly StyledProperty<bool> BackgroundTransitionsEnabledProperty =
-        AvaloniaProperty.Register<SukiBackground, bool>(nameof(BackgroundTransitionsEnabled), defaultValue: false);
-
-    /// <inheritdoc cref="SukiBackground.TransitionsEnabled"/>
-    public bool BackgroundTransitionsEnabled
-    {
-        get => GetValue(BackgroundTransitionsEnabledProperty);
-        set => SetValue(BackgroundTransitionsEnabledProperty, value);
-    }
-
-    public static readonly StyledProperty<double> BackgroundTransitionTimeProperty =
-        AvaloniaProperty.Register<SukiBackground, double>(nameof(BackgroundTransitionTime), defaultValue: 1.0);
-
-    /// <inheritdoc cref="SukiBackground.TransitionTime"/>
-    public double BackgroundTransitionTime
-    {
-        get => GetValue(BackgroundTransitionTimeProperty);
-        set => SetValue(BackgroundTransitionTimeProperty, value);
-    }
-
-    private IDisposable? _subscriptionDisposables;
-    private SukiBackground? _background;
-
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
@@ -249,11 +183,4 @@ public class SukiWindow : Window
         base.OnPointerPressed(e);
         BeginMoveDrag(e);
     }
-
-    protected override void OnUnloaded(RoutedEventArgs e)
-    {
-        base.OnUnloaded(e);
-        _subscriptionDisposables?.Dispose();
-    }
-
 }

@@ -1,7 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
@@ -14,6 +13,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using Avalonia.Interactivity;
 
 namespace SukiUI.Controls
 {
@@ -118,7 +118,7 @@ namespace SukiUI.Controls
             };
 
             var icon = new PathIcon()
-            { Height = 10, Width = 10, Data = Icons.ChevronRight, Margin = new Thickness(0, 0, 20, 0) };
+                { Height = 10, Width = 10, Data = Icons.ChevronRight, Margin = new Thickness(0, 0, 20, 0) };
             if (index == stepCount - 1)
                 icon.IsVisible = false;
 
@@ -146,8 +146,7 @@ namespace SukiUI.Controls
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Text = (index + 1).ToString(),
                     FontSize = 13,
-                    Foreground = Brushes.White,
-                    TextWrapping = TextWrapping.Wrap
+                    Foreground = Brushes.White, TextWrapping = TextWrapping.Wrap
                 };
             }
             else
@@ -161,8 +160,7 @@ namespace SukiUI.Controls
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Text = (index + 1).ToString(),
                     FontSize = 13,
-                    Foreground = Brushes.White,
-                    TextWrapping = TextWrapping.Wrap
+                    Foreground = Brushes.White, TextWrapping = TextWrapping.Wrap
                 };
             }
 
@@ -176,8 +174,7 @@ namespace SukiUI.Controls
                     Margin = new Thickness(10, 0, 0, 0),
                     Text = s,
                     VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    TextWrapping = TextWrapping.Wrap
+                    HorizontalAlignment = HorizontalAlignment.Left, TextWrapping = TextWrapping.Wrap
                 },
                 _ => new ContentControl() { Content = step }
             };
@@ -227,8 +224,7 @@ namespace SukiUI.Controls
 
             var line = new Border
             {
-                CornerRadius = new CornerRadius(3),
-                Margin = new Thickness(-5, 0, 23, 0),
+                CornerRadius = new CornerRadius(3), Margin = new Thickness(-5, 0, 23, 0),
                 Height = 2,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -236,10 +232,8 @@ namespace SukiUI.Controls
             };
             var line1 = new Border
             {
-                CornerRadius = new CornerRadius(3),
-                Margin = new Thickness(23, 0, -5, 0),
-                Height = 2,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
+                CornerRadius = new CornerRadius(3), Margin = new Thickness(23, 0, -5, 0),
+                Height = 2, HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
                 [!BackgroundProperty] = new DynamicResourceExtension("SukiControlBorderBrush")
             };
@@ -268,11 +262,11 @@ namespace SukiUI.Controls
 
             var circle = new Border()
             {
-                Margin = new Thickness(0, 0, 0, 2),
-                Height = 30,
-                Width = 30,
+                Margin = new Thickness(0, 0, 0, 2), 
+                Height = 30, 
+                Width = 30, 
                 CornerRadius = new CornerRadius(25),
-                HorizontalAlignment = HorizontalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center, 
                 VerticalAlignment = VerticalAlignment.Center
             };
 
@@ -320,10 +314,8 @@ namespace SukiUI.Controls
             gridBorder.Children.Add(new TextBlock()
             {
                 FontWeight = index == Index ? FontWeight.Medium : FontWeight.Normal,
-                Text = step.ToString(),
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(0, 55, 0, 0)
+                Text = step.ToString(), VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 55, 0, 0)
             });
 
             Grid.SetColumn(gridItem, index);

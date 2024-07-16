@@ -50,8 +50,8 @@
                                             DockPanel.Dock="Left">
                                 <ContentControl.Transitions>
                                     <Transitions>
-                                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.25" />
-                                        <DoubleTransition Property="Opacity" Duration="0:0:0.3" />
+                                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.2" />
+                                        <DoubleTransition Property="Opacity" Duration="0:0:0.2" />
                                     </Transitions>
                                 </ContentControl.Transitions>
                             </ContentControl>

@@ -1,6 +1,8 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using SukiUI.Controls;
@@ -20,6 +22,7 @@ public partial class MainView : SukiWindow
         InitializeComponent();
         var bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
         Icon = new WindowIcon(bitmap);
+
     }
 
     private void MenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -53,5 +56,24 @@ public partial class MainView : SukiWindow
             });
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             Process.Start("open", "-a Terminal " + Path.Combine(Global.bin_path, "platform-tools", "adb"));
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
+    }
+
+    protected override void OnLoaded(RoutedEventArgs e)
+    {
+        base.OnLoaded(e);
+        MainViewModel mainViewModel = (MainViewModel)DataContext;
+        mainViewModel.ToggleWindowLock();
+    }
+
+    protected override void OnSizeChanged(SizeChangedEventArgs e)
+    {
+        base.OnSizeChanged(e);
+        MainViewModel mainViewModel = (MainViewModel)DataContext;
+        mainViewModel.ToggleWindowLock();
     }
 }

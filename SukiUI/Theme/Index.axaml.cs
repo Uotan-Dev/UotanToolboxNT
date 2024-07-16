@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Styling;
 using DynamicData;
+using SukiUI.Controls;
 using SukiUI.Enums;
 using SukiUI.Extensions;
 using SukiUI.Models;
@@ -161,7 +162,9 @@ public partial class SukiTheme : Styles
     private void SetColorTheme(SukiColorTheme colorTheme)
     {
         SetColorWithOpacities("SukiPrimaryColor", colorTheme.Primary);
+        SetResource("SukiPrimaryDarkColor", colorTheme.PrimaryDark);
         SetColorWithOpacities("SukiAccentColor", colorTheme.Accent);
+        SetResource("SukiAccentDarkColor", colorTheme.AccentDark);
         ActiveColorTheme = colorTheme;
         OnColorThemeChanged?.Invoke(ActiveColorTheme);
     }
@@ -195,10 +198,11 @@ public partial class SukiTheme : Styles
     {
         var defaultThemes = new[]
         {
-            new DefaultSukiColorTheme(SukiColor.Orange, Color.Parse("#ED8E12"), Color.Parse("#176CE8")),
+            new DefaultSukiColorTheme(SukiColor.Orange, Color.Parse("#d48806"), Color.Parse("#176CE8")),
             new DefaultSukiColorTheme(SukiColor.Red, Color.Parse("#D03A2F"), Color.Parse("#2FC5D0")),
-            new DefaultSukiColorTheme(SukiColor.Green, Colors.ForestGreen, Color.Parse("#B24DB0")),
-            new DefaultSukiColorTheme(SukiColor.Blue, Color.Parse("#0A59F7"), Color.Parse("#F7A80A"))
+            new DefaultSukiColorTheme(SukiColor.Green, Color.Parse("#537834"), Color.Parse("#B24DB0")),
+            new DefaultSukiColorTheme(SukiColor.Blue, Color.Parse("#0A59F7"), Color.Parse("#F7A80A")),
+ 
         };
         DefaultColorThemes = defaultThemes.ToDictionary(x => x.ThemeColor, y => (SukiColorTheme)y);
     }

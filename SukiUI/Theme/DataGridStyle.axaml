@@ -9,7 +9,7 @@
                     <DataGridTemplateColumn Header="Birthday">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <DatePicker BorderThickness="0" SelectedDate="{Binding Birthday}" />
+                                <DatePicker BorderThickness="0" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -151,9 +151,12 @@
                             CornerRadius="0" />
 
                     <DataGridRowHeader Name="PART_RowHeader"
+                                       Grid.Row="0"
                                        Grid.RowSpan="3"
+                                       Grid.Column="0"
                                        DataGridFrozenGrid.IsFrozen="True" />
                     <DataGridCellsPresenter Name="PART_CellsPresenter"
+                                            Grid.Row="0"
                                             Grid.Column="1"
                                             Margin="6"
                                             DataGridFrozenGrid.IsFrozen="True" />
@@ -206,6 +209,7 @@
                     </Border>
                     <Rectangle x:Name="HorizontalSeparator"
                                Grid.Row="2"
+                               Grid.Column="0"
                                Grid.ColumnSpan="2"
                                Height="1"
                                Margin="1,0,1,0"
@@ -213,7 +217,8 @@
                                Fill="Transparent"
                                IsVisible="{TemplateBinding AreSeparatorsVisible}" />
 
-                    <ContentPresenter Grid.RowSpan="2"
+                    <ContentPresenter Grid.Row="0"
+                                      Grid.RowSpan="2"
                                       Grid.Column="1"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
@@ -256,7 +261,9 @@
                     </StackPanel>
 
                     <DataGridRowHeader Name="RowHeader"
+                                       Grid.Row="0"
                                        Grid.RowSpan="3"
+                                       Grid.Column="0"
                                        DataGridFrozenGrid.IsFrozen="True" />
 
                 </DataGridFrozenGrid>
@@ -267,8 +274,7 @@
     <Style Selector="DataGridRowGroupHeader /template/ ToggleButton#ExpanderButton">
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Grid.Column="0"
-                        Width="20"
+                <Border Width="20"
                         Height="20"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -309,42 +315,40 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Background="Transparent" BorderThickness="0">
-                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,*,Auto,Auto">
+                    <ScrollViewer Name="PART_ScrollViewer"
+                                  HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+                                  VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}">
+                        <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,*,Auto,Auto">
 
-                        <DataGridColumnHeader Name="PART_TopLeftCornerHeader" Width="22" />
-                        <DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter" Grid.Column="1" />
-                        <DataGridColumnHeader Name="PART_TopRightCornerHeader" Grid.Column="2" />
-                        <Rectangle Name="PART_ColumnHeadersAndRowsSeparator"
-                                   Grid.ColumnSpan="3"
-                                   Height="1"
-                                   VerticalAlignment="Bottom"
-                                   Fill="Transparent"
-                                   StrokeThickness="1" />
+                            <DataGridColumnHeader Name="PART_TopLeftCornerHeader"
+                                                  Grid.Row="0"
+                                                  Grid.Column="0"
+                                                  Width="22" />
+                            <DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter"
+                                                            Grid.Row="0"
+                                                            Grid.Column="1" />
+                            <DataGridColumnHeader Name="PART_TopRightCornerHeader"
+                                                  Grid.Row="0"
+                                                  Grid.Column="2" />
+                            <Rectangle Name="PART_ColumnHeadersAndRowsSeparator"
+                                       Grid.Row="0"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="3"
+                                       Height="1"
+                                       VerticalAlignment="Bottom"
+                                       Fill="Transparent"
+                                       StrokeThickness="1" />
 
-                        <DataGridRowsPresenter Name="PART_RowsPresenter"
-                                               Grid.Row="1"
-                                               Grid.ColumnSpan="3">
-                            <DataGridRowsPresenter.GestureRecognizers>
-                                <ScrollGestureRecognizer CanHorizontallyScroll="True" CanVerticallyScroll="True" />
-                            </DataGridRowsPresenter.GestureRecognizers>
-                        </DataGridRowsPresenter>
-
-                        <ScrollBar Name="PART_VerticalScrollbar"
-                                   Grid.Row="1"
-                                   Grid.Column="2"
-                                   Width="{DynamicResource ScrollBarThickness}"
-                                   Orientation="Vertical" />
-
-                        <Grid Grid.Row="2"
-                              Grid.Column="1"
-                              ColumnDefinitions="Auto,*">
-
-                            <ScrollBar Name="PART_HorizontalScrollbar"
-                                       Grid.Column="1"
-                                       Height="{DynamicResource ScrollBarThickness}"
-                                       Orientation="Horizontal" />
+                            <DataGridRowsPresenter Name="PART_RowsPresenter"
+                                                   Grid.Row="1"
+                                                   Grid.Column="0"
+                                                   Grid.ColumnSpan="3">
+                                <DataGridRowsPresenter.GestureRecognizers>
+                                    <ScrollGestureRecognizer CanHorizontallyScroll="True" CanVerticallyScroll="True" />
+                                </DataGridRowsPresenter.GestureRecognizers>
+                            </DataGridRowsPresenter>
                         </Grid>
-                    </Grid>
+                    </ScrollViewer>
                 </Border>
             </ControlTemplate>
         </Setter>

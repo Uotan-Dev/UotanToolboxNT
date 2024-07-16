@@ -9,7 +9,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="Padding" Value="20,8" />
-      <Setter Property="FontWeight" Value="DemiBold"></Setter>
+        <Setter Property="FontFamily" Value="{DynamicResource DefaultFontFamily}" />
+        <Setter Property="FontWeight" Value="DemiBold" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -21,7 +22,7 @@
                             CornerRadius="{TemplateBinding CornerRadius}">
                         <Border.Transitions>
                             <Transitions>
-                                <BrushTransition Property="BorderBrush" Duration="0:0:0.25"></BrushTransition>
+                                <BrushTransition Property="BorderBrush" Duration="0:0:0.25" />
                             </Transitions>
                         </Border.Transitions>
                         <Grid Name="InnerGrid">
@@ -32,24 +33,25 @@
 
                             <ContentPresenter Name="PART_ContentPresenter"
                                               Grid.Column="0"
-                                              FontFamily="{StaticResource MiSansFont}"
-                                              FontWeight="{TemplateBinding FontWeight}"
                                               Padding="{TemplateBinding Padding}"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              RecognizesAccessKey="True" >
+                                              FontFamily="{TemplateBinding FontFamily}"
+                                              FontWeight="{TemplateBinding FontWeight}"
+                                              RecognizesAccessKey="True">
                                 <ContentPresenter.Transitions>
                                     <Transitions>
-                                        <BrushTransition Property="Foreground" Duration="0:0:0.25"></BrushTransition>
-                                        <BrushTransition Property="BorderBrush" Duration="0:0:0.25"></BrushTransition>
+                                        <BrushTransition Property="Foreground" Duration="0:0:0.25" />
+                                        <BrushTransition Property="BorderBrush" Duration="0:0:0.25" />
                                     </Transitions>
                                 </ContentPresenter.Transitions>
                             </ContentPresenter>
 
-                            <PathIcon Grid.Column="1"
-                                      Width="12" Name="PART_Icon"
+                            <PathIcon Name="PART_Icon"
+                                      Grid.Column="1"
+                                      Width="12"
                                       Height="12"
                                       Margin="0,0,10,0"
                                       HorizontalAlignment="Right"
@@ -57,10 +59,10 @@
                                       Data="{x:Static content:Icons.ChevronDown}"
                                       Foreground="{DynamicResource SukiText}"
                                       IsHitTestVisible="False"
-                                      UseLayoutRounding="False" >
+                                      UseLayoutRounding="False">
                                 <PathIcon.Transitions>
                                     <Transitions>
-                                        <BrushTransition Property="Foreground" Duration="0:0:0.25"></BrushTransition>
+                                        <BrushTransition Property="Foreground" Duration="0:0:0.25" />
                                     </Transitions>
                                 </PathIcon.Transitions>
                             </PathIcon>
@@ -71,8 +73,8 @@
             </Setter.Value>
         </Setter>
 
-       
-        
+
+
         <Style Selector="^:pointerover">
             <Style Selector="^ /template/ TextBlock">
                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
@@ -84,7 +86,7 @@
             <Style Selector="^ /template/ Border">
                 <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
             </Style>
-            
+
             <Style Selector="^ /template/ PathIcon#PART_Icon">
                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
             </Style>

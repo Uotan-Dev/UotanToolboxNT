@@ -1,11 +1,16 @@
-﻿using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
-using Avalonia.Input;
-using Avalonia.Rendering.Composition;
-using SukiUI.Helpers;
+﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Presenters;
+using Avalonia.Controls.Primitives;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.LogicalTree;
+using Avalonia.Rendering.Composition;
+using Avalonia.Rendering.Composition.Animations;
+using SukiUI.Helpers;
 
 namespace SukiUI.Controls;
 
@@ -28,8 +33,8 @@ public class GlassCard : ContentControl
         get => GetValue(BorderThicknessProperty);
         set => SetValue(BorderThicknessProperty, value);
     }
-
-
+    
+ 
     public static readonly StyledProperty<bool> IsAnimatedProperty =
         AvaloniaProperty.Register<GlassCard, bool>(nameof(IsAnimated), true);
 
@@ -38,7 +43,7 @@ public class GlassCard : ContentControl
         get => GetValue(IsAnimatedProperty);
         set => SetValue(IsAnimatedProperty, value);
     }
-
+    
     public static readonly StyledProperty<bool> IsOpaqueProperty =
         AvaloniaProperty.Register<GlassCard, bool>(nameof(IsOpaque), false);
 
@@ -109,7 +114,7 @@ public class GlassCard : ContentControl
         }
 
     }
-
+    
 
 
 
@@ -122,7 +127,7 @@ public class GlassCard : ContentControl
     {
         base.OnPointerPressed(e);
         PseudoClasses.Set(":pointerdown", true);
-        if (IsInteractive && Command is not null && Command.CanExecute(CommandParameter))
+        if(IsInteractive && Command is not null && Command.CanExecute(CommandParameter))
             Command.Execute(CommandParameter);
     }
 

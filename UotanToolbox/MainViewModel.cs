@@ -1,5 +1,6 @@
 using Avalonia.Collections;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SukiUI;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
+using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
@@ -22,6 +24,8 @@ namespace UotanToolbox;
 
 public partial class MainViewModel : ObservableObject
 {
+    [ObservableProperty] private bool _windowLocked;
+
     public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
@@ -30,7 +34,6 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty] private ThemeVariant _baseTheme;
     [ObservableProperty] private bool _animationsEnabled;
-    [ObservableProperty] private bool _windowLocked = true;
     [ObservableProperty] private MainPageBase _activePage;
     [ObservableProperty] private SukiBackgroundStyle _backgroundStyle = SukiBackgroundStyle.Gradient;
     [ObservableProperty] private string _customShaderFile;
@@ -74,6 +77,14 @@ public partial class MainViewModel : ObservableObject
         _theme.OnColorThemeChanged += async theme =>
             await SukiHost.ShowToast($"{GetTranslation("MainView_SuccessfullyChangedColor")}", $"{GetTranslation("MainView_ChangedColorTo")} {theme.DisplayName}.");
         GlobalData.MainViewModelInstance = this;
+    }
+
+    [RelayCommand]
+    public void ToggleWindowLock()
+    {
+        WindowLocked = false;
+        Task.Delay(10);
+        WindowLocked = true;
     }
 
     [RelayCommand]

@@ -2,6 +2,7 @@
                  xmlns="https://github.com/avaloniaui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+				 xmlns:converters="clr-namespace:SukiUI.Demo.Converters"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:demo="clr-namespace:UotanToolbox"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -17,7 +18,7 @@
 				 BackgroundTransitionsEnabled="{Binding TransitionsEnabled}"
                  CanResize="{Binding !WindowLocked}"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
-                 IsMenuVisible="False"
+                 IsMenuVisible="True"
                  mc:Ignorable="d">
 	<suki:SukiWindow.LogoContent>
 		<avalonia:MaterialIcon Width="20"
@@ -32,6 +33,15 @@
 			</avalonia:MaterialIcon.Transitions>
 		</avalonia:MaterialIcon>
 	</suki:SukiWindow.LogoContent>
+	
+	<suki:SukiWindow.MenuItems>
+		<MenuItem Header="Toggles">
+			<MenuItem Command="{Binding ToggleWindowLockCommand}"
+                      Header="Window Lock"
+                      ToolTip.Tip="Toggles minimizing and resizing.">
+			</MenuItem>
+		</MenuItem>
+	</suki:SukiWindow.MenuItems>
 	
     <suki:SukiSideMenu ItemsSource="{Binding DemoPages}"
                        SelectedItem="{Binding ActivePage}">

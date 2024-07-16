@@ -1,14 +1,14 @@
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Media;
-using Avalonia.Styling;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Media;
+using Avalonia.Styling;
+using SkiaSharp;
 
 namespace SukiUI.Utilities.Effects
 {
@@ -32,6 +32,7 @@ namespace SukiUI.Utilities.Effects
 
         private static readonly List<SukiEffect> LoadedEffects = new();
 
+        private readonly string _rawShaderString;
         private readonly string _shaderString;
 
         /// <summary>
@@ -39,9 +40,10 @@ namespace SukiUI.Utilities.Effects
         /// </summary>
         public SKRuntimeEffect Effect { get; }
 
-        private SukiEffect(string shaderString)
+        private SukiEffect(string shaderString, string rawShaderString)
         {
             _shaderString = shaderString;
+            _rawShaderString = rawShaderString;
             var compiledEffect = SKRuntimeEffect.Create(_shaderString, out var errors);
             Effect = compiledEffect ?? throw new ShaderCompilationException(errors);
         }
@@ -96,7 +98,7 @@ namespace SukiUI.Utilities.Effects
                 sb.AppendLine(uniform);
             sb.Append(shaderString);
             var withUniforms = sb.ToString();
-            return new SukiEffect(withUniforms);
+            return new SukiEffect(withUniforms, shaderString);
         }
 
 
@@ -150,6 +152,14 @@ namespace SukiUI.Utilities.Effects
 
             (float r, float g, float b) ToFloat(Color col) =>
                 (col.R / 255f, col.G / 255f, col.B / 255f);
+        }
+        
+        /// <summary>
+        /// Returns the pure shader string without uniforms.
+        /// </summary>
+        public override string ToString()
+        {
+            return _rawShaderString;
         }
 
         private class ShaderCompilationException : Exception

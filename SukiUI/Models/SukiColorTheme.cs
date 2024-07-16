@@ -1,6 +1,6 @@
+using System;
 using Avalonia.Media;
 using SukiUI.Enums;
-using System;
 
 namespace SukiUI.Models;
 
@@ -11,24 +11,37 @@ public record SukiColorTheme
     public Color Primary { get; }
 
     public IBrush PrimaryBrush => new SolidColorBrush(Primary);
+    
+    public Color PrimaryDark { get; }
+
+    public IBrush PrimaryDarkBrush => new SolidColorBrush(PrimaryDark);
 
     public Color Accent { get; }
 
     public IBrush AccentBrush => new SolidColorBrush(Accent);
+    
+    public Color AccentDark { get; }
+
+    public IBrush AccentDarkBrush => new SolidColorBrush(AccentDark);
 
     // Used in shaders to save calculating them per-frame.
     internal Color BackgroundPrimary { get; }
     internal Color BackgroundAccent { get; }
     internal Color Background { get; }
 
+    // dark scale...
+    private const double dS = 0.5;
+
     public SukiColorTheme(string displayName, Color primary, Color accent)
     {
         DisplayName = displayName;
         Primary = primary;
         Accent = accent;
+        PrimaryDark = new Color(primary.A, (byte)(primary.R * dS), (byte)(primary.G * dS), (byte)(primary.B * dS));
+        AccentDark = new Color(accent.A, (byte)(accent.R * dS), (byte)(accent.G * dS), (byte)(accent.B * dS));
         Background = GetBackgroundColor(Primary);
-        BackgroundPrimary = new Color(primary.A, (byte)(primary.R / 1.3), (byte)(primary.G / 1.3), (byte)(primary.B / 1.3));
-        BackgroundAccent = new Color(accent.A, (byte)(accent.R / 1.3), (byte)(accent.G / 1.3), (byte)(accent.B / 1.3));
+        BackgroundPrimary = new Color(primary.A, (byte)(primary.R / 1), (byte)(primary.G / 1), (byte)(primary.B / 1));
+        BackgroundAccent = new Color(accent.A, (byte)(accent.R / 1), (byte)(accent.G / 1), (byte)(accent.B / 1));
     }
 
     public override int GetHashCode()
@@ -57,9 +70,9 @@ public record SukiColorTheme
         var minValue = Math.Min(Math.Min(r, g), b);
         var maxValue = Math.Max(Math.Max(r, g), b);
 
-        r = (r == minValue) ? 37 : ((r == maxValue) ? 37 : 26);
-        g = (g == minValue) ? 37 : ((g == maxValue) ? 37 : 26);
-        b = (b == minValue) ? 37 : ((b == maxValue) ? 37 : 26);
+        r = (r == minValue) ? 62 : ((r == maxValue) ? 62 : 45);
+        g = (g == minValue) ? 62 : ((g == maxValue) ? 62 : 45);
+        b = (b == minValue) ? 62 : ((b == maxValue) ? 62 : 45);
         return new Color(255, (byte)r, (byte)g, (byte)b);
     }
 }

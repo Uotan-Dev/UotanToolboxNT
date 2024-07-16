@@ -35,8 +35,10 @@
                             </Transitions>
                         </Border.Transitions>
                     </Border>
+               
+         
                     <Border Name="PART_ClipBorder"
-                            Background="{DynamicResource SukiPrimaryColor1}"
+                            Background="{DynamicResource SukiPrimaryColor0}"
                             BorderBrush="{DynamicResource SukiPrimaryColor0}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="{TemplateBinding ClipToBounds}"

@@ -6,11 +6,11 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using SukiUI.Enums;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices;
+using SukiUI.Enums;
 
 namespace SukiUI.Controls;
 
@@ -195,24 +195,13 @@ public class SukiWindow : Window
             // This would be nice to do, but obviously LogoContent is a control and you can't attach it twice.
             // if (LogoContent is null) LogoContent = s.LogoContent;
         }
-
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-        {
-            //SystemDecorations = None;
-        }
-        else
-        {
-            //SystemDecorations = BorderOnly;
-        }
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-
         var stateObs = this.GetObservable(WindowStateProperty)
             .Select(windowState => windowState == WindowState.Maximized ? Unit.Default : Unit.Default);
-
         // Create handlers for buttons
         if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
         {
@@ -224,17 +213,13 @@ public class SukiWindow : Window
                     : WindowState.Maximized;
             };
         }
-
         if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
             minimize.Click += (_, _) => WindowState = WindowState.Minimized;
-
         if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
             close.Click += (_, _) => Close();
-
         if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
             titleBar.PointerPressed += OnTitleBarPointerPressed;
     }
-
 
     private void OnWindowStateChanged(WindowState state)
     {

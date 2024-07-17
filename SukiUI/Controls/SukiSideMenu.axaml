@@ -23,9 +23,10 @@
                                             HorizontalAlignment="{TemplateBinding TogglePaneButtonPosition}"
                                             VerticalAlignment="Top"
                                             Classes="Basic"
+                                            Cursor="Hand"
                                             DockPanel.Dock="Top">
                                         <Panel>
-											<!--<PathIcon Name="PART_ExpandIcon"
+                                            <!--<PathIcon Name="PART_ExpandIcon"
                                                       Width="12"
                                                       Height="12"
                                                       Data="{x:Static content:Icons.ChevronLeft}"
@@ -81,12 +82,27 @@
                 </SplitView>
             </ControlTemplate>
         </Setter>
-        <Style Selector="^[IsToggleButtonVisible=False] /template/ Button#PART_SidebarToggleButton">
-            <Setter Property="Opacity" Value="0" />
-            <Setter Property="IsHitTestVisible" Value="False" />
+        <Style Selector="^[IsToggleButtonVisible=False]">
+            <Style Selector="^[IsMenuExpanded=False]">
+                <Style Selector="^ /template/ Button#PART_SidebarToggleButton">
+                    <Setter Property="Opacity" Value="0" />
+                    <Setter Property="IsVisible" Value="False" />
+                </Style>
+            </Style>
+            <Style Selector="^[IsMenuExpanded=True]">
+                <Style Selector="^ /template/ Button#PART_SidebarToggleButton">
+                    <Setter Property="Opacity" Value="0" />
+                    <Setter Property="IsHitTestVisible" Value="False" />
+                </Style>
+            </Style>
         </Style>
-        <Style Selector="^[IsMenuExpanded=False] /template/ PathIcon#PART_ExpandIcon">
-            <Setter Property="RenderTransform" Value="rotate(-180deg)" />
+        <Style Selector="^[IsMenuExpanded=False]">
+            <Style Selector="^ /template/ PathIcon#PART_ExpandIcon">
+                <Setter Property="RenderTransform" Value="rotate(-180deg)" />
+            </Style>
+            <Style Selector="^ /template/ Grid#PART_Spacer">
+                <Setter Property="Height" Value="0" />
+            </Style>
         </Style>
     </ControlTheme>
     <ControlTheme x:Key="{x:Type suki:SukiSideMenu}"

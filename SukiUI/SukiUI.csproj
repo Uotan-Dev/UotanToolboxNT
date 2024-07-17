@@ -81,10 +81,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Content\Shaders\Background\cells.sksl" />
-	  <EmbeddedResource Include="Content\Shaders\Background\flat.sksl" />
-	  <EmbeddedResource Include="Content\Shaders\Background\gradient.sksl" />
-	  <EmbeddedResource Include="Content\Shaders\Background\waves.sksl" />
+		<EmbeddedResource Include="Content\Shaders\Background\bubblestrong.sksl" />
+		<EmbeddedResource Include="Content\Shaders\Background\cells.sksl" />
+		<EmbeddedResource Include="Content\Shaders\Background\flat.sksl" />
+		<EmbeddedResource Include="Content\Shaders\Background\bubble.sksl" />
+		<EmbeddedResource Include="Content\Shaders\Background\waves.sksl" />
+		<None Remove="Content\Shaders\Background\gradient.sksl" />
+		<EmbeddedResource Include="Content\Shaders\Background\gradient.sksl" />
 	</ItemGroup>
 
 </Project>

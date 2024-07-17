@@ -738,68 +738,68 @@
   <data name="Appmgr_Uninstall" xml:space="preserve">
     <value>Uninstall</value>
   </data>
-  <data name="Advanced_ADBFormat" xml:space="preserve">
+  <data name="FormatExtract_ADBFormat" xml:space="preserve">
     <value>ADB Format</value>
   </data>
-  <data name="Advanced_BackupQCN" xml:space="preserve">
+  <data name="FormatExtract_BackupQCN" xml:space="preserve">
     <value>Backup QCN</value>
   </data>
-  <data name="Advanced_Enable901D" xml:space="preserve">
+  <data name="FormatExtract_Enable901D" xml:space="preserve">
     <value>Enable 901D</value>
   </data>
-  <data name="Advanced_Enable9091" xml:space="preserve">
+  <data name="FormatExtract_Enable9091" xml:space="preserve">
     <value>Enable 9091</value>
   </data>
-  <data name="Advanced_Executing" xml:space="preserve">
+  <data name="FormatExtract_Executing" xml:space="preserve">
     <value>Executing...</value>
   </data>
-  <data name="Advanced_Extract" xml:space="preserve">
+  <data name="FormatExtract_Extract" xml:space="preserve">
     <value>Extract</value>
   </data>
-  <data name="Advanced_ExtractFolder" xml:space="preserve">
+  <data name="FormatExtract_ExtractFolder" xml:space="preserve">
     <value>Extract Folder</value>
   </data>
-  <data name="Advanced_FastbootFormat" xml:space="preserve">
+  <data name="FormatExtract_FastbootFormat" xml:space="preserve">
     <value>Fastboot Format</value>
   </data>
-  <data name="Advanced_FlashFile" xml:space="preserve">
+  <data name="FormatExtract_FlashFile" xml:space="preserve">
     <value>Flash file</value>
   </data>
-  <data name="Advanced_Format" xml:space="preserve">
+  <data name="FormatExtract_Format" xml:space="preserve">
     <value>Format</value>
   </data>
-  <data name="Advanced_FormatDataPart" xml:space="preserve">
+  <data name="FormatExtract_FormatDataPart" xml:space="preserve">
     <value>Format Data Partition</value>
   </data>
-  <data name="Advanced_FormatTo" xml:space="preserve">
+  <data name="FormatExtract_FormatTo" xml:space="preserve">
     <value>Format to</value>
   </data>
-  <data name="Advanced_Log" xml:space="preserve">
+  <data name="FormatExtract_Log" xml:space="preserve">
     <value>Log</value>
   </data>
-  <data name="Advanced_OpenBackup" xml:space="preserve">
+  <data name="FormatExtract_OpenBackup" xml:space="preserve">
     <value>Open backup</value>
   </data>
-  <data name="Advanced_PartName" xml:space="preserve">
+  <data name="FormatExtract_PartName" xml:space="preserve">
     <value>Partition Name</value>
   </data>
-  <data name="Advanced_PhysicalPart" xml:space="preserve">
+  <data name="FormatExtract_PhysicalPart" xml:space="preserve">
     <value>Physical Partition</value>
   </data>
-  <data name="Advanced_QCNFile" xml:space="preserve">
+  <data name="FormatExtract_QCNFile" xml:space="preserve">
     <value>QCN File</value>
   </data>
-  <data name="Advanced_TWRPFormatData" xml:space="preserve">
+  <data name="FormatExtract_TWRPFormatData" xml:space="preserve">
     <value>TWRP Format Data</value>
   </data>
-  <data name="Advanced_VirtualPart" xml:space="preserve">
+  <data name="FormatExtract_VirtualPart" xml:space="preserve">
     <value>Virtual Partition</value>
   </data>
-  <data name="Advanced_WriteQCN" xml:space="preserve">
+  <data name="FormatExtract_WriteQCN" xml:space="preserve">
     <value>Write QCN</value>
   </data>
   <data name="Sidebar_Advanced" xml:space="preserve">
-    <value>Advanced</value>
+    <value>Format&amp;Extract</value>
   </data>
   <data name="Sidebar_Appmgr" xml:space="preserve">
     <value>App Manager</value>

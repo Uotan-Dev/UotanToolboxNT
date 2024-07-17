@@ -114,17 +114,6 @@
                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
             </Style>
         </Style>
-        <Style Selector="^:disabled">
-            <Style Selector="^ /template/ TextBlock">
-                <Setter Property="Foreground" Value="{DynamicResource SukiDisabledText}" />
-            </Style>
-            <Style Selector="^ /template/ ContentPresenter">
-                <Setter Property="Foreground" Value="{DynamicResource SukiDisabledText}" />
-            </Style>
-            <Style Selector="^ /template/ Border">
-                <Setter Property="BorderBrush" Value="{DynamicResource SukiStrongBackground}" />
-            </Style>
-        </Style>
 
         <!--  Classes  -->
         <Style Selector="^.NoPressedAnimation">

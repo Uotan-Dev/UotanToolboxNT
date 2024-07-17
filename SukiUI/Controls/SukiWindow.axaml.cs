@@ -6,7 +6,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using Avalonia.Threading;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -16,6 +15,12 @@ namespace SukiUI.Controls;
 
 public class SukiWindow : Window
 {
+    public SukiWindow()
+    {
+        MenuItems = new AvaloniaList<MenuItem>();
+        SetSystemDecorationsBasedOnPlatform();
+    }
+
     private void SetSystemDecorationsBasedOnPlatform()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -29,7 +34,6 @@ public class SukiWindow : Window
     }
 
     protected override Type StyleKeyOverride => typeof(SukiWindow);
-
     public static readonly StyledProperty<double> TitleFontSizeProperty =
         AvaloniaProperty.Register<SukiWindow, double>(nameof(TitleFontSize), defaultValue: 13);
 
@@ -94,14 +98,6 @@ public class SukiWindow : Window
         set => SetValue(MenuItemsProperty, value);
     }
 
-    public static readonly StyledProperty<bool> BackgroundAnimationEnabledProperty =
-        AvaloniaProperty.Register<SukiWindow, bool>(nameof(BackgroundAnimationEnabled), defaultValue: false);
-
-    public bool BackgroundAnimationEnabled
-    {
-        get => GetValue(BackgroundAnimationEnabledProperty);
-        set => SetValue(BackgroundAnimationEnabledProperty, value);
-    }
 
     public static readonly StyledProperty<bool> CanMinimizeProperty =
         AvaloniaProperty.Register<SukiWindow, bool>(nameof(CanMinimize), defaultValue: true);
@@ -121,14 +117,6 @@ public class SukiWindow : Window
         set => SetValue(CanMoveProperty, value);
     }
 
-    public SukiWindow()
-    {
-        MenuItems = new AvaloniaList<MenuItem>();
-        SetSystemDecorationsBasedOnPlatform();
-    }
-
-    private IDisposable? _subscriptionDisposables;
-
     protected override void OnLoaded(RoutedEventArgs e)
     {
         base.OnLoaded(e);
@@ -145,47 +133,25 @@ public class SukiWindow : Window
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
-
         var stateObs = this.GetObservable(WindowStateProperty)
-            .Do(OnWindowStateChanged)
-            .Select(_ => Unit.Default);
-        try
+            .Select(windowState => windowState == WindowState.Maximized ? Unit.Default : Unit.Default);
+        // Create handlers for buttons
+        if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
         {
-            // Create handlers for buttons
-            if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
+            maximize.Click += (_, _) =>
             {
-                maximize.Click += (_, _) =>
-                {
-                    if (!CanResize) return;
-                    WindowState = WindowState == WindowState.Maximized
-                        ? WindowState.Normal
-                        : WindowState.Maximized;
-                };
-            }
-
-            if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
-                minimize.Click += (_, _) => WindowState = WindowState.Minimized;
-
-            if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
-                close.Click += (_, _) => Close();
-
-            if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
-                titleBar.PointerPressed += OnTitleBarPointerPressed;
-
-
-            if (e.NameScope.Get<SukiBackground>("PART_Background") is { } background)
-            {
-                background.SetAnimationEnabled(BackgroundAnimationEnabled);
-                var bgObs = this.GetObservable(BackgroundAnimationEnabledProperty)
-                    .Do(enabled => background.SetAnimationEnabled(enabled))
-                    .Select(_ => Unit.Default)
-                    .Merge(stateObs)
-                    .ObserveOn(new AvaloniaSynchronizationContext());
-
-                _subscriptionDisposables = bgObs.Subscribe();
-            }
+                if (!CanResize) return;
+                WindowState = WindowState == WindowState.Maximized
+                    ? WindowState.Normal
+                    : WindowState.Maximized;
+            };
         }
-        catch { }
+        if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
+            minimize.Click += (_, _) => WindowState = WindowState.Minimized;
+        if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
+            close.Click += (_, _) => Close();
+        if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
+            titleBar.PointerPressed += OnTitleBarPointerPressed;
     }
 
     private void OnWindowStateChanged(WindowState state)
@@ -200,12 +166,5 @@ public class SukiWindow : Window
     {
         base.OnPointerPressed(e);
         BeginMoveDrag(e);
-
-    }
-
-    protected override void OnUnloaded(RoutedEventArgs e)
-    {
-        base.OnUnloaded(e);
-        _subscriptionDisposables?.Dispose();
     }
 }

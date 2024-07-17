@@ -21,8 +21,6 @@
                             <suki:SukiHost />
                         </VisualLayerManager.ChromeOverlayLayer>
                         <Panel x:Name="PART_Root">
-                            <suki:SukiBackground Name="PART_Background"
-                                                 IsHitTestVisible="False" />
                             <DockPanel LastChildFill="True">
                                 <Panel DockPanel.Dock="Top">
                                     <Panel.Styles>

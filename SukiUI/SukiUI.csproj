@@ -79,9 +79,4 @@
 	    <SubType>Code</SubType>
 	  </Compile>
 	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="Content\Shaders\Background\bubble.sksl" />
-	</ItemGroup>
-
 </Project>

@@ -6,11 +6,11 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using SukiUI.Enums;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices;
-using SukiUI.Enums;
 
 namespace SukiUI.Controls;
 

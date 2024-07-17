@@ -5,7 +5,6 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Styling;
 using DynamicData;
-using SukiUI.Controls;
 using SukiUI.Enums;
 using SukiUI.Extensions;
 using SukiUI.Models;
@@ -202,7 +201,7 @@ public partial class SukiTheme : Styles
             new DefaultSukiColorTheme(SukiColor.Red, Color.Parse("#D03A2F"), Color.Parse("#2FC5D0")),
             new DefaultSukiColorTheme(SukiColor.Green, Color.Parse("#537834"), Color.Parse("#B24DB0")),
             new DefaultSukiColorTheme(SukiColor.Blue, Color.Parse("#0A59F7"), Color.Parse("#F7A80A")),
- 
+
         };
         DefaultColorThemes = defaultThemes.ToDictionary(x => x.ThemeColor, y => (SukiColorTheme)y);
     }

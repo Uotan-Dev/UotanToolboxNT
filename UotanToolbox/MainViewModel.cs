@@ -1,12 +1,12 @@
-using System;
 using Avalonia.Collections;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SukiUI;
 using SukiUI.Controls;
-using SukiUI.Models;
 using SukiUI.Enums;
+using SukiUI.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;

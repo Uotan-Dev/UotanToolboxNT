@@ -310,99 +310,115 @@ public partial class DashboardView : UserControl
 
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
     {
-        patch_busy(true);
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        try
         {
-            Title = "Open File",
-            AllowMultiple = false
-        });
-        if (files.Count == 0)
-        {
-            patch_busy(false);
-            return;
-        }
-        MagiskFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
-        ZipInfo.tmp_path = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
-        bool istempclean = FileHelper.ClearFolder(ZipInfo.tmp_path);
-        if (istempclean)
-        {
-            string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{ZipInfo.tmp_path}\" -y");
-            string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
-            string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
-            string Magisk_sh_path = Path.Combine(ZipInfo.tmp_path, "assets", "util_functions.sh");
-            string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
-            string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
-            if ((MAGISK_VER != null) & (MAGISK_VER_CODE != null))
+
+
+            patch_busy(true);
+            var topLevel = TopLevel.GetTopLevel(this);
+            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
-                string BOOT_PATCH_PATH = Path.Combine(ZipInfo.tmp_path, "assets", "boot_patch.sh");
-                string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
-                bool Magisk_Valid = BootPatchHelper.Magisk_Validation(md5, MAGISK_VER);
-                if (Magisk_Valid)
-                {
-                    File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "arm64-v8a", "libmagisk32.so"));
-                    File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "x86_64", "libmagisk32.so"));
-                    ZipInfo.userful = true;
-                }
+                Title = "Open File",
+                AllowMultiple = false
+            });
+            if (files.Count == 0)
+            {
                 patch_busy(false);
+                return;
+            }
+            MagiskFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
+            ZipInfo.tmp_path = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
+            bool istempclean = FileHelper.ClearFolder(ZipInfo.tmp_path);
+            if (istempclean)
+            {
+                string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{ZipInfo.tmp_path}\" -y");
+                string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
+                string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
+                string Magisk_sh_path = Path.Combine(ZipInfo.tmp_path, "assets", "util_functions.sh");
+                string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
+                string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
+                if ((MAGISK_VER != null) & (MAGISK_VER_CODE != null))
+                {
+                    string BOOT_PATCH_PATH = Path.Combine(ZipInfo.tmp_path, "assets", "boot_patch.sh");
+                    string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
+                    bool Magisk_Valid = BootPatchHelper.Magisk_Validation(md5, MAGISK_VER);
+                    if (Magisk_Valid)
+                    {
+                        File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "arm64-v8a", "libmagisk32.so"));
+                        File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "x86_64", "libmagisk32.so"));
+                        ZipInfo.userful = true;
+                    }
+                    patch_busy(false);
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog("未能获取到有效Magisk版本号"), allowBackgroundClose: true);
+                    patch_busy(false);
+                }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("未能获取到有效Magisk版本号"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog("清理临时目录出错"), allowBackgroundClose: true);
                 patch_busy(false);
             }
         }
-        else
+        catch (Exception ex)
         {
-            SukiHost.ShowDialog(new PureDialog("清理临时目录出错"), allowBackgroundClose: true);
-            patch_busy(false);
+            SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
         }
 
     }
 
     private async void OpenBootFile(object sender, RoutedEventArgs args)
     {
-        patch_busy(true);
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        try
         {
-            Title = "Open File",
-            AllowMultiple = false
-        });
-        if (files.Count == 0)
-        {
-            patch_busy(false);
-            return;
-        }
-        BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
-        BootInfo.SHA1 = FileHelper.SHA1Hash(BootFile.Text);
-        if (BootInfo.SHA1 == null)
-        {
-            patch_busy(false);
-            return;
-        }
-        //在临时目录创建临时boot目录，这破东西跨平台解压各种问题，直接即用即丢了
-        BootInfo.tmp_path = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
-        string workpath = BootInfo.tmp_path;
-        if (FileHelper.ClearFolder(workpath))
-        {
-            string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
-            string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
-            (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"", BootInfo.tmp_path);
-            if (mb_output.Contains("error"))
+            patch_busy(true);
+            var topLevel = TopLevel.GetTopLevel(this);
+            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
-                SukiHost.ShowDialog(new PureDialog("请选择有效Boot文件"), allowBackgroundClose: true);
+                Title = "Open File",
+                AllowMultiple = false
+            });
+            if (files.Count == 0)
+            {
                 patch_busy(false);
                 return;
             }
-            BootInfo.os_version = StringHelper.StringRegex(mb_output, osVersionPattern, 1);
-            BootInfo.patch_level = StringHelper.StringRegex(mb_output, osPatchLevelPattern, 1);
-            BootPatchHelper.dtb_detect();
-            await BootPatchHelper.kernel_detect();
-            await BootPatchHelper.ramdisk_detect();
-            SukiHost.ShowDialog(new PureDialog($"Boot内检测到\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
-            ArchList.SelectedItem = BootInfo.arch;
+            BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
+            BootInfo.SHA1 = FileHelper.SHA1Hash(BootFile.Text);
+            if (BootInfo.SHA1 == null)
+            {
+                patch_busy(false);
+                return;
+            }
+            //在临时目录创建临时boot目录，这破东西跨平台解压各种问题，直接即用即丢了
+            BootInfo.tmp_path = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
+            string workpath = BootInfo.tmp_path;
+            if (FileHelper.ClearFolder(workpath))
+            {
+                string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
+                string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
+                (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"", BootInfo.tmp_path);
+                if (mb_output.Contains("error"))
+                {
+                    SukiHost.ShowDialog(new PureDialog("请选择有效Boot文件"), allowBackgroundClose: true);
+                    patch_busy(false);
+                    return;
+                }
+                BootInfo.os_version = StringHelper.StringRegex(mb_output, osVersionPattern, 1);
+                BootInfo.patch_level = StringHelper.StringRegex(mb_output, osPatchLevelPattern, 1);
+                BootPatchHelper.dtb_detect();
+                await BootPatchHelper.kernel_detect();
+                await BootPatchHelper.ramdisk_detect();
+                SukiHost.ShowDialog(new PureDialog($"Boot内检测到\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
+                ArchList.SelectedItem = BootInfo.arch;
+            }
             patch_busy(false);
+        }
+        catch (Exception ex)
+        {
+            SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
         }
     }
     private async void StartPatch(object sender, RoutedEventArgs args)
@@ -418,23 +434,23 @@ public partial class DashboardView : UserControl
             return;
         }
         patch_busy(true);
-        //设置环境变量
-        EnvironmentVariable.KEEPVERITY = KEEPVERITY.IsChecked.ToString().ToLower();
-        EnvironmentVariable.KEEPFORCEENCRYPT = KEEPFORCEENCRYPT.IsChecked.ToString().ToLower();
-        EnvironmentVariable.PATCHVBMETAFLAG = PATCHVBMETAFLAG.IsChecked.ToString().ToLower();
-        EnvironmentVariable.RECOVERYMODE = RECOVERYMODE.IsChecked.ToString().ToLower();
-        EnvironmentVariable.LEGACYSAR = LEGACYSAR.IsChecked.ToString().ToLower();
-        string archSubfolder = ArchList.SelectedItem.ToString() switch
-        {
-            "aarch64" => "arm64-v8a",
-            "armeabi" => "armeabi-v7a",
-            "X86" => "x86",
-            "X86-64" => "x86_64",
-            _ => throw new ArgumentException($"未知架构：{ArchList.SelectedItem}")
-        };
-        string compPath = Path.Combine(Path.Combine(ZipInfo.tmp_path, "lib"), archSubfolder);
         try
         {
+            //设置环境变量
+            EnvironmentVariable.KEEPVERITY = KEEPVERITY.IsChecked.ToString().ToLower();
+            EnvironmentVariable.KEEPFORCEENCRYPT = KEEPFORCEENCRYPT.IsChecked.ToString().ToLower();
+            EnvironmentVariable.PATCHVBMETAFLAG = PATCHVBMETAFLAG.IsChecked.ToString().ToLower();
+            EnvironmentVariable.RECOVERYMODE = RECOVERYMODE.IsChecked.ToString().ToLower();
+            EnvironmentVariable.LEGACYSAR = LEGACYSAR.IsChecked.ToString().ToLower();
+            string archSubfolder = ArchList.SelectedItem.ToString() switch
+            {
+                "aarch64" => "arm64-v8a",
+                "armeabi" => "armeabi-v7a",
+                "X86" => "x86",
+                "X86-64" => "x86_64",
+                _ => throw new ArgumentException($"未知架构：{ArchList.SelectedItem}")
+            };
+            string compPath = Path.Combine(Path.Combine(ZipInfo.tmp_path, "lib"), archSubfolder);
             File.Copy(Path.Combine((compPath), "libmagisk32.so"), Path.Combine((compPath), "magisk32"), true);
             await CallExternalProgram.MagiskBoot($"compress=xz magisk32 magisk32.xz", compPath);
             if (File.Exists(Path.Combine((compPath), "libmagisk64.so")))
@@ -442,73 +458,56 @@ public partial class DashboardView : UserControl
                 File.Copy(Path.Combine((compPath), "libmagisk64.so"), Path.Combine((compPath), "magisk64"), true);
                 await CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", compPath);
             }
-        }
-        catch (Exception ex)
-        {
-            SukiHost.ShowDialog(new ErrorDialog("magisk组件预处理时 " + ex));
-            patch_busy(false);
-            return;
-        }
-        (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(ZipInfo.tmp_path, "assets"));
-        if (mb_output.Contains("error"))
-        {
-            SukiHost.ShowDialog(new PureDialog("压缩stub.apk时出错"), allowBackgroundClose: true);
-            patch_busy(false);
-            return;
-        }
-        (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio test", BootInfo.tmp_path);
-        int mode_code = exitcode & 3;
-        switch (mode_code)
-        {
-            case 0:
-                if (!BootPatchHelper.boot_img_pre(BootFile.Text))
-                {
-                    return;
-                }
-                break;
-            case 1:
-                try
-                {
+            (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(ZipInfo.tmp_path, "assets"));
+            if (mb_output.Contains("error"))
+            {
+                SukiHost.ShowDialog(new PureDialog("压缩stub.apk时出错"), allowBackgroundClose: true);
+                patch_busy(false);
+                return;
+            }
+            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio test", BootInfo.tmp_path);
+            int mode_code = exitcode & 3;
+            switch (mode_code)
+            {
+                case 0:
+                    if (!BootPatchHelper.boot_img_pre(BootFile.Text))
+                    {
+                        return;
+                    }
+                    break;
+                case 1:
                     File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk", ".backup", ".magisk"), Path.Combine(BootInfo.tmp_path, "comfig.orig"), true);
                     (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio restore", BootInfo.tmp_path);
                     File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio"), Path.Combine(BootInfo.tmp_path, "ramdisk.cpio.orig"), true);
                     File.Delete(Path.Combine(BootInfo.tmp_path, "stock_boot.img"));
                     break;
-                }
-                catch (Exception e)
-                {
-                    SukiHost.ShowDialog(new ErrorDialog("1文件预处理时出错！" + e));
+                case 2:
+                    SukiHost.ShowDialog(new ErrorDialog("镜像被未支持软件修补，请选择原生镜像！"));
                     return;
-                }
-            case 2:
-                SukiHost.ShowDialog(new ErrorDialog("镜像被未支持软件修补，请选择原生镜像！"));
+                default:
+                    SukiHost.ShowDialog(new ErrorDialog("magiskboot检验出错"));
+                    return;
+            }
+            //patch ramdisk.cpio
+            string config_path = Path.Combine(BootInfo.tmp_path, "config");
+            File.WriteAllText(config_path, "");
+            File.AppendAllText(config_path, $"KEEPVERITY={KEEPVERITY.IsChecked.ToString().ToLower()}\n");
+            File.AppendAllText(config_path, $"KEEPFORCEENCRYPT={KEEPFORCEENCRYPT.IsChecked.ToString().ToLower()}\n");
+            File.AppendAllText(config_path, $"RECOVERYMODE={RECOVERYMODE.IsChecked.ToString().ToLower()}\n");
+            File.AppendAllText(config_path, $"SHA1={BootInfo.SHA1}\n");
+            string allowedChars = "abcdef0123456789";
+            Random random = new Random();
+            string randomStr = new string(Enumerable.Repeat(allowedChars, 16)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+            string configContent = $"RANDOMSEED=0x{randomStr}";
+            File.AppendAllText(config_path, configContent + Environment.NewLine);
+            bool success = await BootPatchHelper.ramdisk_patch(compPath);
+            if (!success)
+            {
+                patch_busy(false);
                 return;
-            default:
-                SukiHost.ShowDialog(new ErrorDialog("magiskboot检验出错"));
-                return;
-        }
-        //patch ramdisk.cpio
-        string config_path = Path.Combine(BootInfo.tmp_path, "config");
-        File.WriteAllText(config_path, "");
-        File.AppendAllText(config_path, $"KEEPVERITY={KEEPVERITY.IsChecked.ToString().ToLower()}\n");
-        File.AppendAllText(config_path, $"KEEPFORCEENCRYPT={KEEPFORCEENCRYPT.IsChecked.ToString().ToLower()}\n");
-        File.AppendAllText(config_path, $"RECOVERYMODE={RECOVERYMODE.IsChecked.ToString().ToLower()}\n");
-        File.AppendAllText(config_path, $"SHA1={BootInfo.SHA1}\n");
-        string allowedChars = "abcdef0123456789";
-        Random random = new Random();
-        string randomStr = new string(Enumerable.Repeat(allowedChars, 16)
-            .Select(s => s[random.Next(s.Length)]).ToArray());
-        string configContent = $"RANDOMSEED=0x{randomStr}";
-        File.AppendAllText(config_path, configContent + Environment.NewLine);
-        bool success = await BootPatchHelper.ramdisk_patch(compPath);
-        if (!success)
-        {
-            patch_busy(false);
-            return;
-        }
-        //以上完成ramdisk.cpio的修补
-        try
-        {
+            }
+            //以上完成ramdisk.cpio的修补
             success = await BootPatchHelper.dtb_patch();
             if (!success)
             {
@@ -539,9 +538,7 @@ public partial class DashboardView : UserControl
         }
         catch (Exception ex)
         {
-            SukiHost.ShowDialog(new ErrorDialog(ex.Message));
-            patch_busy(false);
-            return;
+            SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
         }
     }
 

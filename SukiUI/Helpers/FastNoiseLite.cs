@@ -61,65 +61,65 @@ public class FastNoiseLite
     private const short INLINE = 256; // MethodImplOptions.AggressiveInlining;
     private const short OPTIMISE = 512; // MethodImplOptions.AggressiveOptimization;
 
-    public enum NoiseType 
-    { 
+    public enum NoiseType
+    {
         OpenSimplex2,
         OpenSimplex2S,
         Cellular,
         Perlin,
         ValueCubic,
-        Value 
+        Value
     };
 
-    public enum RotationType3D 
+    public enum RotationType3D
     {
-        None, 
-        ImproveXYPlanes, 
-        ImproveXZPlanes 
-    };
-    
-    public enum FractalType 
-    {
-        None, 
-        FBm, 
-        Ridged, 
-        PingPong, 
-        DomainWarpProgressive, 
-        DomainWarpIndependent 
+        None,
+        ImproveXYPlanes,
+        ImproveXZPlanes
     };
 
-    public enum CellularDistanceFunction 
+    public enum FractalType
     {
-        Euclidean, 
-        EuclideanSq, 
-        Manhattan, 
-        Hybrid 
-    };
-    
-    public enum CellularReturnType 
-    {
-        CellValue, 
-        Distance, 
-        Distance2, 
-        Distance2Add, 
-        Distance2Sub, 
-        Distance2Mul, 
-        Distance2Div 
+        None,
+        FBm,
+        Ridged,
+        PingPong,
+        DomainWarpProgressive,
+        DomainWarpIndependent
     };
 
-    public enum DomainWarpType 
-    { 
-        OpenSimplex2, 
-        OpenSimplex2Reduced, 
-        BasicGrid 
+    public enum CellularDistanceFunction
+    {
+        Euclidean,
+        EuclideanSq,
+        Manhattan,
+        Hybrid
     };
 
-    private enum TransformType3D 
+    public enum CellularReturnType
     {
-        None, 
-        ImproveXYPlanes, 
-        ImproveXZPlanes, 
-        DefaultOpenSimplex2 
+        CellValue,
+        Distance,
+        Distance2,
+        Distance2Add,
+        Distance2Sub,
+        Distance2Mul,
+        Distance2Div
+    };
+
+    public enum DomainWarpType
+    {
+        OpenSimplex2,
+        OpenSimplex2Reduced,
+        BasicGrid
+    };
+
+    private enum TransformType3D
+    {
+        None,
+        ImproveXYPlanes,
+        ImproveXZPlanes,
+        DefaultOpenSimplex2
     };
 
     private int mSeed = 1337;
@@ -775,7 +775,7 @@ public class FastNoiseLite
                     const FNLfloat SQRT3 = (FNLfloat)1.7320508075688772935274463415059;
                     const FNLfloat F2 = 0.5f * (SQRT3 - 1);
                     FNLfloat t = (x + y) * F2;
-                    x += t; 
+                    x += t;
                     y += t;
                 }
                 break;
@@ -862,13 +862,13 @@ public class FastNoiseLite
         {
             case DomainWarpType.OpenSimplex2:
             case DomainWarpType.OpenSimplex2Reduced:
-            {
-                const FNLfloat SQRT3 = (FNLfloat)1.7320508075688772935274463415059;
-                const FNLfloat F2 = 0.5f * (SQRT3 - 1);
-                FNLfloat t = (x + y) * F2;
-                x += t; y += t;
-            }
-            break;
+                {
+                    const FNLfloat SQRT3 = (FNLfloat)1.7320508075688772935274463415059;
+                    const FNLfloat F2 = 0.5f * (SQRT3 - 1);
+                    FNLfloat t = (x + y) * F2;
+                    x += t; y += t;
+                }
+                break;
             default:
                 break;
         }
@@ -1185,7 +1185,8 @@ public class FastNoiseLite
             if (ax0 >= ay0 && ax0 >= az0)
             {
                 float b = a + ax0 + ax0;
-                if (b > 1) {
+                if (b > 1)
+                {
                     b -= 1;
                     value += (b * b) * (b * b) * GradCoord(seed, i - xNSign * PrimeX, j, k, x0 + xNSign, y0, z0);
                 }

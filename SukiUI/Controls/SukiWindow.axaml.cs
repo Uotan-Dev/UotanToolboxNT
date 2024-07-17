@@ -1,15 +1,15 @@
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Interactivity;
 using System.Runtime.InteropServices;
 
 namespace SukiUI.Controls;
@@ -149,29 +149,30 @@ public class SukiWindow : Window
         var stateObs = this.GetObservable(WindowStateProperty)
             .Do(OnWindowStateChanged)
             .Select(_ => Unit.Default);
-try{
-        // Create handlers for buttons
-        if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
+        try
         {
-            maximize.Click += (_, _) =>
+            // Create handlers for buttons
+            if (e.NameScope.Get<Button>("PART_MaximizeButton") is { } maximize)
             {
-                if (!CanResize) return;
-                WindowState = WindowState == WindowState.Maximized
-                    ? WindowState.Normal
-                    : WindowState.Maximized;
-            };
-        }
+                maximize.Click += (_, _) =>
+                {
+                    if (!CanResize) return;
+                    WindowState = WindowState == WindowState.Maximized
+                        ? WindowState.Normal
+                        : WindowState.Maximized;
+                };
+            }
 
-        if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
-            minimize.Click += (_, _) => WindowState = WindowState.Minimized;
+            if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
+                minimize.Click += (_, _) => WindowState = WindowState.Minimized;
 
-        if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
-            close.Click += (_, _) => Close();
+            if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)
+                close.Click += (_, _) => Close();
 
-        if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
-            titleBar.PointerPressed += OnTitleBarPointerPressed;
-        
-    
+            if (e.NameScope.Get<GlassCard>("PART_TitleBarBackground") is { } titleBar)
+                titleBar.PointerPressed += OnTitleBarPointerPressed;
+
+
             if (e.NameScope.Get<SukiBackground>("PART_Background") is { } background)
             {
                 background.SetAnimationEnabled(BackgroundAnimationEnabled);
@@ -183,9 +184,10 @@ try{
 
                 _subscriptionDisposables = bgObs.Subscribe();
             }
-        }catch{}
+        }
+        catch { }
     }
-    
+
     private void OnWindowStateChanged(WindowState state)
     {
         if (state == WindowState.FullScreen)
@@ -196,9 +198,9 @@ try{
 
     private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)
     {
-      base.OnPointerPressed(e);
-      BeginMoveDrag(e);
-        
+        base.OnPointerPressed(e);
+        BeginMoveDrag(e);
+
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)

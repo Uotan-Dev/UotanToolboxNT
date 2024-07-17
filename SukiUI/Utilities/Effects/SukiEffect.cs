@@ -1,14 +1,14 @@
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Media;
+using Avalonia.Styling;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Media;
-using Avalonia.Styling;
-using SkiaSharp;
 
 namespace SukiUI.Utilities.Effects
 {
@@ -153,7 +153,7 @@ namespace SukiUI.Utilities.Effects
             (float r, float g, float b) ToFloat(Color col) =>
                 (col.R / 255f, col.G / 255f, col.B / 255f);
         }
-        
+
         /// <summary>
         /// Returns the pure shader string without uniforms.
         /// </summary>

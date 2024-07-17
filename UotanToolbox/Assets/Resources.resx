@@ -996,4 +996,25 @@
   <data name="Common_EnterRecovery" xml:space="preserve">
     <value>Please enter Recovery mode!</value>
   </data>
+  <data name="BootPatchHelper_dtbVerificationFailed" xml:space="preserve">
+    <value>DTB Verification Failed.</value>
+  </data>
+  <data name="BootPatchHelper_LengthNotMatch" xml:space="preserve">
+    <value>Flie Length NOT match.</value>
+  </data>
+  <data name="BootPatchHelper_MagiskCorruptWarn" xml:space="preserve">
+    <value>This Magisk package may be Corrupted, and it is risky to continue to patch.</value>
+  </data>
+  <data name="BootPatchHelper_UnsupportedMagisk" xml:space="preserve">
+    <value>This Magisk package is unsupported.</value>
+  </data>
+  <data name="BootPatchHelper_ValidMagiskDetected1" xml:space="preserve">
+    <value>A Valid Magisk version</value>
+  </data>
+  <data name="BootPatchHelper_ValidMagiskDetected2" xml:space="preserve">
+    <value>was detected</value>
+  </data>
+  <data name="BootPatchHelper_WrongFileType" xml:space="preserve">
+    <value>Wrong file type: </value>
+  </data>
 </root>

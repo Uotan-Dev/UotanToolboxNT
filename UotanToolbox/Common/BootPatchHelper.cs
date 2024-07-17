@@ -206,7 +206,7 @@ namespace UotanToolbox.Common
                 string[] decompress_file_names = await FileHelper.DecompressConfigGzFiles(gz_names);
                 BootInfo.gki2 = FileHelper.CheckGkiConfig(decompress_file_names);
                 BootInfo.version = ReadKernelVersion(Path.Combine(BootInfo.tmp_path, "kernel"));
-                BootInfo.kmi =ExtractKMI(BootInfo.version);
+                BootInfo.kmi = ExtractKMI(BootInfo.version);
             }
             else
             {

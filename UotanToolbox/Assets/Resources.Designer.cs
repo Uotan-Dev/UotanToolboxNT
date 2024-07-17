@@ -232,7 +232,52 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Choose Boot: 的本地化字符串。
+        ///   查找类似 This function is brand-specific! After execution, your device should display a confirmation unlock prompt. If it does not appear, it means that your device does not support this operation. 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_BasicUnlock {
+            get {
+                return ResourceManager.GetString("Basicflash_BasicUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Boot failed! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_BootFailed {
+            get {
+                return ResourceManager.GetString("Basicflash_BootFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Boot successfully! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_BootSucc {
+            get {
+                return ResourceManager.GetString("Basicflash_BootSucc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Magiskboot verification error 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_CheckError {
+            get {
+                return ResourceManager.GetString("Basicflash_CheckError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Execution completed, please check your device! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_CheckUnlock {
+            get {
+                return ResourceManager.GetString("Basicflash_CheckUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Boot: 的本地化字符串。
         /// </summary>
         public static string Basicflash_ChooseBoot {
             get {
@@ -241,7 +286,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Choose Magisk: 的本地化字符串。
+        ///   查找类似 Magisk: 的本地化字符串。
         /// </summary>
         public static string Basicflash_ChooseMagisk {
             get {
@@ -250,7 +295,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Choose Recovery: 的本地化字符串。
+        ///   查找类似 RecoveryFile: 的本地化字符串。
         /// </summary>
         public static string Basicflash_ChooseRecovery {
             get {
@@ -259,7 +304,16 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Code unlock: 的本地化字符串。
+        ///   查找类似 Cleaning the packaging directory failed 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_CleanDirError {
+            get {
+                return ResourceManager.GetString("Basicflash_CleanDirError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlock Code: 的本地化字符串。
         /// </summary>
         public static string Basicflash_CodeUnlock {
             get {
@@ -268,7 +322,16 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Driver Patch 的本地化字符串。
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        public static string Basicflash_DetectdBoot {
+            get {
+                return ResourceManager.GetString("Basicflash_DetectdBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Driver&amp;Patch 的本地化字符串。
         /// </summary>
         public static string Basicflash_DriverPatch {
             get {
@@ -286,7 +349,34 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Execute unlock command 的本地化字符串。
+        ///   查找类似 Installing... 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_Easyinstall {
+            get {
+                return ResourceManager.GetString("Basicflash_Easyinstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Error cleaning temporary directory 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ErrorClean {
+            get {
+                return ResourceManager.GetString("Basicflash_ErrorClean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Error compressing stud.apk 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ErrorComp {
+            get {
+                return ResourceManager.GetString("Basicflash_ErrorComp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlock 的本地化字符串。
         /// </summary>
         public static string Basicflash_ExecuteUnlockCommand {
             get {
@@ -304,7 +394,34 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Flash chosenm agisk 的本地化字符串。
+        ///   查找类似 Execution completed! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_Execution {
+            get {
+                return ResourceManager.GetString("Basicflash_Execution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Error occurred during file preprocessing! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_FileError {
+            get {
+                return ResourceManager.GetString("Basicflash_FileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash Boot 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_FlashBoot {
+            get {
+                return ResourceManager.GetString("Basicflash_FlashBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Install selected Magisk 的本地化字符串。
         /// </summary>
         public static string Basicflash_FlashChosenMagisk {
             get {
@@ -322,7 +439,16 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Force opening rootfs 的本地化字符串。
+        ///   查找类似 Flash successfully! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_FlashSucc {
+            get {
+                return ResourceManager.GetString("Basicflash_FlashSucc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Force open rootfs 的本地化字符串。
         /// </summary>
         public static string Basicflash_ForceRootfs {
             get {
@@ -331,7 +457,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Install Qualcomm 9008 driver 的本地化字符串。
+        ///   查找类似 Install 9008 driver 的本地化字符串。
         /// </summary>
         public static string Basicflash_Install9008Driver {
             get {
@@ -340,11 +466,38 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Install ADB and Fastboot drover 的本地化字符串。
+        ///   查找类似 Install ADB driver 的本地化字符串。
         /// </summary>
         public static string Basicflash_InstallADBAndFastbootDriver {
             get {
                 return ResourceManager.GetString("Basicflash_InstallADBAndFastbootDriver", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installation failed! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_InstallFailed {
+            get {
+                return ResourceManager.GetString("Basicflash_InstallFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 It has been pushed to the root directory, please install it yourself. 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_InstallMagisk {
+            get {
+                return ResourceManager.GetString("Basicflash_InstallMagisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installation successful! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_InstallSuccess {
+            get {
+                return ResourceManager.GetString("Basicflash_InstallSuccess", resourceCulture);
             }
         }
         
@@ -376,6 +529,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Failed to obtain a valid Magisk version number 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_MagsikNotSupport {
+            get {
+                return ResourceManager.GetString("Basicflash_MagsikNotSupport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please do not fill in both methods at the same time! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_NoBoth {
+            get {
+                return ResourceManager.GetString("Basicflash_NoBoth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Normal unlock 的本地化字符串。
         /// </summary>
         public static string Basicflash_NormalUnlock {
@@ -385,11 +556,74 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Prevent from recovering official Recovery 的本地化字符串。
+        ///   查找类似 The current device does not require this operation! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_NotUsed {
+            get {
+                return ResourceManager.GetString("Basicflash_NotUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Processing... 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_PatchBoot {
+            get {
+                return ResourceManager.GetString("Basicflash_PatchBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Magisk patch done 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_PatchDone {
+            get {
+                return ResourceManager.GetString("Basicflash_PatchDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 During pre-processing of Magisk components 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_PreMagisk {
+            get {
+                return ResourceManager.GetString("Basicflash_PreMagisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Disable official Recovery 的本地化字符串。
         /// </summary>
         public static string Basicflash_PreventRecoverOfficialRecovery {
             get {
                 return ResourceManager.GetString("Basicflash_PreventRecoverOfficialRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Detected current system mode, do you want to push Magisk application? 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_PushMagisk {
+            get {
+                return ResourceManager.GetString("Basicflash_PushMagisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Flash failed! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RecoveryFailed {
+            get {
+                return ResourceManager.GetString("Basicflash_RecoveryFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Done! Reboot to Recovery? 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RecoverySucc {
+            get {
+                return ResourceManager.GetString("Basicflash_RecoverySucc", resourceCulture);
             }
         }
         
@@ -403,7 +637,25 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Repair Boot 的本地化字符串。
+        ///   查找类似 Relock failed! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RelockFailed {
+            get {
+                return ResourceManager.GetString("Basicflash_RelockFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Relock successfully! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RelockSucc {
+            get {
+                return ResourceManager.GetString("Basicflash_RelockSucc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Patch boot 的本地化字符串。
         /// </summary>
         public static string Basicflash_RepairBoot {
             get {
@@ -412,7 +664,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Repair vbmeta sign 的本地化字符串。
+        ///   查找类似 Patch vbmeta 的本地化字符串。
         /// </summary>
         public static string Basicflash_RepairVbmeta {
             get {
@@ -421,11 +673,74 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Start! 的本地化字符串。
+        ///   查找类似 Please select a valid Boot file! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_SelectBoot {
+            get {
+                return ResourceManager.GetString("Basicflash_SelectBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select a valid Magisk and Boot file! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_SelectBootMagisk {
+            get {
+                return ResourceManager.GetString("Basicflash_SelectBootMagisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select the unlock command! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_SelectCommand {
+            get {
+                return ResourceManager.GetString("Basicflash_SelectCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select Magisk file on the right! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_SelectMagiskRight {
+            get {
+                return ResourceManager.GetString("Basicflash_SelectMagiskRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select the Recovery file! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_SelectRecovery {
+            get {
+                return ResourceManager.GetString("Basicflash_SelectRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select the unlock file or enter the unlock code! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_SelectUnlock {
+            get {
+                return ResourceManager.GetString("Basicflash_SelectUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Start patching 的本地化字符串。
         /// </summary>
         public static string Basicflash_Start {
             get {
                 return ResourceManager.GetString("Basicflash_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 uccessfully 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_Success {
+            get {
+                return ResourceManager.GetString("Basicflash_Success", resourceCulture);
             }
         }
         
@@ -439,7 +754,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Temporary Boot 的本地化字符串。
+        ///   查找类似 Boot Recovery 的本地化字符串。
         /// </summary>
         public static string Basicflash_TempBoot {
             get {
@@ -448,7 +763,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 To Boot A Partition 的本地化字符串。
+        ///   查找类似 To Boot_A 的本地化字符串。
         /// </summary>
         public static string Basicflash_ToBootAPart {
             get {
@@ -457,7 +772,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 To Boot B Partition 的本地化字符串。
+        ///   查找类似 To Boot_B 的本地化字符串。
         /// </summary>
         public static string Basicflash_ToBootBPart {
             get {
@@ -475,7 +790,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 To Recovery A Partition 的本地化字符串。
+        ///   查找类似 To Recovery_A 的本地化字符串。
         /// </summary>
         public static string Basicflash_ToRecoveryAPart {
             get {
@@ -484,7 +799,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 To Recovery B Partition 的本地化字符串。
+        ///   查找类似 To Recovery_B 的本地化字符串。
         /// </summary>
         public static string Basicflash_ToRecoveryBPart {
             get {
@@ -493,7 +808,25 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Unlockfile Unlock: 的本地化字符串。
+        ///   查找类似 Unknown architecture: 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_UnknowArch {
+            get {
+                return ResourceManager.GetString("Basicflash_UnknowArch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlock failed! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_UnlockFailed {
+            get {
+                return ResourceManager.GetString("Basicflash_UnlockFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlock File: 的本地化字符串。
         /// </summary>
         public static string Basicflash_UnlockFileUnlock {
             get {
@@ -511,6 +844,33 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Unlocked successfully! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_UnlockSucc {
+            get {
+                return ResourceManager.GetString("Basicflash_UnlockSucc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The image has been patched by unsupported software. Please choose a native image! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_UnsupportImage {
+            get {
+                return ResourceManager.GetString("Basicflash_UnsupportImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 To unlock with an unlock code, you may need to add &apos;0x&apos; yourself 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_UseUnlockCode {
+            get {
+                return ResourceManager.GetString("Basicflash_UseUnlockCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Patch for Xiaomi USB 3.0 的本地化字符串。
         /// </summary>
         public static string Basicflash_XiaomiUSB {
@@ -520,7 +880,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Choose File 的本地化字符串。
+        ///   查找类似 Select File 的本地化字符串。
         /// </summary>
         public static string Common_ChooseFile {
             get {
@@ -529,7 +889,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Choose Folder 的本地化字符串。
+        ///   查找类似 Select Folder 的本地化字符串。
         /// </summary>
         public static string Common_ChooseFolder {
             get {
@@ -538,7 +898,43 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Cancel 的本地化字符串。
+        ///   查找类似 Please enter Fastboot mode! 的本地化字符串。
+        /// </summary>
+        public static string Common_EnterFastboot {
+            get {
+                return ResourceManager.GetString("Common_EnterFastboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter Recovery mode! 的本地化字符串。
+        /// </summary>
+        public static string Common_EnterRecovery {
+            get {
+                return ResourceManager.GetString("Common_EnterRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Device not connected! 的本地化字符串。
+        /// </summary>
+        public static string Common_NotConnected {
+            get {
+                return ResourceManager.GetString("Common_NotConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter Recovery mode or enable USB debugging! 的本地化字符串。
+        /// </summary>
+        public static string Common_OpenADB {
+            get {
+                return ResourceManager.GetString("Common_OpenADB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No 的本地化字符串。
         /// </summary>
         public static string ConnectionDialog_Cancel {
             get {
@@ -547,7 +943,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Confirm 的本地化字符串。
+        ///   查找类似 Yes 的本地化字符串。
         /// </summary>
         public static string ConnectionDialog_Confirm {
             get {
@@ -961,7 +1357,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Compiled Version 的本地化字符串。
+        ///   查找类似 Incremental Version 的本地化字符串。
         /// </summary>
         public static string Home_CompiledVersion {
             get {
@@ -970,7 +1366,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 ConnectionStatus 的本地化字符串。
+        ///   查找类似 DeviceStatus 的本地化字符串。
         /// </summary>
         public static string Home_ConnectionStatus {
             get {
@@ -1051,15 +1447,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please enter Fastboot mode! 的本地化字符串。
-        /// </summary>
-        public static string Home_EnterFastboot {
-            get {
-                return ResourceManager.GetString("Home_EnterFastboot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Fastboot 的本地化字符串。
         /// </summary>
         public static string Home_Fastboot {
@@ -1114,7 +1501,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Kernal Version 的本地化字符串。
+        ///   查找类似 Kernel Version 的本地化字符串。
         /// </summary>
         public static string Home_KernalVersion {
             get {
@@ -1159,20 +1546,11 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Device not connected! 的本地化字符串。
+        ///   查找类似 Current device does not support this command! 的本地化字符串。
         /// </summary>
-        public static string Home_NotConnected {
+        public static string Home_NotSupported {
             get {
-                return ResourceManager.GetString("Home_NotConnected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Please enter Recovery mode or enable USB debugging! 的本地化字符串。
-        /// </summary>
-        public static string Home_OpenADB {
-            get {
-                return ResourceManager.GetString("Home_OpenADB", resourceCulture);
+                return ResourceManager.GetString("Home_NotSupported", resourceCulture);
             }
         }
         
@@ -1186,7 +1564,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Power On Time 的本地化字符串。
+        ///   查找类似 Uptime 的本地化字符串。
         /// </summary>
         public static string Home_PowerOnTime {
             get {
@@ -1281,6 +1659,15 @@ namespace UotanToolbox.Assets {
         public static string Home_Succeeded {
             get {
                 return ResourceManager.GetString("Home_Succeeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Successful! 的本地化字符串。
+        /// </summary>
+        public static string Home_Successful {
+            get {
+                return ResourceManager.GetString("Home_Successful", resourceCulture);
             }
         }
         
@@ -1429,7 +1816,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Unauthorized Device 的本地化字符串。
+        ///   查找类似 Unauthorized 的本地化字符串。
         /// </summary>
         public static string Info_UnauthorizedDevice {
             get {

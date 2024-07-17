@@ -117,17 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Dialog_NotSupported" xml:space="preserve">
+  <data name="Home_NotSupported" xml:space="preserve">
     <value>Current device does not support this command!</value>
   </data>
-  <data name="Dialog_Successful" xml:space="preserve">
+  <data name="Home_Successful" xml:space="preserve">
     <value>Successful!</value>
-  </data>
-  <data name="Dialog_Unconnected" xml:space="preserve">
-    <value>Device is not connected!</value>
-  </data>
-  <data name="Dialog_WrongStatus" xml:space="preserve">
-    <value>Device connection status error!</value>
   </data>
   <data name="Home_AdbRebootTo" xml:space="preserve">
     <value>ADB reboot to</value>
@@ -160,10 +154,10 @@
     <value>Code Name</value>
   </data>
   <data name="Home_CompiledVersion" xml:space="preserve">
-    <value>Compiled Version</value>
+    <value>Incremental Version</value>
   </data>
   <data name="Home_ConnectionStatus" xml:space="preserve">
-    <value>ConnectionStatus</value>
+    <value>DeviceStatus</value>
   </data>
   <data name="Home_Copy" xml:space="preserve">
     <value>Copy to clipboard</value>
@@ -208,7 +202,7 @@
     <value>Home</value>
   </data>
   <data name="Home_KernalVersion" xml:space="preserve">
-    <value>Kernal Version</value>
+    <value>Kernel Version</value>
   </data>
   <data name="Home_LockScreen" xml:space="preserve">
     <value>Lock</value>
@@ -223,7 +217,7 @@
     <value>Platform</value>
   </data>
   <data name="Home_PowerOnTime" xml:space="preserve">
-    <value>Power On Time</value>
+    <value>Uptime</value>
   </data>
   <data name="Home_Recovery" xml:space="preserve">
     <value>Recovery</value>
@@ -273,13 +267,13 @@
   <data name="Home_Disconnected" xml:space="preserve">
     <value>The device has been disconnected</value>
   </data>
-  <data name="Home_OpenADB" xml:space="preserve">
+  <data name="Common_OpenADB" xml:space="preserve">
     <value>Please enter Recovery mode or enable USB debugging!</value>
   </data>
-  <data name="Home_NotConnected" xml:space="preserve">
+  <data name="Common_NotConnected" xml:space="preserve">
     <value>Device not connected!</value>
   </data>
-  <data name="Home_EnterFastboot" xml:space="preserve">
+  <data name="Common_EnterFastboot" xml:space="preserve">
     <value>Please enter Fastboot mode!</value>
   </data>
   <data name="Home_Succeeded" xml:space="preserve">
@@ -319,7 +313,7 @@
     <value>S</value>
   </data>
   <data name="Info_UnauthorizedDevice" xml:space="preserve">
-    <value>Unauthorized Device</value>
+    <value>Unauthorized</value>
   </data>
   <data name="MainView_AnimationDisabled" xml:space="preserve">
     <value>Animation Disabled</value>
@@ -391,10 +385,10 @@
     <value>A/B Slot</value>
   </data>
   <data name="ConnectionDialog_Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>No</value>
   </data>
   <data name="ConnectionDialog_Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Yes</value>
   </data>
   <data name="ConnectionDialog_Notice" xml:space="preserve">
     <value>Notice</value>
@@ -457,10 +451,10 @@
     <value>Basic command unlock</value>
   </data>
   <data name="Basicflash_CodeUnlock" xml:space="preserve">
-    <value>Code unlock:</value>
+    <value>Unlock Code:</value>
   </data>
   <data name="Basicflash_ExecuteUnlockCommand" xml:space="preserve">
-    <value>Execute unlock command</value>
+    <value>Unlock</value>
   </data>
   <data name="Basicflash_Executing" xml:space="preserve">
     <value>Executing...</value>
@@ -475,40 +469,40 @@
     <value>Relock BL</value>
   </data>
   <data name="Basicflash_UnlockFileUnlock" xml:space="preserve">
-    <value>Unlockfile Unlock:</value>
+    <value>Unlock File:</value>
   </data>
   <data name="Basicflash_UnlockNow" xml:space="preserve">
     <value>Unlock Now</value>
   </data>
   <data name="Common_ChooseFile" xml:space="preserve">
-    <value>Choose File</value>
+    <value>Select File</value>
   </data>
   <data name="Basicflash_ChooseBoot" xml:space="preserve">
-    <value>Choose Boot:</value>
+    <value>Boot:</value>
   </data>
   <data name="Basicflash_ChooseMagisk" xml:space="preserve">
-    <value>Choose Magisk:</value>
+    <value>Magisk:</value>
   </data>
   <data name="Basicflash_ChooseRecovery" xml:space="preserve">
-    <value>Choose Recovery:</value>
+    <value>RecoveryFile:</value>
   </data>
   <data name="Basicflash_DriverPatch" xml:space="preserve">
-    <value>Driver Patch</value>
+    <value>Driver&amp;Patch</value>
   </data>
   <data name="Basicflash_EasyFlash" xml:space="preserve">
     <value>Easy flash</value>
   </data>
   <data name="Basicflash_FlashChosenMagisk" xml:space="preserve">
-    <value>Flash chosenm agisk</value>
+    <value>Install selected Magisk</value>
   </data>
   <data name="Basicflash_ForceRootfs" xml:space="preserve">
-    <value>Force opening rootfs</value>
+    <value>Force open rootfs</value>
   </data>
   <data name="Basicflash_Install9008Driver" xml:space="preserve">
-    <value>Install Qualcomm 9008 driver</value>
+    <value>Install 9008 driver</value>
   </data>
   <data name="Basicflash_InstallADBAndFastbootDriver" xml:space="preserve">
-    <value>Install ADB and Fastboot drover</value>
+    <value>Install ADB driver</value>
   </data>
   <data name="Basicflash_InstallToRecovery" xml:space="preserve">
     <value>Install to Recovery</value>
@@ -520,43 +514,43 @@
     <value>Keep strong encryption</value>
   </data>
   <data name="Basicflash_PreventRecoverOfficialRecovery" xml:space="preserve">
-    <value>Prevent from recovering official Recovery</value>
+    <value>Disable official Recovery</value>
   </data>
   <data name="Basicflash_RepairBoot" xml:space="preserve">
-    <value>Repair Boot</value>
+    <value>Patch boot</value>
   </data>
   <data name="Basicflash_RepairVbmeta" xml:space="preserve">
-    <value>Repair vbmeta sign</value>
+    <value>Patch vbmeta</value>
   </data>
   <data name="Basicflash_Start" xml:space="preserve">
-    <value>Start!</value>
+    <value>Start patching</value>
   </data>
   <data name="Basicflash_SyncABPart" xml:space="preserve">
     <value>Sync AB Partition</value>
   </data>
   <data name="Basicflash_TempBoot" xml:space="preserve">
-    <value>Temporary Boot</value>
+    <value>Boot Recovery</value>
   </data>
   <data name="Basicflash_ToBootAPart" xml:space="preserve">
-    <value>To Boot A Partition</value>
+    <value>To Boot_A</value>
   </data>
   <data name="Basicflash_ToBootBPart" xml:space="preserve">
-    <value>To Boot B Partition</value>
+    <value>To Boot_B</value>
   </data>
   <data name="Basicflash_ToRecovery" xml:space="preserve">
     <value>To Recovery</value>
   </data>
   <data name="Basicflash_ToRecoveryAPart" xml:space="preserve">
-    <value>To Recovery A Partition</value>
+    <value>To Recovery_A</value>
   </data>
   <data name="Basicflash_ToRecoveryBPart" xml:space="preserve">
-    <value>To Recovery B Partition</value>
+    <value>To Recovery_B</value>
   </data>
   <data name="Basicflash_XiaomiUSB" xml:space="preserve">
     <value>Patch for Xiaomi USB 3.0</value>
   </data>
   <data name="Common_ChooseFolder" xml:space="preserve">
-    <value>Choose Folder</value>
+    <value>Select Folder</value>
   </data>
   <data name="Scrcpy_Bitrate" xml:space="preserve">
     <value>Bitrate</value>
@@ -878,5 +872,128 @@
   </data>
   <data name="Appmgr_ForceStop" xml:space="preserve">
     <value>Force Stop</value>
+  </data>
+  <data name="Basicflash_Easyinstall" xml:space="preserve">
+    <value>Installing...</value>
+  </data>
+  <data name="Basicflash_PatchBoot" xml:space="preserve">
+    <value>Processing...</value>
+  </data>
+  <data name="Basicflash_UseUnlockCode" xml:space="preserve">
+    <value>To unlock with an unlock code, you may need to add '0x' yourself</value>
+  </data>
+  <data name="Basicflash_BasicUnlock" xml:space="preserve">
+    <value>This function is brand-specific! After execution, your device should display a confirmation unlock prompt. If it does not appear, it means that your device does not support this operation.</value>
+  </data>
+  <data name="Basicflash_BootFailed" xml:space="preserve">
+    <value>Boot failed!</value>
+  </data>
+  <data name="Basicflash_BootSucc" xml:space="preserve">
+    <value>Boot successfully!</value>
+  </data>
+  <data name="Basicflash_CheckError" xml:space="preserve">
+    <value>Magiskboot verification error</value>
+  </data>
+  <data name="Basicflash_CheckUnlock" xml:space="preserve">
+    <value>Execution completed, please check your device!</value>
+  </data>
+  <data name="Basicflash_CleanDirError" xml:space="preserve">
+    <value>Cleaning the packaging directory failed</value>
+  </data>
+  <data name="Basicflash_DetectdBoot" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Basicflash_ErrorClean" xml:space="preserve">
+    <value>Error cleaning temporary directory</value>
+  </data>
+  <data name="Basicflash_ErrorComp" xml:space="preserve">
+    <value>Error compressing stud.apk</value>
+  </data>
+  <data name="Basicflash_Execution" xml:space="preserve">
+    <value>Execution completed!</value>
+  </data>
+  <data name="Basicflash_FileError" xml:space="preserve">
+    <value>Error occurred during file preprocessing!</value>
+  </data>
+  <data name="Basicflash_FlashBoot" xml:space="preserve">
+    <value>Flash Boot</value>
+  </data>
+  <data name="Basicflash_FlashSucc" xml:space="preserve">
+    <value>Flash successfully!</value>
+  </data>
+  <data name="Basicflash_InstallFailed" xml:space="preserve">
+    <value>Installation failed!</value>
+  </data>
+  <data name="Basicflash_InstallMagisk" xml:space="preserve">
+    <value>It has been pushed to the root directory, please install it yourself.</value>
+  </data>
+  <data name="Basicflash_InstallSuccess" xml:space="preserve">
+    <value>Installation successful!</value>
+  </data>
+  <data name="Basicflash_MagsikNotSupport" xml:space="preserve">
+    <value>Failed to obtain a valid Magisk version number</value>
+  </data>
+  <data name="Basicflash_NoBoth" xml:space="preserve">
+    <value>Please do not fill in both methods at the same time!</value>
+  </data>
+  <data name="Basicflash_NotUsed" xml:space="preserve">
+    <value>The current device does not require this operation!</value>
+  </data>
+  <data name="Basicflash_PatchDone" xml:space="preserve">
+    <value>Magisk patch done</value>
+  </data>
+  <data name="Basicflash_PreMagisk" xml:space="preserve">
+    <value>During pre-processing of Magisk components</value>
+  </data>
+  <data name="Basicflash_PushMagisk" xml:space="preserve">
+    <value>Detected current system mode, do you want to push Magisk application?</value>
+  </data>
+  <data name="Basicflash_RecoveryFailed" xml:space="preserve">
+    <value>Flash failed!</value>
+  </data>
+  <data name="Basicflash_RecoverySucc" xml:space="preserve">
+    <value>Done! Reboot to Recovery?</value>
+  </data>
+  <data name="Basicflash_RelockFailed" xml:space="preserve">
+    <value>Relock failed!</value>
+  </data>
+  <data name="Basicflash_RelockSucc" xml:space="preserve">
+    <value>Relock successfully!</value>
+  </data>
+  <data name="Basicflash_SelectBoot" xml:space="preserve">
+    <value>Please select a valid Boot file!</value>
+  </data>
+  <data name="Basicflash_SelectBootMagisk" xml:space="preserve">
+    <value>Please select a valid Magisk and Boot file!</value>
+  </data>
+  <data name="Basicflash_SelectCommand" xml:space="preserve">
+    <value>Please select the unlock command!</value>
+  </data>
+  <data name="Basicflash_SelectMagiskRight" xml:space="preserve">
+    <value>Please select Magisk file on the right!</value>
+  </data>
+  <data name="Basicflash_SelectRecovery" xml:space="preserve">
+    <value>Please select the Recovery file!</value>
+  </data>
+  <data name="Basicflash_SelectUnlock" xml:space="preserve">
+    <value>Please select the unlock file or enter the unlock code!</value>
+  </data>
+  <data name="Basicflash_Success" xml:space="preserve">
+    <value>uccessfully</value>
+  </data>
+  <data name="Basicflash_UnknowArch" xml:space="preserve">
+    <value>Unknown architecture:</value>
+  </data>
+  <data name="Basicflash_UnlockFailed" xml:space="preserve">
+    <value>Unlock failed!</value>
+  </data>
+  <data name="Basicflash_UnlockSucc" xml:space="preserve">
+    <value>Unlocked successfully!</value>
+  </data>
+  <data name="Basicflash_UnsupportImage" xml:space="preserve">
+    <value>The image has been patched by unsupported software. Please choose a native image!</value>
+  </data>
+  <data name="Common_EnterRecovery" xml:space="preserve">
+    <value>Please enter Recovery mode!</value>
   </data>
 </root>

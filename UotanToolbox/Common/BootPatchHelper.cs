@@ -4,14 +4,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
+using System.Resources;
 
 namespace UotanToolbox.Common
 {
     internal class BootPatchHelper
     {
+        private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
+        private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
         public static readonly Dictionary<string, string> ArchMappings = new Dictionary<string, string>
         {
             {"ARM aarch64", "aarch64"},
@@ -58,10 +62,10 @@ namespace UotanToolbox.Common
             {
                 if (MD5_out == MD5_in)
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("检测到有效的" + MAGISK_VER + "面具安装包"));
+                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("BootPatchHelper_ValidMagiskDetected1") + MAGISK_VER + GetTranslation("BootPatchHelper_ValidMagiskDetected2"));
                     return true;
                 }
-                SukiHost.ShowDialog(new ConnectionDialog("面具安装包可能失效，继续修补存在风险"));
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("BootPatchHelper_MagiskCorruptWarn"));
                 return false;
             }
             else
@@ -289,7 +293,7 @@ namespace UotanToolbox.Common
                 (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"dtb {BootInfo.dtb_name} test", BootInfo.tmp_path);
                 if (exitcode != 0)
                 {
-                    SukiHost.ShowDialog(new PureDialog("dtb验证失败"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("BootPatchHelper_dtbVerificationFailed"), allowBackgroundClose: true);
                     return false;
                 }
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {BootInfo.dtb_name} patch", BootInfo.tmp_path);
@@ -354,7 +358,7 @@ namespace UotanToolbox.Common
                 byte[] headerBytes = reader.ReadBytes(9);
                 if (!(headerBytes.Length == symlinkBytes.Length))
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog("长度不一致"));
+                    SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("BootPatchHelper_LengthNotMatch"));
                     return "1";
                 }
                 if (BitConverter.ToString(headerBytes) == BitConverter.ToString(elfBytes))
@@ -365,7 +369,7 @@ namespace UotanToolbox.Common
                 {
                     return Path.Join(ramdisk_Path, read_symlink(init_path));
                 }
-                SukiHost.ShowDialog(new ConnectionDialog("错误文件类型" + BitConverter.ToString(symlinkBytes)));
+                SukiHost.ShowDialog(new ConnectionDialog(GetTranslation("BootPatchHelper_WrongFileType") + BitConverter.ToString(symlinkBytes)));
                 return "2";
             }
         }

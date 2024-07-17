@@ -8,7 +8,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -450,7 +449,7 @@ public partial class DashboardView : UserControl
             if (!string.IsNullOrEmpty(MagiskFile.Text))
             {
                 patch_busy(true);
-                await MagiskPretreatment();
+                await BootPatchHelper.ZipDetect(MagiskFile.Text);
                 patch_busy(false);
             }
             else

@@ -12,6 +12,7 @@ namespace UotanToolbox.Common
 {
     internal class BootPatchHelper
     {
+        private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
         public static readonly Dictionary<string, string> ArchMappings = new Dictionary<string, string>
         {
             {"ARM aarch64", "aarch64"},
@@ -348,7 +349,7 @@ namespace UotanToolbox.Common
             byte[] symlinkBytes = { 0x21, 0x3C, 0x73, 0x79, 0x6D, 0x6C, 0x69, 0x6E, 0x6B };
             byte[] elfBytes = { 0x7F, 0x45, 0x4C, 0x46, 0x02, 0x01, 0x01, 0x00, 0x00 };
             string init_path = Path.Combine(ramdisk_Path, "init");
-            using (FileStream fileStream = new FileStream(init_path, FileMode.Open, FileAccess.Read))
+            FileStream fileStream = new FileStream(init_path, FileMode.Open, FileAccess.Read);
             using (BinaryReader reader = new BinaryReader(fileStream))
             {
                 byte[] headerBytes = reader.ReadBytes(9);
@@ -460,6 +461,43 @@ namespace UotanToolbox.Common
             var androidVersion = match.Groups[4].Value;
             var kernelVersion = match.Groups[2].Value;
             return $"{androidVersion}-{kernelVersion}";
+        }
+
+        public async static Task<bool> ZipDetect(string zip_path)
+        {
+            ZipInfo.tmp_path = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
+            bool istempclean = FileHelper.ClearFolder(ZipInfo.tmp_path);
+            if (istempclean)
+            {
+                string outputzip = await CallExternalProgram.SevenZip($"x \"{zip_path}\" -o\"{ZipInfo.tmp_path}\" -y");
+                string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
+                string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
+                string Magisk_sh_path = Path.Combine(ZipInfo.tmp_path, "assets", "util_functions.sh");
+                string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
+                string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
+                if ((MAGISK_VER != null) & (MAGISK_VER_CODE != null))
+                {
+                    string BOOT_PATCH_PATH = Path.Combine(ZipInfo.tmp_path, "assets", "boot_patch.sh");
+                    string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
+                    bool Magisk_Valid = BootPatchHelper.Magisk_Validation(md5, MAGISK_VER);
+                    if (Magisk_Valid)
+                    {
+                        File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "arm64-v8a", "libmagisk32.so"));
+                        File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "x86_64", "libmagisk32.so"));
+                        ZipInfo.userful = true;
+                        return true;
+                    }
+                }
+                else
+                {
+                    throw new Exception(GetTranslation("Basicflash_MagsikNotSupport"));
+                }
+            }
+            else
+            {
+                throw new Exception(GetTranslation("Basicflash_ErrorClean"));
+            }
+            return false;
         }
     }
 }

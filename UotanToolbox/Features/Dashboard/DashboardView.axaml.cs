@@ -8,6 +8,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -26,7 +27,22 @@ public partial class DashboardView : UserControl
         InitializeComponent();
         SimpleContent.ItemsSource = SimpleUnlock;
         ArchList.ItemsSource = Arch;
+        SetDefaultMagisk();
     }
+
+    public void SetDefaultMagisk()
+    {
+        string filepath = Path.Combine(Global.runpath, "APK", "Magisk-v27.0.apk");
+        if (File.Exists(filepath))
+        {
+            MagiskFile.Text = filepath;
+        }
+        else
+        {
+            MagiskFile.Text = null;
+        }
+    }
+
     public void patch_busy(bool is_busy)
     {
         if (is_busy)
@@ -308,13 +324,46 @@ public partial class DashboardView : UserControl
         await FlashRec("flash boot_b");
     }
 
+    private async Task MagiskPretreatment()
+    {
+        ZipInfo.tmp_path = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
+        bool istempclean = FileHelper.ClearFolder(ZipInfo.tmp_path);
+        if (istempclean)
+        {
+            string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{ZipInfo.tmp_path}\" -y");
+            string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
+            string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
+            string Magisk_sh_path = Path.Combine(ZipInfo.tmp_path, "assets", "util_functions.sh");
+            string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
+            string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
+            if ((MAGISK_VER != null) & (MAGISK_VER_CODE != null))
+            {
+                string BOOT_PATCH_PATH = Path.Combine(ZipInfo.tmp_path, "assets", "boot_patch.sh");
+                string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
+                bool Magisk_Valid = BootPatchHelper.Magisk_Validation(md5, MAGISK_VER);
+                if (Magisk_Valid)
+                {
+                    File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "arm64-v8a", "libmagisk32.so"));
+                    File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "x86_64", "libmagisk32.so"));
+                    ZipInfo.userful = true;
+                }
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog("未能获取到有效Magisk版本号"), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog("清理临时目录出错"), allowBackgroundClose: true);
+        }
+    }
+
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
     {
+        patch_busy(true);
         try
         {
-
-
-            patch_busy(true);
             var topLevel = TopLevel.GetTopLevel(this);
             var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
@@ -327,46 +376,13 @@ public partial class DashboardView : UserControl
                 return;
             }
             MagiskFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
-            ZipInfo.tmp_path = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
-            bool istempclean = FileHelper.ClearFolder(ZipInfo.tmp_path);
-            if (istempclean)
-            {
-                string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{ZipInfo.tmp_path}\" -y");
-                string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
-                string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
-                string Magisk_sh_path = Path.Combine(ZipInfo.tmp_path, "assets", "util_functions.sh");
-                string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
-                string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
-                if ((MAGISK_VER != null) & (MAGISK_VER_CODE != null))
-                {
-                    string BOOT_PATCH_PATH = Path.Combine(ZipInfo.tmp_path, "assets", "boot_patch.sh");
-                    string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
-                    bool Magisk_Valid = BootPatchHelper.Magisk_Validation(md5, MAGISK_VER);
-                    if (Magisk_Valid)
-                    {
-                        File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "arm64-v8a", "libmagisk32.so"));
-                        File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "x86_64", "libmagisk32.so"));
-                        ZipInfo.userful = true;
-                    }
-                    patch_busy(false);
-                }
-                else
-                {
-                    SukiHost.ShowDialog(new PureDialog("未能获取到有效Magisk版本号"), allowBackgroundClose: true);
-                    patch_busy(false);
-                }
-            }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog("清理临时目录出错"), allowBackgroundClose: true);
-                patch_busy(false);
-            }
+            await MagiskPretreatment();
         }
         catch (Exception ex)
         {
             SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
         }
-
+        patch_busy(false);
     }
 
     private async void OpenBootFile(object sender, RoutedEventArgs args)
@@ -423,10 +439,24 @@ public partial class DashboardView : UserControl
     }
     private async void StartPatch(object sender, RoutedEventArgs args)
     {
-        if (!BootInfo.userful | !ZipInfo.userful | !BootInfo.have_ramdisk)
+        if (!BootInfo.userful | !BootInfo.have_ramdisk)
         {
             SukiHost.ShowDialog(new PureDialog("请选择有效的面具与镜像文件"), allowBackgroundClose: true);
             return;
+        }
+        if (!ZipInfo.userful)
+        {
+            if (!string.IsNullOrEmpty(MagiskFile.Text))
+            {
+                patch_busy(true);
+                await MagiskPretreatment();
+                patch_busy(false);
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog("请选择有效的面具文件"), allowBackgroundClose: true);
+                return;
+            }
         }
         if (!BootPatchHelper.CheckComponentFiles(ZipInfo.tmp_path, ArchList.SelectedItem.ToString()))
         {
@@ -525,7 +555,7 @@ public partial class DashboardView : UserControl
                 ZipInfo.userful = false;
                 BootInfo.userful = false;
                 BootFile.Text = null;
-                MagiskFile.Text = null;
+                SetDefaultMagisk();
                 ArchList.SelectedItem = null;
                 return;
             }

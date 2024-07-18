@@ -212,7 +212,8 @@ namespace UotanToolbox.Common
                     Directory.CreateDirectory(workpath);
                 }
                 (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
-                string init_info = await CallExternalProgram.File($"\"{CheckInitPath(ramdisk_path)}\"");
+                string initPath = await CheckInitPath(ramdisk_path);
+                string init_info = await CallExternalProgram.File($"\"{initPath}\"");
                 (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
             }
             return true;

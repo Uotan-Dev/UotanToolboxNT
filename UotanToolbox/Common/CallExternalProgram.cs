@@ -277,13 +277,9 @@ namespace UotanToolbox.Common
             {
                 cmd = Path.Combine(Global.bin_path, "File", "file.exe");
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) | (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)))
-            {
-                cmd = "file";
-            }
             else
             {
-                throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux.");
+                cmd = "file";
             }
             ProcessStartInfo fileinfo = new ProcessStartInfo(cmd, shell)
             {

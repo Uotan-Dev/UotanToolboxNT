@@ -1,8 +1,10 @@
 ﻿using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -343,7 +345,7 @@ namespace UotanToolbox.Common
         /// </summary>
         /// <param name="filePath">ramdisk解包路径</param>
         /// <returns>如果前9个字节与目标序列匹配则返回true，否则返回false。</returns>
-        public static string CheckInitPath(string ramdisk_Path)
+        public async static Task<string> CheckInitPath(string ramdisk_Path)
         {
             // 目标字节序列
             byte[] symlinkBytes = { 0x21, 0x3C, 0x73, 0x79, 0x6D, 0x6C, 0x69, 0x6E, 0x6B };
@@ -364,7 +366,8 @@ namespace UotanToolbox.Common
                 }
                 if (BitConverter.ToString(headerBytes) == BitConverter.ToString(symlinkBytes))
                 {
-                    return Path.Join(ramdisk_Path, read_symlink(init_path));
+                    string path = await read_symlink(init_path);
+                    return Path.Join(ramdisk_Path, path);
                 }
                 SukiHost.ShowDialog(new ConnectionDialog("错误文件类型" + BitConverter.ToString(symlinkBytes)));
                 return "2";
@@ -379,28 +382,51 @@ namespace UotanToolbox.Common
         /// <exception cref="IOException">符号文件读取出错</exception>
         /// <exception cref="ArgumentNullException">符号文件无内容</exception>
         /// <exception cref="ArgumentOutOfRangeException">数组下标越界，一般不会出现</exception>
-        public static string read_symlink(string symlink)
+        public static async Task<string> read_symlink(string symlink)
         {
-            string filePath = symlink;
-            byte[] source;
-            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                var fileSize = (int)fileStream.Length;
-                var byteArray = new byte[fileSize];
-                fileStream.Read(byteArray, 0, fileSize);
-                source = byteArray;
+                string filePath = symlink;
+                byte[] source;
+                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    var fileSize = (int)fileStream.Length;
+                    var byteArray = new byte[fileSize];
+                    fileStream.Read(byteArray, 0, fileSize);
+                    source = byteArray;
+                }
+                int startIndex = 12;
+                if (source == null) throw new ArgumentNullException(nameof(source));
+                if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException(nameof(startIndex));
+                var result = new byte[(source.Length - startIndex + 1) / 2];
+                for (int i = startIndex, j = 0; i < source.Length && j < result.Length; i += 2, j++)
+                {
+                    result[j] = source[i];
+                }
+                string ramdisk = Path.GetDirectoryName(filePath);
+                string output = Path.Combine(filePath, Encoding.ASCII.GetString(result).Trim());
+                return output;
             }
-            int startIndex = 12;
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException(nameof(startIndex));
-            var result = new byte[(source.Length - startIndex + 1) / 2];
-            for (int i = startIndex, j = 0; i < source.Length && j < result.Length; i += 2, j++)
+            else
             {
-                result[j] = source[i];
+                ProcessStartInfo fileinfo = new ProcessStartInfo("readlink", symlink)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+                using Process fi = new Process();
+                fi.StartInfo = fileinfo;
+                fi.Start();
+                string output = await fi.StandardError.ReadToEndAsync();
+                if (output == "")
+                {
+                    output = await fi.StandardOutput.ReadToEndAsync();
+                }
+                fi.WaitForExit();
+                return output;
             }
-            string ramdisk = Path.GetDirectoryName(filePath);
-            string output = Path.Combine(filePath, Encoding.ASCII.GetString(result).Trim());
-            return output;
         }
         /// <summary>
         /// 走kernel文件中提取编译签名信息

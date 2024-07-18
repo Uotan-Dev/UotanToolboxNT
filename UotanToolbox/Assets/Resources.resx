@@ -901,7 +901,7 @@
     <value>Cleaning the packaging directory failed</value>
   </data>
   <data name="Basicflash_DetectdBoot" xml:space="preserve">
-    <value />
+    <value>Boot:</value>
   </data>
   <data name="Basicflash_ErrorClean" xml:space="preserve">
     <value>Error cleaning temporary directory</value>

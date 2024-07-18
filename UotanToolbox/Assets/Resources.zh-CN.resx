@@ -901,7 +901,7 @@
     <value>清理打包目录失败</value>
   </data>
   <data name="Basicflash_DetectdBoot" xml:space="preserve">
-    <value>Boot内检测到</value>
+    <value>Boot内检测到：</value>
   </data>
   <data name="Basicflash_ErrorClean" xml:space="preserve">
     <value>清理临时目录出错</value>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
 
@@ -174,7 +175,7 @@ namespace UotanToolbox.Common
         /// <summary>
         /// 检测Boot文件夹下是否存在kernel文件
         /// </summary>
-        public static async Task kernel_detect()
+        public static void kernel_detect()
         {
             if (File.Exists(Path.Combine(BootInfo.tmp_path, "kernel")))
             {
@@ -212,9 +213,20 @@ namespace UotanToolbox.Common
                     Directory.CreateDirectory(workpath);
                 }
                 (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
-                string initPath = await CheckInitPath(ramdisk_path);
+                string initPath = Path.Combine(ramdisk_path,"init");
                 string init_info = await CallExternalProgram.File($"\"{initPath}\"");
                 (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
+                if (!BootInfo.userful)
+                {
+                    string tmp_initPath = await read_symlink(initPath);
+                    initPath = Path.Join(ramdisk_path,tmp_initPath);
+                    init_info = await CallExternalProgram.File($"\"{initPath}\"");
+                    (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
+                    if (!BootInfo.userful)
+                    {
+                        return false;
+                    }
+                }
             }
             return true;
         }
@@ -342,7 +354,7 @@ namespace UotanToolbox.Common
             }
         }
         /// <summary>
-        /// 检查路径下的init文件的实际路径，跳读字节流实现软连接读取
+        /// 检查路径下的init文件的实际路径，跳读字节流实现软连接读取，在Linux和Darwin平台上貌似无法正常运行，暂时弃置
         /// </summary>
         /// <param name="filePath">ramdisk解包路径</param>
         /// <returns>如果前9个字节与目标序列匹配则返回true，否则返回false。</returns>

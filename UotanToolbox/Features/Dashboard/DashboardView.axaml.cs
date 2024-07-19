@@ -424,7 +424,7 @@ public partial class DashboardView : UserControl
                 BootInfo.os_version = StringHelper.StringRegex(mb_output, osVersionPattern, 1);
                 BootInfo.patch_level = StringHelper.StringRegex(mb_output, osPatchLevelPattern, 1);
                 BootPatchHelper.dtb_detect();
-                await BootPatchHelper.kernel_detect();
+                BootPatchHelper.kernel_detect();
                 await BootPatchHelper.ramdisk_detect();
                 SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
                 ArchList.SelectedItem = BootInfo.arch;

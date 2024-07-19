@@ -147,7 +147,7 @@ namespace UotanToolbox.Common
         }
         public static async Task<(bool, string)> boot_detect(string boot_path)
         {
-            BootInfo.SHA1 = FileHelper.SHA1Hash(boot_path);
+            BootInfo.SHA1 = await FileHelper.SHA1HashAsync(boot_path);
             if (BootInfo.SHA1 == null)
             {
                 return (false, null);
@@ -165,10 +165,10 @@ namespace UotanToolbox.Common
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectBoot")), allowBackgroundClose: true);
                     return (false, null);
                 }
-                BootInfo.os_version = StringHelper.StringRegex(mb_output, osVersionPattern, 1);
-                BootInfo.patch_level = StringHelper.StringRegex(mb_output, osPatchLevelPattern, 1);
-                dtb_detect();
-                kernel_detect();
+                BootInfo.os_version = Regex.Match(mb_output, osVersionPattern).Groups[1].Value;
+                BootInfo.patch_level = Regex.Match(mb_output, osPatchLevelPattern).Groups[1].Value;
+                await Task.Run(() => dtb_detect());
+                await Task.Run(() => kernel_detect());
                 await ramdisk_detect();
                 SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
                 return (true, BootInfo.arch);

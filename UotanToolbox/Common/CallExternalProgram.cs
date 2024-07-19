@@ -263,41 +263,66 @@ namespace UotanToolbox.Common
         /// </summary>
         /// <param name="filePath">要检查的文件路径。</param>
         /// <returns>file命令的输出结果，包含文件类型和指令集信息。</returns>
-        /// <exception cref="FileNotFoundException">当指定的文件路径不存在时抛出。</exception>
-        /// <summary>
-        /// 调用file命令读取文件信息。
-        /// </summary>
-        /// <param name="filePath">要分析的文件路径。</param>
-        /// <returns>file命令的输出，包含文件的类型和相关信息。</returns>
-        public static async Task<string> File(string shell)
+        public static async Task<string> File(string path)
         {
-            if (shell == null) throw new ArgumentNullException(nameof(shell));
             string cmd;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                cmd = Path.Combine(Global.bin_path, "File", "file.exe");
+                var fileInfo = new ProcessStartInfo
+                {
+                    FileName = Path.Combine(Global.bin_path, "File", "file.exe"),
+                    Arguments = path,
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+                using var process = new Process
+                {
+                    StartInfo = fileInfo,
+                    EnableRaisingEvents = true
+                };
+                process.Start();
+                string output = await process.StandardOutput.ReadToEndAsync();
+                string error = await process.StandardError.ReadToEndAsync();
+                process.WaitForExit();
+                return string.IsNullOrEmpty(output) ? error : output;
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                Process proc = new Process();
+                proc.StartInfo.FileName = @"/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
+                proc.StartInfo.Arguments = "-c file \" " + path + " \"";
+                proc.StartInfo.UseShellExecute = false;
+                proc.StartInfo.RedirectStandardOutput = true;
+                proc.Start();
+                string output = await proc.StandardOutput.ReadToEndAsync();
+                string error = await proc.StandardError.ReadToEndAsync();
+                proc.WaitForExit();
+                return string.IsNullOrEmpty(output) ? error : output;
             }
             else
             {
-                cmd = "file";
+                var fileInfo = new ProcessStartInfo
+                {
+                    FileName = "/usr/bin/file",
+                    Arguments = path,
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+                using var process = new Process
+                {
+                    StartInfo = fileInfo,
+                    EnableRaisingEvents = true
+                };
+                process.Start();
+                string output = await process.StandardOutput.ReadToEndAsync();
+                string error = await process.StandardError.ReadToEndAsync();
+                process.WaitForExit();
+                return string.IsNullOrEmpty(output) ? error : output;
             }
-            ProcessStartInfo fileinfo = new ProcessStartInfo(cmd, shell)
-            {
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            using Process fi = new Process();
-            fi.StartInfo = fileinfo;
-            fi.Start();
-            string output = await fi.StandardError.ReadToEndAsync();
-            if (output == "")
-            {
-                output = await fi.StandardOutput.ReadToEndAsync();
-            }
-            fi.WaitForExit();
-            return output;
         }
     }
 }

@@ -229,7 +229,6 @@ namespace UotanToolbox.Common
 
         public static async Task<bool> ramdisk_detect()
         {
-
             if (File.Exists(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio")))
             {
                 BootInfo.have_ramdisk = true;
@@ -250,8 +249,9 @@ namespace UotanToolbox.Common
                 {
                     string tmp_initPath = await read_symlink(initPath);
                     initPath = Path.Join(ramdisk_path, tmp_initPath);
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)){
-                        initPath = Path.Join("/private",initPath);
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        initPath = Path.Join("/private", initPath);
                     }
                     init_info = await CallExternalProgram.File(initPath);
                     SukiHost.ShowDialog(new PureDialog(init_info), allowBackgroundClose: true);

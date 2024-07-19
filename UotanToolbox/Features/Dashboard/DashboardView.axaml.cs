@@ -323,41 +323,6 @@ public partial class DashboardView : UserControl
         await FlashRec("flash boot_b");
     }
 
-    private async Task MagiskPretreatment()
-    {
-        ZipInfo.tmp_path = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
-        bool istempclean = FileHelper.ClearFolder(ZipInfo.tmp_path);
-        if (istempclean)
-        {
-            string outputzip = await CallExternalProgram.SevenZip($"x \"{MagiskFile.Text}\" -o\"{ZipInfo.tmp_path}\" -y");
-            string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
-            string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
-            string Magisk_sh_path = Path.Combine(ZipInfo.tmp_path, "assets", "util_functions.sh");
-            string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
-            string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
-            if ((MAGISK_VER != null) & (MAGISK_VER_CODE != null))
-            {
-                string BOOT_PATCH_PATH = Path.Combine(ZipInfo.tmp_path, "assets", "boot_patch.sh");
-                string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
-                bool Magisk_Valid = BootPatchHelper.Magisk_Validation(md5, MAGISK_VER);
-                if (Magisk_Valid)
-                {
-                    File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "arm64-v8a", "libmagisk32.so"));
-                    File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "x86_64", "libmagisk32.so"));
-                    ZipInfo.userful = true;
-                }
-            }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_MagsikNotSupport")), allowBackgroundClose: true);
-            }
-        }
-        else
-        {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_ErrorClean")), allowBackgroundClose: true);
-        }
-    }
-
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
     {
         patch_busy(true);
@@ -375,7 +340,7 @@ public partial class DashboardView : UserControl
                 return;
             }
             MagiskFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
-            await MagiskPretreatment();
+            await BootPatchHelper.ZipDetect(MagiskFile.Text);
         }
         catch (Exception ex)
         {

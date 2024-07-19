@@ -157,39 +157,23 @@ namespace UotanToolbox.Common
             string workpath = BootInfo.tmp_path;
             if (FileHelper.ClearFolder(workpath))
             {
-                bool i = await boot_unpack(workpath);
-                if (i)
-                {
-                    dtb_detect();
-                    kernel_detect();
-                    await ramdisk_detect();
-                    SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
-                    return (true, BootInfo.arch);
-                }
-            }
-            return (false, null);
-        }
-        public static async Task<bool> boot_unpack(string boot_path)
-        {
-            try
-            {
                 string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
                 string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
                 (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{boot_path}\"", BootInfo.tmp_path);
                 if (mb_output.Contains("error"))
                 {
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectBoot")), allowBackgroundClose: true);
-                    return false;
+                    return (false, null);
                 }
                 BootInfo.os_version = StringHelper.StringRegex(mb_output, osVersionPattern, 1);
                 BootInfo.patch_level = StringHelper.StringRegex(mb_output, osPatchLevelPattern, 1);
-                return true;
+                dtb_detect();
+                kernel_detect();
+                await ramdisk_detect();
+                SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
+                return (true, BootInfo.arch);
             }
-            catch
-            {
-                return false;
-            }
-            
+            return (false, null);
         }
         /// <summary>
         /// 检测Boot文件夹下是否存在dtb文件

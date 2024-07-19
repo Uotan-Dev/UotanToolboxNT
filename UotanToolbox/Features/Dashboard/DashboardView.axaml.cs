@@ -596,11 +596,11 @@ public partial class DashboardView : UserControl
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains(GetTranslation("Basicflash_Success")))
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_InstallSuccess")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallSuccess")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_InstallFailed")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallFailed")), allowBackgroundClose: true);
                 }
             }
         }
@@ -626,11 +626,11 @@ public partial class DashboardView : UserControl
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains(GetTranslation("Basicflash_Success")))
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_InstallSuccess")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallSuccess")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_InstallFailed")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallFailed")), allowBackgroundClose: true);
                 }
             }
         }

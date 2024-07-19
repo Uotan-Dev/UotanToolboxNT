@@ -40,7 +40,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog("设备未连接"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
                 });
                 return;
             }
@@ -53,7 +53,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog("设备连接失败"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_DeviceFailedToConnect")), allowBackgroundClose: true);
                 });
                 return;
             }
@@ -61,7 +61,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog("请在系统内执行"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_PleaseExecuteInSystem")), allowBackgroundClose: true);
                 });
                 return;
             }
@@ -112,18 +112,18 @@ public partial class AppmgrViewModel : MainPageBase
                     string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{fileArray[i]}\"");
                     if (output.Contains("Success"))
                     {
-                        await SukiHost.ShowToast("安装成功！", "o(*≧▽≦)ツ", NotificationType.Success);
+                        await SukiHost.ShowToast(GetTranslation("Common_InstallSuccess"), "o(*≧▽≦)ツ", NotificationType.Success);
                     }
                     else
                     {
-                        await SukiHost.ShowToast("安装失败！", $"\r\n{output}", NotificationType.Error);
+                        await SukiHost.ShowToast(GetTranslation("Common_InstallFailed"), $"\r\n{output}", NotificationType.Error);
                     }
                 }
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("未选择APK文件!"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_NoApkFileSelected")), allowBackgroundClose: true);
         }
         IsInstalling = false;
     }
@@ -235,7 +235,7 @@ public partial class AppmgrViewModel : MainPageBase
         string focus_name, package_name;
         string dumpsys = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"dumpsys window | grep mCurrentFocus\"");
         string text = await StringHelper.ActiveApp(dumpsys);
-        await SukiHost.ShowToast("应用激活器", $"\r\n{text}", NotificationType.Info);
+        await SukiHost.ShowToast(GetTranslation("Appmgr_AppActivactor"), $"\r\n{text}", NotificationType.Info);
         IsBusy = false;
     }
 
@@ -249,7 +249,7 @@ public partial class AppmgrViewModel : MainPageBase
             var installedDate = installedDateLine[(installedDateLine.IndexOf('=') + 1)..].Trim();
             return installedDate;
         }
-        return "未知时间";
+        return GetTranslation("Appmgr_UnknownTime");
     }
 
     private static string GetSdkVersion(string[] lines)
@@ -260,7 +260,7 @@ public partial class AppmgrViewModel : MainPageBase
             var installedDate = "SDK" + sdkVersion[(sdkVersion.IndexOf('=') + 1)..].Trim();
             return installedDate;
         }
-        return "未知SDK版本";
+        return GetTranslation("Appmgr_UnknownSDKVersion");
     }
 
     private static string GetVersionName(string[] lines)
@@ -271,7 +271,7 @@ public partial class AppmgrViewModel : MainPageBase
             var installedDate = versionName[(versionName.IndexOf('=') + 1)..].Trim();
             return installedDate;
         }
-        return "未知SDK版本";
+        return GetTranslation("Appmgr_UnknownAppVersion");
     }
 }
 

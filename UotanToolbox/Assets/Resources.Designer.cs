@@ -259,6 +259,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Activator 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_AppActivactor {
+            get {
+                return ResourceManager.GetString("Appmgr_AppActivactor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Application list hasn&apos;t been fetched 的本地化字符串。
         /// </summary>
         public static string Appmgr_ApplicationListHasntBeenFetched {
@@ -376,6 +385,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 No APK file selected! 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_NoApkFileSelected {
+            get {
+                return ResourceManager.GetString("Appmgr_NoApkFileSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please execute in system 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_PleaseExecuteInSystem {
+            get {
+                return ResourceManager.GetString("Appmgr_PleaseExecuteInSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Run 的本地化字符串。
         /// </summary>
         public static string Appmgr_Run {
@@ -399,6 +426,33 @@ namespace UotanToolbox.Assets {
         public static string Appmgr_Uninstall {
             get {
                 return ResourceManager.GetString("Appmgr_Uninstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unknown App Version 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_UnknownAppVersion {
+            get {
+                return ResourceManager.GetString("Appmgr_UnknownAppVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unknown SDK Version 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_UnknownSDKVersion {
+            get {
+                return ResourceManager.GetString("Appmgr_UnknownSDKVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unknown Time 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_UnknownTime {
+            get {
+                return ResourceManager.GetString("Appmgr_UnknownTime", resourceCulture);
             }
         }
         
@@ -655,29 +709,11 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Installation failed! 的本地化字符串。
-        /// </summary>
-        public static string Basicflash_InstallFailed {
-            get {
-                return ResourceManager.GetString("Basicflash_InstallFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 It has been pushed to the root directory, please install it yourself. 的本地化字符串。
         /// </summary>
         public static string Basicflash_InstallMagisk {
             get {
                 return ResourceManager.GetString("Basicflash_InstallMagisk", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Installation successful! 的本地化字符串。
-        /// </summary>
-        public static string Basicflash_InstallSuccess {
-            get {
-                return ResourceManager.GetString("Basicflash_InstallSuccess", resourceCulture);
             }
         }
         
@@ -1078,6 +1114,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Device is failed to connect 的本地化字符串。
+        /// </summary>
+        public static string Common_DeviceFailedToConnect {
+            get {
+                return ResourceManager.GetString("Common_DeviceFailedToConnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please enter Fastboot mode! 的本地化字符串。
         /// </summary>
         public static string Common_EnterFastboot {
@@ -1092,6 +1137,24 @@ namespace UotanToolbox.Assets {
         public static string Common_EnterRecovery {
             get {
                 return ResourceManager.GetString("Common_EnterRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installation failed! 的本地化字符串。
+        /// </summary>
+        public static string Common_InstallFailed {
+            get {
+                return ResourceManager.GetString("Common_InstallFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installation successful! 的本地化字符串。
+        /// </summary>
+        public static string Common_InstallSuccess {
+            get {
+                return ResourceManager.GetString("Common_InstallSuccess", resourceCulture);
             }
         }
         

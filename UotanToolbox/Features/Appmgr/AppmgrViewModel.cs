@@ -42,7 +42,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     SukiHost.ShowDialog(new PureDialog("设备未连接"), allowBackgroundClose: true);
                 });
-                return;
+                IsBusy = false; return;
             }
             string fullApplicationsList;
             if (!IsSystemAppDisplayed)
@@ -55,7 +55,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     SukiHost.ShowDialog(new PureDialog("设备连接失败"), allowBackgroundClose: true);
                 });
-                return;
+                IsBusy = false; return;
             }
             if (!(sukiViewModel.Status == GetTranslation("Home_System")))
             {
@@ -63,7 +63,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     SukiHost.ShowDialog(new PureDialog("请在系统内执行"), allowBackgroundClose: true);
                 });
-                return;
+                IsBusy = false; return;
             }
             var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
             HasItems = lines.Length > 0;

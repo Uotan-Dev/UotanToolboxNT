@@ -7,7 +7,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
 
@@ -41,6 +40,7 @@ namespace UotanToolbox.Common
         /// <returns>是否可用</returns>
         public static bool Magisk_Validation(string MD5_in, string MAGISK_VER)
         {
+            //其实更理想的方式应该是直接对zip包进行哈希验证
             string MD5_out = null;
             string MD5;
             Dictionary<string, string> patchPlans = new Dictionary<string, string>
@@ -145,6 +145,36 @@ namespace UotanToolbox.Common
             }
             return true;
         }
+        public static async Task<(bool, string)> boot_detect(string boot_path)
+        {
+            BootInfo.SHA1 = FileHelper.SHA1Hash(boot_path);
+            if (BootInfo.SHA1 == null)
+            {
+                return (false, null);
+            }
+            //在临时目录创建临时boot目录，这破东西跨平台解压各种问题，直接即用即丢了
+            BootInfo.tmp_path = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
+            string workpath = BootInfo.tmp_path;
+            if (FileHelper.ClearFolder(workpath))
+            {
+                string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
+                string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
+                (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{boot_path}\"", BootInfo.tmp_path);
+                if (mb_output.Contains("error"))
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectBoot")), allowBackgroundClose: true);
+                    return (false, null);
+                }
+                BootInfo.os_version = StringHelper.StringRegex(mb_output, osVersionPattern, 1);
+                BootInfo.patch_level = StringHelper.StringRegex(mb_output, osPatchLevelPattern, 1);
+                dtb_detect();
+                kernel_detect();
+                await ramdisk_detect();
+                SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
+                return (true, BootInfo.arch);
+            }
+            return (false, null);
+        }
         /// <summary>
         /// 检测Boot文件夹下是否存在dtb文件
         /// </summary>
@@ -213,13 +243,13 @@ namespace UotanToolbox.Common
                     Directory.CreateDirectory(workpath);
                 }
                 (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
-                string initPath = Path.Combine(ramdisk_path,"init");
+                string initPath = Path.Combine(ramdisk_path, "init");
                 string init_info = await CallExternalProgram.File($"\"{initPath}\"");
                 (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
                 if (!BootInfo.userful)
                 {
                     string tmp_initPath = await read_symlink(initPath);
-                    initPath = Path.Join(ramdisk_path,tmp_initPath);
+                    initPath = Path.Join(ramdisk_path, tmp_initPath);
                     init_info = await CallExternalProgram.File($"\"{initPath}\"");
                     (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
                     if (!BootInfo.userful)

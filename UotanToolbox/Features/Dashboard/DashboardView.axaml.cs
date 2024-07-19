@@ -386,55 +386,22 @@ public partial class DashboardView : UserControl
 
     private async void OpenBootFile(object sender, RoutedEventArgs args)
     {
-        try
+
+        patch_busy(true);
+        var topLevel = TopLevel.GetTopLevel(this);
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            patch_busy(true);
-            var topLevel = TopLevel.GetTopLevel(this);
-            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-            {
-                Title = "Open File",
-                AllowMultiple = false
-            });
-            if (files.Count == 0)
-            {
-                patch_busy(false);
-                return;
-            }
-            BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
-            BootInfo.SHA1 = FileHelper.SHA1Hash(BootFile.Text);
-            if (BootInfo.SHA1 == null)
-            {
-                patch_busy(false);
-                return;
-            }
-            //在临时目录创建临时boot目录，这破东西跨平台解压各种问题，直接即用即丢了
-            BootInfo.tmp_path = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
-            string workpath = BootInfo.tmp_path;
-            if (FileHelper.ClearFolder(workpath))
-            {
-                string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
-                string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
-                (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{BootFile.Text}\"", BootInfo.tmp_path);
-                if (mb_output.Contains("error"))
-                {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectBoot")), allowBackgroundClose: true);
-                    patch_busy(false);
-                    return;
-                }
-                BootInfo.os_version = StringHelper.StringRegex(mb_output, osVersionPattern, 1);
-                BootInfo.patch_level = StringHelper.StringRegex(mb_output, osPatchLevelPattern, 1);
-                BootPatchHelper.dtb_detect();
-                BootPatchHelper.kernel_detect();
-                await BootPatchHelper.ramdisk_detect();
-                SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
-                ArchList.SelectedItem = BootInfo.arch;
-            }
+            Title = "Open File",
+            AllowMultiple = false
+        });
+        if (files.Count == 0)
+        {
             patch_busy(false);
+            return;
         }
-        catch (Exception ex)
-        {
-            SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
-        }
+        BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
+        (BootInfo.userful, ArchList.SelectedItem) = await BootPatchHelper.boot_detect(BootFile.Text);
+        patch_busy(false);
     }
 
     private async void StartPatch(object sender, RoutedEventArgs args)

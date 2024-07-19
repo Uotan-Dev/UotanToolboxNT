@@ -170,7 +170,7 @@ namespace UotanToolbox.Common
                 await Task.Run(() => dtb_detect());
                 await Task.Run(() => kernel_detect());
                 await ramdisk_detect();
-                SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
+                //SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
                 return (true, BootInfo.arch);
             }
             return (false, null);
@@ -250,7 +250,11 @@ namespace UotanToolbox.Common
                 {
                     string tmp_initPath = await read_symlink(initPath);
                     initPath = Path.Join(ramdisk_path, tmp_initPath);
-                    init_info = await CallExternalProgram.File($"\"{initPath}\"");
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)){
+                        initPath = Path.Join("/private",initPath);
+                    }
+                    init_info = await CallExternalProgram.File(initPath);
+                    SukiHost.ShowDialog(new PureDialog(init_info), allowBackgroundClose: true);
                     (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
                     if (!BootInfo.userful)
                     {

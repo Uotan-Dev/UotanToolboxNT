@@ -1032,4 +1032,7 @@
   <data name="Common_NotSupportSystem" xml:space="preserve">
     <value>This feature is currently not supported by the current system!</value>
   </data>
+  <data name="Sidebar_FormatExtract" xml:space="preserve">
+    <value>Format&amp;Extract</value>
+  </data>
 </root>

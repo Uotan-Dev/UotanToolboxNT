@@ -2662,6 +2662,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Format&amp;Extract 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_FormatExtract {
+            get {
+                return ResourceManager.GetString("Sidebar_FormatExtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Home 的本地化字符串。
         /// </summary>
         public static string Sidebar_HomePage {

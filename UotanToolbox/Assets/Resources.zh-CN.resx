@@ -1026,4 +1026,10 @@
   <data name="Appmgr_ConfirmDeleteApp" xml:space="preserve">
     <value>确认删除应用？</value>
   </data>
+  <data name="Common_EnterSystem" xml:space="preserve">
+    <value>请将设备进入系统后执行！</value>
+  </data>
+  <data name="Common_NotSupportSystem" xml:space="preserve">
+    <value>该功能暂不支持当前系统！</value>
+  </data>
 </root>

@@ -1026,4 +1026,10 @@
   <data name="Appmgr_ConfirmDeleteApp" xml:space="preserve">
     <value>Comfirm deleting the App?</value>
   </data>
+  <data name="Common_EnterSystem" xml:space="preserve">
+    <value>Please enter the device into the system!</value>
+  </data>
+  <data name="Common_NotSupportSystem" xml:space="preserve">
+    <value>This feature is currently not supported by the current system!</value>
+  </data>
 </root>

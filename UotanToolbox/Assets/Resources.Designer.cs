@@ -970,6 +970,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter the device into the system! 的本地化字符串。
+        /// </summary>
+        public static string Common_EnterSystem {
+            get {
+                return ResourceManager.GetString("Common_EnterSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Installation failed! 的本地化字符串。
         /// </summary>
         public static string Common_InstallFailed {
@@ -993,6 +1002,15 @@ namespace UotanToolbox.Assets {
         public static string Common_NotConnected {
             get {
                 return ResourceManager.GetString("Common_NotConnected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This feature is currently not supported by the current system! 的本地化字符串。
+        /// </summary>
+        public static string Common_NotSupportSystem {
+            get {
+                return ResourceManager.GetString("Common_NotSupportSystem", resourceCulture);
             }
         }
         

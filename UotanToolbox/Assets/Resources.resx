@@ -442,7 +442,7 @@
     <value>About Toolbox</value>
   </data>
   <data name="Settings_AboutToolboxContent" xml:space="preserve">
-    <value>Uotan Toolbox is a modern toolbox for Android and OpenHarmony developers, mainly based on the original code of UotanToolBox.</value>
+    <value>UotanToolboxNT is developed based on "UotanToolBox" and is a brand-new modern advanced developing tool for phones designed specifically for mobile phone enthusiasts.</value>
   </data>
   <data name="Settings_SpecialThanks" xml:space="preserve">
     <value>Special Thanks</value>
@@ -856,7 +856,7 @@
     <value>Record file isn't chosen!</value>
   </data>
   <data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
-    <value />
+    <value>The selected screen recording folder does not have write permission!</value>
   </data>
   <data name="Settings_NewVersionAvailable" xml:space="preserve">
     <value>New version available!</value>

@@ -2320,7 +2320,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 The selected screen recording folder does not have write permission! 的本地化字符串。
         /// </summary>
         public static string Scrcpy_RecordFolderNoPermission {
             get {
@@ -2419,7 +2419,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Uotan Toolbox is a modern toolbox for Android and OpenHarmony developers, mainly based on the original code of UotanToolBox. 的本地化字符串。
+        ///   查找类似 UotanToolboxNT is developed based on &quot;UotanToolBox&quot; and is a brand-new modern advanced developing tool for phones designed specifically for mobile phone enthusiasts. 的本地化字符串。
         /// </summary>
         public static string Settings_AboutToolboxContent {
             get {

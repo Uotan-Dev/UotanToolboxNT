@@ -154,7 +154,7 @@
                                                        FontWeight="DemiBold"
                                                        Text="{x:Static assets:Resources.Settings_AboutToolbox}" />
 											<StackPanel Margin="15">
-												<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" />
+												<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" TextWrapping="Wrap"/>
 											</StackPanel>
 											<Grid Margin="15,0,0,15" VerticalAlignment="Center">
 												<Grid.ColumnDefinitions>

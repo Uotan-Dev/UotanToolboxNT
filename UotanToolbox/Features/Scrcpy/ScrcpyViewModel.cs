@@ -57,13 +57,7 @@ public partial class ScrcpyViewModel : MainPageBase
                         {
                             if (String.IsNullOrEmpty(RecordFolder))
                             {
-                                SukiHost.ShowDialog(new ErrorDialog(GetTranslation("Scrcpy_RecordFileNotChosen")));
-                                IsConnecting = false;
-                                return;
-                            }
-                            if (!FileHelper.TestPermission(RecordFolder))
-                            {
-                                SukiHost.ShowDialog(new ErrorDialog(GetTranslation("Scrcpy_RecordFolderNoPermission")));
+                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Scrcpy_RecordFileNotChosen")), allowBackgroundClose: true);
                                 IsConnecting = false;
                                 return;
                             }

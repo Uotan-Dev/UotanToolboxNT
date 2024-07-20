@@ -70,6 +70,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please add _a or _b suffix to the AB partition 的本地化字符串。
+        /// </summary>
+        public static string Advanced_AddPostfix {
+            get {
+                return ResourceManager.GetString("Advanced_AddPostfix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Backup QCN 的本地化字符串。
         /// </summary>
         public static string Advanced_BackupQCN {
@@ -174,6 +183,15 @@ namespace UotanToolbox.Assets {
         public static string Advanced_Log {
             get {
                 return ResourceManager.GetString("Advanced_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Only ADB Format support selected filesystem 的本地化字符串。
+        /// </summary>
+        public static string Advanced_OnlyADBFotmatSupport {
+            get {
+                return ResourceManager.GetString("Advanced_OnlyADBFotmatSupport", resourceCulture);
             }
         }
         

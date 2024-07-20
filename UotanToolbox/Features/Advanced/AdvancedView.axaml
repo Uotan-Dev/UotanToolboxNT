@@ -21,7 +21,7 @@
 						Margin="10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyQCN"
-						   BusyText="执行中...">
+						   BusyText="{x:Static assets:Resources.Advanced_Executing}">
 				<StackPanel Name="QCN" Spacing="10">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
@@ -164,7 +164,7 @@
 									   VerticalAlignment="Center"
 									   FontSize="13"
 									   Text="{x:Static assets:Resources.Advanced_PartName}" />
-							<TextBox Width="355" Name="FormatName" Watermark="仅ADB格式化支持指定文件系统"
+							<TextBox Width="355" Name="FormatName" Watermark="{x:Static assets:Resources.Advanced_OnlyADBFotmatSupport}"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 						</StackPanel>
 					</StackPanel>
@@ -251,7 +251,7 @@
 									   VerticalAlignment="Center"
 									   FontSize="13"
 									   Text="{x:Static assets:Resources.Advanced_PartName}" />
-							<TextBox Width="350" Name="ExtractName" Watermark="AB分区请自行添加_a或_b后缀"
+							<TextBox Width="350" Name="ExtractName" Watermark="{x:Static assets:Resources.Advanced_AddPostfix}"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 						</StackPanel>
 					</StackPanel>

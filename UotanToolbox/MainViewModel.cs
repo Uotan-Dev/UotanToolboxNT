@@ -78,14 +78,6 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void ToggleWindowLock()
-    {
-        WindowLocked = false;
-        Task.Delay(10);
-        WindowLocked = true;
-    }
-
-    [RelayCommand]
     private Task ToggleAnimations()
     {
         AnimationsEnabled = !AnimationsEnabled;

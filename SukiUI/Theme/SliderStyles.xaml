@@ -62,12 +62,12 @@
                     </Grid.RowDefinitions>
                     <Border Name="TrackBackground"
                             Grid.Row="1"
-                            Height="4"
+                            Height="22"
                             Margin="8,0"
                             VerticalAlignment="Center"
                             Background="{DynamicResource SukiLightBorderBrush}"
                             BorderThickness="0"
-                            CornerRadius="{DynamicResource SmallCornerRadius}" />
+                            CornerRadius="20" />
 
                     <Track Name="PART_Track"
                            Grid.Row="1"
@@ -75,23 +75,23 @@
                            Orientation="Horizontal">
                         <Track.DecreaseButton>
                             <RepeatButton Name="PART_DecreaseButton"
-                                          Height="4"
-                                          Margin="8,0,-10,0"
+                                          Height="22"
+                                          Margin="8,0,-30,0"
                                           HorizontalAlignment="Stretch"
                                           Background="{DynamicResource SukiPrimaryColor}"
                                           BorderThickness="0"
-                                          CornerRadius="10" />
+                                          CornerRadius="20" />
                         </Track.DecreaseButton>
                         <Track.IncreaseButton>
                             <RepeatButton Name="PART_IncreaseButton" Classes="repeattrack" />
                         </Track.IncreaseButton>
-                        <Thumb Name="thumb">
+                        <Thumb Name="thumb" Margin="3,0,0,0">
                             <Thumb.Template>
                                 <ControlTemplate>
                                     <Grid Width="32" Height="32">
-                                        <Border Width="20"
-                                                Height="20"
-                                                Margin="0,-1,0,0"
+                                        <Border Width="16"
+                                                Height="16"
+                                                Margin="0"
                                                 Background="White"
                                                 BorderThickness="0"
                                                 Classes="ThumbBorder ThumbB"

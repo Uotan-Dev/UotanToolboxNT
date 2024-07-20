@@ -227,7 +227,7 @@
                              UseLayoutRounding="False">
                         <Ellipse.Transitions>
                             <Transitions>
-                                <BrushTransition Property="Fill" Duration="0:0:0.4" />
+                                <BrushTransition Property="Fill" Duration="0:0:0.1" />
                                 <DoubleTransition Property="Width" Duration="0:0:0.3" />
                                 <DoubleTransition Property="Height" Duration="0:0:0.3" />
                             </Transitions>

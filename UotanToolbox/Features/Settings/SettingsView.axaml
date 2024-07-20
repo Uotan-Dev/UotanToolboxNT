@@ -214,7 +214,7 @@
 														</suki:GroupBox.Header>
 														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
 															<Rectangle.Fill>
-																<ImageBrush Source="avares://UotanToolbox/Assets/mjw.jpeg"/>
+																<ImageBrush Source="avares://UotanToolbox/Assets/mujianwu.jpg"/>
 															</Rectangle.Fill>
 														</Rectangle>
 													</suki:GroupBox>

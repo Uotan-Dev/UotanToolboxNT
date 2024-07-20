@@ -1023,4 +1023,7 @@
   <data name="FormatExtract_OnlyADBFotmatSupport" xml:space="preserve">
     <value>仅ADB格式化支持指定文件系统</value>
   </data>
+  <data name="Appmgr_ConfirmDeleteApp" xml:space="preserve">
+    <value>确认删除应用？</value>
+  </data>
 </root>

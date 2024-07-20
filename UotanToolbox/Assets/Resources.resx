@@ -1023,4 +1023,7 @@
   <data name="FormatExtract_OnlyADBFotmatSupport" xml:space="preserve">
     <value>Only ADB Format support selected filesystem</value>
   </data>
+  <data name="Appmgr_ConfirmDeleteApp" xml:space="preserve">
+    <value>Comfirm deleting the App?</value>
+  </data>
 </root>

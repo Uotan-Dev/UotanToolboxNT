@@ -115,6 +115,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Comfirm deleting the App? 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ConfirmDeleteApp {
+            get {
+                return ResourceManager.GetString("Appmgr_ConfirmDeleteApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Disable 的本地化字符串。
         /// </summary>
         public static string Appmgr_Disable {

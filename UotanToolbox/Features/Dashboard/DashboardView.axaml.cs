@@ -323,6 +323,12 @@ public partial class DashboardView : UserControl
         await FlashRec("flash boot_b");
     }
 
+    public static FilePickerFileType Magisk { get; } = new("Magisk")
+    {
+        Patterns = new[] { "*.zip", "*.apk" },
+        AppleUniformTypeIdentifiers = new[] { "*.zip", "*.apk" }
+    };
+
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
     {
         patch_busy(true);
@@ -331,6 +337,7 @@ public partial class DashboardView : UserControl
             var topLevel = TopLevel.GetTopLevel(this);
             var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
+                FileTypeFilter = new[] { Magisk },
                 Title = "Open File",
                 AllowMultiple = false
             });
@@ -349,6 +356,12 @@ public partial class DashboardView : UserControl
         patch_busy(false);
     }
 
+    public static FilePickerFileType Image { get; } = new("Image")
+    {
+        Patterns = new[] { "*.img" },
+        AppleUniformTypeIdentifiers = new[] { "*.img" }
+    };
+
     private async void OpenBootFile(object sender, RoutedEventArgs args)
     {
 
@@ -356,6 +369,7 @@ public partial class DashboardView : UserControl
         var topLevel = TopLevel.GetTopLevel(this);
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
+            FileTypeFilter = new[] { Image },
             Title = "Open File",
             AllowMultiple = false
         });

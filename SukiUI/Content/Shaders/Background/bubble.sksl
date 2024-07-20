@@ -1,4 +1,4 @@
-﻿float smoothstep(float a, float b, float x) {
+float smoothstep(float a, float b, float x) {
     float t = clamp((x - a) / (b - a), 0.0, 1.0);
     return t * t * (3.0 - 2.0 * t);
 }
@@ -66,18 +66,18 @@ vec4 main(vec2 fragCoord) {
     float opacityLayer2 = 0.85 - (iDark / 2);
 
     
-    float iPrimaryOpacity = 0.8; // Exemple de nouvelle opacité pour iPrimary
+    float iPrimaryOpacity = 1; // Exemple de nouvelle opacité pour iPrimary
     if (iDark == 1) {
-        iPrimaryOpacity = 0.32;
+        iPrimaryOpacity = 0.28;
     }
     vec3 iPrimaryWithOpacity = iPrimary * iPrimaryOpacity;
 
   
-    float iAccentOpacity = 0; 
+    float iAccentOpacity = 0.8; 
     if (iDark == 1) {
-            iAccentOpacity = 0;
+            iAccentOpacity = 0.34;
         }
-    vec3 iAccentWithOpacity = iPrimary * iAccentOpacity;
+    vec3 iAccentWithOpacity = iAccent * iAccentOpacity;
 
     vec3 layer1Color = mix(vec3(0.0), iPrimaryWithOpacity, opacityLayer1);
     vec3 layer1 = mix(layer1Color, iAccentWithOpacity * 0.85, smoothstep(-.3, .4, (tuv * Rot(radians(-5.))).x));

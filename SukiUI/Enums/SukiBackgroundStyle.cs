@@ -2,9 +2,11 @@ namespace SukiUI.Enums
 {
     public enum SukiBackgroundStyle
     {
-        Waves,
-        Flat,
         Gradient,
+        Flat,
+        Bubble,
+        BubbleStrong,
+        Waves,
         Cells
     }
 }

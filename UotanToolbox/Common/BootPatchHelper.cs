@@ -1,8 +1,10 @@
 ﻿using SukiUI.Controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ namespace UotanToolbox.Common
 {
     internal class BootPatchHelper
     {
+        private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
         public static readonly Dictionary<string, string> ArchMappings = new Dictionary<string, string>
         {
             {"ARM aarch64", "aarch64"},
@@ -37,6 +40,7 @@ namespace UotanToolbox.Common
         /// <returns>是否可用</returns>
         public static bool Magisk_Validation(string MD5_in, string MAGISK_VER)
         {
+            //其实更理想的方式应该是直接对zip包进行哈希验证
             string MD5_out = null;
             string MD5;
             Dictionary<string, string> patchPlans = new Dictionary<string, string>
@@ -111,17 +115,9 @@ namespace UotanToolbox.Common
         /// <returns>预处理是否成功</returns>
         public static bool boot_img_pre(string boot_path)
         {
-            try
-            {
-                File.Copy(boot_path, Path.Combine(BootInfo.tmp_path, "stock_boot.img"), true);
-                File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio"), Path.Combine(BootInfo.tmp_path, "ramdisk.cpio.orig"), true);
-                return true;
-            }
-            catch (Exception e)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog($"模式0预处理出错 {e.Message}"));
-                return false;
-            }
+            File.Copy(boot_path, Path.Combine(BootInfo.tmp_path, "stock_boot.img"), true);
+            File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio"), Path.Combine(BootInfo.tmp_path, "ramdisk.cpio.orig"), true);
+            return true;
         }
         /// <summary>
         /// 对面具修补后的Boot预处理，尝试恢复原来的boot映像
@@ -130,16 +126,8 @@ namespace UotanToolbox.Common
         /// <returns>预处理是否成功</returns>
         public static bool patched_img_pre(string boot_path)
         {
-            try
-            {
-                File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk", ".backup", ".magisk", "config.orig"), Path.Combine(BootInfo.tmp_path, "config.orig"));
-                return true;
-            }
-            catch (Exception e)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog($"模式1预处理出错 {e.Message}"));
-                return false;
-            }
+            File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk", ".backup", ".magisk", "config.orig"), Path.Combine(BootInfo.tmp_path, "config.orig"));
+            return true;
         }
         /// <summary>
         /// 将组件文件从面具文件夹中复制到boot文件夹
@@ -148,22 +136,44 @@ namespace UotanToolbox.Common
         /// <returns>是否成功</returns>
         public static bool comp_copy(string compPath)
         {
-            try
+            File.Copy(Path.Combine(ZipInfo.tmp_path, "assets", "stub.xz"), Path.Combine(BootInfo.tmp_path, "stub.xz"), true);
+            File.Copy(Path.Combine(compPath, "libmagiskinit.so"), Path.Combine(BootInfo.tmp_path, "magiskinit"), true);
+            File.Copy(Path.Combine(compPath, "magisk32.xz"), Path.Combine(BootInfo.tmp_path, "magisk32.xz"), true);
+            if (File.Exists(Path.Combine((compPath), "magisk64.xz")))
             {
-                File.Copy(Path.Combine(ZipInfo.tmp_path, "assets", "stub.xz"), Path.Combine(BootInfo.tmp_path, "stub.xz"), true);
-                File.Copy(Path.Combine(compPath, "libmagiskinit.so"), Path.Combine(BootInfo.tmp_path, "magiskinit"), true);
-                File.Copy(Path.Combine(compPath, "magisk32.xz"), Path.Combine(BootInfo.tmp_path, "magisk32.xz"), true);
-                if (File.Exists(Path.Combine((compPath), "magisk64.xz")))
+                File.Copy(Path.Combine(compPath, "magisk64.xz"), Path.Combine(BootInfo.tmp_path, "magisk64.xz"), true);
+            }
+            return true;
+        }
+        public static async Task<(bool, string)> boot_detect(string boot_path)
+        {
+            BootInfo.SHA1 = await FileHelper.SHA1HashAsync(boot_path);
+            if (BootInfo.SHA1 == null)
+            {
+                return (false, null);
+            }
+            //在临时目录创建临时boot目录，这破东西跨平台解压各种问题，直接即用即丢了
+            BootInfo.tmp_path = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
+            string workpath = BootInfo.tmp_path;
+            if (FileHelper.ClearFolder(workpath))
+            {
+                string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
+                string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
+                (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{boot_path}\"", BootInfo.tmp_path);
+                if (mb_output.Contains("error"))
                 {
-                    File.Copy(Path.Combine(compPath, "magisk64.xz"), Path.Combine(BootInfo.tmp_path, "magisk64.xz"), true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectBoot")), allowBackgroundClose: true);
+                    return (false, null);
                 }
-                return true;
+                BootInfo.os_version = Regex.Match(mb_output, osVersionPattern).Groups[1].Value;
+                BootInfo.patch_level = Regex.Match(mb_output, osPatchLevelPattern).Groups[1].Value;
+                await Task.Run(() => dtb_detect());
+                await Task.Run(() => kernel_detect());
+                await ramdisk_detect();
+                //SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{BootInfo.arch}\nOS:{BootInfo.os_version}\nPatch_level:{BootInfo.patch_level}\nRamdisk:{BootInfo.have_ramdisk}\nKMI:{BootInfo.kmi}"), allowBackgroundClose: true);
+                return (true, BootInfo.arch);
             }
-            catch (Exception e)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("Failed to copy components to boot partition" + e));
-                return false;
-            }
+            return (false, null);
         }
         /// <summary>
         /// 检测Boot文件夹下是否存在dtb文件
@@ -195,18 +205,21 @@ namespace UotanToolbox.Common
         /// <summary>
         /// 检测Boot文件夹下是否存在kernel文件
         /// </summary>
-        public static async Task kernel_detect()
+        public static void kernel_detect()
         {
             if (File.Exists(Path.Combine(BootInfo.tmp_path, "kernel")))
             {
                 string comp_path = Path.Combine(BootInfo.tmp_path, "kernel-component"); //kernel内解压出来的文件路径
                 BootInfo.have_kernel = true;
-                await CallExternalProgram.SevenZip($"e -t#:e -aoa -o{comp_path} kernel -y");
-                string[] gz_names = FileHelper.FindConfigGzFiles(comp_path);
-                string[] decompress_file_names = await FileHelper.DecompressConfigGzFiles(gz_names);
-                BootInfo.gki2 = FileHelper.CheckGkiConfig(decompress_file_names);
+                //await CallExternalProgram.SevenZip($"e -t#:e -aoa -o{comp_path} kernel -y");
+                //string[] gz_names = FileHelper.FindConfigGzFiles(comp_path);
+                //string[] decompress_file_names = await FileHelper.DecompressConfigGzFiles(gz_names);
                 BootInfo.version = ReadKernelVersion(Path.Combine(BootInfo.tmp_path, "kernel"));
-                BootInfo.kmi =ExtractKMI(BootInfo.version);
+                BootInfo.kmi = ExtractKMI(BootInfo.version);
+                if (!String.IsNullOrEmpty(BootInfo.kmi))
+                {
+                    BootInfo.gki2 = true;
+                }
             }
             else
             {
@@ -216,31 +229,42 @@ namespace UotanToolbox.Common
 
         public static async Task<bool> ramdisk_detect()
         {
-            try
+            if (File.Exists(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio")))
             {
-                if (File.Exists(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio")))
+                BootInfo.have_ramdisk = true;
+                string workpath = BootInfo.tmp_path;
+                string cpio_file = Path.Combine(BootInfo.tmp_path, "ramdisk.cpio");
+                string ramdisk_path = Path.Combine(BootInfo.tmp_path, "ramdisk");
+                //适配Windows的抽象magiskboot（使用cygwin），其他平台都是原生编译的，可以直接用参数提取ramdisk
+                if (Global.System != "Windows")
                 {
-                    BootInfo.have_ramdisk = true;
-                    string workpath = BootInfo.tmp_path;
-                    string cpio_file = Path.Combine(BootInfo.tmp_path, "ramdisk.cpio");
-                    string ramdisk_path = Path.Combine(BootInfo.tmp_path, "ramdisk");
-                    //适配Windows的抽象magiskboot（使用cygwin），其他平台都是原生编译的，可以直接用参数提取ramdisk
-                    if (Global.System != "Windows")
-                    {
-                        workpath = Path.Combine(BootInfo.tmp_path, "ramdisk");
-                        Directory.CreateDirectory(workpath);
-                    }
-                    (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
-                    string init_info = await CallExternalProgram.File($"\"{CheckInitPath(ramdisk_path)}\"");
-                    (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
+                    workpath = Path.Combine(BootInfo.tmp_path, "ramdisk");
+                    Directory.CreateDirectory(workpath);
                 }
-                return true;
+                (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
+                string initPath = Path.Combine(ramdisk_path, "init");
+                string init_info = await CallExternalProgram.File($"\"{initPath}\"");
+                (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
+                if (!BootInfo.userful)
+                {
+                    string tmp_initPath = await read_symlink(initPath);
+                    initPath = Path.Join(ramdisk_path, tmp_initPath);
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        initPath = Path.Join("/private", initPath);
+                    }
+                    init_info = await CallExternalProgram.File(initPath);
+                    SukiHost.ShowDialog(new PureDialog(init_info), allowBackgroundClose: true);
+                    (BootInfo.userful, BootInfo.arch) = ArchDetect(init_info);
+                    if (!BootInfo.userful)
+                    {
+                        return false;
+                    }
+                }
             }
-            catch
-            {
-                return false;
-            }
+            return true;
         }
+
         /// <summary>
         /// 进行ramdisk修补
         /// </summary>
@@ -364,48 +388,36 @@ namespace UotanToolbox.Common
             }
         }
         /// <summary>
-        /// 检查路径下的init文件的实际路径，跳读字节流实现软连接读取
+        /// 检查路径下的init文件的实际路径，跳读字节流实现软连接读取，在Linux和Darwin平台上貌似无法正常运行，暂时弃置
         /// </summary>
         /// <param name="filePath">ramdisk解包路径</param>
         /// <returns>如果前9个字节与目标序列匹配则返回true，否则返回false。</returns>
-        public static string CheckInitPath(string ramdisk_Path)
+        public async static Task<string> CheckInitPath(string ramdisk_Path)
         {
             // 目标字节序列
             byte[] symlinkBytes = { 0x21, 0x3C, 0x73, 0x79, 0x6D, 0x6C, 0x69, 0x6E, 0x6B };
             byte[] elfBytes = { 0x7F, 0x45, 0x4C, 0x46, 0x02, 0x01, 0x01, 0x00, 0x00 };
-            try
+            string init_path = Path.Combine(ramdisk_Path, "init");
+            FileStream fileStream = new FileStream(init_path, FileMode.Open, FileAccess.Read);
+            using (BinaryReader reader = new BinaryReader(fileStream))
             {
-                string init_path = Path.Combine(ramdisk_Path, "init");
-                using (FileStream fileStream = new FileStream(init_path, FileMode.Open, FileAccess.Read))
-                using (BinaryReader reader = new BinaryReader(fileStream))
+                byte[] headerBytes = reader.ReadBytes(9);
+                if (!(headerBytes.Length == symlinkBytes.Length))
                 {
-                    byte[] headerBytes = reader.ReadBytes(9);
-                    if (!(headerBytes.Length == symlinkBytes.Length))
-                    {
-                        SukiHost.ShowDialog(new ConnectionDialog("长度不一致"));
-                        return "1";
-                    }
-                    if (BitConverter.ToString(headerBytes) == BitConverter.ToString(elfBytes))
-                    {
-                        return init_path;
-                    }
-                    if (BitConverter.ToString(headerBytes) == BitConverter.ToString(symlinkBytes))
-                    {
-                        return Path.Join(ramdisk_Path, read_symlink(init_path));
-                    }
-                    SukiHost.ShowDialog(new ConnectionDialog("错误文件类型" + BitConverter.ToString(symlinkBytes)));
-                    return "2";
+                    SukiHost.ShowDialog(new ConnectionDialog("长度不一致"));
+                    return "1";
                 }
-            }
-            catch (FileNotFoundException)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog("文件未找到。"));
-                return null;
-            }
-            catch (IOException ex)
-            {
-                SukiHost.ShowDialog(new ConnectionDialog($"读取文件时发生错误: {ex.Message}"));
-                return null;
+                if (BitConverter.ToString(headerBytes) == BitConverter.ToString(elfBytes))
+                {
+                    return init_path;
+                }
+                if (BitConverter.ToString(headerBytes) == BitConverter.ToString(symlinkBytes))
+                {
+                    string path = await read_symlink(init_path);
+                    return Path.Join(ramdisk_Path, path);
+                }
+                SukiHost.ShowDialog(new ConnectionDialog("错误文件类型" + BitConverter.ToString(symlinkBytes)));
+                return "2";
             }
         }
         /// <summary>
@@ -417,13 +429,12 @@ namespace UotanToolbox.Common
         /// <exception cref="IOException">符号文件读取出错</exception>
         /// <exception cref="ArgumentNullException">符号文件无内容</exception>
         /// <exception cref="ArgumentOutOfRangeException">数组下标越界，一般不会出现</exception>
-        public static string read_symlink(string symlink)
+        public static async Task<string> read_symlink(string symlink)
         {
-            string filePath = symlink;
-            byte[] source;
-            if (string.IsNullOrEmpty(filePath)) throw new ArgumentException("FilePath cannot be null or empty.", nameof(filePath));
-            try
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
+                string filePath = symlink;
+                byte[] source;
                 using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
                     var fileSize = (int)fileStream.Length;
@@ -431,22 +442,38 @@ namespace UotanToolbox.Common
                     fileStream.Read(byteArray, 0, fileSize);
                     source = byteArray;
                 }
+                int startIndex = 12;
+                if (source == null) throw new ArgumentNullException(nameof(source));
+                if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException(nameof(startIndex));
+                var result = new byte[(source.Length - startIndex + 1) / 2];
+                for (int i = startIndex, j = 0; i < source.Length && j < result.Length; i += 2, j++)
+                {
+                    result[j] = source[i];
+                }
+                string ramdisk = Path.GetDirectoryName(filePath);
+                string output = Path.Combine(filePath, Encoding.ASCII.GetString(result).Trim());
+                return output;
             }
-            catch (Exception ex)
+            else
             {
-                throw new IOException($"An error occurred while reading the file: {ex.Message}", ex);
+                ProcessStartInfo fileinfo = new ProcessStartInfo("readlink", symlink)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+                using Process fi = new Process();
+                fi.StartInfo = fileinfo;
+                fi.Start();
+                string output = await fi.StandardError.ReadToEndAsync();
+                if (output == "")
+                {
+                    output = await fi.StandardOutput.ReadToEndAsync();
+                }
+                fi.WaitForExit();
+                return output;
             }
-            int startIndex = 12;
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException(nameof(startIndex));
-            var result = new byte[(source.Length - startIndex + 1) / 2];
-            for (int i = startIndex, j = 0; i < source.Length && j < result.Length; i += 2, j++)
-            {
-                result[j] = source[i];
-            }
-            string ramdisk = Path.GetDirectoryName(filePath);
-            string output = Path.Combine(filePath, Encoding.ASCII.GetString(result).Trim());
-            return output;
         }
         /// <summary>
         /// 走kernel文件中提取编译签名信息
@@ -502,11 +529,48 @@ namespace UotanToolbox.Common
             var match = Regex.Match(version, pattern);
             if (!match.Success)
             {
-                throw new ArgumentException("Failed to get KMI from boot/modules");
+                return "";
             }
             var androidVersion = match.Groups[4].Value;
             var kernelVersion = match.Groups[2].Value;
             return $"{androidVersion}-{kernelVersion}";
+        }
+
+        public async static Task<bool> ZipDetect(string zip_path)
+        {
+            ZipInfo.tmp_path = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
+            bool istempclean = FileHelper.ClearFolder(ZipInfo.tmp_path);
+            if (istempclean)
+            {
+                string outputzip = await CallExternalProgram.SevenZip($"x \"{zip_path}\" -o\"{ZipInfo.tmp_path}\" -y");
+                string pattern_MAGISK_VER = @"MAGISK_VER='([^']+)'";
+                string pattern_MAGISK_VER_CODE = @"MAGISK_VER_CODE=(\d+)";
+                string Magisk_sh_path = Path.Combine(ZipInfo.tmp_path, "assets", "util_functions.sh");
+                string MAGISK_VER = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER, 1);
+                string MAGISK_VER_CODE = StringHelper.FileRegex(Magisk_sh_path, pattern_MAGISK_VER_CODE, 1);
+                if ((MAGISK_VER != null) & (MAGISK_VER_CODE != null))
+                {
+                    string BOOT_PATCH_PATH = Path.Combine(ZipInfo.tmp_path, "assets", "boot_patch.sh");
+                    string md5 = FileHelper.Md5Hash(BOOT_PATCH_PATH);
+                    bool Magisk_Valid = BootPatchHelper.Magisk_Validation(md5, MAGISK_VER);
+                    if (Magisk_Valid)
+                    {
+                        File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "arm64-v8a", "libmagisk32.so"));
+                        File.Copy(Path.Combine(ZipInfo.tmp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(ZipInfo.tmp_path, "lib", "x86_64", "libmagisk32.so"));
+                        ZipInfo.userful = true;
+                        return true;
+                    }
+                }
+                else
+                {
+                    throw new Exception(GetTranslation("Basicflash_MagsikNotSupport"));
+                }
+            }
+            else
+            {
+                throw new Exception(GetTranslation("Basicflash_ErrorClean"));
+            }
+            return false;
         }
     }
 }

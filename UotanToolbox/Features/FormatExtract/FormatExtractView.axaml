@@ -1,15 +1,15 @@
-﻿<UserControl x:Class="UotanToolbox.Features.Advanced.AdvancedView"
+﻿<UserControl x:Class="UotanToolbox.Features.FormatExtract.FormatExtractView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:advanced="clr-namespace:UotanToolbox.Features.Advanced"
+             xmlns:formatExtract="clr-namespace:UotanToolbox.Features.FormatExtract"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
 			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
 			 d:DesignWidth="1240"
-             x:DataType="advanced:AdvancedViewModel"
+             x:DataType="formatExtract:FormatExtractViewModel"
              mc:Ignorable="d">
 	<WrapPanel Margin="15"
 			   theme:WrapPanelExtensions.AnimatedScroll="True"
@@ -33,7 +33,7 @@
 									   Margin="8,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
-									   Text="{x:Static assets:Resources.Advanced_QCNFile}" />
+									   Text="{x:Static assets:Resources.FormatExtract_QCNFile}" />
 							<TextBox Width="250" Name="QcnFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
 							<Button Width="105"
 									Height="35"
@@ -51,7 +51,7 @@
 										Click="WriteQcn">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="PencilAddOutline" />
-										<TextBlock Text="{x:Static assets:Resources.Advanced_WriteQCN}"/>
+										<TextBlock Text="{x:Static assets:Resources.FormatExtract_WriteQCN}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125"
@@ -60,7 +60,7 @@
 										Click="BackupQcn">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
-										<TextBlock Text="{x:Static assets:Resources.Advanced_BackupQCN}"/>
+										<TextBlock Text="{x:Static assets:Resources.FormatExtract_BackupQCN}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125"
@@ -69,7 +69,7 @@
 										Click="OpenBackup">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="FolderOpenOutline" />
-										<TextBlock Text="{x:Static assets:Resources.Advanced_OpenBackup}"/>
+										<TextBlock Text="{x:Static assets:Resources.FormatExtract_OpenBackup}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -80,7 +80,7 @@
 										Click="Enable901d">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="AndroidStudio" />
-										<TextBlock Text="{x:Static assets:Resources.Advanced_Enable901D}"/>
+										<TextBlock Text="{x:Static assets:Resources.FormatExtract_Enable901D}"/>
 									</TextBlock>
 								</Button>
 								<Button Width="125"
@@ -89,7 +89,7 @@
 										Click="Enable9091">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="AndroidStudio" />
-										<TextBlock Text="{x:Static assets:Resources.Advanced_Enable9091}"/>
+										<TextBlock Text="{x:Static assets:Resources.FormatExtract_Enable9091}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -105,7 +105,7 @@
 						Margin="10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyFlash"
-						   BusyText="{x:Static assets:Resources.Advanced_Executing}">
+						   BusyText="{x:Static assets:Resources.FormatExtract_Executing}">
 				<StackPanel Name="SuperEmpty" Spacing="30">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
@@ -135,7 +135,7 @@
 										Click="FlashSuperEmpty">
 									<TextBlock>
 										<avalonia:MaterialIcon Kind="PencilAddOutline" />
-										<TextBlock Text="{x:Static assets:Resources.Advanced_FlashFile}"/>
+										<TextBlock Text="{x:Static assets:Resources.FormatExtract_FlashFile}"/>
 									</TextBlock>
 								</Button>
 							</StackPanel>
@@ -151,13 +151,13 @@
 						Margin="10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyFormat"
-						   BusyText="{x:Static assets:Resources.Advanced_Executing}">
+						   BusyText="{x:Static assets:Resources.FormatExtract_Executing}">
 				<StackPanel Name="Format" Spacing="10">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
-								   Text="{x:Static assets:Resources.Advanced_Format}" />
+								   Text="{x:Static assets:Resources.FormatExtract_Format}" />
 						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 							<TextBlock Width="60"
 									   Margin="8,0,0,0"
@@ -174,7 +174,7 @@
 									   Margin="8,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
-									   Text="{x:Static assets:Resources.Advanced_FormatTo}" />
+									   Text="{x:Static assets:Resources.FormatExtract_FormatTo}" />
 							<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="0">
 								<StackPanel Orientation="Horizontal" Spacing="10">
 									<RadioButton Name="EXT4" FontSize="12" Content="EXT4" GroupName="FormatContent" IsChecked="True" />
@@ -194,7 +194,7 @@
 									Click="ADBFormat">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="PencilAddOutline" />
-									<TextBlock Text="{x:Static assets:Resources.Advanced_ADBFormat}"/>
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_ADBFormat}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="155"
@@ -203,7 +203,7 @@
 									Click="FastbootFormat">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
-									<TextBlock Text="{x:Static assets:Resources.Advanced_FastbootFormat}"/>
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_FastbootFormat}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -214,7 +214,7 @@
 									Click="FormatData">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="AndroidStudio" />
-									<TextBlock Text="{x:Static assets:Resources.Advanced_FormatDataPart}"/>
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_FormatDataPart}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="155"
@@ -223,7 +223,7 @@
 									Click="TWRPFormatData">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="AndroidStudio" />
-									<TextBlock Text="{x:Static assets:Resources.Advanced_TWRPFormatData}"/>
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_TWRPFormatData}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -238,13 +238,13 @@
 						Margin="10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyExtract"
-						   BusyText="{x:Static assets:Resources.Advanced_Executing}">
+						   BusyText="{x:Static assets:Resources.FormatExtract_Executing}">
 				<StackPanel Name="Extract" Spacing="20">
 					<StackPanel Spacing="15">
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
-								   Text="{x:Static assets:Resources.Advanced_Extract}" />
+								   Text="{x:Static assets:Resources.FormatExtract_Extract}" />
 						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 							<TextBlock Width="60"
 									   Margin="8,0,0,0"
@@ -263,7 +263,7 @@
 									Click="ExtractPart">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="PencilAddOutline" />
-									<TextBlock Text="{x:Static assets:Resources.Advanced_PhysicalPart}"/>
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_PhysicalPart}"/>
 								</TextBlock>
 							</Button>
 							<Button Width="125"
@@ -272,7 +272,7 @@
 									Click="ExtractVPart">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
-									<TextBlock Text="{x:Static assets:Resources.Advanced_VirtualPart}"/>
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_VirtualPart}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -283,7 +283,7 @@
 									Click="OpenExtractFile">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="AndroidStudio" />
-									<TextBlock Text="{x:Static assets:Resources.Advanced_ExtractFolder}"/>
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_ExtractFolder}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -298,7 +298,7 @@
 						Margin="10"
 						VerticalAlignment="Top">
 			<Grid>
-				<TextBox Name="AdvancedLog" Watermark="{x:Static assets:Resources.Advanced_Log}" Margin="0" Height="210" AcceptsReturn="True"
+				<TextBox Name="FormatExtractLog" Watermark="{x:Static assets:Resources.FormatExtract_Log}" Margin="0" Height="210" AcceptsReturn="True"
 						 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 			</Grid>
 		</suki:GlassCard>

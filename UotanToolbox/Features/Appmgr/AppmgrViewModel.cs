@@ -42,7 +42,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
                 });
-                return;
+                IsBusy = false; return;
             }
             string fullApplicationsList;
             if (!IsSystemAppDisplayed)
@@ -55,7 +55,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_DeviceFailedToConnect")), allowBackgroundClose: true);
                 });
-                return;
+                IsBusy = false; return;
             }
             if (!(sukiViewModel.Status == GetTranslation("Home_System")))
             {
@@ -63,7 +63,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_PleaseExecuteInSystem")), allowBackgroundClose: true);
                 });
-                return;
+                IsBusy = false; return;
             }
             var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
             HasItems = lines.Length > 0;

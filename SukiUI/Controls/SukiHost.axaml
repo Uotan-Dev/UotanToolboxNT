@@ -56,9 +56,34 @@
                         </Border.Transitions> 
 
                         <Panel>
-                            <Border Name="BorderDialog1"
-                                    Background="{DynamicResource SukiCardBackground}"
-                                    Classes="Card" />
+                            <Border Name="BorderDialog1" Padding="0"
+                                    ClipToBounds="True" Background="{DynamicResource SukiCardBackground}"
+                                   CornerRadius="20">
+                                <Panel Margin="-5">
+                                    <Panel IsVisible="{DynamicResource IsDark}">
+                    
+                                        <Panel.Background>
+                                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                                <GradientStop Color="{DynamicResource SukiAccentColor3}" Offset="0"></GradientStop>
+                                                <GradientStop Color="{DynamicResource SukiPrimaryColor15}" Offset="1"></GradientStop>
+
+                                            </LinearGradientBrush>
+                                        </Panel.Background>
+                   
+                                    </Panel>
+                        
+                                    <Panel IsVisible="{DynamicResource IsLight}">
+                                        <Panel.Background>
+                                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                                <GradientStop Color="{DynamicResource SukiAccentColor5}" Offset="0"></GradientStop>
+                                                <GradientStop Color="{DynamicResource SukiPrimaryColor7}" Offset="1"></GradientStop>
+
+                                            </LinearGradientBrush>
+                                        </Panel.Background>
+                                    </Panel>
+                                </Panel>
+                            </Border>
+                            
                             <ContentPresenter Margin="20" Content="{TemplateBinding DialogContent}" />
                         </Panel>
                     </Border>

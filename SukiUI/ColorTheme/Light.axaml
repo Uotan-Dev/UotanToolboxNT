@@ -5,7 +5,7 @@
     <Color x:Key="SukiStrongBackground">#fafafa</Color>
     <Color x:Key="SukiLightBackground">Transparent</Color>
     <Color x:Key="SukiCardBackground">#fafafa</Color>
-    <Color x:Key="SukiGlassCardBackground">White</Color>
+    <Color x:Key="SukiGlassCardBackground">#fdfefefe</Color>
     <Color x:Key="SukiGlassCardOpaqueBackground">#fcfcfc</Color>
     <Color x:Key="SukiControlTouchBackground">#FFFFFF</Color>
     <Color x:Key="SukiDialogBackground">Gray</Color>
@@ -35,7 +35,7 @@
     <system:Boolean x:Key="IsDark">False</system:Boolean>
     <system:Boolean x:Key="IsLight">True</system:Boolean>
 
-    <system:Double x:Key="GlassOpacity">0.45</system:Double>
-    <system:Double x:Key="GlassOpacityDark">0.45</system:Double>
-    <system:Double x:Key="GlassOpacityLight">0.45</system:Double>
+    <system:Double x:Key="GlassOpacity">0.42</system:Double>
+    <system:Double x:Key="GlassOpacityDark">0.3</system:Double>
+    <system:Double x:Key="GlassOpacityLight">0.42</system:Double>
 </ResourceDictionary>

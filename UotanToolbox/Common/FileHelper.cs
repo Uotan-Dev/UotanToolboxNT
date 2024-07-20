@@ -53,7 +53,22 @@ namespace UotanToolbox.Common
                 throw new IOException($"An error occurred while reading the file: {ex.Message}", ex);
             }
         }
-
+        public static async Task<string> SHA1HashAsync(string filePath)
+        {
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                using (SHA1 sha1 = SHA1.Create())
+                {
+                    byte[] hash = await sha1.ComputeHashAsync(fileStream);
+                    StringBuilder sb = new StringBuilder();
+                    foreach (byte b in hash)
+                    {
+                        sb.Append(b.ToString("x2"));
+                    }
+                    return sb.ToString();
+                }
+            }
+        }
         public static void Write(string file, string text)//写入到txt文件
         {
             FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write);

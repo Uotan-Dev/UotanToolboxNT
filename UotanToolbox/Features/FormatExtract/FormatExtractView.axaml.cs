@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Components;
 
-namespace UotanToolbox.Features.Advanced;
+namespace UotanToolbox.Features.FormatExtract;
 
-public partial class AdvancedView : UserControl
+public partial class FormatExtractView : UserControl
 {
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-    public AdvancedView()
+    public FormatExtractView()
     {
         InitializeComponent();
     }
@@ -101,9 +101,9 @@ public partial class AdvancedView : UserControl
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                StringBuilder sb = new StringBuilder(AdvancedLog.Text);
-                AdvancedLog.Text = sb.AppendLine(outLine.Data).ToString();
-                AdvancedLog.ScrollToLine(StringHelper.TextBoxLine(AdvancedLog.Text));
+                StringBuilder sb = new StringBuilder(FormatExtractLog.Text);
+                FormatExtractLog.Text = sb.AppendLine(outLine.Data).ToString();
+                FormatExtractLog.ScrollToLine(StringHelper.TextBoxLine(FormatExtractLog.Text));
                 StringBuilder op = new StringBuilder(output);
                 output = op.AppendLine(outLine.Data).ToString();
             });
@@ -138,11 +138,11 @@ public partial class AdvancedView : UserControl
                     BusyQCN.IsBusy = true;
                     QCN.IsEnabled = false;
                     output = "";
-                    AdvancedLog.Text = "正在写入...\n";
+                    FormatExtractLog.Text = "正在写入...\n";
                     int com = StringHelper.Onlynum(Global.thisdevice);
                     string shell = string.Format("-w -p {0} -f \"{1}\"", com, qcnfilepatch);
                     await QCNTool(shell);
-                    if (AdvancedLog.Text.Contains("error"))
+                    if (FormatExtractLog.Text.Contains("error"))
                     {
                         SukiHost.ShowDialog(new PureDialog("写入失败"), allowBackgroundClose: true);
                     }
@@ -206,11 +206,11 @@ public partial class AdvancedView : UserControl
                 BusyQCN.IsBusy = true;
                 QCN.IsEnabled = false;
                 output = "";
-                AdvancedLog.Text = "正在备份...\n";
+                FormatExtractLog.Text = "正在备份...\n";
                 int com = StringHelper.Onlynum(Global.thisdevice);
                 string shell = string.Format("-r -p {0} -f \"{1}\" -n 00000.qcn", com, Global.backup_path);
                 await QCNTool(shell);
-                if (AdvancedLog.Text.Contains("error"))
+                if (FormatExtractLog.Text.Contains("error"))
                 {
                     SukiHost.ShowDialog(new PureDialog("备份失败"), allowBackgroundClose: true);
                 }
@@ -355,7 +355,7 @@ public partial class AdvancedView : UserControl
                     BusyFlash.IsBusy = true;
                     SuperEmpty.IsEnabled = false;
                     output = "";
-                    AdvancedLog.Text = "正在刷入...\n";
+                    FormatExtractLog.Text = "正在刷入...\n";
                     await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile.Text}\"");
                     if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
@@ -396,7 +396,7 @@ public partial class AdvancedView : UserControl
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
                     output = "";
-                    AdvancedLog.Text = "正在格式化...\n";
+                    FormatExtractLog.Text = "正在格式化...\n";
                     string formatsystem = "";
                     if (EXT4.IsChecked != null && (bool)EXT4.IsChecked)
                         formatsystem = "mke2fs -t ext4";
@@ -457,7 +457,7 @@ public partial class AdvancedView : UserControl
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
                     output = "";
-                    AdvancedLog.Text = "正在格式化...\n";
+                    FormatExtractLog.Text = "正在格式化...\n";
                     string partname = FormatName.Text;
                     string shell = String.Format($"-s {Global.thisdevice} erase {partname}");
                     await Fastboot(shell);
@@ -492,7 +492,7 @@ public partial class AdvancedView : UserControl
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
                     output = "";
-                    AdvancedLog.Text = "正在格式化...\n";
+                    FormatExtractLog.Text = "正在格式化...\n";
                     await ADB($"-s {Global.thisdevice} shell recovery --wipe_data");
                     BusyFormat.IsBusy = false;
                     Format.IsEnabled = true;
@@ -525,7 +525,7 @@ public partial class AdvancedView : UserControl
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
                     output = "";
-                    AdvancedLog.Text = "正在格式化...\n";
+                    FormatExtractLog.Text = "正在格式化...\n";
                     await ADB($"-s {Global.thisdevice} shell twrp format data");
                     BusyFormat.IsBusy = false;
                     Format.IsEnabled = true;
@@ -584,7 +584,7 @@ public partial class AdvancedView : UserControl
                     BusyExtract.IsBusy = true;
                     Extract.IsEnabled = false;
                     output = "";
-                    AdvancedLog.Text = "正在提取...\n";
+                    FormatExtractLog.Text = "正在提取...\n";
                     string partname = ExtractName.Text;
                     await FeaturesHelper.GetPartTable(Global.thisdevice);
                     string sdxx = FeaturesHelper.FindDisk(partname);
@@ -596,7 +596,7 @@ public partial class AdvancedView : UserControl
                         FileHelper.Write(adb_log_path, output);
                         if (output.Contains("No space left on device"))
                         {
-                            AdvancedLog.Text = "根目录空间不足，正在尝试使用Data分区...";
+                            FormatExtractLog.Text = "根目录空间不足，正在尝试使用Data分区...";
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img");
@@ -616,7 +616,7 @@ public partial class AdvancedView : UserControl
                     }
                     else
                     {
-                        AdvancedLog.Text = "未找到该分区!";
+                        FormatExtractLog.Text = "未找到该分区!";
                     }
                     BusyExtract.IsBusy = false;
                     Extract.IsEnabled = true;
@@ -637,7 +637,7 @@ public partial class AdvancedView : UserControl
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
                         output = "";
-                        AdvancedLog.Text = "正在提取...\n";
+                        FormatExtractLog.Text = "正在提取...\n";
                         string partname = ExtractName.Text;
                         await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
                         string sdxx = FeaturesHelper.FindDisk(partname);
@@ -653,7 +653,7 @@ public partial class AdvancedView : UserControl
                         }
                         else
                         {
-                            AdvancedLog.Text = "未找到该分区!";
+                            FormatExtractLog.Text = "未找到该分区!";
                         }
                         BusyExtract.IsBusy = false;
                         Extract.IsEnabled = true;
@@ -687,7 +687,7 @@ public partial class AdvancedView : UserControl
                     BusyExtract.IsBusy = true;
                     Extract.IsEnabled = false;
                     output = "";
-                    AdvancedLog.Text = "正在提取...\n";
+                    FormatExtractLog.Text = "正在提取...\n";
                     string partname = ExtractName.Text;
                     string shell = String.Format($"-s {Global.thisdevice} shell ls -l /dev/block/mapper/{partname}");
                     string vmpart = await CallExternalProgram.ADB(shell);
@@ -701,7 +701,7 @@ public partial class AdvancedView : UserControl
                         FileHelper.Write(adb_log_path, output);
                         if (output.Contains("No space left on device"))
                         {
-                            AdvancedLog.Text = "根目录空间不足，正在尝试使用Data分区...";
+                            FormatExtractLog.Text = "根目录空间不足，正在尝试使用Data分区...";
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of=/sdcard/{partname}.img");
@@ -721,7 +721,7 @@ public partial class AdvancedView : UserControl
                     }
                     else
                     {
-                        AdvancedLog.Text = "未找到该分区!";
+                        FormatExtractLog.Text = "未找到该分区!";
                     }
                     BusyExtract.IsBusy = false;
                     Extract.IsEnabled = true;
@@ -742,7 +742,7 @@ public partial class AdvancedView : UserControl
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
                         output = "";
-                        AdvancedLog.Text = "正在提取...\n";
+                        FormatExtractLog.Text = "正在提取...\n";
                         string partname = ExtractName.Text;
                         string shell = String.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");
                         string vmpart = await CallExternalProgram.ADB(shell);
@@ -760,7 +760,7 @@ public partial class AdvancedView : UserControl
                         }
                         else
                         {
-                            AdvancedLog.Text = "未找到该分区!";
+                            FormatExtractLog.Text = "未找到该分区!";
                         }
                         BusyExtract.IsBusy = false;
                         Extract.IsEnabled = true;

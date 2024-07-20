@@ -44,6 +44,7 @@ public partial class AppmgrView : UserControl
 
     private async void OpenApkFile(object sender, RoutedEventArgs args)
     {
+        ApkFile.Text = null;
         var topLevel = TopLevel.GetTopLevel(this);
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {

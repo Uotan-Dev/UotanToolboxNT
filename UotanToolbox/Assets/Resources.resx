@@ -921,13 +921,13 @@
   <data name="Basicflash_FlashSucc" xml:space="preserve">
     <value>Flash successfully!</value>
   </data>
-  <data name="Basicflash_InstallFailed" xml:space="preserve">
+  <data name="Common_InstallFailed" xml:space="preserve">
     <value>Installation failed!</value>
   </data>
   <data name="Basicflash_InstallMagisk" xml:space="preserve">
     <value>It has been pushed to the root directory, please install it yourself.</value>
   </data>
-  <data name="Basicflash_InstallSuccess" xml:space="preserve">
+  <data name="Common_InstallSuccess" xml:space="preserve">
     <value>Installation successful!</value>
   </data>
   <data name="Basicflash_MagsikNotSupport" xml:space="preserve">
@@ -995,5 +995,32 @@
   </data>
   <data name="Common_EnterRecovery" xml:space="preserve">
     <value>Please enter Recovery mode!</value>
+  </data>
+  <data name="Appmgr_PleaseExecuteInSystem" xml:space="preserve">
+    <value>Please execute in system</value>
+  </data>
+  <data name="Common_DeviceFailedToConnect" xml:space="preserve">
+    <value>Device is failed to connect</value>
+  </data>
+  <data name="Appmgr_AppActivactor" xml:space="preserve">
+    <value>Activator</value>
+  </data>
+  <data name="Appmgr_NoApkFileSelected" xml:space="preserve">
+    <value>No APK file selected!</value>
+  </data>
+  <data name="Appmgr_UnknownAppVersion" xml:space="preserve">
+    <value>Unknown App Version</value>
+  </data>
+  <data name="Appmgr_UnknownSDKVersion" xml:space="preserve">
+    <value>Unknown SDK Version</value>
+  </data>
+  <data name="Appmgr_UnknownTime" xml:space="preserve">
+    <value>Unknown Time</value>
+  </data>
+  <data name="FormatExtract_AddPostfix" xml:space="preserve">
+    <value>Please add _a or _b suffix to the AB partition</value>
+  </data>
+  <data name="FormatExtract_OnlyADBFotmatSupport" xml:space="preserve">
+    <value>Only ADB Format support selected filesystem</value>
   </data>
 </root>

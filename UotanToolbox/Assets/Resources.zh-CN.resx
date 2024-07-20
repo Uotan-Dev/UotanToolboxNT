@@ -921,13 +921,13 @@
   <data name="Basicflash_FlashSucc" xml:space="preserve">
     <value>刷入成功！</value>
   </data>
-  <data name="Basicflash_InstallFailed" xml:space="preserve">
+  <data name="Common_InstallFailed" xml:space="preserve">
     <value>安装失败！</value>
   </data>
   <data name="Basicflash_InstallMagisk" xml:space="preserve">
     <value>已推送至根目录，请自行安装。</value>
   </data>
-  <data name="Basicflash_InstallSuccess" xml:space="preserve">
+  <data name="Common_InstallSuccess" xml:space="preserve">
     <value>安装成功！</value>
   </data>
   <data name="Basicflash_MagsikNotSupport" xml:space="preserve">
@@ -995,5 +995,32 @@
   </data>
   <data name="Common_EnterRecovery" xml:space="preserve">
     <value>请进入Recovery模式！</value>
+  </data>
+  <data name="Appmgr_PleaseExecuteInSystem" xml:space="preserve">
+    <value>请在系统内执行</value>
+  </data>
+  <data name="Common_DeviceFailedToConnect" xml:space="preserve">
+    <value>设备连接失败</value>
+  </data>
+  <data name="Appmgr_AppActivactor" xml:space="preserve">
+    <value>应用激活器</value>
+  </data>
+  <data name="Appmgr_NoApkFileSelected" xml:space="preserve">
+    <value>未选择APK文件！</value>
+  </data>
+  <data name="Appmgr_UnknownAppVersion" xml:space="preserve">
+    <value>未知应用版本</value>
+  </data>
+  <data name="Appmgr_UnknownSDKVersion" xml:space="preserve">
+    <value>未知SDK版本</value>
+  </data>
+  <data name="Appmgr_UnknownTime" xml:space="preserve">
+    <value>未知时间</value>
+  </data>
+  <data name="FormatExtract_AddPostfix" xml:space="preserve">
+    <value>AB分区请自行添加_a或_b后缀</value>
+  </data>
+  <data name="FormatExtract_OnlyADBFotmatSupport" xml:space="preserve">
+    <value>仅ADB格式化支持指定文件系统</value>
   </data>
 </root>

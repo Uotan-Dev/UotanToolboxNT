@@ -1017,10 +1017,10 @@
   <data name="Appmgr_UnknownTime" xml:space="preserve">
     <value>Unknown Time</value>
   </data>
-  <data name="Advanced_AddPostfix" xml:space="preserve">
+  <data name="FormatExtract_AddPostfix" xml:space="preserve">
     <value>Please add _a or _b suffix to the AB partition</value>
   </data>
-  <data name="Advanced_OnlyADBFotmatSupport" xml:space="preserve">
+  <data name="FormatExtract_OnlyADBFotmatSupport" xml:space="preserve">
     <value>Only ADB Format support selected filesystem</value>
   </data>
 </root>

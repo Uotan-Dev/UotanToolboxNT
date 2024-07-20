@@ -21,7 +21,7 @@
 						Margin="10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyQCN"
-						   BusyText="{x:Static assets:Resources.Advanced_Executing}">
+						   BusyText="{x:Static assets:Resources.FormatExtract_Executing}">
 				<StackPanel Name="QCN" Spacing="10">
 					<StackPanel>
 						<TextBlock HorizontalAlignment="Left"
@@ -163,8 +163,8 @@
 									   Margin="8,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
-									   Text="{x:Static assets:Resources.Advanced_PartName}" />
-							<TextBox Width="355" Name="FormatName" Watermark="{x:Static assets:Resources.Advanced_OnlyADBFotmatSupport}"
+									   Text="{x:Static assets:Resources.FormatExtract_PartName}" />
+							<TextBox Width="355" Name="FormatName" Watermark="{x:Static assets:Resources.FormatExtract_OnlyADBFotmatSupport}"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 						</StackPanel>
 					</StackPanel>
@@ -250,8 +250,8 @@
 									   Margin="8,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
-									   Text="{x:Static assets:Resources.Advanced_PartName}" />
-							<TextBox Width="350" Name="ExtractName" Watermark="{x:Static assets:Resources.Advanced_AddPostfix}"
+									   Text="{x:Static assets:Resources.FormatExtract_PartName}" />
+							<TextBox Width="350" Name="ExtractName" Watermark="{x:Static assets:Resources.FormatExtract_AddPostfix}"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 						</StackPanel>
 					</StackPanel>

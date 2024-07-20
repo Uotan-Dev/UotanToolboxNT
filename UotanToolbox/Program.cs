@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Media;
 using ShowMeTheXaml;
 using System;
 using System.IO;

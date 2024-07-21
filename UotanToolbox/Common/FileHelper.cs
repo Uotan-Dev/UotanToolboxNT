@@ -300,13 +300,13 @@ namespace UotanToolbox.Common
             int a = 0;
             for (int i = 0; i < gzFileNames.Length; i++)
             {
-                string gzFilePath = Path.Combine(BootInfo.tmp_path, "kernel-component", gzFileNames[i]);
-                string output = await CallExternalProgram.SevenZip($"e -o{Path.Combine(BootInfo.tmp_path, "kernel-component")} {gzFilePath} -y");
-                if (output.Contains("Everything is Ok"))
-                {
-                    decompressedFileNames[a] = Path.GetFileNameWithoutExtension(gzFilePath);
-                    a = a + 1;
-                }
+                //string gzFilePath = Path.Combine(BootInfo.tmp_path, "kernel-component", gzFileNames[i]);
+                //string output = await CallExternalProgram.SevenZip($"e -o{Path.Combine(BootInfo.tmp_path, "kernel-component")} {gzFilePath} -y");
+                //if (output.Contains("Everything is Ok"))
+                //{
+                //    decompressedFileNames[a] = Path.GetFileNameWithoutExtension(gzFilePath);
+                //    a = a + 1;
+                //}
             }
             decompressedFileNames = decompressedFileNames.Where(str => str != null).ToArray();
             return decompressedFileNames;
@@ -320,12 +320,12 @@ namespace UotanToolbox.Common
         {
             foreach (string filePath in filePaths)
             {
-                string fullPath = Path.Combine(BootInfo.tmp_path, "kernel-component", filePath);
-                string content = File.ReadAllText(fullPath);
-                if (content.Contains("CONFIG_MODVERSIONS=y") & content.Contains("CONFIG_MODULES=y") & content.Contains("CONFIG_MODULE_UNLOAD=y") & content.Contains("CONFIG_MODVERSIONS=y"))
-                {
-                    return true;
-                }
+                //string fullPath = Path.Combine(BootInfo.tmp_path, "kernel-component", filePath);
+                //string content = File.ReadAllText(fullPath);
+                //if (content.Contains("CONFIG_MODVERSIONS=y") & content.Contains("CONFIG_MODULES=y") & content.Contains("CONFIG_MODULE_UNLOAD=y") & content.Contains("CONFIG_MODVERSIONS=y"))
+                //{
+                //    return true;
+                //}
             }
             return false;
         }

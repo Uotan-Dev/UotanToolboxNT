@@ -357,6 +357,54 @@ namespace UotanToolbox.Common
                 return false;
             }
         }
+        /// <summary>
+        /// 走kernel文件中提取编译签名信息
+        /// </summary>
+        /// <param name="filePath">内核文件路径</param>
+        /// <returns>内核编译签名信息</returns>
+        public static string ReadKernelVersion(string filePath)
+        {
+            byte[] Signature = new byte[] { 0x69, 0x6e, 0x69, 0x74, 0x63, 0x61, 0x6c, 0x6c, 0x5f, 0x64, 0x65, 0x62, 0x75, 0x67, 0x00 };
+            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            using var br = new BinaryReader(fs);
+            long signaturePosition = FindSignaturePosition(br, Signature);
+            if (signaturePosition == -1)
+            {
+                return "";
+            }
+            fs.Seek(signaturePosition + Signature.Length, SeekOrigin.Begin);
+            return ReadUntilTerminator(br);
+        }
+        private static long FindSignaturePosition(BinaryReader reader, byte[] signature)
+        {
+            byte[] buffer = new byte[signature.Length];
+            long position = 0;
+            while (position + signature.Length <= reader.BaseStream.Length)
+            {
+                reader.BaseStream.Seek(position, SeekOrigin.Begin);
+                reader.Read(buffer, 0, signature.Length);
+                if (buffer.SequenceEqual(signature))
+                {
+                    return position;
+                }
+                position++;
+            }
+            return -1;
+        }
+        private static string ReadUntilTerminator(BinaryReader reader)
+        {
+            var sb = new StringBuilder();
+            int b;
+            while ((b = reader.ReadByte()) != 0x00)
+            {
+                sb.Append((char)b);
+            }
+            while ((b = reader.ReadByte()) != 0x00)
+            {
+                sb.Append((char)b);
+            }
+            return sb.ToString();
+        }
     }
 }
 

@@ -13,6 +13,7 @@ namespace UotanToolbox.Common
         public static string System = "Windows";
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
+        public static ZipInfo Zipinfo;
         public static int mb_exitcode, cpio_exitcode, load_times;
         //分区表储存
         public static string sdatable = "";
@@ -44,12 +45,26 @@ namespace UotanToolbox.Common
     }
     public class ZipInfo
     {
-        public static string SHA1;
-        public static string ver;
-        public static string tmp_path;
-        public static bool userful;
-        public static bool is_magisk;
-        public static string patch_SHA1;
+        public string Path { get; set; }
+        public string SHA1 { get; set; }
+        public string Version { get; set; }
+        public string KMI { get; set; }
+        public string TempPath { get; set; }
+        public bool IsUseful { get; set; }
+        public PatchMode Mode { get; set; }
+        public string SubSHA1 { get; set; }
+
+        public ZipInfo(string path, string sha1, string version, string kmi, string tempPath, bool isUseful, PatchMode mode, string subSHA1)
+        {
+            Path = path;
+            SHA1 = sha1;
+            Version = version;
+            KMI = kmi;
+            TempPath = tempPath;
+            IsUseful = isUseful;
+            Mode = mode;
+            SubSHA1 = subSHA1;
+        }
     }
     public class EnvironmentVariable
     {
@@ -64,11 +79,12 @@ namespace UotanToolbox.Common
     {
         public static MainViewModel MainViewModelInstance { get; set; }
     }
-    enum PatchMode
+    public enum PatchMode
     {
         Magisk,
-        apatch,
-        kernelsu
+        Apatch,
+        KernelSU,
+        None
     }
 
 }

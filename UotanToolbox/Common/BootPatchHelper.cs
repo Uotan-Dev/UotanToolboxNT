@@ -136,7 +136,7 @@ namespace UotanToolbox.Common
         /// <returns>是否成功</returns>
         public static bool comp_copy(string compPath)
         {
-            File.Copy(Path.Combine(ZipInfo.tmp_path, "assets", "stub.xz"), Path.Combine(BootInfo.tmp_path, "stub.xz"), true);
+            //File.Copy(Path.Combine(ZipInfo.Temppath, "assets", "stub.xz"), Path.Combine(BootInfo.tmp_path, "stub.xz"), true);
             File.Copy(Path.Combine(compPath, "libmagiskinit.so"), Path.Combine(BootInfo.tmp_path, "magiskinit"), true);
             File.Copy(Path.Combine(compPath, "magisk32.xz"), Path.Combine(BootInfo.tmp_path, "magisk32.xz"), true);
             if (File.Exists(Path.Combine((compPath), "magisk64.xz")))
@@ -535,7 +535,7 @@ namespace UotanToolbox.Common
             var kernelVersion = match.Groups[2].Value;
             return $"{androidVersion}-{kernelVersion}";
         }
-
+        /*
         public async static Task<bool> ZipDetect(string zip_path)
         {
             ZipInfo.tmp_path = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
@@ -571,6 +571,6 @@ namespace UotanToolbox.Common
                 throw new Exception(GetTranslation("Basicflash_ErrorClean"));
             }
             return false;
-        }
+        }*/
     }
 }

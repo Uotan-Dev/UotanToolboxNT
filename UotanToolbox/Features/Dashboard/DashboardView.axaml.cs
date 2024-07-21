@@ -7,10 +7,10 @@ using SukiUI.Controls;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
+using UotanToolbox.Common.PatchHelper;
 using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Dashboard;
@@ -340,7 +340,8 @@ public partial class DashboardView : UserControl
                 return;
             }
             MagiskFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
-            await BootPatchHelper.ZipDetect(MagiskFile.Text);
+            Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
+            SukiHost.ShowDialog(new PureDialog($"Zip内检测到：\nUseful:{Global.Zipinfo.IsUseful}\nMode:{Global.Zipinfo.Mode}\nVersion:{Global.Zipinfo.Version}"), allowBackgroundClose: true);
         }
         catch (Exception ex)
         {
@@ -371,12 +372,12 @@ public partial class DashboardView : UserControl
 
     private async void StartPatch(object sender, RoutedEventArgs args)
     {
-        if (!BootInfo.userful | !BootInfo.have_ramdisk)
+        /*if (!BootInfo.userful | !BootInfo.have_ramdisk)
         {
             SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectBootMagisk")), allowBackgroundClose: true);
             return;
         }
-        if (!ZipInfo.userful)
+        if (!ZipInfo.IsUseful)
         {
             if (!string.IsNullOrEmpty(MagiskFile.Text))
             {
@@ -390,7 +391,7 @@ public partial class DashboardView : UserControl
                 return;
             }
         }
-        if (!BootPatchHelper.CheckComponentFiles(ZipInfo.tmp_path, ArchList.SelectedItem.ToString()))
+        if (!BootPatchHelper.CheckComponentFiles(Zipinfo.TempPath, ArchList.SelectedItem.ToString()))
         {
             SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_FileError")), allowBackgroundClose: true);
             return;
@@ -412,7 +413,7 @@ public partial class DashboardView : UserControl
                 "X86-64" => "x86_64",
                 _ => throw new ArgumentException($"{GetTranslation("Basicflash_UnknowArch")}{ArchList.SelectedItem}")
             };
-            string compPath = Path.Combine(Path.Combine(ZipInfo.tmp_path, "lib"), archSubfolder);
+            string compPath = Path.Combine(Path.Combine(ZipInfo.TempPath, "lib"), archSubfolder);
             File.Copy(Path.Combine((compPath), "libmagisk32.so"), Path.Combine((compPath), "magisk32"), true);
             await CallExternalProgram.MagiskBoot($"compress=xz magisk32 magisk32.xz", compPath);
             if (File.Exists(Path.Combine((compPath), "libmagisk64.so")))
@@ -501,7 +502,7 @@ public partial class DashboardView : UserControl
         catch (Exception ex)
         {
             SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
-        }
+        }*/
     }
 
     private async void FlashBoot(object sender, RoutedEventArgs args)

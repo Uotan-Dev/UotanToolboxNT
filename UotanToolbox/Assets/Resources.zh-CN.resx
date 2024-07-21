@@ -1032,4 +1032,7 @@
   <data name="Common_NotSupportSystem" xml:space="preserve">
     <value>该功能暂不支持当前系统！</value>
   </data>
+  <data name="Appmgr_AppIsNotSelected" xml:space="preserve">
+    <value>文件未选择</value>
+  </data>
 </root>

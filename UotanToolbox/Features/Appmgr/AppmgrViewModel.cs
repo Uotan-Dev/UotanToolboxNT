@@ -152,6 +152,14 @@ public partial class AppmgrViewModel : MainPageBase
             }
             if (SelectedApplication() != "")
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell monkey -p {SelectedApplication()} 1");
+            else
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                });
+            }
+
             IsBusy = false;
         });
     }
@@ -172,6 +180,13 @@ public partial class AppmgrViewModel : MainPageBase
             }
             if (SelectedApplication() != "")
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm disable {SelectedApplication()}");
+            else
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                });
+            }
             IsBusy = false;
         });
     }
@@ -190,8 +205,13 @@ public partial class AppmgrViewModel : MainPageBase
         }
         var selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
-        {
             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm enable {selectedApp}");
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+            });
         }
         IsBusy = false;
     }
@@ -207,9 +227,17 @@ public partial class AppmgrViewModel : MainPageBase
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication(); if (!string.IsNullOrEmpty(selectedApp))
+        var selectedApp = SelectedApplication();
+        if (!string.IsNullOrEmpty(selectedApp))
         {
             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall {selectedApp}");
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+            });
         }
         IsBusy = false;
     }
@@ -232,6 +260,13 @@ public partial class AppmgrViewModel : MainPageBase
             // Note: This command may vary depending on the requirements and platform specifics.
             // The following is a general example and may not work as is.
             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k {selectedApp}");
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+            });
         }
         IsBusy = false;
     }
@@ -262,6 +297,13 @@ public partial class AppmgrViewModel : MainPageBase
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             await CallExternalProgram.ADB($"-s {Global.thisdevice} pull {apkFile} {desktopPath}");
         }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+            });
+        }
         IsBusy = false;
     }
 
@@ -277,9 +319,17 @@ public partial class AppmgrViewModel : MainPageBase
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication(); if (!string.IsNullOrEmpty(selectedApp))
+        var selectedApp = SelectedApplication();
+        if (!string.IsNullOrEmpty(selectedApp))
         {
             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm clear {selectedApp}");
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+            });
         }
         IsBusy = false;
     }
@@ -296,9 +346,17 @@ public partial class AppmgrViewModel : MainPageBase
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication(); if (!string.IsNullOrEmpty(selectedApp))
+        var selectedApp = SelectedApplication();
+        if (!string.IsNullOrEmpty(selectedApp))
         {
             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell am force-stop {selectedApp}");
+        }
+        else
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+            });
         }
         IsBusy = false;
     }
@@ -314,6 +372,15 @@ public partial class AppmgrViewModel : MainPageBase
                 SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
             });
             IsBusy = false; return;
+        }
+        var selectedApp = SelectedApplication();
+        if (string.IsNullOrEmpty(selectedApp))
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+            });
+            return;
         }
         string focus_name, package_name;
         string dumpsys = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"dumpsys window | grep mCurrentFocus\"");

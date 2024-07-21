@@ -1035,4 +1035,7 @@
   <data name="Sidebar_FormatExtract" xml:space="preserve">
     <value>Format&amp;Extract</value>
   </data>
+  <data name="Appmgr_AppIsNotSelected" xml:space="preserve">
+    <value>App is not selected</value>
+  </data>
 </root>

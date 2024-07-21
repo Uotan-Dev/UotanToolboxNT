@@ -88,6 +88,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 App is not selected 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_AppIsNotSelected {
+            get {
+                return ResourceManager.GetString("Appmgr_AppIsNotSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Application list hasn&apos;t been fetched 的本地化字符串。
         /// </summary>
         public static string Appmgr_ApplicationListHasntBeenFetched {

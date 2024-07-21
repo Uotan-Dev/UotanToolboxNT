@@ -368,6 +368,7 @@ public partial class DashboardView : UserControl
         BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
         Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
         ArchList.SelectedItem = Global.Bootinfo.Arch;
+        SukiHost.ShowDialog(new PureDialog($"Boot内检测到\nArch:{Global.Bootinfo.Arch}\nOS:{Global.Bootinfo.OSVersion}\nPatch_level:{Global.Bootinfo.PatchLevel}\nRamdisk:{Global.Bootinfo.HaveRamdisk}\nKMI:{Global.Bootinfo.KMI}"), allowBackgroundClose: true);
         patch_busy(false);
     }
 

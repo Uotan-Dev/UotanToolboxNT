@@ -2203,6 +2203,357 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 AirMode 的本地化字符串。
+        /// </summary>
+        public static string Others_AirMode {
+            get {
+                return ResourceManager.GetString("Others_AirMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Alarm 的本地化字符串。
+        /// </summary>
+        public static string Others_Alarm {
+            get {
+                return ResourceManager.GetString("Others_Alarm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Animation Duration 的本地化字符串。
+        /// </summary>
+        public static string Others_AnimationDuration {
+            get {
+                return ResourceManager.GetString("Others_AnimationDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Animation Speed 的本地化字符串。
+        /// </summary>
+        public static string Others_AnimationSpeed {
+            get {
+                return ResourceManager.GetString("Others_AnimationSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Battery 的本地化字符串。
+        /// </summary>
+        public static string Others_Battery {
+            get {
+                return ResourceManager.GetString("Others_Battery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Battery Level(%) 的本地化字符串。
+        /// </summary>
+        public static string Others_BatteryLevel {
+            get {
+                return ResourceManager.GetString("Others_BatteryLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Bluetooth 的本地化字符串。
+        /// </summary>
+        public static string Others_Bluetooth {
+            get {
+                return ResourceManager.GetString("Others_Bluetooth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Current lockscreen time: 的本地化字符串。
+        /// </summary>
+        public static string Others_CurrentLockscreenTime {
+            get {
+                return ResourceManager.GetString("Others_CurrentLockscreenTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Current Scale: 的本地化字符串。
+        /// </summary>
+        public static string Others_CurrentScale {
+            get {
+                return ResourceManager.GetString("Others_CurrentScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Display Property 的本地化字符串。
+        /// </summary>
+        public static string Others_DisplayProperty {
+            get {
+                return ResourceManager.GetString("Others_DisplayProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DP: 的本地化字符串。
+        /// </summary>
+        public static string Others_DP {
+            get {
+                return ResourceManager.GetString("Others_DP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DPI: 的本地化字符串。
+        /// </summary>
+        public static string Others_DPI {
+            get {
+                return ResourceManager.GetString("Others_DPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Earphone 的本地化字符串。
+        /// </summary>
+        public static string Others_Earphone {
+            get {
+                return ResourceManager.GetString("Others_Earphone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Font Adjust 的本地化字符串。
+        /// </summary>
+        public static string Others_FontAdjust {
+            get {
+                return ResourceManager.GetString("Others_FontAdjust", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hide/Show 的本地化字符串。
+        /// </summary>
+        public static string Others_HideOrShow {
+            get {
+                return ResourceManager.GetString("Others_HideOrShow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Horizontal 的本地化字符串。
+        /// </summary>
+        public static string Others_Horizontal {
+            get {
+                return ResourceManager.GetString("Others_Horizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Icon hide 的本地化字符串。
+        /// </summary>
+        public static string Others_IconHide {
+            get {
+                return ResourceManager.GetString("Others_IconHide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Location 的本地化字符串。
+        /// </summary>
+        public static string Others_Location {
+            get {
+                return ResourceManager.GetString("Others_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Lockscreen Time 的本地化字符串。
+        /// </summary>
+        public static string Others_LockscreenTime {
+            get {
+                return ResourceManager.GetString("Others_LockscreenTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Modify 的本地化字符串。
+        /// </summary>
+        public static string Others_Modify {
+            get {
+                return ResourceManager.GetString("Others_Modify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Modifying... 的本地化字符串。
+        /// </summary>
+        public static string Others_Modifying {
+            get {
+                return ResourceManager.GetString("Others_Modifying", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Recover 的本地化字符串。
+        /// </summary>
+        public static string Others_Recover {
+            get {
+                return ResourceManager.GetString("Others_Recover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Resolution 的本地化字符串。
+        /// </summary>
+        public static string Others_Resolution {
+            get {
+                return ResourceManager.GetString("Others_Resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Rotation Notice 的本地化字符串。
+        /// </summary>
+        public static string Others_RotationNotice {
+            get {
+                return ResourceManager.GetString("Others_RotationNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Scale 的本地化字符串。
+        /// </summary>
+        public static string Others_Scale {
+            get {
+                return ResourceManager.GetString("Others_Scale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Set Scale: 的本地化字符串。
+        /// </summary>
+        public static string Others_SetScale {
+            get {
+                return ResourceManager.GetString("Others_SetScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show Second 的本地化字符串。
+        /// </summary>
+        public static string Others_ShowSec {
+            get {
+                return ResourceManager.GetString("Others_ShowSec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Signal 的本地化字符串。
+        /// </summary>
+        public static string Others_Signal {
+            get {
+                return ResourceManager.GetString("Others_Signal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Simulate DC Charge 的本地化字符串。
+        /// </summary>
+        public static string Others_SimulateDCCharge {
+            get {
+                return ResourceManager.GetString("Others_SimulateDCCharge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Simulate Uncharge 的本地化字符串。
+        /// </summary>
+        public static string Others_SimulateUncharge {
+            get {
+                return ResourceManager.GetString("Others_SimulateUncharge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Simulate USB Charge 的本地化字符串。
+        /// </summary>
+        public static string Others_SimulateUSBCharge {
+            get {
+                return ResourceManager.GetString("Others_SimulateUSBCharge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Simulate Wireless Charge 的本地化字符串。
+        /// </summary>
+        public static string Others_SimulateWirelessCharge {
+            get {
+                return ResourceManager.GetString("Others_SimulateWirelessCharge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Sound 的本地化字符串。
+        /// </summary>
+        public static string Others_Sound {
+            get {
+                return ResourceManager.GetString("Others_Sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Temp(℃) 的本地化字符串。
+        /// </summary>
+        public static string Others_Temperature {
+            get {
+                return ResourceManager.GetString("Others_Temperature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Time 的本地化字符串。
+        /// </summary>
+        public static string Others_Time {
+            get {
+                return ResourceManager.GetString("Others_Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Transition Scale 的本地化字符串。
+        /// </summary>
+        public static string Others_TransitionScale {
+            get {
+                return ResourceManager.GetString("Others_TransitionScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Vertical 的本地化字符串。
+        /// </summary>
+        public static string Others_Vertical {
+            get {
+                return ResourceManager.GetString("Others_Vertical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Window Scale 的本地化字符串。
+        /// </summary>
+        public static string Others_WindowScale {
+            get {
+                return ResourceManager.GetString("Others_WindowScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 WLAN 的本地化字符串。
+        /// </summary>
+        public static string Others_WLAN {
+            get {
+                return ResourceManager.GetString("Others_WLAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Bitrate 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Bitrate {

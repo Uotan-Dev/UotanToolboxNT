@@ -1038,4 +1038,121 @@
   <data name="Appmgr_AppIsNotSelected" xml:space="preserve">
     <value>App is not selected</value>
   </data>
+  <data name="Others_AirMode" xml:space="preserve">
+    <value>AirMode</value>
+  </data>
+  <data name="Others_Alarm" xml:space="preserve">
+    <value>Alarm</value>
+  </data>
+  <data name="Others_AnimationDuration" xml:space="preserve">
+    <value>Animation Duration</value>
+  </data>
+  <data name="Others_AnimationSpeed" xml:space="preserve">
+    <value>Animation Speed</value>
+  </data>
+  <data name="Others_Battery" xml:space="preserve">
+    <value>Battery</value>
+  </data>
+  <data name="Others_BatteryLevel" xml:space="preserve">
+    <value>Battery Level(%)</value>
+  </data>
+  <data name="Others_Bluetooth" xml:space="preserve">
+    <value>Bluetooth</value>
+  </data>
+  <data name="Others_CurrentLockscreenTime" xml:space="preserve">
+    <value>Current lockscreen time:</value>
+  </data>
+  <data name="Others_CurrentScale" xml:space="preserve">
+    <value>Current Scale:</value>
+  </data>
+  <data name="Others_DisplayProperty" xml:space="preserve">
+    <value>Display Property</value>
+  </data>
+  <data name="Others_DP" xml:space="preserve">
+    <value>DP:</value>
+  </data>
+  <data name="Others_DPI" xml:space="preserve">
+    <value>DPI:</value>
+  </data>
+  <data name="Others_Earphone" xml:space="preserve">
+    <value>Earphone</value>
+  </data>
+  <data name="Others_FontAdjust" xml:space="preserve">
+    <value>Font Adjust</value>
+  </data>
+  <data name="Others_HideOrShow" xml:space="preserve">
+    <value>Hide/Show</value>
+  </data>
+  <data name="Others_Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Others_IconHide" xml:space="preserve">
+    <value>Icon hide</value>
+  </data>
+  <data name="Others_Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Others_LockscreenTime" xml:space="preserve">
+    <value>Lockscreen Time</value>
+  </data>
+  <data name="Others_Modify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="Others_Modifying" xml:space="preserve">
+    <value>Modifying...</value>
+  </data>
+  <data name="Others_Recover" xml:space="preserve">
+    <value>Recover</value>
+  </data>
+  <data name="Others_Resolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="Others_RotationNotice" xml:space="preserve">
+    <value>Rotation Notice</value>
+  </data>
+  <data name="Others_Scale" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="Others_SetScale" xml:space="preserve">
+    <value>Set Scale:</value>
+  </data>
+  <data name="Others_Signal" xml:space="preserve">
+    <value>Signal</value>
+  </data>
+  <data name="Others_SimulateDCCharge" xml:space="preserve">
+    <value>Simulate DC Charge</value>
+  </data>
+  <data name="Others_SimulateUncharge" xml:space="preserve">
+    <value>Simulate Uncharge</value>
+  </data>
+  <data name="Others_SimulateUSBCharge" xml:space="preserve">
+    <value>Simulate USB Charge</value>
+  </data>
+  <data name="Others_SimulateWirelessCharge" xml:space="preserve">
+    <value>Simulate Wireless Charge</value>
+  </data>
+  <data name="Others_Sound" xml:space="preserve">
+    <value>Sound</value>
+  </data>
+  <data name="Others_Temperature" xml:space="preserve">
+    <value>Temp(℃)</value>
+  </data>
+  <data name="Others_Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Others_TransitionScale" xml:space="preserve">
+    <value>Transition Scale</value>
+  </data>
+  <data name="Others_Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="Others_WindowScale" xml:space="preserve">
+    <value>Window Scale</value>
+  </data>
+  <data name="Others_WLAN" xml:space="preserve">
+    <value>WLAN</value>
+  </data>
+  <data name="Others_ShowSec" xml:space="preserve">
+    <value>Show Second</value>
+  </data>
 </root>

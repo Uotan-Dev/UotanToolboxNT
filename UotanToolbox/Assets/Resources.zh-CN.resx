@@ -1035,4 +1035,121 @@
   <data name="Appmgr_AppIsNotSelected" xml:space="preserve">
     <value>文件未选择</value>
   </data>
+  <data name="Others_AirMode" xml:space="preserve">
+    <value>飞行</value>
+  </data>
+  <data name="Others_Alarm" xml:space="preserve">
+    <value>闹钟</value>
+  </data>
+  <data name="Others_AnimationDuration" xml:space="preserve">
+    <value>动画时长</value>
+  </data>
+  <data name="Others_AnimationSpeed" xml:space="preserve">
+    <value>动画速度</value>
+  </data>
+  <data name="Others_Battery" xml:space="preserve">
+    <value>电池</value>
+  </data>
+  <data name="Others_BatteryLevel" xml:space="preserve">
+    <value>电量(%)</value>
+  </data>
+  <data name="Others_Bluetooth" xml:space="preserve">
+    <value>蓝牙</value>
+  </data>
+  <data name="Others_CurrentLockscreenTime" xml:space="preserve">
+    <value>当前锁屏时间:</value>
+  </data>
+  <data name="Others_CurrentScale" xml:space="preserve">
+    <value>当前倍数:</value>
+  </data>
+  <data name="Others_DisplayProperty" xml:space="preserve">
+    <value>显示属性</value>
+  </data>
+  <data name="Others_DP" xml:space="preserve">
+    <value>最小宽度(DP):</value>
+  </data>
+  <data name="Others_DPI" xml:space="preserve">
+    <value>显示密度(DPI):</value>
+  </data>
+  <data name="Others_Earphone" xml:space="preserve">
+    <value>耳机</value>
+  </data>
+  <data name="Others_FontAdjust" xml:space="preserve">
+    <value>字体调节</value>
+  </data>
+  <data name="Others_HideOrShow" xml:space="preserve">
+    <value>隐藏/显示</value>
+  </data>
+  <data name="Others_Horizontal" xml:space="preserve">
+    <value>横向</value>
+  </data>
+  <data name="Others_IconHide" xml:space="preserve">
+    <value>图标隐藏</value>
+  </data>
+  <data name="Others_Location" xml:space="preserve">
+    <value>定位</value>
+  </data>
+  <data name="Others_LockscreenTime" xml:space="preserve">
+    <value>锁屏时间</value>
+  </data>
+  <data name="Others_Modify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="Others_Modifying" xml:space="preserve">
+    <value>修改中...</value>
+  </data>
+  <data name="Others_Recover" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="Others_Resolution" xml:space="preserve">
+    <value>分辨率:</value>
+  </data>
+  <data name="Others_RotationNotice" xml:space="preserve">
+    <value>旋转提示</value>
+  </data>
+  <data name="Others_Scale" xml:space="preserve">
+    <value>缩放</value>
+  </data>
+  <data name="Others_SetScale" xml:space="preserve">
+    <value>设置倍数:</value>
+  </data>
+  <data name="Others_ShowSec" xml:space="preserve">
+    <value>显秒</value>
+  </data>
+  <data name="Others_Signal" xml:space="preserve">
+    <value>信号</value>
+  </data>
+  <data name="Others_SimulateDCCharge" xml:space="preserve">
+    <value>模拟直流充电</value>
+  </data>
+  <data name="Others_SimulateUncharge" xml:space="preserve">
+    <value>模拟非充电</value>
+  </data>
+  <data name="Others_SimulateUSBCharge" xml:space="preserve">
+    <value>模拟USB充电</value>
+  </data>
+  <data name="Others_SimulateWirelessCharge" xml:space="preserve">
+    <value>模拟无线充电</value>
+  </data>
+  <data name="Others_Sound" xml:space="preserve">
+    <value>声音</value>
+  </data>
+  <data name="Others_Temperature" xml:space="preserve">
+    <value>温度(℃)</value>
+  </data>
+  <data name="Others_Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Others_TransitionScale" xml:space="preserve">
+    <value>过渡缩放</value>
+  </data>
+  <data name="Others_Vertical" xml:space="preserve">
+    <value>纵向</value>
+  </data>
+  <data name="Others_WindowScale" xml:space="preserve">
+    <value>窗口缩放</value>
+  </data>
+  <data name="Others_WLAN" xml:space="preserve">
+    <value>无线</value>
+  </data>
 </root>

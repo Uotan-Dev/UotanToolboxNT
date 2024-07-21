@@ -366,7 +366,8 @@ public partial class DashboardView : UserControl
             return;
         }
         BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
-        (BootInfo.userful, ArchList.SelectedItem) = await BootPatchHelper.boot_detect(BootFile.Text);
+        Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
+        ArchList.SelectedItem = Global.Bootinfo.Arch;
         patch_busy(false);
     }
 

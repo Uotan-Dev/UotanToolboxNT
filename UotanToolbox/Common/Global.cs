@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using Splat.ModeDetection;
 
 namespace UotanToolbox.Common
 {
@@ -14,6 +15,7 @@ namespace UotanToolbox.Common
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
         public static ZipInfo Zipinfo;
+        public static BootInfo Bootinfo;
         public static int mb_exitcode, cpio_exitcode, load_times;
         //分区表储存
         public static string sdatable = "";
@@ -29,19 +31,38 @@ namespace UotanToolbox.Common
     }
     public class BootInfo
     {
-        public static string SHA1;
-        public static string tmp_path;
-        public static bool userful;
-        public static bool gki2;
-        public static string version;
-        public static string kmi;
-        public static string os_version;
-        public static string patch_level;
-        public static bool have_ramdisk;
-        public static bool have_kernel;
-        public static bool have_dtb;
-        public static string dtb_name;
-        public static string arch;
+        public string SHA1 { get; set; }
+        public string Path { get; set; }
+        public string TempPath { get; set; }
+        public bool IsUseful { get; set; }
+        public bool GKI2 { get; set; }
+        public string Version { get; set; }
+        public string KMI { get; set; }
+        public string OSVersion { get; set; }
+        public string PatchLevel { get; set; }
+        public bool HaveRamdisk { get; set; }
+        public bool HaveKernel { get; set; }
+        public bool HaveDTB { get; set; }
+        public string DTBName { get; set; }
+        public string Arch { get; set; }
+        public BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2,string version,string kmi,string osversion,string patchlevel,bool haveramdisk,bool havekernel,bool havedtb,string dtbname,string arch)
+        {
+            SHA1 = sha1;
+            Path = path;
+            TempPath = tempPath;
+            IsUseful = isUseful;
+            GKI2 = gki2;
+            Version = version;
+            KMI = kmi;
+            OSVersion = osversion;
+            PatchLevel = patchlevel;
+            HaveRamdisk = haveramdisk;
+            HaveKernel = havekernel;
+            HaveDTB  = havedtb;
+            DTBName = dtbname;
+            Arch = arch;
+
+        }
     }
     public class ZipInfo
     {

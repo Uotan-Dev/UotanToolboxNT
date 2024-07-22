@@ -288,6 +288,7 @@ namespace UotanToolbox.Common
             string[] fileNames = filteredFiles.Select(Path.GetFileName).ToArray();
             return fileNames;
         }
+        /*
         /// <summary>
         /// 从给定的压缩文件名数组中解压出文件
         /// </summary>
@@ -300,13 +301,13 @@ namespace UotanToolbox.Common
             int a = 0;
             for (int i = 0; i < gzFileNames.Length; i++)
             {
-                string gzFilePath = Path.Combine(BootInfo.tmp_path, "kernel-component", gzFileNames[i]);
-                string output = await CallExternalProgram.SevenZip($"e -o{Path.Combine(BootInfo.tmp_path, "kernel-component")} {gzFilePath} -y");
-                if (output.Contains("Everything is Ok"))
-                {
-                    decompressedFileNames[a] = Path.GetFileNameWithoutExtension(gzFilePath);
-                    a = a + 1;
-                }
+                //string gzFilePath = Path.Combine(BootInfo.tmp_path, "kernel-component", gzFileNames[i]);
+                //string output = await CallExternalProgram.SevenZip($"e -o{Path.Combine(BootInfo.tmp_path, "kernel-component")} {gzFilePath} -y");
+                //if (output.Contains("Everything is Ok"))
+                //{
+                //    decompressedFileNames[a] = Path.GetFileNameWithoutExtension(gzFilePath);
+                //    a = a + 1;
+                //}
             }
             decompressedFileNames = decompressedFileNames.Where(str => str != null).ToArray();
             return decompressedFileNames;
@@ -320,15 +321,15 @@ namespace UotanToolbox.Common
         {
             foreach (string filePath in filePaths)
             {
-                string fullPath = Path.Combine(BootInfo.tmp_path, "kernel-component", filePath);
-                string content = File.ReadAllText(fullPath);
-                if (content.Contains("CONFIG_MODVERSIONS=y") & content.Contains("CONFIG_MODULES=y") & content.Contains("CONFIG_MODULE_UNLOAD=y") & content.Contains("CONFIG_MODVERSIONS=y"))
-                {
-                    return true;
-                }
+                //string fullPath = Path.Combine(BootInfo.tmp_path, "kernel-component", filePath);
+                //string content = File.ReadAllText(fullPath);
+                //if (content.Contains("CONFIG_MODVERSIONS=y") & content.Contains("CONFIG_MODULES=y") & content.Contains("CONFIG_MODULE_UNLOAD=y") & content.Contains("CONFIG_MODVERSIONS=y"))
+                //{
+                //    return true;
+                //}
             }
             return false;
-        }
+        }*/
         /// <summary>
         /// 通过写入，读取，删除文件来判断程序是否拥有指定目录的写入权限
         /// </summary>
@@ -356,6 +357,54 @@ namespace UotanToolbox.Common
             {
                 return false;
             }
+        }
+        /// <summary>
+        /// 走kernel文件中提取编译签名信息
+        /// </summary>
+        /// <param name="filePath">内核文件路径</param>
+        /// <returns>内核编译签名信息</returns>
+        public static string ReadKernelVersion(string filePath)
+        {
+            byte[] Signature = new byte[] { 0x69, 0x6e, 0x69, 0x74, 0x63, 0x61, 0x6c, 0x6c, 0x5f, 0x64, 0x65, 0x62, 0x75, 0x67, 0x00 };
+            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            using var br = new BinaryReader(fs);
+            long signaturePosition = FindSignaturePosition(br, Signature);
+            if (signaturePosition == -1)
+            {
+                return "";
+            }
+            fs.Seek(signaturePosition + Signature.Length, SeekOrigin.Begin);
+            return ReadUntilTerminator(br);
+        }
+        private static long FindSignaturePosition(BinaryReader reader, byte[] signature)
+        {
+            byte[] buffer = new byte[signature.Length];
+            long position = 0;
+            while (position + signature.Length <= reader.BaseStream.Length)
+            {
+                reader.BaseStream.Seek(position, SeekOrigin.Begin);
+                reader.Read(buffer, 0, signature.Length);
+                if (buffer.SequenceEqual(signature))
+                {
+                    return position;
+                }
+                position++;
+            }
+            return -1;
+        }
+        private static string ReadUntilTerminator(BinaryReader reader)
+        {
+            var sb = new StringBuilder();
+            int b;
+            while ((b = reader.ReadByte()) != 0x00)
+            {
+                sb.Append((char)b);
+            }
+            while ((b = reader.ReadByte()) != 0x00)
+            {
+                sb.Append((char)b);
+            }
+            return sb.ToString();
         }
     }
 }

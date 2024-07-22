@@ -627,7 +627,7 @@ public partial class DashboardView : UserControl
             Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_Execution")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
             });
         }
         else
@@ -656,7 +656,7 @@ public partial class DashboardView : UserControl
                     {
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload \"{MagiskFile.Text}\"");
                     }
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_Execution")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                     BusyInstall.IsBusy = false;
                     InstallZIP.IsEnabled = true;
                 }
@@ -715,7 +715,7 @@ public partial class DashboardView : UserControl
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/DisableAutoRecovery.zip");
                 }
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_Execution")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 BusyInstall.IsBusy = false;
                 InstallZIP.IsEnabled = true;
             }
@@ -748,7 +748,7 @@ public partial class DashboardView : UserControl
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/copy-partitions.zip");
                 }
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_Execution")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 BusyInstall.IsBusy = false;
                 InstallZIP.IsEnabled = true;
             }

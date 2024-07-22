@@ -876,7 +876,7 @@
   <data name="Basicflash_ErrorComp" xml:space="preserve">
     <value>压缩stub.apk时出错</value>
   </data>
-  <data name="Basicflash_Execution" xml:space="preserve">
+  <data name="Common_Execution" xml:space="preserve">
     <value>执行完成！</value>
   </data>
   <data name="Basicflash_FileError" xml:space="preserve">
@@ -1139,5 +1139,29 @@
   </data>
   <data name="Modifypartition_PartName" xml:space="preserve">
     <value>分区名称</value>
+  </data>
+  <data name="Common_EnterSideload" xml:space="preserve">
+    <value>请进入Sideload模式！</value>
+  </data>
+  <data name="Wiredflash_FaildRestart" xml:space="preserve">
+    <value>未能重启到Fastbootd模式！无法继续刷入！</value>
+  </data>
+  <data name="Wiredflash_FlashError" xml:space="preserve">
+    <value>刷入出现错误，请检查日志！</value>
+  </data>
+  <data name="Wiredflash_ModelError" xml:space="preserve">
+    <value>机型错误！</value>
+  </data>
+  <data name="Wiredflash_ModelErrorCantFlash" xml:space="preserve">
+    <value>机型错误无法刷入！</value>
+  </data>
+  <data name="Wiredflash_NoMul" xml:space="preserve">
+    <value>请勿同时填写多种方式！</value>
+  </data>
+  <data name="Wiredflash_ROMFlash" xml:space="preserve">
+    <value>ROM刷入完成！是否重启到系统？</value>
+  </data>
+  <data name="Wiredflash_SelectFlashFile" xml:space="preserve">
+    <value>请选择刷机文件！</value>
   </data>
 </root>

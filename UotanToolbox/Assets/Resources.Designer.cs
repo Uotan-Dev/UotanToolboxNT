@@ -466,15 +466,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Execution completed! 的本地化字符串。
-        /// </summary>
-        public static string Basicflash_Execution {
-            get {
-                return ResourceManager.GetString("Basicflash_Execution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Error occurred during file preprocessing! 的本地化字符串。
         /// </summary>
         public static string Basicflash_FileError {
@@ -979,11 +970,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter Sideload mode! 的本地化字符串。
+        /// </summary>
+        public static string Common_EnterSideload {
+            get {
+                return ResourceManager.GetString("Common_EnterSideload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please enter the device into the system! 的本地化字符串。
         /// </summary>
         public static string Common_EnterSystem {
             get {
                 return ResourceManager.GetString("Common_EnterSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Execution completed! 的本地化字符串。
+        /// </summary>
+        public static string Common_Execution {
+            get {
+                return ResourceManager.GetString("Common_Execution", resourceCulture);
             }
         }
         
@@ -3085,11 +3094,74 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Failed to restart to Fastboot mode! Unable to continue flashing! 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_FaildRestart {
+            get {
+                return ResourceManager.GetString("Wiredflash_FaildRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Error occurred during flashing, please check the logs! 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_FlashError {
+            get {
+                return ResourceManager.GetString("Wiredflash_FlashError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Model error! 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_ModelError {
+            get {
+                return ResourceManager.GetString("Wiredflash_ModelError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Model error cannot be flashed! 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_ModelErrorCantFlash {
+            get {
+                return ResourceManager.GetString("Wiredflash_ModelErrorCantFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 More Flash 的本地化字符串。
         /// </summary>
         public static string Wiredflash_MoreFlash {
             get {
                 return ResourceManager.GetString("Wiredflash_MoreFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please do not fill in multiple ways at the same time! 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_NoMul {
+            get {
+                return ResourceManager.GetString("Wiredflash_NoMul", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ROM flashing completed! Do you want to restart the system? 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_ROMFlash {
+            get {
+                return ResourceManager.GetString("Wiredflash_ROMFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select the flashing file! 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_SelectFlashFile {
+            get {
+                return ResourceManager.GetString("Wiredflash_SelectFlashFile", resourceCulture);
             }
         }
         

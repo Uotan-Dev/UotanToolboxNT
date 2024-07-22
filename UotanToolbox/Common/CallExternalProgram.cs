@@ -288,19 +288,6 @@ namespace UotanToolbox.Common
                 process.WaitForExit();
                 return string.IsNullOrEmpty(output) ? error : output;
             }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                Process proc = new Process();
-                proc.StartInfo.FileName = @"/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
-                proc.StartInfo.Arguments = "-c file \" " + path + " \"";
-                proc.StartInfo.UseShellExecute = false;
-                proc.StartInfo.RedirectStandardOutput = true;
-                proc.Start();
-                string output = await proc.StandardOutput.ReadToEndAsync();
-                string error = await proc.StandardError.ReadToEndAsync();
-                proc.WaitForExit();
-                return string.IsNullOrEmpty(output) ? error : output;
-            }
             else
             {
                 var fileInfo = new ProcessStartInfo

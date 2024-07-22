@@ -15,6 +15,7 @@ namespace UotanToolbox.Features.Wiredflash;
 
 public partial class WiredflashView : UserControl
 {
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     private readonly string adb_log_path = Path.Combine(Global.log_path, "adb.txt");
     private string output = "";
 
@@ -223,8 +224,8 @@ public partial class WiredflashView : UserControl
                             c = 1;
                             if (codename != devicename)
                             {
-                                WiredflashLog.Text = "机型错误！";
-                                SukiHost.ShowDialog(new PureDialog("机型错误无法刷入！"), allowBackgroundClose: true);
+                                WiredflashLog.Text = GetTranslation("Wiredflash_ModelError");
+                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Wiredflash_ModelErrorCantFlash")), allowBackgroundClose: true);
                                 succ = false;
                                 TXTFlashBusy(false);
                                 return;
@@ -250,7 +251,7 @@ public partial class WiredflashView : UserControl
                             FileHelper.Write(adb_log_path, output);
                             if (output.Contains("FAILED") || output.Contains("error"))
                             {
-                                SukiHost.ShowDialog(new PureDialog("未能重启到Fastbootd模式！无法继续刷入！"), allowBackgroundClose: true);
+                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Wiredflash_FaildRestart")), allowBackgroundClose: true);
                                 succ = false;
                                 TXTFlashBusy(false);
                                 return;
@@ -270,8 +271,8 @@ public partial class WiredflashView : UserControl
                             c = 1;
                             if (codename != devicename)
                             {
-                                WiredflashLog.Text = "机型错误！";
-                                SukiHost.ShowDialog(new PureDialog("机型错误无法刷入！"), allowBackgroundClose: true);
+                                WiredflashLog.Text = GetTranslation("Wiredflash_ModelError");
+                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Wiredflash_ModelErrorCantFlash")), allowBackgroundClose: true);
                                 succ = false;
                                 TXTFlashBusy(false);
                                 return;
@@ -389,7 +390,7 @@ public partial class WiredflashView : UserControl
                             await Fastboot($"-s {Global.thisdevice} erase metadata");
                             await Fastboot($"-s {Global.thisdevice} erase userdata");
                         }
-                        var newDialog = new ConnectionDialog("ROM刷入完成！是否重启到系统？");
+                        var newDialog = new ConnectionDialog(GetTranslation("Wiredflash_ROMFlash"));
                         await SukiHost.ShowDialogAsync(newDialog);
                         if (newDialog.Result == true)
                         {
@@ -398,23 +399,23 @@ public partial class WiredflashView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("刷入出现错误，请检查日志！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Wiredflash_FlashError")), allowBackgroundClose: true);
                     }
                     TXTFlashBusy(false);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请选择刷机文件！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Wiredflash_SelectFlashFile")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -485,12 +486,12 @@ public partial class WiredflashView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -505,12 +506,12 @@ public partial class WiredflashView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -529,13 +530,13 @@ public partial class WiredflashView : UserControl
                     WiredflashLog.Text = "";
                     string shell = String.Format($"-s {Global.thisdevice} sideload \"{AdbSideloadFile.Text}\"");
                     await ADB(shell);
-                    SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                     BusyFlash.IsBusy = false;
                     MoreWiredFlash.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请将设备进入Sideload模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterSideload")), allowBackgroundClose: true);
                 }
             }
             else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text != "" && BatFile.Text == "")
@@ -548,13 +549,13 @@ public partial class WiredflashView : UserControl
                     WiredflashLog.Text = "";
                     string shell = String.Format($"-s {Global.thisdevice} update \"{FastbootUpdatedFile.Text}\"");
                     await Fastboot(shell);
-                    SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                     BusyFlash.IsBusy = false;
                     MoreWiredFlash.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
                 }
             }
             else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text == "" && BatFile.Text != "")
@@ -573,27 +574,27 @@ public partial class WiredflashView : UserControl
                     {
                         await RunSH(BatFile.Text);
                     }
-                    SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                     BusyFlash.IsBusy = false;
                     MoreWiredFlash.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
                 }
             }
             else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text == "" && BatFile.Text == "")
             {
-                SukiHost.ShowDialog(new PureDialog("请选择刷机文件！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Wiredflash_SelectFlashFile")), allowBackgroundClose: true);
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请勿同时填写多种方式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Wiredflash_NoMul")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 }

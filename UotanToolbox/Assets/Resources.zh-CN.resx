@@ -267,7 +267,7 @@
   <data name="Home_Disconnected" xml:space="preserve">
     <value>设备已断开连接</value>
   </data>
-  <data name="Common_OpenADB" xml:space="preserve">
+  <data name="Common_EnterRecOrOpenADB" xml:space="preserve">
     <value>请进入Recovery模式或开启USB调试！</value>
   </data>
   <data name="Common_NotConnected" xml:space="preserve">
@@ -399,19 +399,13 @@
   <data name="Sidebar_WiredFlash" xml:space="preserve">
     <value>线刷</value>
   </data>
-  <data name="Wiredflash_ChooseFile" xml:space="preserve">
-    <value>选择文件</value>
-  </data>
   <data name="Wiredflash_ClearAllData" xml:space="preserve">
     <value>清除全部数据</value>
   </data>
   <data name="Wiredflash_Executing" xml:space="preserve">
     <value>执行中 ...</value>
   </data>
-  <data name="Wiredflash_Fastboot" xml:space="preserve">
-    <value>FASTBOOT</value>
-  </data>
-  <data name="Wiredflash_Log" xml:space="preserve">
+  <data name="Common_Log" xml:space="preserve">
     <value>日志输出</value>
   </data>
   <data name="Wiredflash_MoreFlash" xml:space="preserve">
@@ -442,7 +436,7 @@
     <value>关于工具箱</value>
   </data>
   <data name="Settings_AboutToolboxContent" xml:space="preserve">
-    <value>Uotan Toolbox是一个基于柚坛搞机工具箱源码，为Android、OpenHarmony开发者设计的现代化工具箱。</value>
+    <value>UotanToolboxNT 是基于”柚坛搞机工具箱“开发，专为玩机发烧友设计的全新现代化玩机工具</value>
   </data>
   <data name="Settings_SpecialThanks" xml:space="preserve">
     <value>特别感谢</value>
@@ -583,7 +577,7 @@
     <value>等比缩放</value>
   </data>
   <data name="Scrcpy_RecordDictionary" xml:space="preserve">
-    <value>录屏目录</value>
+    <value />
   </data>
   <data name="Scrcpy_RecordScreen" xml:space="preserve">
     <value>录制屏幕</value>
@@ -615,17 +609,8 @@
   <data name="Modifypartition_Delete" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="Modifypartition_Endpoint" xml:space="preserve">
-    <value>结束点</value>
-  </data>
   <data name="Modifypartition_EndpointColon" xml:space="preserve">
     <value>结束点:</value>
-  </data>
-  <data name="Modifypartition_Format" xml:space="preserve">
-    <value>格式</value>
-  </data>
-  <data name="Modifypartition_Id" xml:space="preserve">
-    <value>序号</value>
   </data>
   <data name="Modifypartition_IdColon" xml:space="preserve">
     <value>序号：</value>
@@ -633,29 +618,14 @@
   <data name="Modifypartition_Mark" xml:space="preserve">
     <value>标记</value>
   </data>
-  <data name="Modifypartition_Name" xml:space="preserve">
-    <value>名称</value>
-  </data>
   <data name="Modifypartition_PartFormat" xml:space="preserve">
     <value>分区格式:</value>
-  </data>
-  <data name="Modifypartition_PartId" xml:space="preserve">
-    <value>分区序号:</value>
   </data>
   <data name="Modifypartition_ReadPart" xml:space="preserve">
     <value>读取分区表</value>
   </data>
   <data name="Modifypartition_RemoveLimit" xml:space="preserve">
     <value>解除限制</value>
-  </data>
-  <data name="Modifypartition_Sign" xml:space="preserve">
-    <value>标识</value>
-  </data>
-  <data name="Modifypartition_Size" xml:space="preserve">
-    <value>大小</value>
-  </data>
-  <data name="Modifypartition_Startpoint" xml:space="preserve">
-    <value>起始点</value>
   </data>
   <data name="Modifypartition_StartpointColon" xml:space="preserve">
     <value>起始点:</value>
@@ -683,9 +653,6 @@
   </data>
   <data name="Customizedflash_FlashTo" xml:space="preserve">
     <value>刷入至</value>
-  </data>
-  <data name="Customizedflash_Log" xml:space="preserve">
-    <value>日志输出</value>
   </data>
   <data name="Customizedflash_PresetPartitionFlash" xml:space="preserve">
     <value>预置分区刷入</value>
@@ -909,7 +876,7 @@
   <data name="Basicflash_ErrorComp" xml:space="preserve">
     <value>压缩stub.apk时出错</value>
   </data>
-  <data name="Basicflash_Execution" xml:space="preserve">
+  <data name="Common_Execution" xml:space="preserve">
     <value>执行完成！</value>
   </data>
   <data name="Basicflash_FileError" xml:space="preserve">
@@ -1022,5 +989,188 @@
   </data>
   <data name="FormatExtract_OnlyADBFotmatSupport" xml:space="preserve">
     <value>仅ADB格式化支持指定文件系统</value>
+  </data>
+  <data name="Appmgr_ConfirmDeleteApp" xml:space="preserve">
+    <value>确认删除应用？</value>
+  </data>
+  <data name="Common_EnterSystem" xml:space="preserve">
+    <value>请将设备进入系统后执行！</value>
+  </data>
+  <data name="Common_NotSupportSystem" xml:space="preserve">
+    <value>该功能暂不支持当前系统！</value>
+  </data>
+  <data name="Appmgr_AppIsNotSelected" xml:space="preserve">
+    <value>未选择应用</value>
+  </data>
+  <data name="Others_AirMode" xml:space="preserve">
+    <value>飞行</value>
+  </data>
+  <data name="Others_Alarm" xml:space="preserve">
+    <value>闹钟</value>
+  </data>
+  <data name="Others_AnimationDuration" xml:space="preserve">
+    <value>动画时长</value>
+  </data>
+  <data name="Others_AnimationSpeed" xml:space="preserve">
+    <value>动画速度</value>
+  </data>
+  <data name="Others_Battery" xml:space="preserve">
+    <value>电池</value>
+  </data>
+  <data name="Others_BatteryLevel" xml:space="preserve">
+    <value>电量(%)</value>
+  </data>
+  <data name="Others_Bluetooth" xml:space="preserve">
+    <value>蓝牙</value>
+  </data>
+  <data name="Others_CurrentLockscreenTime" xml:space="preserve">
+    <value>当前锁屏时间:</value>
+  </data>
+  <data name="Others_CurrentScale" xml:space="preserve">
+    <value>当前倍数:</value>
+  </data>
+  <data name="Others_DisplayProperty" xml:space="preserve">
+    <value>显示属性</value>
+  </data>
+  <data name="Others_DP" xml:space="preserve">
+    <value>最小宽度(DP):</value>
+  </data>
+  <data name="Others_DPI" xml:space="preserve">
+    <value>显示密度(DPI):</value>
+  </data>
+  <data name="Others_Earphone" xml:space="preserve">
+    <value>耳机</value>
+  </data>
+  <data name="Others_FontAdjust" xml:space="preserve">
+    <value>字体调节</value>
+  </data>
+  <data name="Others_HideOrShow" xml:space="preserve">
+    <value>隐藏/显示</value>
+  </data>
+  <data name="Others_Horizontal" xml:space="preserve">
+    <value>横向</value>
+  </data>
+  <data name="Others_IconHide" xml:space="preserve">
+    <value>图标隐藏</value>
+  </data>
+  <data name="Others_Location" xml:space="preserve">
+    <value>定位</value>
+  </data>
+  <data name="Others_LockscreenTime" xml:space="preserve">
+    <value>锁屏时间</value>
+  </data>
+  <data name="Others_Modify" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="Others_Modifying" xml:space="preserve">
+    <value>修改中...</value>
+  </data>
+  <data name="Others_Recover" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="Others_Resolution" xml:space="preserve">
+    <value>分辨率:</value>
+  </data>
+  <data name="Others_RotationNotice" xml:space="preserve">
+    <value>旋转提示</value>
+  </data>
+  <data name="Others_Scale" xml:space="preserve">
+    <value>缩放</value>
+  </data>
+  <data name="Others_SetScale" xml:space="preserve">
+    <value>设置倍数:</value>
+  </data>
+  <data name="Others_ShowSec" xml:space="preserve">
+    <value>显秒</value>
+  </data>
+  <data name="Others_Signal" xml:space="preserve">
+    <value>信号</value>
+  </data>
+  <data name="Others_SimulateDCCharge" xml:space="preserve">
+    <value>模拟直流充电</value>
+  </data>
+  <data name="Others_SimulateUncharge" xml:space="preserve">
+    <value>模拟非充电</value>
+  </data>
+  <data name="Others_SimulateUSBCharge" xml:space="preserve">
+    <value>模拟USB充电</value>
+  </data>
+  <data name="Others_SimulateWirelessCharge" xml:space="preserve">
+    <value>模拟无线充电</value>
+  </data>
+  <data name="Others_Sound" xml:space="preserve">
+    <value>声音</value>
+  </data>
+  <data name="Others_Temperature" xml:space="preserve">
+    <value>温度(℃)</value>
+  </data>
+  <data name="Others_Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Others_TransitionScale" xml:space="preserve">
+    <value>过渡缩放</value>
+  </data>
+  <data name="Others_Vertical" xml:space="preserve">
+    <value>纵向</value>
+  </data>
+  <data name="Others_WindowScale" xml:space="preserve">
+    <value>窗口缩放</value>
+  </data>
+  <data name="Others_WLAN" xml:space="preserve">
+    <value>无线</value>
+  </data>
+  <data name="Others_WiFisXor" xml:space="preserve">
+    <value>WiFi的×或！</value>
+  </data>
+  <data name="Scrcpy_Folder" xml:space="preserve">
+    <value>录屏目录</value>
+  </data>
+  <data name="Modifypartition_AddUnit" xml:space="preserve">
+    <value>请添加单位！</value>
+  </data>
+  <data name="Modifypartition_CreatePartTitle" xml:space="preserve">
+    <value>创建分区</value>
+  </data>
+  <data name="Modifypartition_DeletOrESP" xml:space="preserve">
+    <value>删除/标记分区</value>
+  </data>
+  <data name="Modifypartition_OnlyOenPart" xml:space="preserve">
+    <value>一次只能输入一个分区序号！</value>
+  </data>
+  <data name="Modifypartition_PartName" xml:space="preserve">
+    <value>分区名称</value>
+  </data>
+  <data name="Common_EnterSideload" xml:space="preserve">
+    <value>请进入Sideload模式！</value>
+  </data>
+  <data name="Customizedflash_Flashing" xml:space="preserve">
+    <value>正在刷入...</value>
+  </data>
+  <data name="Customizedflash_SelectFile" xml:space="preserve">
+    <value>请选择文件！</value>
+  </data>
+  <data name="Wiredflash_FaildRestart" xml:space="preserve">
+    <value>未能重启到Fastbootd模式！无法继续刷入！</value>
+  </data>
+  <data name="Wiredflash_FlashError" xml:space="preserve">
+    <value>刷入出现错误，请检查日志！</value>
+  </data>
+  <data name="Wiredflash_ModelError" xml:space="preserve">
+    <value>机型错误！</value>
+  </data>
+  <data name="Wiredflash_ModelErrorCantFlash" xml:space="preserve">
+    <value>机型错误无法刷入！</value>
+  </data>
+  <data name="Wiredflash_NoMul" xml:space="preserve">
+    <value>请勿同时填写多种方式！</value>
+  </data>
+  <data name="Wiredflash_ROMFlash" xml:space="preserve">
+    <value>ROM刷入完成！是否重启到系统？</value>
+  </data>
+  <data name="Wiredflash_SelectFlashFile" xml:space="preserve">
+    <value>请选择刷机文件！</value>
+  </data>
+  <data name="Common_OpenADB" xml:space="preserve">
+    <value>请开启USB调试！</value>
   </data>
 </root>

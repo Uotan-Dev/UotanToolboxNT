@@ -267,7 +267,7 @@
   <data name="Home_Disconnected" xml:space="preserve">
     <value>The device has been disconnected</value>
   </data>
-  <data name="Common_OpenADB" xml:space="preserve">
+  <data name="Common_EnterRecOrOpenADB" xml:space="preserve">
     <value>Please enter Recovery mode or enable USB debugging!</value>
   </data>
   <data name="Common_NotConnected" xml:space="preserve">
@@ -399,38 +399,32 @@
   <data name="Sidebar_WiredFlash" xml:space="preserve">
     <value>Wired Flash</value>
   </data>
-  <data name="Wiredflash_ChooseFile" xml:space="preserve">
-    <value>Choose File</value>
-  </data>
   <data name="Wiredflash_ClearAllData" xml:space="preserve">
-    <value>Clear all data</value>
+    <value>Format data</value>
   </data>
   <data name="Wiredflash_Executing" xml:space="preserve">
     <value>Executing ...</value>
   </data>
-  <data name="Wiredflash_Fastboot" xml:space="preserve">
-    <value>FASTBOOT</value>
-  </data>
-  <data name="Wiredflash_Log" xml:space="preserve">
-    <value>Log Output</value>
+  <data name="Common_Log" xml:space="preserve">
+    <value>Log</value>
   </data>
   <data name="Wiredflash_MoreFlash" xml:space="preserve">
     <value>More Flash</value>
   </data>
   <data name="Wiredflash_StartFlashing" xml:space="preserve">
-    <value>Start flashing</value>
+    <value>Start</value>
   </data>
   <data name="Wiredflash_SwitchToASlot" xml:space="preserve">
-    <value>Switch To A Slot</value>
+    <value>Set A Slot</value>
   </data>
   <data name="Wiredflash_SwitchToBSlot" xml:space="preserve">
-    <value>Switch To B Slot</value>
+    <value>Set B Slot</value>
   </data>
   <data name="Wiredflash_TXTFlash" xml:space="preserve">
     <value>TXT Flash</value>
   </data>
   <data name="Wiredflash_XiaomiFlashScript" xml:space="preserve">
-    <value>Xiaomi Flash Script</value>
+    <value>Xiaomi Script</value>
   </data>
   <data name="Settings_About" xml:space="preserve">
     <value>About</value>
@@ -442,7 +436,7 @@
     <value>About Toolbox</value>
   </data>
   <data name="Settings_AboutToolboxContent" xml:space="preserve">
-    <value>Uotan Toolbox is a modern toolbox for Android and OpenHarmony developers, mainly based on the original code of UotanToolBox.</value>
+    <value>UotanToolboxNT is developed based on "UotanToolBox" and is a brand-new modern advanced developing tool for phones designed specifically for mobile phone enthusiasts.</value>
   </data>
   <data name="Settings_SpecialThanks" xml:space="preserve">
     <value>Special Thanks</value>
@@ -580,7 +574,7 @@
     <value>More Settings</value>
   </data>
   <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
-    <value>Proportional Scaling</value>
+    <value>Zoom</value>
   </data>
   <data name="Scrcpy_RecordDictionary" xml:space="preserve">
     <value>Record Dictionary</value>
@@ -610,58 +604,34 @@
     <value>Window topping</value>
   </data>
   <data name="Modifypartition_CreatePart" xml:space="preserve">
-    <value>CreatePartition</value>
+    <value>Create</value>
   </data>
   <data name="Modifypartition_Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="Modifypartition_Endpoint" xml:space="preserve">
-    <value>Endpoint</value>
-  </data>
   <data name="Modifypartition_EndpointColon" xml:space="preserve">
-    <value>Endpoint:</value>
-  </data>
-  <data name="Modifypartition_Format" xml:space="preserve">
-    <value>Format</value>
-  </data>
-  <data name="Modifypartition_Id" xml:space="preserve">
-    <value>ID</value>
+    <value>End:</value>
   </data>
   <data name="Modifypartition_IdColon" xml:space="preserve">
     <value>ID:</value>
   </data>
   <data name="Modifypartition_Mark" xml:space="preserve">
-    <value>Mark</value>
-  </data>
-  <data name="Modifypartition_Name" xml:space="preserve">
-    <value>Name</value>
+    <value>ESP On</value>
   </data>
   <data name="Modifypartition_PartFormat" xml:space="preserve">
-    <value>Partition Format:</value>
-  </data>
-  <data name="Modifypartition_PartId" xml:space="preserve">
-    <value>Partition ID:</value>
+    <value>Format:</value>
   </data>
   <data name="Modifypartition_ReadPart" xml:space="preserve">
-    <value>Read partition table</value>
+    <value>Read Part</value>
   </data>
   <data name="Modifypartition_RemoveLimit" xml:space="preserve">
     <value>Remove limit</value>
   </data>
-  <data name="Modifypartition_Sign" xml:space="preserve">
-    <value>Sign</value>
-  </data>
-  <data name="Modifypartition_Size" xml:space="preserve">
-    <value>Size</value>
-  </data>
-  <data name="Modifypartition_Startpoint" xml:space="preserve">
-    <value>Startpoint</value>
-  </data>
   <data name="Modifypartition_StartpointColon" xml:space="preserve">
-    <value>Startpoint:</value>
+    <value>Start:</value>
   </data>
   <data name="Modifypartition_TotalSize" xml:space="preserve">
-    <value>Total Disk Size:</value>
+    <value>Total Size:</value>
   </data>
   <data name="Sidebar_ModifyPartition" xml:space="preserve">
     <value>Modify Partition</value>
@@ -683,9 +653,6 @@
   </data>
   <data name="Customizedflash_FlashTo" xml:space="preserve">
     <value>Flash to</value>
-  </data>
-  <data name="Customizedflash_Log" xml:space="preserve">
-    <value>Log</value>
   </data>
   <data name="Customizedflash_PresetPartitionFlash" xml:space="preserve">
     <value>Preset partition flash</value>
@@ -727,7 +694,7 @@
     <value>Installing</value>
   </data>
   <data name="Appmgr_KeepDataUninstall" xml:space="preserve">
-    <value>Keep data uninstall</value>
+    <value>Dirty uninst</value>
   </data>
   <data name="Appmgr_Run" xml:space="preserve">
     <value>Run</value>
@@ -769,7 +736,7 @@
     <value>Format</value>
   </data>
   <data name="FormatExtract_FormatDataPart" xml:space="preserve">
-    <value>Format Data Partition</value>
+    <value>Format Data</value>
   </data>
   <data name="FormatExtract_FormatTo" xml:space="preserve">
     <value>Format to</value>
@@ -781,10 +748,10 @@
     <value>Open backup</value>
   </data>
   <data name="FormatExtract_PartName" xml:space="preserve">
-    <value>Partition Name</value>
+    <value>Part Name</value>
   </data>
   <data name="FormatExtract_PhysicalPart" xml:space="preserve">
-    <value>Physical Partition</value>
+    <value>Physical Part</value>
   </data>
   <data name="FormatExtract_QCNFile" xml:space="preserve">
     <value>QCN File</value>
@@ -793,7 +760,7 @@
     <value>TWRP Format Data</value>
   </data>
   <data name="FormatExtract_VirtualPart" xml:space="preserve">
-    <value>Virtual Partition</value>
+    <value>Virtual Part</value>
   </data>
   <data name="FormatExtract_WriteQCN" xml:space="preserve">
     <value>Write QCN</value>
@@ -856,7 +823,7 @@
     <value>Record file isn't chosen!</value>
   </data>
   <data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
-    <value />
+    <value>The selected screen recording folder does not have write permission!</value>
   </data>
   <data name="Settings_NewVersionAvailable" xml:space="preserve">
     <value>New version available!</value>
@@ -865,7 +832,7 @@
     <value>This software is up to date</value>
   </data>
   <data name="Appmgr_ActivateSwitch" xml:space="preserve">
-    <value>Activate</value>
+    <value>Activate App</value>
   </data>
   <data name="Appmgr_ClearData" xml:space="preserve">
     <value>Clear Data</value>
@@ -909,7 +876,7 @@
   <data name="Basicflash_ErrorComp" xml:space="preserve">
     <value>Error compressing stud.apk</value>
   </data>
-  <data name="Basicflash_Execution" xml:space="preserve">
+  <data name="Common_Execution" xml:space="preserve">
     <value>Execution completed!</value>
   </data>
   <data name="Basicflash_FileError" xml:space="preserve">
@@ -1022,5 +989,191 @@
   </data>
   <data name="FormatExtract_OnlyADBFotmatSupport" xml:space="preserve">
     <value>Only ADB Format support selected filesystem</value>
+  </data>
+  <data name="Appmgr_ConfirmDeleteApp" xml:space="preserve">
+    <value>Comfirm deleting the App?</value>
+  </data>
+  <data name="Common_EnterSystem" xml:space="preserve">
+    <value>Please enter the device into the system!</value>
+  </data>
+  <data name="Common_NotSupportSystem" xml:space="preserve">
+    <value>This feature is currently not supported by the current system!</value>
+  </data>
+  <data name="Sidebar_FormatExtract" xml:space="preserve">
+    <value>Format&amp;Extract</value>
+  </data>
+  <data name="Appmgr_AppIsNotSelected" xml:space="preserve">
+    <value>App is not selected</value>
+  </data>
+  <data name="Others_AirMode" xml:space="preserve">
+    <value>AirMode</value>
+  </data>
+  <data name="Others_Alarm" xml:space="preserve">
+    <value>Alarm</value>
+  </data>
+  <data name="Others_AnimationDuration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Others_AnimationSpeed" xml:space="preserve">
+    <value>Animation Scale</value>
+  </data>
+  <data name="Others_Battery" xml:space="preserve">
+    <value>Battery</value>
+  </data>
+  <data name="Others_BatteryLevel" xml:space="preserve">
+    <value>Battery Level(%)</value>
+  </data>
+  <data name="Others_Bluetooth" xml:space="preserve">
+    <value>Bluetooth</value>
+  </data>
+  <data name="Others_CurrentLockscreenTime" xml:space="preserve">
+    <value>Current lockscreen time:</value>
+  </data>
+  <data name="Others_CurrentScale" xml:space="preserve">
+    <value>Now Scale:</value>
+  </data>
+  <data name="Others_DisplayProperty" xml:space="preserve">
+    <value>Display Property</value>
+  </data>
+  <data name="Others_DP" xml:space="preserve">
+    <value>DP:</value>
+  </data>
+  <data name="Others_DPI" xml:space="preserve">
+    <value>DPI:</value>
+  </data>
+  <data name="Others_Earphone" xml:space="preserve">
+    <value>Earphone</value>
+  </data>
+  <data name="Others_FontAdjust" xml:space="preserve">
+    <value>Font Adjust</value>
+  </data>
+  <data name="Others_HideOrShow" xml:space="preserve">
+    <value>Hide/Show</value>
+  </data>
+  <data name="Others_Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Others_IconHide" xml:space="preserve">
+    <value>Icon Hide</value>
+  </data>
+  <data name="Others_Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Others_LockscreenTime" xml:space="preserve">
+    <value>Lockscreen Time</value>
+  </data>
+  <data name="Others_Modify" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="Others_Modifying" xml:space="preserve">
+    <value>Modifying...</value>
+  </data>
+  <data name="Others_Recover" xml:space="preserve">
+    <value>Revert</value>
+  </data>
+  <data name="Others_Resolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="Others_RotationNotice" xml:space="preserve">
+    <value>Rotation Notice</value>
+  </data>
+  <data name="Others_Scale" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="Others_SetScale" xml:space="preserve">
+    <value>Set Scale:</value>
+  </data>
+  <data name="Others_Signal" xml:space="preserve">
+    <value>Signal</value>
+  </data>
+  <data name="Others_SimulateDCCharge" xml:space="preserve">
+    <value>Simulate DC Charge</value>
+  </data>
+  <data name="Others_SimulateUncharge" xml:space="preserve">
+    <value>Simulate Uncharge</value>
+  </data>
+  <data name="Others_SimulateUSBCharge" xml:space="preserve">
+    <value>Simulate USB Charge</value>
+  </data>
+  <data name="Others_SimulateWirelessCharge" xml:space="preserve">
+    <value>Simulate Wireless Charge</value>
+  </data>
+  <data name="Others_Sound" xml:space="preserve">
+    <value>Sound</value>
+  </data>
+  <data name="Others_Temperature" xml:space="preserve">
+    <value>Temp(℃)</value>
+  </data>
+  <data name="Others_Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Others_TransitionScale" xml:space="preserve">
+    <value>Transition</value>
+  </data>
+  <data name="Others_Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="Others_WindowScale" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="Others_WLAN" xml:space="preserve">
+    <value>WLAN</value>
+  </data>
+  <data name="Others_ShowSec" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="Others_WiFisXor" xml:space="preserve">
+    <value>WiFi's(x/!)</value>
+  </data>
+  <data name="Scrcpy_Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Modifypartition_AddUnit" xml:space="preserve">
+    <value>Please add a unit!</value>
+  </data>
+  <data name="Modifypartition_CreatePartTitle" xml:space="preserve">
+    <value>Create Partition</value>
+  </data>
+  <data name="Modifypartition_DeletOrESP" xml:space="preserve">
+    <value>Delete/ESP On</value>
+  </data>
+  <data name="Modifypartition_OnlyOenPart" xml:space="preserve">
+    <value>Only one Part ID for once!</value>
+  </data>
+  <data name="Modifypartition_PartName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="Common_EnterSideload" xml:space="preserve">
+    <value>Please enter Sideload mode!</value>
+  </data>
+  <data name="Customizedflash_Flashing" xml:space="preserve">
+    <value>Flashing...</value>
+  </data>
+  <data name="Customizedflash_SelectFile" xml:space="preserve">
+    <value>Please select a file!</value>
+  </data>
+  <data name="Wiredflash_FaildRestart" xml:space="preserve">
+    <value>Failed to restart to Fastboot mode! Unable to continue flashing!</value>
+  </data>
+  <data name="Wiredflash_FlashError" xml:space="preserve">
+    <value>Error occurred during flashing, please check the logs!</value>
+  </data>
+  <data name="Wiredflash_ModelError" xml:space="preserve">
+    <value>Model error!</value>
+  </data>
+  <data name="Wiredflash_ModelErrorCantFlash" xml:space="preserve">
+    <value>Model error cannot be flashed!</value>
+  </data>
+  <data name="Wiredflash_NoMul" xml:space="preserve">
+    <value>Please do not fill in multiple ways at the same time!</value>
+  </data>
+  <data name="Wiredflash_ROMFlash" xml:space="preserve">
+    <value>ROM flashing completed! Do you want to restart the system?</value>
+  </data>
+  <data name="Wiredflash_SelectFlashFile" xml:space="preserve">
+    <value>Please select the flashing file!</value>
+  </data>
+  <data name="Common_OpenADB" xml:space="preserve">
+    <value>Please enable USB debugging!</value>
   </data>
 </root>

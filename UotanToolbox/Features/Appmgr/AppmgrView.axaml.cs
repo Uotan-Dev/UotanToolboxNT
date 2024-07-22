@@ -11,6 +11,7 @@ namespace UotanToolbox.Features.Appmgr;
 
 public partial class AppmgrView : UserControl
 {
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AppmgrView()
     {
         InitializeComponent();
@@ -27,7 +28,7 @@ public partial class AppmgrView : UserControl
     {
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            var newDialog = new ConnectionDialog("确认删除应用？");
+            var newDialog = new ConnectionDialog(GetTranslation("Appmgr_ConfirmDeleteApp"));
             await SukiHost.ShowDialogAsync(newDialog);
             if (newDialog.Result == true) await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}");
             var newAppmgr = new AppmgrViewModel();
@@ -43,6 +44,7 @@ public partial class AppmgrView : UserControl
 
     private async void OpenApkFile(object sender, RoutedEventArgs args)
     {
+        ApkFile.Text = null;
         var topLevel = TopLevel.GetTopLevel(this);
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {

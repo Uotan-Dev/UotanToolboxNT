@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using Avalonia.Styling;
 using DynamicData;
+using SukiUI.Controls;
 using SukiUI.Enums;
 using SukiUI.Extensions;
 using SukiUI.Models;
@@ -174,12 +175,13 @@ public partial class SukiTheme : Styles
         SetResource($"{baseName}75", baseColor.WithAlpha(0.75));
         SetResource($"{baseName}50", baseColor.WithAlpha(0.50));
         SetResource($"{baseName}25", baseColor.WithAlpha(0.25));
+        SetResource($"{baseName}20", baseColor.WithAlpha(0.2));
         SetResource($"{baseName}15", baseColor.WithAlpha(0.15));
         SetResource($"{baseName}10", baseColor.WithAlpha(0.10));
         SetResource($"{baseName}7", baseColor.WithAlpha(0.07));
         SetResource($"{baseName}5", baseColor.WithAlpha(0.05));
         SetResource($"{baseName}3", baseColor.WithAlpha(0.03));
-        SetResource($"{baseName}1", baseColor.WithAlpha(0.01));
+        SetResource($"{baseName}1", baseColor.WithAlpha(0.005));
         SetResource($"{baseName}0", baseColor.WithAlpha(0.00));
     }
 
@@ -201,7 +203,7 @@ public partial class SukiTheme : Styles
             new DefaultSukiColorTheme(SukiColor.Red, Color.Parse("#D03A2F"), Color.Parse("#2FC5D0")),
             new DefaultSukiColorTheme(SukiColor.Green, Color.Parse("#537834"), Color.Parse("#B24DB0")),
             new DefaultSukiColorTheme(SukiColor.Blue, Color.Parse("#0A59F7"), Color.Parse("#F7A80A")),
-
+ 
         };
         DefaultColorThemes = defaultThemes.ToDictionary(x => x.ThemeColor, y => (SukiColorTheme)y);
     }

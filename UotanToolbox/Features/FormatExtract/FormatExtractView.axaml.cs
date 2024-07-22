@@ -186,7 +186,15 @@ public partial class FormatExtractView : UserControl
                 });
                 if (files.Count >= 1)
                 {
-                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                    {
+                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        return;
+                    }
                 }
                 else
                 {
@@ -248,7 +256,15 @@ public partial class FormatExtractView : UserControl
                 });
                 if (files.Count >= 1)
                 {
-                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                    {
+                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        return;
+                    }
                 }
                 else
                 {
@@ -562,7 +578,15 @@ public partial class FormatExtractView : UserControl
                 });
                 if (files.Count >= 1)
                 {
-                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                    {
+                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        return;
+                    }
                 }
                 else
                 {
@@ -677,6 +701,40 @@ public partial class FormatExtractView : UserControl
 
     private async void ExtractVPart(object sender, RoutedEventArgs args)
     {
+        if (OperatingSystem.IsLinux() && Global.backup_path == null)
+        {
+            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            await SukiHost.ShowDialogAsync(newDialog);
+            if (newDialog.Result == true)
+            {
+                var topLevel = TopLevel.GetTopLevel(this);
+                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                {
+                    Title = "Select Buckup Folder",
+                    AllowMultiple = false
+                });
+                if (files.Count >= 1)
+                {
+                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                    {
+                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        return;
+                    }
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
@@ -798,7 +856,15 @@ public partial class FormatExtractView : UserControl
                 });
                 if (files.Count >= 1)
                 {
-                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                    {
+                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        return;
+                    }
                 }
                 else
                 {

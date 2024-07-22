@@ -35,7 +35,6 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}">
                     <StackPanel>
-
                         <ContentPresenter Name="PART_HeaderPresenter"
                                           Padding="0,5"
                                           HorizontalAlignment="Center"
@@ -45,7 +44,13 @@
                                           ContentTemplate="{TemplateBinding HeaderTemplate}"
                                           TextBlock.FontFamily="{TemplateBinding FontFamily}"
                                           TextBlock.FontSize="{TemplateBinding FontSize}"
-                                          TextBlock.FontWeight="{TemplateBinding FontWeight}" />
+                                          TextBlock.FontWeight="{TemplateBinding FontWeight}">
+                            <ContentPresenter.Transitions>
+                                <Transitions>
+                                    <BrushTransition Property="Foreground" Duration="0:0:0.1" />
+                                </Transitions>
+                            </ContentPresenter.Transitions>
+                        </ContentPresenter>
                         <Border Name="PART_Underline"
                                 Height="3"
                                 Margin="10,0,10,0"
@@ -74,7 +79,7 @@
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="Transparent" />
             <Style Selector="^ /template/ ContentPresenter#PART_HeaderPresenter">
-                <Setter Property="TextBlock.Foreground" Value="{DynamicResource SukiPrimaryColor50}" />
+                <Setter Property="TextBlock.Foreground" Value="{DynamicResource SukiPrimaryColor75}" />
             </Style>
         </Style>
 

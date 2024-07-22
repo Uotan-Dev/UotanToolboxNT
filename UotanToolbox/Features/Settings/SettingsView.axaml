@@ -154,7 +154,7 @@
                                                        FontWeight="DemiBold"
                                                        Text="{x:Static assets:Resources.Settings_AboutToolbox}" />
 											<StackPanel Margin="15">
-												<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" />
+												<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" TextWrapping="Wrap"/>
 											</StackPanel>
 											<Grid Margin="15,0,0,15" VerticalAlignment="Center">
 												<Grid.ColumnDefinitions>
@@ -172,18 +172,18 @@
 
 												<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
 													<Button Classes="Classic"
-															Width="110"
+															MinWidth="110"
 															Content="{x:Static assets:Resources.Settings_CheckUpdate}"
 															Command="{Binding GetUpdateCommand}"
 															HorizontalAlignment="Right"/>
 													<Button Classes="Classic"
-															Width="110"
+															MinWidth="110"
 															Content="{x:Static assets:Resources.Settings_UotanCommunity}"
 															Command="{Binding OpenURLCommand}"
 															CommandParameter="https://www.uotan.cn"
 															HorizontalAlignment="Right"/>
 													<Button Classes="Classic"
-															Width="110"
+															MinWidth="110"
 															Content="Bilibili"
 															Command="{Binding OpenURLCommand}"
 															CommandParameter="https://space.bilibili.com/522676659"

@@ -214,9 +214,9 @@
 									Padding="10,0,10,0"
 									Click="OpenImageFile"
 									Content="{x:Static assets:Resources.Customizedflash_File}"/>
-							<TextBox Width="360" Name="ImageFile"
+							<TextBox Width="350" Name="ImageFile"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
-							<TextBlock Width="50"
+							<TextBlock Width="55"
 									   FontSize="15"
 									   VerticalAlignment="Center"
 									   Text="{x:Static assets:Resources.Customizedflash_FlashTo}" />
@@ -255,7 +255,7 @@
 			                Margin="10"
 			                VerticalAlignment="Top">
 				<Grid VerticalAlignment="Top">
-					<TextBox Name="CustomizedflashLog" Watermark="{x:Static assets:Resources.Customizedflash_Log}" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
+					<TextBox Name="CustomizedflashLog" Watermark="{x:Static assets:Resources.Common_Log}" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
 							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>

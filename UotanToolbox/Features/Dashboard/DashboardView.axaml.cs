@@ -323,6 +323,12 @@ public partial class DashboardView : UserControl
         await FlashRec("flash boot_b");
     }
 
+    public static FilePickerFileType Magisk { get; } = new("Magisk")
+    {
+        Patterns = new[] { "*.zip", "*.apk" },
+        AppleUniformTypeIdentifiers = new[] { "*.zip", "*.apk" }
+    };
+
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
     {
         patch_busy(true);
@@ -331,6 +337,7 @@ public partial class DashboardView : UserControl
             var topLevel = TopLevel.GetTopLevel(this);
             var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
+                FileTypeFilter = new[] { Magisk },
                 Title = "Open File",
                 AllowMultiple = false
             });
@@ -349,6 +356,12 @@ public partial class DashboardView : UserControl
         }
         patch_busy(false);
     }
+
+    public static FilePickerFileType Image { get; } = new("Image")
+    {
+        Patterns = new[] { "*.img" },
+        AppleUniformTypeIdentifiers = new[] { "*.img" }
+    };
 
     private async void OpenBootFile(object sender, RoutedEventArgs args)
     {
@@ -530,7 +543,7 @@ public partial class DashboardView : UserControl
             Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_Execution")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
             });
         }
         else
@@ -559,7 +572,7 @@ public partial class DashboardView : UserControl
                     {
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload \"{MagiskFile.Text}\"");
                     }
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_Execution")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                     BusyInstall.IsBusy = false;
                     InstallZIP.IsEnabled = true;
                 }
@@ -618,7 +631,7 @@ public partial class DashboardView : UserControl
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/DisableAutoRecovery.zip");
                 }
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_Execution")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 BusyInstall.IsBusy = false;
                 InstallZIP.IsEnabled = true;
             }
@@ -651,7 +664,7 @@ public partial class DashboardView : UserControl
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/copy-partitions.zip");
                 }
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_Execution")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 BusyInstall.IsBusy = false;
                 InstallZIP.IsEnabled = true;
             }

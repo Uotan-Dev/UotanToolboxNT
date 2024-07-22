@@ -61,18 +61,4 @@ public partial class MainView : SukiWindow
     {
         AvaloniaXamlLoader.Load(this);
     }
-
-    protected override void OnLoaded(RoutedEventArgs e)
-    {
-        base.OnLoaded(e);
-        MainViewModel mainViewModel = (MainViewModel)DataContext;
-        mainViewModel.ToggleWindowLock();
-    }
-
-    protected override void OnSizeChanged(SizeChangedEventArgs e)
-    {
-        base.OnSizeChanged(e);
-        MainViewModel mainViewModel = (MainViewModel)DataContext;
-        mainViewModel.ToggleWindowLock();
-    }
 }

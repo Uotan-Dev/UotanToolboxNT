@@ -40,48 +40,64 @@ public partial class ScrcpyViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public Task Connect()
+    public async Task Connect()
     {
-        IsConnecting = true;
-        return Dispatcher.UIThread.InvokeAsync(async () =>
+        if (Global.System == "Windows")
         {
-            string arg = $"-s {Global.thisdevice} ";
-            if (RecordScreen)
+            if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                if (String.IsNullOrEmpty(RecordFolder))
+                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
-                    SukiHost.ShowDialog(new ErrorDialog(GetTranslation("Scrcpy_RecordFileNotChosen")));
-                    IsConnecting = false;
-                    return;
-                }
-                if (!FileHelper.TestPermission(RecordFolder))
-                {
-                    SukiHost.ShowDialog(new ErrorDialog(GetTranslation("Scrcpy_RecordFolderNoPermission")));
-                    IsConnecting = false;
-                    return;
-                }
-                DateTime now = DateTime.Now;
-                string formattedDateTime = now.ToString("yyyy-MM-dd-HH-mm-ss");
-                arg += $"--record {RecordFolder}/{Global.thisdevice}-{formattedDateTime}.mp4 ";
-            }
-            arg += $"--video-bit-rate {BitRate}M --max-fps {FrameRate} ";
-            if (SizeResolution != 0) arg += $"--max-size {SizeResolution} ";
+                    IsConnecting = true;
+                    await Dispatcher.UIThread.InvokeAsync(async () =>
+                    {
+                        string arg = $"-s {Global.thisdevice} ";
+                        if (RecordScreen)
+                        {
+                            if (String.IsNullOrEmpty(RecordFolder))
+                            {
+                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Scrcpy_RecordFileNotChosen")), allowBackgroundClose: true);
+                                IsConnecting = false;
+                                return;
+                            }
+                            DateTime now = DateTime.Now;
+                            string formattedDateTime = now.ToString("yyyy-MM-dd-HH-mm-ss");
+                            arg += $"--record {RecordFolder}/{Global.thisdevice}-{formattedDateTime}.mp4 ";
+                        }
+                        arg += $"--video-bit-rate {BitRate}M --max-fps {FrameRate} ";
+                        if (SizeResolution != 0) arg += $"--max-size {SizeResolution} ";
 
-            if (WindowTitle != "" && WindowTitle != null)
-            {
-                arg += $"--window-title {WindowTitle} ";
+                        if (WindowTitle != "" && WindowTitle != null)
+                        {
+                            arg += $"--window-title {WindowTitle} ";
+                        }
+                        if (WindowFixed) arg += "--always-on-top ";
+                        if (FullScreen) arg += "--fullscreen ";
+                        if (!ShowBorder) arg += "--window-borderless ";
+                        if (ShowTouch) arg += "--show-touches ";
+                        if (!ComputerControl) arg += "--no-control ";
+                        if (CloseScreen) arg += "--turn-screen-off ";
+                        if (ScreenAwake) arg += "--stay-awake ";
+                        if (!ClipboardSync) arg += "--no-clipboard-autosync";
+                        if (CameraMirror) arg += "--video-source=camera";
+                        IsConnecting = false;
+                        await CallExternalProgram.Scrcpy(arg);
+                    });
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterSystem")), allowBackgroundClose: true);
+                }
             }
-            if (WindowFixed) arg += "--always-on-top ";
-            if (FullScreen) arg += "--fullscreen ";
-            if (!ShowBorder) arg += "--window-borderless ";
-            if (ShowTouch) arg += "--show-touches ";
-            if (!ComputerControl) arg += "--no-control ";
-            if (CloseScreen) arg += "--turn-screen-off ";
-            if (ScreenAwake) arg += "--stay-awake ";
-            if (!ClipboardSync) arg += "--no-clipboard-autosync";
-            if (CameraMirror) arg += "--video-source=camera";
-            IsConnecting = false;
-            await CallExternalProgram.Scrcpy(arg);
-        });
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotSupportSystem")), allowBackgroundClose: true);
+        }
     }
 }

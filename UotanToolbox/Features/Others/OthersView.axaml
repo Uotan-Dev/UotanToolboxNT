@@ -76,9 +76,9 @@
 				</StackPanel>
 			</suki:BusyArea>
 		</suki:GlassCard>
-		<suki:GlassCard Width="305"
+		<suki:GlassCard Width="320"
 						Height="310"
-						Margin="15,10"
+						Margin="10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyBattery"
 						   BusyText="{x:Static assets:Resources.Others_Modifying}">
@@ -93,17 +93,19 @@
 								<StackPanel>
 									<Button Name="BuckBatteryBut"
 											Height="85"
+											Width="70"
 											Margin="5,10,5,0"
 											Padding="10,0,10,0"
 											Click="BuckBattery"
-											Content="{x:Static assets:Resources.Others_Temperature}">
+											Content="{x:Static assets:Resources.Others_Recover}">
 									</Button>
 								</StackPanel>
 								<StackPanel>
 									<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-										<TextBox Name="Temp" Watermark="{x:Static assets:Resources.Others_Recover}" Width="130" />
+										<TextBox Name="Temp" Watermark="{x:Static assets:Resources.Others_Temperature}" Width="130" />
 										<Button Name="SetTempBut"
 												Height="35"
+												Width="55"
 												Padding="10,0,10,0"
 												Click="SetTemp"
 												Content="{x:Static assets:Resources.Others_Modify}">
@@ -113,6 +115,7 @@
 										<TextBox Name="BLevel" Watermark="{x:Static assets:Resources.Others_BatteryLevel}" Width="130" />
 										<Button Name="SetBLevelBut"
 												Height="35"
+												Width="55"
 												Padding="10,0,10,0"
 												Click="SetBLevel"
 												Content="{x:Static assets:Resources.Others_Modify}">
@@ -121,28 +124,28 @@
 								</StackPanel>
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="200"
+								<TextBlock Width="215"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
 										   Text="{x:Static assets:Resources.Others_SimulateUncharge}" />
 								<ToggleSwitch Name="NoCharge" IsCheckedChanged="SetNoCharge"/>
 							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="200"
+							<StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+								<TextBlock Width="215"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
 										   Text="{x:Static assets:Resources.Others_SimulateWirelessCharge}" />
 								<ToggleSwitch Name="WirelessCharge" IsCheckedChanged="SetWirelessCharge"/>
 							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="200"
+							<StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+								<TextBlock Width="215"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
 										   Text="{x:Static assets:Resources.Others_SimulateUSBCharge}" />
 								<ToggleSwitch Name="USUCharge" IsCheckedChanged="SetUSUCharge"/>
 							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="200"
+							<StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+								<TextBlock Width="215"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
 										   Text="{x:Static assets:Resources.Others_SimulateDCCharge}" />
@@ -155,7 +158,7 @@
 		</suki:GlassCard>
 		<suki:GlassCard Width="270"
 						Height="310"
-						Margin="15,10"
+						Margin="10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyLock"
 						   BusyText="{x:Static assets:Resources.Others_Modifying}">
@@ -198,26 +201,26 @@
 						   Margin="0,15,0,0"
 						   Text="{x:Static assets:Resources.Others_IconHide}" />
 				<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="30,0,0,0" Spacing="10">
-					<StackPanel Orientation="Horizontal" Spacing="35">
-						<CheckBox Width="60" Name="Time" FontSize="13" Content="{x:Static assets:Resources.Others_Time}"/>
-						<CheckBox Width="60" Name="GPS" FontSize="13" Content="{x:Static assets:Resources.Others_Location}"/>
-						<CheckBox Width="60" Name="Headset" FontSize="13" Content="{x:Static assets:Resources.Others_Earphone}"/>
-						<CheckBox Width="60" Name="Clock" FontSize="13" Content="{x:Static assets:Resources.Others_Alarm}"/>
-						<CheckBox Width="60" Name="Voice" FontSize="13" Content="{x:Static assets:Resources.Others_Sound}"/>
-						<CheckBox Width="60" Name="LTE" FontSize="13" Content="{x:Static assets:Resources.Others_Signal}"/>
+					<StackPanel Orientation="Horizontal" Spacing="0">
+						<CheckBox Width="95" Name="Time" FontSize="13" Content="{x:Static assets:Resources.Others_Time}"/>
+						<CheckBox Width="95" Name="GPS" FontSize="13" Content="{x:Static assets:Resources.Others_Location}"/>
+						<CheckBox Width="95" Name="Headset" FontSize="13" Content="{x:Static assets:Resources.Others_Earphone}"/>
+						<CheckBox Width="95" Name="Clock" FontSize="13" Content="{x:Static assets:Resources.Others_Alarm}"/>
+						<CheckBox Width="95" Name="Voice" FontSize="13" Content="{x:Static assets:Resources.Others_Sound}"/>
+						<CheckBox Width="95" Name="LTE" FontSize="13" Content="{x:Static assets:Resources.Others_Signal}"/>
 						<CheckBox Name="Rotate" FontSize="13" Content="{x:Static assets:Resources.Others_RotationNotice}"/>
 					</StackPanel>
-					<StackPanel Orientation="Horizontal" Spacing="35">
-						<CheckBox Width="60" Name="Bluetooth" FontSize="13" Content="{x:Static assets:Resources.Others_Bluetooth}"/>
-						<CheckBox Width="60" Name="BatteryICO" FontSize="13" Content="{x:Static assets:Resources.Others_Battery}"/>
-						<CheckBox Width="60" Name="WIFI" FontSize="13" Content="{x:Static assets:Resources.Others_WLAN}"/>
-						<CheckBox Width="60" Name="Second" FontSize="13" Content="{x:Static assets:Resources.Others_ShowSec}"/>
-						<CheckBox Width="60" Name="NFC" FontSize="13" Content="NFC"/>
-						<CheckBox Width="60" Name="Fly" FontSize="13" Content="{x:Static assets:Resources.Others_AirMode}"/>
-						<CheckBox Name="RemoveX" FontSize="13" Content="WiFi(x/!)"/>
+					<StackPanel Orientation="Horizontal" Spacing="0">
+						<CheckBox Width="95" Name="Bluetooth" FontSize="13" Content="{x:Static assets:Resources.Others_Bluetooth}"/>
+						<CheckBox Width="95" Name="BatteryICO" FontSize="13" Content="{x:Static assets:Resources.Others_Battery}"/>
+						<CheckBox Width="95" Name="WIFI" FontSize="13" Content="{x:Static assets:Resources.Others_WLAN}"/>
+						<CheckBox Width="95" Name="Second" FontSize="13" Content="{x:Static assets:Resources.Others_ShowSec}"/>
+						<CheckBox Width="95" Name="NFC" FontSize="13" Content="NFC"/>
+						<CheckBox Width="95" Name="Fly" FontSize="13" Content="{x:Static assets:Resources.Others_AirMode}"/>
+						<CheckBox Name="RemoveX" FontSize="13" Content="{x:Static assets:Resources.Others_WiFisXor}"/>
 					</StackPanel>
 				</StackPanel>
-				<Button Name="ShowAndHide" Margin="35,0,0,0" Click="ShowOrHide" Content="{x:Static assets:Resources.Others_HideOrShow}"></Button>
+				<Button Name="ShowAndHide" Width="100" Padding="10" Margin="30,0,0,0" Click="ShowOrHide" Content="{x:Static assets:Resources.Others_HideOrShow}"></Button>
 			</StackPanel>
 		</suki:GlassCard>
 

@@ -61,7 +61,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Activate 的本地化字符串。
+        ///   查找类似 Activate App 的本地化字符串。
         /// </summary>
         public static string Appmgr_ActivateSwitch {
             get {
@@ -214,7 +214,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Keep data uninstall 的本地化字符串。
+        ///   查找类似 Dirty uninst 的本地化字符串。
         /// </summary>
         public static string Appmgr_KeepDataUninstall {
             get {
@@ -1006,6 +1006,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Log 的本地化字符串。
+        /// </summary>
+        public static string Common_Log {
+            get {
+                return ResourceManager.GetString("Common_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Device not connected! 的本地化字符串。
         /// </summary>
         public static string Common_NotConnected {
@@ -1110,15 +1119,6 @@ namespace UotanToolbox.Assets {
         public static string Customizedflash_FlashTo {
             get {
                 return ResourceManager.GetString("Customizedflash_FlashTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Log 的本地化字符串。
-        /// </summary>
-        public static string Customizedflash_Log {
-            get {
-                return ResourceManager.GetString("Customizedflash_Log", resourceCulture);
             }
         }
         
@@ -1249,7 +1249,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Format Data Partition 的本地化字符串。
+        ///   查找类似 Format Data 的本地化字符串。
         /// </summary>
         public static string FormatExtract_FormatDataPart {
             get {
@@ -1294,7 +1294,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Partition Name 的本地化字符串。
+        ///   查找类似 Part Name 的本地化字符串。
         /// </summary>
         public static string FormatExtract_PartName {
             get {
@@ -1303,7 +1303,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Physical Partition 的本地化字符串。
+        ///   查找类似 Physical Part 的本地化字符串。
         /// </summary>
         public static string FormatExtract_PhysicalPart {
             get {
@@ -1330,7 +1330,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Virtual Partition 的本地化字符串。
+        ///   查找类似 Virtual Part 的本地化字符串。
         /// </summary>
         public static string FormatExtract_VirtualPart {
             get {
@@ -2041,11 +2041,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 CreatePartition 的本地化字符串。
+        ///   查找类似 Please add a unit! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_AddUnit {
+            get {
+                return ResourceManager.GetString("Modifypartition_AddUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Create 的本地化字符串。
         /// </summary>
         public static string Modifypartition_CreatePart {
             get {
                 return ResourceManager.GetString("Modifypartition_CreatePart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Create Partition 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_CreatePartTitle {
+            get {
+                return ResourceManager.GetString("Modifypartition_CreatePartTitle", resourceCulture);
             }
         }
         
@@ -2059,38 +2077,20 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Endpoint 的本地化字符串。
+        ///   查找类似 Delete/ESP On 的本地化字符串。
         /// </summary>
-        public static string Modifypartition_Endpoint {
+        public static string Modifypartition_DeletOrESP {
             get {
-                return ResourceManager.GetString("Modifypartition_Endpoint", resourceCulture);
+                return ResourceManager.GetString("Modifypartition_DeletOrESP", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 Endpoint: 的本地化字符串。
+        ///   查找类似 End: 的本地化字符串。
         /// </summary>
         public static string Modifypartition_EndpointColon {
             get {
                 return ResourceManager.GetString("Modifypartition_EndpointColon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Format 的本地化字符串。
-        /// </summary>
-        public static string Modifypartition_Format {
-            get {
-                return ResourceManager.GetString("Modifypartition_Format", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 ID 的本地化字符串。
-        /// </summary>
-        public static string Modifypartition_Id {
-            get {
-                return ResourceManager.GetString("Modifypartition_Id", resourceCulture);
             }
         }
         
@@ -2104,7 +2104,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Mark 的本地化字符串。
+        ///   查找类似 ESP On 的本地化字符串。
         /// </summary>
         public static string Modifypartition_Mark {
             get {
@@ -2113,16 +2113,16 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Name 的本地化字符串。
+        ///   查找类似 Only one Part ID for once! 的本地化字符串。
         /// </summary>
-        public static string Modifypartition_Name {
+        public static string Modifypartition_OnlyOenPart {
             get {
-                return ResourceManager.GetString("Modifypartition_Name", resourceCulture);
+                return ResourceManager.GetString("Modifypartition_OnlyOenPart", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 Partition Format: 的本地化字符串。
+        ///   查找类似 Format: 的本地化字符串。
         /// </summary>
         public static string Modifypartition_PartFormat {
             get {
@@ -2131,16 +2131,16 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Partition ID: 的本地化字符串。
+        ///   查找类似 Name: 的本地化字符串。
         /// </summary>
-        public static string Modifypartition_PartId {
+        public static string Modifypartition_PartName {
             get {
-                return ResourceManager.GetString("Modifypartition_PartId", resourceCulture);
+                return ResourceManager.GetString("Modifypartition_PartName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 Read partition table 的本地化字符串。
+        ///   查找类似 Read Part 的本地化字符串。
         /// </summary>
         public static string Modifypartition_ReadPart {
             get {
@@ -2158,34 +2158,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Sign 的本地化字符串。
-        /// </summary>
-        public static string Modifypartition_Sign {
-            get {
-                return ResourceManager.GetString("Modifypartition_Sign", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Size 的本地化字符串。
-        /// </summary>
-        public static string Modifypartition_Size {
-            get {
-                return ResourceManager.GetString("Modifypartition_Size", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Startpoint 的本地化字符串。
-        /// </summary>
-        public static string Modifypartition_Startpoint {
-            get {
-                return ResourceManager.GetString("Modifypartition_Startpoint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Startpoint: 的本地化字符串。
+        ///   查找类似 Start: 的本地化字符串。
         /// </summary>
         public static string Modifypartition_StartpointColon {
             get {
@@ -2194,7 +2167,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Total Disk Size: 的本地化字符串。
+        ///   查找类似 Total Size: 的本地化字符串。
         /// </summary>
         public static string Modifypartition_TotalSize {
             get {
@@ -2221,7 +2194,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Animation Duration 的本地化字符串。
+        ///   查找类似 Duration 的本地化字符串。
         /// </summary>
         public static string Others_AnimationDuration {
             get {
@@ -2230,7 +2203,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Animation Speed 的本地化字符串。
+        ///   查找类似 Animation Scale 的本地化字符串。
         /// </summary>
         public static string Others_AnimationSpeed {
             get {
@@ -2275,7 +2248,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Current Scale: 的本地化字符串。
+        ///   查找类似 Now Scale: 的本地化字符串。
         /// </summary>
         public static string Others_CurrentScale {
             get {
@@ -2347,7 +2320,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Icon hide 的本地化字符串。
+        ///   查找类似 Icon Hide 的本地化字符串。
         /// </summary>
         public static string Others_IconHide {
             get {
@@ -2374,7 +2347,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Modify 的本地化字符串。
+        ///   查找类似 Set 的本地化字符串。
         /// </summary>
         public static string Others_Modify {
             get {
@@ -2392,7 +2365,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Recover 的本地化字符串。
+        ///   查找类似 Revert 的本地化字符串。
         /// </summary>
         public static string Others_Recover {
             get {
@@ -2437,7 +2410,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Show Second 的本地化字符串。
+        ///   查找类似 Second 的本地化字符串。
         /// </summary>
         public static string Others_ShowSec {
             get {
@@ -2518,7 +2491,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Transition Scale 的本地化字符串。
+        ///   查找类似 Transition 的本地化字符串。
         /// </summary>
         public static string Others_TransitionScale {
             get {
@@ -2536,7 +2509,16 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Window Scale 的本地化字符串。
+        ///   查找类似 WiFi&apos;s(x/!) 的本地化字符串。
+        /// </summary>
+        public static string Others_WiFisXor {
+            get {
+                return ResourceManager.GetString("Others_WiFisXor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Window 的本地化字符串。
         /// </summary>
         public static string Others_WindowScale {
             get {
@@ -2626,6 +2608,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Folder 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_Folder {
+            get {
+                return ResourceManager.GetString("Scrcpy_Folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Fullscreen 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Fullscreen {
@@ -2653,7 +2644,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Proportional Scaling 的本地化字符串。
+        ///   查找类似 Zoom 的本地化字符串。
         /// </summary>
         public static string Scrcpy_ProportionalScaling {
             get {
@@ -3076,16 +3067,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Choose File 的本地化字符串。
-        /// </summary>
-        public static string Wiredflash_ChooseFile {
-            get {
-                return ResourceManager.GetString("Wiredflash_ChooseFile", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Clear all data 的本地化字符串。
+        ///   查找类似 Format data 的本地化字符串。
         /// </summary>
         public static string Wiredflash_ClearAllData {
             get {
@@ -3103,24 +3085,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 FASTBOOT 的本地化字符串。
-        /// </summary>
-        public static string Wiredflash_Fastboot {
-            get {
-                return ResourceManager.GetString("Wiredflash_Fastboot", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Log Output 的本地化字符串。
-        /// </summary>
-        public static string Wiredflash_Log {
-            get {
-                return ResourceManager.GetString("Wiredflash_Log", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 More Flash 的本地化字符串。
         /// </summary>
         public static string Wiredflash_MoreFlash {
@@ -3130,7 +3094,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Start flashing 的本地化字符串。
+        ///   查找类似 Start 的本地化字符串。
         /// </summary>
         public static string Wiredflash_StartFlashing {
             get {
@@ -3139,7 +3103,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Switch To A Slot 的本地化字符串。
+        ///   查找类似 Set A Slot 的本地化字符串。
         /// </summary>
         public static string Wiredflash_SwitchToASlot {
             get {
@@ -3148,7 +3112,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Switch To B Slot 的本地化字符串。
+        ///   查找类似 Set B Slot 的本地化字符串。
         /// </summary>
         public static string Wiredflash_SwitchToBSlot {
             get {
@@ -3166,7 +3130,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Xiaomi Flash Script 的本地化字符串。
+        ///   查找类似 Xiaomi Script 的本地化字符串。
         /// </summary>
         public static string Wiredflash_XiaomiFlashScript {
             get {

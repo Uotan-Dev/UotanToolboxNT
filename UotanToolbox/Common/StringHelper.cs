@@ -323,6 +323,23 @@ namespace UotanToolbox.Common
             }
             return result;
         }
+        /// <summary>
+        /// 从给定version字符串中提取KMI版本号
+        /// </summary>
+        /// <param name="version">内核version签名</param>
+        /// <returns>KMI版本号</returns>
+        public static string ExtractKMI(string version)
+        {
+            var pattern = @"(.* )?(\d+\.\d+)(\S+)?(android\d+)(.*)";
+            var match = Regex.Match(version, pattern);
+            if (!match.Success)
+            {
+                return "";
+            }
+            var androidVersion = match.Groups[4].Value;
+            var kernelVersion = match.Groups[2].Value;
+            return $"{androidVersion}-{kernelVersion}";
+        }
         public static async Task<string> ActiveApp(string output)
         {
             string adb_output;

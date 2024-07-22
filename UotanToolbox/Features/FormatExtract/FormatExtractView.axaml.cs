@@ -138,34 +138,34 @@ public partial class FormatExtractView : UserControl
                     BusyQCN.IsBusy = true;
                     QCN.IsEnabled = false;
                     output = "";
-                    FormatExtractLog.Text = "正在写入...\n";
+                    FormatExtractLog.Text = GetTranslation("FormatExtract_Writing") + "\n";
                     int com = StringHelper.Onlynum(Global.thisdevice);
                     string shell = string.Format("-w -p {0} -f \"{1}\"", com, qcnfilepatch);
                     await QCNTool(shell);
                     if (FormatExtractLog.Text.Contains("error"))
                     {
-                        SukiHost.ShowDialog(new PureDialog("写入失败"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_WriteFailed")), allowBackgroundClose: true);
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("写入成功"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_WriteSucc")), allowBackgroundClose: true);
                     }
                     BusyQCN.IsEnabled = false;
                     QCN.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请先开启901D/9091端口！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_Open901D")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请先选择QCN文件"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_SelectQCN")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -174,7 +174,7 @@ public partial class FormatExtractView : UserControl
         // Backup QCN file
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
             await SukiHost.ShowDialogAsync(newDialog);
             if (newDialog.Result == true)
             {
@@ -192,7 +192,7 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
                         return;
                     }
                 }
@@ -214,29 +214,29 @@ public partial class FormatExtractView : UserControl
                 BusyQCN.IsBusy = true;
                 QCN.IsEnabled = false;
                 output = "";
-                FormatExtractLog.Text = "正在备份...\n";
+                FormatExtractLog.Text = GetTranslation("FormatExtract_BackingUp") + "\n";
                 int com = StringHelper.Onlynum(Global.thisdevice);
                 string shell = string.Format("-r -p {0} -f \"{1}\" -n 00000.qcn", com, Global.backup_path);
                 await QCNTool(shell);
                 if (FormatExtractLog.Text.Contains("error"))
                 {
-                    SukiHost.ShowDialog(new PureDialog("备份失败"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_BackupFailed")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("备份成功"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_BackupSucc")), allowBackgroundClose: true);
                 }
                 BusyQCN.IsEnabled = false;
                 QCN.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请先开启901D/9091端口！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_Open901D")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -244,7 +244,7 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
             await SukiHost.ShowDialogAsync(newDialog);
             if (newDialog.Result == true)
             {
@@ -262,7 +262,7 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
                         return;
                     }
                 }
@@ -291,24 +291,24 @@ public partial class FormatExtractView : UserControl
             {
                 BusyQCN.IsBusy = true;
                 QCN.IsEnabled = false;
-                var newDialog = new ConnectionDialog("该操作需要ROOT权限，请确保手机已ROOT，\n\r并在接下来的弹窗中授予 Shell ROOT权限！");
+                var newDialog = new ConnectionDialog(GetTranslation("Common_NeedRoot"));
                 await SukiHost.ShowDialogAsync(newDialog);
                 if (newDialog.Result == true)
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
-                    SukiHost.ShowDialog(new PureDialog("执行完成，请查看您的设备！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 BusyQCN.IsBusy = false;
                 QCN.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入系统后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -321,13 +321,13 @@ public partial class FormatExtractView : UserControl
             {
                 BusyQCN.IsBusy = true;
                 QCN.IsEnabled = false;
-                var newDialog = new ConnectionDialog("该操作仅限小米设备！其它设备将无法使用！");
+                var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_OnlyXiaomi"));
                 await SukiHost.ShowDialogAsync(newDialog);
                 if (newDialog.Result == true)
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
-                    SukiHost.ShowDialog(new PureDialog("已将名为\"mi_diag.apk\"的文件推送至设备根目录，请安装完成后点击确定！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_DiagApk")), allowBackgroundClose: true);
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
                 }
@@ -336,12 +336,12 @@ public partial class FormatExtractView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入系统后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -371,32 +371,32 @@ public partial class FormatExtractView : UserControl
                     BusyFlash.IsBusy = true;
                     SuperEmpty.IsEnabled = false;
                     output = "";
-                    FormatExtractLog.Text = "正在刷入...\n";
+                    FormatExtractLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
                     await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile.Text}\"");
                     if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
-                        SukiHost.ShowDialog(new PureDialog("刷入成功！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_FlashSucc")), allowBackgroundClose: true);
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("刷入失败！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_RecoveryFailed")), allowBackgroundClose: true);
                     }
                     BusyFlash.IsBusy = false;
                     SuperEmpty.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请选择SuperEmpty文件！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_SelectSuperEmpty")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入Fastboot模式！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -412,7 +412,7 @@ public partial class FormatExtractView : UserControl
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
                     output = "";
-                    FormatExtractLog.Text = "正在格式化...\n";
+                    FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
                     string formatsystem = "";
                     if (EXT4.IsChecked != null && (bool)EXT4.IsChecked)
                         formatsystem = "mke2fs -t ext4";
@@ -440,24 +440,24 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("未找到该分区！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_NotFound")), allowBackgroundClose: true);
                     }
                     BusyFormat.IsBusy = false;
                     Format.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入需要格式化的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterFormatPart")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -473,7 +473,7 @@ public partial class FormatExtractView : UserControl
                     BusyFormat.IsBusy = true;
                     Format.IsEnabled = false;
                     output = "";
-                    FormatExtractLog.Text = "正在格式化...\n";
+                    FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
                     string partname = FormatName.Text;
                     string shell = String.Format($"-s {Global.thisdevice} erase {partname}");
                     await Fastboot(shell);
@@ -482,17 +482,17 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入需要格式化的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterFormatPart")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Fastboot模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -503,29 +503,22 @@ public partial class FormatExtractView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
-                if (!string.IsNullOrEmpty(FormatName.Text))
-                {
-                    BusyFormat.IsBusy = true;
-                    Format.IsEnabled = false;
-                    output = "";
-                    FormatExtractLog.Text = "正在格式化...\n";
-                    await ADB($"-s {Global.thisdevice} shell recovery --wipe_data");
-                    BusyFormat.IsBusy = false;
-                    Format.IsEnabled = true;
-                }
-                else
-                {
-                    SukiHost.ShowDialog(new PureDialog("请输入需要格式化的分区名称！"), allowBackgroundClose: true);
-                }
+                BusyFormat.IsBusy = true;
+                Format.IsEnabled = false;
+                output = "";
+                FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
+                await ADB($"-s {Global.thisdevice} shell recovery --wipe_data");
+                BusyFormat.IsBusy = false;
+                Format.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -536,29 +529,22 @@ public partial class FormatExtractView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
-                if (!string.IsNullOrEmpty(FormatName.Text))
-                {
-                    BusyFormat.IsBusy = true;
-                    Format.IsEnabled = false;
-                    output = "";
-                    FormatExtractLog.Text = "正在格式化...\n";
-                    await ADB($"-s {Global.thisdevice} shell twrp format data");
-                    BusyFormat.IsBusy = false;
-                    Format.IsEnabled = true;
-                }
-                else
-                {
-                    SukiHost.ShowDialog(new PureDialog("请输入需要格式化的分区名称！"), allowBackgroundClose: true);
-                }
+                BusyFormat.IsBusy = true;
+                Format.IsEnabled = false;
+                output = "";
+                FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
+                await ADB($"-s {Global.thisdevice} shell twrp format data");
+                BusyFormat.IsBusy = false;
+                Format.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -566,7 +552,7 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
             await SukiHost.ShowDialogAsync(newDialog);
             if (newDialog.Result == true)
             {
@@ -584,7 +570,7 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
                         return;
                     }
                 }
@@ -608,7 +594,7 @@ public partial class FormatExtractView : UserControl
                     BusyExtract.IsBusy = true;
                     Extract.IsEnabled = false;
                     output = "";
-                    FormatExtractLog.Text = "正在提取...\n";
+                    FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
                     string partname = ExtractName.Text;
                     await FeaturesHelper.GetPartTable(Global.thisdevice);
                     string sdxx = FeaturesHelper.FindDisk(partname);
@@ -620,7 +606,7 @@ public partial class FormatExtractView : UserControl
                         FileHelper.Write(adb_log_path, output);
                         if (output.Contains("No space left on device"))
                         {
-                            FormatExtractLog.Text = "根目录空间不足，正在尝试使用Data分区...";
+                            FormatExtractLog.Text = GetTranslation("FormatExtract_TryUseData");
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img");
@@ -640,28 +626,28 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        FormatExtractLog.Text = "未找到该分区!";
+                        FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
                     }
                     BusyExtract.IsBusy = false;
                     Extract.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入需要提取的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterExtractPart")), allowBackgroundClose: true);
                 }
             }
             else if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {
-                    var newDialog = new ConnectionDialog("当前为系统模式，在系统下提取分区需要ROOT权限，\n\r请确保手机已ROOT，并在接下来的弹窗中授予 Shell ROOT权限！");
+                    var newDialog = new ConnectionDialog(GetTranslation("Common_NeedRoot"));
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == true)
                     {
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
                         output = "";
-                        FormatExtractLog.Text = "正在提取...\n";
+                        FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
                         string partname = ExtractName.Text;
                         await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
                         string sdxx = FeaturesHelper.FindDisk(partname);
@@ -677,7 +663,7 @@ public partial class FormatExtractView : UserControl
                         }
                         else
                         {
-                            FormatExtractLog.Text = "未找到该分区!";
+                            FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
                         }
                         BusyExtract.IsBusy = false;
                         Extract.IsEnabled = true;
@@ -685,17 +671,17 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入需要提取的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterExtractPart")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式或系统后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -703,7 +689,7 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
             await SukiHost.ShowDialogAsync(newDialog);
             if (newDialog.Result == true)
             {
@@ -721,7 +707,7 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
                         return;
                     }
                 }
@@ -745,7 +731,7 @@ public partial class FormatExtractView : UserControl
                     BusyExtract.IsBusy = true;
                     Extract.IsEnabled = false;
                     output = "";
-                    FormatExtractLog.Text = "正在提取...\n";
+                    FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
                     string partname = ExtractName.Text;
                     string shell = String.Format($"-s {Global.thisdevice} shell ls -l /dev/block/mapper/{partname}");
                     string vmpart = await CallExternalProgram.ADB(shell);
@@ -759,7 +745,7 @@ public partial class FormatExtractView : UserControl
                         FileHelper.Write(adb_log_path, output);
                         if (output.Contains("No space left on device"))
                         {
-                            FormatExtractLog.Text = "根目录空间不足，正在尝试使用Data分区...";
+                            FormatExtractLog.Text = GetTranslation("FormatExtract_TryUseData");
                             shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
                             shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of=/sdcard/{partname}.img");
@@ -779,28 +765,28 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        FormatExtractLog.Text = "未找到该分区!";
+                        FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
                     }
                     BusyExtract.IsBusy = false;
                     Extract.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入需要提取的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterExtractPart")), allowBackgroundClose: true);
                 }
             }
             else if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {
-                    var newDialog = new ConnectionDialog("当前为系统模式，在系统下提取分区需要ROOT权限，\n\r请确保手机已ROOT，并在接下来的弹窗中授予 Shell ROOT权限！");
+                    var newDialog = new ConnectionDialog(GetTranslation("Common_NeedRoot"));
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == true)
                     {
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
                         output = "";
-                        FormatExtractLog.Text = "正在提取...\n";
+                        FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
                         string partname = ExtractName.Text;
                         string shell = String.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");
                         string vmpart = await CallExternalProgram.ADB(shell);
@@ -818,7 +804,7 @@ public partial class FormatExtractView : UserControl
                         }
                         else
                         {
-                            FormatExtractLog.Text = "未找到该分区!";
+                            FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
                         }
                         BusyExtract.IsBusy = false;
                         Extract.IsEnabled = true;
@@ -826,17 +812,17 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入需要提取的分区名称！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterExtractPart")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式或系统后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -844,7 +830,7 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            var newDialog = new ConnectionDialog("请选择提取文件存放目录！");
+            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
             await SukiHost.ShowDialogAsync(newDialog);
             if (newDialog.Result == true)
             {
@@ -862,7 +848,7 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("所选文件夹无写入权限，请重新选取！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
                         return;
                     }
                 }

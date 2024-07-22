@@ -31,7 +31,7 @@ public partial class ScrcpyView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Scrcpy_RecordFolderNoPermission")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
             }
         }
     }

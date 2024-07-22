@@ -87,7 +87,7 @@ public partial class ScrcpyViewModel : MainPageBase
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterSystem")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
                 }
             }
             else

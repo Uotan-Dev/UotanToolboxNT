@@ -723,8 +723,8 @@
   <data name="FormatExtract_Extract" xml:space="preserve">
     <value>Extract</value>
   </data>
-  <data name="FormatExtract_ExtractFolder" xml:space="preserve">
-    <value>Extract Folder</value>
+  <data name="FormatExtract_OpenExtractFolder" xml:space="preserve">
+    <value>Open Extract Folder</value>
   </data>
   <data name="FormatExtract_FastbootFormat" xml:space="preserve">
     <value>Fastboot Format</value>
@@ -822,8 +822,8 @@
   <data name="Scrcpy_RecordFileNotChosen" xml:space="preserve">
     <value>Record file isn't chosen!</value>
   </data>
-  <data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
-    <value>The selected screen recording folder does not have write permission!</value>
+  <data name="Common_FolderNoPermission" xml:space="preserve">
+    <value>The selected folder does not have write permission, please select again!</value>
   </data>
   <data name="Settings_NewVersionAvailable" xml:space="preserve">
     <value>New version available!</value>
@@ -992,9 +992,6 @@
   </data>
   <data name="Appmgr_ConfirmDeleteApp" xml:space="preserve">
     <value>Comfirm deleting the App?</value>
-  </data>
-  <data name="Common_EnterSystem" xml:space="preserve">
-    <value>Please enter the device into the system!</value>
   </data>
   <data name="Common_NotSupportSystem" xml:space="preserve">
     <value>This feature is currently not supported by the current system!</value>
@@ -1173,7 +1170,64 @@
   <data name="Wiredflash_SelectFlashFile" xml:space="preserve">
     <value>Please select the flashing file!</value>
   </data>
+  <data name="Common_NeedRoot" xml:space="preserve">
+    <value>This operation requires ROOT permission. Please ensure that your phone has ROOT and grant Shell ROOT permission in the following pop-up window!</value>
+  </data>
   <data name="Common_OpenADB" xml:space="preserve">
-    <value>Please enable USB debugging!</value>
+    <value>Please enter the system and enable USB debugging!</value>
+  </data>
+  <data name="FormatExtract_BackingUp" xml:space="preserve">
+    <value>Backing up...</value>
+  </data>
+  <data name="FormatExtract_BackupFailed" xml:space="preserve">
+    <value>Backup failed</value>
+  </data>
+  <data name="FormatExtract_BackupSucc" xml:space="preserve">
+    <value>Backup successful</value>
+  </data>
+  <data name="FormatExtract_DiagApk" xml:space="preserve">
+    <value>The file named 'mi_iag. apk' has been pushed to the root directory of the device. Please click OK after installation is complete!</value>
+  </data>
+  <data name="FormatExtract_EnterExtractPart" xml:space="preserve">
+    <value>Please enter the partition name that needs to be extracted!</value>
+  </data>
+  <data name="FormatExtract_EnterFormatPart" xml:space="preserve">
+    <value>Please enter the partition name that needs to be formatted!</value>
+  </data>
+  <data name="FormatExtract_ExtractFolder" xml:space="preserve">
+    <value>Please select the directory for storing extracted files!</value>
+  </data>
+  <data name="FormatExtract_Extracting" xml:space="preserve">
+    <value>Extracting...</value>
+  </data>
+  <data name="FormatExtract_Formatting" xml:space="preserve">
+    <value>Formatting...</value>
+  </data>
+  <data name="FormatExtract_NotFound" xml:space="preserve">
+    <value>The partition was not found!</value>
+  </data>
+  <data name="FormatExtract_OnlyXiaomi" xml:space="preserve">
+    <value>This feature is only available on Xiaomi devices! Other devices will not be able to use!</value>
+  </data>
+  <data name="FormatExtract_Open901D" xml:space="preserve">
+    <value>Please open port 901D/9091 first!</value>
+  </data>
+  <data name="FormatExtract_SelectQCN" xml:space="preserve">
+    <value>Please select the QCN file first</value>
+  </data>
+  <data name="FormatExtract_SelectSuperEmpty" xml:space="preserve">
+    <value>Please select SuperEmpty file!</value>
+  </data>
+  <data name="FormatExtract_TryUseData" xml:space="preserve">
+    <value>Insufficient root directory space, attempting to use Data partition...</value>
+  </data>
+  <data name="FormatExtract_WriteFailed" xml:space="preserve">
+    <value>Write failed</value>
+  </data>
+  <data name="FormatExtract_WriteSucc" xml:space="preserve">
+    <value>Write successful</value>
+  </data>
+  <data name="FormatExtract_Writing" xml:space="preserve">
+    <value>Writing...</value>
   </data>
 </root>

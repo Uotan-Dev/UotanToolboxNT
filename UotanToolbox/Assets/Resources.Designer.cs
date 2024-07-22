@@ -988,20 +988,20 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please enter the device into the system! 的本地化字符串。
-        /// </summary>
-        public static string Common_EnterSystem {
-            get {
-                return ResourceManager.GetString("Common_EnterSystem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Execution completed! 的本地化字符串。
         /// </summary>
         public static string Common_Execution {
             get {
                 return ResourceManager.GetString("Common_Execution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The selected folder does not have write permission, please select again! 的本地化字符串。
+        /// </summary>
+        public static string Common_FolderNoPermission {
+            get {
+                return ResourceManager.GetString("Common_FolderNoPermission", resourceCulture);
             }
         }
         
@@ -1033,6 +1033,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 This operation requires ROOT permission. Please ensure that your phone has ROOT and grant Shell ROOT permission in the following pop-up window! 的本地化字符串。
+        /// </summary>
+        public static string Common_NeedRoot {
+            get {
+                return ResourceManager.GetString("Common_NeedRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Device not connected! 的本地化字符串。
         /// </summary>
         public static string Common_NotConnected {
@@ -1051,7 +1060,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please enable USB debugging! 的本地化字符串。
+        ///   查找类似 Please enter the system and enable USB debugging! 的本地化字符串。
         /// </summary>
         public static string Common_OpenADB {
             get {
@@ -1204,11 +1213,47 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Backing up... 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_BackingUp {
+            get {
+                return ResourceManager.GetString("FormatExtract_BackingUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Backup failed 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_BackupFailed {
+            get {
+                return ResourceManager.GetString("FormatExtract_BackupFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Backup QCN 的本地化字符串。
         /// </summary>
         public static string FormatExtract_BackupQCN {
             get {
                 return ResourceManager.GetString("FormatExtract_BackupQCN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Backup successful 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_BackupSucc {
+            get {
+                return ResourceManager.GetString("FormatExtract_BackupSucc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The file named &apos;mi_iag. apk&apos; has been pushed to the root directory of the device. Please click OK after installation is complete! 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_DiagApk {
+            get {
+                return ResourceManager.GetString("FormatExtract_DiagApk", resourceCulture);
             }
         }
         
@@ -1231,6 +1276,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter the partition name that needs to be extracted! 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_EnterExtractPart {
+            get {
+                return ResourceManager.GetString("FormatExtract_EnterExtractPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter the partition name that needs to be formatted! 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_EnterFormatPart {
+            get {
+                return ResourceManager.GetString("FormatExtract_EnterFormatPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Executing... 的本地化字符串。
         /// </summary>
         public static string FormatExtract_Executing {
@@ -1249,11 +1312,20 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Extract Folder 的本地化字符串。
+        ///   查找类似 Please select the directory for storing extracted files! 的本地化字符串。
         /// </summary>
         public static string FormatExtract_ExtractFolder {
             get {
                 return ResourceManager.GetString("FormatExtract_ExtractFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extracting... 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_Extracting {
+            get {
+                return ResourceManager.GetString("FormatExtract_Extracting", resourceCulture);
             }
         }
         
@@ -1294,6 +1366,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Formatting... 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_Formatting {
+            get {
+                return ResourceManager.GetString("FormatExtract_Formatting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Format to 的本地化字符串。
         /// </summary>
         public static string FormatExtract_FormatTo {
@@ -1312,6 +1393,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 The partition was not found! 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_NotFound {
+            get {
+                return ResourceManager.GetString("FormatExtract_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Only ADB Format support selected filesystem 的本地化字符串。
         /// </summary>
         public static string FormatExtract_OnlyADBFotmatSupport {
@@ -1321,11 +1411,38 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 This feature is only available on Xiaomi devices! Other devices will not be able to use! 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_OnlyXiaomi {
+            get {
+                return ResourceManager.GetString("FormatExtract_OnlyXiaomi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please open port 901D/9091 first! 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_Open901D {
+            get {
+                return ResourceManager.GetString("FormatExtract_Open901D", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Open backup 的本地化字符串。
         /// </summary>
         public static string FormatExtract_OpenBackup {
             get {
                 return ResourceManager.GetString("FormatExtract_OpenBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open Extract Folder 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_OpenExtractFolder {
+            get {
+                return ResourceManager.GetString("FormatExtract_OpenExtractFolder", resourceCulture);
             }
         }
         
@@ -1357,6 +1474,33 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please select the QCN file first 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_SelectQCN {
+            get {
+                return ResourceManager.GetString("FormatExtract_SelectQCN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select SuperEmpty file! 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_SelectSuperEmpty {
+            get {
+                return ResourceManager.GetString("FormatExtract_SelectSuperEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Insufficient root directory space, attempting to use Data partition... 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_TryUseData {
+            get {
+                return ResourceManager.GetString("FormatExtract_TryUseData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 TWRP Format Data 的本地化字符串。
         /// </summary>
         public static string FormatExtract_TWRPFormatData {
@@ -1375,11 +1519,38 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Write failed 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_WriteFailed {
+            get {
+                return ResourceManager.GetString("FormatExtract_WriteFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Write QCN 的本地化字符串。
         /// </summary>
         public static string FormatExtract_WriteQCN {
             get {
                 return ResourceManager.GetString("FormatExtract_WriteQCN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Write successful 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_WriteSucc {
+            get {
+                return ResourceManager.GetString("FormatExtract_WriteSucc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Writing... 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_Writing {
+            get {
+                return ResourceManager.GetString("FormatExtract_Writing", resourceCulture);
             }
         }
         
@@ -2703,15 +2874,6 @@ namespace UotanToolbox.Assets {
         public static string Scrcpy_RecordFileNotChosen {
             get {
                 return ResourceManager.GetString("Scrcpy_RecordFileNotChosen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 The selected screen recording folder does not have write permission! 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_RecordFolderNoPermission {
-            get {
-                return ResourceManager.GetString("Scrcpy_RecordFolderNoPermission", resourceCulture);
             }
         }
         

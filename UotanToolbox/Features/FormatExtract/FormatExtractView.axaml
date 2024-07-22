@@ -278,13 +278,13 @@
 							</Button>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
-							<Button Width="130"
+							<Button Width="170"
 									HorizontalAlignment="Left"
 									Padding="8"
 									Click="OpenExtractFile">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="AndroidStudio" />
-									<TextBlock Text="{x:Static assets:Resources.FormatExtract_ExtractFolder}"/>
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_OpenExtractFolder}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>

@@ -723,8 +723,8 @@
   <data name="FormatExtract_Extract" xml:space="preserve">
     <value>提取</value>
   </data>
-  <data name="FormatExtract_ExtractFolder" xml:space="preserve">
-    <value>提取文件夹</value>
+  <data name="FormatExtract_OpenExtractFolder" xml:space="preserve">
+    <value>打开提取文件夹</value>
   </data>
   <data name="FormatExtract_FastbootFormat" xml:space="preserve">
     <value>Fastboot格式化</value>
@@ -822,8 +822,8 @@
   <data name="Scrcpy_RecordFileNotChosen" xml:space="preserve">
     <value>录屏文件未选择！</value>
   </data>
-  <data name="Scrcpy_RecordFolderNoPermission" xml:space="preserve">
-    <value>所选录屏文件夹无写入权限！</value>
+  <data name="Common_FolderNoPermission" xml:space="preserve">
+    <value>所选文件夹无写入权限，请重新选取！</value>
   </data>
   <data name="Settings_NewVersionAvailable" xml:space="preserve">
     <value>新版本可用！</value>
@@ -992,9 +992,6 @@
   </data>
   <data name="Appmgr_ConfirmDeleteApp" xml:space="preserve">
     <value>确认删除应用？</value>
-  </data>
-  <data name="Common_EnterSystem" xml:space="preserve">
-    <value>请将设备进入系统后执行！</value>
   </data>
   <data name="Common_NotSupportSystem" xml:space="preserve">
     <value>该功能暂不支持当前系统！</value>
@@ -1170,7 +1167,64 @@
   <data name="Wiredflash_SelectFlashFile" xml:space="preserve">
     <value>请选择刷机文件！</value>
   </data>
+  <data name="Common_NeedRoot" xml:space="preserve">
+    <value>该操作需要ROOT权限，请确保手机已ROOT，并在接下来的弹窗中授予 Shell ROOT权限！</value>
+  </data>
   <data name="Common_OpenADB" xml:space="preserve">
-    <value>请开启USB调试！</value>
+    <value>请进入系统并开启USB调试！</value>
+  </data>
+  <data name="FormatExtract_BackingUp" xml:space="preserve">
+    <value>正在备份...</value>
+  </data>
+  <data name="FormatExtract_BackupFailed" xml:space="preserve">
+    <value>备份失败</value>
+  </data>
+  <data name="FormatExtract_BackupSucc" xml:space="preserve">
+    <value>备份成功</value>
+  </data>
+  <data name="FormatExtract_DiagApk" xml:space="preserve">
+    <value>已将名为"mi_diag.apk"的文件推送至设备根目录，请安装完成后点击确定！</value>
+  </data>
+  <data name="FormatExtract_EnterExtractPart" xml:space="preserve">
+    <value>请输入需要提取的分区名称！</value>
+  </data>
+  <data name="FormatExtract_EnterFormatPart" xml:space="preserve">
+    <value>请输入需要格式化的分区名称！</value>
+  </data>
+  <data name="FormatExtract_ExtractFolder" xml:space="preserve">
+    <value>请选择提取文件存放目录！</value>
+  </data>
+  <data name="FormatExtract_Extracting" xml:space="preserve">
+    <value>正在提取...</value>
+  </data>
+  <data name="FormatExtract_Formatting" xml:space="preserve">
+    <value>正在格式化...</value>
+  </data>
+  <data name="FormatExtract_NotFound" xml:space="preserve">
+    <value>未找到该分区！</value>
+  </data>
+  <data name="FormatExtract_OnlyXiaomi" xml:space="preserve">
+    <value>该功能仅限小米设备！其它设备将无法使用！</value>
+  </data>
+  <data name="FormatExtract_Open901D" xml:space="preserve">
+    <value>请先开启901D/9091端口！</value>
+  </data>
+  <data name="FormatExtract_SelectQCN" xml:space="preserve">
+    <value>请先选择QCN文件</value>
+  </data>
+  <data name="FormatExtract_SelectSuperEmpty" xml:space="preserve">
+    <value>请选择SuperEmpty文件！</value>
+  </data>
+  <data name="FormatExtract_TryUseData" xml:space="preserve">
+    <value>根目录空间不足，正在尝试使用Data分区...</value>
+  </data>
+  <data name="FormatExtract_WriteFailed" xml:space="preserve">
+    <value>写入失败</value>
+  </data>
+  <data name="FormatExtract_WriteSucc" xml:space="preserve">
+    <value>写入成功</value>
+  </data>
+  <data name="FormatExtract_Writing" xml:space="preserve">
+    <value>正在写入...</value>
   </data>
 </root>

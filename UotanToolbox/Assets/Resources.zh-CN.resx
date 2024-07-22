@@ -267,7 +267,7 @@
   <data name="Home_Disconnected" xml:space="preserve">
     <value>设备已断开连接</value>
   </data>
-  <data name="Common_OpenADB" xml:space="preserve">
+  <data name="Common_EnterRecOrOpenADB" xml:space="preserve">
     <value>请进入Recovery模式或开启USB调试！</value>
   </data>
   <data name="Common_NotConnected" xml:space="preserve">
@@ -1169,5 +1169,8 @@
   </data>
   <data name="Wiredflash_SelectFlashFile" xml:space="preserve">
     <value>请选择刷机文件！</value>
+  </data>
+  <data name="Common_OpenADB" xml:space="preserve">
+    <value>请开启USB调试！</value>
   </data>
 </root>

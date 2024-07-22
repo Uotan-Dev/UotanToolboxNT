@@ -961,6 +961,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter Recovery mode or enable USB debugging! 的本地化字符串。
+        /// </summary>
+        public static string Common_EnterRecOrOpenADB {
+            get {
+                return ResourceManager.GetString("Common_EnterRecOrOpenADB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please enter Recovery mode! 的本地化字符串。
         /// </summary>
         public static string Common_EnterRecovery {
@@ -1042,7 +1051,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please enter Recovery mode or enable USB debugging! 的本地化字符串。
+        ///   查找类似 Please enable USB debugging! 的本地化字符串。
         /// </summary>
         public static string Common_OpenADB {
             get {

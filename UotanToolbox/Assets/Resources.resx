@@ -267,7 +267,7 @@
   <data name="Home_Disconnected" xml:space="preserve">
     <value>The device has been disconnected</value>
   </data>
-  <data name="Common_OpenADB" xml:space="preserve">
+  <data name="Common_EnterRecOrOpenADB" xml:space="preserve">
     <value>Please enter Recovery mode or enable USB debugging!</value>
   </data>
   <data name="Common_NotConnected" xml:space="preserve">
@@ -1172,5 +1172,8 @@
   </data>
   <data name="Wiredflash_SelectFlashFile" xml:space="preserve">
     <value>Please select the flashing file!</value>
+  </data>
+  <data name="Common_OpenADB" xml:space="preserve">
+    <value>Please enable USB debugging!</value>
   </data>
 </root>

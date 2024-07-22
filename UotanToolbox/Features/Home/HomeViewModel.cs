@@ -200,6 +200,26 @@ public partial class HomeViewModel : MainPageBase
         }
     }
 
+    private async Task SystemControl(string shell)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            {
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+        }
+    }
+
     private async Task ADBControl(string shell)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
@@ -211,7 +231,7 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
             }
         }
         else
@@ -242,31 +262,31 @@ public partial class HomeViewModel : MainPageBase
 
 
     [RelayCommand]
-    public async Task Back() => await ADBControl("shell input keyevent 4");
+    public async Task Back() => await SystemControl("shell input keyevent 4");
 
     [RelayCommand]
-    public async Task Home() => await ADBControl("shell input keyevent 3");
+    public async Task Home() => await SystemControl("shell input keyevent 3");
 
     [RelayCommand]
-    public async Task Mul() => await ADBControl("shell input keyevent 187");
+    public async Task Mul() => await SystemControl("shell input keyevent 187");
 
     [RelayCommand]
-    public async Task Lock() => await ADBControl("shell input keyevent 26");
+    public async Task Lock() => await SystemControl("shell input keyevent 26");
 
     [RelayCommand]
-    public async Task VolU() => await ADBControl("shell input keyevent 24");
+    public async Task VolU() => await SystemControl("shell input keyevent 24");
 
     [RelayCommand]
-    public async Task VolD() => await ADBControl("shell input keyevent 25");
+    public async Task VolD() => await SystemControl("shell input keyevent 25");
 
     [RelayCommand]
-    public async Task Mute() => await ADBControl("shell input keyevent 164");
+    public async Task Mute() => await SystemControl("shell input keyevent 164");
 
     [RelayCommand]
     public async Task SC()
     {
         string pngname = String.Format($"{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}");
-        await ADBControl($"shell /system/bin/screencap -p /sdcard/{pngname}.png");
+        await SystemControl($"shell /system/bin/screencap -p /sdcard/{pngname}.png");
         await SukiHost.ShowToast(GetTranslation("Home_Succeeded"), $"{GetTranslation("Home_Saved")} {pngname}.png {GetTranslation("Home_ToStorage")}", NotificationType.Success);
     }
 
@@ -292,7 +312,7 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
             }
         }
         else

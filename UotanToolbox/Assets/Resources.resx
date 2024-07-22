@@ -1146,6 +1146,12 @@
   <data name="Common_EnterSideload" xml:space="preserve">
     <value>Please enter Sideload mode!</value>
   </data>
+  <data name="Customizedflash_Flashing" xml:space="preserve">
+    <value>Flashing...</value>
+  </data>
+  <data name="Customizedflash_SelectFile" xml:space="preserve">
+    <value>Please select a file!</value>
+  </data>
   <data name="Wiredflash_FaildRestart" xml:space="preserve">
     <value>Failed to restart to Fastboot mode! Unable to continue flashing!</value>
   </data>

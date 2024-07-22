@@ -1143,6 +1143,12 @@
   <data name="Common_EnterSideload" xml:space="preserve">
     <value>请进入Sideload模式！</value>
   </data>
+  <data name="Customizedflash_Flashing" xml:space="preserve">
+    <value>正在刷入...</value>
+  </data>
+  <data name="Customizedflash_SelectFile" xml:space="preserve">
+    <value>请选择文件！</value>
+  </data>
   <data name="Wiredflash_FaildRestart" xml:space="preserve">
     <value>未能重启到Fastbootd模式！无法继续刷入！</value>
   </data>

@@ -1123,6 +1123,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Flashing... 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_Flashing {
+            get {
+                return ResourceManager.GetString("Customizedflash_Flashing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Flash to 的本地化字符串。
         /// </summary>
         public static string Customizedflash_FlashTo {
@@ -1137,6 +1146,15 @@ namespace UotanToolbox.Assets {
         public static string Customizedflash_PresetPartitionFlash {
             get {
                 return ResourceManager.GetString("Customizedflash_PresetPartitionFlash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select a file! 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_SelectFile {
+            get {
+                return ResourceManager.GetString("Customizedflash_SelectFile", resourceCulture);
             }
         }
         

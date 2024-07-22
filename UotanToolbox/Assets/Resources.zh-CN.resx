@@ -399,19 +399,13 @@
   <data name="Sidebar_WiredFlash" xml:space="preserve">
     <value>线刷</value>
   </data>
-  <data name="Wiredflash_ChooseFile" xml:space="preserve">
-    <value>选择文件</value>
-  </data>
   <data name="Wiredflash_ClearAllData" xml:space="preserve">
     <value>清除全部数据</value>
   </data>
   <data name="Wiredflash_Executing" xml:space="preserve">
     <value>执行中 ...</value>
   </data>
-  <data name="Wiredflash_Fastboot" xml:space="preserve">
-    <value>FASTBOOT</value>
-  </data>
-  <data name="Wiredflash_Log" xml:space="preserve">
+  <data name="Common_Log" xml:space="preserve">
     <value>日志输出</value>
   </data>
   <data name="Wiredflash_MoreFlash" xml:space="preserve">
@@ -583,7 +577,7 @@
     <value>等比缩放</value>
   </data>
   <data name="Scrcpy_RecordDictionary" xml:space="preserve">
-    <value>录屏目录</value>
+    <value />
   </data>
   <data name="Scrcpy_RecordScreen" xml:space="preserve">
     <value>录制屏幕</value>
@@ -615,17 +609,8 @@
   <data name="Modifypartition_Delete" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="Modifypartition_Endpoint" xml:space="preserve">
-    <value>结束点</value>
-  </data>
   <data name="Modifypartition_EndpointColon" xml:space="preserve">
     <value>结束点:</value>
-  </data>
-  <data name="Modifypartition_Format" xml:space="preserve">
-    <value>格式</value>
-  </data>
-  <data name="Modifypartition_Id" xml:space="preserve">
-    <value>序号</value>
   </data>
   <data name="Modifypartition_IdColon" xml:space="preserve">
     <value>序号：</value>
@@ -633,29 +618,14 @@
   <data name="Modifypartition_Mark" xml:space="preserve">
     <value>标记</value>
   </data>
-  <data name="Modifypartition_Name" xml:space="preserve">
-    <value>名称</value>
-  </data>
   <data name="Modifypartition_PartFormat" xml:space="preserve">
     <value>分区格式:</value>
-  </data>
-  <data name="Modifypartition_PartId" xml:space="preserve">
-    <value>分区序号:</value>
   </data>
   <data name="Modifypartition_ReadPart" xml:space="preserve">
     <value>读取分区表</value>
   </data>
   <data name="Modifypartition_RemoveLimit" xml:space="preserve">
     <value>解除限制</value>
-  </data>
-  <data name="Modifypartition_Sign" xml:space="preserve">
-    <value>标识</value>
-  </data>
-  <data name="Modifypartition_Size" xml:space="preserve">
-    <value>大小</value>
-  </data>
-  <data name="Modifypartition_Startpoint" xml:space="preserve">
-    <value>起始点</value>
   </data>
   <data name="Modifypartition_StartpointColon" xml:space="preserve">
     <value>起始点:</value>
@@ -683,9 +653,6 @@
   </data>
   <data name="Customizedflash_FlashTo" xml:space="preserve">
     <value>刷入至</value>
-  </data>
-  <data name="Customizedflash_Log" xml:space="preserve">
-    <value>日志输出</value>
   </data>
   <data name="Customizedflash_PresetPartitionFlash" xml:space="preserve">
     <value>预置分区刷入</value>
@@ -1033,7 +1000,7 @@
     <value>该功能暂不支持当前系统！</value>
   </data>
   <data name="Appmgr_AppIsNotSelected" xml:space="preserve">
-    <value>文件未选择</value>
+    <value>未选择应用</value>
   </data>
   <data name="Others_AirMode" xml:space="preserve">
     <value>飞行</value>
@@ -1151,5 +1118,26 @@
   </data>
   <data name="Others_WLAN" xml:space="preserve">
     <value>无线</value>
+  </data>
+  <data name="Others_WiFisXor" xml:space="preserve">
+    <value>WiFi的×或！</value>
+  </data>
+  <data name="Scrcpy_Folder" xml:space="preserve">
+    <value>录屏目录</value>
+  </data>
+  <data name="Modifypartition_AddUnit" xml:space="preserve">
+    <value>请添加单位！</value>
+  </data>
+  <data name="Modifypartition_CreatePartTitle" xml:space="preserve">
+    <value>创建分区</value>
+  </data>
+  <data name="Modifypartition_DeletOrESP" xml:space="preserve">
+    <value>删除/标记分区</value>
+  </data>
+  <data name="Modifypartition_OnlyOenPart" xml:space="preserve">
+    <value>一次只能输入一个分区序号！</value>
+  </data>
+  <data name="Modifypartition_PartName" xml:space="preserve">
+    <value>分区名称</value>
   </data>
 </root>

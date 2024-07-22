@@ -172,7 +172,7 @@
 					<WrapPanel theme:WrapPanelExtensions.AnimatedScroll="True"
 							   Orientation="Vertical">
 						<DockPanel Width="900">
-							<Button Width="135"
+							<Button MinWidth="135"
 									Height="40"
 									Command="{Binding ConnectCommand}"
 									FontWeight="DemiBold"

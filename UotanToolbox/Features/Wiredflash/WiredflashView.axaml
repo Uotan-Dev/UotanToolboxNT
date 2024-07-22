@@ -35,14 +35,14 @@
 												   Margin="8,0,0,0"
 												   VerticalAlignment="Center"
 												   FontSize="13"
-												   Text="{x:Static assets:Resources.Wiredflash_Fastboot}" />
+												   Text="FASTBOOT" />
 										<TextBox Width="600" Name="FastbootFile"
 												 Text=""
 												 theme:TextBoxExtensions.AddDeleteButton="False"/>
 										<Button Height="35"
 												Padding="10,0,10,0"
 												Click="OpenFastbootFile"
-												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
+												Content="{x:Static assets:Resources.Common_ChooseFile}">
 										</Button>
 									</StackPanel>
 									<StackPanel Margin="0" Orientation="Horizontal">
@@ -57,7 +57,7 @@
 										<Button Height="35"
 												Padding="10,0,10,0"
 												Click="OpenFastbootdFile"
-												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
+												Content="{x:Static assets:Resources.Common_ChooseFile}">
 										</Button>
 									</StackPanel>
 								</StackPanel>
@@ -110,7 +110,7 @@
 										<Button Height="35"
 												Padding="10,0,10,0"
 												Click="OpenSideloadFile"
-												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
+												Content="{x:Static assets:Resources.Common_ChooseFile}">
 										</Button>
 									</StackPanel>
 									<StackPanel Margin="0" Orientation="Horizontal">
@@ -125,7 +125,7 @@
 										<Button Height="35"
 												Padding="10,0,10,0"
 												Click="OpenUpdatedFile"
-												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
+												Content="{x:Static assets:Resources.Common_ChooseFile}">
 										</Button>
 									</StackPanel>
 									<StackPanel Margin="0" Orientation="Horizontal">
@@ -139,7 +139,7 @@
 										<Button Height="35"
 												Padding="10,0,10,0"
 												Click="OpenBatFile"
-												Content="{x:Static assets:Resources.Wiredflash_ChooseFile}">
+												Content="{x:Static assets:Resources.Common_ChooseFile}">
 										</Button>
 									</StackPanel>
 								</StackPanel>
@@ -176,7 +176,7 @@
 						Margin="10"
 						VerticalAlignment="Top">
 			<Grid VerticalAlignment="Top">
-				<TextBox Name="WiredflashLog" Watermark="{x:Static assets:Resources.Wiredflash_Log}" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
+				<TextBox Name="WiredflashLog" Watermark="{x:Static assets:Resources.Common_Log}" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
 						 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 			</Grid>
 		</suki:GlassCard>

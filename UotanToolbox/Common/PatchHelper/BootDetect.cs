@@ -1,14 +1,8 @@
-﻿using System.IO;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using SukiUI.Controls;
-using UotanToolbox.Features.Components;
+using System.IO;
 using System.Text.RegularExpressions;
-using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace UotanToolbox.Common.PatchHelper
 {
@@ -17,7 +11,7 @@ namespace UotanToolbox.Common.PatchHelper
         private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
         public static async Task<BootInfo> Boot_Detect(string path)
         {
-            BootInfo bootinfo= new BootInfo("","","",false,false,"","","","",false,false,false,"","");
+            BootInfo bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "");
             bootinfo.Path = path;
             bootinfo.SHA1 = await FileHelper.SHA1HashAsync(bootinfo.Path);
             bootinfo.TempPath = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
@@ -31,17 +25,17 @@ namespace UotanToolbox.Common.PatchHelper
             (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{path}\"", bootinfo.TempPath);
             if (Global.mb_exitcode != 0)
             {
-                throw new Exception(GetTranslation("Basicflash_SelectBoot")+mb_output);
+                throw new Exception(GetTranslation("Basicflash_SelectBoot") + mb_output);
             }
             bootinfo.OSVersion = Regex.Match(mb_output, osVersionPattern).Groups[1].Value;
             bootinfo.PatchLevel = Regex.Match(mb_output, osPatchLevelPattern).Groups[1].Value;
             bootinfo.IsUseful = true;
-            (bootinfo.HaveDTB,bootinfo.DTBName) = await Task.Run(() => dtb_detect(bootinfo.TempPath));
-            (bootinfo.Version, bootinfo.KMI,bootinfo.HaveKernel,bootinfo.GKI2)  =await Task.Run(() => kernel_detect(bootinfo.TempPath));
-            (bootinfo.HaveRamdisk, bootinfo.Arch)  = await ramdisk_detect(bootinfo.TempPath);
+            (bootinfo.HaveDTB, bootinfo.DTBName) = await Task.Run(() => dtb_detect(bootinfo.TempPath));
+            (bootinfo.Version, bootinfo.KMI, bootinfo.HaveKernel, bootinfo.GKI2) = await Task.Run(() => kernel_detect(bootinfo.TempPath));
+            (bootinfo.HaveRamdisk, bootinfo.Arch) = await ramdisk_detect(bootinfo.TempPath);
             return bootinfo;
         }
-        private static (bool,string) dtb_detect(string temp)
+        private static (bool, string) dtb_detect(string temp)
         {
             if (File.Exists(Path.Combine(temp, "dtb")))
             {
@@ -61,10 +55,10 @@ namespace UotanToolbox.Common.PatchHelper
             }
         }
 
-        private static (string,string,bool,bool) kernel_detect(string temp)
+        private static (string, string, bool, bool) kernel_detect(string temp)
         {
-            string kmi="", version ="";
-            bool have_kernel =false, gki2 = false;
+            string kmi = "", version = "";
+            bool have_kernel = false, gki2 = false;
             if (File.Exists(Path.Combine(temp, "kernel")))
             {
                 have_kernel = true;
@@ -78,10 +72,10 @@ namespace UotanToolbox.Common.PatchHelper
             return (version, kmi, have_kernel, gki2);
         }
 
-        public static async Task<(bool,string)> ramdisk_detect(string tmp_path)
+        public static async Task<(bool, string)> ramdisk_detect(string tmp_path)
         {
             bool have_ramdisk = false;
-            string init_info ="";
+            string init_info = "";
             string arch = "";
             if (File.Exists(Path.Combine(tmp_path, "ramdisk.cpio")))
             {
@@ -97,14 +91,14 @@ namespace UotanToolbox.Common.PatchHelper
                 }
                 (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
                 string initPath = Path.Join(ramdisk_path, "init");
-                if (File.Exists(Path.Join(ramdisk_path, "/system/bin/init"))) 
+                if (File.Exists(Path.Join(ramdisk_path, "/system/bin/init")))
                 {
                     initPath = Path.Join(ramdisk_path, "/system/bin/init");
                 }
                 init_info = await CallExternalProgram.File($"\"{initPath}\"");
                 arch = ArchDetect(init_info);
             }
-            return (have_ramdisk,arch);
+            return (have_ramdisk, arch);
         }
         private static readonly Dictionary<string, string> ArchMappings = new Dictionary<string, string>
         {

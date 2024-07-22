@@ -352,158 +352,73 @@ public partial class DashboardView : UserControl
 
     private async void OpenBootFile(object sender, RoutedEventArgs args)
     {
-
         patch_busy(true);
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        try
         {
-            Title = "Open File",
-            AllowMultiple = false
-        });
-        if (files.Count == 0)
-        {
-            patch_busy(false);
-            return;
+            var topLevel = TopLevel.GetTopLevel(this);
+            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                Title = "Open File",
+                AllowMultiple = false
+            });
+            if (files.Count == 0)
+            {
+                patch_busy(false);
+                return;
+            }
+            BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
+            Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
+            ArchList.SelectedItem = Global.Bootinfo.Arch;
+            SukiHost.ShowDialog(new PureDialog($"Boot内检测到\nArch:{Global.Bootinfo.Arch}\nOS:{Global.Bootinfo.OSVersion}\nPatch_level:{Global.Bootinfo.PatchLevel}\nRamdisk:{Global.Bootinfo.HaveRamdisk}\nKMI:{Global.Bootinfo.KMI}"), allowBackgroundClose: true);
         }
-        BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
-        Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
-        ArchList.SelectedItem = Global.Bootinfo.Arch;
+        catch (Exception ex)
+        {
+            SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
+        }
         patch_busy(false);
     }
 
     private async void StartPatch(object sender, RoutedEventArgs args)
     {
-        /*if (!BootInfo.userful | !BootInfo.have_ramdisk)
-        {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectBootMagisk")), allowBackgroundClose: true);
-            return;
-        }
-        if (!ZipInfo.IsUseful)
-        {
-            if (!string.IsNullOrEmpty(MagiskFile.Text))
-            {
-                patch_busy(true);
-                await BootPatchHelper.ZipDetect(MagiskFile.Text);
-                patch_busy(false);
-            }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectBootMagisk")), allowBackgroundClose: true);
-                return;
-            }
-        }
-        if (!BootPatchHelper.CheckComponentFiles(Zipinfo.TempPath, ArchList.SelectedItem.ToString()))
-        {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_FileError")), allowBackgroundClose: true);
-            return;
-        }
         patch_busy(true);
         try
         {
-            //设置环境变量
-            EnvironmentVariable.KEEPVERITY = KEEPVERITY.IsChecked.ToString().ToLower();
-            EnvironmentVariable.KEEPFORCEENCRYPT = KEEPFORCEENCRYPT.IsChecked.ToString().ToLower();
-            EnvironmentVariable.PATCHVBMETAFLAG = PATCHVBMETAFLAG.IsChecked.ToString().ToLower();
-            EnvironmentVariable.RECOVERYMODE = RECOVERYMODE.IsChecked.ToString().ToLower();
-            EnvironmentVariable.LEGACYSAR = LEGACYSAR.IsChecked.ToString().ToLower();
-            string archSubfolder = ArchList.SelectedItem.ToString() switch
+            EnvironmentVariable.KEEPVERITY = (bool)KEEPVERITY.IsChecked;
+            EnvironmentVariable.KEEPFORCEENCRYPT = (bool)KEEPFORCEENCRYPT.IsChecked;
+            EnvironmentVariable.PATCHVBMETAFLAG = (bool)PATCHVBMETAFLAG.IsChecked;
+            EnvironmentVariable.RECOVERYMODE = (bool)RECOVERYMODE.IsChecked;
+            EnvironmentVariable.LEGACYSAR = (bool)LEGACYSAR.IsChecked;
+            if (Global.Zipinfo == new ZipInfo("", "", "", "", "", false, PatchMode.None, ""))
             {
-                "aarch64" => "arm64-v8a",
-                "armeabi" => "armeabi-v7a",
-                "X86" => "x86",
-                "X86-64" => "x86_64",
-                _ => throw new ArgumentException($"{GetTranslation("Basicflash_UnknowArch")}{ArchList.SelectedItem}")
-            };
-            string compPath = Path.Combine(Path.Combine(ZipInfo.TempPath, "lib"), archSubfolder);
-            File.Copy(Path.Combine((compPath), "libmagisk32.so"), Path.Combine((compPath), "magisk32"), true);
-            await CallExternalProgram.MagiskBoot($"compress=xz magisk32 magisk32.xz", compPath);
-            if (File.Exists(Path.Combine((compPath), "libmagisk64.so")))
-            {
-                File.Copy(Path.Combine((compPath), "libmagisk64.so"), Path.Combine((compPath), "magisk64"), true);
-                await CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", compPath);
+                Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
             }
-            (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(ZipInfo.tmp_path, "assets"));
-            if (mb_output.Contains("error"))
+            if ((Global.Zipinfo.Mode == PatchMode.None) | (Global.Zipinfo.IsUseful != true) | (Global.Bootinfo.IsUseful != true))
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_ErrorComp")), allowBackgroundClose: true);
-                patch_busy(false);
-                return;
+                throw new Exception("请选择合适的Zip与Boot文件");
             }
-            (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio test", BootInfo.tmp_path);
-            int mode_code = exitcode & 3;
-            switch (mode_code)
+            switch (Global.Zipinfo.Mode)
             {
-                case 0:
-                    if (!BootPatchHelper.boot_img_pre(BootFile.Text))
-                    {
-                        return;
-                    }
+                case PatchMode.Magisk:
+                    await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
-                case 1:
-                    File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk", ".backup", ".magisk"), Path.Combine(BootInfo.tmp_path, "comfig.orig"), true);
-                    (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio restore", BootInfo.tmp_path);
-                    File.Copy(Path.Combine(BootInfo.tmp_path, "ramdisk.cpio"), Path.Combine(BootInfo.tmp_path, "ramdisk.cpio.orig"), true);
-                    File.Delete(Path.Combine(BootInfo.tmp_path, "stock_boot.img"));
-                    break;
-                case 2:
-                    SukiHost.ShowDialog(new ErrorDialog(GetTranslation("Basicflash_UnsupportImage")));
-                    return;
-                default:
-                    SukiHost.ShowDialog(new ErrorDialog(GetTranslation("Basicflash_CheckError")));
-                    return;
+                case PatchMode.KernelSU:
+                    //await KernelSU_Patch(Global.Zipinfo, Global.Bootinfo);
+                    //break;
+                    throw new Exception("暂不支持KernelSU修补");
             }
-            //patch ramdisk.cpio
-            string config_path = Path.Combine(BootInfo.tmp_path, "config");
-            File.WriteAllText(config_path, "");
-            File.AppendAllText(config_path, $"KEEPVERITY={KEEPVERITY.IsChecked.ToString().ToLower()}\n");
-            File.AppendAllText(config_path, $"KEEPFORCEENCRYPT={KEEPFORCEENCRYPT.IsChecked.ToString().ToLower()}\n");
-            File.AppendAllText(config_path, $"RECOVERYMODE={RECOVERYMODE.IsChecked.ToString().ToLower()}\n");
-            File.AppendAllText(config_path, $"SHA1={BootInfo.SHA1}\n");
-            string allowedChars = "abcdef0123456789";
-            Random random = new Random();
-            string randomStr = new string(Enumerable.Repeat(allowedChars, 16)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-            string configContent = $"RANDOMSEED=0x{randomStr}";
-            File.AppendAllText(config_path, configContent + Environment.NewLine);
-            bool success = await BootPatchHelper.ramdisk_patch(compPath);
-            if (!success)
-            {
-                patch_busy(false);
-                return;
-            }
-            //以上完成ramdisk.cpio的修补
-            success = await BootPatchHelper.dtb_patch();
-            if (!success)
-            {
-                patch_busy(false);
-                return;
-            }
-            success = await BootPatchHelper.kernel_patch((bool)LEGACYSAR.IsChecked);
-            if (BootPatchHelper.CleanBoot(BootInfo.tmp_path))
-            {
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{BootFile.Text}\"", BootInfo.tmp_path);
-                File.Copy(Path.Combine(BootInfo.tmp_path, "new-boot.img"), Path.Combine(Path.GetDirectoryName(BootFile.Text), "boot_patched_" + randomStr + ".img"), true);
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_PatchDone")), allowBackgroundClose: true);
-                patch_busy(false);
-                FileHelper.OpenFolder(Path.GetDirectoryName(BootFile.Text));
-                ZipInfo.userful = false;
-                BootInfo.userful = false;
-                BootFile.Text = null;
-                SetDefaultMagisk();
-                ArchList.SelectedItem = null;
-                return;
-            }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_CleanDirError")), allowBackgroundClose: true);
-                patch_busy(false);
-                return;
-            }
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_PatchDone")), allowBackgroundClose: true);
+            FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path));
+            Global.Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
+            Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "");
+            MagiskFile.Text = null;
+            BootFile.Text = null;
+            ArchList.SelectedItem = null;
         }
         catch (Exception ex)
         {
             SukiHost.ShowDialog(new PureDialog(ex.Message), allowBackgroundClose: true);
-        }*/
+        }
+        patch_busy(false);
     }
 
     private async void FlashBoot(object sender, RoutedEventArgs args)

@@ -1,5 +1,4 @@
 ﻿using Avalonia.Collections;
-using Splat.ModeDetection;
 
 namespace UotanToolbox.Common
 {
@@ -14,8 +13,8 @@ namespace UotanToolbox.Common
         public static string System = "Windows";
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
-        public static ZipInfo Zipinfo;
-        public static BootInfo Bootinfo;
+        public static ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
+        public static BootInfo Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "");
         public static int mb_exitcode, cpio_exitcode, load_times;
         //分区表储存
         public static string sdatable = "";
@@ -25,7 +24,6 @@ namespace UotanToolbox.Common
         public static string sdetable = "";
         public static string sdftable = "";
         public static string emmcrom = "";
-
         //工具箱版本
         public static string currentVersion = "819a867";
     }
@@ -45,7 +43,7 @@ namespace UotanToolbox.Common
         public bool HaveDTB { get; set; }
         public string DTBName { get; set; }
         public string Arch { get; set; }
-        public BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2,string version,string kmi,string osversion,string patchlevel,bool haveramdisk,bool havekernel,bool havedtb,string dtbname,string arch)
+        public BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2, string version, string kmi, string osversion, string patchlevel, bool haveramdisk, bool havekernel, bool havedtb, string dtbname, string arch)
         {
             SHA1 = sha1;
             Path = path;
@@ -58,7 +56,7 @@ namespace UotanToolbox.Common
             PatchLevel = patchlevel;
             HaveRamdisk = haveramdisk;
             HaveKernel = havekernel;
-            HaveDTB  = havedtb;
+            HaveDTB = havedtb;
             DTBName = dtbname;
             Arch = arch;
 
@@ -89,11 +87,11 @@ namespace UotanToolbox.Common
     }
     public class EnvironmentVariable
     {
-        public static string KEEPVERITY = "true";
-        public static string KEEPFORCEENCRYPT = "true";
-        public static string PATCHVBMETAFLAG = "false";
-        public static string RECOVERYMODE = "false";
-        public static string LEGACYSAR = "true";
+        public static bool KEEPVERITY = true;
+        public static bool KEEPFORCEENCRYPT = true;
+        public static bool PATCHVBMETAFLAG = false;
+        public static bool RECOVERYMODE = false;
+        public static bool LEGACYSAR = true;
     }
 
     public static class GlobalData

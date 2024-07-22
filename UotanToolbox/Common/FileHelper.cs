@@ -288,6 +288,7 @@ namespace UotanToolbox.Common
             string[] fileNames = filteredFiles.Select(Path.GetFileName).ToArray();
             return fileNames;
         }
+        /*
         /// <summary>
         /// 从给定的压缩文件名数组中解压出文件
         /// </summary>
@@ -328,7 +329,7 @@ namespace UotanToolbox.Common
                 //}
             }
             return false;
-        }
+        }*/
         /// <summary>
         /// 通过写入，读取，删除文件来判断程序是否拥有指定目录的写入权限
         /// </summary>

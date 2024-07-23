@@ -997,6 +997,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Execution failed! 的本地化字符串。
+        /// </summary>
+        public static string Common_ExeFailed {
+            get {
+                return ResourceManager.GetString("Common_ExeFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The selected folder does not have write permission, please select again! 的本地化字符串。
         /// </summary>
         public static string Common_FolderNoPermission {
@@ -2302,6 +2311,33 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter the correct partition number! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_EnterCorrNum {
+            get {
+                return ResourceManager.GetString("Modifypartition_EnterCorrNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter the parameters required to create a partition! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_EnterCreat {
+            get {
+                return ResourceManager.GetString("Modifypartition_EnterCreat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter the partition number! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_EnterNum {
+            get {
+                return ResourceManager.GetString("Modifypartition_EnterNum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ID: 的本地化字符串。
         /// </summary>
         public static string Modifypartition_IdColon {
@@ -2325,6 +2361,15 @@ namespace UotanToolbox.Assets {
         public static string Modifypartition_OnlyOenPart {
             get {
                 return ResourceManager.GetString("Modifypartition_OnlyOenPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Partition table retrieval failed! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_PartFailed {
+            get {
+                return ResourceManager.GetString("Modifypartition_PartFailed", resourceCulture);
             }
         }
         
@@ -2365,6 +2410,51 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please first select the disk to be read and read the partition table! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_SelectAndRead {
+            get {
+                return ResourceManager.GetString("Modifypartition_SelectAndRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select the correct disk! Note: sdb cannot execute this instruction! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_SelectCorrPart {
+            get {
+                return ResourceManager.GetString("Modifypartition_SelectCorrPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select the disk to be read first! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_SelectDisk {
+            get {
+                return ResourceManager.GetString("Modifypartition_SelectDisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This operation will set the maximum number of partitions on the disk to 128, and will restart Recovery after successful execution! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Set128 {
+            get {
+                return ResourceManager.GetString("Modifypartition_Set128", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This function marks EFI partitions. Please confirm your understanding of its purpose before continuing! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_SetEFI {
+            get {
+                return ResourceManager.GetString("Modifypartition_SetEFI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Start: 的本地化字符串。
         /// </summary>
         public static string Modifypartition_StartpointColon {
@@ -2379,6 +2469,15 @@ namespace UotanToolbox.Assets {
         public static string Modifypartition_TotalSize {
             get {
                 return ResourceManager.GetString("Modifypartition_TotalSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Modifying partitions carries great risks. This tool is only used for interactive operations and does not limit the number or size of partitions! Developers are not responsible for any issues that may arise. Please be aware! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Warn {
+            get {
+                return ResourceManager.GetString("Modifypartition_Warn", resourceCulture);
             }
         }
         

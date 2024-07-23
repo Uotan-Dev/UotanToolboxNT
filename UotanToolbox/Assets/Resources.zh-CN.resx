@@ -1227,4 +1227,37 @@
   <data name="FormatExtract_Writing" xml:space="preserve">
     <value>正在写入...</value>
   </data>
+  <data name="Common_ExeFailed" xml:space="preserve">
+    <value>执行失败！</value>
+  </data>
+  <data name="Modifypartition_EnterCorrNum" xml:space="preserve">
+    <value>请输入正确的分区序号！</value>
+  </data>
+  <data name="Modifypartition_EnterCreat" xml:space="preserve">
+    <value>请输入创建分区需要的参数！</value>
+  </data>
+  <data name="Modifypartition_EnterNum" xml:space="preserve">
+    <value>请输入分区序号！</value>
+  </data>
+  <data name="Modifypartition_PartFailed" xml:space="preserve">
+    <value>分区表获取失败！</value>
+  </data>
+  <data name="Modifypartition_SelectAndRead" xml:space="preserve">
+    <value>请先选择需要读取的磁盘并读取分区表！</value>
+  </data>
+  <data name="Modifypartition_SelectCorrPart" xml:space="preserve">
+    <value>请选择正确的磁盘！注：sdb无法执行该指令！</value>
+  </data>
+  <data name="Modifypartition_SelectDisk" xml:space="preserve">
+    <value>请先选择需要读取的磁盘！</value>
+  </data>
+  <data name="Modifypartition_Set128" xml:space="preserve">
+    <value>此操作会将该磁盘最大分区数量设置为128个，执行成功后将重启Recovery！</value>
+  </data>
+  <data name="Modifypartition_SetEFI" xml:space="preserve">
+    <value>该功能为标记EFI分区，请确认知晓其作用后继续！</value>
+  </data>
+  <data name="Modifypartition_Warn" xml:space="preserve">
+    <value>修改分区有极大风险，本工具仅作交互操作，不对分区数量、大小等进行限制！出现任何问题开发者概不负责，请您悉知！</value>
+  </data>
 </root>

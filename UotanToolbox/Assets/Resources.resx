@@ -1230,4 +1230,37 @@
   <data name="FormatExtract_Writing" xml:space="preserve">
     <value>Writing...</value>
   </data>
+  <data name="Common_ExeFailed" xml:space="preserve">
+    <value>Execution failed!</value>
+  </data>
+  <data name="Modifypartition_EnterCorrNum" xml:space="preserve">
+    <value>Please enter the correct partition number!</value>
+  </data>
+  <data name="Modifypartition_EnterCreat" xml:space="preserve">
+    <value>Please enter the parameters required to create a partition!</value>
+  </data>
+  <data name="Modifypartition_EnterNum" xml:space="preserve">
+    <value>Please enter the partition number!</value>
+  </data>
+  <data name="Modifypartition_PartFailed" xml:space="preserve">
+    <value>Partition table retrieval failed!</value>
+  </data>
+  <data name="Modifypartition_SelectAndRead" xml:space="preserve">
+    <value>Please first select the disk to be read and read the partition table!</value>
+  </data>
+  <data name="Modifypartition_SelectCorrPart" xml:space="preserve">
+    <value>Please select the correct disk! Note: sdb cannot execute this instruction!</value>
+  </data>
+  <data name="Modifypartition_SelectDisk" xml:space="preserve">
+    <value>Please select the disk to be read first!</value>
+  </data>
+  <data name="Modifypartition_Set128" xml:space="preserve">
+    <value>This operation will set the maximum number of partitions on the disk to 128, and will restart Recovery after successful execution!</value>
+  </data>
+  <data name="Modifypartition_SetEFI" xml:space="preserve">
+    <value>This function marks EFI partitions. Please confirm your understanding of its purpose before continuing!</value>
+  </data>
+  <data name="Modifypartition_Warn" xml:space="preserve">
+    <value>Modifying partitions carries great risks. This tool is only used for interactive operations and does not limit the number or size of partitions! Developers are not responsible for any issues that may arise. Please be aware!</value>
+  </data>
 </root>

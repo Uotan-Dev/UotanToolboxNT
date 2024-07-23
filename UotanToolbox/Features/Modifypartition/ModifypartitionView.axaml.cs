@@ -20,7 +20,7 @@ public partial class ModifypartitionView : UserControl
 
     public async Task LoadMassage()
     {
-        var newDialog = new ConnectionDialog("修改分区有极大风险，本工具仅作交互操作，\n不对分区数量、大小等进行限制！\n出现任何问题开发者概不负责，请您悉知！");
+        var newDialog = new ConnectionDialog(GetTranslation("Modifypartition_Warn"));
         await SukiHost.ShowDialogAsync(newDialog);
         if (newDialog.Result == true)
         {
@@ -48,7 +48,7 @@ public partial class ModifypartitionView : UserControl
                 }
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
-                    var newDialog = new ConnectionDialog("当前为系统模式，在系统下提取分区需要ROOT权限，\n\r请确保手机已ROOT，并在接下来的弹窗中授予 Shell ROOT权限！");
+                    var newDialog = new ConnectionDialog(GetTranslation("Common_NeedRoot"));
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == false)
                     {
@@ -105,24 +105,24 @@ public partial class ModifypartitionView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("分区获取失败！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_PartFailed")), allowBackgroundClose: true);
                     }
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请先选择需要读取的磁盘！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectDisk")), allowBackgroundClose: true);
                 }
                 BusyPart.IsBusy = false;
                 ReadPartBut.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式或系统后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -161,33 +161,33 @@ public partial class ModifypartitionView : UserControl
                             string shell = String.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} rm {partnum}");
                             await CallExternalProgram.ADB(shell);
                             ReadPart(sender, args);
-                            SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                         }
                         else
                         {
-                            SukiHost.ShowDialog(new PureDialog("请输入正确的分区序号！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterCorrNum")), allowBackgroundClose: true);
                         }
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("请先选择需要读取的磁盘并读取分区表！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectAndRead")), allowBackgroundClose: true);
                     }
                     RMPartBut.IsEnabled = true;
                     ESPONBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入分区序号！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterNum")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -198,7 +198,7 @@ public partial class ModifypartitionView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Recovery")
             {
-                var newDialog = new ConnectionDialog("该功能为标记EFI分区，请确认知晓其作用后继续！");
+                var newDialog = new ConnectionDialog(GetTranslation("Modifypartition_SetEFI"));
                 await SukiHost.ShowDialogAsync(newDialog);
                 if (newDialog.Result == true)
                 {
@@ -230,34 +230,34 @@ public partial class ModifypartitionView : UserControl
                                 string shell = String.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} set {partnum} esp on");
                                 await CallExternalProgram.ADB(shell);
                                 ReadPart(sender, args);
-                                SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
+                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                             }
                             else
                             {
-                                SukiHost.ShowDialog(new PureDialog("请输入正确的分区序号！"), allowBackgroundClose: true);
+                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterNum")), allowBackgroundClose: true);
                             }
                         }
                         else
                         {
-                            SukiHost.ShowDialog(new PureDialog("请先选择需要读取的磁盘并读取分区表！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectAndRead")), allowBackgroundClose: true);
                         }
                         RMPartBut.IsEnabled = true;
                         ESPONBut.IsEnabled = true;
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("请输入分区序号！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterNum")), allowBackgroundClose: true);
                     }
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -291,27 +291,27 @@ public partial class ModifypartitionView : UserControl
                         string shell = String.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} mkpart {NewPartitionName.Text} {NewPartitionFormat.Text} {NewPartitionStartpoint.Text} {NewPartitionEndpoint.Text}");
                         await CallExternalProgram.ADB(shell);
                         ReadPart(sender, args);
-                        SukiHost.ShowDialog(new PureDialog("执行完成！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog("请先选择需要读取的磁盘并读取分区表！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectAndRead")), allowBackgroundClose: true);
                     }
                     MKPartBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入创建分区需要的参数！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterCreat")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 
@@ -340,7 +340,7 @@ public partial class ModifypartitionView : UserControl
                     choice = "mmcblk0";
                 if (choice != "")
                 {
-                    var newDialog = new ConnectionDialog("此操作会将该磁盘最大分区数量设置为128个\r\n执行成功后将重启Recovery！");
+                    var newDialog = new ConnectionDialog(GetTranslation("Modifypartition_Set128"));
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == true)
                     {
@@ -350,29 +350,29 @@ public partial class ModifypartitionView : UserControl
                         string limit = await CallExternalProgram.ADB(shell);
                         if (!limit.Contains("completed successfully"))
                         {
-                            SukiHost.ShowDialog(new PureDialog("操作失败！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ExeFailed")), allowBackgroundClose: true);
                         }
                         else
                         {
-                            SukiHost.ShowDialog(new PureDialog("操作成功！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                             await CallExternalProgram.ADB("reboot recovery");
                         }
                     }
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请选择正确的磁盘！\r\n注：sdb无法执行该指令！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectCorrPart")), allowBackgroundClose: true);
                 }
                 RemoveLimitBut.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请将设备进入Recovery模式后执行！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 }

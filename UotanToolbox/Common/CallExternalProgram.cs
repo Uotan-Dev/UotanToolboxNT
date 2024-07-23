@@ -253,6 +253,7 @@ namespace UotanToolbox.Common
             {
                 output = await mb.StandardOutput.ReadToEndAsync();
             }
+            mb.WaitForExit();
             int exitCode = mb.ExitCode;
             return (output, exitCode);
         }

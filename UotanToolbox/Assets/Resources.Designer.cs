@@ -2599,6 +2599,42 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter the battery level! 的本地化字符串。
+        /// </summary>
+        public static string Others_EnterBattery {
+            get {
+                return ResourceManager.GetString("Others_EnterBattery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter the screen lock time! 的本地化字符串。
+        /// </summary>
+        public static string Others_EnterLock {
+            get {
+                return ResourceManager.GetString("Others_EnterLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter the parameters to be modified! 的本地化字符串。
+        /// </summary>
+        public static string Others_EnterPara {
+            get {
+                return ResourceManager.GetString("Others_EnterPara", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter the temperature! 的本地化字符串。
+        /// </summary>
+        public static string Others_EnterTemp {
+            get {
+                return ResourceManager.GetString("Others_EnterTemp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Font Adjust 的本地化字符串。
         /// </summary>
         public static string Others_FontAdjust {
@@ -2671,6 +2707,51 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Hurry up and apply for the Nobel Prize! 的本地化字符串。
+        /// </summary>
+        public static string Others_Nobel {
+            get {
+                return ResourceManager.GetString("Others_Nobel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unable to obtain screen resolution and set it! 的本地化字符串。
+        /// </summary>
+        public static string Others_NoScreen {
+            get {
+                return ResourceManager.GetString("Others_NoScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 But it may not necessarily take effect! 的本地化字符串。
+        /// </summary>
+        public static string Others_NotEffect {
+            get {
+                return ResourceManager.GetString("Others_NotEffect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The phone is about to explode 的本地化字符串。
+        /// </summary>
+        public static string Others_PhoneBoom {
+            get {
+                return ResourceManager.GetString("Others_PhoneBoom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 My phone can&apos;t take it anymore 的本地化字符串。
+        /// </summary>
+        public static string Others_PhoneTake {
+            get {
+                return ResourceManager.GetString("Others_PhoneTake", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Revert 的本地化字符串。
         /// </summary>
         public static string Others_Recover {
@@ -2685,6 +2766,15 @@ namespace UotanToolbox.Assets {
         public static string Others_Resolution {
             get {
                 return ResourceManager.GetString("Others_Resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Default restored! 的本地化字符串。
+        /// </summary>
+        public static string Others_Restored {
+            get {
+                return ResourceManager.GetString("Others_Restored", resourceCulture);
             }
         }
         
@@ -2712,6 +2802,15 @@ namespace UotanToolbox.Assets {
         public static string Others_SetScale {
             get {
                 return ResourceManager.GetString("Others_SetScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please select a unit! 的本地化字符串。
+        /// </summary>
+        public static string Others_SetUnit {
+            get {
+                return ResourceManager.GetString("Others_SetUnit", resourceCulture);
             }
         }
         
@@ -2784,6 +2883,33 @@ namespace UotanToolbox.Assets {
         public static string Others_Temperature {
             get {
                 return ResourceManager.GetString("Others_Temperature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The temperature is too high! 的本地化字符串。
+        /// </summary>
+        public static string Others_TempHigh {
+            get {
+                return ResourceManager.GetString("Others_TempHigh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The temperature is too low! 的本地化字符串。
+        /// </summary>
+        public static string Others_TempLow {
+            get {
+                return ResourceManager.GetString("Others_TempLow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Even lower than absolute zero! 的本地化字符串。
+        /// </summary>
+        public static string Others_TempLower {
+            get {
+                return ResourceManager.GetString("Others_TempLower", resourceCulture);
             }
         }
         

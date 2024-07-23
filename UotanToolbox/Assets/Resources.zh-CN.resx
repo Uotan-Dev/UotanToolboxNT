@@ -1260,4 +1260,46 @@
   <data name="Modifypartition_Warn" xml:space="preserve">
     <value>修改分区有极大风险，本工具仅作交互操作，不对分区数量、大小等进行限制！出现任何问题开发者概不负责，请您悉知！</value>
   </data>
+  <data name="Others_EnterBattery" xml:space="preserve">
+    <value>请输入电量！</value>
+  </data>
+  <data name="Others_EnterLock" xml:space="preserve">
+    <value>请输入锁屏时间！</value>
+  </data>
+  <data name="Others_EnterPara" xml:space="preserve">
+    <value>请输入要修改的参数！</value>
+  </data>
+  <data name="Others_EnterTemp" xml:space="preserve">
+    <value>请输入温度！</value>
+  </data>
+  <data name="Others_Nobel" xml:space="preserve">
+    <value>快去申请诺贝奖吧！</value>
+  </data>
+  <data name="Others_NoScreen" xml:space="preserve">
+    <value>未能获取屏幕分辨率无法设置！</value>
+  </data>
+  <data name="Others_NotEffect" xml:space="preserve">
+    <value>但不一定生效哦！</value>
+  </data>
+  <data name="Others_PhoneBoom" xml:space="preserve">
+    <value>手机要爆炸了</value>
+  </data>
+  <data name="Others_PhoneTake" xml:space="preserve">
+    <value>手机要受不了了</value>
+  </data>
+  <data name="Others_Restored" xml:space="preserve">
+    <value>已恢复默认！</value>
+  </data>
+  <data name="Others_SetUnit" xml:space="preserve">
+    <value>请选择单位！</value>
+  </data>
+  <data name="Others_TempHigh" xml:space="preserve">
+    <value>温度太高了！</value>
+  </data>
+  <data name="Others_TempLow" xml:space="preserve">
+    <value>温度太低了！</value>
+  </data>
+  <data name="Others_TempLower" xml:space="preserve">
+    <value>比绝对零度还低！</value>
+  </data>
 </root>

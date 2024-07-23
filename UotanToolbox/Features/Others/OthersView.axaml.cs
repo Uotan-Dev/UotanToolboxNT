@@ -85,46 +85,46 @@ public partial class OthersView : UserControl
                 if (!string.IsNullOrEmpty(Transverse.Text) && !string.IsNullOrEmpty(Direction.Text))
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size {Transverse.Text}x{Direction.Text}");
-                    SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 if (!string.IsNullOrEmpty(DPIorDP.Text))
                 {
                     if (SetUnit.SelectedItem == null)
                     {
-                        SukiHost.ShowDialog(new PureDialog("请选择单位！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_SetUnit")), allowBackgroundClose: true);
                     }
                     else if (SetUnit.SelectedItem.ToString() == "DPI")
                     {
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density {DPIorDP.Text}");
-                        SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                     }
                     else if (SetUnit.SelectedItem.ToString() == "DP")
                     {
                         if (!string.IsNullOrEmpty(ScrResolution.Text) && ScrResolution.Text != "--")
                         {
                             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density {StringHelper.GetDPI(ScrResolution.Text, DPIorDP.Text)}");
-                            SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                         }
                         else
                         {
-                            SukiHost.ShowDialog(new PureDialog("未能获取屏幕分辨率无法设置！"), allowBackgroundClose: true);
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_NoScreen")), allowBackgroundClose: true);
                         }
                     }
                 }
                 if ((string.IsNullOrEmpty(Transverse.Text) || string.IsNullOrEmpty(Direction.Text)) && (SetUnit.SelectedItem == null || string.IsNullOrEmpty(DPIorDP.Text)))
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入要修改的参数！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_EnterPara")), allowBackgroundClose: true);
                 }
 
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         Display.IsEnabled = true;
         BusyDisplay.IsBusy = false;
@@ -141,16 +141,16 @@ public partial class OthersView : UserControl
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size reset");
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density reset");
-                SukiHost.ShowDialog(new PureDialog("已恢复默认！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_Restored")), allowBackgroundClose: true);
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         Display.IsEnabled = true;
         BusyDisplay.IsBusy = false;
@@ -183,33 +183,33 @@ public partial class OthersView : UserControl
                     float temp = StringHelper.OnlynumFloat(Temp.Text);
                     if (temp >= 100)
                     {
-                        await SukiHost.ShowToast("温度太高了！", "手机要爆炸了(╯‵□′)╯", NotificationType.Error);
+                        await SukiHost.ShowToast(GetTranslation("Others_TempHigh"), GetTranslation("Others_PhoneBoom") + "(╯‵□′)╯", NotificationType.Error);
                     }
                     else if (temp < -30 && temp > -273.15)
                     {
-                        await SukiHost.ShowToast("温度太低了！", "手机要受不了了{{{(>_<)}}}", NotificationType.Error);
+                        await SukiHost.ShowToast(GetTranslation("Others_TempLow"), GetTranslation("Others_PhoneTake") + "{{{(>_<)}}}", NotificationType.Error);
                     }
                     else if (temp < -273.15)
                     {
-                        await SukiHost.ShowToast("比绝对零度还低！", "快去申请诺贝奖吧！(￣y▽,￣)╭ ", NotificationType.Error);
+                        await SukiHost.ShowToast(GetTranslation("Others_TempLower"), GetTranslation("Others_Nobel") + "(￣y▽,￣)╭ ", NotificationType.Error);
                         return;
                     }
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set temp {temp * 10}");
-                    SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入温度！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_EnterTemp")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         SetEnable(false);
     }
@@ -224,21 +224,21 @@ public partial class OthersView : UserControl
                 if (!string.IsNullOrEmpty(BLevel.Text))
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set level {BLevel.Text}");
-                    SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入电量！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_EnterBattery")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         SetEnable(false);
     }
@@ -252,7 +252,7 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery reset");
-                SukiHost.ShowDialog(new PureDialog("已恢复默认！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_Restored")), allowBackgroundClose: true);
                 NoCharge.IsChecked = false;
                 WirelessCharge.IsChecked = false;
                 USUCharge.IsChecked = false;
@@ -260,12 +260,12 @@ public partial class OthersView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         SetEnable(false);
     }
@@ -284,16 +284,16 @@ public partial class OthersView : UserControl
                     USUCharge.IsChecked = false;
                     ACCharge.IsChecked = false;
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
-                    SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
             }
             SetEnable(false);
         }
@@ -313,16 +313,16 @@ public partial class OthersView : UserControl
                     USUCharge.IsChecked = false;
                     ACCharge.IsChecked = false;
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
-                    SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
             }
             SetEnable(false);
         }
@@ -342,16 +342,16 @@ public partial class OthersView : UserControl
                     NoCharge.IsChecked = false;
                     ACCharge.IsChecked = false;
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
-                    SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
             }
             SetEnable(false);
         }
@@ -372,16 +372,16 @@ public partial class OthersView : UserControl
                     USUCharge.IsChecked = false;
                     NoCharge.IsChecked = false;
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
-                    SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
             }
             SetEnable(false);
         }
@@ -399,22 +399,22 @@ public partial class OthersView : UserControl
                 if (!string.IsNullOrEmpty(NewLockTime.Text))
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put system screen_off_timeout {StringHelper.Onlynum(NewLockTime.Text) * 1000}");
-                    SukiHost.ShowDialog(new PureDialog("执行成功！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                     LockTime.Text = (StringHelper.Onlynum(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system screen_off_timeout")) / 1000).ToString() + "s";
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog("请输入锁屏时间！"), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_EnterLock")), allowBackgroundClose: true);
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         BusyLock.IsBusy = false;
         Lock.IsEnabled = true;
@@ -475,16 +475,16 @@ public partial class OthersView : UserControl
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global time_zone Asia/Shanghai");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global ntp_server ntp1.aliyun.com");
                 }
-                await SukiHost.ShowToast("执行成功！", "但不一定生效哦！", NotificationType.Success);
+                await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         ShowAndHide.IsEnabled = true;
     }
@@ -533,17 +533,17 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put system font_scale {FontZoom.Value}");
-                await SukiHost.ShowToast("执行成功！", "但不一定生效哦！", NotificationType.Success);
+                await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
                 NowFontZoom.Text = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system font_scale")).ToString();
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         SetFalse(false);
     }
@@ -574,16 +574,16 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global window_animation_scale {WindowZoom.Value}");
-                await SukiHost.ShowToast("执行成功！", "但不一定生效哦！", NotificationType.Success);
+                await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         SetFalse(false);
     }
@@ -614,16 +614,16 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global transition_animation_scale {TransitionZoom.Value}");
-                await SukiHost.ShowToast("执行成功！", "但不一定生效哦！", NotificationType.Success);
+                await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         SetFalse(false);
     }
@@ -654,16 +654,16 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global animator_duration_scale {AnimationDuration.Value}");
-                await SukiHost.ShowToast("执行成功！", "但不一定生效哦！", NotificationType.Success);
+                await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog("请进入系统模式并开启USB调试！"), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog("设备未连接！"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
         SetFalse(false);
     }

@@ -1263,4 +1263,46 @@
   <data name="Modifypartition_Warn" xml:space="preserve">
     <value>Modifying partitions carries great risks. This tool is only used for interactive operations and does not limit the number or size of partitions! Developers are not responsible for any issues that may arise. Please be aware!</value>
   </data>
+  <data name="Others_EnterBattery" xml:space="preserve">
+    <value>Please enter the battery level!</value>
+  </data>
+  <data name="Others_EnterLock" xml:space="preserve">
+    <value>Please enter the screen lock time!</value>
+  </data>
+  <data name="Others_EnterPara" xml:space="preserve">
+    <value>Please enter the parameters to be modified!</value>
+  </data>
+  <data name="Others_EnterTemp" xml:space="preserve">
+    <value>Please enter the temperature!</value>
+  </data>
+  <data name="Others_Nobel" xml:space="preserve">
+    <value>Hurry up and apply for the Nobel Prize!</value>
+  </data>
+  <data name="Others_NoScreen" xml:space="preserve">
+    <value>Unable to obtain screen resolution and set it!</value>
+  </data>
+  <data name="Others_NotEffect" xml:space="preserve">
+    <value>But it may not necessarily take effect!</value>
+  </data>
+  <data name="Others_PhoneBoom" xml:space="preserve">
+    <value>The phone is about to explode</value>
+  </data>
+  <data name="Others_PhoneTake" xml:space="preserve">
+    <value>My phone can't take it anymore</value>
+  </data>
+  <data name="Others_Restored" xml:space="preserve">
+    <value>Default restored!</value>
+  </data>
+  <data name="Others_SetUnit" xml:space="preserve">
+    <value>Please select a unit!</value>
+  </data>
+  <data name="Others_TempHigh" xml:space="preserve">
+    <value>The temperature is too high!</value>
+  </data>
+  <data name="Others_TempLow" xml:space="preserve">
+    <value>The temperature is too low!</value>
+  </data>
+  <data name="Others_TempLower" xml:space="preserve">
+    <value>Even lower than absolute zero!</value>
+  </data>
 </root>

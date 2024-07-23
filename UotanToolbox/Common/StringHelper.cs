@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
@@ -340,7 +339,7 @@ namespace UotanToolbox.Common
             var kernelVersion = match.Groups[2].Value;
             return $"{androidVersion}-{kernelVersion}";
         }
-        
+
         public static string ByteToHex(byte comByte)
         {
             return comByte.ToString("X2") + " ";

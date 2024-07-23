@@ -92,7 +92,7 @@ namespace UotanToolbox.Common.PatchHelper
                 (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
                 if (Global.System == "macOS")
                 {
-                    ramdisk_path = Path.Join("/private",ramdisk_path);
+                    ramdisk_path = Path.Join("/private", ramdisk_path);
                 }
                 string initPath = Path.Join(ramdisk_path, "init");
                 if (File.Exists(Path.Join(ramdisk_path, "/system/bin/init")))

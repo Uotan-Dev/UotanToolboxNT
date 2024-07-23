@@ -6,6 +6,6 @@ namespace SukiUI.Enums
         Flat,
         Bubble,
         BubbleStrong,
-       
+
     }
 }

@@ -325,8 +325,8 @@ public partial class DashboardView : UserControl
 
     public static FilePickerFileType Zip { get; } = new("Zip")
     {
-        Patterns = new[] { "*.zip", "*.apk" },
-        AppleUniformTypeIdentifiers = new[] { "*.zip", "*.apk" }
+        Patterns = new[] { "*.zip", "*.apk"/* ,"*.ko"*/},
+        AppleUniformTypeIdentifiers = new[] { "*.zip", "*.apk"/*, "*.ko"*/}
     };
 
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
@@ -416,9 +416,9 @@ public partial class DashboardView : UserControl
                     await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
                 case PatchMode.KernelSU:
-                    //await KernelSU_Patch(Global.Zipinfo, Global.Bootinfo);
-                    //break;
-                    throw new Exception(GetTranslation("Basicflash_CantKSU"));
+                    await KernelSUPatch.KernelSU_Patch(Global.Zipinfo, Global.Bootinfo);
+                    break;
+                    //throw new Exception(GetTranslation("Basicflash_CantKSU"));
             }
             SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_PatchDone")), allowBackgroundClose: true);
             FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path));

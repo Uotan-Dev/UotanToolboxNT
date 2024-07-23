@@ -110,7 +110,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
                 });
-                IsInstalling = false;  return;
+                IsInstalling = false; return;
             }
             var fileArray = ApkFile.Split("|||");
             for (int i = 0; i < fileArray.Length; i++)

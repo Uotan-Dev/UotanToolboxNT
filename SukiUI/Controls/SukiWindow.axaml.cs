@@ -1,18 +1,16 @@
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
+using SukiUI.Enums;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reflection;
-using Avalonia.Collections;
-using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Interactivity;
-using SukiUI.Enums;
-using SukiUI.Utilities;
 using System.Runtime.InteropServices;
 
 namespace SukiUI.Controls;
@@ -137,7 +135,7 @@ public class SukiWindow : Window
         AvaloniaProperty.Register<SukiWindow, SukiBackgroundStyle>(nameof(BackgroundStyle),
             defaultValue: SukiBackgroundStyle.Bubble);
 
-    
+
     /// <inheritdoc cref="SukiBackground.Style"/>
     public SukiBackgroundStyle BackgroundStyle
     {
@@ -158,17 +156,17 @@ public class SukiWindow : Window
     public static readonly StyledProperty<string?> BackgroundShaderCodeProperty =
         AvaloniaProperty.Register<SukiWindow, string?>(nameof(BackgroundShaderCode));
 
-    
+
     /// <inheritdoc cref="SukiBackground.ShaderCode"/>
     public string? BackgroundShaderCode
     {
         get => GetValue(BackgroundShaderCodeProperty);
         set => SetValue(BackgroundShaderCodeProperty, value);
     }
-    
+
     public static readonly StyledProperty<bool> BackgroundTransitionsEnabledProperty =
         AvaloniaProperty.Register<SukiBackground, bool>(nameof(BackgroundTransitionsEnabled), defaultValue: false);
-    
+
     /// <inheritdoc cref="SukiBackground.TransitionsEnabled"/>
     public bool BackgroundTransitionsEnabled
     {
@@ -178,7 +176,7 @@ public class SukiWindow : Window
 
     public static readonly StyledProperty<double> BackgroundTransitionTimeProperty =
         AvaloniaProperty.Register<SukiBackground, double>(nameof(BackgroundTransitionTime), defaultValue: 1.0);
-    
+
     /// <inheritdoc cref="SukiBackground.TransitionTime"/>
     public double BackgroundTransitionTime
     {
@@ -229,7 +227,7 @@ public class SukiWindow : Window
             {
                 maximize.Click += OnMaximizeButtonClicked;
                 bool pointerOnMaxButton = false;
-                var  setter             = typeof(Button).GetProperty("IsPointerOver");
+                var setter = typeof(Button).GetProperty("IsPointerOver");
 
                 var proc = (IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam, ref bool handled) =>
                 {
@@ -247,16 +245,16 @@ public class SukiWindow : Window
                                 (short)(ToInt32(lParam) & 0xffff),
                                 (short)(ToInt32(lParam) >> 16));
                             var buttonLeftTop = maximize.PointToScreen(new(0, 0));
-                            var x             = (buttonLeftTop.X - point.X)         / RenderScaling;
-                            var y             = (point.Y         - buttonLeftTop.Y) / RenderScaling;
+                            var x = (buttonLeftTop.X - point.X) / RenderScaling;
+                            var y = (point.Y - buttonLeftTop.Y) / RenderScaling;
                             if (new Rect(0, 0,
                                     maximize.DesiredSize.Width,
                                     maximize.DesiredSize.Height)
                                 .Contains(new Point(x, y)))
                             {
                                 setter?.SetValue(maximize, true);
-                                pointerOnMaxButton     = true;
-                                handled                = true;
+                                pointerOnMaxButton = true;
+                                handled = true;
                                 return (IntPtr)9;
                             }
 
@@ -266,21 +264,21 @@ public class SukiWindow : Window
                     }
 
                     return IntPtr.Zero;
-                    
+
                     static int ToInt32(IntPtr ptr) => IntPtr.Size == 4 ? ptr.ToInt32() : (int)(ptr.ToInt64() & 0xffffffff);
                 };
 
-                
+
 
                 Win32Properties.AddWndProcHookCallback(this, new Win32Properties.CustomWndProcHookCallback(proc));
-            } 
+            }
 
             if (e.NameScope.Get<Button>("PART_MinimizeButton") is { } minimize)
                 minimize.Click += (_, _) =>
                 {
-           
+
                     WindowState = WindowState.Minimized;
-                   
+
                 };
 
             if (e.NameScope.Get<Button>("PART_CloseButton") is { } close)

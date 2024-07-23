@@ -475,7 +475,7 @@
     <value>Boot:</value>
   </data>
   <data name="Basicflash_ChooseMagisk" xml:space="preserve">
-    <value>Magisk:</value>
+    <value>File:</value>
   </data>
   <data name="Basicflash_ChooseRecovery" xml:space="preserve">
     <value>RecoveryFile:</value>
@@ -907,7 +907,7 @@
     <value>The current device does not require this operation!</value>
   </data>
   <data name="Basicflash_PatchDone" xml:space="preserve">
-    <value>Magisk patch done</value>
+    <value>Boot patch done, is it flashing to the currently connected device?</value>
   </data>
   <data name="Basicflash_PreMagisk" xml:space="preserve">
     <value>During pre-processing of Magisk components</value>

@@ -344,7 +344,7 @@ public partial class HomeViewModel : MainPageBase
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                 if (output.Contains("unknown command"))
                 {
-                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc bin/img/misc.img");
+                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
                     await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
                 }
                 else

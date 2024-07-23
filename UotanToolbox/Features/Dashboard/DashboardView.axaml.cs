@@ -77,6 +77,7 @@ public partial class DashboardView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
+                Global.checkdevice = false;
                 BusyUnlock.IsBusy = true;
                 UnlockPanel.IsEnabled = false;
                 if (!string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
@@ -114,6 +115,7 @@ public partial class DashboardView : UserControl
                 }
                 BusyUnlock.IsBusy = false;
                 UnlockPanel.IsEnabled = true;
+                Global.checkdevice = true;
             }
             else
             {
@@ -133,6 +135,7 @@ public partial class DashboardView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
+                Global.checkdevice = false;
                 BusyUnlock.IsBusy = true;
                 UnlockPanel.IsEnabled = false;
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
@@ -147,6 +150,7 @@ public partial class DashboardView : UserControl
                 }
                 BusyUnlock.IsBusy = false;
                 UnlockPanel.IsEnabled = true;
+                Global.checkdevice = true;
             }
             else
             {
@@ -217,6 +221,7 @@ public partial class DashboardView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
+                Global.checkdevice = false;
                 BusyFlash.IsBusy = true;
                 FlashRecovery.IsEnabled = false;
                 if (!string.IsNullOrEmpty(RecFile.Text))
@@ -231,7 +236,7 @@ public partial class DashboardView : UserControl
                             output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                             if (output.Contains("unknown command"))
                             {
-                                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc bin/img/misc.img");
+                                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
                                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
                             }
                         }
@@ -247,6 +252,7 @@ public partial class DashboardView : UserControl
                 }
                 BusyFlash.IsBusy = false;
                 FlashRecovery.IsEnabled = true;
+                Global.checkdevice = true;
             }
             else
             {
@@ -281,6 +287,7 @@ public partial class DashboardView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
+                Global.checkdevice = false;
                 BusyFlash.IsBusy = true;
                 FlashRecovery.IsEnabled = false;
                 if (!string.IsNullOrEmpty(RecFile.Text))
@@ -301,6 +308,7 @@ public partial class DashboardView : UserControl
                 }
                 BusyFlash.IsBusy = false;
                 FlashRecovery.IsEnabled = true;
+                Global.checkdevice = true;
             }
             else
             {
@@ -410,18 +418,27 @@ public partial class DashboardView : UserControl
             {
                 Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
             }
+            string newboot = null;
             switch (Global.Zipinfo.Mode)
             {
                 case PatchMode.Magisk:
-                    await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
+                    newboot = await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
                 case PatchMode.KernelSU:
-                    await KernelSUPatch.KernelSU_Patch(Global.Zipinfo, Global.Bootinfo);
+                    newboot = await KernelSUPatch.KernelSU_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
                     //throw new Exception(GetTranslation("Basicflash_CantKSU"));
             }
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_PatchDone")), allowBackgroundClose: true);
-            FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path));
+            var newDialog = new ConnectionDialog(GetTranslation("Basicflash_PatchDone"));
+            await SukiHost.ShowDialogAsync(newDialog);
+            if (newDialog.Result == true)
+            {
+                await FlashBoot(newboot);
+            }
+            else
+            {
+                FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path));
+            }
             Global.Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
             Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "");
             SetDefaultMagisk();
@@ -435,29 +452,24 @@ public partial class DashboardView : UserControl
         patch_busy(false);
     }
 
-    private async void FlashBoot(object sender, RoutedEventArgs args)
+    private async Task FlashBoot(string boot)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
-                if (!string.IsNullOrEmpty(BootFile.Text))
+                Global.checkdevice = false;
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash boot \"{boot}\"");
+                if (!output.Contains("FAILED") && !output.Contains("error"))
                 {
-                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash boot \"{BootFile.Text}\"");
-                    if (!output.Contains("FAILED") && !output.Contains("error"))
-                    {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_FlashSucc")), allowBackgroundClose: true);
-                    }
-                    else
-                    {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_RecoveryFailed")), allowBackgroundClose: true);
-                    }
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_FlashSucc")), allowBackgroundClose: true);
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectBoot")), allowBackgroundClose: true);
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_RecoveryFailed")), allowBackgroundClose: true);
                 }
+                Global.checkdevice = true;
             }
             else
             {
@@ -558,31 +570,42 @@ public partial class DashboardView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery")
+            if (MagiskFile.Text != null)
             {
-                if (MagiskFile.Text != null)
+                BusyInstall.IsBusy = true;
+                InstallZIP.IsEnabled = false;
+                if (TWRPInstall.IsChecked == true)
                 {
-                    BusyInstall.IsBusy = true;
-                    InstallZIP.IsEnabled = false;
-                    if (TWRPInstall.IsChecked == true)
+                    if (sukiViewModel.Status == "Recovery")
                     {
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /tmp/magisk.apk");
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/magisk.apk");
                     }
-                    else if (ADBSideload.IsChecked == true)
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                    }
+                }
+                else if (ADBSideload.IsChecked == true)
+                {
+                    if (sukiViewModel.Status == "Sideload")
                     {
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload \"{MagiskFile.Text}\"");
                     }
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
-                    BusyInstall.IsBusy = false;
-                    InstallZIP.IsEnabled = true;
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterSideload")), allowBackgroundClose: true);
+                    }
                 }
-                else
-                {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectMagiskRight")), allowBackgroundClose: true);
-                }
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+                BusyInstall.IsBusy = false;
+                InstallZIP.IsEnabled = true;
             }
-            else if (sukiViewModel.Status == GetTranslation("Home_System"))
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectMagiskRight")), allowBackgroundClose: true);
+            }
+            if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (MagiskFile.Text != null)
                 {
@@ -603,10 +626,6 @@ public partial class DashboardView : UserControl
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_SelectMagiskRight")), allowBackgroundClose: true);
                 }
             }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
-            }
         }
         else
         {
@@ -619,27 +638,34 @@ public partial class DashboardView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery")
+            BusyInstall.IsBusy = true;
+            InstallZIP.IsEnabled = false;
+            if (TWRPInstall.IsChecked == true)
             {
-                BusyInstall.IsBusy = true;
-                InstallZIP.IsEnabled = false;
-                if (TWRPInstall.IsChecked == true)
+                if (sukiViewModel.Status == "Recovery")
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/DisableAutoRecovery.zip /tmp/");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/DisableAutoRecovery.zip");
                 }
-                else if (ADBSideload.IsChecked == true)
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                }
+            }
+            else if (ADBSideload.IsChecked == true)
+            {
+                if (sukiViewModel.Status == "Sideload")
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/DisableAutoRecovery.zip");
                 }
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
-                BusyInstall.IsBusy = false;
-                InstallZIP.IsEnabled = true;
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterSideload")), allowBackgroundClose: true);
+                }
             }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
-            }
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+            BusyInstall.IsBusy = false;
+            InstallZIP.IsEnabled = true;
         }
         else
         {
@@ -652,27 +678,34 @@ public partial class DashboardView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery")
+            BusyInstall.IsBusy = true;
+            InstallZIP.IsEnabled = false;
+            if (TWRPInstall.IsChecked == true)
             {
-                BusyInstall.IsBusy = true;
-                InstallZIP.IsEnabled = false;
-                if (TWRPInstall.IsChecked == true)
+                if (sukiViewModel.Status == "Recovery")
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/copy-partitions.zip /tmp/");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/copy-partitions.zip");
                 }
-                else if (ADBSideload.IsChecked == true)
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                }
+            }
+            else if (ADBSideload.IsChecked == true)
+            {
+                if (sukiViewModel.Status == "Sideload")
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/copy-partitions.zip");
                 }
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
-                BusyInstall.IsBusy = false;
-                InstallZIP.IsEnabled = true;
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterSideload")), allowBackgroundClose: true);
+                }
             }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
-            }
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+            BusyInstall.IsBusy = false;
+            InstallZIP.IsEnabled = true;
         }
         else
         {

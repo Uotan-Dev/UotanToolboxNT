@@ -421,7 +421,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Magisk: 的本地化字符串。
+        ///   查找类似 File: 的本地化字符串。
         /// </summary>
         public static string Basicflash_ChooseMagisk {
             get {
@@ -736,7 +736,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Magisk patch done 的本地化字符串。
+        ///   查找类似 Boot patch done, is it flashing to the currently connected device? 的本地化字符串。
         /// </summary>
         public static string Basicflash_PatchDone {
             get {

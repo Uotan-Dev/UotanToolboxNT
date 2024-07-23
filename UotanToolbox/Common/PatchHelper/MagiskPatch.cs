@@ -10,7 +10,7 @@ namespace UotanToolbox.Common.PatchHelper
     internal class MagiskPatch
     {
         private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-        public async static Task Magisk_Patch(ZipInfo zipInfo, BootInfo bootInfo)
+        public async static Task<string> Magisk_Patch(ZipInfo zipInfo, BootInfo bootInfo)
         {
             if (bootInfo.HaveRamdisk == false)
             {
@@ -49,8 +49,9 @@ namespace UotanToolbox.Common.PatchHelper
             await kernel_patch(bootInfo, EnvironmentVariable.LEGACYSAR);
             CleanBoot(bootInfo.TempPath);
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{bootInfo.Path}\"", bootInfo.TempPath);
-            File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), Path.Combine(Path.GetDirectoryName(bootInfo.Path), "boot_patched_" + randomStr + ".img"), true);
-
+            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "boot_patched_" + randomStr + ".img");
+            File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
+            return newboot;
         }
         private static void boot_img_pre(BootInfo bootinfo)
         {

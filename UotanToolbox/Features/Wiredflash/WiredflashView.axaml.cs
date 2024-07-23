@@ -515,6 +515,22 @@ public partial class WiredflashView : UserControl
         }
     }
 
+    public void MoreFlashBusy(bool is_busy)
+    {
+        if (is_busy)
+        {
+            Global.checkdevice = false;
+            BusyFlash.IsBusy = true;
+            MoreWiredFlash.IsEnabled = false;
+        }
+        else
+        {
+            Global.checkdevice = true;
+            BusyFlash.IsBusy = false;
+            MoreWiredFlash.IsEnabled = true;
+        }
+    }
+
     private async void StartFlash(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
@@ -524,15 +540,13 @@ public partial class WiredflashView : UserControl
             {
                 if (sukiViewModel.Status == "Sideload")
                 {
-                    BusyFlash.IsBusy = true;
-                    MoreWiredFlash.IsEnabled = false;
+                    MoreFlashBusy(true);
                     output = "";
                     WiredflashLog.Text = "";
                     string shell = String.Format($"-s {Global.thisdevice} sideload \"{AdbSideloadFile.Text}\"");
                     await ADB(shell);
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
-                    BusyFlash.IsBusy = false;
-                    MoreWiredFlash.IsEnabled = true;
+                    MoreFlashBusy(false);
                 }
                 else
                 {
@@ -543,15 +557,13 @@ public partial class WiredflashView : UserControl
             {
                 if (sukiViewModel.Status == "Fastboot")
                 {
-                    BusyFlash.IsBusy = true;
-                    MoreWiredFlash.IsEnabled = false;
+                    MoreFlashBusy(true);
                     output = "";
                     WiredflashLog.Text = "";
                     string shell = String.Format($"-s {Global.thisdevice} update \"{FastbootUpdatedFile.Text}\"");
                     await Fastboot(shell);
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
-                    BusyFlash.IsBusy = false;
-                    MoreWiredFlash.IsEnabled = true;
+                    MoreFlashBusy(false);
                 }
                 else
                 {
@@ -562,8 +574,7 @@ public partial class WiredflashView : UserControl
             {
                 if (sukiViewModel.Status == "Fastboot")
                 {
-                    BusyFlash.IsBusy = true;
-                    MoreWiredFlash.IsEnabled = false;
+                    MoreFlashBusy(true);
                     output = "";
                     WiredflashLog.Text = "";
                     if (Global.System == "Windows")
@@ -575,8 +586,7 @@ public partial class WiredflashView : UserControl
                         await RunSH(BatFile.Text);
                     }
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
-                    BusyFlash.IsBusy = false;
-                    MoreWiredFlash.IsEnabled = true;
+                    MoreFlashBusy(false);
                 }
                 else
                 {

@@ -81,6 +81,7 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
+                    Global.checkdevice = false;
                     OpenSystemFileBut.IsEnabled = false;
                     FlashSystemFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
@@ -88,6 +89,7 @@ public partial class CustomizedflashView : UserControl
                     await Fastboot(shell);
                     OpenSystemFileBut.IsEnabled = true;
                     FlashSystemFileBut.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {
@@ -127,6 +129,7 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
+                    Global.checkdevice = false;
                     OpenProductFileBut.IsEnabled = false;
                     FlashProductFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
@@ -134,6 +137,7 @@ public partial class CustomizedflashView : UserControl
                     await Fastboot(shell);
                     OpenProductFileBut.IsEnabled = true;
                     FlashProductFileBut.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {
@@ -172,6 +176,7 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
+                    Global.checkdevice = false;
                     OpenVenderFileBut.IsEnabled = false;
                     FlashVenderFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
@@ -179,6 +184,7 @@ public partial class CustomizedflashView : UserControl
                     await Fastboot(shell);
                     OpenVenderFileBut.IsEnabled = true;
                     FlashVenderFileBut.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {
@@ -217,6 +223,7 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
+                    Global.checkdevice = false;
                     OpenBootFileBut.IsEnabled = false;
                     FlashBootFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
@@ -224,6 +231,7 @@ public partial class CustomizedflashView : UserControl
                     await Fastboot(shell);
                     OpenBootFileBut.IsEnabled = true;
                     FlashBootFileBut.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {
@@ -262,6 +270,7 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
+                    Global.checkdevice = false;
                     OpenSystemextFileBut.IsEnabled = false;
                     FlashSystemextFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
@@ -269,6 +278,7 @@ public partial class CustomizedflashView : UserControl
                     await Fastboot(shell);
                     OpenSystemextFileBut.IsEnabled = true;
                     FlashSystemextFileBut.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {
@@ -307,6 +317,7 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
+                    Global.checkdevice = false;
                     OpenOdmFileBut.IsEnabled = false;
                     FlashOdmFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
@@ -314,6 +325,7 @@ public partial class CustomizedflashView : UserControl
                     await Fastboot(shell);
                     OpenOdmFileBut.IsEnabled = true;
                     FlashOdmFileBut.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {
@@ -352,6 +364,7 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
+                    Global.checkdevice = false;
                     OpenVenderbootFileBut.IsEnabled = false;
                     FlashVenderbootFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
@@ -359,6 +372,7 @@ public partial class CustomizedflashView : UserControl
                     await Fastboot(shell);
                     OpenVenderbootFileBut.IsEnabled = true;
                     FlashVenderbootFileBut.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {
@@ -397,6 +411,7 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
+                    Global.checkdevice = false;
                     OpenInitbootFileBut.IsEnabled = false;
                     FlashInitbootFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
@@ -404,6 +419,7 @@ public partial class CustomizedflashView : UserControl
                     await Fastboot(shell);
                     OpenInitbootFileBut.IsEnabled = true;
                     FlashInitbootFileBut.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {
@@ -442,6 +458,7 @@ public partial class CustomizedflashView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
+                    Global.checkdevice = false;
                     OpenImageFileBut.IsEnabled = false;
                     FlashImageFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
@@ -449,6 +466,7 @@ public partial class CustomizedflashView : UserControl
                     await Fastboot(shell);
                     OpenImageFileBut.IsEnabled = true;
                     FlashImageFileBut.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {

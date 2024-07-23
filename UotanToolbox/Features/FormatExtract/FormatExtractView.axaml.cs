@@ -368,6 +368,7 @@ public partial class FormatExtractView : UserControl
             {
                 if (!string.IsNullOrEmpty(SuperEmptyFile.Text))
                 {
+                    Global.checkdevice = false;
                     BusyFlash.IsBusy = true;
                     SuperEmpty.IsEnabled = false;
                     output = "";
@@ -383,6 +384,7 @@ public partial class FormatExtractView : UserControl
                     }
                     BusyFlash.IsBusy = false;
                     SuperEmpty.IsEnabled = true;
+                    Global.checkdevice = true;
                 }
                 else
                 {

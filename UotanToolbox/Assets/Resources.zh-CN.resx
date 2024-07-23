@@ -448,7 +448,7 @@
     <value>选择Boot:</value>
   </data>
   <data name="Basicflash_ChooseMagisk" xml:space="preserve">
-    <value>选择面具:</value>
+    <value>选择文件:</value>
   </data>
   <data name="Basicflash_ChooseRecovery" xml:space="preserve">
     <value>选择Recovery:</value>
@@ -907,7 +907,7 @@
     <value>当前设备无需进行此操作！</value>
   </data>
   <data name="Basicflash_PatchDone" xml:space="preserve">
-    <value>面具修补完成</value>
+    <value>Boot修补完成，是否刷入至当前连接设备？</value>
   </data>
   <data name="Basicflash_PreMagisk" xml:space="preserve">
     <value>Magisk组件预处理时</value>

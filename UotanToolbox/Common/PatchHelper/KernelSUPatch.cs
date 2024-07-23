@@ -8,7 +8,7 @@ namespace UotanToolbox.Common.PatchHelper
     internal class KernelSUPatch
     {
         private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-        public async static Task KernelSU_Patch(ZipInfo zipInfo, BootInfo bootInfo)
+        public async static Task<string> KernelSU_Patch(ZipInfo zipInfo, BootInfo bootInfo)
         {
             if (bootInfo.HaveKernel == false)
             {
@@ -25,7 +25,9 @@ namespace UotanToolbox.Common.PatchHelper
             Random random = new Random();
             string randomStr = new string(Enumerable.Repeat(allowedChars, 16)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
-            File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), Path.Combine(Path.GetDirectoryName(bootInfo.Path), "boot_patched_" + randomStr + ".img"), true);
+            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "boot_patched_" + randomStr + ".img");
+            File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
+            return newboot;
         }
         private static void CleanBoot(string path)
         {

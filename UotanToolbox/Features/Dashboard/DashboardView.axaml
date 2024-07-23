@@ -197,12 +197,9 @@
 							<ComboBox Width="160" Name="ArchList"/>
 						</StackPanel>
 					</StackPanel>
-					<StackPanel Margin="100,0,0,0" Orientation="Horizontal" Spacing="20">
-						<Button Width="180" Margin="0,10,0,0" Click="StartPatch">
+					<StackPanel Spacing="15">
+						<Button Width="210" Margin="0,10,0,0" Click="StartPatch">
 							<TextBlock Text="{x:Static assets:Resources.Basicflash_Start}"/>
-						</Button>
-						<Button Width="180" Margin="0,10,0,0" Click="FlashBoot">
-							<TextBlock Text="{x:Static assets:Resources.Basicflash_FlashBoot}"/>
 						</Button>
 					</StackPanel>
 				</StackPanel>

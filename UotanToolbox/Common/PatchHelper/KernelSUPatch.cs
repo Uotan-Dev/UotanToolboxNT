@@ -14,7 +14,7 @@ namespace UotanToolbox.Common.PatchHelper
             {
                 throw new Exception(GetTranslation("Basicflash_BootWong"));
             }
-            File.Copy(Path.Combine(zipInfo.TempPath, "Image"), Path.Combine(bootInfo.TempPath, "kernel"));
+            File.Copy(Path.Combine(zipInfo.TempPath, "Image"), Path.Combine(bootInfo.TempPath, "kernel"),true);
             CleanBoot(bootInfo.TempPath);
             (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{bootInfo.Path}\"", bootInfo.TempPath);
             if (exitcode != 0)

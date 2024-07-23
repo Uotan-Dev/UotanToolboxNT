@@ -70,6 +70,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Possible activation failure 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ActiveFail {
+            get {
+                return ResourceManager.GetString("Appmgr_ActiveFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Activation successful 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_ActiveSucc {
+            get {
+                return ResourceManager.GetString("Appmgr_ActiveSucc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Apk File 的本地化字符串。
         /// </summary>
         public static string Appmgr_ApkFile {
@@ -196,6 +214,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Greenify 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Greenify {
+            get {
+                return ResourceManager.GetString("Appmgr_Greenify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Install App 的本地化字符串。
         /// </summary>
         public static string Appmgr_InstallApp {
@@ -232,6 +259,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 PermissionDog 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_PermissionDog {
+            get {
+                return ResourceManager.GetString("Appmgr_PermissionDog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please execute in system 的本地化字符串。
         /// </summary>
         public static string Appmgr_PleaseExecuteInSystem {
@@ -255,6 +291,15 @@ namespace UotanToolbox.Assets {
         public static string Appmgr_StartInstalling {
             get {
                 return ResourceManager.GetString("Appmgr_StartInstalling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Stopapp 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_Stopapp {
+            get {
+                return ResourceManager.GetString("Appmgr_Stopapp", resourceCulture);
             }
         }
         
@@ -331,6 +376,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 wrong Boot.img file format 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_BootWong {
+            get {
+                return ResourceManager.GetString("Basicflash_BootWong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 KernelSU patching is currently not supported 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_CantKSU {
+            get {
+                return ResourceManager.GetString("Basicflash_CantKSU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Magiskboot verification error 的本地化字符串。
         /// </summary>
         public static string Basicflash_CheckError {
@@ -403,6 +466,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Zip detected: 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_DetectZIP {
+            get {
+                return ResourceManager.GetString("Basicflash_DetectZIP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Driver&amp;Patch 的本地化字符串。
         /// </summary>
         public static string Basicflash_DriverPatch {
@@ -426,6 +498,15 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_Easyinstall {
             get {
                 return ResourceManager.GetString("Basicflash_Easyinstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Non standard elf file header 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ELFError {
+            get {
+                return ResourceManager.GetString("Basicflash_ELFError", resourceCulture);
             }
         }
         
@@ -462,6 +543,15 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_Executing {
             get {
                 return ResourceManager.GetString("Basicflash_Executing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 fatal error! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_FatalError {
+            get {
+                return ResourceManager.GetString("Basicflash_FatalError", resourceCulture);
             }
         }
         
@@ -570,6 +660,33 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_KeepStrongEncryption {
             get {
                 return ResourceManager.GetString("Basicflash_KeepStrongEncryption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 wrong KernelSU package 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_KSUError {
+            get {
+                return ResourceManager.GetString("Basicflash_KSUError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ↓ Choose between Magisk or KernelSU AnyKernel files ↓ 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_MagiskOrKSU {
+            get {
+                return ResourceManager.GetString("Basicflash_MagiskOrKSU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 wrong magisk package 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_MagsikError {
+            get {
+                return ResourceManager.GetString("Basicflash_MagsikError", resourceCulture);
             }
         }
         
@@ -718,7 +835,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please select a valid Boot file! 的本地化字符串。
+        ///   查找类似 Please select Boot file! 的本地化字符串。
         /// </summary>
         public static string Basicflash_SelectBoot {
             get {
@@ -727,7 +844,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please select a valid Magisk and Boot file! 的本地化字符串。
+        ///   查找类似 Please select a valid Zip and Boot file! 的本地化字符串。
         /// </summary>
         public static string Basicflash_SelectBootMagisk {
             get {
@@ -921,6 +1038,15 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_XiaomiUSB {
             get {
                 return ResourceManager.GetString("Basicflash_XiaomiUSB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 An error occurred while parsing the zip format 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ZipError {
+            get {
+                return ResourceManager.GetString("Basicflash_ZipError", resourceCulture);
             }
         }
         

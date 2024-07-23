@@ -384,7 +384,7 @@ public partial class AppmgrViewModel : MainPageBase
         }
         string focus_name, package_name;
         string dumpsys = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"dumpsys window | grep mCurrentFocus\"");
-        string text = await StringHelper.ActiveApp(dumpsys);
+        string text = await FeaturesHelper.ActiveApp(dumpsys);
         await SukiHost.ShowToast(GetTranslation("Appmgr_AppActivactor"), $"\r\n{text}", NotificationType.Info);
         IsBusy = false;
     }

@@ -174,12 +174,13 @@
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="{x:Static assets:Resources.Basicflash_RepairBoot}" />
-					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
+					<TextBlock HorizontalAlignment="Center" FontSize="12" Text="{x:Static assets:Resources.Basicflash_MagiskOrKSU}"/>
+					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 -5 0 0">
 						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"></TextBlock>
 						<TextBox Width="385" Name="MagiskFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
 						<Button Height="35" Padding="10,0,10,0" Click ="OpenMagiskFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 					</StackPanel>
-					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
+					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 0 0 0">
 						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"></TextBlock>
 						<TextBox Width="385" Name="BootFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
 						<Button Height="35" Padding="10,0,10,0" Click ="OpenBootFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>

@@ -106,17 +106,17 @@ namespace UotanToolbox.Common
             }
             catch (FileNotFoundException)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"The file '{filePath}' was not found."));
+                SukiHost.ShowDialog(new ErrorDialog($"The file '{filePath}' was not found."));
                 throw;
             }
             catch (UnauthorizedAccessException)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"Access to the file '{filePath}' is denied."));
+                SukiHost.ShowDialog(new ErrorDialog($"Access to the file '{filePath}' is denied."));
                 throw;
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}"));
+                SukiHost.ShowDialog(new ErrorDialog($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}"));
                 return null;
             }
         }
@@ -153,7 +153,7 @@ namespace UotanToolbox.Common
         {
             if (!Directory.Exists(directoryPath))
             {
-                throw new DirectoryNotFoundException($"指定的目录 '{directoryPath}' 不存在。");
+                throw new DirectoryNotFoundException($"The directory {directoryPath} does not exist.");
             }
             var existenceResults = new Dictionary<string, bool>();
             foreach (var fileName in fileNames)
@@ -202,12 +202,12 @@ namespace UotanToolbox.Common
             }
             catch (UnauthorizedAccessException ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"没有足够的权限删除Temp: {ex.Message}"));
+                SukiHost.ShowDialog(new ErrorDialog($"Not enough permissions to delete Temp: {ex.Message}"));
                 return false;
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"未知错误: {ex.Message}"));
+                SukiHost.ShowDialog(new ErrorDialog($"unknown error: {ex.Message}"));
                 return false;
             }
         }

@@ -323,7 +323,7 @@ public partial class DashboardView : UserControl
         await FlashRec("flash boot_b");
     }
 
-    public static FilePickerFileType Magisk { get; } = new("Magisk")
+    public static FilePickerFileType Zip { get; } = new("Zip")
     {
         Patterns = new[] { "*.zip", "*.apk" },
         AppleUniformTypeIdentifiers = new[] { "*.zip", "*.apk" }
@@ -337,7 +337,7 @@ public partial class DashboardView : UserControl
             var topLevel = TopLevel.GetTopLevel(this);
             var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
-                FileTypeFilter = new[] { Magisk },
+                FileTypeFilter = new[] { Zip },
                 Title = "Open File",
                 AllowMultiple = false
             });
@@ -348,7 +348,7 @@ public partial class DashboardView : UserControl
             }
             MagiskFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
             Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
-            SukiHost.ShowDialog(new PureDialog($"Zip内检测到：\nUseful:{Global.Zipinfo.IsUseful}\nMode:{Global.Zipinfo.Mode}\nVersion:{Global.Zipinfo.Version}"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectZIP")}\nUseful:{Global.Zipinfo.IsUseful}\nMode:{Global.Zipinfo.Mode}\nVersion:{Global.Zipinfo.Version}"), allowBackgroundClose: true);
         }
         catch (Exception ex)
         {
@@ -371,6 +371,7 @@ public partial class DashboardView : UserControl
             var topLevel = TopLevel.GetTopLevel(this);
             var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
+                FileTypeFilter = new[] { Image },
                 Title = "Open File",
                 AllowMultiple = false
             });
@@ -382,7 +383,7 @@ public partial class DashboardView : UserControl
             BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
             Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
             ArchList.SelectedItem = Global.Bootinfo.Arch;
-            SukiHost.ShowDialog(new PureDialog($"Boot内检测到\nArch:{Global.Bootinfo.Arch}\nOS:{Global.Bootinfo.OSVersion}\nPatch_level:{Global.Bootinfo.PatchLevel}\nRamdisk:{Global.Bootinfo.HaveRamdisk}\nKMI:{Global.Bootinfo.KMI}"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{Global.Bootinfo.Arch}\nOS:{Global.Bootinfo.OSVersion}\nPatch_level:{Global.Bootinfo.PatchLevel}\nRamdisk:{Global.Bootinfo.HaveRamdisk}\nKMI:{Global.Bootinfo.KMI}"), allowBackgroundClose: true);
         }
         catch (Exception ex)
         {
@@ -401,13 +402,13 @@ public partial class DashboardView : UserControl
             EnvironmentVariable.PATCHVBMETAFLAG = (bool)PATCHVBMETAFLAG.IsChecked;
             EnvironmentVariable.RECOVERYMODE = (bool)RECOVERYMODE.IsChecked;
             EnvironmentVariable.LEGACYSAR = (bool)LEGACYSAR.IsChecked;
-            if (Global.Zipinfo == new ZipInfo("", "", "", "", "", false, PatchMode.None, ""))
+            if (Global.Bootinfo.IsUseful != true | String.IsNullOrEmpty(MagiskFile.Text))
+            {
+                throw new Exception(GetTranslation("Basicflash_SelectBootMagisk"));
+            }
+            if ((Global.Zipinfo.Mode == PatchMode.None) | (Global.Zipinfo.IsUseful != true))
             {
                 Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
-            }
-            if ((Global.Zipinfo.Mode == PatchMode.None) | (Global.Zipinfo.IsUseful != true) | (Global.Bootinfo.IsUseful != true))
-            {
-                throw new Exception("请选择合适的Zip与Boot文件");
             }
             switch (Global.Zipinfo.Mode)
             {
@@ -417,7 +418,7 @@ public partial class DashboardView : UserControl
                 case PatchMode.KernelSU:
                     //await KernelSU_Patch(Global.Zipinfo, Global.Bootinfo);
                     //break;
-                    throw new Exception("暂不支持KernelSU修补");
+                    throw new Exception(GetTranslation("Basicflash_CantKSU"));
             }
             SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_PatchDone")), allowBackgroundClose: true);
             FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path));

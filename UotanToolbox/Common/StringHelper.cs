@@ -279,18 +279,18 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ConnectionDialog($"Unable to find {regex} in the file: {filePath}"));
+                    SukiHost.ShowDialog(new ErrorDialog($"Unable to find {regex} in the file: {filePath}"));
                     return null;
                 }
             }
             catch (FileNotFoundException)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"File not found: {filePath}"));
+                SukiHost.ShowDialog(new ErrorDialog($"File not found: {filePath}"));
                 return null;
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ConnectionDialog($"An error occurred while reading the file: {ex.Message}"));
+                SukiHost.ShowDialog(new ErrorDialog($"An error occurred while reading the file: {ex.Message}"));
                 return null;
             }
         }
@@ -340,128 +340,7 @@ namespace UotanToolbox.Common
             var kernelVersion = match.Groups[2].Value;
             return $"{androidVersion}-{kernelVersion}";
         }
-        public static async Task<string> ActiveApp(string output)
-        {
-            string adb_output;
-            if (output.Contains("moe.shizuku.privileged.api"))
-            {
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh");
-                if (adb_output.Contains("info: shizuku_starter exit with 0"))
-                {
-                    return "Shizuku已激活";
-                }
-                else
-                {
-                    return "Shizuku激活疑似失败";
-                }
-            }
-            else if (output.Contains("com.oasisfeng.greenify"))
-            {
-                int a = 0;
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.greenify android.permission.WRITE_SECURE_SETTINGS");
-                if (!String.IsNullOrEmpty(adb_output))
-                {
-                    a = a + 1;
-                }
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.greenify android.permission.DUMP");
-                if (!String.IsNullOrEmpty(adb_output))
-                {
-                    a = a + 1;
-                }
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.greenify android.permission.READ_LOGS");
-                if (!String.IsNullOrEmpty(adb_output))
-                {
-                    a = a + 1;
-                }
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell am force-stop com.oasisfeng.greenify");
-                if (!String.IsNullOrEmpty(adb_output))
-                {
-                    a = a + 1;
-                }
-                if (a == 0)
-                {
-                    return "绿色守护激活成功";
-                }
-                else
-                {
-                    return "绿色守护可能激活失败";
-                }
-            }
-            else if (output.Contains("com.rosan.dhizuku"))
-            {
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dpm set-device-owner com.rosan.dhizuku/.server.DhizukuDAReceiver");
-                if (adb_output.Contains("Success: Device owner set to package"))
-                {
-                    return "Dhizuku已激活";
-                }
-                else
-                {
-                    return "Dhizuku激活疑似失败";
-                }
-            }
-            else if (output.Contains("com.oasisfeng.island"))
-            {
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.island android.permission.INTERACT_ACROSS_USERS");
-                if (String.IsNullOrEmpty(adb_output))
-                {
-                    return "Island成功激活";
-                }
-                else
-                {
-                    return "Island可能激活失败";
-                }
-            }
-            else if (output.Contains("me.piebridge.brevent"))
-            {
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /data/data/me.piebridge.brevent/brevent.sh");
-                if (adb_output.Contains("..success"))
-                {
-                    return "Brevent成功激活";
-                }
-                else
-                {
-                    return "Brevent可能激活失败";
-                }
-            }
-            else if (output.Contains("com.catchingnow.icebox"))
-            {
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /sdcard/Android/data/com.catchingnow.icebox/files/start.sh");
-                if (adb_output.Contains("success"))
-                {
-                    return "IceBox成功激活";
-                }
-                else
-                {
-                    return "IceBox可能激活失败";
-                }
-            }
-            else if (output.Contains("web1n.stopapp"))
-            {
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /storage/emulated/0/Android/data/web1n.stopapp/files/starter.sh");
-                if (adb_output.Contains("success to register app changed listener."))
-                {
-                    return "小黑屋成功激活";
-                }
-                else
-                {
-                    return "小黑屋可能激活失败";
-                }
-            }
-            else if (output.Contains("com.web1n.permissiondog"))
-            {
-                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /storage/emulated/0/Android/data/com.web1n.permissiondog/files/starter.sh");
-                if (adb_output.Contains("success to register app changed listener."))
-                {
-                    return "权限狗成功激活";
-                }
-                else
-                {
-                    return "权限狗可能激活失败";
-                }
-            }
-            return "当前主界面应用不被支持！";
-
-        }
+        
         public static string ByteToHex(byte comByte)
         {
             return comByte.ToString("X2") + " ";

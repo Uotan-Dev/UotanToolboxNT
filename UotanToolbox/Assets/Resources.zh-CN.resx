@@ -928,10 +928,10 @@
     <value>回锁成功！</value>
   </data>
   <data name="Basicflash_SelectBoot" xml:space="preserve">
-    <value>请选择有效Boot文件!</value>
+    <value>请选择Boot文件!</value>
   </data>
   <data name="Basicflash_SelectBootMagisk" xml:space="preserve">
-    <value>请选择有效的面具与镜像文件!</value>
+    <value>请选择有效的Zip与Boot文件!</value>
   </data>
   <data name="Basicflash_SelectCommand" xml:space="preserve">
     <value>请选择解锁命令！</value>
@@ -1226,6 +1226,48 @@
   </data>
   <data name="FormatExtract_Writing" xml:space="preserve">
     <value>正在写入...</value>
+  </data>
+  <data name="Appmgr_ActiveFail" xml:space="preserve">
+    <value>可能激活失败</value>
+  </data>
+  <data name="Appmgr_ActiveSucc" xml:space="preserve">
+    <value>激活成功</value>
+  </data>
+  <data name="Appmgr_Greenify" xml:space="preserve">
+    <value>绿色守护</value>
+  </data>
+  <data name="Appmgr_PermissionDog" xml:space="preserve">
+    <value>权限狗</value>
+  </data>
+  <data name="Appmgr_Stopapp" xml:space="preserve">
+    <value>小黑屋</value>
+  </data>
+  <data name="Basicflash_BootWong" xml:space="preserve">
+    <value>Boot.img文件格式错误</value>
+  </data>
+  <data name="Basicflash_CantKSU" xml:space="preserve">
+    <value>暂不支持KernelSU修补</value>
+  </data>
+  <data name="Basicflash_DetectZIP" xml:space="preserve">
+    <value>Zip内检测到：</value>
+  </data>
+  <data name="Basicflash_ELFError" xml:space="preserve">
+    <value>非标准elf文件头</value>
+  </data>
+  <data name="Basicflash_FatalError" xml:space="preserve">
+    <value>致命错误！</value>
+  </data>
+  <data name="Basicflash_KSUError" xml:space="preserve">
+    <value>KernelSU安装包错误</value>
+  </data>
+  <data name="Basicflash_MagiskOrKSU" xml:space="preserve">
+    <value>↓可选择Magisk或KernelSU的AnyKernel文件↓</value>
+  </data>
+  <data name="Basicflash_MagsikError" xml:space="preserve">
+    <value>Magisk安装包错误</value>
+  </data>
+  <data name="Basicflash_ZipError" xml:space="preserve">
+    <value>解析zip格式时发生错误</value>
   </data>
   <data name="Common_ExeFailed" xml:space="preserve">
     <value>执行失败！</value>

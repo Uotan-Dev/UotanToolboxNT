@@ -18,7 +18,7 @@ namespace UotanToolbox.Common.PatchHelper
             bool istempclean = FileHelper.ClearFolder(bootinfo.TempPath);
             if (!istempclean)
             {
-                throw new Exception("fatal error!");
+                throw new Exception(GetTranslation("Basicflash_FatalError"));
             }
             string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
             string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
@@ -119,7 +119,7 @@ namespace UotanToolbox.Common.PatchHelper
                 if (init_info.Contains(entry.Key))
                     return entry.Value;
             }
-            throw new Exception("wrong elf bin file");
+            throw new Exception(GetTranslation("Basicflash_ELFError"));
         }
     }
 }

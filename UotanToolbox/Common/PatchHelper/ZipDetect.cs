@@ -10,6 +10,7 @@ namespace UotanToolbox.Common.PatchHelper
 {
     internal class ZipDetect
     {
+        private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
         public static async Task<ZipInfo> Zip_Detect(string path)
         {
             ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
@@ -19,7 +20,7 @@ namespace UotanToolbox.Common.PatchHelper
             bool istempclean = FileHelper.ClearFolder(Zipinfo.TempPath);
             if (!istempclean)
             {
-                throw new Exception("fatal error!");
+                throw new Exception(GetTranslation("Basicflash_FatalError"));
             }
 
             await Task.Run(() =>
@@ -46,7 +47,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             else
             {
-                throw new Exception("error when prasing zip file format");
+                throw new Exception(GetTranslation("Basicflash_ZipError"));
             }
             switch (Zipinfo.Mode)
             {
@@ -78,7 +79,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             else
             {
-                throw new Exception("wrong magisk package");
+                throw new Exception(GetTranslation("Basicflash_MagsikError"));
             }
         }
         private static async Task Magisk_Pre(string temp_path)
@@ -168,7 +169,7 @@ namespace UotanToolbox.Common.PatchHelper
             };
             if (!version_dict.TryGetValue(SubSHA1, out version))
             {
-                throw new Exception("wrong KernelSU package");
+                throw new Exception(GetTranslation("Basicflash_KSUError"));
             }
             Task<string> KernelVersionTask = Task.Run(() => FileHelper.ReadKernelVersion(Path.Combine(temp_path, "Image")));
             string KernelVersion = await KernelVersionTask;

@@ -14,7 +14,7 @@ namespace UotanToolbox.Common.PatchHelper
         {
             if (bootInfo.HaveRamdisk == false)
             {
-                throw new Exception("wrong Boot.img file format");
+                throw new Exception(GetTranslation("Basicflash_BootWong"));
             }
             await comp_copy(zipInfo, bootInfo);
             (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio test", bootInfo.TempPath);

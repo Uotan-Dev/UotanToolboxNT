@@ -928,10 +928,10 @@
     <value>Relock successfully!</value>
   </data>
   <data name="Basicflash_SelectBoot" xml:space="preserve">
-    <value>Please select a valid Boot file!</value>
+    <value>Please select Boot file!</value>
   </data>
   <data name="Basicflash_SelectBootMagisk" xml:space="preserve">
-    <value>Please select a valid Magisk and Boot file!</value>
+    <value>Please select a valid Zip and Boot file!</value>
   </data>
   <data name="Basicflash_SelectCommand" xml:space="preserve">
     <value>Please select the unlock command!</value>
@@ -1229,6 +1229,48 @@
   </data>
   <data name="FormatExtract_Writing" xml:space="preserve">
     <value>Writing...</value>
+  </data>
+  <data name="Appmgr_ActiveFail" xml:space="preserve">
+    <value>Possible activation failure</value>
+  </data>
+  <data name="Appmgr_ActiveSucc" xml:space="preserve">
+    <value>Activation successful</value>
+  </data>
+  <data name="Appmgr_Greenify" xml:space="preserve">
+    <value>Greenify</value>
+  </data>
+  <data name="Appmgr_PermissionDog" xml:space="preserve">
+    <value>PermissionDog</value>
+  </data>
+  <data name="Appmgr_Stopapp" xml:space="preserve">
+    <value>Stopapp</value>
+  </data>
+  <data name="Basicflash_BootWong" xml:space="preserve">
+    <value>wrong Boot.img file format</value>
+  </data>
+  <data name="Basicflash_CantKSU" xml:space="preserve">
+    <value>KernelSU patching is currently not supported</value>
+  </data>
+  <data name="Basicflash_DetectZIP" xml:space="preserve">
+    <value>Zip detected:</value>
+  </data>
+  <data name="Basicflash_ELFError" xml:space="preserve">
+    <value>Non standard elf file header</value>
+  </data>
+  <data name="Basicflash_FatalError" xml:space="preserve">
+    <value>fatal error!</value>
+  </data>
+  <data name="Basicflash_KSUError" xml:space="preserve">
+    <value>wrong KernelSU package</value>
+  </data>
+  <data name="Basicflash_MagiskOrKSU" xml:space="preserve">
+    <value>↓ Choose between Magisk or KernelSU AnyKernel files ↓</value>
+  </data>
+  <data name="Basicflash_MagsikError" xml:space="preserve">
+    <value>wrong magisk package</value>
+  </data>
+  <data name="Basicflash_ZipError" xml:space="preserve">
+    <value>An error occurred while parsing the zip format</value>
   </data>
   <data name="Common_ExeFailed" xml:space="preserve">
     <value>Execution failed!</value>

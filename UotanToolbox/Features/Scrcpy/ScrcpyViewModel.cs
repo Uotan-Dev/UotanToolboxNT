@@ -81,8 +81,8 @@ public partial class ScrcpyViewModel : MainPageBase
                         if (ScreenAwake) arg += "--stay-awake ";
                         if (!ClipboardSync) arg += "--no-clipboard-autosync";
                         if (CameraMirror) arg += "--video-source=camera";
-                        IsConnecting = false;
                         await CallExternalProgram.Scrcpy(arg);
+                        IsConnecting = false;
                     });
                 }
                 else

@@ -424,7 +424,7 @@ public partial class DashboardView : UserControl
             FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path));
             Global.Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
             Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "");
-            MagiskFile.Text = null;
+            SetDefaultMagisk();
             BootFile.Text = null;
             ArchList.SelectedItem = null;
         }

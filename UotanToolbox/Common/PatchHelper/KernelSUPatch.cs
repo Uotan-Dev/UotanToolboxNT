@@ -14,7 +14,13 @@ namespace UotanToolbox.Common.PatchHelper
             {
                 throw new Exception(GetTranslation("Basicflash_BootWong"));
             }
-            File.Copy(Path.Combine(zipInfo.TempPath, "Image"), Path.Combine(bootInfo.TempPath, "kernel"),true);
+            string kernel_info = await CallExternalProgram.File(Path.Combine(zipInfo.TempPath, "Image"));
+            string kmi = StringHelper.ExtractKMI(kernel_info);
+            if (kmi != bootInfo.KMI)
+            {
+                throw new Exception("error zip kernel kmi");
+            }
+            File.Copy(Path.Combine(zipInfo.TempPath, "Image"), Path.Combine(bootInfo.TempPath, "kernel"), true);
             CleanBoot(bootInfo.TempPath);
             (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{bootInfo.Path}\"", bootInfo.TempPath);
             if (exitcode != 0)

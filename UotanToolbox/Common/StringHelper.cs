@@ -3,9 +3,11 @@ using SukiUI.Controls;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Text;
 using System.Text.RegularExpressions;
 using UotanToolbox.Features.Components;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace UotanToolbox.Common
 {
@@ -228,6 +230,47 @@ namespace UotanToolbox.Common
             string[] wh = wm.Split("x");
             int dpi = Onlynum(wh[0]) * 160 / Onlynum(dp);
             return dpi;
+        }
+        public static async Task<string> GetBinVersion()
+        {
+            string sevenzip_version, adb_info, fb_info, file_info;
+            try
+            {
+                string sevenzip_info = await CallExternalProgram.SevenZip("--version");
+                Regex regex = new Regex(@"Copyright \(c\) (\d{4}-\d{4}) Igor Pavlov : (\d{4}-\d{2}-\d{2})");
+                Match match = regex.Match(sevenzip_info);
+                sevenzip_version = "7za: " + match.Value + "\n";
+            }
+            catch
+            {
+                sevenzip_version = null;
+            }
+            try
+            {
+                adb_info = await CallExternalProgram.ADB("version");
+            }
+            catch
+            {
+                adb_info = null;
+            }
+            try
+            {
+                fb_info = await CallExternalProgram.ADB("--version");
+            }
+            catch
+            {
+                fb_info = null;
+            }
+            try
+            {
+                file_info = await CallExternalProgram.File("-v");
+            }
+            catch
+            {
+                file_info = null;
+            }
+            
+            return "7za: "+sevenzip_version +"Android Debug Bridge: " +adb_info+ "Fastboot: "+fb_info + "File: "+file_info;
         }
 
         public static string Partno(string parttable, string findpart)//分区号

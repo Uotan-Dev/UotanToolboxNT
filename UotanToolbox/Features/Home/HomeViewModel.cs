@@ -75,6 +75,8 @@ public partial class HomeViewModel : MainPageBase
                 Process.GetCurrentProcess().Kill();
             });
         }
+        Global.BinVersion = await StringHelper.GetBinVersion();
+
     }
 
     public async Task<bool> GetDevicesList()

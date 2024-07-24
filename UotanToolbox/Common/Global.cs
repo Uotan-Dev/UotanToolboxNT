@@ -26,6 +26,7 @@ namespace UotanToolbox.Common
         public static string emmcrom = "";
         //工具箱版本
         public static string currentVersion = "3.0.0";
+        public static string BinVersion;
     }
     public class BootInfo
     {

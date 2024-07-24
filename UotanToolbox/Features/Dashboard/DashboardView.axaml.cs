@@ -463,7 +463,12 @@ public partial class DashboardView : UserControl
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash boot \"{boot}\"");
                 if (!output.Contains("FAILED") && !output.Contains("error"))
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_FlashSucc")), allowBackgroundClose: true);
+                    var newDialog = new ConnectionDialog(GetTranslation("Basicflash_BootFlashSucc"));
+                    await SukiHost.ShowDialogAsync(newDialog);
+                    if (newDialog.Result == true)
+                    {
+                        await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
+                    }
                 }
                 else
                 {

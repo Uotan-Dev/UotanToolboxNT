@@ -160,10 +160,6 @@ namespace UotanToolbox.Common.PatchHelper
                     throw new Exception("dtb_patch_1 failed: " + mb_output);
                 }
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {bootInfo.DTBName} patch", bootInfo.TempPath);
-                if (exitcode != 0)
-                {
-                    throw new Exception("dtb_patch_2 failed: " + mb_output);
-                }
             }
         }
         private static void CleanBoot(string path)

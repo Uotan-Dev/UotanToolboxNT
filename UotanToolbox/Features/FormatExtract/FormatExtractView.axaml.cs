@@ -127,28 +127,79 @@ public partial class FormatExtractView : UserControl
     private async void WriteQcn(object sender, RoutedEventArgs args)
     {
         // Write QCN File
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        if (Global.System == "Windows")
         {
-            if (!string.IsNullOrEmpty(QcnFile.Text))
+            if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                string qcnfilepatch = QcnFile.Text;
+                if (!string.IsNullOrEmpty(QcnFile.Text))
+                {
+                    string qcnfilepatch = QcnFile.Text;
+                    MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                    if (sukiViewModel.Status == "901D" || sukiViewModel.Status == "9091")
+                    {
+                        BusyQCN.IsBusy = true;
+                        QCN.IsEnabled = false;
+                        output = "";
+                        FormatExtractLog.Text = GetTranslation("FormatExtract_Writing") + "\n";
+                        int com = StringHelper.Onlynum(Global.thisdevice);
+                        string shell = string.Format("-w -p {0} -f \"{1}\"", com, qcnfilepatch);
+                        await QCNTool(shell);
+                        if (FormatExtractLog.Text.Contains("error"))
+                        {
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_WriteFailed")), allowBackgroundClose: true);
+                        }
+                        else
+                        {
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_WriteSucc")), allowBackgroundClose: true);
+                        }
+                        BusyQCN.IsEnabled = false;
+                        QCN.IsEnabled = true;
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_Open901D")), allowBackgroundClose: true);
+                    }
+                }
+                else
+                {
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_SelectQCN")), allowBackgroundClose: true);
+                }
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotSupportSystem")), allowBackgroundClose: true);
+        }
+    }
+
+    private async void BackupQcn(object sender, RoutedEventArgs args)
+    {
+        // Backup QCN file
+        if (Global.System == "Windows")
+        {
+            if (await GetDevicesInfo.SetDevicesInfoLittle())
+            {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == "901D" || sukiViewModel.Status == "9091")
                 {
                     BusyQCN.IsBusy = true;
                     QCN.IsEnabled = false;
                     output = "";
-                    FormatExtractLog.Text = GetTranslation("FormatExtract_Writing") + "\n";
+                    FormatExtractLog.Text = GetTranslation("FormatExtract_BackingUp") + "\n";
                     int com = StringHelper.Onlynum(Global.thisdevice);
-                    string shell = string.Format("-w -p {0} -f \"{1}\"", com, qcnfilepatch);
+                    string shell = string.Format("-r -p {0} -f \"{1}\" -n 00000.qcn", com, Global.backup_path);
                     await QCNTool(shell);
                     if (FormatExtractLog.Text.Contains("error"))
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_WriteFailed")), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_BackupFailed")), allowBackgroundClose: true);
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_WriteSucc")), allowBackgroundClose: true);
+                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_BackupSucc")), allowBackgroundClose: true);
                     }
                     BusyQCN.IsEnabled = false;
                     QCN.IsEnabled = true;
@@ -160,83 +211,12 @@ public partial class FormatExtractView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_SelectQCN")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
-        }
-    }
-
-    private async void BackupQcn(object sender, RoutedEventArgs args)
-    {
-        // Backup QCN file
-        if (OperatingSystem.IsLinux() && Global.backup_path == null)
-        {
-            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
-            await SukiHost.ShowDialogAsync(newDialog);
-            if (newDialog.Result == true)
-            {
-                var topLevel = TopLevel.GetTopLevel(this);
-                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
-                {
-                    Title = "Select Buckup Folder",
-                    AllowMultiple = false
-                });
-                if (files.Count >= 1)
-                {
-                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
-                    {
-                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
-                    }
-                    else
-                    {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-            else
-            {
-                return;
-            }
-        }
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "901D" || sukiViewModel.Status == "9091")
-            {
-                BusyQCN.IsBusy = true;
-                QCN.IsEnabled = false;
-                output = "";
-                FormatExtractLog.Text = GetTranslation("FormatExtract_BackingUp") + "\n";
-                int com = StringHelper.Onlynum(Global.thisdevice);
-                string shell = string.Format("-r -p {0} -f \"{1}\" -n 00000.qcn", com, Global.backup_path);
-                await QCNTool(shell);
-                if (FormatExtractLog.Text.Contains("error"))
-                {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_BackupFailed")), allowBackgroundClose: true);
-                }
-                else
-                {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_BackupSucc")), allowBackgroundClose: true);
-                }
-                BusyQCN.IsEnabled = false;
-                QCN.IsEnabled = true;
-            }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_Open901D")), allowBackgroundClose: true);
-            }
-        }
-        else
-        {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotSupportSystem")), allowBackgroundClose: true);
         }
     }
 

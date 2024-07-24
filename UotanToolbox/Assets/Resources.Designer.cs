@@ -367,6 +367,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Successfully flashed in! Do you want to restart the system? 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_BootFlashSucc {
+            get {
+                return ResourceManager.GetString("Basicflash_BootFlashSucc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Boot successfully! 的本地化字符串。
         /// </summary>
         public static string Basicflash_BootSucc {

@@ -1344,4 +1344,7 @@
   <data name="Others_TempLower" xml:space="preserve">
     <value>比绝对零度还低！</value>
   </data>
+  <data name="Basicflash_BootFlashSucc" xml:space="preserve">
+    <value>刷入成功！是否重启到系统？</value>
+  </data>
 </root>

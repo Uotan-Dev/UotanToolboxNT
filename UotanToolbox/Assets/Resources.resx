@@ -1347,4 +1347,7 @@
   <data name="Others_TempLower" xml:space="preserve">
     <value>Even lower than absolute zero!</value>
   </data>
+  <data name="Basicflash_BootFlashSucc" xml:space="preserve">
+    <value>Successfully flashed in! Do you want to restart the system?</value>
+  </data>
 </root>

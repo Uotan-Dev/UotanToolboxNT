@@ -9,7 +9,7 @@
              xmlns:settings="clr-namespace:UotanToolbox.Features.Settings"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
 			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
-             d:DesignHeight="1950"
+             d:DesignHeight="2950"
              d:DesignWidth="1024"
              x:DataType="settings:SettingsViewModel"
              mc:Ignorable="d">
@@ -268,7 +268,7 @@
 												<TextBlock>QCNTool (from Github repo https://github.com/MindowsToolBox/QCNTool)</TextBlock>
 												<TextBlock>QMSL_MSVC10R.dll (from QPST)</TextBlock>
 												<TextBlock>Suki UI (modified from Github repo https://github.com/kikipoulet/SukiUI)</TextBlock>
-												<TextBlock>BinVersion:</TextBlock>
+												<TextBlock Text="{Binding BinVersion}" />
 										</StackPanel>
 									</DockPanel>
 								</controls:GlassCard>

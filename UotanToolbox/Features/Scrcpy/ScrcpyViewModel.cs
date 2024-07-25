@@ -52,7 +52,7 @@ public partial class ScrcpyViewModel : MainPageBase
                     IsConnecting = true;
                     await Dispatcher.UIThread.InvokeAsync(async () =>
                     {
-                        string arg = $"-s {Global.thisdevice} ";
+                        string arg = $"-s \"{Global.thisdevice}\" ";
                         if (RecordScreen)
                         {
                             if (String.IsNullOrEmpty(RecordFolder))
@@ -79,8 +79,8 @@ public partial class ScrcpyViewModel : MainPageBase
                         if (!ComputerControl) arg += "--no-control ";
                         if (CloseScreen) arg += "--turn-screen-off ";
                         if (ScreenAwake) arg += "--stay-awake ";
-                        if (!ClipboardSync) arg += "--no-clipboard-autosync";
-                        if (CameraMirror) arg += "--video-source=camera";
+                        if (!ClipboardSync) arg += "--no-clipboard-autosync ";
+                        if (CameraMirror) arg += "--video-source=camera ";
                         await CallExternalProgram.Scrcpy(arg);
                         IsConnecting = false;
                     });

@@ -164,8 +164,27 @@ namespace UotanToolbox.Common.PatchHelper
                 {"d1575ad4699d107baa240dc40599e5086957233b" , "1.0.0"},
                 {"a3bc027c5dea15ecfa9c209d7fc5b8c79f2d7165" , "1.0.0"},
                 {"98f6d7ef98e345ff4aea856db0868f54a53039ef" , "1.0.0"},
-                {"48c9b20d906e606cd267f60faf3943c11e98f6d0" , "1.0.0"}
-             //其他的支持还没写，你要是看到这段文字可以考虑一下帮我写写然后PR到仓库。 -zicai
+                {"48c9b20d906e606cd267f60faf3943c11e98f6d0" , "1.0.0"},
+                {"341994cc66dae16dceec59847650ef021d08f3dc" , "1.0.1"},
+                {"1cdb61d25a962c898cd4bc5c9f74e81570dcb59b" , "1.0.1"},
+                {"0e54c270826cbcbd3cec3f07ac03cc83dae761f1" , "1.0.1"},
+                {"ae1f4b43230f2a8f75e96578f2eb8217902944c5" , "1.0.1"},
+                {"8de5af00110aac33fc43b262a1a7af69ac58a5a8" , "1.0.1"},
+                {"7e941308cf49f55b43fc9a20a583a71f3fcaea8a" , "1.0.1"},
+                {"0fdf3896d26621b523ecd7e53527cba2b06650f1" , "1.0.1"},
+                {"484c9f384d0d78c2f00a05d38da4479514e03a46" , "1.0.1"},
+                {"7269ef78da7811011efdccaf00d270dbed682b6e" , "1.0.1"},
+                {"81f2ebc60e93641e31b30eb0a0e5bc0fe1f09f6c" , "1.0.1"},
+                {"8abbea3884932d6215728ed6e582bbeba3167b46" , "1.0.1"},
+                {"02aa27e41e039eb9dde3272d86eb23557a2e8554" , "1.0.1"},
+                {"7cbd2b9aeec389e5a579c14becb53000389a540b" , "1.0.1"},
+                {"10526738a49fdd2c229e30e72dd54f7776efc399" , "1.0.1"},
+                {"acb23baffb0978cfe8050b0331adeffdc66aa2b3" , "1.0.1"},
+                {"b89c87f254d3b30c17a1835028f041f7affddf8d" , "1.0.1"},
+                {"87019a29475b2b0eb10e2b20ba3ea2aa6d78eee2" , "1.0.1"},
+                {"403ffa26c02727f48c9c7cf3306bff2539ad9a8d" , "1.0.1"},
+                {"0d015e9f9a48868b11fffd1412d1d59dcadcf838" , "1.0.1"},
+                {"7d591f577a96b7acc401a2718bfc71127486a46c" , "1.0.1"}
             };
             if (!version_dict.TryGetValue(SubSHA1, out version))
             {

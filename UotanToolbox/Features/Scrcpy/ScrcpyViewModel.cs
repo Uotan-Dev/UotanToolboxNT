@@ -70,7 +70,7 @@ public partial class ScrcpyViewModel : MainPageBase
 
                         if (WindowTitle != "" && WindowTitle != null)
                         {
-                            arg += $"--window-title {WindowTitle} ";
+                            arg += $"--window-title \"{WindowTitle.Replace("\"", "\\\"")}\" ";
                         }
                         if (WindowFixed) arg += "--always-on-top ";
                         if (FullScreen) arg += "--fullscreen ";

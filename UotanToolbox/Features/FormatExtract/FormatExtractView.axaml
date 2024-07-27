@@ -118,9 +118,10 @@
 									   VerticalAlignment="Center"
 									   FontSize="13"
 									   Text="SuperEmpty" />
-							<TextBox Width="250" Name="SuperEmptyFile"
+							<TextBox Width="240" Name="SuperEmptyFile"
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 							<Button Height="35"
+									Width="95"
 									Padding="10,0,10,0"
 									Click="OpenEmptyFile"
 									Content="{x:Static assets:Resources.Common_ChooseFile}" />
@@ -197,7 +198,7 @@
 									<TextBlock Text="{x:Static assets:Resources.FormatExtract_ADBFormat}"/>
 								</TextBlock>
 							</Button>
-							<Button Width="155"
+							<Button Width="160"
 									HorizontalAlignment="Left"
 									Padding="8"
 									Click="FastbootFormat">
@@ -217,7 +218,7 @@
 									<TextBlock Text="{x:Static assets:Resources.FormatExtract_FormatDataPart}"/>
 								</TextBlock>
 							</Button>
-							<Button Width="155"
+							<Button Width="160"
 									HorizontalAlignment="Left"
 									Padding="8"
 									Click="TWRPFormatData">
@@ -277,13 +278,13 @@
 							</Button>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
-							<Button Width="125"
+							<Button Width="170"
 									HorizontalAlignment="Left"
 									Padding="8"
 									Click="OpenExtractFile">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="AndroidStudio" />
-									<TextBlock Text="{x:Static assets:Resources.FormatExtract_ExtractFolder}"/>
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_OpenExtractFolder}"/>
 								</TextBlock>
 							</Button>
 						</StackPanel>

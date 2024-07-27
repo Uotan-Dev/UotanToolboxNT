@@ -9,7 +9,7 @@
              xmlns:settings="clr-namespace:UotanToolbox.Features.Settings"
 			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
 			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
-             d:DesignHeight="1950"
+             d:DesignHeight="2950"
              d:DesignWidth="1024"
              x:DataType="settings:SettingsViewModel"
              mc:Ignorable="d">
@@ -154,7 +154,7 @@
                                                        FontWeight="DemiBold"
                                                        Text="{x:Static assets:Resources.Settings_AboutToolbox}" />
 											<StackPanel Margin="15">
-												<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" />
+												<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" TextWrapping="Wrap"/>
 											</StackPanel>
 											<Grid Margin="15,0,0,15" VerticalAlignment="Center">
 												<Grid.ColumnDefinitions>
@@ -172,18 +172,18 @@
 
 												<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
 													<Button Classes="Classic"
-															Width="110"
+															MinWidth="110"
 															Content="{x:Static assets:Resources.Settings_CheckUpdate}"
 															Command="{Binding GetUpdateCommand}"
 															HorizontalAlignment="Right"/>
 													<Button Classes="Classic"
-															Width="110"
+															MinWidth="110"
 															Content="{x:Static assets:Resources.Settings_UotanCommunity}"
 															Command="{Binding OpenURLCommand}"
 															CommandParameter="https://www.uotan.cn"
 															HorizontalAlignment="Right"/>
 													<Button Classes="Classic"
-															Width="110"
+															MinWidth="110"
 															Content="Bilibili"
 															Command="{Binding OpenURLCommand}"
 															CommandParameter="https://space.bilibili.com/522676659"
@@ -214,7 +214,7 @@
 														</suki:GroupBox.Header>
 														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
 															<Rectangle.Fill>
-																<ImageBrush Source="avares://UotanToolbox/Assets/mjw.jpeg"/>
+																<ImageBrush Source="avares://UotanToolbox/Assets/mujianwu.jpg"/>
 															</Rectangle.Fill>
 														</Rectangle>
 													</suki:GroupBox>
@@ -258,17 +258,17 @@
 									<DockPanel>
 										<StackPanel Orientation="Vertical">
 											<TextBlock Text="{x:Static assets:Resources.Settings_DisplayedProjects}" />
-											
 												<TextBlock>7Zip (download from https://www.7-zip.org/download.html)</TextBlock>
-											<TextBlock>Android-Platform-Tools (from AOSP)</TextBlock>
+												<TextBlock>Android-Platform-Tools (from AOSP)</TextBlock>
 												<TextBlock>Avalonia (Avalonia™ is a registered trademark of AvaloniaUI OÜ.)</TextBlock>
 												<TextBlock>File (cross compiled from Github repo https://github.com/file/file)</TextBlock>
 												<TextBlock>MagiskBoot of unix (from Github repo https://github.com/ookiineko/magiskboot_build)</TextBlock>
+												<TextBlock>MiSans (from )https://hyperos.mi.com/font</TextBlock>
 												<TextBlock>MagiskBoot of win (from Github repo https://github.com/affggh/Magisk_patcher)</TextBlock>
 												<TextBlock>QCNTool (from Github repo https://github.com/MindowsToolBox/QCNTool)</TextBlock>
 												<TextBlock>QMSL_MSVC10R.dll (from QPST)</TextBlock>
 												<TextBlock>Suki UI (modified from Github repo https://github.com/kikipoulet/SukiUI)</TextBlock>
-											
+												<TextBlock Text="{Binding BinVersion}" />
 										</StackPanel>
 									</DockPanel>
 								</controls:GlassCard>

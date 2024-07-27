@@ -35,12 +35,14 @@ public partial class SettingsViewModel : MainPageBase
     [ObservableProperty] private bool _backgroundAnimations;
     [ObservableProperty] private bool _backgroundTransitions;
     [ObservableProperty] private string _currentVersion = Global.currentVersion;
+    [ObservableProperty] private string _binVersion = null;
 
     private string _customShader = null;
 
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public SettingsViewModel() : base(GetTranslation("Sidebar_Settings"), MaterialIconKind.SettingsOutline, -200)
     {
+        _ = CheckBinVersion();
         AvailableBackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         AvailableColors = _theme.ColorThemes;
         IsLightTheme = _theme.ActiveBaseTheme == ThemeVariant.Light;
@@ -50,6 +52,11 @@ public partial class SettingsViewModel : MainPageBase
         {
             // TODO: Implement a way to make this correct, might need to wrap the thing in a VM, this isn't ideal.
         };
+    }
+
+    public async Task CheckBinVersion()
+    {
+        BinVersion = await StringHelper.GetBinVersion();
     }
 
     partial void OnIsLightThemeChanged(bool value) =>

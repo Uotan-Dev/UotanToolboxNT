@@ -120,23 +120,23 @@
                         <Setter Property="Height" Value="25" />
                     </Style>
                 </StackPanel.Styles>
-                <Button Classes="Basic"
-						Command="{Binding OpenURLCommand}"
-                        CommandParameter="https://github.com/Uotan-Dev/UotanToolboxNT"
-                        ToolTip.Tip="{x:Static assets:Resources.Main_OpenOnGithub}">
-                    <avalonia:MaterialIcon Kind="Github" />
-                </Button>
-                <Button Classes="Basic"
-						Command="{Binding OpenURLCommand}"
-                        CommandParameter="https://www.uotan.cn"
-                        ToolTip.Tip="{x:Static assets:Resources.Main_OpenUOTANCommunity}">
-                    <avalonia:MaterialIcon Kind="Package" />
-                </Button>
 				<Button Classes="Basic"
 						Click="OpenTerminal"
                         ToolTip.Tip="{x:Static assets:Resources.Main_OpenTerminal}">
 					<avalonia:MaterialIcon Kind="Terminal" />
 				</Button>
+				<Button Classes="Basic"
+						Command="{Binding OpenURLCommand}"
+                        CommandParameter="https://github.com/Uotan-Dev/UotanToolboxNT"
+                        ToolTip.Tip="{x:Static assets:Resources.Main_OpenOnGithub}">
+					<avalonia:MaterialIcon Kind="Github" />
+				</Button>
+                <Button Classes="Basic"
+						Command="{Binding OpenURLCommand}"
+                        CommandParameter="https://www.uotan.cn"
+                        ToolTip.Tip="{x:Static assets:Resources.Main_OpenUOTANCommunity}">
+                    <avalonia:MaterialIcon Kind="ForumOutline" />
+                </Button>
             </StackPanel>
         </suki:SukiSideMenu.FooterContent>
     </suki:SukiSideMenu>

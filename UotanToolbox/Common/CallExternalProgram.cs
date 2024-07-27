@@ -231,11 +231,11 @@ namespace UotanToolbox.Common
         /// <returns>执行结果输出与执行结果代码</returns>
         public static async Task<(string Output, int ExitCode)> MagiskBoot(string shell, string workpath)
         {
-            Environment.SetEnvironmentVariable("KEEPVERITY", EnvironmentVariable.KEEPVERITY);
-            Environment.SetEnvironmentVariable("KEEPFORCEENCRYPT", EnvironmentVariable.KEEPFORCEENCRYPT);
-            Environment.SetEnvironmentVariable("PATCHVBMETAFLAG", EnvironmentVariable.PATCHVBMETAFLAG);
-            Environment.SetEnvironmentVariable("RECOVERYMODE", EnvironmentVariable.RECOVERYMODE);
-            Environment.SetEnvironmentVariable("LEGACYSAR", EnvironmentVariable.LEGACYSAR);
+            Environment.SetEnvironmentVariable("KEEPVERITY", EnvironmentVariable.KEEPVERITY.ToString().ToLower());
+            Environment.SetEnvironmentVariable("KEEPFORCEENCRYPT", EnvironmentVariable.KEEPFORCEENCRYPT.ToString().ToLower());
+            Environment.SetEnvironmentVariable("PATCHVBMETAFLAG", EnvironmentVariable.PATCHVBMETAFLAG.ToString().ToLower());
+            Environment.SetEnvironmentVariable("RECOVERYMODE", EnvironmentVariable.RECOVERYMODE.ToString().ToLower());
+            Environment.SetEnvironmentVariable("LEGACYSAR", EnvironmentVariable.LEGACYSAR.ToString().ToLower());
             string cmd = Path.Combine(Global.bin_path, "magiskboot");
             Directory.SetCurrentDirectory(workpath);
             ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
@@ -253,6 +253,7 @@ namespace UotanToolbox.Common
             {
                 output = await mb.StandardOutput.ReadToEndAsync();
             }
+            mb.WaitForExit();
             int exitCode = mb.ExitCode;
             return (output, exitCode);
         }
@@ -286,19 +287,6 @@ namespace UotanToolbox.Common
                 string output = await process.StandardOutput.ReadToEndAsync();
                 string error = await process.StandardError.ReadToEndAsync();
                 process.WaitForExit();
-                return string.IsNullOrEmpty(output) ? error : output;
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                Process proc = new Process();
-                proc.StartInfo.FileName = @"/System/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal";
-                proc.StartInfo.Arguments = "-c file \" " + path + " \"";
-                proc.StartInfo.UseShellExecute = false;
-                proc.StartInfo.RedirectStandardOutput = true;
-                proc.Start();
-                string output = await proc.StandardOutput.ReadToEndAsync();
-                string error = await proc.StandardError.ReadToEndAsync();
-                proc.WaitForExit();
                 return string.IsNullOrEmpty(output) ? error : output;
             }
             else

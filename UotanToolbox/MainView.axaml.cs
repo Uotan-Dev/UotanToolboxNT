@@ -47,12 +47,16 @@ public partial class MainView : SukiWindow
                 UseShellExecute = true
             });
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            Process.Start(new ProcessStartInfo
+            try
             {
-                FileName = "/usr/bin/gnome-terminal",
-                Arguments = $"--working-directory={Path.Combine(Global.bin_path, "platform-tools", "adb")}",
-                UseShellExecute = false
-            });
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "/usr/bin/gnome-terminal",
+                    Arguments = $"--working-directory={Path.Combine(Global.bin_path, "platform-tools", "adb")}",
+                    UseShellExecute = false
+                });
+            }
+            catch { }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             Process.Start("open", "-a Terminal " + Path.Combine(Global.bin_path, "platform-tools", "adb"));
     }

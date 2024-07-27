@@ -19,17 +19,17 @@
 						Margin="15, 10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyDisplay"
-						   BusyText="修改中...">
+						   BusyText="{x:Static assets:Resources.Others_Modifying}">
 				<StackPanel Name="Display">
 					<TextBlock HorizontalAlignment="Left"
 							   VerticalAlignment="Top"
 							   FontWeight="DemiBold"
-							   Text="显示属性" />
+							   Text="{x:Static assets:Resources.Others_DisplayProperty}" />
 					<StackPanel Margin="15,10,0,0" Orientation="Vertical" Spacing="10">
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Margin="5,0,0,0"
 									   FontSize="13"
-									   Text="分辨率:" />
+									   Text="{x:Static assets:Resources.Others_Resolution}" />
 							<TextBlock Name="ScrResolution"
 									   FontSize="13"
 									   Margin="5,0,0,0"
@@ -39,7 +39,7 @@
 							<StackPanel Orientation="Horizontal" Width="115">
 								<TextBlock Margin="5,0,0,0"
 										   FontSize="13"
-										   Text="显示密度(DPI):" />
+										   Text="{x:Static assets:Resources.Others_DPI}" />
 								<TextBlock Name="ScrDPI"
 										   Margin="5,0,0,0"
 										   FontSize="13"
@@ -47,7 +47,7 @@
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Width="115">
 								<TextBlock FontSize="13"
-										   Text="最小宽度(DP):" />
+										   Text="{x:Static assets:Resources.Others_DP}" />
 								<TextBlock Name="ScrDP"
 										   Margin="5,0,0,0"
 										   FontSize="13"
@@ -55,97 +55,100 @@
 							</StackPanel>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="5">
-							<TextBox Name="Transverse" Watermark="横向" Width="110"
+							<TextBox Name="Transverse" Watermark="{x:Static assets:Resources.Others_Horizontal}" Width="110"
 								 theme:TextBoxExtensions.AddDeleteButton="False"/>
 							<TextBlock Width="15"
 									   FontSize="15"
 									   VerticalAlignment="Center"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text=" x" />
-							<TextBox Name="Direction" Watermark="竖向" Width="110" />
+							<TextBox Name="Direction" Watermark="{x:Static assets:Resources.Others_Vertical}" Width="110" />
 						</StackPanel>
 						<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="25">
 							<ComboBox Name="SetUnit" Width="110"/>
 							<TextBox Name="DPIorDP" Width="110"/>
 						</StackPanel>
 						<StackPanel Margin="-15,20,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20">
-							<Button Name="SetInfoBut" Width="110" Click="SetInfo" Content="修改" />
-							<Button Name="BackInfoBut" Width="110" Click="BackInfo" Content="恢复" />
+							<Button Name="SetInfoBut" Width="110" Click="SetInfo" Content="{x:Static assets:Resources.Others_Modify}" />
+							<Button Name="BackInfoBut" Width="110" Click="BackInfo" Content="{x:Static assets:Resources.Others_Recover}" />
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
 			</suki:BusyArea>
 		</suki:GlassCard>
-		<suki:GlassCard Width="305"
+		<suki:GlassCard Width="320"
 						Height="310"
-						Margin="15,10"
+						Margin="10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyBattery"
-						   BusyText="修改中...">
+						   BusyText="{x:Static assets:Resources.Others_Modifying}">
 				<Grid>
 					<StackPanel Name="Battery">
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
-								   Text="电池" />
+								   Text="{x:Static assets:Resources.Others_Battery}" />
 						<StackPanel Margin="3,0,0,0" Orientation="Vertical">
 							<StackPanel Orientation="Horizontal">
 								<StackPanel>
 									<Button Name="BuckBatteryBut"
 											Height="85"
+											Width="70"
 											Margin="5,10,5,0"
 											Padding="10,0,10,0"
 											Click="BuckBattery"
-											Content="恢复">
+											Content="{x:Static assets:Resources.Others_Recover}">
 									</Button>
 								</StackPanel>
 								<StackPanel>
 									<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-										<TextBox Name="Temp" Watermark="温度(℃)" Width="130" />
+										<TextBox Name="Temp" Watermark="{x:Static assets:Resources.Others_Temperature}" Width="130" />
 										<Button Name="SetTempBut"
 												Height="35"
+												Width="55"
 												Padding="10,0,10,0"
 												Click="SetTemp"
-												Content="修改">
+												Content="{x:Static assets:Resources.Others_Modify}">
 										</Button>
 									</StackPanel>
 									<StackPanel Margin="0,5,0,0" Orientation="Horizontal" Spacing="5">
-										<TextBox Name="BLevel" Watermark="电量(%)" Width="130" />
+										<TextBox Name="BLevel" Watermark="{x:Static assets:Resources.Others_BatteryLevel}" Width="130" />
 										<Button Name="SetBLevelBut"
 												Height="35"
+												Width="55"
 												Padding="10,0,10,0"
 												Click="SetBLevel"
-												Content="修改">
+												Content="{x:Static assets:Resources.Others_Modify}">
 										</Button>
 									</StackPanel>
 								</StackPanel>
 							</StackPanel>
 							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="200"
+								<TextBlock Width="215"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   Text="模拟非充电" />
+										   Text="{x:Static assets:Resources.Others_SimulateUncharge}" />
 								<ToggleSwitch Name="NoCharge" IsCheckedChanged="SetNoCharge"/>
 							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="200"
+							<StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+								<TextBlock Width="215"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   Text="模拟无线充电" />
+										   Text="{x:Static assets:Resources.Others_SimulateWirelessCharge}" />
 								<ToggleSwitch Name="WirelessCharge" IsCheckedChanged="SetWirelessCharge"/>
 							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="200"
+							<StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+								<TextBlock Width="215"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   Text="模拟USB充电" />
+										   Text="{x:Static assets:Resources.Others_SimulateUSBCharge}" />
 								<ToggleSwitch Name="USUCharge" IsCheckedChanged="SetUSUCharge"/>
 							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<TextBlock Width="200"
+							<StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+								<TextBlock Width="215"
 										   Margin="5,0,0,0"
 										   VerticalAlignment="Center"
-										   Text="模拟直流充电" />
+										   Text="{x:Static assets:Resources.Others_SimulateDCCharge}" />
 								<ToggleSwitch Name="ACCharge" IsCheckedChanged="SetACCharge"/>
 							</StackPanel>
 						</StackPanel>
@@ -155,20 +158,20 @@
 		</suki:GlassCard>
 		<suki:GlassCard Width="270"
 						Height="310"
-						Margin="15,10"
+						Margin="10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyLock"
-						   BusyText="修改中...">
+						   BusyText="{x:Static assets:Resources.Others_Modifying}">
 				<Grid>
 					<StackPanel Name="Lock">
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
-								   Text="锁屏时间" />
+								   Text="{x:Static assets:Resources.Others_LockscreenTime}" />
 						<StackPanel Margin="8,5,0,0" Orientation="Vertical" Spacing="10">
 							<StackPanel Margin="0,35,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
 								<TextBlock Margin="5,0,0,0"
-										   Text="当前锁屏时间:" />
+										   Text="{x:Static assets:Resources.Others_CurrentLockscreenTime}" />
 								<TextBlock Name="LockTime"
 										   Width="40"
 										   Margin="5,0,0,0"
@@ -179,7 +182,7 @@
 									 theme:TextBoxExtensions.AddDeleteButton="False"/>
 							</StackPanel>
 							<StackPanel Margin="0,50,0,0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
-								<Button Width="200" Click="SetLockTime" Content="修改" />
+								<Button Width="200" Click="SetLockTime" Content="{x:Static assets:Resources.Others_Modify}" />
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
@@ -196,28 +199,28 @@
 						   VerticalAlignment="Top"
 						   FontWeight="DemiBold"
 						   Margin="0,15,0,0"
-						   Text="图标隐藏" />
+						   Text="{x:Static assets:Resources.Others_IconHide}" />
 				<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="30,0,0,0" Spacing="10">
-					<StackPanel Orientation="Horizontal" Spacing="35">
-						<CheckBox Width="60" Name="Time" FontSize="13" Content="时间"/>
-						<CheckBox Width="60" Name="GPS" FontSize="13" Content="定位"/>
-						<CheckBox Width="60" Name="Headset" FontSize="13" Content="耳机"/>
-						<CheckBox Width="60" Name="Clock" FontSize="13" Content="闹钟"/>
-						<CheckBox Width="60" Name="Voice" FontSize="13" Content="声音"/>
-						<CheckBox Width="60" Name="LTE" FontSize="13" Content="信号"/>
-						<CheckBox Name="Rotate" FontSize="13" Content="旋转提示"/>
+					<StackPanel Orientation="Horizontal" Spacing="0">
+						<CheckBox Width="95" Name="Time" FontSize="13" Content="{x:Static assets:Resources.Others_Time}"/>
+						<CheckBox Width="95" Name="GPS" FontSize="13" Content="{x:Static assets:Resources.Others_Location}"/>
+						<CheckBox Width="95" Name="Headset" FontSize="13" Content="{x:Static assets:Resources.Others_Earphone}"/>
+						<CheckBox Width="95" Name="Clock" FontSize="13" Content="{x:Static assets:Resources.Others_Alarm}"/>
+						<CheckBox Width="95" Name="Voice" FontSize="13" Content="{x:Static assets:Resources.Others_Sound}"/>
+						<CheckBox Width="95" Name="LTE" FontSize="13" Content="{x:Static assets:Resources.Others_Signal}"/>
+						<CheckBox Name="Rotate" FontSize="13" Content="{x:Static assets:Resources.Others_RotationNotice}"/>
 					</StackPanel>
-					<StackPanel Orientation="Horizontal" Spacing="35">
-						<CheckBox Width="60" Name="Bluetooth" FontSize="13" Content="蓝牙"/>
-						<CheckBox Width="60" Name="BatteryICO" FontSize="13" Content="电池"/>
-						<CheckBox Width="60" Name="WIFI" FontSize="13" Content="无线"/>
-						<CheckBox Width="60" Name="Second" FontSize="13" Content="显秒"/>
-						<CheckBox Width="60" Name="NFC" FontSize="13" Content="NFC"/>
-						<CheckBox Width="60" Name="Fly" FontSize="13" Content="飞行"/>
-						<CheckBox Name="RemoveX" FontSize="13" Content="WiFi的x或！"/>
+					<StackPanel Orientation="Horizontal" Spacing="0">
+						<CheckBox Width="95" Name="Bluetooth" FontSize="13" Content="{x:Static assets:Resources.Others_Bluetooth}"/>
+						<CheckBox Width="95" Name="BatteryICO" FontSize="13" Content="{x:Static assets:Resources.Others_Battery}"/>
+						<CheckBox Width="95" Name="WIFI" FontSize="13" Content="{x:Static assets:Resources.Others_WLAN}"/>
+						<CheckBox Width="95" Name="Second" FontSize="13" Content="{x:Static assets:Resources.Others_ShowSec}"/>
+						<CheckBox Width="95" Name="NFC" FontSize="13" Content="NFC"/>
+						<CheckBox Width="95" Name="Fly" FontSize="13" Content="{x:Static assets:Resources.Others_AirMode}"/>
+						<CheckBox Name="RemoveX" FontSize="13" Content="{x:Static assets:Resources.Others_WiFisXor}"/>
 					</StackPanel>
 				</StackPanel>
-				<Button Name="ShowAndHide" Margin="35,0,0,0" Click="ShowOrHide" Content="隐藏/显示"></Button>
+				<Button Name="ShowAndHide" Width="100" Padding="10" Margin="30,0,0,0" Click="ShowOrHide" Content="{x:Static assets:Resources.Others_HideOrShow}"></Button>
 			</StackPanel>
 		</suki:GlassCard>
 
@@ -231,13 +234,13 @@
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
-								   Text="字体调节" />
+								   Text="{x:Static assets:Resources.Others_FontAdjust}" />
 						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 							<TextBlock Width="40"
 									   Margin="8,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
-									   Text="缩放" />
+									   Text="{x:Static assets:Resources.Others_Scale}" />
 							<Slider Name="FontZoom"
 									Width="630"
 									Margin="20,0,0,0"
@@ -252,7 +255,7 @@
 									   Margin="8,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
-									   Text="当前倍数:" />
+									   Text="{x:Static assets:Resources.Others_CurrentScale}" />
 								<TextBlock Name="NowFontZoom"
 										   Margin="5,0,0,0"
 										   Width="40"
@@ -264,7 +267,7 @@
 									   Margin="8,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
-									   Text="设置倍数:" />
+									   Text="{x:Static assets:Resources.Others_SetScale}" />
 								<TextBlock Margin="5,0,0,0"
 										   Width="40"
 										   VerticalAlignment="Center"
@@ -276,7 +279,7 @@
 										FontSize="14"
 										Margin="0,-30,0,0"
 										Click="FontZoomBut"
-										Content="修改" />
+										Content="{x:Static assets:Resources.Others_Modify}" />
 							</StackPanel>
 						</StackPanel>
 						<StackPanel Margin="183,-10,0,0" Spacing="200" Orientation="Horizontal">
@@ -304,7 +307,7 @@
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
-								   Text="动画速度" />
+								   Text="{x:Static assets:Resources.Others_AnimationSpeed}" />
 						<StackPanel Orientation="Vertical" Spacing="0">
 							<StackPanel>
 								<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
@@ -312,7 +315,7 @@
 											   Margin="8,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
-											   Text="窗口缩放" />
+											   Text="{x:Static assets:Resources.Others_WindowScale}" />
 									<Slider Name="WindowZoom"
 											Width="630"
 											IsSnapToTickEnabled="True"
@@ -323,7 +326,7 @@
 											   Margin="16,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
-											   Text="设置倍数:" />
+											   Text="{x:Static assets:Resources.Others_SetScale}" />
 									<TextBlock Margin="5,0,0,0"
 											   Width="40"
 											   VerticalAlignment="Center"
@@ -334,7 +337,7 @@
 											Height="35"
 											FontSize="14"
 											Click="WindowZoomBut"
-											Content="修改" />
+											Content="{x:Static assets:Resources.Others_Modify}" />
 								</StackPanel>
 								<StackPanel Margin="125,0,0,0" Spacing="79" Orientation="Horizontal">
 									<Button Classes="Toolbox"
@@ -375,7 +378,7 @@
 											   Margin="8,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
-											   Text="过渡缩放" />
+											   Text="{x:Static assets:Resources.Others_TransitionScale}" />
 									<Slider Name="TransitionZoom"
 											Width="630"
 											IsSnapToTickEnabled="True"
@@ -386,7 +389,7 @@
 											   Margin="16,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
-											   Text="设置倍数:" />
+											   Text="{x:Static assets:Resources.Others_SetScale}" />
 									<TextBlock Margin="5,0,0,0"
 											   Width="40"
 											   VerticalAlignment="Center"
@@ -397,7 +400,7 @@
 											Height="35"
 											FontSize="14"
 											Click="TransitionZoomBut"
-											Content="修改" />
+											Content="{x:Static assets:Resources.Others_Modify}" />
 								</StackPanel>
 								<StackPanel Margin="125,0,0,0" Spacing="79" Orientation="Horizontal">
 									<Button Classes="Toolbox"
@@ -438,7 +441,7 @@
 											   Margin="8,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
-											   Text="动画时长" />
+											   Text="{x:Static assets:Resources.Others_AnimationDuration}" />
 									<Slider Name="AnimationDuration"
 											Width="630"
 											IsSnapToTickEnabled="True"
@@ -449,7 +452,7 @@
 											   Margin="16,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
-											   Text="设置倍数:" />
+											   Text="{x:Static assets:Resources.Others_SetScale}" />
 									<TextBlock Margin="5,0,0,0"
 											   Width="40"
 											   VerticalAlignment="Center"
@@ -460,7 +463,7 @@
 											Height="35"
 											FontSize="14"
 											Click="AnimationDurationBut"
-											Content="修改" />
+											Content="{x:Static assets:Resources.Others_Modify}" />
 								</StackPanel>
 								<StackPanel Margin="125,0,0,0" Spacing="79" Orientation="Horizontal">
 									<Button Classes="Toolbox"

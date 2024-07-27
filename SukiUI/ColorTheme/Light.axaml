@@ -4,7 +4,7 @@
     <Color x:Key="SukiBackground">Transparent</Color>
     <Color x:Key="SukiStrongBackground">#fafafa</Color>
     <Color x:Key="SukiLightBackground">Transparent</Color>
-    <Color x:Key="SukiCardBackground">#fafafa</Color>
+    <Color x:Key="SukiCardBackground">White</Color>
     <Color x:Key="SukiGlassCardBackground">#fdfefefe</Color>
     <Color x:Key="SukiGlassCardOpaqueBackground">#fcfcfc</Color>
     <Color x:Key="SukiControlTouchBackground">#FFFFFF</Color>
@@ -27,8 +27,8 @@
     <BoxShadows x:Key="SukiBigPopupShadow">1 1 15 0 #dedede</BoxShadows>
     
     <LinearGradientBrush x:Key="PopupGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
-        <GradientStop Color="{DynamicResource SukiAccentColor3}" Offset="0"></GradientStop>
-        <GradientStop Color="{DynamicResource SukiPrimaryColor3}" Offset="1"></GradientStop>
+        <GradientStop Color="{DynamicResource SukiAccentColor5}" Offset="0"></GradientStop>
+        <GradientStop Color="{DynamicResource SukiPrimaryColor5}" Offset="1"></GradientStop>
 
     </LinearGradientBrush>
 

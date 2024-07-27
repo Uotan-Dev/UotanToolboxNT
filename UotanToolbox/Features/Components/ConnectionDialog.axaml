@@ -5,7 +5,7 @@
 			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="UotanToolbox.Features.Components.ConnectionDialog">
-	<StackPanel Spacing="15" MinWidth="200" MinHeight="80">
+	<StackPanel Spacing="15" MinWidth="200" MaxWidth="300" MinHeight="80">
 		<TextBlock FontSize="18"
                    FontWeight="DemiBold"
                    Text="{x:Static assets:Resources.ConnectionDialog_Notice}" />

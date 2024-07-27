@@ -12,7 +12,7 @@ namespace UotanToolbox.Common.PatchHelper
         {
             if (bootInfo.HaveKernel == false)
             {
-                throw new Exception(GetTranslation("Basicflash_BootWong"));
+                throw new Exception(GetTranslation("Basicflash_BootWrong"));
             }
             if (zipInfo.KMI != bootInfo.KMI)
             {
@@ -37,11 +37,11 @@ namespace UotanToolbox.Common.PatchHelper
         {
             if (bootInfo.HaveRamdisk == false)
             {
-                throw new Exception(GetTranslation("Basicflash_BootWong"));
+                throw new Exception(GetTranslation("Basicflash_BootWrong"));
             }
             if (zipInfo.KMI != bootInfo.KMI)
             {
-                throw new Exception("error zip kernel kmi");
+                throw new Exception("Wrong zip kernel kmi!");
             }
             File.Copy(Path.Combine(zipInfo.TempPath, "kernelsu.ko"), Path.Combine(bootInfo.TempPath, "kernelsu.ko"), true);
             string archSubfolder = bootInfo.Arch switch

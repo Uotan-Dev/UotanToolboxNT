@@ -92,12 +92,12 @@ namespace UotanToolbox.Common.PatchHelper
                 (string outputcpio, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" test", workpath);
                 if (exitcode != 0)
                 {
-                    throw new Exception("do not support magisk patched boot.img");
+                    throw new Exception("Do not support magisk patched boot.img");
                 }
                 (outputcpio, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" \"exists kernelsu.ko\"", workpath);
                 if (exitcode == 0)
                 {
-                    throw new Exception("do not support kernelsu patched boot.img");
+                    throw new Exception("Do not support kernelsu patched boot.img");
                 }
                 (outputcpio, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
                 if (Global.System == "macOS")

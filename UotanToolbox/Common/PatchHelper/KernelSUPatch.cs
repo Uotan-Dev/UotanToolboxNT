@@ -16,7 +16,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             if (zipInfo.KMI != bootInfo.KMI)
             {
-                throw new Exception("error zip kernel kmi");
+                throw new Exception("Wrong zip kernel kmi");
             }
             File.Copy(Path.Combine(zipInfo.TempPath, "Image"), Path.Combine(bootInfo.TempPath, "kernel"), true);
             CleanBoot(bootInfo.TempPath);

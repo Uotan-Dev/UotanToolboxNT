@@ -49,7 +49,7 @@ namespace UotanToolbox.Common.PatchHelper
             await kernel_patch(bootInfo, EnvironmentVariable.LEGACYSAR);
             CleanBoot(bootInfo.TempPath);
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{bootInfo.Path}\"", bootInfo.TempPath);
-            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "boot_patched_" + randomStr + ".img");
+            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "magisk_patched_" + randomStr + ".img");
             File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
             return newboot;
         }

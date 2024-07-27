@@ -89,7 +89,17 @@ namespace UotanToolbox.Common.PatchHelper
                     workpath = Path.Combine(tmp_path, "ramdisk");
                     Directory.CreateDirectory(workpath);
                 }
-                (string outputcpio, Global.cpio_exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
+                (string outputcpio, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" test", workpath);
+                if (exitcode != 0)
+                {
+                    throw new Exception("do not support magisk patched boot.img");
+                }
+                (outputcpio, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" \"exists kernelsu.ko\"", workpath);
+                if (exitcode == 0)
+                {
+                    throw new Exception("do not support kernelsu patched boot.img");
+                }
+                (outputcpio, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
                 if (Global.System == "macOS")
                 {
                     ramdisk_path = Path.Join("/private", ramdisk_path);

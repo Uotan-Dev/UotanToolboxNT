@@ -3,6 +3,7 @@ using SukiUI.Controls;
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -431,6 +432,20 @@ namespace UotanToolbox.Common
                 result.Append(((int)data[i]).ToString("X2") + " ");
             }
             return Convert.ToString(result);
+        }
+        public static T BytesToStructure<T>(byte[] bytes) where T : struct
+        {
+            int size = Marshal.SizeOf(typeof(T));
+            IntPtr ptr = Marshal.AllocHGlobal(size);
+            try
+            {
+                Marshal.Copy(bytes, 0, ptr, size);
+                return Marshal.PtrToStructure<T>(ptr);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(ptr);
+            }
         }
     }
 }

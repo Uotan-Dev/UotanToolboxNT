@@ -13,6 +13,7 @@ namespace UotanToolbox.Common.PatchHelper
         private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
         public static async Task<ZipInfo> Zip_Detect(string path)
         {
+            string lkm_version, kmi;
             ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
             Zipinfo.Path = path;
             Zipinfo.SHA1 = await FileHelper.SHA1HashAsync(Zipinfo.Path);
@@ -22,43 +23,84 @@ namespace UotanToolbox.Common.PatchHelper
             {
                 throw new Exception(GetTranslation("Basicflash_FatalError"));
             }
+            Dictionary<string, string> lkm_dict = new Dictionary<string, string>
+            {
+                {"01d17cd7027c752add00f10e65952f9ba766050d" , "1.0.0"},
+                {"fc071efd0b0d89b589f60c0819104d8a3ad6683f" , "1.0.0"},
+                {"575b9baf2ecc7dc94fbccfef2a381962b40efdbd" , "1.0.0"},
+                {"0fc7d297139587c0b4a3bea6384f9a23e24b89da" , "1.0.0"},
+                {"0cf6d72ef11db286dcb719f67e9cb3335ed1a397" , "1.0.0"},
+                {"c271a5c2dfdbb0070c49c8276d691ce13a3e5938" , "1.0.1"},
+                {"4a816aadf741dbfeb84d31c09cefa4f19b748e2f" , "1.0.1"},
+                {"0022acdfd7e827ca2828c4803f9fc38efc05446e" , "1.0.1"},
+                {"4f8542a4c3fc76613b75b13d34c8baa6a3954bdf" , "1.0.1"},
+                {"2c2c51cb82d80d022687c287f1539aecdd93e8f4" , "1.0.1"}
+            };
+            if (lkm_dict.TryGetValue(Zipinfo.SHA1, out lkm_version))
+            {
+                File.Copy(Zipinfo.Path, Path.Combine(Zipinfo.TempPath, "kernelsu.ko"), true);
+                Zipinfo.Mode = PatchMode.LKM;
 
-            await Task.Run(() =>
-            {
-                using (IArchive archive = ArchiveFactory.Open(path))
-                {
-                    foreach (IArchiveEntry entry in archive.Entries)
-                    {
-                        if (!entry.IsDirectory)
-                        {
-                            entry.WriteToDirectory(Zipinfo.TempPath, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
-                        }
-                    }
-                }
-            });
-
-            if (File.Exists(Path.Combine(Zipinfo.TempPath, "assets", "util_functions.sh")))
-            {
-                Zipinfo.Mode = PatchMode.Magisk;
-            }
-            else if (File.Exists(Path.Combine(Zipinfo.TempPath, "Image")))
-            {
-                Zipinfo.Mode = PatchMode.KernelSU;
             }
             else
             {
-                throw new Exception(GetTranslation("Basicflash_ZipError"));
+                await Task.Run(() =>
+                {
+                    using (IArchive archive = ArchiveFactory.Open(path))
+                    {
+                        foreach (IArchiveEntry entry in archive.Entries)
+                        {
+                            if (!entry.IsDirectory)
+                            {
+                                entry.WriteToDirectory(Zipinfo.TempPath, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                            }
+                        }
+                    }
+                });
+
+                if (File.Exists(Path.Combine(Zipinfo.TempPath, "assets", "util_functions.sh")))
+                {
+                    Zipinfo.Mode = PatchMode.Magisk;
+                }
+                else if (File.Exists(Path.Combine(Zipinfo.TempPath, "Image")))
+                {
+                    Zipinfo.Mode = PatchMode.GKI;
+                }
+                else
+                {
+                    throw new Exception(GetTranslation("Basicflash_ZipError"));
+                }
             }
             switch (Zipinfo.Mode)
             {
                 case PatchMode.Magisk:
+                    Zipinfo.SubSHA1 = await FileHelper.SHA1HashAsync(Path.Combine(Zipinfo.TempPath, "assets", "util_functions.sh"));
                     Zipinfo.Version = Magisk_Ver(Zipinfo.SHA1);
                     await Magisk_Pre(Zipinfo.TempPath);
                     await Magisk_Compress(Zipinfo.TempPath);
                     Zipinfo.IsUseful = true;
                     break;
-                case PatchMode.KernelSU:
-                    (Zipinfo.SubSHA1, Zipinfo.IsUseful, Zipinfo.Version, Zipinfo.KMI) = await KernelSU_Valid(Zipinfo.TempPath);
+                case PatchMode.GKI:
+                    (Zipinfo.SubSHA1, Zipinfo.IsUseful, Zipinfo.Version, Zipinfo.KMI) = await GKI_Valid(Zipinfo.TempPath);
+                    break;
+                case PatchMode.LKM:
+                    Dictionary<string, string> kmi_dict = new Dictionary<string, string>
+                    {
+                        {"01d17cd7027c752add00f10e65952f9ba766050d" , "android12-5.10"},
+                        {"fc071efd0b0d89b589f60c0819104d8a3ad6683f" , "android13-5.10"},
+                        {"575b9baf2ecc7dc94fbccfef2a381962b40efdbd" , "android13-5.15"},
+                        {"0fc7d297139587c0b4a3bea6384f9a23e24b89da" , "android14-5.15"},
+                        {"0cf6d72ef11db286dcb719f67e9cb3335ed1a397" , "android14-6.1"},
+                        {"c271a5c2dfdbb0070c49c8276d691ce13a3e5938" , "android12-5.10"},
+                        {"4a816aadf741dbfeb84d31c09cefa4f19b748e2f" , "android13-5.10"},
+                        {"0022acdfd7e827ca2828c4803f9fc38efc05446e" , "android13-5.15"},
+                        {"4f8542a4c3fc76613b75b13d34c8baa6a3954bdf" , "android14-5.15"},
+                        {"2c2c51cb82d80d022687c287f1539aecdd93e8f4" , "android14-6.1"}
+                    };
+                    Zipinfo.Version = lkm_version;
+                    Zipinfo.IsUseful = true;
+                    kmi_dict.TryGetValue(Zipinfo.SHA1, out kmi);
+                    Zipinfo.KMI = kmi;
                     break;
             }
             return Zipinfo;
@@ -137,7 +179,7 @@ namespace UotanToolbox.Common.PatchHelper
                 }
             }
         }
-        private static async Task<(string, bool, string, string)> KernelSU_Valid(string temp_path)
+        private static async Task<(string, bool, string, string)> GKI_Valid(string temp_path)
         {
             string SubSHA1 = await FileHelper.SHA1HashAsync(Path.Combine(temp_path, "Image"));
             string KMI = null;

@@ -387,9 +387,9 @@ namespace UotanToolbox.Assets {
         /// <summary>
         ///   查找类似 wrong Boot.img file format 的本地化字符串。
         /// </summary>
-        public static string Basicflash_BootWong {
+        public static string Basicflash_BootWrong {
             get {
-                return ResourceManager.GetString("Basicflash_BootWong", resourceCulture);
+                return ResourceManager.GetString("Basicflash_BootWrong", resourceCulture);
             }
         }
         

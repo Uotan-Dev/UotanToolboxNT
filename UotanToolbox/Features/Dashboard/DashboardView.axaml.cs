@@ -333,8 +333,8 @@ public partial class DashboardView : UserControl
 
     public static FilePickerFileType Zip { get; } = new("Zip")
     {
-        Patterns = new[] { "*.zip", "*.apk"/* ,"*.ko"*/},
-        AppleUniformTypeIdentifiers = new[] { "*.zip", "*.apk"/*, "*.ko"*/}
+        Patterns = new[] { "*.zip", "*.apk", "*.ko" },
+        AppleUniformTypeIdentifiers = new[] { "*.zip", "*.apk", "*.ko" }
     };
 
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
@@ -424,8 +424,11 @@ public partial class DashboardView : UserControl
                 case PatchMode.Magisk:
                     newboot = await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
-                case PatchMode.KernelSU:
-                    newboot = await KernelSUPatch.KernelSU_Patch(Global.Zipinfo, Global.Bootinfo);
+                case PatchMode.GKI:
+                    newboot = await KernelSUPatch.GKI_Patch(Global.Zipinfo, Global.Bootinfo);
+                    break;
+                case PatchMode.LKM:
+                    newboot = await KernelSUPatch.LKM_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
                     //throw new Exception(GetTranslation("Basicflash_CantKSU"));
             }

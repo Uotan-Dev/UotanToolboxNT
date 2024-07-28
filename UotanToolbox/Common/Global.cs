@@ -102,7 +102,8 @@ namespace UotanToolbox.Common
     {
         Magisk,
         Apatch,
-        KernelSU,
+        GKI,
+        LKM,
         None
     }
 

@@ -1245,7 +1245,7 @@
   <data name="Appmgr_Stopapp" xml:space="preserve">
     <value>Stopapp</value>
   </data>
-  <data name="Basicflash_BootWong" xml:space="preserve">
+  <data name="Basicflash_BootWrong" xml:space="preserve">
     <value>wrong Boot.img file format</value>
   </data>
   <data name="Basicflash_CantKSU" xml:space="preserve">

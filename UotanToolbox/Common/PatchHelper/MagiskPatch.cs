@@ -14,7 +14,7 @@ namespace UotanToolbox.Common.PatchHelper
         {
             if (bootInfo.HaveRamdisk == false)
             {
-                throw new Exception(GetTranslation("Basicflash_BootWong"));
+                throw new Exception(GetTranslation("Basicflash_BootWrong"));
             }
             await comp_copy(zipInfo, bootInfo);
             (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio test", bootInfo.TempPath);
@@ -49,7 +49,7 @@ namespace UotanToolbox.Common.PatchHelper
             await kernel_patch(bootInfo, EnvironmentVariable.LEGACYSAR);
             CleanBoot(bootInfo.TempPath);
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{bootInfo.Path}\"", bootInfo.TempPath);
-            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "boot_patched_" + randomStr + ".img");
+            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "magisk_patched_" + randomStr + ".img");
             File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
             return newboot;
         }

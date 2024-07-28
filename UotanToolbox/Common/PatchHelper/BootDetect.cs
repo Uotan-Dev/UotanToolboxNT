@@ -31,7 +31,7 @@ namespace UotanToolbox.Common.PatchHelper
             bootinfo.PatchLevel = Regex.Match(mb_output, osPatchLevelPattern).Groups[1].Value;
             bootinfo.IsUseful = true;
             (bootinfo.HaveDTB, bootinfo.DTBName) = await Task.Run(() => dtb_detect(bootinfo.TempPath));
-            (bootinfo.Version, bootinfo.KMI, bootinfo.HaveKernel, bootinfo.GKI2) = await Task.Run(() => kernel_detect(bootinfo.TempPath));
+            (bootinfo.Version, bootinfo.KMI, bootinfo.HaveKernel, bootinfo.GKI2, bootinfo.Arch) = await kernel_detect(bootinfo.TempPath);
             (bootinfo.HaveRamdisk, bootinfo.Arch) = await ramdisk_detect(bootinfo.TempPath);
             return bootinfo;
         }
@@ -55,9 +55,9 @@ namespace UotanToolbox.Common.PatchHelper
             }
         }
 
-        private static (string, string, bool, bool) kernel_detect(string temp)
+        private static async Task<(string, string, bool, bool, string)> kernel_detect(string temp)
         {
-            string kmi = "", version = "";
+            string kmi = "", version = "", arch = "";
             bool have_kernel = false, gki2 = false;
             if (File.Exists(Path.Combine(temp, "kernel")))
             {
@@ -68,8 +68,10 @@ namespace UotanToolbox.Common.PatchHelper
                 {
                     gki2 = true;
                 }
+                string kernel_info = await CallExternalProgram.File($"\"{Path.Combine(temp, "kernel")}\"");
+                arch = ArchDetect(kernel_info);
             }
-            return (version, kmi, have_kernel, gki2);
+            return (version, kmi, have_kernel, gki2, arch);
         }
 
         public static async Task<(bool, string)> ramdisk_detect(string tmp_path)
@@ -119,7 +121,8 @@ namespace UotanToolbox.Common.PatchHelper
             {"ARM aarch64", "aarch64"},
             {"X86-64", "X86-64"},
             {"ARM,", "armeabi"},
-            {"Intel 80386", "X86"}
+            {"Intel 80386", "X86"},
+            {"ARM64","aarch64" }
         };
 
         private static string ArchDetect(string init_info)

@@ -455,7 +455,7 @@ public partial class DashboardView : UserControl
         patch_busy(false);
     }
 
-    private async Task FlashBoot(string boot)
+    private static async Task FlashBoot(string boot)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {

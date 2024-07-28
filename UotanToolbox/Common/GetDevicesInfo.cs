@@ -305,59 +305,42 @@ namespace UotanToolbox.Common
                     diskinfo = "--";
                 }
             }
+            var deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             if (devcon.Contains(devicename))
             {
-                string thisdevice = "";
-                string[] Lines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < Lines.Length; i++)
+                string thisdevice = deviceLines.FirstOrDefault(line => line.Contains(devicename));
+
+                if (thisdevice != null)
                 {
-                    if (Lines[i].Contains(devicename))
+                    if (thisdevice.Contains("QDLoader"))
                     {
-                        thisdevice = Lines[i];
-                        break;
+                        devices["Status"] = "9008";
                     }
-                }
-                if (thisdevice.Contains("QDLoader"))
-                {
-                    status = "9008";
-                }
-                else if (thisdevice.Contains("900E ("))
-                {
-                    status = "900E";
-                }
-                else if (thisdevice.Contains("901D ("))
-                {
-                    status = "901D";
-                }
-                else if (thisdevice.Contains("9091 ("))
-                {
-                    status = "9091";
+                    else if (thisdevice.Contains("900E ("))
+                    {
+                        devices["Status"] = "900E";
+                    }
+                    else if (thisdevice.Contains("901D ("))
+                    {
+                        devices["Status"] = "901D";
+                    }
+                    else if (thisdevice.Contains("9091 ("))
+                    {
+                        devices["Status"] = "9091";
+                    }
                 }
             }
             if (devicename.Contains("ttyUSB"))
             {
-                status = "9008";
+                devices["Status"] = "9008";
             }
-            if (devicename == "Unknown device")
+            else if (devicename == "Unknown device")
             {
-                string[] Lines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-                for (int i = 0; i < Lines.Length; i++)
+                string statusPattern = deviceLines.FirstOrDefault(line => line.EndsWith(":900e") || line.EndsWith(":901d") || line.EndsWith(":9091"));
+
+                if (statusPattern != null)
                 {
-                    if (Lines[i].Contains(":900e"))
-                    {
-                        status = "900E";
-                        break;
-                    }
-                    else if (Lines[i].Contains(":901d"))
-                    {
-                        status = "901D";
-                        break;
-                    }
-                    else if (Lines[i].Contains(":9091"))
-                    {
-                        status = "9091";
-                        break;
-                    }
+                    devices["Status"] = statusPattern.Substring(statusPattern.LastIndexOf(':') + 1);
                 }
             }
             devices.Add("Status", status);

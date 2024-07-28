@@ -26,13 +26,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.1.0-rc2" />
-		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.1.0-rc2" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.1.0-rc2" />
-		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0-rc2" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.0-rc2" />
+		<PackageReference Include="Avalonia" Version="11.1.1" />
+		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.1.1" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.1.1" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.1" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.1" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 		<PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />

@@ -31,3 +31,8 @@
 All binary files used can be found [here](https://github.com/Uotan-Dev/UotanToolboxNT.Binary).
 
 To debug the project, you need to put the files above into `UotanToolboxNT\UotanToolbox\bin\Debug\net8.0\bin`.
+
+
+### Star History
+
+[![Uotan Toolbox NT](https://api.star-history.com/svg?repos=Uotan-Dev/UotanToolboxNT&type=Date)](https://star-history.com/#Uotan-Dev/UotanToolboxNT&Date)

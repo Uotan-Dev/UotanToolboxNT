@@ -354,7 +354,7 @@ public partial class DashboardView : UserControl
                 patch_busy(false);
                 return;
             }
-            MagiskFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
+            MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
             SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectZIP")}\nUseful:{Global.Zipinfo.IsUseful}\nMode:{Global.Zipinfo.Mode}\nVersion:{Global.Zipinfo.Version}"), allowBackgroundClose: true);
         }
@@ -388,7 +388,7 @@ public partial class DashboardView : UserControl
                 patch_busy(false);
                 return;
             }
-            BootFile.Text = Uri.UnescapeDataString(StringHelper.FilePath(files[0].Path.ToString()));
+            BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
             ArchList.SelectedItem = Global.Bootinfo.Arch;
             SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{Global.Bootinfo.Arch}\nOS:{Global.Bootinfo.OSVersion}\nPatch_level:{Global.Bootinfo.PatchLevel}\nRamdisk:{Global.Bootinfo.HaveRamdisk}\nKMI:{Global.Bootinfo.KMI}"), allowBackgroundClose: true);

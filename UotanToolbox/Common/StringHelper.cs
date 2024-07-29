@@ -190,7 +190,7 @@ namespace UotanToolbox.Common
                 int startIndex = Global.System == "Windows" ? 8 : 7;
                 return path.Substring(startIndex);
             }
-            return path;
+            return Uri.UnescapeDataString(path);
         }
 
         public static int TextBoxLine(string info)

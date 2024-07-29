@@ -16,7 +16,7 @@
 			   Orientation="Horizontal">
 		<suki:GlassCard Width="320"
 						Height="310"
-						Margin="15, 10"
+						Margin="10 10 15 10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyDisplay"
 						   BusyText="{x:Static assets:Resources.Others_Modifying}">
@@ -78,7 +78,7 @@
 		</suki:GlassCard>
 		<suki:GlassCard Width="320"
 						Height="310"
-						Margin="10"
+						Margin="10 10 15 10"
 						VerticalAlignment="Top">
 			<suki:BusyArea Name="BusyBattery"
 						   BusyText="{x:Static assets:Resources.Others_Modifying}">
@@ -190,15 +190,15 @@
 			</suki:BusyArea>
 		</suki:GlassCard>
 
-		<suki:GlassCard Width="955"
+		<suki:GlassCard Width="960"
 						Height="90"
-						Margin="15,10"
+						Margin="10"
 						VerticalAlignment="Top">
 			<StackPanel Orientation="Horizontal">
 				<TextBlock HorizontalAlignment="Left"
 						   VerticalAlignment="Top"
 						   FontWeight="DemiBold"
-						   Margin="0,15,0,0"
+						   Margin="15,15,0,0"
 						   Text="{x:Static assets:Resources.Others_IconHide}" />
 				<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="30,0,0,0" Spacing="10">
 					<StackPanel Orientation="Horizontal" Spacing="0">
@@ -224,9 +224,9 @@
 			</StackPanel>
 		</suki:GlassCard>
 
-		<suki:GlassCard Width="955"
+		<suki:GlassCard Width="960"
 						Height="310"
-						Margin="15,10"
+						Margin="10"
 						VerticalAlignment="Top">
 			<Grid>
 				<StackPanel Orientation="Vertical" Spacing="10">
@@ -323,7 +323,7 @@
 											TickFrequency="0.01"
 											Value="{Binding WindowScale}" />
 									<TextBlock Width="70"
-											   Margin="16,0,0,0"
+											   Margin="21,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
 											   Text="{x:Static assets:Resources.Others_SetScale}" />
@@ -386,7 +386,7 @@
 											TickFrequency="0.01"
 											Value="{Binding TransitionScale}" />
 									<TextBlock Width="70"
-											   Margin="16,0,0,0"
+											   Margin="21,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
 											   Text="{x:Static assets:Resources.Others_SetScale}" />
@@ -449,7 +449,7 @@
 											TickFrequency="0.01"
 											Value="{Binding AnimationLast}" />
 									<TextBlock Width="70"
-											   Margin="16,0,0,0"
+											   Margin="21,0,0,0"
 											   VerticalAlignment="Center"
 											   FontSize="13"
 											   Text="{x:Static assets:Resources.Others_SetScale}" />

@@ -24,7 +24,7 @@ public partial class AppmgrViewModel : MainPageBase
     [ObservableProperty]
     private string _apkFile;
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-    public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
+    public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, 100)
     {
     }
 

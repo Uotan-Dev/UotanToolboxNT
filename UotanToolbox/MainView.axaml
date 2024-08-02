@@ -46,11 +46,11 @@
             </DataTemplate>
         </suki:SukiSideMenu.ItemTemplate>
 		<suki:SukiSideMenu.HeaderContent>
-			<StackPanel Orientation="Vertical">
+			<StackPanel Height="230" Orientation="Vertical">
 				<StackPanel>
 					<Image Width="80"
 		                   Height="80"
-		                   Margin="30"
+		                   Margin="0"
 		                   Source="Assets/OIG.N5o-removebg-preview.png"
 		                   ToolTip.Tip="Uotan Toolbox" />
 				</StackPanel>
@@ -109,6 +109,16 @@
 									Content="{Binding VABStatus, Mode=TwoWay}"/>
 						</StackPanel>
 					</Grid>
+					<StackPanel Margin="0 15" Orientation="Horizontal" Spacing="25">
+						<Button Classes="Toolbox" 
+								Foreground="White" 
+								Content="基础功能"
+								Command="{Binding BasicFeatures}"/>
+						<Button Classes="Toolbox" 
+								Foreground="White" 
+								Content="高级功能"
+								Command="{Binding AdvancedFeatures}"/>
+					</StackPanel>
 				</StackPanel>
 			</StackPanel>
 		</suki:SukiSideMenu.HeaderContent>

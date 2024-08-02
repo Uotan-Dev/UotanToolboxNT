@@ -1,7 +1,9 @@
 using Avalonia.Collections;
 using Avalonia.Styling;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ReactiveUI;
 using SukiUI;
 using SukiUI.Controls;
 using SukiUI.Enums;
@@ -24,7 +26,7 @@ public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty] private bool _windowLocked;
 
-    public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
+    public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; set; }
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
 
@@ -50,7 +52,8 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav)
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
-        DemoPages = new AvaloniaList<MainPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        Global.Pages = demoPages;
+        DemoPages = new AvaloniaList<MainPageBase>(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);
         _theming.BackgroundStyleChanged += style => BackgroundStyle = style;
         _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
@@ -86,6 +89,18 @@ public partial class MainViewModel : ObservableObject
             ? $"{GetTranslation("MainView_BackgroundAnimationsEnabled")}"
             : $"{GetTranslation("MainView_BackgroundAnimationsDisabled")}";
         return SukiHost.ShowToast(title, content);
+    }
+
+    [RelayCommand]
+    public void BasicFeatures()
+    {
+        DemoPages = new AvaloniaList<MainPageBase>(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+    }
+
+    [RelayCommand]
+    public void AdvancedFeatures()
+    {
+        DemoPages = new AvaloniaList<MainPageBase>(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
     }
 
     [RelayCommand]

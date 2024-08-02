@@ -13,15 +13,15 @@ using UotanToolbox.Common;
 using UotanToolbox.Common.PatchHelper;
 using UotanToolbox.Features.Components;
 
-namespace UotanToolbox.Features.Dashboard;
+namespace UotanToolbox.Features.Basicflash;
 
-public partial class DashboardView : UserControl
+public partial class BasicflashView : UserControl
 {
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AvaloniaList<string> SimpleUnlock = ["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"];
     public AvaloniaList<string> Arch = ["aarch64", "armeabi", "X86-64", "X86"];
 
-    public DashboardView()
+    public BasicflashView()
     {
         InitializeComponent();
         SimpleContent.ItemsSource = SimpleUnlock;

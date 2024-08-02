@@ -314,33 +314,33 @@ namespace UotanToolbox.Common
                 {
                     if (thisdevice.Contains("QDLoader"))
                     {
-                        devices["Status"] = "9008";
+                        status = "9008";
                     }
                     else if (thisdevice.Contains("900E ("))
                     {
-                        devices["Status"] = "900E";
+                        status = "900E";
                     }
                     else if (thisdevice.Contains("901D ("))
                     {
-                        devices["Status"] = "901D";
+                        status = "901D";
                     }
                     else if (thisdevice.Contains("9091 ("))
                     {
-                        devices["Status"] = "9091";
+                        status = "9091";
                     }
                 }
             }
             if (devicename.Contains("ttyUSB"))
             {
-                devices["Status"] = "9008";
+                status = "9008";
             }
-            else if (devicename == "Unknown device")
+            if (devicename == "Unknown device")
             {
                 string statusPattern = deviceLines.FirstOrDefault(line => line.EndsWith(":900e") || line.EndsWith(":901d") || line.EndsWith(":9091"));
 
                 if (statusPattern != null)
                 {
-                    devices["Status"] = statusPattern.Substring(statusPattern.LastIndexOf(':') + 1);
+                    status = statusPattern.Substring(statusPattern.LastIndexOf(':') + 1);
                 }
             }
             devices.Add("Status", status);

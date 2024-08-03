@@ -96,5 +96,5 @@ public partial class MainViewModel : ObservableObject
         _theme.ChangeColorTheme(theme);
 
     [RelayCommand]
-    private void OpenURL(string url) => UrlUtilities.OpenURL(url);
+    private static void OpenURL(string url) => UrlUtilities.OpenURL(url);
 }

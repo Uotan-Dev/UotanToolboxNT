@@ -1242,7 +1242,7 @@
   <data name="Appmgr_Stopapp" xml:space="preserve">
     <value>小黑屋</value>
   </data>
-  <data name="Basicflash_BootWong" xml:space="preserve">
+  <data name="Basicflash_BootWrong" xml:space="preserve">
     <value>Boot.img文件格式错误</value>
   </data>
   <data name="Basicflash_CantKSU" xml:space="preserve">

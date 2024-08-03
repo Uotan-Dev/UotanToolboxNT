@@ -155,7 +155,7 @@ namespace UotanToolbox.Common.PatchHelper
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error copying file from {file.SourcePath} to {file.DestinationPath}: {ex.Message}");
+                    throw new Exception($"Error copying file from {file.SourcePath} to {file.DestinationPath}: {ex.Message}");
                 }
             }));
         }

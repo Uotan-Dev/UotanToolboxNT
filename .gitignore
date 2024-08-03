@@ -402,3 +402,4 @@ FodyWeavers.xsd
 
 # Obsidian Markdown Editor
 .obsidian/
+.DS_Store

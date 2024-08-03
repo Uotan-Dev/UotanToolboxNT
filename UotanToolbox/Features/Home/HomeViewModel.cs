@@ -31,14 +31,8 @@ public partial class HomeViewModel : MainPageBase
     [ObservableProperty] private bool _commonDevicesList;
     [ObservableProperty] private static AvaloniaList<string> _simpleContent;
 
-    public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
-
-    [ObservableProperty] private bool _animationsEnabled;
-    [ObservableProperty] private MainPageBase _activePage;
-    [ObservableProperty] private bool _windowLocked = false;
-
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-    public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
+    public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, 0, "主页设备信息电池存储和内存按键模拟重启选择设备")
     {
         _ = CheckEnvironment();
         _ = CheckDeviceList();

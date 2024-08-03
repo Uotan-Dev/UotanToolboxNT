@@ -2,12 +2,15 @@ using Avalonia.Collections;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DynamicData;
+using ReactiveUI;
 using SukiUI;
 using SukiUI.Controls;
 using SukiUI.Enums;
 using SukiUI.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
@@ -24,7 +27,7 @@ public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty] private bool _windowLocked;
 
-    public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
+    public ObservableCollection<MainPageBase> DemoPages { get; set; }
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
 
@@ -35,6 +38,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private MainPageBase _activePage;
     [ObservableProperty] private SukiBackgroundStyle _backgroundStyle = SukiBackgroundStyle.Gradient;
     [ObservableProperty] private string _customShaderFile;
+    [ObservableProperty] private string _search;
     [ObservableProperty] private bool _transitionsEnabled;
     [ObservableProperty] private double _transitionTime;
 
@@ -50,8 +54,25 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav)
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
-        DemoPages = new AvaloniaList<MainPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        Global.Pages = demoPages;
+        DemoPages = new ObservableCollection<MainPageBase>(Global.Pages.Where(x => x.Index >= 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);
+
+        this.WhenAnyValue(x => x.Search)
+            .Subscribe(option =>
+            {
+                if (!string.IsNullOrEmpty(Search))
+                {
+                    DemoPages.Clear();
+                    DemoPages.AddRange(Global.Pages.Where(x => x.Describe.Contains(Search)).OrderBy(x => x.Index));
+                }
+                else
+                {
+                    DemoPages.Clear();
+                    DemoPages.AddRange(Global.Pages.Where(x => x.Index >= 0 | x.Index == int.MaxValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+                }
+            });
+
         _theming.BackgroundStyleChanged += style => BackgroundStyle = style;
         _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
         _theming.CustomBackgroundStyleChanged += shader => CustomShaderFile = shader;
@@ -86,6 +107,26 @@ public partial class MainViewModel : ObservableObject
             ? $"{GetTranslation("MainView_BackgroundAnimationsEnabled")}"
             : $"{GetTranslation("MainView_BackgroundAnimationsDisabled")}";
         return SukiHost.ShowToast(title, content);
+    }
+
+    [RelayCommand]
+    public void BasicFeatures()
+    {
+        while(DemoPages.Count > 1)
+        {
+            DemoPages.RemoveAt(1);
+        }
+        DemoPages.AddRange(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+    }
+
+    [RelayCommand]
+    public void AdvancedFeatures()
+    {
+        while (DemoPages.Count > 1)
+        {
+            DemoPages.RemoveAt(1);
+        }
+        DemoPages.AddRange(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
     }
 
     [RelayCommand]

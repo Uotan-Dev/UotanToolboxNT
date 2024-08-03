@@ -24,7 +24,7 @@ public partial class AppmgrViewModel : MainPageBase
     [ObservableProperty]
     private string _apkFile;
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-    public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
+    public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, 100, "软件管理安装应用管理运行强行停止激活应用禁用启用提取安装包卸载保留数据卸载清除数据")
     {
     }
 

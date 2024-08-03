@@ -31,12 +31,6 @@ public partial class HomeViewModel : MainPageBase
     [ObservableProperty] private bool _commonDevicesList;
     [ObservableProperty] private static AvaloniaList<string> _simpleContent;
 
-    public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
-
-    [ObservableProperty] private bool _animationsEnabled;
-    [ObservableProperty] private MainPageBase _activePage;
-    [ObservableProperty] private bool _windowLocked = false;
-
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {

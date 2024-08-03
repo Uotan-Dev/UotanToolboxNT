@@ -98,15 +98,14 @@ public partial class MainViewModel : ObservableObject
     public void BasicFeatures()
     {
         DemoPages.Clear();
-        //DemoPages.Insert(0, new DashboardViewModel());
-        DemoPages.AddRange(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
-        //DemoPages = new ObservableCollection<MainPageBase>();
+        DemoPages.AddRange(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
     }
 
     [RelayCommand]
     public void AdvancedFeatures()
     {
-        DemoPages = new ObservableCollection<MainPageBase>(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        DemoPages.Clear();
+        DemoPages.AddRange(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
     }
 
     [RelayCommand]

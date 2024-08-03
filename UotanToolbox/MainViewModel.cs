@@ -1,6 +1,5 @@
 using Avalonia.Collections;
 using Avalonia.Styling;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DynamicData;
@@ -18,7 +17,6 @@ using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
-using UotanToolbox.Features.Dashboard;
 using UotanToolbox.Features.Settings;
 using UotanToolbox.Services;
 using UotanToolbox.Utilities;
@@ -56,7 +54,7 @@ public partial class MainViewModel : ObservableObject
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         Global.Pages = demoPages;
-        DemoPages = new ObservableCollection<MainPageBase>(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        DemoPages = new ObservableCollection<MainPageBase>(Global.Pages.Where(x => x.Index >= 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);
         _theming.BackgroundStyleChanged += style => BackgroundStyle = style;
         _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
@@ -97,15 +95,21 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     public void BasicFeatures()
     {
-        DemoPages.Clear();
-        DemoPages.AddRange(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        while(DemoPages.Count > 1)
+        {
+            DemoPages.RemoveAt(1);
+        }
+        DemoPages.AddRange(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
     }
 
     [RelayCommand]
     public void AdvancedFeatures()
     {
-        DemoPages.Clear();
-        DemoPages.AddRange(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        while (DemoPages.Count > 1)
+        {
+            DemoPages.RemoveAt(1);
+        }
+        DemoPages.AddRange(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
     }
 
     [RelayCommand]

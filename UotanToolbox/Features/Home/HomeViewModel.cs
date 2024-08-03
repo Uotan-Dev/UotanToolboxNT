@@ -32,7 +32,7 @@ public partial class HomeViewModel : MainPageBase
     [ObservableProperty] private static AvaloniaList<string> _simpleContent;
 
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-    public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
+    public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, 0)
     {
         _ = CheckEnvironment();
         _ = CheckDeviceList();

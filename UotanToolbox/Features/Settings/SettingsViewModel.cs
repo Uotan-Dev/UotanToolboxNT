@@ -45,9 +45,15 @@ public partial class SettingsViewModel : MainPageBase
         _ = CheckBinVersion();
         AvailableBackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         AvailableColors = _theme.ColorThemes;
+
         IsLightTheme = _theme.ActiveBaseTheme == ThemeVariant.Light;
         _theme.OnBaseThemeChanged += variant =>
             IsLightTheme = variant == ThemeVariant.Light;
+        if (Global.isLightThemeChanged == false)
+        {
+            IsLightTheme = UotanToolbox.Settings.Default.IsLightTheme;
+            Global.isLightThemeChanged = true;
+        }
         _theme.OnColorThemeChanged += theme =>
         {
             // TODO: Implement a way to make this correct, might need to wrap the thing in a VM, this isn't ideal.

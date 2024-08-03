@@ -38,6 +38,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private MainPageBase _activePage;
     [ObservableProperty] private SukiBackgroundStyle _backgroundStyle = SukiBackgroundStyle.Gradient;
     [ObservableProperty] private string _customShaderFile;
+    [ObservableProperty] private string _search;
     [ObservableProperty] private bool _transitionsEnabled;
     [ObservableProperty] private double _transitionTime;
 
@@ -56,6 +57,22 @@ public partial class MainViewModel : ObservableObject
         Global.Pages = demoPages;
         DemoPages = new ObservableCollection<MainPageBase>(Global.Pages.Where(x => x.Index >= 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);
+
+        this.WhenAnyValue(x => x.Search)
+            .Subscribe(option =>
+            {
+                if (!string.IsNullOrEmpty(Search))
+                {
+                    DemoPages.Clear();
+                    DemoPages.AddRange(Global.Pages.Where(x => x.Describe.Contains(Search)).OrderBy(x => x.Index));
+                }
+                else
+                {
+                    DemoPages.Clear();
+                    DemoPages.AddRange(Global.Pages.Where(x => x.Index >= 0 | x.Index == int.MaxValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+                }
+            });
+
         _theming.BackgroundStyleChanged += style => BackgroundStyle = style;
         _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
         _theming.CustomBackgroundStyleChanged += shader => CustomShaderFile = shader;

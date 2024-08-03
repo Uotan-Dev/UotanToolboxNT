@@ -40,7 +40,7 @@ public partial class SettingsViewModel : MainPageBase
     private string _customShader = null;
 
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-    public SettingsViewModel() : base(GetTranslation("Sidebar_Settings"), MaterialIconKind.SettingsOutline, int.MaxValue)
+    public SettingsViewModel() : base(GetTranslation("Sidebar_Settings"), MaterialIconKind.SettingsOutline, int.MaxValue, "设置基本主题亮色暗色其他动画背景过度背景样式自定义着色器关于工具箱开发成员特别感谢开源项目")
     {
         _ = CheckBinVersion();
         AvailableBackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());

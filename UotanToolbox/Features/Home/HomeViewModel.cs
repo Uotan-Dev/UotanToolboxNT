@@ -32,7 +32,7 @@ public partial class HomeViewModel : MainPageBase
     [ObservableProperty] private static AvaloniaList<string> _simpleContent;
 
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-    public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, 0)
+    public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, 0, "主页设备信息电池存储和内存按键模拟重启选择设备")
     {
         _ = CheckEnvironment();
         _ = CheckDeviceList();

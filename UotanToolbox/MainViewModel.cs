@@ -3,6 +3,7 @@ using Avalonia.Styling;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DynamicData;
 using ReactiveUI;
 using SukiUI;
 using SukiUI.Controls;
@@ -10,12 +11,14 @@ using SukiUI.Enums;
 using SukiUI.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Resources;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
+using UotanToolbox.Features.Dashboard;
 using UotanToolbox.Features.Settings;
 using UotanToolbox.Services;
 using UotanToolbox.Utilities;
@@ -26,7 +29,7 @@ public partial class MainViewModel : ObservableObject
 {
     [ObservableProperty] private bool _windowLocked;
 
-    public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; set; }
+    public ObservableCollection<MainPageBase> DemoPages { get; set; }
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
 
@@ -53,7 +56,7 @@ public partial class MainViewModel : ObservableObject
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         Global.Pages = demoPages;
-        DemoPages = new AvaloniaList<MainPageBase>(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        DemoPages = new ObservableCollection<MainPageBase>(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);
         _theming.BackgroundStyleChanged += style => BackgroundStyle = style;
         _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
@@ -94,13 +97,16 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     public void BasicFeatures()
     {
-        DemoPages = new AvaloniaList<MainPageBase>(Global.Pages.Where(x => x.Index > 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        DemoPages.Clear();
+        //DemoPages.Insert(0, new DashboardViewModel());
+        DemoPages.AddRange(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        //DemoPages = new ObservableCollection<MainPageBase>();
     }
 
     [RelayCommand]
     public void AdvancedFeatures()
     {
-        DemoPages = new AvaloniaList<MainPageBase>(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
+        DemoPages = new ObservableCollection<MainPageBase>(Global.Pages.Where(x => x.Index < 0 | x.Index == int.MaxValue | x.Index == int.MinValue).OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
     }
 
     [RelayCommand]

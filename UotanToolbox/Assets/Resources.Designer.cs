@@ -2275,6 +2275,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 locked 的本地化字符串。
+        /// </summary>
+        public static string Main_Locked {
+            get {
+                return ResourceManager.GetString("Main_Locked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Open On Github 的本地化字符串。
         /// </summary>
         public static string Main_OpenOnGithub {
@@ -2311,11 +2320,56 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Toggles 的本地化字符串。
+        /// </summary>
+        public static string Main_Toggles {
+            get {
+                return ResourceManager.GetString("Main_Toggles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 unlocked 的本地化字符串。
+        /// </summary>
+        public static string Main_Unlocked {
+            get {
+                return ResourceManager.GetString("Main_Unlocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 A/B Slot 的本地化字符串。
         /// </summary>
         public static string Main_VABStatus {
             get {
                 return ResourceManager.GetString("Main_VABStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Window has been  的本地化字符串。
+        /// </summary>
+        public static string Main_WindowHasBeen {
+            get {
+                return ResourceManager.GetString("Main_WindowHasBeen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Window Lock 的本地化字符串。
+        /// </summary>
+        public static string Main_WindowLock {
+            get {
+                return ResourceManager.GetString("Main_WindowLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Window Status Change 的本地化字符串。
+        /// </summary>
+        public static string Main_WindowStatusChange {
+            get {
+                return ResourceManager.GetString("Main_WindowStatusChange", resourceCulture);
             }
         }
         

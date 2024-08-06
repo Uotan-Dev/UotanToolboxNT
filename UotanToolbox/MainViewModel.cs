@@ -22,7 +22,7 @@ namespace UotanToolbox;
 
 public partial class MainViewModel : ObservableObject
 {
-    [ObservableProperty] private bool _windowLocked;
+    [ObservableProperty] private bool _windowLocked = true;
 
     public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
 
@@ -86,6 +86,15 @@ public partial class MainViewModel : ObservableObject
             ? $"{GetTranslation("MainView_BackgroundAnimationsEnabled")}"
             : $"{GetTranslation("MainView_BackgroundAnimationsDisabled")}";
         return SukiHost.ShowToast(title, content);
+    }
+
+    [RelayCommand]
+    private void ToggleWindowLock()
+    {
+        WindowLocked = !WindowLocked;
+        SukiHost.ShowToast(
+            $"{GetTranslation("Main_WindowStatusChange")}",
+            $"{GetTranslation("Main_WindowHasBeen")}{(WindowLocked ? GetTranslation("Main_Locked") : GetTranslation("Main_Unlocked"))}");
     }
 
     [RelayCommand]

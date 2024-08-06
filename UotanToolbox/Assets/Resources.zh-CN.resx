@@ -1347,4 +1347,22 @@
   <data name="Basicflash_BootFlashSucc" xml:space="preserve">
     <value>刷入成功！是否重启到系统？</value>
   </data>
+  <data name="Main_Locked" xml:space="preserve">
+    <value>锁定</value>
+  </data>
+  <data name="Main_Toggles" xml:space="preserve">
+    <value>切换</value>
+  </data>
+  <data name="Main_Unlocked" xml:space="preserve">
+    <value>解锁</value>
+  </data>
+  <data name="Main_WindowHasBeen" xml:space="preserve">
+    <value>窗口已</value>
+  </data>
+  <data name="Main_WindowLock" xml:space="preserve">
+    <value>窗口锁定</value>
+  </data>
+  <data name="Main_WindowStatusChange" xml:space="preserve">
+    <value>窗口状态变化</value>
+  </data>
 </root>

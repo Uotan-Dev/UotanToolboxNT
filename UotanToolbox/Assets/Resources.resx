@@ -1350,4 +1350,22 @@
   <data name="Basicflash_BootFlashSucc" xml:space="preserve">
     <value>Successfully flashed in! Do you want to restart the system?</value>
   </data>
+  <data name="Main_Locked" xml:space="preserve">
+    <value>locked</value>
+  </data>
+  <data name="Main_Toggles" xml:space="preserve">
+    <value>Toggles</value>
+  </data>
+  <data name="Main_Unlocked" xml:space="preserve">
+    <value>unlocked</value>
+  </data>
+  <data name="Main_WindowHasBeen" xml:space="preserve">
+    <value>Window has been </value>
+  </data>
+  <data name="Main_WindowLock" xml:space="preserve">
+    <value>Window Lock</value>
+  </data>
+  <data name="Main_WindowStatusChange" xml:space="preserve">
+    <value>Window Status Change</value>
+  </data>
 </root>

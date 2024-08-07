@@ -27,11 +27,12 @@ public partial class FormatExtractView : UserControl
     {
         await Task.Run(() =>
         {
-            string cmd = "bin\\Windows\\QCNTool.exe";
+            string cmd = "Bin\\QSML\\QCNTool.exe";
             ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
+                WorkingDirectory = Global.backup_path,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
@@ -142,7 +143,7 @@ public partial class FormatExtractView : UserControl
                         output = "";
                         FormatExtractLog.Text = GetTranslation("FormatExtract_Writing") + "\n";
                         int com = StringHelper.Onlynum(Global.thisdevice);
-                        string shell = string.Format("-w -p {0} -f \"{1}\"", com, qcnfilepatch);
+                        string shell = string.Format($"-w -p {com} -f \"{qcnfilepatch}\"");
                         await QCNTool(shell);
                         if (FormatExtractLog.Text.Contains("error"))
                         {
@@ -152,7 +153,7 @@ public partial class FormatExtractView : UserControl
                         {
                             SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_WriteSucc")), allowBackgroundClose: true);
                         }
-                        BusyQCN.IsEnabled = false;
+                        BusyQCN.IsBusy = false;
                         QCN.IsEnabled = true;
                     }
                     else
@@ -191,7 +192,7 @@ public partial class FormatExtractView : UserControl
                     output = "";
                     FormatExtractLog.Text = GetTranslation("FormatExtract_BackingUp") + "\n";
                     int com = StringHelper.Onlynum(Global.thisdevice);
-                    string shell = string.Format("-r -p {0} -f \"{1}\" -n 00000.qcn", com, Global.backup_path);
+                    string shell = string.Format($"-r -p {com}");
                     await QCNTool(shell);
                     if (FormatExtractLog.Text.Contains("error"))
                     {
@@ -201,7 +202,7 @@ public partial class FormatExtractView : UserControl
                     {
                         SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_BackupSucc")), allowBackgroundClose: true);
                     }
-                    BusyQCN.IsEnabled = false;
+                    BusyQCN.IsBusy = false;
                     QCN.IsEnabled = true;
                 }
                 else

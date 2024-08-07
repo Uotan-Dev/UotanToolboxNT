@@ -67,8 +67,11 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Features\Appmgr\DashboardView.axaml.cs">
-			<DependentUpon>%(Filename)</DependentUpon>
+		<Compile Update="Features\Appmgr\AppmgrView.axaml.cs">
+			<DependentUpon>AppmgrView.axaml</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Basicflash\BasicflashView.axaml.cs">
+		  <DependentUpon>BasicflashView.axaml</DependentUpon>
 		</Compile>
 		<Compile Update="Features\Components\ErrorDialog.axaml.cs">
 		  <DependentUpon>ErrorDialog.axaml</DependentUpon>

@@ -1,5 +1,4 @@
-﻿
-<UserControl x:Class="SukiUI.Controls.WaveProgress"
+﻿<UserControl x:Class="SukiUI.Controls.WaveProgress"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -24,9 +23,9 @@
                             ClipToBounds="False"
                             CornerRadius="100">
                         <Border.Resources>
-                            <waveProgress:WaveProgressValueConverter x:Key="WValueConvert" />
-                            <waveProgress:WaveProgressValueTextConverter x:Key="WValueTextConvert" />
-                            <waveProgress:WaveProgressValueColorConverter x:Key="WValueColorConvert" />
+                            <waveProgress:WaveProgressValueConverter x:Key="WValueConverter" />
+                            <waveProgress:WaveProgressValueTextConverter x:Key="WValueTextConverter" />
+                            <waveProgress:WaveProgressValueColorConverter x:Key="WValueColorConverter" />
                             <waveProgress:WaveProgressGradientOffsetConverter x:Key="WGradientConverter" />
                         </Border.Resources>
 
@@ -39,7 +38,7 @@
                             <Panel>
                                 <Canvas Width="200" Height="200">
                                     <Path Canvas.Top="{TemplateBinding Value,
-                                                                       Converter={StaticResource WValueConvert}}"
+                                                                       Converter={StaticResource WValueConverter}}"
                                           Classes="WaveAnimatedFast"
                                           Data="M 0,50 H 700 V 350 H 0 M 0,50 C 25,55 75,45 100,50 S 175,55 200,50 S 275,45 300,50 S 375,55 400,50 S 475,45 500,50 S 575,55 600,50 S 675,45 700,50"
                                           Fill="{TemplateBinding Value,
@@ -57,7 +56,7 @@
                                         </Path.Transitions>
                                     </Path>
                                     <Path Canvas.Top="{TemplateBinding Value,
-                                                                       Converter={StaticResource WValueConvert}}"
+                                                                       Converter={StaticResource WValueConverter}}"
                                           Classes="WaveAnimated"
                                           Data="M 0,50 H 700 V 350 H 0 M 0,50 C 25,55 75,45 100,50 S 175,55 200,50 S 275,45 300,50 S 375,55 400,50 S 475,45 500,50 S 575,55 600,50 S 675,45 700,50"
                                           Fill="{TemplateBinding Value,
@@ -68,7 +67,6 @@
                                             <Transitions>
                                                 <DoubleTransition Property="Canvas.Top" Duration="0:0:2.5">
                                                     <DoubleTransition.Easing>
-
                                                         <CircularEaseOut />
                                                     </DoubleTransition.Easing>
                                                 </DoubleTransition>
@@ -82,9 +80,9 @@
                                            VerticalAlignment="Center"
                                            Classes="h2"
                                            Foreground="{TemplateBinding Value,
-                                                                        Converter={StaticResource WValueColorConvert}}"
+                                                                        Converter={StaticResource WValueColorConverter}}"
                                            Text="{TemplateBinding Value,
-                                                                  Converter={StaticResource WValueTextConvert}}">
+                                                                  Converter={StaticResource WValueTextConverter}}">
                                     <TextBlock.Transitions>
                                         <Transitions>
                                             <DoubleTransition Property="Opacity" Duration="0:0:0.3" />

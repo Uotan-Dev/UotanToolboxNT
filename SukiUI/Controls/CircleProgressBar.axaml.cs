@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data;
 using Avalonia.Markup.Xaml;
 
 namespace SukiUI.Controls
@@ -24,7 +25,7 @@ namespace SukiUI.Controls
             set
             {
                 _value = (int)(value * 3.6);
-                SetValue(ValueProperty, _value);
+                SetValue(ValueProperty,_value);
             }
         }
 
@@ -32,9 +33,9 @@ namespace SukiUI.Controls
         /// Defines the <see cref="Value"/> property.
         /// </summary>
         public static readonly StyledProperty<double> ValueProperty =
-            AvaloniaProperty.Register<CircleProgressBar, double>(nameof(Value), defaultValue: 50, coerce: (o, d) => d * 3.6);
-
-
+            AvaloniaProperty.Register<CircleProgressBar, double>(nameof(Value), defaultValue: 50, coerce: (o, d) =>  d * 3.6);
+        
+        
         public static readonly StyledProperty<int> HeightProperty =
         AvaloniaProperty.Register<CircleProgressBar, int>(nameof(Height), defaultValue: 150);
 
@@ -61,7 +62,7 @@ namespace SukiUI.Controls
             get { return GetValue(StrokeWidthProperty); }
             set { SetValue(StrokeWidthProperty, value); }
         }
-
+        
         public static readonly StyledProperty<bool> IsIndeterminateProperty =
             AvaloniaProperty.Register<CircleProgressBar, bool>(nameof(IsIndeterminate), false);
 

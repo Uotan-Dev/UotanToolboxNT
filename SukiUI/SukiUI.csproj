@@ -21,7 +21,7 @@
 		<LangVersion>10</LangVersion>
 		<UserSecretsId>712f85e4-12d3-41b0-a417-5714a113666f</UserSecretsId>
 		<Description>https://github.com/kikipoulet/SukiUI</Description>
-		<PackageVersion>6.0.0</PackageVersion>
+		<PackageVersion>6.0.0-beta7</PackageVersion>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>

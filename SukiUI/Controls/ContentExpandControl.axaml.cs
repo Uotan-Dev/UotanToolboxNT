@@ -1,7 +1,7 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
-using System;
 
 namespace SukiUI.Controls
 {
@@ -15,16 +15,16 @@ namespace SukiUI.Controls
             get => GetValue(MultiplierProperty);
             set => SetValue(MultiplierProperty, value);
         }
-
+        
         public static readonly StyledProperty<Orientation> OrientationProperty =
             AvaloniaProperty.Register<ContentExpandControl, Orientation>(nameof(Orientation));
-
+        
         public Orientation Orientation
         {
             get => GetValue(OrientationProperty);
             set => SetValue(OrientationProperty, value);
         }
-
+        
         static ContentExpandControl()
         {
             AffectsArrange<ContentExpandControl>(MultiplierProperty, OrientationProperty);

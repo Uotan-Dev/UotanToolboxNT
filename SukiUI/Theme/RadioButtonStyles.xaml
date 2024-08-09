@@ -264,7 +264,7 @@
 
 
     <Style Selector="RadioButton.MenuItem:checked">
-        <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+        <Setter Property="TextBlock.FontWeight" Value="{DynamicResource DefaultDemiBold}" />
         <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
         <Setter Property="Margin" Value="-30,5,5,5" />
@@ -277,7 +277,7 @@
     </Style>
 
     <Style Selector="RadioButton.MenuItem:checked  TextBlock">
-        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
         <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
     </Style>
 
@@ -290,7 +290,7 @@
 
         </Setter>
 
-        <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+        <Setter Property="TextBlock.FontWeight" Value="{DynamicResource DefaultDemiBold}" />
         <Setter Property="TextBlock.Foreground" Value="{DynamicResource SukiPrimaryColor}" />
         <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor10}" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />

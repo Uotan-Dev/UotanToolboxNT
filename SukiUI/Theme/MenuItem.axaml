@@ -48,7 +48,7 @@
                                               Content="{TemplateBinding Header}">
                                 <ContentPresenter.DataTemplates>
                                     <DataTemplate DataType="system:String">
-                                        <TextBlock FontWeight="DemiBold" Text="{Binding}" />
+                                        <TextBlock FontWeight="{DynamicResource DefaultDemiBold}" Text="{Binding}" />
                                     </DataTemplate>
                                 </ContentPresenter.DataTemplates>
                             </ContentPresenter>
@@ -83,9 +83,9 @@
                                             ClipToBounds="True"
                                             CornerRadius="5">
                                         <Panel Background="{DynamicResource PopupGradientBrush}">
-                                        <ScrollViewer>
-                                            <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
-                                        </ScrollViewer>
+                                            <ScrollViewer>
+                                                <ItemsPresenter Name="PART_ItemsPresenter" ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                            </ScrollViewer>
                                         </Panel>
                                     </Border>
                                 </Panel>

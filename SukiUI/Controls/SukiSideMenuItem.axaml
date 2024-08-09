@@ -25,14 +25,21 @@
     <ControlTheme x:Key="SukiSideMenuItemStyle" TargetType="suki:SukiSideMenuItem">
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="PART_Border"
-                        MinWidth="85"
-                        Margin="15,2"
-                        Padding="30,15,15,15"
-                        Background="{DynamicResource SukiPrimaryColor0}"
-                        CornerRadius="{DynamicResource MediumCornerRadius}">
+                <Panel>
+                <Border 
+                         MaxHeight="{Binding #PSearch.MaxHeight}"
+                         Name="PART_Border"
+                         MinWidth="85"
+                         Margin="15,2"
+                         Padding="30,15,15,15"
+                         Background="{DynamicResource SukiPrimaryColor0}"
+                         CornerRadius="{DynamicResource MediumCornerRadius}">
+                   
                     <Border.Transitions>
                         <Transitions>
+                            <DoubleTransition Property="MaxHeight" Duration="0:0:1">
+                                <DoubleTransition.Easing>CubicEaseInOut</DoubleTransition.Easing>
+                            </DoubleTransition>
                             <BrushTransition Property="Background" Duration="0:0:0.35" />
                             <ThicknessTransition Property="Padding" Duration="0:0:0.35">
                                 <ThicknessTransition.Easing>CubicEaseInOut</ThicknessTransition.Easing>
@@ -70,8 +77,22 @@
 
                     </Panel>
                 </Border>
+                    <Panel Name="PSearch" x:DataType="suki:SukiSideMenuService" DataContext="{x:Static suki:SukiSideMenuService.Instance}">
+                        <Border.MaxHeight>
+                            <MultiBinding Converter="{x:Static suki:SideMenuSearchToVisibilityConverter.Instance}">
+                                <Binding Path="Search"  ></Binding>
+                                <TemplateBinding Property="Header"></TemplateBinding>
+                            </MultiBinding>
+                        </Border.MaxHeight>
+                    </Panel>
+                    
+                </Panel>
             </ControlTemplate>
         </Setter>
+        <Style Selector="^.Compact /template/ Border#PART_Border">
+            <Setter Property="Padding" Value="30,10,15,10" />
+            <Setter Property="CornerRadius" Value="12" />
+        </Style>
         <Style Selector="^:pointerover">
             <Style Selector="^ /template/ Border#PART_Border">
                 <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor5}" />
@@ -89,6 +110,9 @@
             <Style Selector="^[IsContentMovable=True]">
                 <Style Selector="^[IsTopMenuExpanded=True] /template/ Border#PART_Border">
                     <Setter Property="Padding" Value="-10,15,15,15" />
+                </Style>
+                <Style Selector="^.Compact[IsTopMenuExpanded=True] /template/ Border#PART_Border">
+                    <Setter Property="Padding" Value="-10,10,15,10" />
                 </Style>
                 <Style Selector="^[IsTopMenuExpanded=True] /template/ ContentControl#PART_Icon">
                     <Setter Property="Opacity" Value="0" />

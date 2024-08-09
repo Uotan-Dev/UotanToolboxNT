@@ -1,20 +1,29 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Interactivity;
-using Avalonia.Layout;
 using Avalonia.Threading;
-using SukiUI.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using Avalonia.Interactivity;
+using Avalonia.Layout;
+using SukiUI.Enums;
 
 namespace SukiUI.Controls;
 
 public class SukiSideMenu : SelectingItemsControl
 {
+    public static readonly StyledProperty<bool> IsSearchEnabledProperty =
+        AvaloniaProperty.Register<SukiSideMenu, bool>(nameof(IsSearchEnabled), defaultValue: false);
+
+    public bool IsSearchEnabled
+    {
+        get => GetValue(IsSearchEnabledProperty);
+        set => SetValue(IsSearchEnabledProperty, value);
+    }
+    
     public static readonly StyledProperty<bool> IsToggleButtonVisibleProperty =
         AvaloniaProperty.Register<SukiSideMenu, bool>(nameof(IsToggleButtonVisible), defaultValue: true);
 
@@ -23,7 +32,7 @@ public class SukiSideMenu : SelectingItemsControl
         get => GetValue(IsToggleButtonVisibleProperty);
         set => SetValue(IsToggleButtonVisibleProperty, value);
     }
-
+    
     public static readonly StyledProperty<bool> IsMenuExpandedProperty =
         AvaloniaProperty.Register<SukiSideMenu, bool>(nameof(IsMenuExpanded), defaultValue: true);
 
@@ -32,7 +41,7 @@ public class SukiSideMenu : SelectingItemsControl
         get => GetValue(IsMenuExpandedProperty);
         set => SetValue(IsMenuExpandedProperty, value);
     }
-
+    
     public static readonly StyledProperty<int> OpenPaneLengthProperty =
         AvaloniaProperty.Register<SukiSideMenu, int>(nameof(OpenPaneLength), defaultValue: 220);
 
@@ -45,7 +54,7 @@ public class SukiSideMenu : SelectingItemsControl
             _ => throw new ArgumentOutOfRangeException($"OpenPaneLength must be greater than or equal to 200, but was {value}")
         });
     }
-
+    
     public static readonly StyledProperty<HorizontalAlignment> TogglePaneButtonPositionProperty =
         AvaloniaProperty.Register<SukiSideMenu, HorizontalAlignment>(nameof(TogglePaneButtonPosition), defaultValue: HorizontalAlignment.Right);
 
@@ -105,7 +114,7 @@ public class SukiSideMenu : SelectingItemsControl
 
     private IDisposable? _subscriptionDisposable;
     private IDisposable? _contentDisposable;
-
+    
     public SukiSideMenu()
     {
         SelectionMode = SelectionMode.Single | SelectionMode.AlwaysSelected;
@@ -115,16 +124,16 @@ public class SukiSideMenu : SelectingItemsControl
     private void MenuExpandedClicked()
     {
         IsMenuExpanded = !IsMenuExpanded;
-
-        if (_sideMenuItems.Any())
+        
+        if(_sideMenuItems.Any())
             foreach (var item in _sideMenuItems)
                 item.IsTopMenuExpanded = IsMenuExpanded;
-
-        else if (Items.FirstOrDefault() is SukiSideMenuItem)
+        
+        else if(Items.FirstOrDefault() is SukiSideMenuItem)
             foreach (SukiSideMenuItem? item in Items)
                 item!.IsTopMenuExpanded = IsMenuExpanded;
     }
-
+    
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
@@ -134,18 +143,18 @@ public class SukiSideMenu : SelectingItemsControl
             SelectedItem = Items.First();
         }
 
-        e.NameScope.Get<Button>("PART_SidebarToggleButton").Click += (_, _) =>
-            MenuExpandedClicked();
-
+        /*e.NameScope.Get<Button>("PART_SidebarToggleButton").Click += (_, _) =>
+            MenuExpandedClicked();*/
+      
 
         if (e.NameScope.Get<Grid>("PART_Spacer") is { } spacer)
         {
             spacer.IsVisible = IsSpacerVisible;
             var menuObservable = this.GetObservable(IsMenuExpandedProperty)
                 .Select(_ => Unit.Default);
-
+           
             _subscriptionDisposable = menuObservable
-
+               
                 .ObserveOn(new AvaloniaSynchronizationContext())
                 .Subscribe(_ => spacer.IsVisible = IsSpacerVisible);
         }

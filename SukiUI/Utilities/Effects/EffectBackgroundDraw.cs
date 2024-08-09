@@ -1,7 +1,7 @@
-using Avalonia;
-using SkiaSharp;
 using System;
 using System.Diagnostics;
+using Avalonia;
+using SkiaSharp;
 
 namespace SukiUI.Utilities.Effects
 {
@@ -44,7 +44,7 @@ namespace SukiUI.Utilities.Effects
             }
             if (_oldEffect is not null)
             {
-
+                
                 using var paint = new SKPaint();
                 // TODO: Investigate how to blend the shaders better - currently the only problem with this system.
                 // Blend modes effect the transition quite heavily, only these 3 seem to work in any reasonable way.

@@ -3,12 +3,13 @@
                     xmlns:controls="clr-namespace:SukiUI.Controls"
                     xmlns:system="clr-namespace:System;assembly=netstandard">
     <ControlTheme x:Key="SukiTopLevelMenuItem" TargetType="MenuItem">
-        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="10 0" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="root" Margin="5,5"
+                <Border Name="root"
+                        Margin="5,5"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{DynamicResource SukiLightBorderBrush}"
                         BorderThickness="0"
@@ -21,7 +22,7 @@
                                           Content="{TemplateBinding Header}">
                             <ContentPresenter.DataTemplates>
                                 <DataTemplate DataType="system:String">
-                                    <TextBlock FontWeight="DemiBold" Text="{CompiledBinding}" />
+                                    <TextBlock FontWeight="{DynamicResource DefaultDemiBold}" Text="{CompiledBinding}" />
                                 </DataTemplate>
                             </ContentPresenter.DataTemplates>
                         </ContentPresenter>
@@ -47,12 +48,12 @@
                                             ClipToBounds="True"
                                             CornerRadius="6">
                                         <Panel Background="{DynamicResource PopupGradientBrush}">
-                                        <ScrollViewer>
-                                            <ItemsPresenter Name="PART_ItemsPresenter"
-                                                            Grid.IsSharedSizeScope="True"
-                                                            ItemsPanel="{TemplateBinding ItemsPanel}" />
-                                        </ScrollViewer>
-                                            </Panel>
+                                            <ScrollViewer>
+                                                <ItemsPresenter Name="PART_ItemsPresenter"
+                                                                Grid.IsSharedSizeScope="True"
+                                                                ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                            </ScrollViewer>
+                                        </Panel>
                                     </Border>
                                 </Grid>
                             </LayoutTransformControl>
@@ -91,11 +92,12 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <LayoutTransformControl Name="PART_LayoutTransform" RenderTransformOrigin="50%, 0%">
-                    <controls:GlassCard Height="45" IsAnimated="False"
+                    <controls:GlassCard Height="45"
                                         Padding="{TemplateBinding Padding}"
                                         BorderBrush="{DynamicResource SukiBorderBrush}"
                                         BorderThickness="0"
-                                        CornerRadius="{TemplateBinding CornerRadius}">
+                                        CornerRadius="{TemplateBinding CornerRadius}"
+                                        IsAnimated="False">
                         <ItemsPresenter Name="PART_ItemsPresenter"
                                         ItemsPanel="{TemplateBinding ItemsPanel}"
                                         KeyboardNavigation.TabNavigation="Continue" />
@@ -136,7 +138,7 @@
                         <Setter Property="ScaleTransform.ScaleY" Value="0.9" />
                         <Setter Property="ScaleTransform.ScaleX" Value="0.9" />
                         <Setter Property="Opacity" Value="0" />
-                        <Setter Property="IsVisible" Value="False"></Setter>
+                        <Setter Property="IsVisible" Value="False" />
                     </KeyFrame>
                 </Animation>
             </Style.Animations>

@@ -25,7 +25,7 @@ public partial class ScrcpyViewModel : MainPageBase
     [ObservableProperty][Range(0d, 2048d)] private double _sizeResolution = 0;
 
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-    public ScrcpyViewModel() : base("Scrcpy", MaterialIconKind.CellphoneLink, 300, "Scrcpy投屏工具scrcpy录制屏幕")
+    public ScrcpyViewModel() : base("Scrcpy", MaterialIconKind.CellphoneLink, 200, "Scrcpy投屏工具scrcpy录制屏幕")
     {
         this.WhenAnyValue(x => x.ComputerControl)
             .Subscribe(jug =>

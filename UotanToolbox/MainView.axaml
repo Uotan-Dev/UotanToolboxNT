@@ -38,7 +38,7 @@
                        SelectedItem="{Binding ActivePage}">
         <suki:SukiSideMenu.ItemTemplate>
             <DataTemplate>
-                <suki:SukiSideMenuItem Header="{Binding DisplayName}">
+                <suki:SukiSideMenuItem Classes="Compact" Header="{Binding DisplayName}">
                     <suki:SukiSideMenuItem.Icon>
                         <avalonia:MaterialIcon Kind="{Binding Icon}" />
                     </suki:SukiSideMenuItem.Icon>
@@ -46,11 +46,11 @@
             </DataTemplate>
         </suki:SukiSideMenu.ItemTemplate>
 		<suki:SukiSideMenu.HeaderContent>
-			<StackPanel Height="250" Orientation="Vertical">
+			<StackPanel Height="300" Orientation="Vertical">
 				<StackPanel>
 					<Image Width="80"
 		                   Height="80"
-		                   Margin="0"
+		                   Margin="0 50 0 0"
 		                   Source="Assets/OIG.N5o-removebg-preview.png"
 		                   ToolTip.Tip="Uotan Toolbox" />
 				</StackPanel>
@@ -116,7 +116,7 @@
 								Command="{Binding BasicFeatures}"/>
 						<Button Classes="Toolbox" 
 								Foreground="White" 
-								Content="高级功能"
+								Content="进阶功能"
 								Command="{Binding AdvancedFeatures}"/>
 					</StackPanel>
 					<TextBox Margin="0 -5 0 0" 

@@ -50,7 +50,7 @@
 				<StackPanel>
 					<Image Width="80"
 		                   Height="80"
-		                   Margin="30"
+		                   Margin="50"
 		                   Source="Assets/OIG.N5o-removebg-preview.png"
 		                   ToolTip.Tip="Uotan Toolbox" />
 				</StackPanel>

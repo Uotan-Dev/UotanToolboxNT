@@ -143,8 +143,8 @@ public class SukiSideMenu : SelectingItemsControl
             SelectedItem = Items.First();
         }
 
-        e.NameScope.Get<Button>("PART_SidebarToggleButton").Click += (_, _) =>
-            MenuExpandedClicked();
+        /*e.NameScope.Get<Button>("PART_SidebarToggleButton").Click += (_, _) =>
+            MenuExpandedClicked();*/
       
 
         if (e.NameScope.Get<Grid>("PART_Spacer") is { } spacer)

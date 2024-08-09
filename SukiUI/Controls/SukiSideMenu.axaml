@@ -21,7 +21,7 @@
                                                 CornerRadius="0"
                                                 IsAnimated="False" />
                                 <DockPanel>
-                                    <Button Name="PART_SidebarToggleButton"
+                                    <!--<Button Name="PART_SidebarToggleButton"
                                             Margin="7"
                                             HorizontalAlignment="{TemplateBinding TogglePaneButtonPosition}"
                                             VerticalAlignment="Top"
@@ -41,7 +41,7 @@
                                                 </PathIcon.Transitions>
                                             </PathIcon>
                                         </Panel>
-                                    </Button>
+                                    </Button>-->
                                     <Grid MinHeight="{TemplateBinding HeaderMinHeight}"
                                           DockPanel.Dock="Top"
                                           IsVisible="{TemplateBinding IsMenuExpanded}">

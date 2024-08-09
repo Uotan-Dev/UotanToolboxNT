@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 using Avalonia.Media;
 
 namespace SukiUI.Controls
@@ -16,8 +17,8 @@ namespace SukiUI.Controls
         {
             AvaloniaXamlLoader.Load(this);
         }
-
-
+        
+        
         public static readonly StyledProperty<IBrush> ForegroundProperty =
             AvaloniaProperty.Register<Loading, IBrush>(nameof(Foreground), defaultValue: Brushes.Aqua);
 
@@ -26,6 +27,6 @@ namespace SukiUI.Controls
             get => GetValue(ForegroundProperty);
             set => SetValue(ForegroundProperty, value);
         }
-
+        
     }
 }

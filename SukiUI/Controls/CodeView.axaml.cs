@@ -9,6 +9,7 @@ using Avalonia.Threading;
 using SukiUI.Content;
 using SukiUI.Extensions;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SukiUI.Controls;

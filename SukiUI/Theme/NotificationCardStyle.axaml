@@ -32,20 +32,20 @@
                                 ClipToBounds="True"
                                 CornerRadius="10">
                             <Panel>
-                                
+
                                 <DockPanel>
-                                <PathIcon Margin="11,11,5,5"
-                                          VerticalAlignment="Top"
-                                          Data="{x:Static content:Icons.CircleInformation}"
-                                          DockPanel.Dock="Left"
-                                          Foreground="{DynamicResource SukiPrimaryColor}" />
-                                <Panel x:Name="PART_HeaderBar"
-                                       Height="4"
-                                       Margin="0,-3,0,0"
-                                       Classes="TextBold"
-                                       DockPanel.Dock="Top" />
-                                <ContentControl Name="PART_Content" Content="{TemplateBinding Content}" />
-                            </DockPanel>
+                                    <PathIcon Margin="11,11,5,5"
+                                              VerticalAlignment="Top"
+                                              Data="{x:Static content:Icons.CircleInformation}"
+                                              DockPanel.Dock="Left"
+                                              Foreground="{DynamicResource SukiPrimaryColor}" />
+                                    <Panel x:Name="PART_HeaderBar"
+                                           Height="4"
+                                           Margin="0,-3,0,0"
+                                           Classes="TextBold"
+                                           DockPanel.Dock="Top" />
+                                    <ContentControl Name="PART_Content" Content="{TemplateBinding Content}" />
+                                </DockPanel>
                             </Panel>
                         </Border>
                     </Border>
@@ -55,7 +55,7 @@
     </Style>
 
     <Style Selector="Panel.TextBold /template/ TextBlock">
-        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
     </Style>
 
     <Style Selector="NotificationCard/template/ ContentControl#PART_Content">

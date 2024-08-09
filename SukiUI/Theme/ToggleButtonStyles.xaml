@@ -16,7 +16,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Padding" Value="18,10,18,8" />
-        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         <Setter Property="Transitions">
@@ -188,9 +188,7 @@
                                     CornerRadius="{DynamicResource MediumCornerRadius}">
                                 <Border />
                                 <Border.Transitions>
-                                    <Transitions >
-                                     
-                                    </Transitions>
+                                    <Transitions />
                                 </Border.Transitions>
                             </Border>
 
@@ -201,11 +199,9 @@
             </ControlTemplate>
         </Setter>
     </Style>
-    
-   
 
 
-   <Style Selector="ToggleButton.Switch:unchecked /template/ Border#SwitchKnob">
+    <Style Selector="ToggleButton.Switch:unchecked /template/ Border#SwitchKnob">
         <Style.Animations>
             <Animation FillMode="Both" Duration="0:0:0.4">
                 <Animation.Easing>
@@ -255,8 +251,8 @@
                     <Setter Property="Canvas.Left" Value="11" />
 
                 </KeyFrame>
-                
-                
+
+
                 <KeyFrame Cue="80%">
                     <Setter Property="Width" Value="18" />
                 </KeyFrame>
@@ -277,7 +273,7 @@
     </Style>
 
 
-  <!--  <Style Selector="ToggleButton.Switch:pressed[IsChecked=False] /template/ Border#SwitchKnob">
+    <!--  <Style Selector="ToggleButton.Switch:pressed[IsChecked=False] /template/ Border#SwitchKnob">
         <Style.Animations>
             <Animation FillMode="Forward" Duration="0:0:0.15">
                 <KeyFrame Cue="0%">
@@ -309,8 +305,7 @@
             </Animation>
         </Style.Animations>
         <Setter Property="Width" Value="20" />
-    </Style>
--->
+    </Style>    -->
 
     <Style Selector="ToggleButton.Switch:checked /template/ Border#SwitchBackground">
         <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
@@ -324,11 +319,11 @@
         <Setter Property="Background" Value="Transparent" />
         <Style Selector="^:checked">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{DynamicResource SukiText}"></Setter>
+            <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         </Style>
         <Style Selector="^:pointerover">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="{DynamicResource SukiText}"></Setter>
+            <Setter Property="Foreground" Value="{DynamicResource SukiText}" />
         </Style>
         <Style Selector="^:checked">
             <Setter Property="Background" Value="Transparent" />

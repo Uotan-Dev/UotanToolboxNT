@@ -20,18 +20,15 @@
     </Design.PreviewWith>
     <Style Selector="DataGridCell">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="FontSize" Value="25" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid Background="{TemplateBinding Background}" ColumnDefinitions="*,Auto">
                     <ContentPresenter Margin="{TemplateBinding Padding}"
-                                      HorizontalAlignment="Center"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="Center"
-                                      HorizontalContentAlignment="Center"
-                                      VerticalContentAlignment="Center"
                                       Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
                                       TextBlock.Foreground="{TemplateBinding Foreground}" />
@@ -62,7 +59,7 @@
 
     <Style Selector="DataGridColumnHeader">
         <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SeparatorBrush" Value="{DynamicResource ThemeControlLowColor}" />
         <Setter Property="Padding" Value="12" />

@@ -53,7 +53,7 @@
         </Style>
 
         <Style Selector="RadioButton.MenuChip:checked">
-            <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+            <Setter Property="TextBlock.FontWeight" Value="{DynamicResource DefaultDemiBold}" />
 
             <Setter Property="BorderThickness" Value="0,0,0,0" />
             <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
@@ -72,7 +72,7 @@
 
 
         <Style Selector="RadioButton.MenuChip:checked  TextBlock">
-            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="FontWeight" Value="{DynamicResource DefaultDemiBold}" />
             <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
         </Style>
 
@@ -102,7 +102,7 @@
 
             </Setter>
 
-            <Setter Property="TextBlock.FontWeight" Value="DemiBold" />
+            <Setter Property="TextBlock.FontWeight" Value="{DynamicResource DefaultDemiBold}" />
             <Setter Property="TextBlock.Foreground" Value="{DynamicResource SukiPrimaryColor}" />
             <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor10}" />
             <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
@@ -128,8 +128,10 @@
                                     Margin="0,25,0,0"
                                     HorizontalAlignment="Left"
                                     DockPanel.Dock="Left" />
-                        <ScrollViewer Classes="Stack" Name="MyScroll">
-                            <StackPanel theme:StackPanelExtensions.AnimatedScroll="True" Name="StackItems" Margin="-10,0" />
+                        <ScrollViewer Name="MyScroll" Classes="Stack">
+                            <StackPanel Name="StackItems"
+                                        Margin="-10,0"
+                                        theme:StackPanelExtensions.AnimatedScroll="True" />
                         </ScrollViewer>
                     </DockPanel>
                 </ControlTemplate>

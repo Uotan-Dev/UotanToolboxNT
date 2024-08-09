@@ -1,13 +1,14 @@
+using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Threading;
 using SukiUI.Enums;
+using SukiUI.Utilities;
 using SukiUI.Utilities.Effects;
-using System;
-using System.Reactive;
-using System.Reactive.Linq;
 
 namespace SukiUI.Controls
 {
@@ -54,7 +55,7 @@ namespace SukiUI.Controls
 
         public static readonly StyledProperty<bool> AnimationEnabledProperty =
             AvaloniaProperty.Register<SukiWindow, bool>(nameof(AnimationEnabled), defaultValue: false);
-
+        
         /// <summary>
         /// Enables/disables animations - DEFAULT: False
         /// </summary>
@@ -66,7 +67,7 @@ namespace SukiUI.Controls
 
         public static readonly StyledProperty<bool> TransitionsEnabledProperty =
             AvaloniaProperty.Register<SukiBackground, bool>(nameof(TransitionsEnabled), defaultValue: false);
-
+        
         /// <summary>
         /// Enables/disables transition animations when switching backgrounds - DEFAULT: False
         /// </summary>
@@ -78,7 +79,7 @@ namespace SukiUI.Controls
 
         public static readonly StyledProperty<double> TransitionTimeProperty =
             AvaloniaProperty.Register<SukiBackground, double>(nameof(TransitionTime), defaultValue: 1.0);
-
+        
         /// <summary>
         /// The amount of time in seconds the background transition will take - DEFAULT: 1.0
         /// </summary>
@@ -87,7 +88,7 @@ namespace SukiUI.Controls
             get => GetValue(TransitionTimeProperty);
             set => SetValue(TransitionTimeProperty, value);
         }
-
+        
         private readonly EffectBackgroundDraw _draw;
         private readonly IDisposable _observables;
 

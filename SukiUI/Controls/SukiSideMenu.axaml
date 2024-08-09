@@ -3,6 +3,9 @@
                     xmlns:content="clr-namespace:SukiUI.Content"
                     xmlns:suki="clr-namespace:SukiUI.Controls"
                     xmlns:theme="clr-namespace:SukiUI.Theme">
+    <Design.PreviewWith>
+        <suki:SukiSideMenu></suki:SukiSideMenu>
+    </Design.PreviewWith>
     <ControlTheme x:Key="SukiSideMenuStyle" TargetType="suki:SukiSideMenu">
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="Template">
@@ -26,7 +29,7 @@
                                             Cursor="Hand"
                                             DockPanel.Dock="Top">
                                         <Panel>
-                                            <!--<PathIcon Name="PART_ExpandIcon"
+                                            <PathIcon Name="PART_ExpandIcon"
                                                       Width="12"
                                                       Height="12"
                                                       Data="{x:Static content:Icons.ChevronLeft}"
@@ -36,7 +39,7 @@
                                                         <TransformOperationsTransition Property="RenderTransform" Duration="{StaticResource MediumAnimationDuration}" />
                                                     </Transitions>
                                                 </PathIcon.Transitions>
-                                            </PathIcon>-->
+                                            </PathIcon>
                                         </Panel>
                                     </Button>
                                     <Grid MinHeight="{TemplateBinding HeaderMinHeight}"
@@ -48,19 +51,44 @@
                                                     Content="{TemplateBinding FooterContent}"
                                                     DockPanel.Dock="Bottom"
                                                     IsVisible="{TemplateBinding IsMenuExpanded}" />
-                                    <Grid Name="PART_Spacer"
+                                    <Grid Name="PART_Spacer" 
                                           Height="15"
                                           DockPanel.Dock="Top" />
-                                    <ScrollViewer Name="PART_ScrollViewer"
-                                                  AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
-                                                  Background="{TemplateBinding Background}"
-                                                  BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
-                                                  Classes="Stack"
-                                                  HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
-                                                  HorizontalSnapPointsType="{TemplateBinding (ScrollViewer.HorizontalSnapPointsType)}"
-                                                  IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
-                                                  VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
-                                                  VerticalSnapPointsType="{TemplateBinding (ScrollViewer.VerticalSnapPointsType)}">
+                                    <DockPanel>
+                                        <StackPanel IsVisible="{TemplateBinding IsSearchEnabled}" DockPanel.Dock="Top">
+                                            <StackPanel.Styles>
+                                                <Style Selector="suki|GlassCard:pointerover">
+                                                    <Setter Property="Width" Value="190"></Setter>
+                                                    <Setter Property="CornerRadius" Value="12" />
+                                                </Style>
+                                            </StackPanel.Styles>
+                                            <suki:GlassCard HorizontalAlignment="Right" IsAnimated="False" Width="42" Margin="15,10,15,15" CornerRadius="22" Height="42">
+                                                <suki:GlassCard.Transitions>
+                                                    <Transitions>
+                                                        <CornerRadiusTransition Property="CornerRadius" Duration="0:0:0.35"></CornerRadiusTransition>
+                                                        <DoubleTransition Property="Width" Duration="0:0:0.35"></DoubleTransition>
+                                                    </Transitions>
+                                                </suki:GlassCard.Transitions>
+                                                <DockPanel Margin="-3,-1,0,0">
+                                                <PathIcon Width="13" DockPanel.Dock="Left" VerticalAlignment="Center" Foreground="{DynamicResource SukiLowText}"
+                                                          Height="13"
+                                                          Data="{x:Static content:Icons.Search}" />
+                                                <TextBox Text="{Binding Search, Mode=TwoWay}" x:DataType="suki:SukiSideMenuService" DataContext="{x:Static suki:SukiSideMenuService.Instance}" BorderThickness="0" Watermark="Search"></TextBox>
+                                            </DockPanel>
+                                        </suki:GlassCard>
+                                            
+                                          <!--  <Border Height="1" Margin="20,0,20,15" Background="{DynamicResource SukiBorderBrush}"/> -->
+                                            </StackPanel>
+                                        <ScrollViewer Name="PART_ScrollViewer"
+                                                      AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+                                                      Background="{TemplateBinding Background}"
+                                                      BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
+                                                      Classes="Stack"
+                                                      HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                                                      HorizontalSnapPointsType="{TemplateBinding (ScrollViewer.HorizontalSnapPointsType)}"
+                                                      IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                                                      VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                                                      VerticalSnapPointsType="{TemplateBinding (ScrollViewer.VerticalSnapPointsType)}">
                                         <StackPanel theme:StackPanelExtensions.AnimatedScroll="True">
                                             <ItemsPresenter Name="PART_ItemsPresenter"
                                                             Margin="{TemplateBinding Padding}"
@@ -68,6 +96,7 @@
                                                             ItemsPanel="{TemplateBinding ItemsPanel}" />
                                         </StackPanel>
                                     </ScrollViewer>
+                                        </DockPanel>
                                 </DockPanel>
                             </Grid>
                         </Border>

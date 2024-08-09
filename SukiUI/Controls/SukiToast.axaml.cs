@@ -2,20 +2,21 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
-using Avalonia.Interactivity;
-using SukiUI.ColorTheme;
-using SukiUI.Content;
-using SukiUI.Enums;
 using SukiUI.Models;
 using System;
 using System.Timers;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using SukiUI.ColorTheme;
+using SukiUI.Content;
+using SukiUI.Enums;
 
 namespace SukiUI.Controls;
 
 public class SukiToast : ContentControl
 {
     protected override Type StyleKeyOverride => typeof(SukiToast);
-
+    
     internal SukiHost Host { get; private set; }
 
     private readonly Timer _timer = new();
@@ -33,7 +34,7 @@ public class SukiToast : ContentControl
         _timer.Stop();
         await SukiHost.ClearToast(this);
     }
-
+    
     public static readonly StyledProperty<object?> IconProperty =
         AvaloniaProperty.Register<SukiToast, object?>(nameof(Icon));
 
@@ -42,7 +43,7 @@ public class SukiToast : ContentControl
         get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
-
+    
     public static readonly StyledProperty<string> TitleProperty =
         AvaloniaProperty.Register<SukiToast, string>(nameof(Title));
 
@@ -51,7 +52,7 @@ public class SukiToast : ContentControl
         get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
-
+    
     public static readonly StyledProperty<bool> ShowActionButtonProperty =
         AvaloniaProperty.Register<SukiToast, bool>(nameof(ShowActionButton));
 
@@ -60,7 +61,7 @@ public class SukiToast : ContentControl
         get => GetValue(ShowActionButtonProperty);
         set => SetValue(ShowActionButtonProperty, value);
     }
-
+    
     public static readonly StyledProperty<string> ActionButtonContentProperty =
         AvaloniaProperty.Register<SukiToast, string>(nameof(ActionButtonContent));
 
@@ -89,10 +90,10 @@ public class SukiToast : ContentControl
         _onClickedCallback = null;
         await SukiHost.ClearToast(this);
     }
-
+    
     // Icon Foreground Brushes
     // Note: it would be better to place them into a resource dictionary, but findResource performs slightly slower
-
+    
 
     public void Initialize(ToastModel model, SukiHost host)
     {
@@ -128,7 +129,7 @@ public class SukiToast : ContentControl
             _ => NotificationColor.InfoIconForeground
         };
         _onClickedCallback = model.OnClicked;
-
+       
         _timer.Interval = model.Lifetime?.TotalMilliseconds ?? TimeSpan.FromSeconds(6).TotalMilliseconds;
         _timer.Start();
         DockPanel.SetDock(this, Dock.Bottom);

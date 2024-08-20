@@ -19,6 +19,8 @@
                  CanResize="False"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"
+				 xmlns:content="clr-namespace:SukiUI.Content;assembly=SukiUI"
+				 xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
                  mc:Ignorable="d">
 	<suki:SukiWindow.LogoContent>
 		<avalonia:MaterialIcon Width="20"
@@ -119,11 +121,28 @@
 								Content="进阶功能"
 								Command="{Binding AdvancedFeatures}"/>
 					</StackPanel>
-					<TextBox Margin="0 -5 0 0" 
-							 Width="160" 
-							 FontSize="13" 
-							 Watermark="   搜索你想要的功能"
-							 Text="{Binding Search, Mode=TwoWay}"/>
+					<StackPanel>
+						<StackPanel.Styles>
+							<Style Selector="suki|GlassCard:pointerover">
+								<Setter Property="Width" Value="190"></Setter>
+								<Setter Property="CornerRadius" Value="12" />
+							</Style>
+						</StackPanel.Styles>
+						<suki:GlassCard HorizontalAlignment="Right" IsAnimated="False" Width="190" Margin="20,0,0,20" CornerRadius="12" Height="42">
+							<suki:GlassCard.Transitions>
+								<Transitions>
+									<CornerRadiusTransition Property="CornerRadius" Duration="0:0:0.35"></CornerRadiusTransition>
+									<DoubleTransition Property="Width" Duration="0:0:0.35"></DoubleTransition>
+								</Transitions>
+							</suki:GlassCard.Transitions>
+							<DockPanel>
+								<PathIcon Width="13" DockPanel.Dock="Left" VerticalAlignment="Center" Foreground="{DynamicResource SukiLowText}"
+										  Height="13"
+										  Data="{x:Static content:Icons.Search}" />
+								<TextBox Text="{Binding Search, Mode=TwoWay}" BorderThickness="0" Watermark="搜索功能"></TextBox>
+							</DockPanel>
+						</suki:GlassCard>
+					</StackPanel>
 				</StackPanel>
 			</StackPanel>
 		</suki:SukiSideMenu.HeaderContent>

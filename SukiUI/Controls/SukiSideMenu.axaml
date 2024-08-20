@@ -62,7 +62,7 @@
                                                     <Setter Property="CornerRadius" Value="12" />
                                                 </Style>
                                             </StackPanel.Styles>
-                                            <suki:GlassCard HorizontalAlignment="Right" IsAnimated="False" Width="42" Margin="15,10,15,15" CornerRadius="22" Height="42">
+                                            <suki:GlassCard HorizontalAlignment="Right" IsAnimated="False" Width="190" Margin="15,10,15,15" CornerRadius="12" Height="42">
                                                 <suki:GlassCard.Transitions>
                                                     <Transitions>
                                                         <CornerRadiusTransition Property="CornerRadius" Duration="0:0:0.35"></CornerRadiusTransition>

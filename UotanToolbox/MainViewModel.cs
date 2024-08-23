@@ -44,9 +44,7 @@ public partial class MainViewModel : ObservableObject
     private readonly SukiTheme _theme;
     private readonly SettingsViewModel _theming;
 
-    private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
-    private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
-
+    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav)
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";

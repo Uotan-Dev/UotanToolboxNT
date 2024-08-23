@@ -5,6 +5,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Globalization;
 using System.Linq;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
@@ -24,6 +25,11 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        CultureInfo CurCulture;
+        if (Settings.Default.Language != null && Settings.Default.Language != "") CurCulture = new CultureInfo(Settings.Default.Language, false);
+        else CurCulture = CultureInfo.CurrentCulture;
+        Assets.Resources.Culture = CurCulture;
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var viewLocator = _provider?.GetRequiredService<IDataTemplate>();

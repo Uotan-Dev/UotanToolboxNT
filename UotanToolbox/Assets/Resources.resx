@@ -1350,4 +1350,19 @@
   <data name="Basicflash_BootFlashSucc" xml:space="preserve">
     <value>Successfully flashed in! Do you want to restart the system?</value>
   </data>
+  <data name="Settings_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Settings_ChooseLanguage" xml:space="preserve">
+    <value>Select your language on the right, and the selected language will be displayed after restarting the toolbox.</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_LanguageHasBeenSet" xml:space="preserve">
+    <value>Language has been set</value>
+  </data>
+  <data name="Settings_RestartTheApplication" xml:space="preserve">
+    <value>Restart the application to fresh the language</value>
+  </data>
 </root>

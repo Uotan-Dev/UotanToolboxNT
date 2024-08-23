@@ -10,9 +10,7 @@ namespace UotanToolbox.Common
 {
     internal class GetDevicesInfo
     {
-        private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
-        private static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
-
+        private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
         public static async Task<string[]> DevicesList()
         {
             string adb = await CallExternalProgram.ADB("devices");

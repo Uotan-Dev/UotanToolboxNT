@@ -28,6 +28,9 @@ public partial class SettingsViewModel : MainPageBase
     public IAvaloniaReadOnlyList<SukiBackgroundStyle> AvailableBackgroundStyles { get; }
     public IAvaloniaReadOnlyList<string> CustomShaders { get; } = new AvaloniaList<string> { "Space", "Weird", "Clouds" };
 
+    public AvaloniaList<string> LanguageList { get; } = [GetTranslation("Settings_Default"),"English","简体中文"];
+    [ObservableProperty] private string _selectedLanguageList;
+
     private readonly SukiTheme _theme = SukiTheme.GetInstance();
 
     [ObservableProperty] private bool _isLightTheme;
@@ -42,6 +45,9 @@ public partial class SettingsViewModel : MainPageBase
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public SettingsViewModel() : base(GetTranslation("Sidebar_Settings"), MaterialIconKind.SettingsOutline, -200)
     {
+        if (UotanToolbox.Settings.Default.Language == null || UotanToolbox.Settings.Default.Language == "") SelectedLanguageList = GetTranslation("Settings_Default");
+        else if (UotanToolbox.Settings.Default.Language == "en-US") SelectedLanguageList = "English";
+        else if (UotanToolbox.Settings.Default.Language == "zh-CN") SelectedLanguageList = "简体中文";
         _ = CheckBinVersion();
         AvailableBackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         AvailableColors = _theme.ColorThemes;
@@ -67,6 +73,15 @@ public partial class SettingsViewModel : MainPageBase
 
     partial void OnIsLightThemeChanged(bool value) =>
         _theme.ChangeBaseTheme(value ? ThemeVariant.Light : ThemeVariant.Dark);
+
+    partial void OnSelectedLanguageListChanged(string value)
+    {
+        if (value == GetTranslation("Settings_Default")) UotanToolbox.Settings.Default.Language = "";
+        else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
+        else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
+        UotanToolbox.Settings.Default.Save();
+        SukiHost.ShowToast(GetTranslation("Settings_LanguageHasBeenSet"), GetTranslation("Settings_RestartTheApplication"));
+    }
 
     [RelayCommand]
     private void SwitchToColorTheme(SukiColorTheme colorTheme) =>

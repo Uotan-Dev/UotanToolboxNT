@@ -12,11 +12,6 @@ public partial class HomeView : UserControl
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public HomeView()
     {
-        /* Sample of using i18n resources
-        ResourceManager resourceManager = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
-        string welcomeMessage = resourceManager.GetString("GreetingText", CultureInfo.CurrentCulture);
-        */
-
         InitializeComponent();
     }
 

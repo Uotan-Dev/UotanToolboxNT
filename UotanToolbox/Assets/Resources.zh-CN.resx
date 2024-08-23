@@ -1347,4 +1347,19 @@
   <data name="Basicflash_BootFlashSucc" xml:space="preserve">
     <value>刷入成功！是否重启到系统？</value>
   </data>
+  <data name="Settings_Default" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="Settings_ChooseLanguage" xml:space="preserve">
+    <value>在右侧选择语言，更改后的语言会在重启工具箱后显示。</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Settings_LanguageHasBeenSet" xml:space="preserve">
+    <value>语言设置成功</value>
+  </data>
+  <data name="Settings_RestartTheApplication" xml:space="preserve">
+    <value>重启应用以刷新语言</value>
+  </data>
 </root>

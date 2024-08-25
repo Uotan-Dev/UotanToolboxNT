@@ -40,6 +40,7 @@
 		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.5.1" />
 		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.5.1" />
 		<PackageReference Include="SkiaSharp" Version="2.88.8" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -87,6 +88,11 @@
 		<Compile Update="MainView.axaml.cs">
 			<DependentUpon>MainView.axaml</DependentUpon>
 		</Compile>
+		<Compile Update="Settings.Designer.cs">
+		  <DesignTimeSharedInput>True</DesignTimeSharedInput>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -100,6 +106,10 @@
 	  <None Update="Assets\OIG.N5o-removebg-preview.png">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
+	  </None>
+	  <None Update="Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
 	  </None>
 	</ItemGroup>
 

@@ -23,7 +23,7 @@
                                 <StackPanel HorizontalAlignment="Center"
                                             Orientation="Horizontal"
                                             Spacing="20">
-                                    <RadioButton Width="180"
+									<RadioButton Width="180"
                                                  Height="160"
                                                  Padding="0"
                                                  Classes="GigaChips"
@@ -69,6 +69,20 @@
 							<controls:SettingsLayoutItem.Content>
 								<controls:GlassCard Margin="0,25,0,0">
 									<StackPanel Spacing="25">
+										<DockPanel>
+											<ComboBox DockPanel.Dock="Right"
+                                                      ItemsSource="{Binding LanguageList}"
+                                                      SelectedItem="{Binding SelectedLanguageList}" />
+											<StackPanel HorizontalAlignment="Left">
+												<TextBlock FontSize="16"
+                                                           FontWeight="DemiBold"
+                                                           Text="{x:Static assets:Resources.Settings_Language}" />
+												<TextBlock Margin="0,12,70,0"
+                                                           Foreground="{DynamicResource SukiLowText}"
+                                                           Text="{x:Static assets:Resources.Settings_ChooseLanguage}"
+                                                           TextWrapping="Wrap" />
+											</StackPanel>
+										</DockPanel>
 										<DockPanel>
 											<ToggleButton VerticalAlignment="Top"
 														  Classes="Switch"

@@ -3382,6 +3382,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Select your language on the right, and the selected language will be displayed after restarting the toolbox. 的本地化字符串。
+        /// </summary>
+        public static string Settings_ChooseLanguage {
+            get {
+                return ResourceManager.GetString("Settings_ChooseLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Color Theme 的本地化字符串。
         /// </summary>
         public static string Settings_ColorTheme {
@@ -3414,6 +3423,15 @@ namespace UotanToolbox.Assets {
         public static string Settings_DarkMode {
             get {
                 return ResourceManager.GetString("Settings_DarkMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Default 的本地化字符串。
+        /// </summary>
+        public static string Settings_Default {
+            get {
+                return ResourceManager.GetString("Settings_Default", resourceCulture);
             }
         }
         
@@ -3463,6 +3481,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Language 的本地化字符串。
+        /// </summary>
+        public static string Settings_Language {
+            get {
+                return ResourceManager.GetString("Settings_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Language has been set 的本地化字符串。
+        /// </summary>
+        public static string Settings_LanguageHasBeenSet {
+            get {
+                return ResourceManager.GetString("Settings_LanguageHasBeenSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Light Mode 的本地化字符串。
         /// </summary>
         public static string Settings_LightMode {
@@ -3486,6 +3522,15 @@ namespace UotanToolbox.Assets {
         public static string Settings_Other {
             get {
                 return ResourceManager.GetString("Settings_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Restart the application to fresh the language 的本地化字符串。
+        /// </summary>
+        public static string Settings_RestartTheApplication {
+            get {
+                return ResourceManager.GetString("Settings_RestartTheApplication", resourceCulture);
             }
         }
         

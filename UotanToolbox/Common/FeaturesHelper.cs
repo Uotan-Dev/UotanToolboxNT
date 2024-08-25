@@ -8,9 +8,16 @@ namespace UotanToolbox.Common
     internal class FeaturesHelper
     {
         private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
-        public static string GetTranslation(string key) => resMgr.GetString(key, CultureInfo.CurrentCulture) ?? "?????";
+        public static string GetTranslation(string key)
+        {
+            CultureInfo CurCulture;
+            if (Settings.Default.Language != null && Settings.Default.Language != "") CurCulture = new CultureInfo(Settings.Default.Language, false);
+            else CurCulture = CultureInfo.CurrentCulture;
+            string res = resMgr.GetString(key, CurCulture) ?? "?????";
+            return res;
+        }
 
-        public static async void PushMakefs(string device)
+            public static async void PushMakefs(string device)
         {
             await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/mkfs.f2fs /tmp/");
             await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/mkfs.f2fs");

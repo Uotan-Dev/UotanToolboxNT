@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using UotanToolbox.Common;
+using UotanToolbox.Features.Settings;
 
 namespace UotanToolbox;
 
@@ -64,5 +65,11 @@ public partial class MainView : SukiWindow
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+        Closing += (s, e) =>
+        {
+            SettingsViewModel settingsViewModel = new SettingsViewModel();
+            Settings.Default.IsLightTheme = settingsViewModel.IsLightTheme;
+            Settings.Default.Save();
+        };
     }
 }

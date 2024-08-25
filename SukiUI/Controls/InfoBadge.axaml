@@ -8,10 +8,10 @@
                     Height="400"
                     Margin="0,20,0,0"
                     Spacing="20">
-            <controls:InfoBadge Appearance="Info" Header="Info"
+            <controls:InfoBadge Appearance="Info"
                                 CornerPosition="TopRight"
-                                >
-            
+                                Header="Info">
+
                 <Button Content="Log In" />
             </controls:InfoBadge>
             <controls:InfoBadge Appearance="Warning"
@@ -72,14 +72,17 @@
                             CornerRadius="{TemplateBinding CornerRadius}"
                             IsVisible="{Binding !!Header, RelativeSource={RelativeSource TemplatedParent}}"
                             UseLayoutRounding="False">
-                        <ContentPresenter Name="PART_HeaderPresenter" Margin="2"  
-                                          HorizontalAlignment="Center" FontWeight="DemiBold"
-                                          VerticalAlignment="Center" Foreground="White" 
+                        <ContentPresenter Name="PART_HeaderPresenter"
+                                          Margin="2"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
                                           Focusable="False"
+                                          FontWeight="{DynamicResource DefaultDemiBold}"
+                                          Foreground="White"
                                           IsTabStop="False">
                             <ContentPresenter.Styles>
                                 <Style Selector="TextBlock">
-                                    <Setter Property="FontSize" Value="13"></Setter>
+                                    <Setter Property="FontSize" Value="13" />
                                 </Style>
                             </ContentPresenter.Styles>
                             <ContentPresenter.Content>

@@ -1,9 +1,9 @@
-﻿using Avalonia;
+﻿using System;
+using System.Globalization;
+using Avalonia;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 using Avalonia.Styling;
-using System;
-using System.Globalization;
 
 namespace SukiUI.Converters.WaveProgress;
 

@@ -2,82 +2,99 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:content="clr-namespace:SukiUI.Content"
                     xmlns:suki="clr-namespace:SukiUI.Controls">
-   <Design.PreviewWith>
-       <suki:SukiToast Title="titre" Content="message"></suki:SukiToast>
-   </Design.PreviewWith>
+    <Design.PreviewWith>
+        <suki:SukiToast Title="titre" Content="message" />
+    </Design.PreviewWith>
     <ControlTheme x:Key="SukiToastTheme" TargetType="suki:SukiToast">
         <Setter Property="Template">
             <ControlTemplate>
                 <Panel>
-                 
+
                     <Border Name="PART_ToastCard"
-                            Width="300" 
+                            Width="300"
                             Margin="40,5,30,10"
-                            Padding="0" BorderThickness="1" BorderBrush="{DynamicResource SukiBorderBrush}"
-                            BoxShadow="{DynamicResource SukiPopupShadow}"
+                            Padding="0"
                             Background="{DynamicResource SukiCardBackground}"
+                            BorderBrush="{DynamicResource SukiBorderBrush}"
+                            BorderThickness="1"
+                            BoxShadow="{DynamicResource SukiPopupShadow}"
                             CornerRadius="15">
-                    <Border CornerRadius="15" ClipToBounds="True">
-                    <Panel>
-                        <Panel IsVisible="{DynamicResource IsDark}">
-                            <Panel Margin="0">
-                                <Panel.Background>
-                                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                                        <GradientStop Color="{DynamicResource SukiAccentColor5}" Offset="0"></GradientStop>
-                                        <GradientStop Color="{DynamicResource SukiPrimaryColor10}" Offset="1"></GradientStop>
+                        <Border ClipToBounds="True" CornerRadius="15">
+                            <Panel>
+                                <Panel IsVisible="{DynamicResource IsDark}">
+                                    <Panel Margin="0">
+                                        <Panel.Background>
+                                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                                <GradientStop Offset="0" Color="{DynamicResource SukiAccentColor5}" />
+                                                <GradientStop Offset="1" Color="{DynamicResource SukiPrimaryColor10}" />
 
-                                    </LinearGradientBrush>
-                                </Panel.Background>
+                                            </LinearGradientBrush>
+                                        </Panel.Background>
+                                    </Panel>
+                                </Panel>
+
+                                <Panel IsVisible="{DynamicResource IsLight}">
+                                    <Panel Margin="0">
+                                        <Panel.Background>
+                                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                                <GradientStop Offset="0" Color="{DynamicResource SukiAccentColor3}" />
+                                                <GradientStop Offset="1" Color="{DynamicResource SukiPrimaryColor3}" />
+
+                                            </LinearGradientBrush>
+                                        </Panel.Background>
+                                    </Panel>
+
+                                </Panel>
+
+
+                                <Panel Margin="20,22">
+
+                                    <DockPanel Margin="0,-7" LastChildFill="True">
+                                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                                            <ContentPresenter Margin="12,0,0,0"
+                                                              Content="{TemplateBinding Title}"
+                                                              FontSize="15"
+                                                              FontWeight="{DynamicResource DefaultDemiBold}"
+                                                              Foreground="{DynamicResource SukiText}" />
+                                        </StackPanel>
+                                        <Button Name="ButtonAction"
+                                                Margin="0,14,0,0"
+                                                Padding="14,6"
+                                                HorizontalAlignment="Right"
+                                                Content="{TemplateBinding ActionButtonContent}"
+                                                DockPanel.Dock="Bottom"
+                                                FontSize="14"
+                                                IsVisible="{TemplateBinding ShowActionButton}" />
+                                        <ContentPresenter Margin="12,10,0,0"
+                                                          Content="{TemplateBinding Content}"
+                                                          Foreground="{DynamicResource SukiText}"
+                                                          TextWrapping="Wrap" />
+
+                                    </DockPanel>
+                                </Panel>
                             </Panel>
-                        </Panel>
-                        
-                        <Panel IsVisible="{DynamicResource IsLight}">
-                            <Panel Margin="0">
-                                <Panel.Background>
-                                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                                        <GradientStop Color="{DynamicResource SukiAccentColor3}" Offset="0"></GradientStop>
-                                        <GradientStop Color="{DynamicResource SukiPrimaryColor3}" Offset="1"></GradientStop>
-
-                                    </LinearGradientBrush>
-                                </Panel.Background>
-                            </Panel>
-                            
-                        </Panel>
-
-                      
-                        <Panel Margin="20, 22">
-                        
-                        <DockPanel Margin="0,-7" LastChildFill="True">
-                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                               <ContentPresenter Margin="12,0,0,0"
-                                       FontSize="15"
-                                       FontWeight="DemiBold"
-                                       Foreground="{DynamicResource SukiText}"
-                                       Content="{TemplateBinding Title}" />
-                        </StackPanel>
-                            <Button Name="ButtonAction" FontSize="14" Padding="14,6" DockPanel.Dock="Bottom" IsVisible="{TemplateBinding ShowActionButton}" HorizontalAlignment="Right" Margin="0,14,0,0" Content="{TemplateBinding ActionButtonContent}">
-                            </Button>
-                        <ContentPresenter Margin="12,10,0,0"
-                                          Content="{TemplateBinding Content}"
-                                          Foreground="{DynamicResource SukiText}"
-                                          TextWrapping="Wrap" />
-                        
-                    </DockPanel>
-                    </Panel>
-                    </Panel>
+                        </Border>
                     </Border>
-                </Border>
-                    <Border  BoxShadow="{DynamicResource SukiSmallPopupShadow}"
-                             Margin="22,0,0,0" Background="{DynamicResource SukiCardBackground}" Width="35" Height="35" CornerRadius="35" VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Border CornerRadius="35" ClipToBounds="True">
-                        <Panel>
-                            <Panel  Opacity="1" Background="{TemplateBinding Foreground}"></Panel>
-                           <PathIcon Width="15" Margin="0,0,0,0"
-                                      Height="15" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                      Data="{TemplateBinding Icon}"
-                                      Foreground="White" />
+                    <Border Width="35"
+                            Height="35"
+                            Margin="22,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Background="{DynamicResource SukiCardBackground}"
+                            BoxShadow="{DynamicResource SukiSmallPopupShadow}"
+                            CornerRadius="35">
+                        <Border ClipToBounds="True" CornerRadius="35">
+                            <Panel>
+                                <Panel Background="{TemplateBinding Foreground}" Opacity="1" />
+                                <PathIcon Width="15"
+                                          Height="15"
+                                          Margin="0,0,0,0"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Data="{TemplateBinding Icon}"
+                                          Foreground="White" />
 
-                        </Panel>
+                            </Panel>
                         </Border>
                     </Border>
                 </Panel>

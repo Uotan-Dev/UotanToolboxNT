@@ -10,7 +10,6 @@
         <common:ViewLocator />
     </Application.DataTemplates>
     <Application.Styles>
-        <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
         <sukiUi:SukiTheme ThemeColor="Red" />
         <StyleInclude Source="avares://UotanToolbox/Styles/ShowMeTheXamlStyles.axaml" />

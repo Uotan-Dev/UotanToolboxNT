@@ -1,6 +1,6 @@
+using System;
 using Avalonia.Media;
 using SukiUI.Enums;
-using System;
 
 namespace SukiUI.Models;
 
@@ -11,7 +11,7 @@ public record SukiColorTheme
     public Color Primary { get; }
 
     public IBrush PrimaryBrush => new SolidColorBrush(Primary);
-
+    
     public Color PrimaryDark { get; }
 
     public IBrush PrimaryDarkBrush => new SolidColorBrush(PrimaryDark);
@@ -19,7 +19,7 @@ public record SukiColorTheme
     public Color Accent { get; }
 
     public IBrush AccentBrush => new SolidColorBrush(Accent);
-
+    
     public Color AccentDark { get; }
 
     public IBrush AccentDarkBrush => new SolidColorBrush(AccentDark);

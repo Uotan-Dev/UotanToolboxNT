@@ -28,8 +28,10 @@
                                                  Style="{TemplateBinding BackgroundStyle}"
                                                  TransitionTime="{TemplateBinding BackgroundTransitionTime}"
                                                  TransitionsEnabled="{TemplateBinding BackgroundTransitionsEnabled}" />
-                            <Panel Background="White" Opacity="0.1" IsVisible="{DynamicResource IsLight}" />
-                           
+                            <Panel Background="White"
+                                   IsVisible="{DynamicResource IsLight}"
+                                   Opacity="0.1" />
+
                             <DockPanel LastChildFill="True">
                                 <Panel DockPanel.Dock="Top">
                                     <Panel.Styles>
@@ -78,7 +80,7 @@
                                                         <ItemsControl ItemsSource="{TemplateBinding RightWindowTitleBarControls}">
                                                             <ItemsControl.ItemsPanel>
                                                                 <ItemsPanelTemplate>
-                                                                    <StackPanel Orientation="Horizontal" FlowDirection="RightToLeft"/>
+                                                                    <StackPanel FlowDirection="RightToLeft" Orientation="Horizontal" />
                                                                 </ItemsPanelTemplate>
                                                             </ItemsControl.ItemsPanel>
                                                         </ItemsControl>
@@ -116,7 +118,7 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^[WindowState=Maximized] /template/ PathIcon#MaximizeIcon">
             <Setter Property="Data" Value="{x:Static icons:Icons.WindowRestore}" />
         </Style>

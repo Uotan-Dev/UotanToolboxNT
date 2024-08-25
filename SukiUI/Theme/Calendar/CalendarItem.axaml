@@ -1,7 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:content="clr-namespace:SukiUI.Content">
-    
+
     <ControlTheme x:Key="SukiCalendarItemStyle" TargetType="CalendarItem">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -29,7 +29,8 @@
                               ColumnDefinitions="Auto, *, Auto, Auto">
                             <Button Name="PART_HeaderButton"
                                     Grid.Column="0"
-                                    Classes="Basic" FontWeight="DemiBold"
+                                    Classes="Basic"
+                                    FontWeight="{DynamicResource DefaultDemiBold}"
                                     IsEnabled="False" />
 
                             <Button Name="PART_PreviousButton"
@@ -72,7 +73,7 @@
 
         <Style Selector="^ /template/ Button.HeaderButton">
             <Setter Property="Height" Value="24" />
-            <Setter Property="TextElement.FontWeight" Value="DemiBold"></Setter>
+            <Setter Property="TextElement.FontWeight" Value="{DynamicResource DefaultDemiBold}" />
             <Setter Property="Padding" Value="8, 0" />
             <Setter Property="HorizontalContentAlignment" Value="Left" />
         </Style>

@@ -13,7 +13,7 @@
         <Setter Property="FlowDirection" Value="{TemplateBinding FlowDirection}"/>
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="LayoutRoot"
+                <Border Name="LayoutRoot" 
                         Background="Transparent"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="0"

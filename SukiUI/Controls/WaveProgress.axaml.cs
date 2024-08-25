@@ -9,6 +9,7 @@ public partial class WaveProgress : UserControl
     public WaveProgress()
     {
         InitializeComponent();
+        
         var theme = SukiTheme.GetInstance();
         theme.OnBaseThemeChanged += _ =>
         {
@@ -27,33 +28,24 @@ public partial class WaveProgress : UserControl
         AvaloniaXamlLoader.Load(this);
     }
 
-    private double _value = 50;
+    public static readonly StyledProperty<double> ValueProperty =
+        AvaloniaProperty.Register<WaveProgress, double>(nameof(Value), defaultValue: 50);
 
     public double Value
     {
-        get => _value;
+        get => GetValue(ValueProperty);
         set
         {
-            if (value is < 0 or > 100)
-                return;
-
-            SetValue(ValueProperty, value);
+            if (value is >= 0 and <= 100)
+                SetValue(ValueProperty, value);
         }
     }
-
-    public static readonly StyledProperty<double> ValueProperty =
-        AvaloniaProperty.Register<CircleProgressBar, double>(nameof(Value), defaultValue: 50);
-
-
-
+    
     public static readonly StyledProperty<bool> IsTextVisibleProperty = AvaloniaProperty.Register<WaveProgress, bool>(nameof(IsTextVisible), defaultValue: true);
 
     public bool IsTextVisible
     {
-        get { return GetValue(IsTextVisibleProperty); }
-        set
-        {
-            SetValue(IsTextVisibleProperty, value);
-        }
+        get => GetValue(IsTextVisibleProperty);
+        set => SetValue(IsTextVisibleProperty, value);
     }
 }

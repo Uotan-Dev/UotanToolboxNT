@@ -320,7 +320,7 @@
                                               Foreground="{DynamicResource SukiPrimaryColor}" />
                                     <TextBlock Margin="10,0,0,0"
                                                FontSize="15"
-                                               FontWeight="DemiBold"
+                                               FontWeight="{DynamicResource DefaultDemiBold}"
                                                Foreground="{DynamicResource SukiPrimaryColor}"
                                                Text="Apply" />
                                 </StackPanel>

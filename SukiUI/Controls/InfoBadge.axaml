@@ -8,7 +8,7 @@
                     Height="400"
                     Margin="0,20,0,0"
                     Spacing="20">
-            <controls:InfoBadge Appearance="Info"
+            <controls:InfoBadge Appearance="Information"
                                 CornerPosition="TopRight"
                                 Header="Info">
 
@@ -34,7 +34,7 @@
                                 IsDot="True">
                 <Button />
             </controls:InfoBadge>
-            <controls:InfoBadge Appearance="Info"
+            <controls:InfoBadge Appearance="Information"
                                 CornerPosition="TopRight"
                                 Header="100"
                                 Overflow="99">

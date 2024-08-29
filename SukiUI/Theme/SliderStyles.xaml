@@ -1,4 +1,6 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:suki="https://github.com/kikipoulet/SukiUI"
+        xmlns:system="clr-namespace:System;assembly=netstandard">
     <Design.PreviewWith>
         <Border Padding="20" Background="White">
             <Slider Width="100" Value="50" />
@@ -55,17 +57,19 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid Name="grid">
+                    <Grid.Resources>
+                       
+                    </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" MinHeight="20" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Border Name="TrackBackground"
-                            Grid.Row="1"
+                    <suki:GlassCard Name="TrackBackground"
+                            Grid.Row="1" Classes="Control"
                             Height="22"
                             Margin="8,0"
                             VerticalAlignment="Center"
-                            Background="{DynamicResource SukiLightBorderBrush}"
                             BorderThickness="0"
                             CornerRadius="20" />
 
@@ -156,11 +160,7 @@
         <Setter Property="Maximum" Value="{TemplateBinding Maximum}" />
         <Setter Property="Value" Value="{TemplateBinding Value, Mode=TwoWay}" />
     </Style>
-    <Style Selector="Slider /template/ Border#TrackBackground">
-
-        <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
-    </Style>
+ 
     <Style Selector="Slider /template/ RepeatButton.repeattrack">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Focusable" Value="False" />

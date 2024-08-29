@@ -1,4 +1,6 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:suki="https://github.com/kikipoulet/SukiUI"
+        xmlns:system="clr-namespace:System;assembly=netstandard">
     <Styles.Resources>
         <Thickness x:Key="ToggleSwitchTopHeaderMargin">0,0,0,6</Thickness>
         <GridLength x:Key="ToggleSwitchPreContentMargin">6</GridLength>
@@ -29,7 +31,17 @@
         <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
         <Setter Property="Template">
             <ControlTemplate>
-                <DockPanel>
+                <DockPanel Name="DP">
+                    <DockPanel.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Dark">
+                                    <system:Double x:Key="ControlGlassOpacity">0.4</system:Double>
+                                </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                        
+                    </DockPanel.Resources>
                     <ContentPresenter x:Name="PART_OffContentPresenter"
                                       DockPanel.Dock="Left" Margin="0,0,7,0"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -45,7 +57,10 @@
                                       ContentTemplate="{TemplateBinding OnContentTemplate}" />
                 
                 <Grid Background="Transparent" RowDefinitions="Auto,*">
-
+<Grid.Resources>
+    
+ 
+</Grid.Resources>
                     <ContentPresenter x:Name="PART_ContentPresenter"
                                       Grid.Row="0"
                                       VerticalAlignment="Top"
@@ -75,13 +90,13 @@
                               Grid.ColumnSpan="3"
                               Margin="0,5"
                               TemplatedControl.IsTemplateFocusTarget="True" />
-
+                        
 
                         <Border 
                                 Grid.Row="1"
                                 Width="40"
                                 Height="22"
-                                Background="{DynamicResource SukiControlBorderBrush}"
+                                Background="{DynamicResource SukiPrimaryColor0}"
                                 BorderThickness="0"
                                 CornerRadius="{DynamicResource MediumCornerRadius}">
                             <Border.Transitions>
@@ -90,15 +105,42 @@
                                 </Transitions>
                             </Border.Transitions>
                         </Border>
+                        
+                        
+                        <suki:GlassCard 
+                            Grid.Row="1"
+                            Width="40" Classes="Control"
+                            Height="22" IsAnimated="False"
+                        
+                            BorderThickness="0"
+                            CornerRadius="{DynamicResource MediumCornerRadius}">
+                            
+                        </suki:GlassCard>
 
                         <Border x:Name="SwitchBackground"
                                 Grid.Row="1"
-                                Width="40"
+                                Width="40" ClipToBounds="True"
                                 Height="22"
-                                Background="{DynamicResource SukiControlBorderBrush}"
+                                Background="Transparent"
                                 BorderThickness="0"
                                 CornerRadius="{DynamicResource MediumCornerRadius}">
-
+                            <Panel HorizontalAlignment="Right" Name="PanelSelected" Width="160" Margin="40,0,-160,0" >
+                             <Panel.Background>
+                                 <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%">
+                                     <GradientStop Color="{DynamicResource SukiPrimaryColor0}" Offset="0.3"></GradientStop>
+                                     <GradientStop Color="{DynamicResource SukiPrimaryColor}" Offset="1"></GradientStop>
+                                 </LinearGradientBrush>
+                             </Panel.Background>
+                                <Panel.Transitions>
+                                    <Transitions>
+                                        <ThicknessTransition Delay="0:0:0" Property="Margin" Duration="0:0:0.7">
+                                            <ThicknessTransition.Easing>
+                                                    <SineEaseOut />
+                                            </ThicknessTransition.Easing>
+                                        </ThicknessTransition>
+                                    </Transitions>
+                                </Panel.Transitions>
+                            </Panel>
                             <Border.Transitions>
                                 <Transitions>
                                     <DoubleTransition Property="Opacity" Duration="0:0:0.15" />
@@ -141,6 +183,8 @@
         </Setter>
     </Style>
 
+   
+    
     <Style Selector="ToggleSwitch:unchecked /template/ Border#SwitchKnob">
         <Style.Animations>
             <Animation FillMode="Both" Duration="0:0:0.25">
@@ -239,10 +283,12 @@
     </Style>
 
 
-    <Style Selector="ToggleSwitch:checked /template/ Border#SwitchBackground">
+   <!-- <Style Selector="ToggleSwitch:checked /template/ Border#SwitchBackground">
         <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
-    </Style>
+    </Style> -->
 
-
+   <Style Selector="ToggleSwitch:checked /template/ Panel#PanelSelected">
+       <Setter Property="Margin" Value="40,0,0,0" />
+   </Style>
     
 </Styles>

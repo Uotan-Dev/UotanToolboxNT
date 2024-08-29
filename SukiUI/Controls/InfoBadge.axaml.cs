@@ -12,20 +12,20 @@ public class InfoBadge: HeaderedContentControl
 {
     private Border? _badgeContainer;
     
-    public static readonly StyledProperty<NotificationType> AppearanceProperty =
-        AvaloniaProperty.Register<InfoBadge, NotificationType>(nameof(Appearance), NotificationType.Info);
+    public static readonly StyledProperty<Avalonia.Controls.Notifications.NotificationType> AppearanceProperty =
+        AvaloniaProperty.Register<InfoBadge, Avalonia.Controls.Notifications.NotificationType>(nameof(Appearance), Avalonia.Controls.Notifications.NotificationType.Information);
 
-    public NotificationType Appearance
+    public Avalonia.Controls.Notifications.NotificationType Appearance
     {
         get => GetValue(AppearanceProperty);
         set
         {
             Background = value switch
             {
-                NotificationType.Info => NotificationColor.InfoIconForeground,
-                NotificationType.Success => NotificationColor.SuccessIconForeground,
-                NotificationType.Warning => NotificationColor.WarningIconForeground,
-                NotificationType.Error => NotificationColor.ErrorIconForeground,
+                Avalonia.Controls.Notifications.NotificationType.Information => NotificationColor.InfoIconForeground,
+                Avalonia.Controls.Notifications.NotificationType.Success => NotificationColor.SuccessIconForeground,
+                Avalonia.Controls.Notifications.NotificationType.Warning => NotificationColor.WarningIconForeground,
+                Avalonia.Controls.Notifications.NotificationType.Error => NotificationColor.ErrorIconForeground,
                 _ => NotificationColor.InfoIconForeground
             };
             

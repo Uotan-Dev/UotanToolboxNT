@@ -16,12 +16,12 @@
                     <SplitView.Pane>
                         <Border>
                             <Grid Background="Transparent">
-                                <suki:GlassCard Name="Glass"
-                                                BorderThickness="0"
+                                <suki:GlassCard Name="Glass" Classes=""
+                                                BorderThickness="0,0,1,0"
                                                 CornerRadius="0"
                                                 IsAnimated="False" />
                                 <DockPanel>
-                                    <!--<Button Name="PART_SidebarToggleButton"
+                                    <!-- <Button Name="PART_SidebarToggleButton"
                                             Margin="7"
                                             HorizontalAlignment="{TemplateBinding TogglePaneButtonPosition}"
                                             VerticalAlignment="Top"
@@ -41,7 +41,7 @@
                                                 </PathIcon.Transitions>
                                             </PathIcon>
                                         </Panel>
-                                    </Button>-->
+                                    </Button> -->
                                     <Grid MinHeight="{TemplateBinding HeaderMinHeight}"
                                           DockPanel.Dock="Top"
                                           IsVisible="{TemplateBinding IsMenuExpanded}">
@@ -57,12 +57,12 @@
                                     <DockPanel>
                                         <StackPanel IsVisible="{TemplateBinding IsSearchEnabled}" DockPanel.Dock="Top">
                                             <StackPanel.Styles>
-                                                <Style Selector="suki|GlassCard:pointerover">
+                                                <Style Selector="suki|GlassCard.Search:pointerover">
                                                     <Setter Property="Width" Value="190"></Setter>
                                                     <Setter Property="CornerRadius" Value="12" />
                                                 </Style>
                                             </StackPanel.Styles>
-                                            <suki:GlassCard HorizontalAlignment="Right" IsAnimated="False" Width="42" Margin="15,10,15,15" CornerRadius="22" Height="42">
+                                            <suki:GlassCard Classes="Search" HorizontalAlignment="Right" IsAnimated="False" Width="42" Margin="15,10,15,15" CornerRadius="22" Height="42">
                                                 <suki:GlassCard.Transitions>
                                                     <Transitions>
                                                         <CornerRadiusTransition Property="CornerRadius" Duration="0:0:0.35"></CornerRadiusTransition>
@@ -73,7 +73,7 @@
                                                 <PathIcon Width="13" DockPanel.Dock="Left" VerticalAlignment="Center" Foreground="{DynamicResource SukiLowText}"
                                                           Height="13"
                                                           Data="{x:Static content:Icons.Search}" />
-                                                <TextBox Text="{Binding Search, Mode=TwoWay}" x:DataType="suki:SukiSideMenuService" DataContext="{x:Static suki:SukiSideMenuService.Instance}" BorderThickness="0" Watermark="Search"></TextBox>
+                                                <TextBox theme:TextBoxExtensions.AddDeleteButton="True" Classes="NoShadow" Text="{Binding Search, Mode=TwoWay}" x:DataType="suki:SukiSideMenuService" DataContext="{x:Static suki:SukiSideMenuService.Instance}" BorderThickness="0" Watermark="Search"></TextBox>
                                             </DockPanel>
                                         </suki:GlassCard>
                                             

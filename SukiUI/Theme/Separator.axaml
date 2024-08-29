@@ -1,0 +1,36 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTheme x:Key="SukiSeparatorStyle" TargetType="Separator">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Foreground" Value="{DynamicResource SukiLightBorderBrush}" />
+        <Setter Property="MinHeight" Value="1" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="PART_RootBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderThickness}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding CornerRadius}">
+                    <Rectangle Name="PART_Content" Fill="{TemplateBinding Foreground}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^ /template/ Border#PART_RootBorder">
+            <Setter Property="ClipToBounds" Value="True" />
+        </Style>
+
+        <Style Selector="^ /template/ Rectangle#PART_Content">
+            <Setter Property="Height" Value="1" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </ControlTheme>
+    <ControlTheme x:Key="{x:Type Separator}" TargetType="Separator"
+                  BasedOn="{StaticResource SukiSeparatorStyle}" />
+</ResourceDictionary>

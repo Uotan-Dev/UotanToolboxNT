@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:content="clr-namespace:SukiUI.Content">
+                    xmlns:content="clr-namespace:SukiUI.Content"
+                    xmlns:suki="https://github.com/kikipoulet/SukiUI">
     <ControlTheme x:Key="SukiDropDownButtonStyle" TargetType="DropDownButton">
         <Setter Property="BorderThickness" Value="1.2" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiMediumBorderBrush}" />
@@ -14,17 +15,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Name="RootBorder"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
+                    <suki:GlassCard Name="RootBorder" Classes="Discrete"
+                                    Padding="0"
                             ClipToBounds="True"
                             CornerRadius="{TemplateBinding CornerRadius}">
-                        <Border.Transitions>
+                        <suki:GlassCard.Transitions>
                             <Transitions>
                                 <BrushTransition Property="BorderBrush" Duration="0:0:0.25" />
                             </Transitions>
-                        </Border.Transitions>
+                        </suki:GlassCard.Transitions>
                         <Grid Name="InnerGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -68,7 +67,7 @@
                             </PathIcon>
 
                         </Grid>
-                    </Border>
+                    </suki:GlassCard>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -1,11 +1,13 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:glassMorphism="clr-namespace:SukiUI.Controls.GlassMorphism"
-        xmlns:theme="clr-namespace:SukiUI.Theme">
+        xmlns:theme="clr-namespace:SukiUI.Theme"
+        xmlns:suki="https://github.com/kikipoulet/SukiUI">
 
     <Design.PreviewWith>
-        <Border Padding="20">
-            <StackPanel Spacing="10">
+        <Border Background="Transparent" Padding="20">
+            <StackPanel Background="AliceBlue" Orientation="Horizontal" Spacing="10">
+                <TextBox Text="TEst"></TextBox>
                 <ComboBox Margin="0,0,50,0" PlaceholderText="Select an item">
                     <ComboBoxItem>Item 1</ComboBoxItem>
                     <ComboBoxItem>Item 2</ComboBoxItem>
@@ -22,13 +24,13 @@
     </Design.PreviewWith>
 
     <Style Selector="ComboBox">
-        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderThickness" Value="1,1,1,1" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
-        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="4" />
+        <Setter Property="Padding" Value="6,6,-6,6" />
         <Setter Property="MinHeight" Value="45" />
         <Setter Property="PlaceholderForeground" Value="{DynamicResource SukiLowText}" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
@@ -49,17 +51,17 @@
                                     <Setter Property="Background" Value="Transparent" />
                                 </Style>
                             </Border.Styles>
-                    <Border Name="border"
-                            Background="{TemplateBinding Background}"
+                    <suki:GlassCard Name="border"
+                            Classes="Discrete" Padding="{TemplateBinding Padding}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            BoxShadow="{DynamicResource SukiLowShadow}"
+                           
                             CornerRadius="{TemplateBinding CornerRadius}">
-                        <Border.Transitions>
+                        <suki:GlassCard.Transitions>
                             <Transitions>
                                 <BrushTransition Property="BorderBrush" Duration="0:0:0.2" />
                             </Transitions>
-                        </Border.Transitions>
+                        </suki:GlassCard.Transitions>
                         <Grid ColumnDefinitions="*,Auto">
                             
                             <Grid.Resources>
@@ -138,7 +140,7 @@
                                     </LayoutTransformControl>
                             </Popup>
                         </Grid>
-                    </Border>
+                    </suki:GlassCard>
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -188,10 +190,10 @@
         </Style.Animations>
     </Style>
     
-    <Style Selector="ComboBox:pointerover /template/ Border#border">
+    <Style Selector="ComboBox:pointerover /template/ suki|GlassCard#border">
         <Setter Property="BorderBrush" Value="{DynamicResource SukiLightBorderBrush}" />
     </Style>
-    <Style Selector="ComboBox:disabled /template/ Border#border">
+    <Style Selector="ComboBox:disabled /template/ suki|GlassCard#border">
         <Setter Property="Opacity" Value="{DynamicResource ThemeDisabledOpacity}" />
     </Style>
 

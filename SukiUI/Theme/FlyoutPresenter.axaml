@@ -10,7 +10,7 @@
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="TextElement.Foreground" Value="{DynamicResource SukiText}"/>
         <Setter Property="Cursor" Value="Arrow"/>
-        <Setter Property="FlowDirection" Value="{TemplateBinding FlowDirection}"/>
+   <!--     <Setter Property="FlowDirection" Value="{TemplateBinding FlowDirection}"/> -->
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="LayoutRoot" 

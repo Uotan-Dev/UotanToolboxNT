@@ -1,5 +1,4 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ControlTheme x:Key="SukiHyperlinkButtonStyle" TargetType="HyperlinkButton">
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Background" Value="Transparent" />
@@ -21,30 +20,30 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <ContentPresenter x:Name="PART_ContentPresenter"
+                                  Padding="{TemplateBinding Padding}"
+                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                   Background="{TemplateBinding Background}"
                                   BackgroundSizing="{TemplateBinding BackgroundSizing}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
-                                  CornerRadius="{TemplateBinding CornerRadius}"
                                   Content="{TemplateBinding Content}"
                                   ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  Padding="{TemplateBinding Padding}"
-                                  RecognizesAccessKey="True"
-                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                  CornerRadius="{TemplateBinding CornerRadius}"
+                                  RecognizesAccessKey="True" />
             </ControlTemplate>
         </Setter>
-        
+
         <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Transitions">
                 <Transitions>
-                    <BrushTransition Property="Foreground" Duration="{StaticResource ShortAnimationDuration}"/>
+                    <BrushTransition Property="Foreground" Duration="{StaticResource ShortAnimationDuration}" />
                 </Transitions>
             </Setter>
         </Style>
-        
+
         <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryDarkColor}" />
+            <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor50}" />
         </Style>
 
         <Style Selector="^:pressed">

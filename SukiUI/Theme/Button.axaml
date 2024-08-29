@@ -102,7 +102,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
             </Style>
             <Style Selector="^ /template/ Border">
-                <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" />
+              <!--  <Setter Property="Background" Value="{DynamicResource SukiCardBackground}" /> -->
                 <Setter Property="BorderBrush" Value="{DynamicResource SukiPrimaryColor}" />
                 <Setter Property="RenderTransform">
                     <Setter.Value>

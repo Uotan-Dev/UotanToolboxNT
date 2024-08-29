@@ -1,7 +1,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:icons="clr-namespace:SukiUI.Content"
-                    xmlns:sys="using:System">
+                    xmlns:sys="using:System"
+                    xmlns:suki="https://github.com/kikipoulet/SukiUI">
     <Design.PreviewWith>
         <Border Width="1000"
                 Height="500"
@@ -40,7 +41,7 @@
         <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlHighlightMidBrush}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Height" Value="40" />
+        <Setter Property="Height" Value="38" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
@@ -48,14 +49,16 @@
                 <DataValidationErrors>
                     <Grid Name="LayoutRoot" Margin="0,0,0,0">
 
-                        <Button Name="PART_FlyoutButton"
+                        <Button Name="PART_FlyoutButton" Margin="0"
                                 Height="{TemplateBinding Height}"
-                                Background="Transparent"
-                                BorderThickness="0,0,0,1"
-                                CornerRadius="0"
+                                Background="Transparent" 
+                                BorderThickness="0,0,0,0"
+                                CornerRadius="0" Padding="0"
                                 IsEnabled="{TemplateBinding IsEnabled}"
                                 TemplatedControl.IsTemplateFocusTarget="True">
-                            <Grid Margin="0,1,0,0" ColumnDefinitions="Auto,Auto">
+                            <suki:GlassCard CornerRadius="{DynamicResource SmallCornerRadius}" Height="{TemplateBinding Height}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}" Classes="Discrete" >
+                            <Grid Margin="14,0"  ColumnDefinitions="Auto,Auto">
                                 <Grid Name="PART_ButtonContentGrid"
                                       Grid.Column="0"
                                       VerticalAlignment="Center"
@@ -106,6 +109,7 @@
                                           Foreground="{DynamicResource SukiLowText}" />
 
                             </Grid>
+                                </suki:GlassCard>
                         </Button>
 
                         <Popup Name="PART_Popup"

@@ -28,7 +28,7 @@
 
         <Style Selector="^[TabStripPlacement=Left] /template/ LayoutTransformControl#PART_LayoutTransform">
             <Setter Property="LayoutTransform" Value="rotate(-90deg)" />
-            <Style Selector="^ ItemsPresenter#PART_ItemsPresenter &gt; WrapPanel">
+            <Style Selector="^ ItemsPresenter#PART_ItemsPresenter WrapPanel">
                 <Setter Property="Orientation" Value="Horizontal" />
                 <Setter Property="FlowDirection" Value="RightToLeft" />
             </Style>
@@ -42,7 +42,24 @@
         <Style Selector="^[TabStripPlacement=Top] /template/ ItemsPresenter#PART_ItemsPresenter">
             <Setter Property="Margin" Value="{DynamicResource TabControlTopPlacementItemMargin}" />
         </Style>
+        
+        <Style Selector="^.HorizontalTabs">
+            <Style Selector="^[TabStripPlacement=Left] /template/ LayoutTransformControl#PART_LayoutTransform">
+                <Setter Property="LayoutTransform" Value="rotate(0)" />
+                <Style Selector="^ ItemsPresenter#PART_ItemsPresenter WrapPanel">
+                    <Setter Property="Orientation" Value="Vertical" />
+                    <Setter Property="FlowDirection" Value="RightToLeft" />
+                </Style>
+            </Style>
+            <Style Selector="^[TabStripPlacement=Right] /template/ LayoutTransformControl#PART_LayoutTransform">
+                <Setter Property="LayoutTransform" Value="rotate(0)" />
+                <Style Selector="^ ItemsPresenter#PART_ItemsPresenter WrapPanel">
+                    <Setter Property="Orientation" Value="Vertical" />
+                </Style>
+            </Style>
+        </Style>
     </ControlTheme>
+    
     <ControlTheme x:Key="{x:Type TabControl}"
                   BasedOn="{StaticResource SukiTabControlStyle}"
                   TargetType="TabControl" />

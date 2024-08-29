@@ -41,7 +41,7 @@
 
             <TextBlock Classes="Label" />
             <DatePicker Grid.Column="2" Width="175"
-                        Margin="4,0" Height="36"
+                        Margin="-6,0" Height="36"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Stretch"
                         IsEnabled="{Binding !IsReadOnly}"
@@ -59,7 +59,7 @@
 
             <TextBlock Classes="Label" />
             <DatePicker Grid.Column="2"
-                        Margin="4,0" Height="36"
+                        Margin="-6,0" Height="36"
                         HorizontalAlignment="Right" Width="175"
                         VerticalAlignment="Stretch"
                         IsEnabled="{Binding !IsReadOnly}"

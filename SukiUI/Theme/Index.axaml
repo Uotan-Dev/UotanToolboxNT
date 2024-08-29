@@ -38,7 +38,7 @@
                 <ResourceInclude x:Key="Dark" Source="../ColorTheme/Dark.axaml" />
             </ResourceDictionary.ThemeDictionaries>
 
-            <CornerRadius x:Key="SmallCornerRadius">7</CornerRadius>
+            <CornerRadius x:Key="SmallCornerRadius">8</CornerRadius>
             <CornerRadius x:Key="MediumCornerRadius">15</CornerRadius>
 
             <system:TimeSpan x:Key="LongAnimationDuration">0.5</system:TimeSpan>
@@ -61,6 +61,7 @@
                 <ResourceInclude Source="avares://sukiUI/Theme/CalendarDatePickerStyle.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/TabControl.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/TabItem.axaml" />
+                <ResourceInclude Source="avares://sukiUI/Theme/Separator.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/DropDownButton.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/Menu.axaml" />
                 <ResourceInclude Source="avares://sukiUI/Theme/ContextMenu.axaml" />

@@ -13,9 +13,9 @@ vec3 blendOverlay(vec3 base, vec3 blend) {
 
 vec3 blendOverlayDark(vec3 base, vec3 blend) {
     vec3 result;
-    result.r = (base.r < 0.5) ? (4 * base.r * blend.r) : (3.5 - 2.0 * (3 - base.r) * (3.5 - blend.r));
-    result.g = (base.g < 0.5) ? (4 * base.g * blend.g) : (3.5 - 2.0 * (3 - base.g) * (3.5 - blend.g));
-    result.b = (base.b < 0.5) ? (4 * base.b * blend.b) : (3.5 - 2.0 * (3 - base.b) * (3.5 - blend.b));
+    result.r = (base.r < 0.5) ? (5 * base.r * blend.r) : (4 - 2.0 * (3 - base.r) * (4 - blend.r));
+    result.g = (base.g < 0.5) ? (5 * base.g * blend.g) : (4 - 2.0 * (3 - base.g) * (4 - blend.g));
+    result.b = (base.b < 0.5) ? (5 * base.b * blend.b) : (4 - 2.0 * (3 - base.b) * (4 - blend.b));
     return mix(base, clamp(result, 0.0, 1.0), 0.5); // Mélange avec la couleur de base pour réduire l'assombrissement
 }
 
@@ -68,14 +68,14 @@ vec4 main(vec2 fragCoord) {
     
     float iPrimaryOpacity = 1.1; // Exemple de nouvelle opacité pour iPrimary
     if (iDark == 1) {
-        iPrimaryOpacity = 0.34;
+        iPrimaryOpacity = 0.52;
     }
     vec3 iPrimaryWithOpacity = iPrimary * iPrimaryOpacity;
 
   
     float iAccentOpacity = 1; 
     if (iDark == 1) {
-            iAccentOpacity = 0.55;
+            iAccentOpacity = 0.9;
         }
     vec3 iAccentWithOpacity = iAccent * iAccentOpacity;
 

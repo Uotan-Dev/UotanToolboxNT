@@ -1,6 +1,7 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:content="clr-namespace:SukiUI.Content">
+        xmlns:content="clr-namespace:SukiUI.Content"
+        xmlns:suki="https://github.com/kikipoulet/SukiUI">
     <Design.PreviewWith>
         <Border Padding="20" Background="White">
             <StackPanel Orientation="Horizontal">
@@ -119,7 +120,7 @@
                         </PathIcon.Transitions>
                     </PathIcon>
                     <Border Name="SelectedBorder"
-                            Margin="4"
+                            Margin="3"
                             BorderBrush="{DynamicResource SukiPrimaryColor}"
                             BorderThickness="2"
                             CornerRadius="{TemplateBinding CornerRadius}"
@@ -203,52 +204,11 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Grid Background="{TemplateBinding Background}" ColumnDefinitions="Auto,*">
-                    <Ellipse Name="border"
-                             Width="18"
-                             Height="18"
-                             VerticalAlignment="Center"
-                             Stroke="{TemplateBinding BorderBrush}"
-                             StrokeThickness="1.5">
-                        <Ellipse.Transitions>
-                            <Transitions>
-                                <BrushTransition Property="Fill" Duration="0:0:0.4" />
-                                <DoubleTransition Property="Width" Duration="0:0:0.4" />
-                                <DoubleTransition Property="Height" Duration="0:0:0.4" />
-                            </Transitions>
-                        </Ellipse.Transitions>
-                    </Ellipse>
-                    <Ellipse Name="checkMark"
-                             Width="16"
-                             Height="16"
-                             Margin="0,0,0,0"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Center"
-                             Stretch="Uniform"
-                             UseLayoutRounding="False">
-                        <Ellipse.Transitions>
-                            <Transitions>
-                                <BrushTransition Property="Fill" Duration="0:0:0.1" />
-                                <DoubleTransition Property="Width" Duration="0:0:0.3" />
-                                <DoubleTransition Property="Height" Duration="0:0:0.3" />
-                            </Transitions>
-                        </Ellipse.Transitions>
-                    </Ellipse>
-                    <Ellipse Name="indeterminateMark"
-                             Width="9"
-                             Height="9"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Center"
-                             Fill="{DynamicResource ThemeAccentBrush}"
-                             Stretch="Uniform"
-                             UseLayoutRounding="False">
-                        <Ellipse.Transitions>
-                            <Transitions>
-                                <BrushTransition Property="Fill" Duration="0:0:0.4" />
-                                <DoubleTransition Property="Width" Duration="0:0:0.4" />
-                                <DoubleTransition Property="Height" Duration="0:0:0.4" />
-                            </Transitions>
-                        </Ellipse.Transitions>
-                    </Ellipse>
+                    <suki:GlassCard Width="20" Height="20" CornerRadius="50" Classes="Control"
+                                    Classes.PrimaryOpaque="{TemplateBinding IsChecked}"
+                                    />
+                    
+                    <Ellipse Height="8" Width="8" HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{TemplateBinding IsChecked}"  Fill="White"/>
                     <ContentPresenter Name="PART_ContentPresenter"
                                       Grid.Column="1"
                                       Margin="10,0,0,0"

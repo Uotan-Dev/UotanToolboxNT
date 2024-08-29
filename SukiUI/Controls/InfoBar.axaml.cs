@@ -1,19 +1,17 @@
-﻿using System.Windows.Input;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
-using Avalonia.Interactivity;
 using Avalonia.Media;
 using SukiUI.ColorTheme;
 using SukiUI.Content;
-using SukiUI.Enums;
 
 namespace SukiUI.Controls;
 
 public class InfoBar : ContentControl
 {
     public static readonly StyledProperty<NotificationType> SeverityProperty =
-        AvaloniaProperty.Register<InfoBar, NotificationType>(nameof(Severity), NotificationType.Info);
+        AvaloniaProperty.Register<InfoBar, NotificationType>(nameof(Severity), NotificationType.Information);
 
     public NotificationType Severity
     {
@@ -22,7 +20,7 @@ public class InfoBar : ContentControl
         {
             Icon = value switch
             {
-                NotificationType.Info => Icons.InformationOutline,
+                NotificationType.Information => Icons.InformationOutline,
                 NotificationType.Success => Icons.Check,
                 NotificationType.Warning => Icons.AlertOutline,
                 NotificationType.Error => Icons.AlertOutline,
@@ -31,7 +29,7 @@ public class InfoBar : ContentControl
             
             IconForeground = value switch
             {
-                NotificationType.Info => NotificationColor.InfoIconForeground,
+                NotificationType.Information => NotificationColor.InfoIconForeground,
                 NotificationType.Success => NotificationColor.SuccessIconForeground,
                 NotificationType.Warning => NotificationColor.WarningIconForeground,
                 NotificationType.Error => NotificationColor.ErrorIconForeground,

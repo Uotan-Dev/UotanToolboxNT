@@ -303,6 +303,11 @@ public class SukiWindow : Window
     {
         if (state == WindowState.FullScreen)
             CanResize = CanMove = false;
+        
+        if (state == WindowState.Maximized)
+            Margin = new Thickness(7);
+        else 
+            Margin = new Thickness(0);
     }
 
     private void OnTitleBarPointerPressed(object? sender, PointerPressedEventArgs e)

@@ -24,7 +24,7 @@
     <BoxShadows x:Key="SukiSwitchShadow">0 1 5 0 #aaaaaa</BoxShadows>
     <BoxShadows x:Key="SukiSmallPopupShadow">0 0 2 0 DimGray</BoxShadows>
     <BoxShadows x:Key="SukiPopupShadow">1 1 8 0 LightGray</BoxShadows>
-    <BoxShadows x:Key="SukiBigPopupShadow">1 1 15 0 #dedede</BoxShadows>
+    <BoxShadows x:Key="SukiBigPopupShadow">1 4 17 0 #999999</BoxShadows>
     
     <LinearGradientBrush x:Key="PopupGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
         <GradientStop Color="{DynamicResource SukiAccentColor5}" Offset="0"></GradientStop>
@@ -36,6 +36,9 @@
     <system:Boolean x:Key="IsLight">True</system:Boolean>
 
     <system:Double x:Key="GlassOpacity">0.42</system:Double>
-    <system:Double x:Key="GlassOpacityDark">0.3</system:Double>
-    <system:Double x:Key="GlassOpacityLight">0.42</system:Double>
+    
+    <system:Double x:Key="ControlGlassOpacity">0.05</system:Double>
+    <system:Double x:Key="DiscreteControlGlassOpacity">0.4</system:Double>
+    <Color x:Key="ControlSukiGlassCardBackground">#fd111111</Color>
+    
 </ResourceDictionary>

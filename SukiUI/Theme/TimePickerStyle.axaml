@@ -2,7 +2,8 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:icons="clr-namespace:SukiUI.Content"
-                    xmlns:sys="using:System">
+                    xmlns:sys="using:System"
+                    xmlns:suki="https://github.com/kikipoulet/SukiUI">
     <Design.PreviewWith>
         <Border Height="500" Padding="20">
             <StackPanel VerticalAlignment="Center" Spacing="20">
@@ -12,7 +13,7 @@
         </Border>
     </Design.PreviewWith>
 
-    <x:Double x:Key="TimePickerFlyoutPresenterItemHeight">40</x:Double>
+  <!--  <x:Double x:Key="TimePickerFlyoutPresenterItemHeight">40</x:Double>
     <x:Double x:Key="TimePickerSpacerThemeWidth">1</x:Double>
     <Thickness x:Key="TimePickerBorderThemeThickness">1</Thickness>
     <x:Double x:Key="TimePickerFlyoutPresenterHighlightHeight">40</x:Double>
@@ -41,7 +42,7 @@
 
         <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlHighBrush}" />
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+            <Setter Property="TextElement.Foreground" Value="{TemplateBinding Foreground}" />
         </Style>
 
         <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
@@ -49,7 +50,7 @@
                 <SolidColorBrush Opacity="0.6" Color="{DynamicResource ThemeControlMidHighColor}" />
             </Setter>
             <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlLowBrush}" />
-            <Setter Property="TextElement.Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+            <Setter Property="TextElement.Foreground" Value="{TemplateBinding Foreground}" />
         </Style>
 
         <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
@@ -59,7 +60,7 @@
 
     <ControlTheme x:Key="{x:Type TimePicker}" TargetType="TimePicker">
         <Setter Property="FontSize" Value="{DynamicResource FontSizeNormal}" />
-        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiMediumBorderBrush}" />
@@ -71,6 +72,8 @@
             <ControlTemplate>
                 <DataValidationErrors>
                     <Grid Name="LayoutRoot">
+                        <suki:GlassCard Height="{TemplateBinding Height}" CornerRadius="{DynamicResource SmallCornerRadius}" Classes="Discrete" >
+
                         <Button x:Name="PART_FlyoutButton"
                                 MinWidth="{DynamicResource TimePickerThemeMinWidth}"
                                 MaxWidth="{DynamicResource TimePickerThemeMaxWidth}"
@@ -93,7 +96,7 @@
                                           Foreground="{DynamicResource SukiLowText}" />
 
                                 <Grid Name="PART_FlyoutButtonContentGrid">
-                                    <!--  Ignore col defs here, set in code  -->
+                                  
                                     <Border x:Name="PART_FirstPickerHost"
                                             Grid.Column="0"
                                             HorizontalAlignment="Stretch"
@@ -144,7 +147,7 @@
                                 </Grid>
                             </DockPanel>
                         </Button>
-
+</suki:GlassCard>
                         <Popup Name="PART_Popup"
                                IsLightDismissEnabled="True"
                                Placement="Bottom"
@@ -236,7 +239,7 @@
                                     </Setter>
                                 </Style>
                             </Grid.Styles>
-                            <!--  Ignore col defs here, set in code  -->
+                        
                             <Panel Name="PART_HourHost" Grid.Column="0">
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden">
                                     <DateTimePickerPanel Name="PART_HourSelector"
@@ -325,7 +328,7 @@
                                                Text="Apply" />
                                 </StackPanel>
                             </Button>
-                            <!--  <Button Name="PART_DismissButton"
+                              <Button Name="PART_DismissButton"
                       Grid.Column="1"
                       Height="{DynamicResource TimePickerFlyoutPresenterAcceptDismissHostGridHeight}"
                       HorizontalAlignment="Stretch"
@@ -336,7 +339,7 @@
                       Stroke="{Binding $parent[Button].Foreground}"
                       StrokeLineCap="Round"
                       StrokeThickness="0.75" />
-              </Button>-->
+              </Button>
                         </Grid>
                     </Grid>
                 </Border>
@@ -348,5 +351,5 @@
                 <Setter Property="IsVisible" Value="True" />
             </Style>
         </Style>
-    </ControlTheme>
+    </ControlTheme> -->
 </ResourceDictionary>

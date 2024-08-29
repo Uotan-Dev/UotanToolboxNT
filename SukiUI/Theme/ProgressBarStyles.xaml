@@ -1,7 +1,9 @@
-﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<Styles xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:suki="https://github.com/kikipoulet/SukiUI"
+        xmlns:system="clr-namespace:System;assembly=netstandard">
 
     <Design.PreviewWith>
-        <Panel>
+        <Panel Background="Red">
             <ProgressBar Width="100"
                          Height="6"
                          Value="50" />
@@ -16,7 +18,9 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <DockPanel Name="PART_Dock">
-
+<DockPanel.Resources>
+   
+</DockPanel.Resources>
                     <TextBlock Name="PART_Text"
                                Width="0"
                                Height="0"
@@ -29,9 +33,9 @@
                                Text="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0:0}%}"
                                TextAlignment="Right" />
 
-                    <Border Name="PART_RootBorder"
+                    <suki:GlassCard Name="PART_RootBorder"
                             MinWidth="{TemplateBinding MinWidth}"
-                            Background="{TemplateBinding Background}"
+                          Padding="0" Classes="Control"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="True"
@@ -62,7 +66,7 @@
                                     CornerRadius="{TemplateBinding CornerRadius}"
                                     IsVisible="{Binding IsIndeterminate, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Panel>
-                    </Border>
+                    </suki:GlassCard>
 
 
                 </DockPanel>
@@ -156,13 +160,13 @@
         </Style.Animations>
     </Style>
 
-    <Style Selector="ProgressBar:horizontal /template/ Border#PART_RootBorder">
+    <Style Selector="ProgressBar:horizontal /template/ suki|GlassCard#PART_RootBorder">
         <Setter Property="MinHeight" Value="8" />
         <Setter Property="Height" Value="8" />
         <Setter Property="MaxHeight" Value="8" />
     </Style>
 
-    <Style Selector="ProgressBar:vertical /template/ Border#PART_RootBorder">
+    <Style Selector="ProgressBar:vertical /template/ suki|GlassCard#PART_RootBorder">
         <Setter Property="MinWidth" Value="8" />
         <Setter Property="Width" Value="8" />
         <Setter Property="MaxWidth" Value="8" />

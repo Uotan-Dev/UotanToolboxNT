@@ -4,7 +4,7 @@
     <Color x:Key="SukiBackground">Transparent</Color>
     <Color x:Key="SukiStrongBackground">#353535</Color>
     <Color x:Key="SukiLightBackground">Transparent</Color>
-    <Color x:Key="SukiCardBackground">#292929</Color>
+    <Color x:Key="SukiCardBackground">#323232</Color>
     <Color x:Key="SukiGlassCardBackground">#49aaaaaa</Color>
     <Color x:Key="SukiGlassCardOpaqueBackground">#333333</Color>
     <Color x:Key="SukiControlTouchBackground">#505050</Color>
@@ -24,10 +24,10 @@
     <BoxShadows x:Key="SukiSwitchShadow">0 1 5 0 #555555</BoxShadows>
     <BoxShadows x:Key="SukiSmallPopupShadow">0 0 4 1 #101010</BoxShadows>
     <BoxShadows x:Key="SukiPopupShadow">1 1 14 1 #101010</BoxShadows>
-    <BoxShadows x:Key="SukiBigPopupShadow">1 1 15 0 #606060</BoxShadows>
+    <BoxShadows x:Key="SukiBigPopupShadow">1 4 17 0 #111111</BoxShadows>
     
     <LinearGradientBrush x:Key="PopupGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
-        <GradientStop Color="{DynamicResource SukiAccentColor10}" Offset="0"></GradientStop>
+        <GradientStop Color="{DynamicResource SukiAccentColor3}" Offset="0"></GradientStop>
         <GradientStop Color="{DynamicResource SukiPrimaryColor10}" Offset="0.9"></GradientStop>
 
     </LinearGradientBrush>
@@ -36,7 +36,9 @@
     <system:Boolean x:Key="IsLight">False</system:Boolean>
 
     <system:Double x:Key="GlassOpacity">0.18</system:Double>
-    <system:Double x:Key="GlassOpacityDark">0.18</system:Double>
-    <system:Double x:Key="GlassOpacityLight">0.57</system:Double>
+   
+    <system:Double x:Key="ControlGlassOpacity">0.3</system:Double>
+    <system:Double x:Key="DiscreteControlGlassOpacity">0.17</system:Double>
+    <Color x:Key="ControlSukiGlassCardBackground">#49aaaaaa</Color>
 
 </ResourceDictionary>

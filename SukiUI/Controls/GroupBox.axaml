@@ -11,7 +11,7 @@
         <Style Selector="suki|GroupBox">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <StackPanel>
+                    <Grid RowDefinitions="Auto, Auto, *">
                         <ContentControl Margin="0,0,0,0" Content="{TemplateBinding Header}">
                             <ContentControl.Styles>
                                 <Style Selector="TextBlock">
@@ -23,12 +23,12 @@
                             </ContentControl.Styles>
                         </ContentControl>
 
-                        <Border Height="1"
+                        <Border Grid.Row="1" Height="1"
                                 Margin="0,10,0,10"
                                 Background="{DynamicResource SukiControlBorderBrush}"
                                 BorderThickness="0" />
-                        <ContentControl Content="{TemplateBinding Content}" />
-                    </StackPanel>
+                        <ContentControl Grid.Row="2" Content="{TemplateBinding Content}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter>
         </Style>

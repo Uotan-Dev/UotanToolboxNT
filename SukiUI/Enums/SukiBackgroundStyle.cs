@@ -5,7 +5,7 @@ namespace SukiUI.Enums
         Gradient,
         Flat,
         Bubble,
-        BubbleStrong,
+     
        
     }
 }

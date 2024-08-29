@@ -21,7 +21,8 @@
                             <suki:SukiHost />
                         </VisualLayerManager.ChromeOverlayLayer>
                         <Panel x:Name="PART_Root">
-                            <suki:SukiBackground Name="PART_Background"
+                            <!-- Margin -100 is there to exclude the unwanted bright corners -->
+                            <suki:SukiBackground Name="PART_Background" Margin="-150"
                                                  AnimationEnabled="{TemplateBinding BackgroundAnimationEnabled}"
                                                  ShaderCode="{TemplateBinding BackgroundShaderCode}"
                                                  ShaderFile="{TemplateBinding BackgroundShaderFile}"

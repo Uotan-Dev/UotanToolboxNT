@@ -70,9 +70,9 @@ public record SukiColorTheme
         var minValue = Math.Min(Math.Min(r, g), b);
         var maxValue = Math.Max(Math.Max(r, g), b);
 
-        r = (r == minValue) ? 62 : ((r == maxValue) ? 62 : 45);
-        g = (g == minValue) ? 62 : ((g == maxValue) ? 62 : 45);
-        b = (b == minValue) ? 62 : ((b == maxValue) ? 62 : 45);
+        r = (r == minValue) ? 47 : ((r == maxValue) ? 47 : 27);
+        g = (g == minValue) ? 47 : ((g == maxValue) ? 47 : 27);
+        b = (b == minValue) ? 47 : ((b == maxValue) ? 47 : 27);
         return new Color(255, (byte)r, (byte)g, (byte)b);
     }
 }

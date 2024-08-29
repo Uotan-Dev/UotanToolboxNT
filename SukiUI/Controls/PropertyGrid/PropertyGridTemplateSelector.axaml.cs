@@ -9,7 +9,7 @@ namespace SukiUI.Controls;
 public partial class PropertyGridTemplateSelector : ResourceDictionary, IDataTemplate
 {
     public bool UseSukiHost { get; set; } = true;
-
+    
     public PropertyGridTemplateSelector()
     {
         InitializeComponent();
@@ -70,19 +70,18 @@ public partial class PropertyGridTemplateSelector : ResourceDictionary, IDataTem
         {
             return;
         }
-
-        if (UseSukiHost)
-        {
-            if (control.DataContext is not ComplexTypeViewModel childViewModel || childViewModel.Value is null)
-            {
-                return;
-            }
-
-            SukiHost.ShowDialog(new PropertyGridDialog()
-            {
-                DataContext = childViewModel.Value
-            }, true, true);
-        }
+        // TODO: No longer possible to just statically use SukiHost to show dialogs.
+        // if (UseSukiHost)
+        // {
+        //     if (control.DataContext is not ComplexTypeViewModel childViewModel || childViewModel.Value is null)
+        //     {
+        //         return;
+        //     }
+        //     SukiHost.ShowDialog(new PropertyGridDialog()
+        //     {
+        //         DataContext = childViewModel.Value
+        //     }, true, true);
+        // }
         else
         {
             var root = control.GetVisualRoot();

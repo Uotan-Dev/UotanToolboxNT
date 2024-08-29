@@ -125,6 +125,7 @@ namespace SukiUI.Utilities.Effects
         }
 
         private static readonly float[] White = { 0.95f, 0.95f, 0.95f };
+     
 
         internal SKShader ToShaderWithUniforms(float timeSeconds, ThemeVariant activeVariant, Rect bounds,
             float animationScale, float alpha = 1f)

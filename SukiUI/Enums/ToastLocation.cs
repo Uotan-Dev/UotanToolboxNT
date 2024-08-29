@@ -3,5 +3,7 @@ namespace SukiUI.Enums;
 public enum ToastLocation
 {
     BottomRight,
-    BottomLeft
+    BottomLeft,
+    TopRight,
+    TopLeft
 }

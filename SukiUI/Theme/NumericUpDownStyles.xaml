@@ -1,22 +1,28 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:theme="clr-namespace:SukiUI.Theme">
+        xmlns:theme="clr-namespace:SukiUI.Theme"
+        xmlns:suki="https://github.com/kikipoulet/SukiUI">
     <Design.PreviewWith>
         <Border Padding="20">
-            <NumericUpDown />
+            <StackPanel Orientation="Horizontal" Spacing="5" >
+            <NumericUpDown Value="4" />
+            <TextBox Classes="NoShadow" Text="test"></TextBox>
+            </StackPanel>
         </Border>
     </Design.PreviewWith>
     <Style Selector="NumericUpDown">
-        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="BorderThickness" Value="0,0,0,0" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
-        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="CornerRadius" Value="{DynamicResource SmallCornerRadius}" />
         <Setter Property="Background" Value="{DynamicResource SukiBackground}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="4" />
         <Setter Property="Template">
             <ControlTemplate>
+                <suki:GlassCard Classes="Discrete" VerticalAlignment="Center" CornerRadius="{TemplateBinding CornerRadius}" Padding="0">
                 <ButtonSpinner Name="PART_Spinner" 
-                               Margin="5,1" 
+                               Margin="5,4" 
+                               Height="26"
                                HorizontalContentAlignment="Stretch"
                                VerticalContentAlignment="Stretch"
                                AllowSpin="{TemplateBinding AllowSpin}"
@@ -51,6 +57,7 @@
                     </Grid>
                    
                 </ButtonSpinner>
+                    </suki:GlassCard>
             </ControlTemplate>
         </Setter>
     </Style>

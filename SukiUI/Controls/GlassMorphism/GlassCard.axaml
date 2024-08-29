@@ -3,13 +3,14 @@
                     xmlns:suki="clr-namespace:SukiUI.Controls">
     <ControlTheme x:Key="SukiGlassCardStyle" TargetType="suki:GlassCard">
         <Setter Property="BorderBrush" Value="{DynamicResource GlassBorderBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SukiGlassCardBackground}" />
         <Setter Property="Padding" Value="20" />
         <Setter Property="Template">
             <ControlTemplate>
             
                 <Panel Name="RootPanel" Opacity="0">
                     <Border Name="PART_BorderCard" RenderTransformOrigin="50%,50%"
-                            Background="{DynamicResource SukiGlassCardBackground}"
+                            Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="{TemplateBinding ClipToBounds}"
@@ -53,6 +54,29 @@
                 </Panel>
             </ControlTemplate>
         </Setter>
+        
+        
+        <Style Selector="^.Control">
+            <Setter Property="IsAnimated" Value="False"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+        </Style>
+        
+        <Style Selector="^.Discrete">
+            <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
+            <Setter Property="Padding" Value="0"></Setter>
+        </Style>
+        <Style Selector="^.Control /template/ Border#PART_BorderCard">
+            <Setter Property="Background" Value="{DynamicResource ControlSukiGlassCardBackground}" />
+            <Setter Property="Opacity" Value="{DynamicResource ControlGlassOpacity}" />
+        </Style>
+        
+        <Style Selector="^.Discrete /template/ Border#PART_BorderCard">
+            <Setter Property="Background" Value="{DynamicResource SukiGlassCardBackground}" />
+            <Setter Property="Opacity" Value="{DynamicResource DiscreteControlGlassOpacity}" />
+            
+
+        </Style>
+        
         <Style Selector="^.Primary /template/ Border#PART_ClipBorder">
             <Setter Property="BorderBrush" Value="{DynamicResource SukiAccentColor0}" />
         </Style>
@@ -77,6 +101,11 @@
         </Style>
         <Style Selector="^.Primary /template/ Border#PART_BorderCard">
             <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor25}" />
+        </Style>
+        
+        <Style Selector="^.PrimaryOpaque /template/ Border#PART_BorderCard">
+            <Setter Property="Opacity" Value="1"/>
+            <Setter Property="Background" Value="{DynamicResource SukiPrimaryColor}" />
         </Style>
         
         <Style Selector="^[IsVisible=True] /template/ Panel#RootPanel">

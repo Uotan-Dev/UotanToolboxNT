@@ -16,11 +16,13 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             ClipToBounds="True"
                             CornerRadius="{TemplateBinding CornerRadius}">
-                        <ItemsPresenter Name="PART_ItemsPresenter"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        ItemsPanel="{TemplateBinding ItemsPanel}"
-                                        KeyboardNavigation.TabNavigation="Continue" />
+                        <Panel Background="{DynamicResource PopupGradientBrush}">
+                            <ItemsPresenter Name="PART_ItemsPresenter"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            ItemsPanel="{TemplateBinding ItemsPanel}"
+                                            KeyboardNavigation.TabNavigation="Continue" />
+                        </Panel>
                     </Border>
                 </Panel>
             </ControlTemplate>

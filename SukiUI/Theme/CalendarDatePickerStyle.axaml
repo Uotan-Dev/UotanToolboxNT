@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="using:System"
+                    xmlns:suki="https://github.com/kikipoulet/SukiUI"
                     x:ClassModifier="internal">
 
     <Design.PreviewWith>
@@ -13,6 +14,7 @@
 
     <ControlTheme x:Key="{x:Type CalendarDatePicker}" TargetType="CalendarDatePicker">
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="38" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="BorderBrush" Value="{DynamicResource SukiControlBorderBrush}" />
@@ -20,14 +22,16 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <ControlTemplate>
+                <suki:GlassCard Height="{TemplateBinding Height}" CornerRadius="{DynamicResource SmallCornerRadius}" Classes="Discrete" >
                 <Grid ColumnDefinitions="*,Auto">
                     <Grid.Styles>
                         <Style Selector="Button.CalendarDropDown">
                             <Setter Property="Template">
                                 <ControlTemplate>
+                                    
                                     <Grid Width="22"
                                           Height="20"
-                                          Margin="0,0,0,0"
+                                          Margin="0,0,16,0"
                                           HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           Background="Transparent"
@@ -74,6 +78,7 @@
                                                  Fill="{DynamicResource SukiControlBorderBrush}"
                                                  StrokeThickness="0" />
                                     </Grid>
+                                 
                                 </ControlTemplate>
                             </Setter>
                         </Style>
@@ -83,7 +88,7 @@
                         </Style>
                     </Grid.Styles>
 
-                    <TextBox Name="PART_TextBox"
+                    <TextBox Name="PART_TextBox" Classes="NoShadow"
                              Grid.Column="0"
                              Padding="{TemplateBinding Padding}"
                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -134,6 +139,7 @@
                         
                     </Popup>
                 </Grid>
+                    </suki:GlassCard>
             </ControlTemplate>
         </Setter>
 

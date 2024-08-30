@@ -62,8 +62,8 @@ public partial class MainView : SukiWindow
             "lxterminal",           // LXDE terminal
             "tilix",                // Tilix terminal
             "alacritty",            // Alacritty terminal
-            "xterm"                 // Xterm as fallback
-            "kitty"                // Kitty terminal
+            "xterm",                 // Xterm as fallback
+            "kitty",                // Kitty terminal
             "wezterm"              // Wezterm terminal
         };
 

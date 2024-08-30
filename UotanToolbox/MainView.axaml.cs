@@ -39,28 +39,58 @@ public partial class MainView : SukiWindow
     }
 
     private void OpenTerminal(object sender, RoutedEventArgs e)
+{
+    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = "cmd.exe",
-                WorkingDirectory = Path.Combine(Global.bin_path, "platform-tools"),
-                UseShellExecute = true
-            });
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "cmd.exe",
+            WorkingDirectory = Path.Combine(Global.bin_path, "platform-tools"),
+            UseShellExecute = true
+        });
+    }
+    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+    {
+        string[] terminalCommands = new string[]
+        {
+            "x-terminal-emulator",  // Generic terminal emulator
+            "gnome-terminal",       // GNOME terminal
+            "deepin-terminal",      // deepin terminal
+            "konsole",              // KDE Konsole
+            "xfce4-terminal",       // XFCE terminal
+            "mate-terminal",        // MATE terminal
+            "lxterminal",           // LXDE terminal
+            "tilix",                // Tilix terminal
+            "alacritty",            // Alacritty terminal
+            "xterm"                 // Xterm as fallback
+            "kitty"                // Kitty terminal
+            "wezterm"              // Wezterm terminal
+        };
+
+        foreach (var terminal in terminalCommands)
+        {
             try
             {
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = "/usr/bin/gnome-terminal",
+                    FileName = terminal,
                     Arguments = $"--working-directory={Path.Combine(Global.bin_path, "platform-tools", "adb")}",
                     UseShellExecute = false
                 });
+                break;  // If successful, break out of the loop
             }
-            catch { }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            Process.Start("open", "-a Terminal " + Path.Combine(Global.bin_path, "platform-tools", "adb"));
+            catch
+            {
+                // Continue trying other terminals if one fails
+            }
+        }
     }
+    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+    {
+        Process.Start("open", "-a Terminal " + Path.Combine(Global.bin_path, "platform-tools", "adb"));
+    }
+}
+
 
     private void InitializeComponent()
     {

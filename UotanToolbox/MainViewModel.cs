@@ -22,7 +22,7 @@ namespace UotanToolbox;
 
 public partial class MainViewModel : ObservableObject
 {
-    [ObservableProperty] private bool _windowLocked;
+    [ObservableProperty] private bool _windowLocked = false;
 
     public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
 

@@ -16,7 +16,7 @@
 				 BackgroundShaderFile="{Binding CustomShaderFile}"
 				 BackgroundStyle="{Binding BackgroundStyle}"
 				 BackgroundTransitionsEnabled="{Binding TransitionsEnabled}"
-                 CanResize="False"
+                 CanResize="{Binding WindowLocked}"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"
                  mc:Ignorable="d">
@@ -33,6 +33,40 @@
 			</avalonia:MaterialIcon.Transitions>
 		</avalonia:MaterialIcon>
 	</suki:SukiWindow.LogoContent>
+
+	<suki:SukiWindow.RightWindowTitleBarControls>
+		<Button Classes="Basic Rounded WindowControlsButton">
+			<avalonia:MaterialIcon Kind="Cog" Foreground="{DynamicResource SukiText}" />
+			<Button.Flyout>
+				<Flyout>
+					<Panel>
+
+						<Border CornerRadius="20" Margin="20" BoxShadow="{DynamicResource SukiPopupShadow}"></Border>
+
+						<Border Margin="20" CornerRadius="15"
+                                ClipToBounds="True" MinWidth="350"
+                                Background="{DynamicResource SukiCardBackground}"
+                                BorderBrush="{DynamicResource SukiLightBorderBrush}"
+                                BorderThickness="1">
+							<Border Background="{DynamicResource PopupGradientBrush}"
+									Padding="15">
+								<StackPanel Margin="0,0,0,0" Spacing="20">
+									<suki:GlassCard CornerRadius="15" Padding="15">
+										<DockPanel  FlowDirection="LeftToRight">
+											<ToggleSwitch IsChecked="{Binding WindowLocked}" VerticalAlignment="Center" DockPanel.Dock="Right" />
+											<TextBlock Text="解除窗口高度锁定" FontSize="15"
+													   FontWeight="DemiBold"
+													   VerticalAlignment="Center" />
+										</DockPanel>
+									</suki:GlassCard>
+								</StackPanel>
+							</Border>
+						</Border>
+					</Panel>
+				</Flyout>
+			</Button.Flyout>
+		</Button>
+	</suki:SukiWindow.RightWindowTitleBarControls>
 	
     <suki:SukiSideMenu ItemsSource="{Binding DemoPages}"
                        SelectedItem="{Binding ActivePage}">

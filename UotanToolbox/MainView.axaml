@@ -72,7 +72,7 @@
                        SelectedItem="{Binding ActivePage}">
         <suki:SukiSideMenu.ItemTemplate>
             <DataTemplate>
-                <suki:SukiSideMenuItem Header="{Binding DisplayName}">
+                <suki:SukiSideMenuItem Classes="Compact" Header="{Binding DisplayName}">
                     <suki:SukiSideMenuItem.Icon>
                         <avalonia:MaterialIcon Kind="{Binding Icon}" />
                     </suki:SukiSideMenuItem.Icon>

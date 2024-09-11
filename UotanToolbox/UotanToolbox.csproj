@@ -40,11 +40,8 @@
 		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.5.1" />
 		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.5.1" />
 		<PackageReference Include="SkiaSharp" Version="2.88.8" />
+		<PackageReference Include="SukiUI" Version="6.0.0" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\SukiUI\SukiUI.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

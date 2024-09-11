@@ -1,7 +1,0 @@
-vec4 main(vec2 fragCoord) {
-    
-    if(iDark == 1)
-        return vec4(iBase * 1, iAlpha);
-        
-    return vec4(iBase, iAlpha);
-}

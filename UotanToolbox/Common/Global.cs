@@ -14,7 +14,7 @@ namespace UotanToolbox.Common
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
         public static ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
-        public static BootInfo Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "");
+        public static BootInfo Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
         public static int mb_exitcode, cpio_exitcode, load_times;
         //分区表储存
         public static string sdatable = "";
@@ -44,7 +44,8 @@ namespace UotanToolbox.Common
         public bool HaveDTB { get; set; }
         public string DTBName { get; set; }
         public string Arch { get; set; }
-        public BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2, string version, string kmi, string osversion, string patchlevel, bool haveramdisk, bool havekernel, bool havedtb, string dtbname, string arch)
+        public string Compress { get; set; }
+        public BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2, string version, string kmi, string osversion, string patchlevel, bool haveramdisk, bool havekernel, bool havedtb, string dtbname, string arch, string compress)
         {
             SHA1 = sha1;
             Path = path;
@@ -60,7 +61,7 @@ namespace UotanToolbox.Common
             HaveDTB = havedtb;
             DTBName = dtbname;
             Arch = arch;
-
+            Compress = compress;
         }
     }
     public class ZipInfo

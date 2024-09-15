@@ -1,14 +1,14 @@
-﻿using Avalonia.Collections;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Controls;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Common.PatchHelper;
 using UotanToolbox.Features.Components;
@@ -391,7 +391,7 @@ public partial class BasicflashView : UserControl
             BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
             ArchList.SelectedItem = Global.Bootinfo.Arch;
-            SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{Global.Bootinfo.Arch}\nOS:{Global.Bootinfo.OSVersion}\nPatch_level:{Global.Bootinfo.PatchLevel}\nRamdisk:{Global.Bootinfo.HaveRamdisk}\nKMI:{Global.Bootinfo.KMI}"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(new PureDialog($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{Global.Bootinfo.Arch}\nOS:{Global.Bootinfo.OSVersion}\nPatch_level:{Global.Bootinfo.PatchLevel}\nRamdisk:{Global.Bootinfo.HaveRamdisk}\nKMI:{Global.Bootinfo.KMI}\nKERNEL_FMT:{Global.Bootinfo.Compress}"), allowBackgroundClose: true);
         }
         catch (Exception ex)
         {
@@ -443,7 +443,7 @@ public partial class BasicflashView : UserControl
                 FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path));
             }
             Global.Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
-            Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "");
+            Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
             SetDefaultMagisk();
             BootFile.Text = null;
             ArchList.SelectedItem = null;

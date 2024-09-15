@@ -11,7 +11,7 @@ namespace UotanToolbox.Common.PatchHelper
         private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
         public static async Task<BootInfo> Boot_Detect(string path)
         {
-            BootInfo bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "");
+            BootInfo bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
             bootinfo.Path = path;
             bootinfo.SHA1 = await FileHelper.SHA1HashAsync(bootinfo.Path);
             bootinfo.TempPath = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
@@ -22,6 +22,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             string osVersionPattern = @"OS_VERSION\s+\[(.*?)\]";
             string osPatchLevelPattern = @"OS_PATCH_LEVEL\s+\[(.*?)\]";
+            string osKernelFMTPattern = @"KERNEL_FMT\s*\[([^\]]*)\]";
             (string mb_output, Global.mb_exitcode) = await CallExternalProgram.MagiskBoot($"unpack \"{path}\"", bootinfo.TempPath);
             if (Global.mb_exitcode != 0)
             {
@@ -29,6 +30,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             bootinfo.OSVersion = Regex.Match(mb_output, osVersionPattern).Groups[1].Value;
             bootinfo.PatchLevel = Regex.Match(mb_output, osPatchLevelPattern).Groups[1].Value;
+            bootinfo.Compress = Regex.Match(mb_output, osKernelFMTPattern).Groups[1].Value;
             bootinfo.IsUseful = true;
             (bootinfo.HaveDTB, bootinfo.DTBName) = await Task.Run(() => dtb_detect(bootinfo.TempPath));
             (bootinfo.Version, bootinfo.KMI, bootinfo.HaveKernel, bootinfo.GKI2, bootinfo.Arch) = await kernel_detect(bootinfo.TempPath);

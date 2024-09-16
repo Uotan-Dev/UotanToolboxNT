@@ -41,25 +41,75 @@
 			<Button.Flyout>
 				<Flyout>
 					<Panel>
-
-						<Border CornerRadius="20" Margin="20" BoxShadow="{DynamicResource SukiPopupShadow}"></Border>
-
-						<Border Margin="20" CornerRadius="15"
-                                ClipToBounds="True" MinWidth="350"
+						<Border CornerRadius="15" Margin="10" BoxShadow="{DynamicResource SukiPopupShadow}"></Border>
+						<Border Margin="10" CornerRadius="15"
+                                ClipToBounds="True" MinWidth="200"
                                 Background="{DynamicResource SukiCardBackground}"
                                 BorderBrush="{DynamicResource SukiLightBorderBrush}"
                                 BorderThickness="1">
 							<Border Background="{DynamicResource PopupGradientBrush}"
-									Padding="15">
-								<StackPanel Margin="0,0,0,0" Spacing="20">
-									<suki:GlassCard CornerRadius="15" Padding="15">
+									Padding="10">
+								<StackPanel Margin="0,0,0,0" Spacing="10">
+									<suki:GlassCard CornerRadius="15" Padding="10">
 										<DockPanel  FlowDirection="LeftToRight">
 											<ToggleSwitch IsChecked="{Binding WindowLocked}" VerticalAlignment="Center" DockPanel.Dock="Right" />
-											<TextBlock Text="解除窗口高度锁定" FontSize="15"
+											<TextBlock Text="解除窗口高度锁定" FontSize="14"
 													   FontWeight="DemiBold"
 													   VerticalAlignment="Center" />
 										</DockPanel>
 									</suki:GlassCard>
+									<Grid>
+										<suki:GlassCard CornerRadius="15" Padding="10">
+											<DockPanel FlowDirection="LeftToRight">
+												<StackPanel Spacing="10">
+													<TextBlock HorizontalAlignment="Left"
+															   FontSize="14"
+															   FontWeight="DemiBold"
+															   Text="快捷重启至" />
+													<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+														<Button Width="125"
+																HorizontalAlignment="Left"
+																Padding="8"
+																>
+															<TextBlock>
+																<avalonia:MaterialIcon Kind="Android" />
+																<TextBlock Text="{x:Static assets:Resources.Home_System}"/>
+															</TextBlock>
+														</Button>
+														<Button Width="125"
+																HorizontalAlignment="Left"
+																Padding="8"
+																>
+															<TextBlock>
+																<avalonia:MaterialIcon Kind="NetworkOutline" />
+																<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
+															</TextBlock>
+														</Button>
+													</StackPanel>
+													<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+														<Button Width="125"
+																HorizontalAlignment="Left"
+																Padding="8"
+																>
+															<TextBlock>
+																<avalonia:MaterialIcon Kind="ProgressDownload" />
+																<TextBlock Text="{x:Static assets:Resources.Home_Bootloader}"/>
+															</TextBlock>
+														</Button>
+														<Button Width="125"
+																HorizontalAlignment="Left"
+																Padding="8"
+																>
+															<TextBlock>
+																<avalonia:MaterialIcon Kind="ProgressDownload" />
+																<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>
+															</TextBlock>
+														</Button>
+													</StackPanel>
+												</StackPanel>
+											</DockPanel>
+										</suki:GlassCard>
+									</Grid>
 								</StackPanel>
 							</Border>
 						</Border>

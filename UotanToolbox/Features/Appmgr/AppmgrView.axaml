@@ -20,7 +20,7 @@
 	<WrapPanel Margin="15"
                theme:WrapPanelExtensions.AnimatedScroll="True"
                Orientation="Horizontal">
-		<suki:GlassCard Height="205" Width="464.25" HorizontalAlignment="Left" Margin="15" VerticalAlignment="Top">
+		<suki:GlassCard Height="205" Width="464.25" HorizontalAlignment="Left" Margin="10 15" VerticalAlignment="Top">
 			<StackPanel Spacing="10">
 				<TextBlock HorizontalAlignment="Left"
 						   FontSize="15"
@@ -119,7 +119,7 @@
 			</StackPanel>
 		</suki:GlassCard>
 
-		<Grid Margin="15 15 0 15">
+		<Grid Margin="20 15 13 15">
 			<suki:GlassCard Width="464.25"
 							Height="205"
 							VerticalAlignment="Top">
@@ -163,7 +163,7 @@
 		</Grid>
 
 		<suki:GlassCard Classes="Card"
-						Margin="15"
+						Margin="10 15"
 						Width="960"
 						Height="510">
 			<suki:BusyArea BusyText="{x:Static assets:Resources.Appmgr_Fetching}"

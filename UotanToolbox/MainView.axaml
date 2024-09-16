@@ -17,6 +17,7 @@
 				 BackgroundStyle="{Binding BackgroundStyle}"
 				 BackgroundTransitionsEnabled="{Binding TransitionsEnabled}"
                  CanResize="{Binding WindowLocked}"
+				 CanMaximize="False"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"
                  mc:Ignorable="d">

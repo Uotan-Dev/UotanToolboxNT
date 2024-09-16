@@ -11,7 +11,8 @@
 			 d:DesignWidth="1024"
              x:DataType="modifypartition:ModifypartitionViewModel"
              mc:Ignorable="d">
-	<WrapPanel Name="Modifypartition"
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Name="Modifypartition"
 			   Margin="15"
 			   theme:WrapPanelExtensions.AnimatedScroll="True"
 			   Orientation="Horizontal">
@@ -160,4 +161,5 @@
 			</StackPanel>
 		</suki:GlassCard>
 	</WrapPanel>
+	</ScrollViewer>
 </UserControl>

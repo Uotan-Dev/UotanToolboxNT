@@ -16,8 +16,8 @@
 	<UserControl.DataContext>
 		<appmgr:AppmgrViewModel />
 	</UserControl.DataContext>
-
-	<WrapPanel Margin="15"
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
                theme:WrapPanelExtensions.AnimatedScroll="True"
                Orientation="Horizontal">
 		<suki:GlassCard Height="205" Width="464.25" HorizontalAlignment="Left" Margin="10 15" VerticalAlignment="Top">
@@ -213,4 +213,5 @@
 			</suki:BusyArea>
 		</suki:GlassCard>
 	</WrapPanel>
+	</ScrollViewer>
 </UserControl>

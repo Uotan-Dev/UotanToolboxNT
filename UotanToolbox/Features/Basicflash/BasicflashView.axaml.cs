@@ -16,13 +16,13 @@ using UotanToolbox.Common.PatchHelper;
 
 namespace UotanToolbox.Features.Basicflash;
 
-public partial class BasicflashView(ISukiDialogManager dialogManager,ISukiToastManager sukiToastManager) : UserControl
+public partial class BasicflashView : UserControl
 {
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
-
+    ISukiDialogManager dialogManager;
     public AvaloniaList<string> SimpleUnlock = ["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"];
     public AvaloniaList<string> Arch = ["aarch64", "armeabi", "X86-64", "X86"];
 

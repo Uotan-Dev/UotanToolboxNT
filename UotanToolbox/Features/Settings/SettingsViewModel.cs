@@ -97,13 +97,7 @@ public partial class SettingsViewModel : MainPageBase
         else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
         else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
         UotanToolbox.Settings.Default.Save();
-        _ = toastManager.CreateToast()
-.WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}")
-.WithContent(GetTranslation("Settings_RestartTheApplication"))
-.OfType(NotificationType.Success)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+        //_ = toastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
     }
 
     [RelayCommand]

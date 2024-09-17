@@ -20,7 +20,7 @@ namespace UotanToolbox.Common
             };
             using Process adb = new Process();
             adb.StartInfo = adbexe;
-            adb.Start();
+            _ = adb.Start();
             string output = await adb.StandardOutput.ReadToEndAsync();
             if (output == "")
             {
@@ -42,7 +42,7 @@ namespace UotanToolbox.Common
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;
-            fb.Start();
+            _ = fb.Start();
             string output = await fb.StandardError.ReadToEndAsync();
             if (output == "")
             {
@@ -64,7 +64,7 @@ namespace UotanToolbox.Common
             };
             using Process devcon = new Process();
             devcon.StartInfo = fastboot;
-            devcon.Start();
+            _ = devcon.Start();
             string output = await devcon.StandardError.ReadToEndAsync();
             if (output == "")
             {
@@ -86,7 +86,7 @@ namespace UotanToolbox.Common
             };
             using Process qcn = new Process();
             qcn.StartInfo = qcntool;
-            qcn.Start();
+            _ = qcn.Start();
             string output = await qcn.StandardError.ReadToEndAsync();
             if (output == "")
             {
@@ -108,7 +108,7 @@ namespace UotanToolbox.Common
             };
             using Process pnp = new Process();
             pnp.StartInfo = pnputil;
-            pnp.Start();
+            _ = pnp.Start();
             string output = await pnp.StandardError.ReadToEndAsync();
             if (output == "")
             {
@@ -119,15 +119,7 @@ namespace UotanToolbox.Common
 
         public static async Task<string> LsUSB()
         {
-            string cmd;
-            if (Global.System == "macOS")
-            {
-                cmd = Path.Combine(Global.bin_path, "lsusb");
-            }
-            else
-            {
-                cmd = "lsusb";
-            }
+            string cmd = Global.System == "macOS" ? Path.Combine(Global.bin_path, "lsusb") : "lsusb";
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd)
             {
                 CreateNoWindow = true,
@@ -137,7 +129,7 @@ namespace UotanToolbox.Common
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;
-            fb.Start();
+            _ = fb.Start();
             string output = await fb.StandardError.ReadToEndAsync();
             if (output == "")
             {
@@ -159,7 +151,7 @@ namespace UotanToolbox.Common
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;
-            fb.Start();
+            _ = fb.Start();
             string output = await fb.StandardError.ReadToEndAsync();
             if (output == "")
             {
@@ -181,7 +173,7 @@ namespace UotanToolbox.Common
             };
             using Process sc = new Process();
             sc.StartInfo = scrcpy;
-            sc.Start();
+            _ = sc.Start();
             string output = await sc.StandardError.ReadToEndAsync();
             if (output == "")
             {
@@ -192,19 +184,11 @@ namespace UotanToolbox.Common
         }
         public static async Task<string> SevenZip(string args)
         {
-            string cmd;
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                cmd = Path.Combine(Global.bin_path, "7z", "7za.exe");
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) | (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)))
-            {
-                cmd = Path.Combine(Global.bin_path, "7zza");
-            }
-            else
-            {
-                throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux.");
-            }
+            string cmd = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                ? Path.Combine(Global.bin_path, "7z", "7za.exe")
+                : RuntimeInformation.IsOSPlatform(OSPlatform.Linux) | (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    ? Path.Combine(Global.bin_path, "7zza")
+                    : throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux.");
             ProcessStartInfo SevenZipexe = new ProcessStartInfo(cmd, args)
             {
                 CreateNoWindow = true,
@@ -214,7 +198,7 @@ namespace UotanToolbox.Common
             };
             using Process SevenZip = new Process();
             SevenZip.StartInfo = SevenZipexe;
-            SevenZip.Start();
+            _ = SevenZip.Start();
             string output = await SevenZip.StandardOutput.ReadToEndAsync();
             if (output == "")
             {
@@ -245,9 +229,11 @@ namespace UotanToolbox.Common
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            Process mb = new Process();
-            mb.StartInfo = magiskboot;
-            mb.Start();
+            Process mb = new Process
+            {
+                StartInfo = magiskboot
+            };
+            _ = mb.Start();
             string output = await mb.StandardError.ReadToEndAsync();
             if (output == "")
             {
@@ -269,7 +255,7 @@ namespace UotanToolbox.Common
             string cmd;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                var fileInfo = new ProcessStartInfo
+                ProcessStartInfo fileInfo = new ProcessStartInfo
                 {
                     FileName = Path.Combine(Global.bin_path, "File", "file.exe"),
                     Arguments = path,
@@ -278,12 +264,12 @@ namespace UotanToolbox.Common
                     RedirectStandardOutput = true,
                     RedirectStandardError = true
                 };
-                using var process = new Process
+                using Process process = new Process
                 {
                     StartInfo = fileInfo,
                     EnableRaisingEvents = true
                 };
-                process.Start();
+                _ = process.Start();
                 string output = await process.StandardOutput.ReadToEndAsync();
                 string error = await process.StandardError.ReadToEndAsync();
                 process.WaitForExit();
@@ -291,7 +277,7 @@ namespace UotanToolbox.Common
             }
             else
             {
-                var fileInfo = new ProcessStartInfo
+                ProcessStartInfo fileInfo = new ProcessStartInfo
                 {
                     FileName = "/usr/bin/file",
                     Arguments = path,
@@ -300,12 +286,12 @@ namespace UotanToolbox.Common
                     RedirectStandardOutput = true,
                     RedirectStandardError = true
                 };
-                using var process = new Process
+                using Process process = new Process
                 {
                     StartInfo = fileInfo,
                     EnableRaisingEvents = true
                 };
-                process.Start();
+                _ = process.Start();
                 string output = await process.StandardOutput.ReadToEndAsync();
                 string error = await process.StandardError.ReadToEndAsync();
                 process.WaitForExit();

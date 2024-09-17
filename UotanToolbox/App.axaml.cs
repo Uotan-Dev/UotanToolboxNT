@@ -1,12 +1,12 @@
+using System;
+using System.Globalization;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Globalization;
-using System.Linq;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
 using UotanToolbox.Services;
@@ -25,15 +25,15 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        CultureInfo CurCulture;
-        if (Settings.Default.Language != null && Settings.Default.Language != "") CurCulture = new CultureInfo(Settings.Default.Language, false);
-        else CurCulture = CultureInfo.CurrentCulture;
+        CultureInfo CurCulture = Settings.Default.Language is not null and not ""
+            ? new CultureInfo(Settings.Default.Language, false)
+            : CultureInfo.CurrentCulture;
         Assets.Resources.Culture = CurCulture;
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var viewLocator = _provider?.GetRequiredService<IDataTemplate>();
-            var mainVm = _provider?.GetRequiredService<MainViewModel>();
+            IDataTemplate viewLocator = _provider?.GetRequiredService<IDataTemplate>();
+            MainViewModel mainVm = _provider?.GetRequiredService<MainViewModel>();
 
             desktop.MainWindow = viewLocator?.Build(mainVm) as Window;
             desktop.MainWindow.Width = 1240;
@@ -45,20 +45,25 @@ public partial class App : Application
 
     private static ServiceProvider ConfigureServices()
     {
-        var viewlocator = Current?.DataTemplates.First(x => x is ViewLocator);
-        var services = new ServiceCollection();
+        IDataTemplate viewlocator = Current?.DataTemplates.First(x => x is ViewLocator);
+        ServiceCollection services = new ServiceCollection();
 
         if (viewlocator is not null)
-            services.AddSingleton(viewlocator);
-        services.AddSingleton<PageNavigationService>();
+        {
+            _ = services.AddSingleton(viewlocator);
+        }
+
+        _ = services.AddSingleton<PageNavigationService>();
 
         // Viewmodels
-        services.AddSingleton<MainViewModel>();
-        var types = AppDomain.CurrentDomain.GetAssemblies()
+        _ = services.AddSingleton<MainViewModel>();
+        System.Collections.Generic.IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(p => !p.IsAbstract && typeof(MainPageBase).IsAssignableFrom(p));
-        foreach (var type in types)
-            services.AddSingleton(typeof(MainPageBase), type);
+        foreach (Type type in types)
+        {
+            _ = services.AddSingleton(typeof(MainPageBase), type);
+        }
 
         return services.BuildServiceProvider();
     }

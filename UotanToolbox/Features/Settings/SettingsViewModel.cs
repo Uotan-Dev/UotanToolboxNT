@@ -1,18 +1,20 @@
-﻿using Avalonia.Collections;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Avalonia.Collections;
+using Avalonia.Controls.Notifications;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using Newtonsoft.Json;
 using SukiUI;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using SukiUI.Enums;
 using SukiUI.Models;
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Components;
+
 using UotanToolbox.Utilities;
 
 namespace UotanToolbox.Features.Settings;
@@ -28,7 +30,7 @@ public partial class SettingsViewModel : MainPageBase
     public IAvaloniaReadOnlyList<SukiBackgroundStyle> AvailableBackgroundStyles { get; }
     public IAvaloniaReadOnlyList<string> CustomShaders { get; } = new AvaloniaList<string> { "Space", "Weird", "Clouds" };
 
-    public AvaloniaList<string> LanguageList { get; } = [GetTranslation("Settings_Default"),"English","简体中文"];
+    public AvaloniaList<string> LanguageList { get; } = [GetTranslation("Settings_Default"), "English", "简体中文"];
     [ObservableProperty] private string _selectedLanguageList;
 
     private readonly SukiTheme _theme = SukiTheme.GetInstance();
@@ -39,15 +41,30 @@ public partial class SettingsViewModel : MainPageBase
     [ObservableProperty] private bool _backgroundTransitions;
     [ObservableProperty] private string _currentVersion = Global.currentVersion;
     [ObservableProperty] private string _binVersion = null;
-
+    private ISukiDialogManager dialogManager;
+    private ISukiToastManager toastManager;
     private string _customShader = null;
 
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
+
     public SettingsViewModel() : base(GetTranslation("Sidebar_Settings"), MaterialIconKind.SettingsOutline, -200)
     {
-        if (UotanToolbox.Settings.Default.Language == null || UotanToolbox.Settings.Default.Language == "") SelectedLanguageList = GetTranslation("Settings_Default");
-        else if (UotanToolbox.Settings.Default.Language == "en-US") SelectedLanguageList = "English";
-        else if (UotanToolbox.Settings.Default.Language == "zh-CN") SelectedLanguageList = "简体中文";
+        if (UotanToolbox.Settings.Default.Language is null or "")
+        {
+            SelectedLanguageList = GetTranslation("Settings_Default");
+        }
+        else if (UotanToolbox.Settings.Default.Language == "en-US")
+        {
+            SelectedLanguageList = "English";
+        }
+        else if (UotanToolbox.Settings.Default.Language == "zh-CN")
+        {
+            SelectedLanguageList = "简体中文";
+        }
+
         _ = CheckBinVersion();
         AvailableBackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         AvailableColors = _theme.ColorThemes;
@@ -80,12 +97,20 @@ public partial class SettingsViewModel : MainPageBase
         else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
         else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
         UotanToolbox.Settings.Default.Save();
-        SukiHost.ShowToast(GetTranslation("Settings_LanguageHasBeenSet"), GetTranslation("Settings_RestartTheApplication"));
+        _ = toastManager.CreateToast()
+.WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}")
+.WithContent(GetTranslation("Settings_RestartTheApplication"))
+.OfType(NotificationType.Success)
+.Dismiss().ByClicking()
+.Dismiss().After(TimeSpan.FromSeconds(3))
+.Queue();
     }
 
     [RelayCommand]
-    private void SwitchToColorTheme(SukiColorTheme colorTheme) =>
+    private void SwitchToColorTheme(SukiColorTheme colorTheme)
+    {
         _theme.ChangeColorTheme(colorTheme);
+    }
 
     partial void OnBackgroundStyleChanged(SukiBackgroundStyle value) =>
         BackgroundStyleChanged?.Invoke(value);
@@ -104,45 +129,63 @@ public partial class SettingsViewModel : MainPageBase
     }
 
     [RelayCommand]
-    private void OpenURL(string url) => UrlUtilities.OpenURL(url);
+    private void OpenURL(string url)
+    {
+        UrlUtilities.OpenURL(url);
+    }
 
     [RelayCommand]
-    private static async Task GetUpdate()
+    private async Task GetUpdate()
     {
         try
         {
-            using (HttpClient client = new HttpClient())
-            {
-                string url = "https://toolbox.uotan.cn/api/list";
-                var content = new StringContent("{}", System.Text.Encoding.UTF8);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                HttpResponseMessage response = await client.PostAsync(url, content);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
+            using HttpClient client = new HttpClient();
+            string url = "https://toolbox.uotan.cn/api/list";
+            StringContent content = new StringContent("{}", System.Text.Encoding.UTF8);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            HttpResponseMessage response = await client.PostAsync(url, content);
+            _ = response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
 
-                dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
-                SettingsViewModel vm = new SettingsViewModel();
-                if (convertedBody.release_version != vm.CurrentVersion)
+            dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
+            SettingsViewModel vm = new SettingsViewModel();
+            if (convertedBody.release_version != vm.CurrentVersion)
+            {
+                bool result = false;
+                dialogManager.CreateDialog()
+.WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+.WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+                if (result == true)
                 {
-                    var dialog = new CustomizedDialog(GetTranslation("Settings_NewVersionAvailable"), convertedBody.release_content);
-                    await SukiHost.ShowDialogAsync(dialog);
-                    if (dialog.Result == true) UrlUtilities.OpenURL("https://toolbox.uotan.cn");
+                    UrlUtilities.OpenURL("https://toolbox.uotan.cn");
                 }
-                else if (convertedBody.beta_version != vm.CurrentVersion)
+            }
+            else if (convertedBody.beta_version != vm.CurrentVersion)
+            {
+                bool result = false;
+                dialogManager.CreateDialog()
+.WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+.WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+                if (result == true)
                 {
-                    var dialog = new CustomizedDialog(GetTranslation("Settings_NewVersionAvailable"), convertedBody.beta_content);
-                    await SukiHost.ShowDialogAsync(dialog);
-                    if (dialog.Result == true) UrlUtilities.OpenURL("https://toolbox.uotan.cn");
+                    UrlUtilities.OpenURL("https://toolbox.uotan.cn");
                 }
-                else
-                {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Settings_UpToDate")), allowBackgroundClose: true);
-                }
+            }
+            else
+            {
+
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         catch (HttpRequestException e)
         {
-            SukiHost.ShowDialog(new ErrorDialog(e.Message));
+            _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent(e.Message).TryShow();
         }
     }
 }

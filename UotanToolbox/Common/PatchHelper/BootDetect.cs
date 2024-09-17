@@ -8,14 +8,20 @@ namespace UotanToolbox.Common.PatchHelper
 {
     internal class BootDetect
     {
-        private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-        public static async Task<BootInfo> Boot_Detect(string path)
+        private static string GetTranslation(string key)
         {
-            BootInfo bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
-            bootinfo.Path = path;
+            return FeaturesHelper.GetTranslation(key);
+        }
+
+        public async Task<BootInfo> Boot_Detect(string path)
+        {
+            BootInfo bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "")
+            {
+                Path = path
+            };
             bootinfo.SHA1 = await FileHelper.SHA1HashAsync(bootinfo.Path);
             bootinfo.TempPath = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
-            bool istempclean = FileHelper.ClearFolder(bootinfo.TempPath);
+            bool istempclean = true; // FileHelper.ClearFolder(bootinfo.TempPath);
             if (!istempclean)
             {
                 throw new Exception(GetTranslation("Basicflash_FatalError"));
@@ -39,22 +45,11 @@ namespace UotanToolbox.Common.PatchHelper
         }
         private static (bool, string) dtb_detect(string temp)
         {
-            if (File.Exists(Path.Combine(temp, "dtb")))
-            {
-                return (true, "dtb");
-            }
-            else if (File.Exists(Path.Combine(temp, "kernel_dtb")))
-            {
-                return (true, "kernel_dtb");
-            }
-            else if (File.Exists(Path.Combine(temp, "extra")))
-            {
-                return (true, "extra");
-            }
-            else
-            {
-                return (false, "");
-            }
+            return File.Exists(Path.Combine(temp, "dtb"))
+                ? (true, "dtb")
+                : File.Exists(Path.Combine(temp, "kernel_dtb"))
+                    ? (true, "kernel_dtb")
+                    : File.Exists(Path.Combine(temp, "extra")) ? (true, "extra") : (false, "");
         }
 
         private static async Task<(string, string, bool, bool, string)> kernel_detect(string temp)
@@ -66,7 +61,7 @@ namespace UotanToolbox.Common.PatchHelper
                 have_kernel = true;
                 version = FileHelper.ReadKernelVersion(Path.Combine(temp, "kernel"));
                 kmi = StringHelper.ExtractKMI(version);
-                if (!String.IsNullOrEmpty(kmi))
+                if (!string.IsNullOrEmpty(kmi))
                 {
                     gki2 = true;
                 }
@@ -79,7 +74,6 @@ namespace UotanToolbox.Common.PatchHelper
         public static async Task<(bool, string)> ramdisk_detect(string tmp_path)
         {
             bool have_ramdisk = false;
-            string init_info = "";
             string arch = "";
             if (File.Exists(Path.Combine(tmp_path, "ramdisk.cpio")))
             {
@@ -91,19 +85,20 @@ namespace UotanToolbox.Common.PatchHelper
                 if (Global.System != "Windows")
                 {
                     workpath = Path.Combine(tmp_path, "ramdisk");
-                    Directory.CreateDirectory(workpath);
+                    _ = Directory.CreateDirectory(workpath);
                 }
-                (string outputcpio, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" test", workpath);
+
+                (_, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" test", workpath);
                 if (exitcode != 0)
                 {
                     throw new Exception("Do not support magisk patched boot.img");
                 }
-                (outputcpio, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" \"exists kernelsu.ko\"", workpath);
+                (_, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" \"exists kernelsu.ko\"", workpath);
                 if (exitcode == 0)
                 {
                     throw new Exception("Do not support kernelsu patched boot.img");
                 }
-                (outputcpio, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
+                (_, _) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
                 if (Global.System == "macOS")
                 {
                     ramdisk_path = Path.Join("/private", ramdisk_path);
@@ -113,7 +108,7 @@ namespace UotanToolbox.Common.PatchHelper
                 {
                     initPath = Path.Join(ramdisk_path, "/system/bin/init");
                 }
-                init_info = await CallExternalProgram.File($"\"{initPath}\"");
+                string init_info = await CallExternalProgram.File($"\"{initPath}\"");
                 arch = ArchDetect(init_info);
             }
             return (have_ramdisk, arch);
@@ -129,10 +124,12 @@ namespace UotanToolbox.Common.PatchHelper
 
         private static string ArchDetect(string init_info)
         {
-            foreach (var entry in ArchMappings)
+            foreach (KeyValuePair<string, string> entry in ArchMappings)
             {
                 if (init_info.Contains(entry.Key))
+                {
                     return entry.Value;
+                }
             }
             throw new Exception(GetTranslation("Basicflash_ELFError"));
         }

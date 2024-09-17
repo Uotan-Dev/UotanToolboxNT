@@ -1,3 +1,7 @@
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -6,10 +10,6 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using SukiUI.Controls;
 using SukiUI.Models;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Settings;
 
@@ -20,16 +20,28 @@ public partial class MainView : SukiWindow
     public MainView()
     {
         InitializeComponent();
-        var bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
+        Bitmap bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
         Icon = new WindowIcon(bitmap);
 
     }
 
     private void MenuItem_OnClick(object sender, RoutedEventArgs e)
     {
-        if (DataContext is not MainViewModel vm) return;
-        if (e.Source is not MenuItem mItem) return;
-        if (mItem.DataContext is not SukiColorTheme cTheme) return;
+        if (DataContext is not MainViewModel vm)
+        {
+            return;
+        }
+
+        if (e.Source is not MenuItem mItem)
+        {
+            return;
+        }
+
+        if (mItem.DataContext is not SukiColorTheme cTheme)
+        {
+            return;
+        }
+
         vm.ChangeTheme(cTheme);
     }
 
@@ -42,7 +54,7 @@ public partial class MainView : SukiWindow
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            Process.Start(new ProcessStartInfo
+            _ = Process.Start(new ProcessStartInfo
             {
                 FileName = "cmd.exe",
                 WorkingDirectory = Path.Combine(Global.bin_path, "platform-tools"),
@@ -67,11 +79,11 @@ public partial class MainView : SukiWindow
             "wezterm"              // Wezterm terminal
             };
 
-            foreach (var terminal in terminalCommands)
+            foreach (string terminal in terminalCommands)
             {
                 try
                 {
-                    Process.Start(new ProcessStartInfo
+                    _ = Process.Start(new ProcessStartInfo
                     {
                         FileName = terminal,
                         Arguments = $"--working-directory={Path.Combine(Global.bin_path, "platform-tools", "adb")}",
@@ -87,7 +99,7 @@ public partial class MainView : SukiWindow
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
-            Process.Start("open", "-a Terminal " + Path.Combine(Global.bin_path, "platform-tools", "adb"));
+            _ = Process.Start("open", "-a Terminal " + Path.Combine(Global.bin_path, "platform-tools", "adb"));
         }
     }
 

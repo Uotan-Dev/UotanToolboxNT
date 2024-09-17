@@ -1,12 +1,11 @@
-﻿
-using SukiUI.Controls;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using UotanToolbox.Features.Components;
+using SukiUI.Dialogs;
+
 
 namespace UotanToolbox.Common
 {
@@ -28,10 +27,11 @@ namespace UotanToolbox.Common
                     devices[i] = device[0];
                 }
             }
-            devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            devices = devices.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             return devices;
         }
 
+        private ISukiDialogManager dialogManager;
         public static string[] FastbootDevices(string FastbootInfo)
         {
             string[] devices = new string[20];
@@ -44,7 +44,7 @@ namespace UotanToolbox.Common
                     devices[i] = device[0];
                 }
             }
-            devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            devices = devices.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             return devices;
         }
 
@@ -60,10 +60,12 @@ namespace UotanToolbox.Common
                     {
                         string[] deviceParts = Lines[i].Split(new[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
                         if (deviceParts.Length > 1)
+                        {
                             devices[i] = deviceParts[1];
+                        }
                     }
                 }
-                devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+                devices = devices.Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 return devices;
             }
             else
@@ -83,7 +85,7 @@ namespace UotanToolbox.Common
                         devices[i] = "Unknown device";
                     }
                 }
-                devices = devices.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+                devices = devices.Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 return devices;
             }
         }
@@ -106,21 +108,23 @@ namespace UotanToolbox.Common
         {
             string[] lines = str.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             string result = string.Concat(lines);
-            if (string.IsNullOrEmpty(result) || result.Contains("not found") || result.Contains("dialog on your device") || result.Contains("device offline") || result.Contains("closed"))
-                return "--";
-            return result;
+            return string.IsNullOrEmpty(result) || result.Contains("not found") || result.Contains("dialog on your device") || result.Contains("device offline") || result.Contains("closed")
+                ? "--"
+                : result;
         }
 
         public static string ColonSplit(string info)
         {
-            var parts = info.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = info.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
             return parts.Length > 0 ? parts.Last() : "--";
         }
 
         public static string Density(string info)
         {
             if (string.IsNullOrEmpty(info) || info.Contains("not found") || info.Contains("dialog on your device") || info.Contains("device offline") || info.Contains("closed"))
+            {
                 return "--";
+            }
             else
             {
                 string[] Lines = info.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -139,11 +143,11 @@ namespace UotanToolbox.Common
                     if (Lines[i].Contains("level") || Lines[i].Contains("voltage") || Lines[i].Contains("temperature"))
                     {
                         string[] device = Lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                        infos[i] = device[device.Length - 1];
+                        infos[i] = device[^1];
                     }
                 }
             }
-            infos = infos.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            infos = infos.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             return infos;
         }
 
@@ -156,10 +160,10 @@ namespace UotanToolbox.Common
                 if (Lines[i].Contains("MemTotal") || Lines[i].Contains("MemAvailable"))
                 {
                     string[] device = Lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                    infos[i] = device[device.Length - 2];
+                    infos[i] = device[^2];
                 }
             }
-            infos = infos.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            infos = infos.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             return infos;
         }
 
@@ -169,8 +173,11 @@ namespace UotanToolbox.Common
             string[] lines = info.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             string targetLine = lines.FirstOrDefault(line => line.Contains(find));
             if (targetLine != null)
+            {
                 columns = targetLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            columns = columns.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            }
+
+            columns = columns.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             return columns;
         }
 
@@ -178,9 +185,7 @@ namespace UotanToolbox.Common
         {
             string[] infos = info.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             string targetInfo = infos.FirstOrDefault(info => info.Contains(find));
-            if (targetInfo != null)
-                return ColonSplit(RemoveLineFeed(targetInfo));
-            return "--";
+            return targetInfo != null ? ColonSplit(RemoveLineFeed(targetInfo)) : "--";
         }
 
         public static string FilePath(string path)
@@ -188,7 +193,7 @@ namespace UotanToolbox.Common
             if (path.Contains("file:///"))
             {
                 int startIndex = Global.System == "Windows" ? 8 : 7;
-                return path.Substring(startIndex);
+                return path[startIndex..];
             }
             return Uri.UnescapeDataString(path);
         }
@@ -211,10 +216,7 @@ namespace UotanToolbox.Common
         {
             string pattern = @"[-+]?\d*\.\d+|[-+]?\d+";
             Match match = Regex.Match(text, pattern);
-            if (float.TryParse(match.Value, out float result))
-                return result;
-            else
-                return 0;
+            return float.TryParse(match.Value, out float result) ? result : 0;
         }
 
         public static int GetDP(string wm, string dpi)
@@ -236,9 +238,9 @@ namespace UotanToolbox.Common
             try
             {
                 string sevenzip_info = await CallExternalProgram.SevenZip("i");
-                var lines = sevenzip_info.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                var nonEmptyLines = lines.Where(line => !string.IsNullOrWhiteSpace(line));
-                var firstThreeLines = nonEmptyLines.Take(1);
+                string[] lines = sevenzip_info.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                System.Collections.Generic.IEnumerable<string> nonEmptyLines = lines.Where(line => !string.IsNullOrWhiteSpace(line));
+                System.Collections.Generic.IEnumerable<string> firstThreeLines = nonEmptyLines.Take(1);
                 sevenzip_version = string.Join(Environment.NewLine, firstThreeLines) + Environment.NewLine;
             }
             catch
@@ -286,7 +288,9 @@ namespace UotanToolbox.Common
                     string[] partno = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                     int lastPartIndex = partno.Length == 5 ? 4 : 5;
                     if (partno[lastPartIndex] == findpart)
+                    {
                         return partno[0];
+                    }
                 }
             }
             return null;
@@ -296,7 +300,7 @@ namespace UotanToolbox.Common
         {
             string[] Lines = PartTable.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             string[] NeedLine = Lines[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            string size = NeedLine[NeedLine.Length - 1];
+            string size = NeedLine[^1];
             return size;
         }
 
@@ -309,7 +313,7 @@ namespace UotanToolbox.Common
         /// <returns>匹配到的字符串信息</returns>
         /// <exception cref="FileNotFoundException">当指定的文件路径不存在时抛出。</exception>
         /// <exception cref="Exception">读取文件出错时抛出</exception>
-        public static string FileRegex(string filePath, string regex, int i)
+        public string FileRegex(string filePath, string regex, int i)
         {
             try
             {
@@ -322,18 +326,18 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new ErrorDialog($"Unable to find {regex} in the file: {filePath}"));
+                    _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"Unable to find {regex} in the file: {filePath}").TryShow();
                     return null;
                 }
             }
             catch (FileNotFoundException)
             {
-                SukiHost.ShowDialog(new ErrorDialog($"File not found: {filePath}"));
+                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"File not found: {filePath}").TryShow();
                 return null;
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ErrorDialog($"An error occurred while reading the file: {ex.Message}"));
+                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"An error occurred while reading the file: {ex.Message}").TryShow();
                 return null;
             }
         }
@@ -343,7 +347,7 @@ namespace UotanToolbox.Common
             StringBuilder result = new StringBuilder(length);
             for (int i = 0; i < length; i++)
             {
-                result.Append(chars[random.Next(chars.Length)]);
+                _ = result.Append(chars[random.Next(chars.Length)]);
             }
             return result.ToString();
         }
@@ -355,10 +359,17 @@ namespace UotanToolbox.Common
         /// <returns>包含按指定规则读取的数据的新字节数组。</returns>
         public static byte[] ReadBytesWithInterval(byte[] source, int startIndex)
         {
-            if (source == null) throw new ArgumentNullException(nameof(source));
-            if (startIndex < 0 || startIndex >= source.Length) throw new ArgumentOutOfRangeException(nameof(startIndex));
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
 
-            var result = new byte[(source.Length - startIndex + 1) / 2]; // 计算目标数组的最大可能长度
+            if (startIndex < 0 || startIndex >= source.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            }
+
+            byte[] result = new byte[(source.Length - startIndex + 1) / 2]; // 计算目标数组的最大可能长度
 
             for (int i = startIndex, j = 0; i < source.Length && j < result.Length; i += 2, j++)
             {
@@ -373,14 +384,14 @@ namespace UotanToolbox.Common
         /// <returns>KMI版本号</returns>
         public static string ExtractKMI(string version)
         {
-            var pattern = @"(.* )?(\d+\.\d+)(\S+)?(android\d+)(.*)";
-            var match = Regex.Match(version, pattern);
+            string pattern = @"(.* )?(\d+\.\d+)(\S+)?(android\d+)(.*)";
+            Match match = Regex.Match(version, pattern);
             if (!match.Success)
             {
                 return "";
             }
-            var androidVersion = match.Groups[4].Value;
-            var kernelVersion = match.Groups[2].Value;
+            string androidVersion = match.Groups[4].Value;
+            string kernelVersion = match.Groups[2].Value;
             return $"{androidVersion}-{kernelVersion}";
         }
 
@@ -407,7 +418,7 @@ namespace UotanToolbox.Common
             byte[] comBuffer = new byte[msg.Length / 2];
             for (int i = 0; i < msg.Length; i += 2)
             {
-                comBuffer[i / 2] = (byte)Convert.ToByte(msg.Substring(i, 2), 16);
+                comBuffer[i / 2] = Convert.ToByte(msg.Substring(i, 2), 16);
             }
 
             return comBuffer;
@@ -418,7 +429,7 @@ namespace UotanToolbox.Common
             byte[] comBuffer = new byte[data.Length / 2];
             for (int i = 0; i < data.Length; i += 2)
             {
-                comBuffer[i / 2] = (byte)Convert.ToByte(data.Substring(i, 2), 16);
+                comBuffer[i / 2] = Convert.ToByte(data.Substring(i, 2), 16);
             }
             string result = Encoding.Default.GetString(comBuffer);
             return result;
@@ -428,7 +439,7 @@ namespace UotanToolbox.Common
             StringBuilder result = new StringBuilder(data.Length * 2);
             for (int i = 0; i < data.Length; i++)
             {
-                result.Append(((int)data[i]).ToString("X2") + " ");
+                _ = result.Append(((int)data[i]).ToString("X2") + " ");
             }
             return Convert.ToString(result);
         }

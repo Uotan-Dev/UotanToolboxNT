@@ -5,7 +5,11 @@ namespace UotanToolbox.Features.Basicflash;
 
 public partial class BasicflashViewModel : MainPageBase
 {
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
+
     public BasicflashViewModel() : base(GetTranslation("Sidebar_Basicflash"), MaterialIconKind.CableData, -1000)
     {
     }

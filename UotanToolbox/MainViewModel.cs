@@ -1,17 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Collections;
+using Avalonia.Controls.Notifications;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SukiUI;
-using SukiUI.Controls;
 using SukiUI.Enums;
 using SukiUI.Models;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Resources;
-using System.Threading.Tasks;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
 using UotanToolbox.Features.Settings;
@@ -40,11 +39,15 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     private string _status, _codeName, _bLStatus, _vABStatus;
-
+    private ISukiToastManager toastManager;
     private readonly SukiTheme _theme;
     private readonly SettingsViewModel _theming;
 
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
+
     public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav)
     {
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
@@ -59,8 +62,12 @@ public partial class MainViewModel : ObservableObject
         _theme = SukiTheme.GetInstance();
         nav.NavigationRequested += t =>
         {
-            var page = DemoPages.FirstOrDefault(x => x.GetType() == t);
-            if (page is null || ActivePage?.GetType() == t) return;
+            MainPageBase page = DemoPages.FirstOrDefault(x => x.GetType() == t);
+            if (page is null || ActivePage?.GetType() == t)
+            {
+                return;
+            }
+
             ActivePage = page;
         };
         Themes = _theme.ColorThemes;
@@ -68,10 +75,22 @@ public partial class MainViewModel : ObservableObject
         _theme.OnBaseThemeChanged += async variant =>
         {
             BaseTheme = variant;
-            await SukiHost.ShowToast($"{GetTranslation("MainView_SuccessfullyChangedTheme")}", $"{GetTranslation("MainView_ChangedThemeTo")} {variant}");
+            _ = toastManager.CreateToast()
+.WithTitle($"{GetTranslation("MainView_SuccessfullyChangedTheme")}")
+.WithContent($"{GetTranslation("MainView_ChangedThemeTo")} {variant}")
+.OfType(NotificationType.Success)
+.Dismiss().ByClicking()
+.Dismiss().After(TimeSpan.FromSeconds(3))
+.Queue();
         };
         _theme.OnColorThemeChanged += async theme =>
-            await SukiHost.ShowToast($"{GetTranslation("MainView_SuccessfullyChangedColor")}", $"{GetTranslation("MainView_ChangedColorTo")} {theme.DisplayName}.");
+                    toastManager.CreateToast()
+.WithTitle($"{GetTranslation("MainView_SuccessfullyChangedColor")}")
+.WithContent($"{GetTranslation("MainView_ChangedColorTo")} {theme.DisplayName}")
+.OfType(NotificationType.Success)
+.Dismiss().ByClicking()
+.Dismiss().After(TimeSpan.FromSeconds(3))
+.Queue();
         GlobalData.MainViewModelInstance = this;
     }
 
@@ -79,20 +98,34 @@ public partial class MainViewModel : ObservableObject
     private Task ToggleAnimations()
     {
         AnimationsEnabled = !AnimationsEnabled;
-        var title = AnimationsEnabled ? $"{GetTranslation("MainView_AnimationEnabled")}" : $"{GetTranslation("MainView_AnimationDisabled")}";
-        var content = AnimationsEnabled
+        string title = AnimationsEnabled ? $"{GetTranslation("MainView_AnimationEnabled")}" : $"{GetTranslation("MainView_AnimationDisabled")}";
+        string content = AnimationsEnabled
             ? $"{GetTranslation("MainView_BackgroundAnimationsEnabled")}"
             : $"{GetTranslation("MainView_BackgroundAnimationsDisabled")}";
-        return SukiHost.ShowToast(title, content);
+        return (Task)toastManager.CreateToast()
+.WithTitle(title)
+.WithContent(content)
+.OfType(NotificationType.Success)
+.Dismiss().ByClicking()
+.Dismiss().After(TimeSpan.FromSeconds(3))
+.Queue();
+
     }
 
     [RelayCommand]
-    private void ToggleBaseTheme() =>
+    private void ToggleBaseTheme()
+    {
         _theme.SwitchBaseTheme();
+    }
 
-    public void ChangeTheme(SukiColorTheme theme) =>
+    public void ChangeTheme(SukiColorTheme theme)
+    {
         _theme.ChangeColorTheme(theme);
+    }
 
     [RelayCommand]
-    private static void OpenURL(string url) => UrlUtilities.OpenURL(url);
+    private static void OpenURL(string url)
+    {
+        UrlUtilities.OpenURL(url);
+    }
 }

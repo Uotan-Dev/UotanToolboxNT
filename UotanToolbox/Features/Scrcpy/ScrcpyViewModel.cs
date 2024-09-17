@@ -1,14 +1,14 @@
-﻿using Avalonia.Threading;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Avalonia.Controls.Notifications;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using ReactiveUI;
-using SukiUI.Controls;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+using SukiUI.Dialogs;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Scrcpy;
 
@@ -23,11 +23,15 @@ public partial class ScrcpyViewModel : MainPageBase
     [ObservableProperty][Range(0d, 50d)] private double _bitRate = 8;
     [ObservableProperty][Range(0d, 144d)] private double _frameRate = 60;
     [ObservableProperty][Range(0d, 2048d)] private double _sizeResolution = 0;
+    private ISukiDialogManager dialogManager;
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
 
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public ScrcpyViewModel() : base("Scrcpy", MaterialIconKind.CellphoneLink, -500)
     {
-        this.WhenAnyValue(x => x.ComputerControl)
+        _ = this.WhenAnyValue(x => x.ComputerControl)
             .Subscribe(jug =>
             {
                 if (!jug)
@@ -35,7 +39,10 @@ public partial class ScrcpyViewModel : MainPageBase
                     ScreenAwakeStatus = false;
                     ScreenAwake = false;
                 }
-                else ScreenAwakeStatus = true;
+                else
+                {
+                    ScreenAwakeStatus = true;
+                }
             });
     }
 
@@ -55,9 +62,9 @@ public partial class ScrcpyViewModel : MainPageBase
                         string arg = $"-s \"{Global.thisdevice}\" ";
                         if (RecordScreen)
                         {
-                            if (String.IsNullOrEmpty(RecordFolder))
+                            if (string.IsNullOrEmpty(RecordFolder))
                             {
-                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Scrcpy_RecordFileNotChosen")), allowBackgroundClose: true);
+                                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Scrcpy_RecordFileNotChosen")).Dismiss().ByClickingBackground().TryShow();
                                 IsConnecting = false;
                                 return;
                             }
@@ -66,38 +73,77 @@ public partial class ScrcpyViewModel : MainPageBase
                             arg += $"--record {RecordFolder}/{Global.thisdevice}-{formattedDateTime}.mp4 ";
                         }
                         arg += $"--video-bit-rate {BitRate}M --max-fps {FrameRate} ";
-                        if (SizeResolution != 0) arg += $"--max-size {SizeResolution} ";
+                        if (SizeResolution != 0)
+                        {
+                            arg += $"--max-size {SizeResolution} ";
+                        }
 
-                        if (WindowTitle != "" && WindowTitle != null)
+                        if (WindowTitle is not "" and not null)
                         {
                             arg += $"--window-title \"{WindowTitle.Replace("\"", "\\\"")}\" ";
                         }
-                        if (WindowFixed) arg += "--always-on-top ";
-                        if (FullScreen) arg += "--fullscreen ";
-                        if (!ShowBorder) arg += "--window-borderless ";
-                        if (ShowTouch) arg += "--show-touches ";
-                        if (!ComputerControl) arg += "--no-control ";
-                        if (CloseScreen) arg += "--turn-screen-off ";
-                        if (ScreenAwake) arg += "--stay-awake ";
-                        if (!ClipboardSync) arg += "--no-clipboard-autosync ";
-                        if (CameraMirror) arg += "--video-source=camera ";
-                        await CallExternalProgram.Scrcpy(arg);
+                        if (WindowFixed)
+                        {
+                            arg += "--always-on-top ";
+                        }
+
+                        if (FullScreen)
+                        {
+                            arg += "--fullscreen ";
+                        }
+
+                        if (!ShowBorder)
+                        {
+                            arg += "--window-borderless ";
+                        }
+
+                        if (ShowTouch)
+                        {
+                            arg += "--show-touches ";
+                        }
+
+                        if (!ComputerControl)
+                        {
+                            arg += "--no-control ";
+                        }
+
+                        if (CloseScreen)
+                        {
+                            arg += "--turn-screen-off ";
+                        }
+
+                        if (ScreenAwake)
+                        {
+                            arg += "--stay-awake ";
+                        }
+
+                        if (!ClipboardSync)
+                        {
+                            arg += "--no-clipboard-autosync ";
+                        }
+
+                        if (CameraMirror)
+                        {
+                            arg += "--video-source=camera ";
+                        }
+
+                        _ = await CallExternalProgram.Scrcpy(arg);
                         IsConnecting = false;
                     });
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotSupportSystem")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 }

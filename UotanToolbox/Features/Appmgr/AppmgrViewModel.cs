@@ -1,15 +1,15 @@
-﻿using Avalonia.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Material.Icons;
-using SukiUI.Controls;
-using SukiUI.Enums;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Avalonia.Controls.Notifications;
+using Avalonia.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Material.Icons;
+using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Appmgr;
 
@@ -23,7 +23,13 @@ public partial class AppmgrViewModel : MainPageBase
     private bool isSystemAppDisplayed = false, isInstalling = false;
     [ObservableProperty]
     private string _apkFile;
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private ISukiDialogManager dialogManager;
+    private ISukiToastManager toastManager;
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
+
     public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
     }
@@ -40,20 +46,28 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+                                .OfType(NotificationType.Error)
+                                .WithTitle("Error")
+                                .WithContent(GetTranslation("Common_NotConnected"))
+                                .Dismiss().ByClickingBackground()
+                                .TryShow();
                 });
                 IsBusy = false; return;
             }
-            string fullApplicationsList;
-            if (!IsSystemAppDisplayed)
-                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
-            else
-                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
+            string fullApplicationsList = !IsSystemAppDisplayed
+                ? await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3")
+                : await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
             if (fullApplicationsList.Contains("cannot connect to daemon"))
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_DeviceFailedToConnect")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+                                .OfType(NotificationType.Error)
+                                .WithTitle("Error")
+                                .WithContent(GetTranslation("Common_DeviceFailedToConnect"))
+                                .Dismiss().ByClickingBackground()
+                                .TryShow();
                 });
                 IsBusy = false; return;
             }
@@ -61,23 +75,32 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_PleaseExecuteInSystem")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+                                .OfType(NotificationType.Error)
+                                .WithTitle("Error")
+                                .WithContent(GetTranslation("Appmgr_PleaseExecuteInSystem"))
+                                .Dismiss().ByClickingBackground()
+                                .TryShow();
                 });
                 IsBusy = false; return;
             }
-            var lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
             HasItems = lines.Length > 0;
-            var applicationInfosTasks = lines.Select(async line =>
+            System.Collections.Generic.IEnumerable<Task<ApplicationInfo>> applicationInfosTasks = lines.Select(async line =>
             {
-                var packageName = ExtractPackageName(line);
-                if (string.IsNullOrEmpty(packageName)) return null;
-                var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
-                var splitOutput = combinedOutput.Split('\n', ' ');
-                var otherInfo = GetVersionName(splitOutput) + " | " + GetInstalledDate(splitOutput) + " | " + GetSdkVersion(splitOutput);
+                string packageName = ExtractPackageName(line);
+                if (string.IsNullOrEmpty(packageName))
+                {
+                    return null;
+                }
+
+                string combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
+                string[] splitOutput = combinedOutput.Split('\n', ' ');
+                string otherInfo = GetVersionName(splitOutput) + " | " + GetInstalledDate(splitOutput) + " | " + GetSdkVersion(splitOutput);
                 return new ApplicationInfo { Name = packageName, OtherInfo = otherInfo };
             });
             ApplicationInfo[] allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
-            var applicationInfos = allApplicationInfos.Where(info => info != null)
+            System.Collections.Generic.List<ApplicationInfo> applicationInfos = allApplicationInfos.Where(info => info != null)
                                                      .OrderByDescending(app => app.Size)
                                                      .ThenBy(app => app.Name)
                                                      .ToList();
@@ -88,12 +111,16 @@ public partial class AppmgrViewModel : MainPageBase
 
         static string ExtractPackageName(string line)
         {
-            var parts = line.Split(':');
-            if (parts.Length < 2) return null;
-            var packageNamePart = parts[1];
-            var packageNameStartIndex = packageNamePart.LastIndexOf('/') + 1;
+            string[] parts = line.Split(':');
+            if (parts.Length < 2)
+            {
+                return null;
+            }
+
+            string packageNamePart = parts[1];
+            int packageNameStartIndex = packageNamePart.LastIndexOf('/') + 1;
             return packageNameStartIndex < packageNamePart.Length
-                ? packageNamePart.Substring(packageNameStartIndex)
+                ? packageNamePart[packageNameStartIndex..]
                 : null;
         }
     }
@@ -108,30 +135,47 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
                 });
                 IsInstalling = false; return;
             }
-            var fileArray = ApkFile.Split("|||");
+            string[] fileArray = ApkFile.Split("|||");
             for (int i = 0; i < fileArray.Length; i++)
             {
                 if (!string.IsNullOrEmpty(fileArray[i]))
                 {
                     string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{fileArray[i]}\"");
-                    if (output.Contains("Success"))
-                    {
-                        await SukiHost.ShowToast(GetTranslation("Common_InstallSuccess"), "o(*≧▽≦)ツ", NotificationType.Success);
-                    }
-                    else
-                    {
-                        await SukiHost.ShowToast(GetTranslation("Common_InstallFailed"), $"\r\n{output}", NotificationType.Error);
-                    }
+                    _ = output.Contains("Success")
+                        ? toastManager.CreateToast()
+    .WithTitle("Info")
+    .WithContent(GetTranslation("Common_InstallSuccess"))
+    .OfType(NotificationType.Success)
+    .Dismiss().ByClicking()
+    .Dismiss().After(TimeSpan.FromSeconds(3))
+    .Queue()
+                        : toastManager.CreateToast()
+.WithTitle("Info")
+.WithContent(GetTranslation("Common_InstallFailed"))
+.OfType(NotificationType.Error)
+.Dismiss().ByClicking()
+.Dismiss().After(TimeSpan.FromSeconds(3))
+.Queue();
                 }
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_NoApkFileSelected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_NoApkFileSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
         }
         IsInstalling = false;
     }
@@ -146,17 +190,29 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
                 });
                 IsBusy = false; return;
             }
             if (SelectedApplication() != "")
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell monkey -p {SelectedApplication()} 1");
+            {
+                _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell monkey -p {SelectedApplication()} 1");
+            }
             else
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
                 });
             }
 
@@ -174,17 +230,29 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
                 });
                 IsBusy = false; return;
             }
             if (SelectedApplication() != "")
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm disable {SelectedApplication()}");
+            {
+                _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm disable {SelectedApplication()}");
+            }
             else
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
                 });
             }
             IsBusy = false;
@@ -199,18 +267,30 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication();
+        string selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
-            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm enable {selectedApp}");
+        {
+            _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm enable {selectedApp}");
+        }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
         }
         IsBusy = false;
@@ -223,20 +303,30 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication();
+        string selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
-            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall {selectedApp}");
+            _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall {selectedApp}");
         }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
         }
         IsBusy = false;
@@ -250,22 +340,32 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication();
+        string selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
             // Note: This command may vary depending on the requirements and platform specifics.
             // The following is a general example and may not work as is.
-            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k {selectedApp}");
+            _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k {selectedApp}");
         }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
         }
         IsBusy = false;
@@ -284,24 +384,34 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication();
+        string selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
             // Get the apk file of the selected app, and save it to the user's desktop.
-            var apkFile = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm path {selectedApp}");
+            string apkFile = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm path {selectedApp}");
             apkFile = apkFile[(apkFile.IndexOf(':') + 1)..].Trim();
-            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            await CallExternalProgram.ADB($"-s {Global.thisdevice} pull {apkFile} {desktopPath}");
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} pull {apkFile} {desktopPath}");
         }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
         }
         IsBusy = false;
@@ -315,20 +425,30 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication();
+        string selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
-            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm clear {selectedApp}");
+            _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm clear {selectedApp}");
         }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
         }
         IsBusy = false;
@@ -342,20 +462,30 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication();
+        string selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
-            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell am force-stop {selectedApp}");
+            _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell am force-stop {selectedApp}");
         }
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
         }
         IsBusy = false;
@@ -369,23 +499,39 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Common_NotConnected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
             IsBusy = false; return;
         }
-        var selectedApp = SelectedApplication();
+        string selectedApp = SelectedApplication();
         if (string.IsNullOrEmpty(selectedApp))
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Appmgr_AppIsNotSelected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+            .OfType(NotificationType.Error)
+            .WithTitle("Error")
+            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+            .Dismiss().ByClickingBackground()
+            .TryShow();
             });
             return;
         }
         string focus_name, package_name;
         string dumpsys = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"dumpsys window | grep mCurrentFocus\"");
         string text = await FeaturesHelper.ActiveApp(dumpsys);
-        await SukiHost.ShowToast(GetTranslation("Appmgr_AppActivactor"), $"\r\n{text}", NotificationType.Info);
+        _ = toastManager.CreateToast()
+.WithTitle("Info")
+.WithContent(GetTranslation("Appmgr_AppActivactor") + $"\r\n{text}")
+.OfType(NotificationType.Information)
+.Dismiss().ByClicking()
+.Dismiss().After(TimeSpan.FromSeconds(3))
+.Queue();
         IsBusy = false;
     }
 
@@ -393,10 +539,10 @@ public partial class AppmgrViewModel : MainPageBase
 
     private static string GetInstalledDate(string[] lines)
     {
-        var installedDateLine = lines.FirstOrDefault(x => x.Contains("lastUpdateTime"));
+        string installedDateLine = lines.FirstOrDefault(x => x.Contains("lastUpdateTime"));
         if (installedDateLine != null)
         {
-            var installedDate = installedDateLine[(installedDateLine.IndexOf('=') + 1)..].Trim();
+            string installedDate = installedDateLine[(installedDateLine.IndexOf('=') + 1)..].Trim();
             return installedDate;
         }
         return GetTranslation("Appmgr_UnknownTime");
@@ -404,10 +550,10 @@ public partial class AppmgrViewModel : MainPageBase
 
     private static string GetSdkVersion(string[] lines)
     {
-        var sdkVersion = lines.FirstOrDefault(x => x.Contains("targetSdk"));
+        string sdkVersion = lines.FirstOrDefault(x => x.Contains("targetSdk"));
         if (sdkVersion != null)
         {
-            var installedDate = "SDK" + sdkVersion[(sdkVersion.IndexOf('=') + 1)..].Trim();
+            string installedDate = "SDK" + sdkVersion[(sdkVersion.IndexOf('=') + 1)..].Trim();
             return installedDate;
         }
         return GetTranslation("Appmgr_UnknownSDKVersion");
@@ -415,10 +561,10 @@ public partial class AppmgrViewModel : MainPageBase
 
     private static string GetVersionName(string[] lines)
     {
-        var versionName = lines.FirstOrDefault(x => x.Contains("versionName"));
+        string versionName = lines.FirstOrDefault(x => x.Contains("versionName"));
         if (versionName != null)
         {
-            var installedDate = versionName[(versionName.IndexOf('=') + 1)..].Trim();
+            string installedDate = versionName[(versionName.IndexOf('=') + 1)..].Trim();
             return installedDate;
         }
         return GetTranslation("Appmgr_UnknownAppVersion");

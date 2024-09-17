@@ -1,17 +1,23 @@
-﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
-using SukiUI.Controls;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
+using Avalonia.Interactivity;
+using SukiUI.Dialogs;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Components;
+
 
 namespace UotanToolbox.Features.Modifypartition;
 
 public partial class ModifypartitionView : UserControl
 {
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private ISukiDialogManager dialogManager;
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
+
     public ModifypartitionView()
     {
         InitializeComponent();
@@ -20,16 +26,14 @@ public partial class ModifypartitionView : UserControl
 
     public async Task LoadMassage()
     {
-        var newDialog = new ConnectionDialog(GetTranslation("Modifypartition_Warn"));
-        await SukiHost.ShowDialogAsync(newDialog);
-        if (newDialog.Result == true)
-        {
-            Modifypartition.IsEnabled = true;
-        }
-        else
-        {
-            Modifypartition.IsEnabled = false;
-        }
+        bool result = false;
+        _ = dialogManager.CreateDialog()
+.WithTitle("Warn")
+.WithContent(GetTranslation("Modifypartition_Warn"))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+        Modifypartition.IsEnabled = result == true;
     }
 
     private async void ReadPart(object sender, RoutedEventArgs args)
@@ -44,13 +48,18 @@ public partial class ModifypartitionView : UserControl
                 PartList.ItemsSource = null;
                 if (Global.sdatable == "" && sukiViewModel.Status == "Recovery")
                 {
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp unmount data");
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp unmount data");
                 }
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
-                    var newDialog = new ConnectionDialog(GetTranslation("Common_NeedRoot"));
-                    await SukiHost.ShowDialogAsync(newDialog);
-                    if (newDialog.Result == false)
+                    bool result = false;
+                    _ = dialogManager.CreateDialog()
+    .WithTitle("Warn")
+    .WithContent(GetTranslation("Common_NeedRoot"))
+    .WithActionButton("Yes", _ => result = true, true)
+    .WithActionButton("No", _ => result = false, true)
+    .TryShow();
+                    if (result == true)
                     {
                         BusyPart.IsBusy = false;
                         ReadPartBut.IsEnabled = true;
@@ -64,25 +73,46 @@ public partial class ModifypartitionView : UserControl
                 }
                 string choice = "";
                 if (sda.IsChecked != null && (bool)sda.IsChecked)
+                {
                     choice = Global.sdatable;
+                }
+
                 if (sdb.IsChecked != null && (bool)sdb.IsChecked)
+                {
                     choice = Global.sdbtable;
+                }
+
                 if (sdc.IsChecked != null && (bool)sdc.IsChecked)
+                {
                     choice = Global.sdctable;
+                }
+
                 if (sdd.IsChecked != null && (bool)sdd.IsChecked)
+                {
                     choice = Global.sddtable;
+                }
+
                 if (sde.IsChecked != null && (bool)sde.IsChecked)
+                {
                     choice = Global.sdetable;
+                }
+
                 if (sdf.IsChecked != null && (bool)sdf.IsChecked)
+                {
                     choice = Global.sdftable;
+                }
+
                 if (emmc.IsChecked != null && (bool)emmc.IsChecked)
+                {
                     choice = Global.emmcrom;
+                }
+
                 if (choice != "")
                 {
                     string[] parts = choice.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     if (parts.Length > 6)
                     {
-                        string size = String.Format("{0}", StringHelper.DiskSize(choice));
+                        string size = string.Format("{0}", StringHelper.DiskSize(choice));
                         PartSize.Text = size;
                         PartModel[] part = new PartModel[parts.Length - 5];
                         for (int i = 6; i < parts.Length; i++)
@@ -105,24 +135,24 @@ public partial class ModifypartitionView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_PartFailed")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_PartFailed")).Dismiss().ByClickingBackground().TryShow();
                     }
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectDisk")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectDisk")).Dismiss().ByClickingBackground().TryShow();
                 }
                 BusyPart.IsBusy = false;
                 ReadPartBut.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecOrOpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -133,61 +163,82 @@ public partial class ModifypartitionView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Recovery")
             {
-                if (IdNumber.Text != null && IdNumber.Text != "")
+                if (IdNumber.Text is not null and not "")
                 {
                     RMPartBut.IsEnabled = false;
                     ESPONBut.IsEnabled = false;
                     string choice = "";
                     if (sda.IsChecked != null && (bool)sda.IsChecked)
+                    {
                         choice = "sda";
+                    }
+
                     if (sdb.IsChecked != null && (bool)sdb.IsChecked)
+                    {
                         choice = "sdb";
+                    }
+
                     if (sdc.IsChecked != null && (bool)sdc.IsChecked)
+                    {
                         choice = "sdc";
+                    }
+
                     if (sdd.IsChecked != null && (bool)sdd.IsChecked)
+                    {
                         choice = "sdd";
+                    }
+
                     if (sde.IsChecked != null && (bool)sde.IsChecked)
+                    {
                         choice = "sde";
+                    }
+
                     if (sdf.IsChecked != null && (bool)sdf.IsChecked)
+                    {
                         choice = "sdf";
+                    }
+
                     if (emmc.IsChecked != null && (bool)emmc.IsChecked)
+                    {
                         choice = "mmcblk0";
+                    }
+
                     if (choice != "")
                     {
                         Regex regex = new Regex("^(-?[0-9]*[.]*[0-9]{0,3})$");
                         if (regex.IsMatch(IdNumber.Text))
                         {
                             int partnum = StringHelper.Onlynum(IdNumber.Text);
-                            string shell = String.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} rm {partnum}");
-                            await CallExternalProgram.ADB(shell);
+                            string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} rm {partnum}");
+                            _ = await CallExternalProgram.ADB(shell);
                             ReadPart(sender, args);
-                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+                            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                         }
                         else
                         {
-                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterCorrNum")), allowBackgroundClose: true);
+                            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterCorrNum")).Dismiss().ByClickingBackground().TryShow();
                         }
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectAndRead")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
                     }
                     RMPartBut.IsEnabled = true;
                     ESPONBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterNum")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterNum")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -198,66 +249,92 @@ public partial class ModifypartitionView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Recovery")
             {
-                var newDialog = new ConnectionDialog(GetTranslation("Modifypartition_SetEFI"));
-                await SukiHost.ShowDialogAsync(newDialog);
-                if (newDialog.Result == true)
+                bool result = false;
+                _ = dialogManager.CreateDialog()
+.WithTitle("Warn")
+.WithContent(GetTranslation("Modifypartition_SetEFI"))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+                if (result == true)
                 {
-                    if (IdNumber.Text != null && IdNumber.Text != "")
+                    if (IdNumber.Text is not null and not "")
                     {
                         RMPartBut.IsEnabled = false;
                         ESPONBut.IsEnabled = false;
                         string choice = "";
                         if (sda.IsChecked != null && (bool)sda.IsChecked)
+                        {
                             choice = "sda";
+                        }
+
                         if (sdb.IsChecked != null && (bool)sdb.IsChecked)
+                        {
                             choice = "sdb";
+                        }
+
                         if (sdc.IsChecked != null && (bool)sdc.IsChecked)
+                        {
                             choice = "sdc";
+                        }
+
                         if (sdd.IsChecked != null && (bool)sdd.IsChecked)
+                        {
                             choice = "sdd";
+                        }
+
                         if (sde.IsChecked != null && (bool)sde.IsChecked)
+                        {
                             choice = "sde";
+                        }
+
                         if (sdf.IsChecked != null && (bool)sdf.IsChecked)
+                        {
                             choice = "sdf";
+                        }
+
                         if (emmc.IsChecked != null && (bool)emmc.IsChecked)
+                        {
                             choice = "mmcblk0";
+                        }
+
                         if (choice != "")
                         {
                             Regex regex = new Regex("^(-?[0-9]*[.]*[0-9]{0,3})$");
                             if (regex.IsMatch(IdNumber.Text))
                             {
                                 int partnum = StringHelper.Onlynum(IdNumber.Text);
-                                string shell = String.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} set {partnum} esp on");
-                                await CallExternalProgram.ADB(shell);
+                                string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} set {partnum} esp on");
+                                _ = await CallExternalProgram.ADB(shell);
                                 ReadPart(sender, args);
-                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+                                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                             }
                             else
                             {
-                                SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterNum")), allowBackgroundClose: true);
+                                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterNum")).Dismiss().ByClickingBackground().TryShow();
                             }
                         }
                         else
                         {
-                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectAndRead")), allowBackgroundClose: true);
+                            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
                         }
                         RMPartBut.IsEnabled = true;
                         ESPONBut.IsEnabled = true;
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterNum")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterNum")).Dismiss().ByClickingBackground().TryShow();
                     }
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -273,45 +350,66 @@ public partial class ModifypartitionView : UserControl
                     MKPartBut.IsEnabled = false;
                     string choice = "";
                     if (sda.IsChecked != null && (bool)sda.IsChecked)
+                    {
                         choice = "sda";
+                    }
+
                     if (sdb.IsChecked != null && (bool)sdb.IsChecked)
+                    {
                         choice = "sdb";
+                    }
+
                     if (sdc.IsChecked != null && (bool)sdc.IsChecked)
+                    {
                         choice = "sdc";
+                    }
+
                     if (sdd.IsChecked != null && (bool)sdd.IsChecked)
+                    {
                         choice = "sdd";
+                    }
+
                     if (sde.IsChecked != null && (bool)sde.IsChecked)
+                    {
                         choice = "sde";
+                    }
+
                     if (sdf.IsChecked != null && (bool)sdf.IsChecked)
+                    {
                         choice = "sdf";
+                    }
+
                     if (emmc.IsChecked != null && (bool)emmc.IsChecked)
+                    {
                         choice = "mmcblk0";
+                    }
+
                     if (choice != "")
                     {
-                        string shell = String.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} mkpart {NewPartitionName.Text} {NewPartitionFormat.Text} {NewPartitionStartpoint.Text} {NewPartitionEndpoint.Text}");
-                        await CallExternalProgram.ADB(shell);
+                        string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} mkpart {NewPartitionName.Text} {NewPartitionFormat.Text} {NewPartitionStartpoint.Text} {NewPartitionEndpoint.Text}");
+                        _ = await CallExternalProgram.ADB(shell);
                         ReadPart(sender, args);
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectAndRead")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
                     }
                     MKPartBut.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_EnterCreat")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterCreat")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -325,54 +423,80 @@ public partial class ModifypartitionView : UserControl
                 RemoveLimitBut.IsEnabled = false;
                 string choice = "";
                 if (sda.IsChecked != null && (bool)sda.IsChecked)
+                {
                     choice = "sda";
+                }
+
                 if (sdb.IsChecked != null && (bool)sdb.IsChecked)
+                {
                     choice = "";
+                }
+
                 if (sdc.IsChecked != null && (bool)sdc.IsChecked)
+                {
                     choice = "sdc";
+                }
+
                 if (sdd.IsChecked != null && (bool)sdd.IsChecked)
+                {
                     choice = "sdd";
+                }
+
                 if (sde.IsChecked != null && (bool)sde.IsChecked)
+                {
                     choice = "sde";
+                }
+
                 if (sdf.IsChecked != null && (bool)sdf.IsChecked)
+                {
                     choice = "sdf";
+                }
+
                 if (emmc.IsChecked != null && (bool)emmc.IsChecked)
+                {
                     choice = "mmcblk0";
+                }
+
                 if (choice != "")
                 {
-                    var newDialog = new ConnectionDialog(GetTranslation("Modifypartition_Set128"));
-                    await SukiHost.ShowDialogAsync(newDialog);
-                    if (newDialog.Result == true)
+                    bool result = false;
+                    _ = dialogManager.CreateDialog()
+    .WithTitle("Warn")
+    .WithContent(GetTranslation("Modifypartition_Set128"))
+    .WithActionButton("Yes", _ => result = true, true)
+    .WithActionButton("No", _ => result = false, true)
+    .TryShow();
+                    if (result == true)
                     {
-                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/Push/sgdisk /tmp/");
-                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell chmod +x /tmp/sgdisk");
-                        string shell = String.Format($"-s {Global.thisdevice} shell /tmp/sgdisk --resize-table=128 /dev/block/{choice}");
+                        _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/Push/sgdisk /tmp/");
+                        _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell chmod +x /tmp/sgdisk");
+                        string shell = string.Format($"-s {Global.thisdevice} shell /tmp/sgdisk --resize-table=128 /dev/block/{choice}");
                         string limit = await CallExternalProgram.ADB(shell);
                         if (!limit.Contains("completed successfully"))
                         {
-                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ExeFailed")), allowBackgroundClose: true);
+                            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_ExeFailed")).Dismiss().ByClickingBackground().TryShow();
                         }
                         else
                         {
-                            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
-                            await CallExternalProgram.ADB("reboot recovery");
+                            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                            _ = await CallExternalProgram.ADB("reboot recovery");
                         }
                     }
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Modifypartition_SelectCorrPart")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectCorrPart")).Dismiss().ByClickingBackground().TryShow();
                 }
                 RemoveLimitBut.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 }

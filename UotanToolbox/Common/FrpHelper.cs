@@ -1,6 +1,7 @@
-﻿using SukiUI.Controls;
-using System.IO;
-using UotanToolbox.Features.Components;
+﻿using System.IO;
+using Avalonia.Controls.Notifications;
+using SukiUI.Dialogs;
+
 
 namespace UotanToolbox.Common
 {
@@ -9,6 +10,7 @@ namespace UotanToolbox.Common
     {
         private readonly string _filePath;
         private readonly string _function;
+        private ISukiDialogManager dialogManager;
         public FrpPatcher(string filePath, string function)
         {
             _filePath = filePath;
@@ -25,21 +27,21 @@ namespace UotanToolbox.Common
             {
                 target = 0x00;
             }
-            if (_function != "oemunlockon" && _function != "oemunlockoff")
+            if (_function is not "oemunlockon" and not "oemunlockoff")
             {
-                SukiHost.ShowDialog(new ErrorDialog("{%c_e%}参数错误{%c_i%}{\n}"));
+                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent("{%c_e%}参数错误{%c_i%}{\n}").TryShow();
                 return false;
             }
             if (!File.Exists(_filePath))
             {
-                SukiHost.ShowDialog(new ErrorDialog("{%c_e%}找不到{_filePath}{%c_i%}{\n}"));
+                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent("{%c_e%}找不到{_filePath}{%c_i%}{\n}").TryShow();
                 return false;
             }
             byte[] fileBytes = File.ReadAllBytes(_filePath);
-            byte lastByte = fileBytes[fileBytes.Length - 1];
-            if (lastByte != 0x00 && lastByte != 0x01)
+            byte lastByte = fileBytes[^1];
+            if (lastByte is not 0x00 and not 0x01)
             {
-                SukiHost.ShowDialog(new ErrorDialog("frp文件末尾1字节16进制数值不是00或01"));
+                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent("frp文件末尾1字节16进制数值不是00或01").TryShow();
                 return false;
             }
             if (lastByte == target)
@@ -49,9 +51,9 @@ namespace UotanToolbox.Common
             try
             {
                 byte[] bytes = File.ReadAllBytes(_filePath);
-                bytes[bytes.Length - 1] = target;
+                bytes[^1] = target;
                 File.WriteAllBytes(_filePath, bytes);
-                SukiHost.ShowDialog(new PureDialog("frp文件修补成功"), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent("frp文件修补成功").Dismiss().ByClickingBackground().TryShow();
                 return true;
             }
             catch

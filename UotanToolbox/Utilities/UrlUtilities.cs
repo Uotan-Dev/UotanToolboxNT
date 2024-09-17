@@ -8,11 +8,17 @@ namespace UotanToolbox.Utilities
         public static void OpenURL(string url)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                Process.Start(new ProcessStartInfo(url.Replace("&", "^&")) { UseShellExecute = true });
+            {
+                _ = Process.Start(new ProcessStartInfo(url.Replace("&", "^&")) { UseShellExecute = true });
+            }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                Process.Start("xdg-open", url);
+            {
+                _ = Process.Start("xdg-open", url);
+            }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                Process.Start("open", url);
+            {
+                _ = Process.Start("open", url);
+            }
         }
     }
 }

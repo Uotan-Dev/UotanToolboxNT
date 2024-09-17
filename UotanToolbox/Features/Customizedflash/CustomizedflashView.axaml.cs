@@ -1,26 +1,30 @@
-﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Platform.Storage;
-using Avalonia.Threading;
-using SukiUI.Controls;
-using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
+using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
+using Avalonia.Threading;
+using SukiUI.Dialogs;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Customizedflash;
 
 public partial class CustomizedflashView : UserControl
 {
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
+
     public CustomizedflashView()
     {
         InitializeComponent();
     }
 
+    private ISukiDialogManager dialogManager;
     public async Task Fastboot(string fbshell)//Fastboot实时输出
     {
         await Task.Run(() =>
@@ -35,7 +39,7 @@ public partial class CustomizedflashView : UserControl
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;
-            fb.Start();
+            _ = fb.Start();
             fb.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
             fb.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
             fb.BeginOutputReadLine();
@@ -47,7 +51,7 @@ public partial class CustomizedflashView : UserControl
 
     private async void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
     {
-        if (!String.IsNullOrEmpty(outLine.Data))
+        if (!string.IsNullOrEmpty(outLine.Data))
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -60,8 +64,8 @@ public partial class CustomizedflashView : UserControl
 
     private async void OpenSystemFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
@@ -85,7 +89,7 @@ public partial class CustomizedflashView : UserControl
                     OpenSystemFileBut.IsEnabled = false;
                     FlashSystemFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    string shell = String.Format($"-s {Global.thisdevice} flash system \"{SystemFile.Text}\"");
+                    string shell = string.Format($"-s {Global.thisdevice} flash system \"{SystemFile.Text}\"");
                     await Fastboot(shell);
                     OpenSystemFileBut.IsEnabled = true;
                     FlashSystemFileBut.IsEnabled = true;
@@ -93,24 +97,37 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Customizedflash_SelectFile")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Customizedflash_SelectFile"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
 
     private async void OpenProductFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
@@ -133,7 +150,7 @@ public partial class CustomizedflashView : UserControl
                     OpenProductFileBut.IsEnabled = false;
                     FlashProductFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    string shell = String.Format($"-s {Global.thisdevice} flash product \"{ProductFile.Text}\"");
+                    string shell = string.Format($"-s {Global.thisdevice} flash product \"{ProductFile.Text}\"");
                     await Fastboot(shell);
                     OpenProductFileBut.IsEnabled = true;
                     FlashProductFileBut.IsEnabled = true;
@@ -141,23 +158,38 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Customizedflash_SelectFile")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Customizedflash_SelectFile"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
     private async void OpenVenderFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
@@ -180,7 +212,7 @@ public partial class CustomizedflashView : UserControl
                     OpenVenderFileBut.IsEnabled = false;
                     FlashVenderFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    string shell = String.Format($"-s {Global.thisdevice} flash vendor \"{VenderFile.Text}\"");
+                    string shell = string.Format($"-s {Global.thisdevice} flash vendor \"{VenderFile.Text}\"");
                     await Fastboot(shell);
                     OpenVenderFileBut.IsEnabled = true;
                     FlashVenderFileBut.IsEnabled = true;
@@ -188,23 +220,38 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Customizedflash_SelectFile")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Customizedflash_SelectFile"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
     private async void OpenBootFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
@@ -227,7 +274,7 @@ public partial class CustomizedflashView : UserControl
                     OpenBootFileBut.IsEnabled = false;
                     FlashBootFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    string shell = String.Format($"-s {Global.thisdevice} flash boot \"{BootFile.Text}\"");
+                    string shell = string.Format($"-s {Global.thisdevice} flash boot \"{BootFile.Text}\"");
                     await Fastboot(shell);
                     OpenBootFileBut.IsEnabled = true;
                     FlashBootFileBut.IsEnabled = true;
@@ -235,23 +282,38 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Customizedflash_SelectFile")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Customizedflash_SelectFile"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
     private async void OpenSystemextFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
@@ -274,7 +336,7 @@ public partial class CustomizedflashView : UserControl
                     OpenSystemextFileBut.IsEnabled = false;
                     FlashSystemextFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    string shell = String.Format($"-s {Global.thisdevice} flash system_ext \"{SystemextFile.Text}\"");
+                    string shell = string.Format($"-s {Global.thisdevice} flash system_ext \"{SystemextFile.Text}\"");
                     await Fastboot(shell);
                     OpenSystemextFileBut.IsEnabled = true;
                     FlashSystemextFileBut.IsEnabled = true;
@@ -282,23 +344,38 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Customizedflash_SelectFile")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Customizedflash_SelectFile"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
     private async void OpenOdmFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
@@ -321,7 +398,7 @@ public partial class CustomizedflashView : UserControl
                     OpenOdmFileBut.IsEnabled = false;
                     FlashOdmFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    string shell = String.Format($"-s {Global.thisdevice} flash odm \"{OdmFile.Text}\"");
+                    string shell = string.Format($"-s {Global.thisdevice} flash odm \"{OdmFile.Text}\"");
                     await Fastboot(shell);
                     OpenOdmFileBut.IsEnabled = true;
                     FlashOdmFileBut.IsEnabled = true;
@@ -329,23 +406,38 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Customizedflash_SelectFile")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Customizedflash_SelectFile"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
     private async void OpenVenderbootFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
@@ -368,7 +460,7 @@ public partial class CustomizedflashView : UserControl
                     OpenVenderbootFileBut.IsEnabled = false;
                     FlashVenderbootFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    string shell = String.Format($"-s {Global.thisdevice} flash vendor_boot \"{VenderbootFile.Text}\"");
+                    string shell = string.Format($"-s {Global.thisdevice} flash vendor_boot \"{VenderbootFile.Text}\"");
                     await Fastboot(shell);
                     OpenVenderbootFileBut.IsEnabled = true;
                     FlashVenderbootFileBut.IsEnabled = true;
@@ -376,23 +468,38 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Customizedflash_SelectFile")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Customizedflash_SelectFile"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
     private async void OpenInitbootFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
@@ -415,7 +522,7 @@ public partial class CustomizedflashView : UserControl
                     OpenInitbootFileBut.IsEnabled = false;
                     FlashInitbootFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    string shell = String.Format($"-s {Global.thisdevice} flash init_boot \"{InitbootFile.Text}\"");
+                    string shell = string.Format($"-s {Global.thisdevice} flash init_boot \"{InitbootFile.Text}\"");
                     await Fastboot(shell);
                     OpenInitbootFileBut.IsEnabled = true;
                     FlashInitbootFileBut.IsEnabled = true;
@@ -423,23 +530,38 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Customizedflash_SelectFile")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Customizedflash_SelectFile"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
     private async void OpenImageFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
@@ -462,7 +584,7 @@ public partial class CustomizedflashView : UserControl
                     OpenImageFileBut.IsEnabled = false;
                     FlashImageFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    string shell = String.Format($"-s {Global.thisdevice} flash {Part.Text} \"{ImageFile.Text}\"");
+                    string shell = string.Format($"-s {Global.thisdevice} flash {Part.Text} \"{ImageFile.Text}\"");
                     await Fastboot(shell);
                     OpenImageFileBut.IsEnabled = true;
                     FlashImageFileBut.IsEnabled = true;
@@ -470,17 +592,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Customizedflash_SelectFile")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Customizedflash_SelectFile"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
     private async void DisableVbmeta(object sender, RoutedEventArgs args)
@@ -491,17 +628,27 @@ public partial class CustomizedflashView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 CustomizedflashLog.Text = "";
-                string shell = String.Format($"-s {Global.thisdevice} --disable-verity --disable-verification flash vbmeta {Global.runpath}/Image/vbmeta.img");
+                string shell = string.Format($"-s {Global.thisdevice} --disable-verity --disable-verification flash vbmeta {Global.runpath}/Image/vbmeta.img");
                 await Fastboot(shell);
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
     private async void SetOther(object sender, RoutedEventArgs args)
@@ -512,17 +659,27 @@ public partial class CustomizedflashView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 CustomizedflashLog.Text = "";
-                string shell = String.Format($"-s {Global.thisdevice} set_active other");
+                string shell = string.Format($"-s {Global.thisdevice} set_active other");
                 await Fastboot(shell);
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_EnterFastboot"))
+.Dismiss().ByClickingBackground()
+.TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog()
+.WithTitle("Error")
+.OfType(NotificationType.Error)
+.WithContent(GetTranslation("Common_NotConnected"))
+.Dismiss().ByClickingBackground()
+.TryShow();
         }
     }
 }

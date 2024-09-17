@@ -1,8 +1,8 @@
-﻿using Avalonia;
-using ShowMeTheXaml;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using Avalonia;
+using ShowMeTheXaml;
 using UotanToolbox.Common;
 
 namespace UotanToolbox;
@@ -13,8 +13,11 @@ internal class Program
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
     // yet and stuff might break.
     [STAThread]
-    public static void Main(string[] args) => BuildAvaloniaApp()
+    public static void Main(string[] args)
+    {
+        _ = BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
+    }
 
     // Avalonia configuration, don't remove; also used by visual designer.
     public static AppBuilder BuildAvaloniaApp()
@@ -43,12 +46,12 @@ internal class Program
             Global.log_path = Path.Combine(Global.runpath, "Log");
             if (!File.Exists(Global.log_path))
             {
-                Directory.CreateDirectory(Global.log_path);
+                _ = Directory.CreateDirectory(Global.log_path);
             }
             Global.backup_path = Path.Combine(Global.runpath, "Backup");
             if (!File.Exists(Global.backup_path))
             {
-                Directory.CreateDirectory(Global.backup_path);
+                _ = Directory.CreateDirectory(Global.backup_path);
             }
         }
         else if (OperatingSystem.IsWindows())
@@ -56,12 +59,12 @@ internal class Program
             Global.log_path = Path.Combine(Global.runpath, "Log");
             if (!File.Exists(Global.log_path))
             {
-                Directory.CreateDirectory(Global.log_path);
+                _ = Directory.CreateDirectory(Global.log_path);
             }
             Global.backup_path = Path.Combine(Global.runpath, "Backup");
             if (!File.Exists(Global.backup_path))
             {
-                Directory.CreateDirectory(Global.backup_path);
+                _ = Directory.CreateDirectory(Global.backup_path);
             }
         }
         Global.bin_path = Path.Combine(Global.runpath, "Bin");

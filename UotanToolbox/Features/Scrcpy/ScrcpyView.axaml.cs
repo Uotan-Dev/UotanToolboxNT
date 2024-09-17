@@ -1,15 +1,20 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using SukiUI.Controls;
+using SukiUI.Dialogs;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Features.Scrcpy;
 
 public partial class ScrcpyView : UserControl
 {
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private ISukiDialogManager dialogManager;
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
+
     public ScrcpyView()
     {
         InitializeComponent();
@@ -17,8 +22,8 @@ public partial class ScrcpyView : UserControl
 
     private async void OpenFolderButton_Clicked(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
             Title = "Open Folder",
             AllowMultiple = false
@@ -31,7 +36,7 @@ public partial class ScrcpyView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
             }
         }
     }

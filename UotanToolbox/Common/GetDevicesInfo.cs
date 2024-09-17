@@ -1,29 +1,23 @@
-﻿using Avalonia.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Resources;
 using System.Threading.Tasks;
+using Avalonia.Collections;
 
 namespace UotanToolbox.Common
 {
     internal class GetDevicesInfo
     {
-        private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+        private static string GetTranslation(string key)
+        {
+            return FeaturesHelper.GetTranslation(key);
+        }
+
         public static async Task<string[]> DevicesList()
         {
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
-            string devcon;
-            if (Global.System == "Windows")
-            {
-                devcon = await CallExternalProgram.Devcon("find usb*");
-            }
-            else
-            {
-                devcon = await CallExternalProgram.LsUSB();
-            }
+            string devcon = Global.System == "Windows" ? await CallExternalProgram.Devcon("find usb*") : await CallExternalProgram.LsUSB();
             string[] adbdevices = StringHelper.ADBDevices(adb);
             string[] fbdevices = StringHelper.FastbootDevices(fastboot);
             string[] comdevices = StringHelper.COMDevices(devcon);
@@ -96,15 +90,7 @@ namespace UotanToolbox.Common
             string progressdisk = "0";
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
-            string devcon;
-            if (Global.System == "Windows")
-            {
-                devcon = await CallExternalProgram.Devcon("find usb*");
-            }
-            else
-            {
-                devcon = await CallExternalProgram.LsUSB();
-            }
+            string devcon = Global.System == "Windows" ? await CallExternalProgram.Devcon("find usb*") : await CallExternalProgram.LsUSB();
             if (fastboot.Contains(devicename))
             {
                 string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
@@ -117,28 +103,10 @@ namespace UotanToolbox.Common
                 {
                     status = GetTranslation("Home_Fastboot");
                     string type = await CallExternalProgram.Fastboot($"-s {devicename} getvar variant");
-                    if (type.Contains("UFS"))
-                    {
-                        disktype = "UFS";
-                    }
-                    else if (type.Contains("EMMC"))
-                    {
-                        disktype = "EMMC";
-                    }
-                    else
-                    {
-                        disktype = "--";
-                    }
+                    disktype = type.Contains("UFS") ? "UFS" : type.Contains("EMMC") ? "EMMC" : "--";
                 }
                 string blinfo = await CallExternalProgram.Fastboot($"-s {devicename} getvar unlocked");
-                if (blinfo.Contains("yes"))
-                {
-                    blstatus = GetTranslation("Info_BLstatusUnlocked");
-                }
-                else
-                {
-                    blstatus = GetTranslation("Info_BLstatusLocked");
-                }
+                blstatus = blinfo.Contains("yes") ? GetTranslation("Info_BLstatusUnlocked") : GetTranslation("Info_BLstatusLocked");
                 string productinfos = await CallExternalProgram.Fastboot($"-s {devicename} getvar product");
                 string product = StringHelper.GetProductID(productinfos);
                 if (product != null)
@@ -188,27 +156,18 @@ namespace UotanToolbox.Common
                     status = GetTranslation("Info_UnauthorizedDevice");
                 }
                 string active = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.slot_suffix");
-                if (active.Contains("_a"))
-                {
-                    vabstatus = GetTranslation("Info_ASlot");
-                }
-                else if (active.Contains("_b"))
-                {
-                    vabstatus = GetTranslation("Info_BSlot");
-                }
-                else if (status == GetTranslation("Info_UnauthorizedDevice") || status == GetTranslation("Home_Sideload"))
-                {
-                    vabstatus = "--";
-                }
-                else
-                {
-                    vabstatus = GetTranslation("Info_AOnly");
-                }
+                vabstatus = active.Contains("_a")
+                    ? GetTranslation("Info_ASlot")
+                    : active.Contains("_b")
+                        ? GetTranslation("Info_BSlot")
+                        : status == GetTranslation("Info_UnauthorizedDevice") || status == GetTranslation("Home_Sideload")
+                                            ? "--"
+                                            : GetTranslation("Info_AOnly");
                 if (status == GetTranslation("Home_System"))
                 {
                     string android = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.release");
                     string sdk = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.sdk");
-                    androidsdk = String.Format($"Android {StringHelper.RemoveLineFeed(android)}({StringHelper.RemoveLineFeed(sdk)})");
+                    androidsdk = string.Format($"Android {StringHelper.RemoveLineFeed(android)}({StringHelper.RemoveLineFeed(sdk)})");
                     displayhw = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell wm size")));
                     density = StringHelper.Density(await CallExternalProgram.ADB($"-s {devicename} shell wm density"));
                 }
@@ -219,14 +178,7 @@ namespace UotanToolbox.Common
                     density = "--";
                 }
                 string bid = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell cat /sys/devices/soc0/serial_number"));
-                if (bid.Contains("No such file") || bid.Contains("Permission denied"))
-                {
-                    boardid = "--";
-                }
-                else
-                {
-                    boardid = bid;
-                }
+                boardid = bid.Contains("No such file") || bid.Contains("Permission denied") ? "--" : bid;
                 vndkversion = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.vndk.version"));
                 cpucode = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.board.platform"));
                 devicebrand = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.brand"));
@@ -256,7 +208,7 @@ namespace UotanToolbox.Common
                 {
                     string[] battery = StringHelper.Battery(await CallExternalProgram.ADB($"-s {devicename} shell dumpsys battery"));
                     batterylevel = battery[0];
-                    batteryinfo = String.Format($"{Double.Parse(battery[1]) / 1000.0}V {Double.Parse(battery[2]) / 10.0}℃");
+                    batteryinfo = string.Format($"{double.Parse(battery[1]) / 1000.0}V {double.Parse(battery[2]) / 10.0}℃");
                 }
                 catch
                 {
@@ -266,8 +218,8 @@ namespace UotanToolbox.Common
                 try
                 {
                     string[] mem = StringHelper.Mem(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/meminfo | grep Mem"));
-                    memlevel = Math.Round(Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
-                    usemem = String.Format($"{Math.Round(Double.Parse(mem[1]) * 1.024 / 1000000, 1)}GB/{Math.Round(Double.Parse(mem[0]) * 1.024 / 1000000)}GB");
+                    memlevel = Math.Round(Math.Round(double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
+                    usemem = string.Format($"{Math.Round(double.Parse(mem[1]) * 1.024 / 1000000, 1)}GB/{Math.Round(double.Parse(mem[0]) * 1.024 / 1000000)}GB");
                 }
                 catch
                 {
@@ -282,19 +234,19 @@ namespace UotanToolbox.Common
                     {
                         string[] columns = StringHelper.DiskInfo(diskinfos1, "/storage/emulated");
                         progressdisk = columns[4].TrimEnd('%');
-                        diskinfo = String.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
+                        diskinfo = string.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
                     }
                     else if (diskinfos2.Contains("/sdcard"))
                     {
                         string[] columns = StringHelper.DiskInfo(diskinfos2, "/sdcard");
                         progressdisk = columns[4].TrimEnd('%');
-                        diskinfo = String.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
+                        diskinfo = string.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
                     }
                     else
                     {
                         string[] columns = StringHelper.DiskInfo(diskinfos2, "/data");
                         progressdisk = columns[4].TrimEnd('%');
-                        diskinfo = String.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
+                        diskinfo = string.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
                     }
                 }
                 catch
@@ -303,7 +255,7 @@ namespace UotanToolbox.Common
                     diskinfo = "--";
                 }
             }
-            var deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            string[] deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             if (devcon.Contains(devicename))
             {
                 string thisdevice = deviceLines.FirstOrDefault(line => line.Contains(devicename));
@@ -336,7 +288,7 @@ namespace UotanToolbox.Common
                 string statusPattern = deviceLines.FirstOrDefault(line => line.EndsWith(":900e") || line.EndsWith(":901d") || line.EndsWith(":9091"));
                 if (statusPattern != null)
                 {
-                    status = statusPattern.Substring(statusPattern.LastIndexOf(':') + 1);
+                    status = statusPattern[(statusPattern.LastIndexOf(':') + 1)..];
                 }
             }
             devices.Add("Status", status);
@@ -377,35 +329,13 @@ namespace UotanToolbox.Common
             string vabstatus = "--";
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
-            string devcon;
-            if (Global.System == "Windows")
-            {
-                devcon = await CallExternalProgram.Devcon("find usb*");
-            }
-            else
-            {
-                devcon = await CallExternalProgram.LsUSB();
-            }
+            string devcon = Global.System == "Windows" ? await CallExternalProgram.Devcon("find usb*") : await CallExternalProgram.LsUSB();
             if (fastboot.Contains(devicename))
             {
                 string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
-                if (isuserspace.Contains("yes"))
-                {
-                    status = GetTranslation("Home_Fastbootd");
-                }
-                else
-                {
-                    status = GetTranslation("Home_Fastboot");
-                }
+                status = isuserspace.Contains("yes") ? GetTranslation("Home_Fastbootd") : GetTranslation("Home_Fastboot");
                 string blinfo = await CallExternalProgram.Fastboot($"-s {devicename} getvar unlocked");
-                if (blinfo.Contains("yes"))
-                {
-                    blstatus = GetTranslation("Info_BLstatusUnlocked");
-                }
-                else
-                {
-                    blstatus = GetTranslation("Info_BLstatusLocked");
-                }
+                blstatus = blinfo.Contains("yes") ? GetTranslation("Info_BLstatusUnlocked") : GetTranslation("Info_BLstatusLocked");
                 string productinfos = await CallExternalProgram.Fastboot($"-s {devicename} getvar product");
                 string product = StringHelper.GetProductID(productinfos);
                 if (product != null)
@@ -455,22 +385,13 @@ namespace UotanToolbox.Common
                     status = GetTranslation("Info_UnauthorizedDevice");
                 }
                 string active = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.slot_suffix");
-                if (active.Contains("_a"))
-                {
-                    vabstatus = GetTranslation("Info_ASlot");
-                }
-                else if (active.Contains("_b"))
-                {
-                    vabstatus = GetTranslation("Info_BSlot");
-                }
-                else if (status == GetTranslation("Info_UnauthorizedDevice") || status == GetTranslation("Home_Sideload"))
-                {
-                    vabstatus = "--";
-                }
-                else
-                {
-                    vabstatus = GetTranslation("Info_AOnly");
-                }
+                vabstatus = active.Contains("_a")
+                    ? GetTranslation("Info_ASlot")
+                    : active.Contains("_b")
+                        ? GetTranslation("Info_BSlot")
+                        : status == GetTranslation("Info_UnauthorizedDevice") || status == GetTranslation("Home_Sideload")
+                                            ? "--"
+                                            : GetTranslation("Info_AOnly");
                 codename = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.product.device"));
                 blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.secureboot.lockstate"));
                 if (blstatus == "--")
@@ -478,7 +399,7 @@ namespace UotanToolbox.Common
                     blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.vbmeta.device_state"));
                 }
             }
-            var deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            string[] deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             if (devcon.Contains(devicename))
             {
                 string thisdevice = deviceLines.FirstOrDefault(line => line.Contains(devicename));
@@ -511,7 +432,7 @@ namespace UotanToolbox.Common
                 string statusPattern = deviceLines.FirstOrDefault(line => line.EndsWith(":900e") || line.EndsWith(":901d") || line.EndsWith(":9091"));
                 if (statusPattern != null)
                 {
-                    status = statusPattern.Substring(statusPattern.LastIndexOf(':') + 1);
+                    status = statusPattern[(statusPattern.LastIndexOf(':') + 1)..];
                 }
             }
             devices.Add("Status", status);

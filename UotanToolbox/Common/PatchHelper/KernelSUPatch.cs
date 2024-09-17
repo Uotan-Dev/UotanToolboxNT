@@ -7,8 +7,12 @@ namespace UotanToolbox.Common.PatchHelper
 {
     internal class KernelSUPatch
     {
-        private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-        public async static Task<string> GKI_Patch(ZipInfo zipInfo, BootInfo bootInfo)
+        private static string GetTranslation(string key)
+        {
+            return FeaturesHelper.GetTranslation(key);
+        }
+
+        public async Task<string> GKI_Patch(ZipInfo zipInfo, BootInfo bootInfo)
         {
             if (bootInfo.HaveKernel == false)
             {
@@ -33,7 +37,7 @@ namespace UotanToolbox.Common.PatchHelper
             File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
             return newboot;
         }
-        public async static Task<string> LKM_Patch(ZipInfo zipInfo, BootInfo bootInfo)
+        public static async Task<string> LKM_Patch(ZipInfo zipInfo, BootInfo bootInfo)
         {
             if (bootInfo.HaveRamdisk == false)
             {
@@ -48,7 +52,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             if (bootInfo.Arch != "aarch64")
             {
-                throw new Exception("unsupported arch"+ bootInfo.Arch);
+                throw new Exception("unsupported arch" + bootInfo.Arch);
             }
             File.Copy(Path.Combine(zipInfo.TempPath, "kernelsu.ko"), Path.Combine(bootInfo.TempPath, "kernelsu.ko"), true);
             string archSubfolder = bootInfo.Arch switch
@@ -102,7 +106,7 @@ namespace UotanToolbox.Common.PatchHelper
                     string filePath = Path.Combine(path, file);
                     if (File.Exists(filePath))
                     {
-                        FileHelper.WipeFile(filePath);
+                        _ = FileHelper.WipeFile(filePath);
                     }
                 }
             }

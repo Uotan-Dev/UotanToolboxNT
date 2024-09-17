@@ -1,5 +1,4 @@
-﻿using SukiUI.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,12 +7,14 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using UotanToolbox.Features.Components;
+using SukiUI.Dialogs;
+
 
 namespace UotanToolbox.Common
 {
     internal class FileHelper
     {
+        private ISukiDialogManager dialogManager;
         public static void CopyDirectory(string srcPath, string aimPath)
         {
             try
@@ -36,17 +37,19 @@ namespace UotanToolbox.Common
         /// <returns>文件内容对应的字节数组。</returns>
         public static byte[] ReadFileToByteArray(string filePath)
         {
-            if (string.IsNullOrEmpty(filePath)) throw new ArgumentException("FilePath cannot be null or empty.", nameof(filePath));
+            if (string.IsNullOrEmpty(filePath))
+            {
+                throw new ArgumentException("FilePath cannot be null or empty.", nameof(filePath));
+            }
+
             try
             {
-                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    var fileSize = (int)fileStream.Length;
-                    var byteArray = new byte[fileSize];
+                using FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                int fileSize = (int)fileStream.Length;
+                byte[] byteArray = new byte[fileSize];
 
-                    fileStream.Read(byteArray, 0, fileSize);
-                    return byteArray;
-                }
+                _ = fileStream.Read(byteArray, 0, fileSize);
+                return byteArray;
             }
             catch (Exception ex)
             {
@@ -55,19 +58,15 @@ namespace UotanToolbox.Common
         }
         public static async Task<string> SHA1HashAsync(string filePath)
         {
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            using FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            using SHA1 sha1 = SHA1.Create();
+            byte[] hash = await sha1.ComputeHashAsync(fileStream);
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in hash)
             {
-                using (SHA1 sha1 = SHA1.Create())
-                {
-                    byte[] hash = await sha1.ComputeHashAsync(fileStream);
-                    StringBuilder sb = new StringBuilder();
-                    foreach (byte b in hash)
-                    {
-                        sb.Append(b.ToString("x2"));
-                    }
-                    return sb.ToString();
-                }
+                _ = sb.Append(b.ToString("x2"));
             }
+            return sb.ToString();
         }
         public static void Write(string file, string text)//写入到txt文件
         {
@@ -91,32 +90,28 @@ namespace UotanToolbox.Common
         /// </summary>
         /// <param name="filePath">要计算哈希值的文件路径。</param>
         /// <returns>文件的SHA1哈希值，表示为32位小写字母和数字的字符串。</returns>
-        public static string SHA1Hash(string filePath)
+        public string SHA1Hash(string filePath)
         {
             try
             {
-                using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    using (var sha1 = SHA1.Create())
-                    {
-                        var hashBytes = sha1.ComputeHash(fileStream);
-                        return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-                    }
-                }
+                using FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                using SHA1 sha1 = SHA1.Create();
+                byte[] hashBytes = sha1.ComputeHash(fileStream);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
             }
             catch (FileNotFoundException)
             {
-                SukiHost.ShowDialog(new ErrorDialog($"The file '{filePath}' was not found."));
+                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"The file '{filePath}' was not found.").TryShow();
                 throw;
             }
             catch (UnauthorizedAccessException)
             {
-                SukiHost.ShowDialog(new ErrorDialog($"Access to the file '{filePath}' is denied."));
+                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"Access to the file '{filePath}' is denied.").TryShow();
                 throw;
             }
             catch (Exception ex)
             {
-                SukiHost.ShowDialog(new ErrorDialog($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}"));
+                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}").TryShow();
                 return null;
             }
         }
@@ -127,20 +122,16 @@ namespace UotanToolbox.Common
         /// <returns>给定文件的MD5特征码（十六进制小写字符串）</returns>
         public static string Md5Hash(string filePath)
         {
-            using (MD5 md5 = MD5.Create())
+            using MD5 md5 = MD5.Create();
+            using FileStream stream = File.OpenRead(filePath);
+            byte[] hashBytes = md5.ComputeHash(stream);
+            // 将字节数组转换为十六进制字符串表示形式，方便匹配字典
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashBytes.Length; i++)
             {
-                using (FileStream stream = File.OpenRead(filePath))
-                {
-                    byte[] hashBytes = md5.ComputeHash(stream);
-                    // 将字节数组转换为十六进制字符串表示形式，方便匹配字典
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < hashBytes.Length; i++)
-                    {
-                        sb.Append(hashBytes[i].ToString("x2"));
-                    }
-                    return sb.ToString();
-                }
+                _ = sb.Append(hashBytes[i].ToString("x2"));
             }
+            return sb.ToString();
         }
         /// <summary>
         /// 传入一个字符串数组，检查指定目录下是否存在给出文件
@@ -155,8 +146,8 @@ namespace UotanToolbox.Common
             {
                 throw new DirectoryNotFoundException($"The directory {directoryPath} does not exist.");
             }
-            var existenceResults = new Dictionary<string, bool>();
-            foreach (var fileName in fileNames)
+            Dictionary<string, bool> existenceResults = [];
+            foreach (string fileName in fileNames)
             {
                 bool exists = File.Exists(System.IO.Path.Combine(directoryPath, fileName));
                 existenceResults.Add(fileName, exists);
@@ -169,19 +160,17 @@ namespace UotanToolbox.Common
         /// </summary>
         /// <param name="folderPath">要删除的目录路径。</param>
         /// <returns>删除目录是否成功</returns>
-        public static bool ClearFolder(string folderPath)
+        public bool ClearFolder(string folderPath)
         {
             if (!Directory.Exists(folderPath))
             {
-                Directory.CreateDirectory(folderPath);
+                _ = Directory.CreateDirectory(folderPath);
                 return true;
             }
-            try
-            {
                 string[] subDirs = Directory.GetDirectories(folderPath);
                 foreach (string subDirPath in subDirs)
                 {
-                    ClearFolder(subDirPath);
+                    _ = ClearFolder(subDirPath);
                 }
                 string[] files = Directory.GetFiles(folderPath, "*", SearchOption.TopDirectoryOnly);
                 foreach (string filePath in files)
@@ -199,17 +188,7 @@ namespace UotanToolbox.Common
                     Directory.Delete(subDirPath, true);
                 }
                 return true;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                SukiHost.ShowDialog(new ErrorDialog($"Not enough permissions to delete Temp: {ex.Message}"));
-                return false;
-            }
-            catch (Exception ex)
-            {
-                SukiHost.ShowDialog(new ErrorDialog($"unknown error: {ex.Message}"));
-                return false;
-            }
+            
         }
         /// <summary>
         /// 跨平台打开指定文件夹。
@@ -233,7 +212,7 @@ namespace UotanToolbox.Common
                 startInfo.FileName = "open";
                 startInfo.Arguments = folderPath;
             }
-            Process.Start(startInfo);
+            _ = Process.Start(startInfo);
         }
         /// <summary>
         /// 通过向文件路径写入随机数据流并且取消文件只读属性来删除文件。
@@ -280,10 +259,10 @@ namespace UotanToolbox.Common
                 throw new DirectoryNotFoundException($"The directory {directoryPath} does not exist.");
             }
             string[] allGzFiles = Directory.GetFiles(directoryPath, "*.gz", SearchOption.TopDirectoryOnly);
-            var filteredFiles = allGzFiles.Where(path =>
+            IEnumerable<string> filteredFiles = allGzFiles.Where(path =>
             {
-                var fileInfo = new FileInfo(path);
-                return fileInfo.Length >= 10 * 1024 && fileInfo.Length <= 200 * 1024;
+                FileInfo fileInfo = new FileInfo(path);
+                return fileInfo.Length is >= (10 * 1024) and <= (200 * 1024);
             });
             string[] fileNames = filteredFiles.Select(Path.GetFileName).ToArray();
             return fileNames;
@@ -366,14 +345,14 @@ namespace UotanToolbox.Common
         public static string ReadKernelVersion(string filePath)
         {
             byte[] Signature = new byte[] { 0x69, 0x6e, 0x69, 0x74, 0x63, 0x61, 0x6c, 0x6c, 0x5f, 0x64, 0x65, 0x62, 0x75, 0x67, 0x00 };
-            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            using var br = new BinaryReader(fs);
+            using FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            using BinaryReader br = new BinaryReader(fs);
             long signaturePosition = FindSignaturePosition(br, Signature);
             if (signaturePosition == -1)
             {
                 return "";
             }
-            fs.Seek(signaturePosition + Signature.Length, SeekOrigin.Begin);
+            _ = fs.Seek(signaturePosition + Signature.Length, SeekOrigin.Begin);
             return ReadUntilTerminator(br);
         }
         private static long FindSignaturePosition(BinaryReader reader, byte[] signature)
@@ -382,8 +361,8 @@ namespace UotanToolbox.Common
             long position = 0;
             while (position + signature.Length <= reader.BaseStream.Length)
             {
-                reader.BaseStream.Seek(position, SeekOrigin.Begin);
-                reader.Read(buffer, 0, signature.Length);
+                _ = reader.BaseStream.Seek(position, SeekOrigin.Begin);
+                _ = reader.Read(buffer, 0, signature.Length);
                 if (buffer.SequenceEqual(signature))
                 {
                     return position;
@@ -394,15 +373,15 @@ namespace UotanToolbox.Common
         }
         private static string ReadUntilTerminator(BinaryReader reader)
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             int b;
             while ((b = reader.ReadByte()) != 0x00)
             {
-                sb.Append((char)b);
+                _ = sb.Append((char)b);
             }
             while ((b = reader.ReadByte()) != 0x00)
             {
-                sb.Append((char)b);
+                _ = sb.Append((char)b);
             }
             return sb.ToString();
         }

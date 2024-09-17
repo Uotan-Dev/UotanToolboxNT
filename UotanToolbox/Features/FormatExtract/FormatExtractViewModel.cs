@@ -5,7 +5,11 @@ namespace UotanToolbox.Features.FormatExtract;
 
 public partial class FormatExtractViewModel : MainPageBase
 {
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
+
     public FormatExtractViewModel() : base(GetTranslation("Sidebar_FormatExtract"), MaterialIconKind.AccountHardHatOutline, -400)
     {
     }

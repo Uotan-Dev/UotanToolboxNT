@@ -1,27 +1,33 @@
-﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Platform.Storage;
-using Avalonia.Threading;
-using SukiUI.Controls;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
+using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
+using Avalonia.Threading;
+using SukiUI.Dialogs;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Components;
+
 
 namespace UotanToolbox.Features.FormatExtract;
 
 public partial class FormatExtractView : UserControl
 {
-    private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private ISukiDialogManager dialogManager;
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
+
     public FormatExtractView()
     {
         InitializeComponent();
     }
-    private readonly static string adb_log_path = Path.Combine(Global.log_path, "adb.txt");
+    private static readonly string adb_log_path = Path.Combine(Global.log_path, "adb.txt");
     private string output = "";
     public async Task QCNTool(string shell)
     {
@@ -38,7 +44,7 @@ public partial class FormatExtractView : UserControl
             };
             using Process qcn = new Process();
             qcn.StartInfo = qcntool;
-            qcn.Start();
+            _ = qcn.Start();
             qcn.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
             qcn.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
             qcn.BeginOutputReadLine();
@@ -62,7 +68,7 @@ public partial class FormatExtractView : UserControl
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;
-            fb.Start();
+            _ = fb.Start();
             fb.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
             fb.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
             fb.BeginOutputReadLine();
@@ -86,7 +92,7 @@ public partial class FormatExtractView : UserControl
             };
             using Process adb = new Process();
             adb.StartInfo = adbexe;
-            adb.Start();
+            _ = adb.Start();
             adb.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
             adb.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
             adb.BeginOutputReadLine();
@@ -98,7 +104,7 @@ public partial class FormatExtractView : UserControl
 
     private async void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
     {
-        if (!String.IsNullOrEmpty(outLine.Data))
+        if (!string.IsNullOrEmpty(outLine.Data))
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -113,8 +119,8 @@ public partial class FormatExtractView : UserControl
 
     private async void OpenQcnFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open QCN File",
             AllowMultiple = false
@@ -136,7 +142,7 @@ public partial class FormatExtractView : UserControl
                 {
                     string qcnfilepatch = QcnFile.Text;
                     MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                    if (sukiViewModel.Status == "901D" || sukiViewModel.Status == "9091")
+                    if (sukiViewModel.Status is "901D" or "9091")
                     {
                         BusyQCN.IsBusy = true;
                         QCN.IsEnabled = false;
@@ -145,35 +151,30 @@ public partial class FormatExtractView : UserControl
                         int com = StringHelper.Onlynum(Global.thisdevice);
                         string shell = string.Format($"-w -p {com} -f \"{qcnfilepatch}\"");
                         await QCNTool(shell);
-                        if (FormatExtractLog.Text.Contains("error"))
-                        {
-                            SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_WriteFailed")), allowBackgroundClose: true);
-                        }
-                        else
-                        {
-                            SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_WriteSucc")), allowBackgroundClose: true);
-                        }
+                        _ = FormatExtractLog.Text.Contains("error")
+                            ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteFailed")).Dismiss().ByClickingBackground().TryShow()
+                            : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteSucc")).Dismiss().ByClickingBackground().TryShow();
                         BusyQCN.IsBusy = false;
                         QCN.IsEnabled = true;
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_Open901D")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_Open901D")).Dismiss().ByClickingBackground().TryShow();
                     }
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_SelectQCN")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_SelectQCN")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotSupportSystem")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -185,7 +186,7 @@ public partial class FormatExtractView : UserControl
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == "901D" || sukiViewModel.Status == "9091")
+                if (sukiViewModel.Status is "901D" or "9091")
                 {
                     BusyQCN.IsBusy = true;
                     QCN.IsEnabled = false;
@@ -194,30 +195,25 @@ public partial class FormatExtractView : UserControl
                     int com = StringHelper.Onlynum(Global.thisdevice);
                     string shell = string.Format($"-r -p {com}");
                     await QCNTool(shell);
-                    if (FormatExtractLog.Text.Contains("error"))
-                    {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_BackupFailed")), allowBackgroundClose: true);
-                    }
-                    else
-                    {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_BackupSucc")), allowBackgroundClose: true);
-                    }
+                    _ = FormatExtractLog.Text.Contains("error")
+                        ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupFailed")).Dismiss().ByClickingBackground().TryShow()
+                        : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupSucc")).Dismiss().ByClickingBackground().TryShow();
                     BusyQCN.IsBusy = false;
                     QCN.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_Open901D")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_Open901D")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotSupportSystem")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -225,12 +221,17 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
-            await SukiHost.ShowDialogAsync(newDialog);
-            if (newDialog.Result == true)
+            bool result = false;
+            _ = dialogManager.CreateDialog()
+.WithTitle("Warn")
+.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+            if (result == true)
             {
-                var topLevel = TopLevel.GetTopLevel(this);
-                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                TopLevel topLevel = TopLevel.GetTopLevel(this);
+                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                 {
                     Title = "Select Buckup Folder",
                     AllowMultiple = false
@@ -243,7 +244,7 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
                         return;
                     }
                 }
@@ -272,24 +273,29 @@ public partial class FormatExtractView : UserControl
             {
                 BusyQCN.IsBusy = true;
                 QCN.IsEnabled = false;
-                var newDialog = new ConnectionDialog(GetTranslation("Common_NeedRoot"));
-                await SukiHost.ShowDialogAsync(newDialog);
-                if (newDialog.Result == true)
+                bool result = false;
+                _ = dialogManager.CreateDialog()
+.WithTitle("Warn")
+.WithContent(GetTranslation("Common_NeedRoot"))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+                if (result == true)
                 {
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
                 BusyQCN.IsBusy = false;
                 QCN.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -302,34 +308,39 @@ public partial class FormatExtractView : UserControl
             {
                 BusyQCN.IsBusy = true;
                 QCN.IsEnabled = false;
-                var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_OnlyXiaomi"));
-                await SukiHost.ShowDialogAsync(newDialog);
-                if (newDialog.Result == true)
+                bool result = false;
+                _ = dialogManager.CreateDialog()
+.WithTitle("Warn")
+.WithContent(GetTranslation("FormatExtract_OnlyXiaomi"))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+                if (result == true)
                 {
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_DiagApk")), allowBackgroundClose: true);
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DiagApk")).Dismiss().ByClickingBackground().TryShow();
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
                 }
                 BusyQCN.IsBusy = false;
                 QCN.IsEnabled = true;
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
     private async void OpenEmptyFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open SuperEmpty File",
             AllowMultiple = false
@@ -355,31 +366,26 @@ public partial class FormatExtractView : UserControl
                     output = "";
                     FormatExtractLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
                     await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile.Text}\"");
-                    if (!output.Contains("FAILED") && !output.Contains("error"))
-                    {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_FlashSucc")), allowBackgroundClose: true);
-                    }
-                    else
-                    {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_RecoveryFailed")), allowBackgroundClose: true);
-                    }
+                    _ = !output.Contains("FAILED") && !output.Contains("error")
+                        ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_FlashSucc")).Dismiss().ByClickingBackground().TryShow()
+                        : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_RecoveryFailed")).Dismiss().ByClickingBackground().TryShow();
                     BusyFlash.IsBusy = false;
                     SuperEmpty.IsEnabled = true;
                     Global.checkdevice = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_SelectSuperEmpty")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_SelectSuperEmpty")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -398,15 +404,30 @@ public partial class FormatExtractView : UserControl
                     FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
                     string formatsystem = "";
                     if (EXT4.IsChecked != null && (bool)EXT4.IsChecked)
+                    {
                         formatsystem = "mke2fs -t ext4";
+                    }
+
                     if (F2FS.IsChecked != null && (bool)F2FS.IsChecked)
+                    {
                         formatsystem = "/tmp/mkfs.f2fs";
+                    }
+
                     if (FAT32.IsChecked != null && (bool)FAT32.IsChecked)
+                    {
                         formatsystem = "mkfs.fat -F32 -s1";
+                    }
+
                     if (exFAT.IsChecked != null && (bool)exFAT.IsChecked)
+                    {
                         formatsystem = "mkexfatfs -n exfat";
+                    }
+
                     if (NTFS.IsChecked != null && (bool)NTFS.IsChecked)
+                    {
                         formatsystem = "/tmp/mkntfs -f";
+                    }
+
                     string partname = FormatName.Text;
                     await FeaturesHelper.GetPartTable(Global.thisdevice);
                     FeaturesHelper.PushMakefs(Global.thisdevice);
@@ -418,29 +439,29 @@ public partial class FormatExtractView : UserControl
                             Thread.Sleep(1000);
                         });
                         string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
-                        string shell = String.Format($"-s {Global.thisdevice} shell {formatsystem} /dev/block/{sdxx}{partnum}");
+                        string shell = string.Format($"-s {Global.thisdevice} shell {formatsystem} /dev/block/{sdxx}{partnum}");
                         await ADB(shell);
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_NotFound")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NotFound")).Dismiss().ByClickingBackground().TryShow();
                     }
                     BusyFormat.IsBusy = false;
                     Format.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterFormatPart")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterFormatPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -458,24 +479,24 @@ public partial class FormatExtractView : UserControl
                     output = "";
                     FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
                     string partname = FormatName.Text;
-                    string shell = String.Format($"-s {Global.thisdevice} erase {partname}");
+                    string shell = string.Format($"-s {Global.thisdevice} erase {partname}");
                     await Fastboot(shell);
                     BusyFormat.IsBusy = false;
                     Format.IsEnabled = true;
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterFormatPart")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterFormatPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -496,12 +517,12 @@ public partial class FormatExtractView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -522,12 +543,12 @@ public partial class FormatExtractView : UserControl
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecovery")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -535,12 +556,17 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
-            await SukiHost.ShowDialogAsync(newDialog);
-            if (newDialog.Result == true)
+            bool result = false;
+            _ = dialogManager.CreateDialog()
+.WithTitle("Warn")
+.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+            if (result == true)
             {
-                var topLevel = TopLevel.GetTopLevel(this);
-                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                TopLevel topLevel = TopLevel.GetTopLevel(this);
+                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                 {
                     Title = "Select Buckup Folder",
                     AllowMultiple = false
@@ -553,7 +579,7 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
                         return;
                     }
                 }
@@ -584,26 +610,26 @@ public partial class FormatExtractView : UserControl
                     if (sdxx != "")
                     {
                         string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
-                        string shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of={partname}.img");
+                        string shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of={partname}.img");
                         await ADB(shell);
                         FileHelper.Write(adb_log_path, output);
                         if (output.Contains("No space left on device"))
                         {
                             FormatExtractLog.Text = GetTranslation("FormatExtract_TryUseData");
-                            shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
+                            shell = string.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img");
+                            shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
+                            shell = string.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.backup_path}/");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
+                            shell = string.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
                         }
                     }
@@ -616,16 +642,21 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterExtractPart")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {
-                    var newDialog = new ConnectionDialog(GetTranslation("Common_NeedRoot"));
-                    await SukiHost.ShowDialogAsync(newDialog);
-                    if (newDialog.Result == true)
+                    bool result = false;
+                    _ = dialogManager.CreateDialog()
+    .WithTitle("Warn")
+    .WithContent(GetTranslation("Common_NeedRoot"))
+    .WithActionButton("Yes", _ => result = true, true)
+    .WithActionButton("No", _ => result = false, true)
+    .TryShow();
+                    if (result == true)
                     {
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
@@ -637,11 +668,11 @@ public partial class FormatExtractView : UserControl
                         if (sdxx != "")
                         {
                             string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
-                            string shell = String.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
+                            string shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
+                            shell = string.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                             await ADB(shell);
                         }
                         else
@@ -654,17 +685,17 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterExtractPart")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecOrOpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -672,12 +703,17 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
-            await SukiHost.ShowDialogAsync(newDialog);
-            if (newDialog.Result == true)
+            bool result = false;
+            _ = dialogManager.CreateDialog()
+.WithTitle("Warn")
+.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+            if (result == true)
             {
-                var topLevel = TopLevel.GetTopLevel(this);
-                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                TopLevel topLevel = TopLevel.GetTopLevel(this);
+                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                 {
                     Title = "Select Buckup Folder",
                     AllowMultiple = false
@@ -690,7 +726,7 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
                         return;
                     }
                 }
@@ -716,33 +752,33 @@ public partial class FormatExtractView : UserControl
                     output = "";
                     FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
                     string partname = ExtractName.Text;
-                    string shell = String.Format($"-s {Global.thisdevice} shell ls -l /dev/block/mapper/{partname}");
+                    string shell = string.Format($"-s {Global.thisdevice} shell ls -l /dev/block/mapper/{partname}");
                     string vmpart = await CallExternalProgram.ADB(shell);
                     if (!vmpart.Contains("No such file or directory"))
                     {
                         char[] charSeparators = { ' ', '\r', '\n' };
                         string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-                        string devicepoint = line[line.Length - 1];
-                        shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of={partname}.img");
+                        string devicepoint = line[^1];
+                        shell = string.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of={partname}.img");
                         await ADB(shell);
                         FileHelper.Write(adb_log_path, output);
                         if (output.Contains("No space left on device"))
                         {
                             FormatExtractLog.Text = GetTranslation("FormatExtract_TryUseData");
-                            shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
+                            shell = string.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of=/sdcard/{partname}.img");
+                            shell = string.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
+                            shell = string.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = String.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.backup_path}/");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
+                            shell = string.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
                         }
                     }
@@ -755,34 +791,39 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterExtractPart")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {
-                    var newDialog = new ConnectionDialog(GetTranslation("Common_NeedRoot"));
-                    await SukiHost.ShowDialogAsync(newDialog);
-                    if (newDialog.Result == true)
+                    bool result = false;
+                    _ = dialogManager.CreateDialog()
+    .WithTitle("Warn")
+    .WithContent(GetTranslation("Common_NeedRoot"))
+    .WithActionButton("Yes", _ => result = true, true)
+    .WithActionButton("No", _ => result = false, true)
+    .TryShow();
+                    if (result == true)
                     {
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
                         output = "";
                         FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
                         string partname = ExtractName.Text;
-                        string shell = String.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");
+                        string shell = string.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");
                         string vmpart = await CallExternalProgram.ADB(shell);
                         if (!vmpart.Contains("No such file or directory"))
                         {
                             char[] charSeparators = { ' ', '\r', '\n' };
                             string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-                            string devicepoint = line[line.Length - 1];
-                            shell = String.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
+                            string devicepoint = line[^1];
+                            shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
                             await ADB(shell);
-                            shell = String.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
+                            shell = string.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                             await ADB(shell);
                         }
                         else
@@ -795,17 +836,17 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_EnterExtractPart")), allowBackgroundClose: true);
+                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
+                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecOrOpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -813,12 +854,17 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            var newDialog = new ConnectionDialog(GetTranslation("FormatExtract_ExtractFolder"));
-            await SukiHost.ShowDialogAsync(newDialog);
-            if (newDialog.Result == true)
+            bool result = false;
+            _ = dialogManager.CreateDialog()
+.WithTitle("Warn")
+.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+.WithActionButton("Yes", _ => result = true, true)
+.WithActionButton("No", _ => result = false, true)
+.TryShow();
+            if (result == true)
             {
-                var topLevel = TopLevel.GetTopLevel(this);
-                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                TopLevel topLevel = TopLevel.GetTopLevel(this);
+                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                 {
                     Title = "Select Buckup Folder",
                     AllowMultiple = false
@@ -831,7 +877,7 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_FolderNoPermission")), allowBackgroundClose: true);
+                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
                         return;
                     }
                 }

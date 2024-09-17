@@ -9,8 +9,12 @@ namespace UotanToolbox.Common.PatchHelper
 
     internal class MagiskPatch
     {
-        private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-        public async static Task<string> Magisk_Patch(ZipInfo zipInfo, BootInfo bootInfo)
+        private static string GetTranslation(string key)
+        {
+            return FeaturesHelper.GetTranslation(key);
+        }
+
+        public static async Task<string> Magisk_Patch(ZipInfo zipInfo, BootInfo bootInfo)
         {
             if (bootInfo.HaveRamdisk == false)
             {
@@ -61,7 +65,7 @@ namespace UotanToolbox.Common.PatchHelper
         private static async Task patched_img_pre(BootInfo bootinfo)
         {
             File.Copy(Path.Combine(bootinfo.TempPath, "ramdisk", ".backup", ".magisk"), Path.Combine(bootinfo.TempPath, "comfig.orig"), true);
-            (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio restore", bootinfo.TempPath);
+            (_, _) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio restore", bootinfo.TempPath);
             File.Copy(Path.Combine(bootinfo.TempPath, "ramdisk.cpio"), Path.Combine(bootinfo.TempPath, "ramdisk.cpio.orig"), true);
             File.Delete(Path.Combine(bootinfo.TempPath, "stock_boot.img"));
         }
@@ -78,12 +82,12 @@ namespace UotanToolbox.Common.PatchHelper
                     _ => throw new ArgumentException($"{GetTranslation("Basicflash_UnknowArch")}{bootinfo.Arch}")
                 };
                 string compPath = Path.Join(zipInfo.TempPath, "lib", archSubfolder);
-                var copyTasks = new List<Task>
-                {
+                List<Task> copyTasks =
+                [
                     Task.Run(() => File.Copy(Path.Combine(zipInfo.TempPath, "assets", "stub.xz"), Path.Combine(bootinfo.TempPath, "stub.xz"), true)),
                     Task.Run(() => File.Copy(Path.Combine(compPath, "init"), Path.Combine(bootinfo.TempPath, "init"), true)),
                     Task.Run(() => File.Copy(Path.Combine(compPath, "magisk32.xz"), Path.Combine(bootinfo.TempPath, "magisk32.xz"), true)),
-                };
+                ];
 
                 if (File.Exists(Path.Combine(compPath, "magisk64.xz")))
                 {
@@ -112,7 +116,7 @@ namespace UotanToolbox.Common.PatchHelper
                 throw new Exception("ramdisk_patch_2 failed: " + mb_output);
             }
 
-            if (File.Exists(Path.Combine((bootInfo.TempPath), "magisk64.xz")))
+            if (File.Exists(Path.Combine(bootInfo.TempPath, "magisk64.xz")))
             {
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", bootInfo.TempPath);
                 if (exitcode != 0)
@@ -126,19 +130,19 @@ namespace UotanToolbox.Common.PatchHelper
             if (bootInfo.HaveKernel)
             {
                 bool kernel_patched = false;
-                (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054", bootInfo.TempPath);
+                (_, int exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054", bootInfo.TempPath);
                 if (exitcode == 0)
                 {
                     kernel_patched = true;
                 }
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 821B8012 E2FF8F12", bootInfo.TempPath);
+                (_, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 821B8012 E2FF8F12", bootInfo.TempPath);
                 if (exitcode == 0)
                 {
                     kernel_patched = true;
                 }
                 if (LEGACYSAR)
                 {
-                    (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300", bootInfo.TempPath);
+                    (_, exitcode) = await CallExternalProgram.MagiskBoot($"hexpatch kernel 736B69705F696E697472616D667300 77616E745F696E697472616D667300", bootInfo.TempPath);
                     if (exitcode == 0)
                     {
                         kernel_patched = true;
@@ -150,7 +154,7 @@ namespace UotanToolbox.Common.PatchHelper
                 }
             }
         }
-        private async static Task dtb_patch(BootInfo bootInfo)
+        private static async Task dtb_patch(BootInfo bootInfo)
         {
             if (bootInfo.HaveDTB)
             {
@@ -159,7 +163,7 @@ namespace UotanToolbox.Common.PatchHelper
                 {
                     throw new Exception("dtb_patch_1 failed: " + mb_output);
                 }
-                (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"dtb {bootInfo.DTBName} patch", bootInfo.TempPath);
+                (_, _) = await CallExternalProgram.MagiskBoot($"dtb {bootInfo.DTBName} patch", bootInfo.TempPath);
             }
         }
         private static void CleanBoot(string path)
@@ -187,7 +191,7 @@ namespace UotanToolbox.Common.PatchHelper
                     string filePath = Path.Combine(path, file);
                     if (File.Exists(filePath))
                     {
-                        FileHelper.WipeFile(filePath);
+                        _ = FileHelper.WipeFile(filePath);
                     }
                 }
             }

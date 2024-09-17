@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       VERSION:
-        description: 'version'
+        description: 'Version'
         required: true
       BINARY_BRANCH:
         description: 'Binary branch'

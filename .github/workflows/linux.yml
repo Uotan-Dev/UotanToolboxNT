@@ -1,0 +1,95 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build Linux
+
+on:
+  workflow_dispatch:
+    inputs:
+      VERSION:
+        description: 'version'
+        required: true
+      BINARY_BRANCH:
+        description: 'Binary branch'
+        required: true
+      NEED_NUPKG:
+        description: 'Use self nupkg'
+        type: boolean
+        required: true
+        default: false
+
+jobs:
+  linux-deb:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Download NuGet package
+      if: ${{ inputs.NEED_NUPKG }}
+      run: | 
+        wget https://github.com/Uotan-Dev/SukiUI-Uotan/releases/download/v6.0.0/SukiUI.6.0.0.nupkg
+        dotnet nuget add source "/home/runner/work/UotanToolboxNT"
+        nuget add SukiUI.6.0.0.nupkg -Source /home/runner/work/UotanToolboxNT
+
+    - name: Clone Binary
+      run: git clone https://github.com/Uotan-Dev/UotanToolboxNT.Binary.git -b ${{ inputs.BINARY_BRANCH }}
+
+    - name: Build
+      run: |
+        dotnet publish -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-x64
+        dotnet publish -r linux-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-arm64
+
+    - name: Make deb-x64
+      run: |
+        mkdir staging_folder
+        mkdir ./staging_folder/DEBIAN
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/control-x64 ./staging_folder/DEBIAN/control
+        mkdir ./staging_folder/usr
+        mkdir ./staging_folder/usr/bin
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox ./staging_folder/usr/bin/UotanToolbox
+        chmod +x ./staging_folder/usr/bin/UotanToolbox
+        mkdir ./staging_folder/usr/lib
+        mkdir ./staging_folder/usr/lib/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AMD64/* ./staging_folder/usr/lib/UotanToolbox/
+        cp -r ./publish-x64/* ./staging_folder/usr/lib/UotanToolbox/
+        chmod -R a+rX ./staging_folder/usr/lib/UotanToolbox/
+        chmod +x ./staging_folder/usr/lib/UotanToolbox/UotanToolbox
+        mkdir ./staging_folder/usr/share
+        mkdir ./staging_folder/usr/share/applications
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop ./staging_folder/usr/share/applications/UotanToolbox.desktop
+        mkdir ./staging_folder/usr/share/pixmaps
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png ./staging_folder/usr/share/pixmaps/UotanToolbox.png
+        dpkg-deb --root-owner-group --build ./staging_folder/ ./UotanToolbox_Linux_x64_${{ inputs.VERSION }}.deb
+        rm -rf ./staging_folder/*
+
+    - name: Make deb-arm64
+      run: |
+        mkdir ./staging_folder/DEBIAN
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/control-arm64 ./staging_folder/DEBIAN/control
+        mkdir ./staging_folder/usr
+        mkdir ./staging_folder/usr/bin
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox ./staging_folder/usr/bin/UotanToolbox
+        chmod +x ./staging_folder/usr/bin/UotanToolbox
+        mkdir ./staging_folder/usr/lib
+        mkdir ./staging_folder/usr/lib/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AArch64/* ./staging_folder/usr/lib/UotanToolbox/
+        cp -r ./publish-arm64/* ./staging_folder/usr/lib/UotanToolbox/
+        chmod -R a+rX ./staging_folder/usr/lib/UotanToolbox/
+        chmod +x ./staging_folder/usr/lib/UotanToolbox/UotanToolbox
+        mkdir ./staging_folder/usr/share
+        mkdir ./staging_folder/usr/share/applications
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop ./staging_folder/usr/share/applications/UotanToolbox.desktop
+        mkdir ./staging_folder/usr/share/pixmaps
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png ./staging_folder/usr/share/pixmaps/UotanToolbox.png
+        dpkg-deb --root-owner-group --build ./staging_folder/ ./UotanToolbox_Linux_arm64_${{ inputs.VERSION }}.deb
+        rm -rf ./staging_folder/*
+
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: Linux-Package
+        path: ./UotanToolbox_Linux*

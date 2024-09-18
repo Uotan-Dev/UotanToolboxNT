@@ -20,30 +20,32 @@ namespace UotanToolbox.Features.Home;
 public partial class HomeViewModel : MainPageBase
 {
     [ObservableProperty]
-    string _progressDisk = "0", _memLevel = "0", _status = "--", _bLStatus = "--",
+    private string _progressDisk = "0", _memLevel = "0", _status = "--", _bLStatus = "--",
     _vABStatus = "--", _codeName = "--", _vNDKVersion = "--", _cPUCode = "--",
     _powerOnTime = "--", _deviceBrand = "--", _deviceModel = "--", _androidSDK = "--",
     _cPUABI = "--", _displayHW = "--", _density = "--", _boardID = "--", _platform = "--",
-    _compile = "--", _kernel = "--", _selectedSimpleContent, _diskType = "--",
+    _compile = "--", _kernel = "--", _selectedSimpleContent = null, _diskType = "--",
     _batteryLevel = "0", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
-    [ObservableProperty] bool _IsConnecting;
-    [ObservableProperty] bool _commonDevicesList;
-    [ObservableProperty] static AvaloniaList<string> _simpleContent;
-    ISukiDialogManager dialogManager;
-    ISukiToastManager toastManager;
+    [ObservableProperty] private bool _IsConnecting;
+    [ObservableProperty] private bool _commonDevicesList;
+    [ObservableProperty] private static AvaloniaList<string> _simpleContent;
+    private ISukiDialogManager dialogManager;
+    private ISukiToastManager toastManager;
     public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
 
-    [ObservableProperty] bool _animationsEnabled;
-    [ObservableProperty] MainPageBase _activePage;
-    [ObservableProperty] bool _windowLocked;
+    [ObservableProperty] private bool _animationsEnabled;
+    [ObservableProperty] private MainPageBase _activePage;
+    [ObservableProperty] private bool _windowLocked = false;
 
-    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
 
     public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = CheckEnvironment();
         _ = CheckDeviceList();
-
         _ = this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe(option =>
             {
@@ -57,9 +59,8 @@ public partial class HomeViewModel : MainPageBase
 
     public async Task CheckEnvironment()
     {
-        var filepath1 = "";
-        var filepath2 = "";
-
+        string filepath1 = "";
+        string filepath2 = "";
         if (Global.System == "Windows")
         {
             filepath1 = Path.Combine(Global.bin_path, "platform-tools", "adb.exe");
@@ -70,7 +71,6 @@ public partial class HomeViewModel : MainPageBase
             filepath1 = Path.Combine(Global.bin_path, "platform-tools", "adb");
             filepath2 = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
         }
-
         if (!File.Exists(filepath1) || !File.Exists(filepath2))
         {
             _ = dialogManager.CreateDialog()
@@ -79,23 +79,21 @@ public partial class HomeViewModel : MainPageBase
                 .OfType(Avalonia.Controls.Notifications.NotificationType.Warning)
                 .WithActionButton("OK", _ => Process.GetCurrentProcess().Kill(), true)
                 .TryShow();
+
         }
     }
 
     public async Task<bool> GetDevicesList()
     {
-        var devices = await GetDevicesInfo.DevicesList();
-
+        string[] devices = await GetDevicesInfo.DevicesList();
         if (devices.Length != 0)
         {
             Global.deviceslist = new AvaloniaList<string>(devices);
             SimpleContent = Global.deviceslist;
-
             if (SelectedSimpleContent == null || !string.Join("", SimpleContent).Contains(SelectedSimpleContent))
             {
                 SelectedSimpleContent = Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice) ? Global.thisdevice : SimpleContent.First();
             }
-
             return true;
         }
         else
@@ -108,8 +106,8 @@ public partial class HomeViewModel : MainPageBase
     public async Task ConnectCore()
     {
         IsConnecting = true;
-        var sukiViewModel = GlobalData.MainViewModelInstance;
-        var DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
         Status = sukiViewModel.Status = DevicesInfo["Status"];
         BLStatus = sukiViewModel.BLStatus = DevicesInfo["BLStatus"];
         VABStatus = sukiViewModel.VABStatus = DevicesInfo["VABStatus"];
@@ -141,12 +139,10 @@ public partial class HomeViewModel : MainPageBase
     {
         if (Global.checkdevice)
         {
-            var devices = await GetDevicesInfo.DevicesList();
-
+            string[] devices = await GetDevicesInfo.DevicesList();
             if (devices.Length != 0)
             {
-                var tempDeviceslist = new AvaloniaList<string>(devices);
-
+                AvaloniaList<string> tempDeviceslist = new AvaloniaList<string>(devices);
                 if (Global.deviceslist != null)
                 {
                     if (Global.deviceslist.SequenceEqual(tempDeviceslist) != true)
@@ -167,7 +163,6 @@ public partial class HomeViewModel : MainPageBase
                     Global.thisdevice = null;
                     SimpleContent = null;
                     IsConnecting = false;
-
                     _ = toastManager.CreateToast()
     .WithTitle(GetTranslation("Home_Prompt"))
     .WithContent(GetTranslation("Home_Disconnected"))
@@ -175,15 +170,13 @@ public partial class HomeViewModel : MainPageBase
     .Dismiss().ByClicking()
     .Dismiss().After(TimeSpan.FromSeconds(3))
     .Queue();
-
-                    var sukiViewModel = GlobalData.MainViewModelInstance;
+                    MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                     Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
                     VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
                     BatteryLevel = MemLevel = ProgressDisk = "0";
                 }
             }
         }
-
         return false;
     }
 
@@ -197,7 +190,6 @@ public partial class HomeViewModel : MainPageBase
                 _ = await GetDevicesList();
                 CommonDevicesList = false;
             }
-
             await Task.Delay(1000);
         }
     }
@@ -205,8 +197,7 @@ public partial class HomeViewModel : MainPageBase
     [RelayCommand]
     public async Task FreshDeviceList()
     {
-        var OldDeviceList = Global.deviceslist;
-
+        AvaloniaList<string> OldDeviceList = Global.deviceslist;
         if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
         {
             if (OldDeviceList != Global.deviceslist)
@@ -218,12 +209,11 @@ public partial class HomeViewModel : MainPageBase
         }
     }
 
-    async Task SystemControl(string shell)
+    private async Task SystemControl(string shell)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
@@ -239,12 +229,11 @@ public partial class HomeViewModel : MainPageBase
         }
     }
 
-    async Task ADBControl(string shell)
+    private async Task ADBControl(string shell)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
@@ -260,12 +249,11 @@ public partial class HomeViewModel : MainPageBase
         }
     }
 
-    async Task FastbootControl(string shell)
+    private async Task FastbootControl(string shell)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell}");
@@ -281,23 +269,42 @@ public partial class HomeViewModel : MainPageBase
         }
     }
 
-    [RelayCommand]
-    public async Task Back() => await SystemControl("shell input keyevent 4");
 
     [RelayCommand]
-    public async Task Home() => await SystemControl("shell input keyevent 3");
+    public async Task Back()
+    {
+        await SystemControl("shell input keyevent 4");
+    }
 
     [RelayCommand]
-    public async Task Mul() => await SystemControl("shell input keyevent 187");
+    public async Task Home()
+    {
+        await SystemControl("shell input keyevent 3");
+    }
 
     [RelayCommand]
-    public async Task Lock() => await SystemControl("shell input keyevent 26");
+    public async Task Mul()
+    {
+        await SystemControl("shell input keyevent 187");
+    }
 
     [RelayCommand]
-    public async Task VolU() => await SystemControl("shell input keyevent 24");
+    public async Task Lock()
+    {
+        await SystemControl("shell input keyevent 26");
+    }
 
     [RelayCommand]
-    public async Task VolD() => await SystemControl("shell input keyevent 25");
+    public async Task VolU()
+    {
+        await SystemControl("shell input keyevent 24");
+    }
+
+    [RelayCommand]
+    public async Task VolD()
+    {
+        await SystemControl("shell input keyevent 25");
+    }
 
     [RelayCommand]
     public async Task Mute()
@@ -308,9 +315,8 @@ public partial class HomeViewModel : MainPageBase
     [RelayCommand]
     public async Task SC()
     {
-        var pngname = string.Format($"{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}");
+        string pngname = string.Format($"{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}");
         await SystemControl($"shell /system/bin/screencap -p /sdcard/{pngname}.png");
-
         _ = toastManager.CreateToast()
     .WithTitle(GetTranslation("Home_Succeeded"))
     .WithContent($"{GetTranslation("Home_Saved")} {pngname}.png {GetTranslation("Home_ToStorage")}")
@@ -321,22 +327,26 @@ public partial class HomeViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task AReboot() => await ADBControl("reboot");
+    public async Task AReboot()
+    {
+        await ADBControl("reboot");
+    }
 
     [RelayCommand]
-    public async Task ARRec() => await ADBControl("reboot recovery");
+    public async Task ARRec()
+    {
+        await ADBControl("reboot recovery");
+    }
 
     [RelayCommand]
     public async Task ARSide()
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
             {
-                var output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
-
+                string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
                 if (output.Contains("not found"))
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
@@ -354,28 +364,38 @@ public partial class HomeViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task ARBoot() => await ADBControl("reboot bootloader");
+    public async Task ARBoot()
+    {
+        await ADBControl("reboot bootloader");
+    }
 
     [RelayCommand]
-    public async Task ARFast() => await ADBControl("reboot fastboot");
+    public async Task ARFast()
+    {
+        await ADBControl("reboot fastboot");
+    }
 
     [RelayCommand]
-    public async Task AREDL() => await ADBControl("reboot edl");
+    public async Task AREDL()
+    {
+        await ADBControl("reboot edl");
+    }
 
     [RelayCommand]
-    public async Task FReboot() => await FastbootControl("reboot");
+    public async Task FReboot()
+    {
+        await FastbootControl("reboot");
+    }
 
     [RelayCommand]
     public async Task FRRec()
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
-                var output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
-
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                 if (output.Contains("unknown command"))
                 {
                     _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
@@ -402,12 +422,10 @@ public partial class HomeViewModel : MainPageBase
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
-                var output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
-
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
                 _ = output.Contains("unknown command")
                     ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Home_NotSupported")).Dismiss().ByClickingBackground().TryShow()
                     : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Home_Successful")).Dismiss().ByClickingBackground().TryShow();
@@ -424,11 +442,20 @@ public partial class HomeViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task FRBoot() => await FastbootControl("reboot-bootloader");
+    public async Task FRBoot()
+    {
+        await FastbootControl("reboot-bootloader");
+    }
 
     [RelayCommand]
-    public async Task FRFast() => await FastbootControl("reboot-fastboot");
+    public async Task FRFast()
+    {
+        await FastbootControl("reboot-fastboot");
+    }
 
     [RelayCommand]
-    public async Task FREDL() => await FastbootControl("oem edl");
+    public async Task FREDL()
+    {
+        await FastbootControl("oem edl");
+    }
 }

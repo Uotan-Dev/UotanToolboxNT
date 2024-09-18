@@ -5,7 +5,7 @@ namespace UotanToolbox.Features;
 
 public abstract partial class MainPageBase(string displayName, MaterialIconKind icon, int index = 0) : ObservableValidator
 {
-    [ObservableProperty] string _displayName = displayName;
-    [ObservableProperty] MaterialIconKind _icon = icon;
-    [ObservableProperty] int _index = index;
+    [ObservableProperty] private string _displayName = displayName;
+    [ObservableProperty] private MaterialIconKind _icon = icon;
+    [ObservableProperty] private int _index = index;
 }

@@ -7,9 +7,12 @@ namespace UotanToolbox.Features.Others;
 
 public partial class OthersViewModel : MainPageBase
 {
-    [ObservableProperty][Range(1d, 4d)] float _fontScale = 0, _windowScale = 0, _transitionScale = 0, _animationLast = 0;
+    [ObservableProperty][Range(1d, 4d)] private float _fontScale = 0, _windowScale = 0, _transitionScale = 0, _animationLast = 0;
 
-    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
 
     public OthersViewModel() : base(GetTranslation("Sidebar_Others"), MaterialIconKind.WrenchCogOutline, -350)
     {

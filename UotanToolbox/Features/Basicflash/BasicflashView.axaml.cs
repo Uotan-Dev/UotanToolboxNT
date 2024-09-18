@@ -18,8 +18,10 @@ namespace UotanToolbox.Features.Basicflash;
 
 public partial class BasicflashView : UserControl
 {
-    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
-
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
     ISukiDialogManager dialogManager;
     public AvaloniaList<string> SimpleUnlock = ["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"];
     public AvaloniaList<string> Arch = ["aarch64", "armeabi", "X86-64", "X86"];
@@ -34,7 +36,7 @@ public partial class BasicflashView : UserControl
 
     public void SetDefaultMagisk()
     {
-        var filepath = Path.Combine(Global.runpath, "APK", "Magisk-v27.0.apk");
+        string filepath = Path.Combine(Global.runpath, "APK", "Magisk-v27.0.apk");
         MagiskFile.Text = File.Exists(filepath) ? filepath : null;
     }
 
@@ -52,34 +54,30 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void OpenUnlockFile(object sender, RoutedEventArgs args)
+    private async void OpenUnlockFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open File",
             AllowMultiple = false
         });
-
         if (files.Count >= 1)
         {
             UnlockFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
 
-    async void Unlock(object sender, RoutedEventArgs args)
+    private async void Unlock(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Global.checkdevice = false;
                 BusyUnlock.IsBusy = true;
                 UnlockPanel.IsEnabled = false;
-
                 if (!string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
                 {
                     _ = dialogManager.CreateDialog()
@@ -92,8 +90,7 @@ public partial class BasicflashView : UserControl
                 else if (!string.IsNullOrEmpty(UnlockFile.Text) && string.IsNullOrEmpty(UnlockCode.Text))
                 {
                     _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash unlock \"{UnlockFile.Text}\"");
-                    var output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock-go");
-
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock-go");
                     _ = output.Contains("OKAY")
                         ? dialogManager.CreateDialog()
 .WithTitle("Success")
@@ -110,8 +107,7 @@ public partial class BasicflashView : UserControl
                 }
                 else if (string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
                 {
-                    var output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {UnlockCode.Text}");
-
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {UnlockCode.Text}");
                     _ = output.Contains("OKAY")
                         ? dialogManager.CreateDialog()
 .WithTitle("Success")
@@ -135,7 +131,6 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
                 }
-
                 BusyUnlock.IsBusy = false;
                 UnlockPanel.IsEnabled = true;
                 Global.checkdevice = true;
@@ -161,20 +156,18 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void Lock(object sender, RoutedEventArgs args)
+    private async void Lock(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Global.checkdevice = false;
                 BusyUnlock.IsBusy = true;
                 UnlockPanel.IsEnabled = false;
                 _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
-                var output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
-
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
                 _ = output.Contains("OKAY")
                     ? dialogManager.CreateDialog()
 .WithTitle("Success")
@@ -188,7 +181,6 @@ public partial class BasicflashView : UserControl
 .WithContent(GetTranslation("Basicflash_RelockFailed"))
 .Dismiss().ByClickingBackground()
 .TryShow();
-
                 BusyUnlock.IsBusy = false;
                 UnlockPanel.IsEnabled = true;
                 Global.checkdevice = true;
@@ -214,18 +206,17 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void BaseUnlock(object sender, RoutedEventArgs args)
+    private async void BaseUnlock(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
+
                 BusyBaseUnlock.IsBusy = true;
                 BaseUnlockPanel.IsEnabled = false;
-                var result = false;
-
+                bool result = false;
                 if (SimpleContent.SelectedItem != null)
                 {
                     _ = dialogManager.CreateDialog()
@@ -234,11 +225,9 @@ public partial class BasicflashView : UserControl
     .WithActionButton("Yes", _ => result = true, true)
     .WithActionButton("No", _ => result = false, true)
     .TryShow();
-
                     if (result == true)
                     {
                         _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {SimpleContent.SelectedItem}");
-
                         _ = dialogManager.CreateDialog()
 .WithTitle("Error")
 .OfType(NotificationType.Error)
@@ -256,7 +245,6 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
                 }
-
                 BusyBaseUnlock.IsBusy = false;
                 BaseUnlockPanel.IsEnabled = true;
             }
@@ -281,53 +269,45 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void OpenRecFile(object sender, RoutedEventArgs args)
+    private async void OpenRecFile(object sender, RoutedEventArgs args)
     {
-        var topLevel = TopLevel.GetTopLevel(this);
-
-        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open File",
             AllowMultiple = false
         });
-
         if (files.Count >= 1)
         {
             RecFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
 
-    async Task FlashRec(string shell)
+    private async Task FlashRec(string shell)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Global.checkdevice = false;
                 BusyFlash.IsBusy = true;
                 FlashRecovery.IsEnabled = false;
-
                 if (!string.IsNullOrEmpty(RecFile.Text))
                 {
-                    var output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile.Text}\"");
-
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile.Text}\"");
                     if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
-                        var result = false;
-
+                        bool result = false;
                         _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("Basicflash_RecoverySucc"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
-
                         if (result == true)
                         {
                             output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
-
                             if (output.Contains("unknown command"))
                             {
                                 _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
@@ -354,7 +334,6 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
                 }
-
                 BusyFlash.IsBusy = false;
                 FlashRecovery.IsEnabled = true;
                 Global.checkdevice = true;
@@ -380,34 +359,34 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void FlashToRec(object sender, RoutedEventArgs args) => await FlashRec("flash recovery");
+    private async void FlashToRec(object sender, RoutedEventArgs args)
+    {
+        await FlashRec("flash recovery");
+    }
 
-    async void FlashToRecA(object sender, RoutedEventArgs args)
+    private async void FlashToRecA(object sender, RoutedEventArgs args)
     {
         await FlashRec("flash recovery_a");
     }
 
-    async void FlashToRecB(object sender, RoutedEventArgs args)
+    private async void FlashToRecB(object sender, RoutedEventArgs args)
     {
         await FlashRec("flash recovery_b");
     }
 
-    async void BootRec(object sender, RoutedEventArgs args)
+    private async void BootRec(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Global.checkdevice = false;
                 BusyFlash.IsBusy = true;
                 FlashRecovery.IsEnabled = false;
-
                 if (!string.IsNullOrEmpty(RecFile.Text))
                 {
-                    var output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} boot \"{RecFile.Text}\"");
-
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} boot \"{RecFile.Text}\"");
                     _ = output.Contains("Finished")
                         ? dialogManager.CreateDialog()
 .WithTitle("Success")
@@ -431,7 +410,6 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
                 }
-
                 BusyFlash.IsBusy = false;
                 FlashRecovery.IsEnabled = true;
                 Global.checkdevice = true;
@@ -457,9 +435,15 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void FlashToBootA(object sender, RoutedEventArgs args) => await FlashRec("flash boot_a");
+    private async void FlashToBootA(object sender, RoutedEventArgs args)
+    {
+        await FlashRec("flash boot_a");
+    }
 
-    async void FlashToBootB(object sender, RoutedEventArgs args) => await FlashRec("flash boot_b");
+    private async void FlashToBootB(object sender, RoutedEventArgs args)
+    {
+        await FlashRec("flash boot_b");
+    }
 
     public static FilePickerFileType Zip { get; } = new("Zip")
     {
@@ -467,29 +451,25 @@ public partial class BasicflashView : UserControl
         AppleUniformTypeIdentifiers = new[] { "*.zip", "*.apk", "*.ko" }
     };
 
-    async void OpenMagiskFile(object sender, RoutedEventArgs args)
+    private async void OpenMagiskFile(object sender, RoutedEventArgs args)
     {
         patch_busy(true);
-
         try
         {
-            var topLevel = TopLevel.GetTopLevel(this);
-
-            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 FileTypeFilter = new[] { Zip },
                 Title = "Open File",
                 AllowMultiple = false
             });
-
             if (files.Count == 0)
             {
                 patch_busy(false);
                 return;
             }
-
             MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
-            // Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
+            //Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
             _ = dialogManager.CreateDialog()
 .WithTitle("Info")
 .OfType(NotificationType.Information)
@@ -506,7 +486,6 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
         }
-
         patch_busy(false);
     }
 
@@ -516,31 +495,26 @@ public partial class BasicflashView : UserControl
         AppleUniformTypeIdentifiers = new[] { "*.img" }
     };
 
-    async void OpenBootFile(object sender, RoutedEventArgs args)
+    private async void OpenBootFile(object sender, RoutedEventArgs args)
     {
         patch_busy(true);
-
         try
         {
-            var topLevel = TopLevel.GetTopLevel(this);
-
-            var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 FileTypeFilter = new[] { Image },
                 Title = "Open File",
                 AllowMultiple = false
             });
-
             if (files.Count == 0)
             {
                 patch_busy(false);
                 return;
             }
-
             BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
-            // Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
+            //Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
             ArchList.SelectedItem = Global.Bootinfo.Arch;
-
             _ = dialogManager.CreateDialog()
 .WithTitle("Info")
 .OfType(NotificationType.Information)
@@ -557,14 +531,12 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
         }
-
         patch_busy(false);
     }
 
-    async void StartPatch(object sender, RoutedEventArgs args)
+    private async void StartPatch(object sender, RoutedEventArgs args)
     {
         patch_busy(true);
-
         try
         {
             EnvironmentVariable.KEEPVERITY = (bool)KEEPVERITY.IsChecked;
@@ -572,42 +544,35 @@ public partial class BasicflashView : UserControl
             EnvironmentVariable.PATCHVBMETAFLAG = (bool)PATCHVBMETAFLAG.IsChecked;
             EnvironmentVariable.RECOVERYMODE = (bool)RECOVERYMODE.IsChecked;
             EnvironmentVariable.LEGACYSAR = (bool)LEGACYSAR.IsChecked;
-
             if (Global.Bootinfo.IsUseful != true | string.IsNullOrEmpty(MagiskFile.Text))
             {
                 throw new Exception(GetTranslation("Basicflash_SelectBootMagisk"));
             }
-
             if ((Global.Zipinfo.Mode == PatchMode.None) | (Global.Zipinfo.IsUseful != true))
             {
-                // Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
+                //Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
             }
-
             string newboot = null;
-
             switch (Global.Zipinfo.Mode)
             {
                 case PatchMode.Magisk:
                     newboot = await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
                 case PatchMode.GKI:
-                    // newboot = await KernelSUPatch.GKI_Patch(Global.Zipinfo, Global.Bootinfo);
+                    //newboot = await KernelSUPatch.GKI_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
                 case PatchMode.LKM:
                     newboot = await KernelSUPatch.LKM_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
                     //throw new Exception(GetTranslation("Basicflash_CantKSU"));
             }
-
-            var result = false;
-
+            bool result = false;
             _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("Basicflash_PatchDone"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
-
             if (result == true)
             {
                 await FlashBoot(newboot);
@@ -616,7 +581,6 @@ public partial class BasicflashView : UserControl
             {
                 FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path));
             }
-
             Global.Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
             Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
             SetDefaultMagisk();
@@ -632,32 +596,28 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
         }
-
         patch_busy(false);
     }
 
-    async Task FlashBoot(string boot)
+    private async Task FlashBoot(string boot)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
 
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Global.checkdevice = false;
-                var output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash boot \"{boot}\"");
-
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash boot \"{boot}\"");
                 if (!output.Contains("FAILED") && !output.Contains("error"))
                 {
-                    var result = false;
-
+                    bool result = false;
                     _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("Basicflash_BootFlashSucc"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
-
                     if (result == true)
                     {
                         _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
@@ -672,7 +632,6 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
                 }
-
                 Global.checkdevice = true;
             }
             else
@@ -696,7 +655,7 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void OpenAFDI(object sender, RoutedEventArgs args)
+    private async void OpenAFDI(object sender, RoutedEventArgs args)
     {
         if (Global.System == "Windows")
         {
@@ -706,11 +665,10 @@ public partial class BasicflashView : UserControl
             }
             else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
-                var drvpath = string.Format($"{Global.runpath}/Drive/adb/*.inf");
-                var shell = string.Format("/add-driver {0} /subdirs /install", drvpath);
-                var drvlog = await CallExternalProgram.Pnputil(shell);
+                string drvpath = string.Format($"{Global.runpath}/Drive/adb/*.inf");
+                string shell = string.Format("/add-driver {0} /subdirs /install", drvpath);
+                string drvlog = await CallExternalProgram.Pnputil(shell);
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
-
                 _ = drvlog.Contains(GetTranslation("Basicflash_Success"))
                     ? dialogManager.CreateDialog()
 .WithTitle("Success")
@@ -737,7 +695,7 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void Open9008DI(object sender, RoutedEventArgs args)
+    private async void Open9008DI(object sender, RoutedEventArgs args)
     {
         if (Global.System == "Windows")
         {
@@ -747,11 +705,10 @@ public partial class BasicflashView : UserControl
             }
             else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
-                var drvpath = string.Format($"{Global.runpath}/drive/9008/*.inf");
-                var shell = string.Format("/add-driver {0} /subdirs /install", drvpath);
-                var drvlog = await CallExternalProgram.Pnputil(shell);
+                string drvpath = string.Format($"{Global.runpath}/drive/9008/*.inf");
+                string shell = string.Format("/add-driver {0} /subdirs /install", drvpath);
+                string drvlog = await CallExternalProgram.Pnputil(shell);
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
-
                 _ = drvlog.Contains(GetTranslation("Basicflash_Success"))
                     ? dialogManager.CreateDialog()
 .WithTitle("Success")
@@ -778,21 +735,18 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void OpenUSBP(object sender, RoutedEventArgs args)
+    private async void OpenUSBP(object sender, RoutedEventArgs args)
     {
         if (Global.System == "Windows")
         {
-            var cmd = @"drive\USB3.bat";
+            string cmd = @"drive\USB3.bat";
             ProcessStartInfo cmdshell = null;
-
             cmdshell = new ProcessStartInfo(cmd)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false
             };
-
-            var f = Process.Start(cmdshell);
-
+            Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = dialogManager.CreateDialog()
@@ -814,17 +768,15 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void FlashMagisk(object sender, RoutedEventArgs args)
+    private async void FlashMagisk(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
-
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (MagiskFile.Text != null)
             {
                 BusyInstall.IsBusy = true;
                 InstallZIP.IsEnabled = false;
-
                 if (TWRPInstall.IsChecked == true)
                 {
                     if (sukiViewModel.Status == "Recovery")
@@ -858,14 +810,12 @@ public partial class BasicflashView : UserControl
 .TryShow();
                     }
                 }
-
                 _ = dialogManager.CreateDialog()
 .WithTitle("Error")
 .OfType(NotificationType.Error)
 .WithContent(GetTranslation("Common_Execution"))
 .Dismiss().ByClickingBackground()
 .TryShow();
-
                 BusyInstall.IsBusy = false;
                 InstallZIP.IsEnabled = true;
             }
@@ -878,26 +828,22 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
             }
-
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (MagiskFile.Text != null)
                 {
                     BusyInstall.IsBusy = true;
                     InstallZIP.IsEnabled = false;
-                    var result = false;
-
+                    bool result = false;
                     _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("Basicflash_PushMagisk"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
-
                     if (result == true)
                     {
                         _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /sdcard/magisk.apk");
-
                         _ = dialogManager.CreateDialog()
 .WithTitle("Error")
 .OfType(NotificationType.Error)
@@ -905,7 +851,6 @@ public partial class BasicflashView : UserControl
 .Dismiss().ByClickingBackground()
 .TryShow();
                     }
-
                     BusyInstall.IsBusy = false;
                     InstallZIP.IsEnabled = true;
                 }
@@ -931,14 +876,13 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void DisableOffRec(object sender, RoutedEventArgs args)
+    private async void DisableOffRec(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             BusyInstall.IsBusy = true;
             InstallZIP.IsEnabled = false;
-
             if (TWRPInstall.IsChecked == true)
             {
                 if (sukiViewModel.Status == "Recovery")
@@ -972,14 +916,12 @@ public partial class BasicflashView : UserControl
 .TryShow();
                 }
             }
-
             _ = dialogManager.CreateDialog()
 .WithTitle("Error")
 .OfType(NotificationType.Error)
 .WithContent(GetTranslation("Common_Execution"))
 .Dismiss().ByClickingBackground()
 .TryShow();
-
             BusyInstall.IsBusy = false;
             InstallZIP.IsEnabled = true;
         }
@@ -994,14 +936,13 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    async void SyncAB(object sender, RoutedEventArgs args)
+    private async void SyncAB(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            var sukiViewModel = GlobalData.MainViewModelInstance;
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             BusyInstall.IsBusy = true;
             InstallZIP.IsEnabled = false;
-
             if (TWRPInstall.IsChecked == true)
             {
                 if (sukiViewModel.Status == "Recovery")
@@ -1035,14 +976,12 @@ public partial class BasicflashView : UserControl
 .TryShow();
                 }
             }
-
             _ = dialogManager.CreateDialog()
 .WithTitle("Error")
 .OfType(NotificationType.Error)
 .WithContent(GetTranslation("Common_Execution"))
 .Dismiss().ByClickingBackground()
 .TryShow();
-
             BusyInstall.IsBusy = false;
             InstallZIP.IsEnabled = true;
         }

@@ -15,16 +15,19 @@ namespace UotanToolbox.Features.Scrcpy;
 public partial class ScrcpyViewModel : MainPageBase
 {
     [ObservableProperty]
-    bool _recordScreen, _windowFixed, _computerControl = true, _fullScreen, _showBorder = true,
-                        _showTouch = true, _closeScreen, _screenAwake, _screenAwakeStatus = true, _clipboardSync = true, _cameraMirror;
-    [ObservableProperty] bool _IsConnecting;
-    [ObservableProperty] string _windowTitle, _recordFolder;
+    private bool _recordScreen = false, _windowFixed = false, _computerControl = true, _fullScreen = false, _showBorder = true,
+                        _showTouch = true, _closeScreen = false, _screenAwake = false, _screenAwakeStatus = true, _clipboardSync = true, _cameraMirror = false;
+    [ObservableProperty] private bool _IsConnecting;
+    [ObservableProperty] private string _windowTitle, _recordFolder;
 
-    [ObservableProperty][Range(0d, 50d)] double _bitRate = 8;
-    [ObservableProperty][Range(0d, 144d)] double _frameRate = 60;
-    [ObservableProperty][Range(0d, 2048d)] double _sizeResolution = 0;
-    ISukiDialogManager dialogManager;
-    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    [ObservableProperty][Range(0d, 50d)] private double _bitRate = 8;
+    [ObservableProperty][Range(0d, 144d)] private double _frameRate = 60;
+    [ObservableProperty][Range(0d, 2048d)] private double _sizeResolution = 0;
+    private ISukiDialogManager dialogManager;
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
 
     public ScrcpyViewModel() : base("Scrcpy", MaterialIconKind.CellphoneLink, -500)
     {
@@ -50,16 +53,13 @@ public partial class ScrcpyViewModel : MainPageBase
         {
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                var sukiViewModel = GlobalData.MainViewModelInstance;
-
+                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
                     IsConnecting = true;
-
                     await Dispatcher.UIThread.InvokeAsync(async () =>
                     {
-                        var arg = $"-s \"{Global.thisdevice}\" ";
-
+                        string arg = $"-s \"{Global.thisdevice}\" ";
                         if (RecordScreen)
                         {
                             if (string.IsNullOrEmpty(RecordFolder))
@@ -68,14 +68,11 @@ public partial class ScrcpyViewModel : MainPageBase
                                 IsConnecting = false;
                                 return;
                             }
-
-                            var now = DateTime.Now;
-                            var formattedDateTime = now.ToString("yyyy-MM-dd-HH-mm-ss");
+                            DateTime now = DateTime.Now;
+                            string formattedDateTime = now.ToString("yyyy-MM-dd-HH-mm-ss");
                             arg += $"--record {RecordFolder}/{Global.thisdevice}-{formattedDateTime}.mp4 ";
                         }
-
                         arg += $"--video-bit-rate {BitRate}M --max-fps {FrameRate} ";
-
                         if (SizeResolution != 0)
                         {
                             arg += $"--max-size {SizeResolution} ";
@@ -85,7 +82,6 @@ public partial class ScrcpyViewModel : MainPageBase
                         {
                             arg += $"--window-title \"{WindowTitle.Replace("\"", "\\\"")}\" ";
                         }
-
                         if (WindowFixed)
                         {
                             arg += "--always-on-top ";

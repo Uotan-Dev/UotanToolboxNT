@@ -5,7 +5,10 @@ namespace UotanToolbox.Features.Wiredflash;
 
 public partial class WiredflashViewModel : MainPageBase
 {
-    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
+    private static string GetTranslation(string key)
+    {
+        return FeaturesHelper.GetTranslation(key);
+    }
 
     public WiredflashViewModel() : base(GetTranslation("Sidebar_WiredFlash"), MaterialIconKind.JumpRope, -600)
     {

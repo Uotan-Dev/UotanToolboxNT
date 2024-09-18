@@ -24,7 +24,6 @@ internal class Program
     {
         Global.runpath = System.AppDomain.CurrentDomain.BaseDirectory;//获取工具运行路径
         Global.tmp_path = Path.GetTempPath();
-
         if (OperatingSystem.IsLinux())
         {
             if (RuntimeInformation.OSArchitecture == Architecture.X64)
@@ -39,21 +38,17 @@ internal class Program
             {
                 Global.System = "Linux_LoongArch64";
             }
-
             Global.log_path = Global.tmp_path;
         }
         else if (OperatingSystem.IsMacOS())
         {
             Global.System = "macOS";
             Global.log_path = Path.Combine(Global.runpath, "Log");
-
             if (!File.Exists(Global.log_path))
             {
                 _ = Directory.CreateDirectory(Global.log_path);
             }
-
             Global.backup_path = Path.Combine(Global.runpath, "Backup");
-
             if (!File.Exists(Global.backup_path))
             {
                 _ = Directory.CreateDirectory(Global.backup_path);
@@ -62,20 +57,16 @@ internal class Program
         else if (OperatingSystem.IsWindows())
         {
             Global.log_path = Path.Combine(Global.runpath, "Log");
-
             if (!File.Exists(Global.log_path))
             {
                 _ = Directory.CreateDirectory(Global.log_path);
             }
-
             Global.backup_path = Path.Combine(Global.runpath, "Backup");
-
             if (!File.Exists(Global.backup_path))
             {
                 _ = Directory.CreateDirectory(Global.backup_path);
             }
         }
-
         Global.bin_path = Path.Combine(Global.runpath, "Bin");
         // No need to set default for Windows
         return AppBuilder.Configure<App>()

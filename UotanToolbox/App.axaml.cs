@@ -15,7 +15,7 @@ namespace UotanToolbox;
 
 public partial class App : Application
 {
-    private IServiceProvider _provider;
+    IServiceProvider _provider;
 
     public override void Initialize()
     {
@@ -25,15 +25,16 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        CultureInfo CurCulture = Settings.Default.Language is not null and not ""
+        var CurCulture = Settings.Default.Language is not null and not ""
             ? new CultureInfo(Settings.Default.Language, false)
             : CultureInfo.CurrentCulture;
+
         Assets.Resources.Culture = CurCulture;
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            IDataTemplate viewLocator = _provider?.GetRequiredService<IDataTemplate>();
-            MainViewModel mainVm = _provider?.GetRequiredService<MainViewModel>();
+            var viewLocator = _provider?.GetRequiredService<IDataTemplate>();
+            var mainVm = _provider?.GetRequiredService<MainViewModel>();
 
             desktop.MainWindow = viewLocator?.Build(mainVm) as Window;
             desktop.MainWindow.Width = 1240;
@@ -43,10 +44,10 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
-    private static ServiceProvider ConfigureServices()
+    static ServiceProvider ConfigureServices()
     {
-        IDataTemplate viewlocator = Current?.DataTemplates.First(x => x is ViewLocator);
-        ServiceCollection services = new ServiceCollection();
+        var viewlocator = Current?.DataTemplates.First(x => x is ViewLocator);
+        var services = new ServiceCollection();
 
         if (viewlocator is not null)
         {
@@ -57,13 +58,14 @@ public partial class App : Application
 
         // Viewmodels
         _ = services.AddSingleton<MainViewModel>();
-        System.Collections.Generic.IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies()
+
+        var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(p => !p.IsAbstract && typeof(MainPageBase).IsAssignableFrom(p));
+
         foreach (Type type in types)
-        {
             _ = services.AddSingleton(typeof(MainPageBase), type);
-        }
+        
 
         return services.BuildServiceProvider();
     }

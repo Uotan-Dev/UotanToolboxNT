@@ -12,12 +12,9 @@ namespace UotanToolbox.Features.Others;
 
 public partial class OthersView : UserControl
 {
-    private ISukiToastManager toastManager;
-    private ISukiDialogManager dialogManager;
-    private static string GetTranslation(string key)
-    {
-        return FeaturesHelper.GetTranslation(key);
-    }
+    ISukiToastManager toastManager;
+    ISukiDialogManager dialogManager;
+    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
 
     public AvaloniaList<string> Unit = ["DPI", "DP"];
     public OthersView()
@@ -48,14 +45,14 @@ public partial class OthersView : UserControl
     {
         while (true)
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (ScrResolution.Text == "--" && ScrDPI.Text == "--" && ScrDP.Text == "--")
                 {
                     try
                     {
-
                         ScrResolution.Text = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size")));
                         ScrDPI.Text = StringHelper.Density(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density"));
                         ScrDP.Text = StringHelper.GetDP(ScrResolution.Text, ScrDPI.Text).ToString();
@@ -76,17 +73,20 @@ public partial class OthersView : UserControl
             {
                 SetNull();
             }
+
             await Task.Delay(1000);
         }
     }
 
-    private async void SetInfo(object sender, RoutedEventArgs args)
+    async void SetInfo(object sender, RoutedEventArgs args)
     {
         BusyDisplay.IsBusy = true;
         Display.IsEnabled = false;
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(Transverse.Text) && !string.IsNullOrEmpty(Direction.Text))
@@ -94,6 +94,7 @@ public partial class OthersView : UserControl
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size {Transverse.Text}x{Direction.Text}");
                     _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
+
                 if (!string.IsNullOrEmpty(DPIorDP.Text))
                 {
                     if (SetUnit.SelectedItem == null)
@@ -118,11 +119,11 @@ public partial class OthersView : UserControl
                         }
                     }
                 }
+
                 if ((string.IsNullOrEmpty(Transverse.Text) || string.IsNullOrEmpty(Direction.Text)) && (SetUnit.SelectedItem == null || string.IsNullOrEmpty(DPIorDP.Text)))
                 {
                     _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_EnterPara")).Dismiss().ByClickingBackground().TryShow();
                 }
-
             }
             else
             {
@@ -133,17 +134,20 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         Display.IsEnabled = true;
         BusyDisplay.IsBusy = false;
     }
 
-    private async void BackInfo(object sender, RoutedEventArgs args)
+    async void BackInfo(object sender, RoutedEventArgs args)
     {
         BusyDisplay.IsBusy = true;
         Display.IsEnabled = false;
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size reset");
@@ -159,6 +163,7 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         Display.IsEnabled = true;
         BusyDisplay.IsBusy = false;
     }
@@ -177,17 +182,20 @@ public partial class OthersView : UserControl
         }
     }
 
-    private async void SetTemp(object sender, RoutedEventArgs args)
+    async void SetTemp(object sender, RoutedEventArgs args)
     {
         SetEnable(true);
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(Temp.Text))
                 {
-                    float temp = StringHelper.OnlynumFloat(Temp.Text);
+                    var temp = StringHelper.OnlynumFloat(Temp.Text);
+
                     if (temp >= 100)
                     {
                         _ = toastManager.CreateToast()
@@ -217,8 +225,10 @@ public partial class OthersView : UserControl
 .Dismiss().ByClicking()
 .Dismiss().After(TimeSpan.FromSeconds(3))
 .Queue();
+
                         return;
                     }
+
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set temp {temp * 10}");
                     _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
@@ -236,14 +246,18 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         SetEnable(false);
     }
-    private async void SetBLevel(object sender, RoutedEventArgs args)
+
+    async void SetBLevel(object sender, RoutedEventArgs args)
     {
         SetEnable(true);
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(BLevel.Text))
@@ -265,15 +279,18 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         SetEnable(false);
     }
 
-    private async void BuckBattery(object sender, RoutedEventArgs args)
+    async void BuckBattery(object sender, RoutedEventArgs args)
     {
         SetEnable(true);
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery reset");
@@ -292,17 +309,20 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         SetEnable(false);
     }
 
-    private async void SetNoCharge(object sender, RoutedEventArgs args)
+    async void SetNoCharge(object sender, RoutedEventArgs args)
     {
         if (NoCharge.IsChecked != null && (bool)NoCharge.IsChecked)
         {
             SetEnable(true);
+
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                var sukiViewModel = GlobalData.MainViewModelInstance;
+
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
                     WirelessCharge.IsChecked = false;
@@ -320,18 +340,21 @@ public partial class OthersView : UserControl
             {
                 _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
+
             SetEnable(false);
         }
     }
 
-    private async void SetWirelessCharge(object sender, RoutedEventArgs args)
+    async void SetWirelessCharge(object sender, RoutedEventArgs args)
     {
         if (WirelessCharge.IsChecked != null && (bool)WirelessCharge.IsChecked)
         {
             SetEnable(true);
+
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                var sukiViewModel = GlobalData.MainViewModelInstance;
+
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
                     NoCharge.IsChecked = false;
@@ -349,18 +372,21 @@ public partial class OthersView : UserControl
             {
                 _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
+
             SetEnable(false);
         }
     }
 
-    private async void SetUSUCharge(object sender, RoutedEventArgs args)
+    async void SetUSUCharge(object sender, RoutedEventArgs args)
     {
         if (USUCharge.IsChecked != null && (bool)USUCharge.IsChecked)
         {
             SetEnable(true);
+
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                var sukiViewModel = GlobalData.MainViewModelInstance;
+
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
                     WirelessCharge.IsChecked = false;
@@ -378,21 +404,23 @@ public partial class OthersView : UserControl
             {
                 _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
+
             SetEnable(false);
         }
     }
 
-    private async void SetACCharge(object sender, RoutedEventArgs args)
+    async void SetACCharge(object sender, RoutedEventArgs args)
     {
         if (ACCharge.IsChecked != null && (bool)ACCharge.IsChecked)
         {
             SetEnable(true);
+
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                var sukiViewModel = GlobalData.MainViewModelInstance;
+
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
-
                     WirelessCharge.IsChecked = false;
                     USUCharge.IsChecked = false;
                     NoCharge.IsChecked = false;
@@ -408,17 +436,20 @@ public partial class OthersView : UserControl
             {
                 _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
+
             SetEnable(false);
         }
     }
 
-    private async void SetLockTime(object sender, RoutedEventArgs args)
+    async void SetLockTime(object sender, RoutedEventArgs args)
     {
         BusyLock.IsBusy = true;
         Lock.IsEnabled = false;
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(NewLockTime.Text))
@@ -441,19 +472,23 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         BusyLock.IsBusy = false;
         Lock.IsEnabled = true;
     }
 
-    private async void ShowOrHide(object sender, RoutedEventArgs args)
+    async void ShowOrHide(object sender, RoutedEventArgs args)
     {
         ShowAndHide.IsEnabled = false;
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                string addshell = "";
+                var addshell = "";
+
                 if (Time.IsChecked == true)
                 {
                     addshell += "clock,";
@@ -510,12 +545,15 @@ public partial class OthersView : UserControl
                 }
 
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure icon_blacklist rotate,ime,{addshell}");
+
                 _ = Second.IsChecked == true
                     ? await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure clock_seconds 1")
                     : await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure clock_seconds 0");
+
                 _ = Rotate.IsChecked == true
                     ? await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure show_rotation_suggestions 0")
                     : await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure show_rotation_suggestions 1");
+
                 if (RemoveX.IsChecked == true)
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global captive_portal_http_url \"http://connect.rom.miui.com/generate_204\"");
@@ -523,6 +561,7 @@ public partial class OthersView : UserControl
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global time_zone Asia/Shanghai");
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global ntp_server ntp1.aliyun.com");
                 }
+
                 _ = toastManager.CreateToast()
 .WithTitle(GetTranslation("Common_Execution"))
 .WithContent(GetTranslation("Others_NotEffect"))
@@ -540,6 +579,7 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         ShowAndHide.IsEnabled = true;
     }
 
@@ -561,16 +601,17 @@ public partial class OthersView : UserControl
         }
     }
 
-    private void SetFontZoom(object sender, RoutedEventArgs args)
+    void SetFontZoom(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                var text = button.Content.ToString();
+
                 if (text != null)
                 {
-                    int zoom = StringHelper.Onlynum(text);
+                    var zoom = StringHelper.Onlynum(text);
                     FontZoom.Value = zoom;
                     FontZoomBut(sender, args);
                 }
@@ -578,15 +619,18 @@ public partial class OthersView : UserControl
         }
     }
 
-    private async void FontZoomBut(object sender, RoutedEventArgs args)
+    async void FontZoomBut(object sender, RoutedEventArgs args)
     {
         SetFalse(true);
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put system font_scale {FontZoom.Value}");
+
                 _ = toastManager.CreateToast()
 .WithTitle(GetTranslation("Common_Execution"))
 .WithContent(GetTranslation("Others_NotEffect"))
@@ -594,6 +638,7 @@ public partial class OthersView : UserControl
 .Dismiss().ByClicking()
 .Dismiss().After(TimeSpan.FromSeconds(3))
 .Queue();
+
                 NowFontZoom.Text = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system font_scale")).ToString();
             }
             else
@@ -605,19 +650,21 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         SetFalse(false);
     }
 
-    private void SetWindowZoom(object sender, RoutedEventArgs args)
+    void SetWindowZoom(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                var text = button.Content.ToString();
+
                 if (text != null)
                 {
-                    int zoom = StringHelper.Onlynum(text);
+                    var zoom = StringHelper.Onlynum(text);
                     WindowZoom.Value = zoom;
                     WindowZoomBut(sender, args);
                 }
@@ -625,15 +672,18 @@ public partial class OthersView : UserControl
         }
     }
 
-    private async void WindowZoomBut(object sender, RoutedEventArgs args)
+    async void WindowZoomBut(object sender, RoutedEventArgs args)
     {
         SetFalse(true);
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global window_animation_scale {WindowZoom.Value}");
+
                 _ = toastManager.CreateToast()
 .WithTitle(GetTranslation("Common_Execution"))
 .WithContent(GetTranslation("Others_NotEffect"))
@@ -651,19 +701,21 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         SetFalse(false);
     }
 
-    private void SetTransitionZoom(object sender, RoutedEventArgs args)
+    void SetTransitionZoom(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                var text = button.Content.ToString();
+
                 if (text != null)
                 {
-                    int zoom = StringHelper.Onlynum(text);
+                    var zoom = StringHelper.Onlynum(text);
                     TransitionZoom.Value = zoom;
                     TransitionZoomBut(sender, args);
                 }
@@ -671,15 +723,18 @@ public partial class OthersView : UserControl
         }
     }
 
-    private async void TransitionZoomBut(object sender, RoutedEventArgs args)
+    async void TransitionZoomBut(object sender, RoutedEventArgs args)
     {
         SetFalse(true);
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global transition_animation_scale {TransitionZoom.Value}");
+
                 _ = toastManager.CreateToast()
 .WithTitle(GetTranslation("Common_Execution"))
 .WithContent(GetTranslation("Others_NotEffect"))
@@ -697,19 +752,21 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         SetFalse(false);
     }
 
-    private void SetAnimationDuration(object sender, RoutedEventArgs args)
+    void SetAnimationDuration(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                var text = button.Content.ToString();
+
                 if (text != null)
                 {
-                    int zoom = StringHelper.Onlynum(text);
+                    var zoom = StringHelper.Onlynum(text);
                     AnimationDuration.Value = zoom;
                     AnimationDurationBut(sender, args);
                 }
@@ -717,15 +774,18 @@ public partial class OthersView : UserControl
         }
     }
 
-    private async void AnimationDurationBut(object sender, RoutedEventArgs args)
+    async void AnimationDurationBut(object sender, RoutedEventArgs args)
     {
         SetFalse(true);
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global animator_duration_scale {AnimationDuration.Value}");
+
                 _ = toastManager.CreateToast()
 .WithTitle(GetTranslation("Common_Execution"))
 .WithContent(GetTranslation("Others_NotEffect"))
@@ -743,6 +803,7 @@ public partial class OthersView : UserControl
         {
             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
+
         SetFalse(false);
     }
 }

@@ -9,27 +9,27 @@ using System.Text;
 using System.Threading.Tasks;
 using SukiUI.Dialogs;
 
-
 namespace UotanToolbox.Common
 {
     internal class FileHelper
     {
-        private ISukiDialogManager dialogManager;
+        ISukiDialogManager dialogManager;
         public static void CopyDirectory(string srcPath, string aimPath)
         {
             try
             {
                 string[] fileList = Directory.GetFiles(srcPath);
+
                 foreach (string file in fileList)
-                {
                     File.Copy(file, aimPath + System.IO.Path.GetFileName(file), true);
-                }
+                
             }
             catch
             {
                 throw;
             }
         }
+
         /// <summary>
         /// 从文件路径读取内容为字节数组。
         /// </summary>
@@ -56,18 +56,21 @@ namespace UotanToolbox.Common
                 throw new IOException($"An error occurred while reading the file: {ex.Message}", ex);
             }
         }
+
         public static async Task<string> SHA1HashAsync(string filePath)
         {
             using FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             using SHA1 sha1 = SHA1.Create();
             byte[] hash = await sha1.ComputeHashAsync(fileStream);
             StringBuilder sb = new StringBuilder();
+
             foreach (byte b in hash)
-            {
                 _ = sb.Append(b.ToString("x2"));
-            }
+            
+
             return sb.ToString();
         }
+
         public static void Write(string file, string text)//写入到txt文件
         {
             FileStream fs = new FileStream(file, FileMode.Create, FileAccess.Write);
@@ -85,6 +88,7 @@ namespace UotanToolbox.Common
             sr.Close();
             return line;
         }
+
         /// <summary>
         /// 计算并返回指定文件的SHA1哈希值。
         /// </summary>
@@ -115,6 +119,7 @@ namespace UotanToolbox.Common
                 return null;
             }
         }
+
         /// <summary>
         /// 计算给定文件的MD5特征码
         /// </summary>
@@ -127,12 +132,14 @@ namespace UotanToolbox.Common
             byte[] hashBytes = md5.ComputeHash(stream);
             // 将字节数组转换为十六进制字符串表示形式，方便匹配字典
             StringBuilder sb = new StringBuilder();
+
             for (int i = 0; i < hashBytes.Length; i++)
-            {
                 _ = sb.Append(hashBytes[i].ToString("x2"));
-            }
+            
+
             return sb.ToString();
         }
+
         /// <summary>
         /// 传入一个字符串数组，检查指定目录下是否存在给出文件
         /// </summary>
@@ -146,12 +153,15 @@ namespace UotanToolbox.Common
             {
                 throw new DirectoryNotFoundException($"The directory {directoryPath} does not exist.");
             }
+
             Dictionary<string, bool> existenceResults = [];
+
             foreach (string fileName in fileNames)
             {
                 bool exists = File.Exists(System.IO.Path.Combine(directoryPath, fileName));
                 existenceResults.Add(fileName, exists);
             }
+
             return existenceResults;
         }
 
@@ -167,29 +177,36 @@ namespace UotanToolbox.Common
                 _ = Directory.CreateDirectory(folderPath);
                 return true;
             }
-                string[] subDirs = Directory.GetDirectories(folderPath);
-                foreach (string subDirPath in subDirs)
-                {
-                    _ = ClearFolder(subDirPath);
-                }
-                string[] files = Directory.GetFiles(folderPath, "*", SearchOption.TopDirectoryOnly);
-                foreach (string filePath in files)
-                {
-                    FileAttributes attr = File.GetAttributes(filePath);
-                    if ((attr & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                    {
-                        File.SetAttributes(filePath, attr & ~FileAttributes.ReadOnly);
-                    }
-                    File.Delete(filePath);
-                }
-                subDirs = Directory.GetDirectories(folderPath);
-                foreach (string subDirPath in subDirs)
-                {
-                    Directory.Delete(subDirPath, true);
-                }
-                return true;
+
+            string[] subDirs = Directory.GetDirectories(folderPath);
+
+            foreach (string subDirPath in subDirs)
+                _ = ClearFolder(subDirPath);
             
+
+            string[] files = Directory.GetFiles(folderPath, "*", SearchOption.TopDirectoryOnly);
+
+            foreach (string filePath in files)
+            {
+                FileAttributes attr = File.GetAttributes(filePath);
+
+                if ((attr & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                {
+                    File.SetAttributes(filePath, attr & ~FileAttributes.ReadOnly);
+                }
+
+                File.Delete(filePath);
+            }
+
+            subDirs = Directory.GetDirectories(folderPath);
+
+            foreach (string subDirPath in subDirs)
+                Directory.Delete(subDirPath, true);
+            
+
+            return true;
         }
+
         /// <summary>
         /// 跨平台打开指定文件夹。
         /// </summary>
@@ -197,6 +214,7 @@ namespace UotanToolbox.Common
         public static void OpenFolder(string folderPath)
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 startInfo.FileName = "explorer.exe";
@@ -212,8 +230,10 @@ namespace UotanToolbox.Common
                 startInfo.FileName = "open";
                 startInfo.Arguments = folderPath;
             }
+
             _ = Process.Start(startInfo);
         }
+
         /// <summary>
         /// 通过向文件路径写入随机数据流并且取消文件只读属性来删除文件。
         /// </summary>
@@ -227,15 +247,18 @@ namespace UotanToolbox.Common
                 double sectors = Math.Ceiling(new FileInfo(filename).Length / 512.0);
                 byte[] dummyBuffer = new byte[512];
                 RandomNumberGenerator rng = RandomNumberGenerator.Create();
+
                 FileStream inputStream = new FileStream(filename, FileMode.Open, FileAccess.Write, FileShare.ReadWrite)
                 {
                     Position = 0
                 };
+
                 for (int sectorsWritten = 0; sectorsWritten < sectors; sectorsWritten++)
                 {
                     rng.GetBytes(dummyBuffer);
                     inputStream.Write(dummyBuffer, 0, dummyBuffer.Length);
                 }
+
                 inputStream.SetLength(0);
                 inputStream.Close();
                 DateTime dt = new DateTime(1970, 1, 1, 0, 0, 0);
@@ -244,8 +267,10 @@ namespace UotanToolbox.Common
                 File.SetLastWriteTime(filename, dt);
                 File.Delete(filename);
             }
+
             return true;
         }
+
         /// <summary>
         /// 检索目录下大小在10KB到200KB为后缀为gz的文件
         /// </summary>
@@ -258,15 +283,19 @@ namespace UotanToolbox.Common
             {
                 throw new DirectoryNotFoundException($"The directory {directoryPath} does not exist.");
             }
+
             string[] allGzFiles = Directory.GetFiles(directoryPath, "*.gz", SearchOption.TopDirectoryOnly);
+
             IEnumerable<string> filteredFiles = allGzFiles.Where(path =>
             {
                 FileInfo fileInfo = new FileInfo(path);
                 return fileInfo.Length is >= (10 * 1024) and <= (200 * 1024);
             });
+
             string[] fileNames = filteredFiles.Select(Path.GetFileName).ToArray();
             return fileNames;
         }
+
         /*
         /// <summary>
         /// 从给定的压缩文件名数组中解压出文件
@@ -317,18 +346,22 @@ namespace UotanToolbox.Common
         public static bool TestPermission(string directoryPath)
         {
             string tempFileName = Path.Combine(directoryPath, Guid.NewGuid().ToString() + ".tmp");
+
             try
             {
                 byte[] content = { 0x48, 0x65, 0x6C, 0x6C, 0x6F };//Hello
+
                 using (FileStream fs = File.Create(tempFileName))
-                {
                     fs.Write(content, 0, content.Length);
-                }
+                
+
                 byte[] readContent = File.ReadAllBytes(tempFileName);
+
                 if (!content.SequenceEqual(readContent))
                 {
                     return false;
                 }
+
                 File.Delete(tempFileName);
                 return true;
             }
@@ -337,6 +370,7 @@ namespace UotanToolbox.Common
                 return false;
             }
         }
+
         /// <summary>
         /// 走kernel文件中提取编译签名信息
         /// </summary>
@@ -348,43 +382,51 @@ namespace UotanToolbox.Common
             using FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             using BinaryReader br = new BinaryReader(fs);
             long signaturePosition = FindSignaturePosition(br, Signature);
+
             if (signaturePosition == -1)
             {
                 return "";
             }
+
             _ = fs.Seek(signaturePosition + Signature.Length, SeekOrigin.Begin);
             return ReadUntilTerminator(br);
         }
-        private static long FindSignaturePosition(BinaryReader reader, byte[] signature)
+
+        static long FindSignaturePosition(BinaryReader reader, byte[] signature)
         {
             byte[] buffer = new byte[signature.Length];
             long position = 0;
+
             while (position + signature.Length <= reader.BaseStream.Length)
             {
                 _ = reader.BaseStream.Seek(position, SeekOrigin.Begin);
                 _ = reader.Read(buffer, 0, signature.Length);
+
                 if (buffer.SequenceEqual(signature))
                 {
                     return position;
                 }
+
                 position++;
             }
+
             return -1;
         }
-        private static string ReadUntilTerminator(BinaryReader reader)
+
+        static string ReadUntilTerminator(BinaryReader reader)
         {
             StringBuilder sb = new StringBuilder();
             int b;
+
             while ((b = reader.ReadByte()) != 0x00)
-            {
                 _ = sb.Append((char)b);
-            }
+            
+
             while ((b = reader.ReadByte()) != 0x00)
-            {
                 _ = sb.Append((char)b);
-            }
+            
+
             return sb.ToString();
         }
     }
 }
-

@@ -5,10 +5,7 @@ namespace UotanToolbox.Features.Customizedflash;
 
 public partial class CustomizedflashViewModel : MainPageBase
 {
-    private static string GetTranslation(string key)
-    {
-        return FeaturesHelper.GetTranslation(key);
-    }
+    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
 
     public CustomizedflashViewModel() : base(GetTranslation("Sidebar_Customizedflash"), MaterialIconKind.PencilPlusOutline, -500)
     {

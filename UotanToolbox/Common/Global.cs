@@ -5,18 +5,18 @@ namespace UotanToolbox.Common
     internal class Global
     {
         public static bool checkdevice = true;
-        public static string runpath = null;
-        public static string bin_path = null;
-        public static string tmp_path = null;
-        public static string log_path = null;
-        public static string backup_path = null;
+        public static string runpath;
+        public static string bin_path;
+        public static string tmp_path;
+        public static string log_path;
+        public static string backup_path;
         public static string System = "Windows";
         public static AvaloniaList<string> deviceslist;
-        public static string thisdevice = null;
+        public static string thisdevice;
         public static ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
         public static BootInfo Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
         public static int mb_exitcode, cpio_exitcode, load_times;
-        //分区表储存
+        // 分区表储存
         public static string sdatable = "";
         public static string sdbtable = "";
         public static string sdctable = "";
@@ -24,9 +24,9 @@ namespace UotanToolbox.Common
         public static string sdetable = "";
         public static string sdftable = "";
         public static string emmcrom = "";
-        //工具箱版本
+        // 工具箱版本
         public static string currentVersion = "3.0.0";
-        public static bool isLightThemeChanged = false;
+        public static bool isLightThemeChanged;
     }
     public class BootInfo
     {
@@ -91,8 +91,8 @@ namespace UotanToolbox.Common
     {
         public static bool KEEPVERITY = true;
         public static bool KEEPFORCEENCRYPT = true;
-        public static bool PATCHVBMETAFLAG = false;
-        public static bool RECOVERYMODE = false;
+        public static bool PATCHVBMETAFLAG;
+        public static bool RECOVERYMODE;
         public static bool LEGACYSAR = true;
     }
 
@@ -108,5 +108,4 @@ namespace UotanToolbox.Common
         LKM,
         None
     }
-
 }

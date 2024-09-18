@@ -8,11 +8,12 @@ namespace UotanToolbox.Common;
 
 public class ViewLocator : IDataTemplate
 {
-    private readonly Dictionary<object, Control> _controlCache = [];
+    readonly Dictionary<object, Control> _controlCache = [];
 
     public Control Build(object data)
     {
-        string fullName = data?.GetType().FullName;
+        var fullName = data?.GetType().FullName;
+
         if (fullName is null)
         {
             return new TextBlock { Text = "Data is null or has no name." };
@@ -23,8 +24,9 @@ public class ViewLocator : IDataTemplate
             fullName = "UotanToolbox.Features.Appmgr.AppmgrViewModel";
         }
 
-        string name = fullName.Replace("ViewModel", "View");
-        Type type = Type.GetType(name);
+        var name = fullName.Replace("ViewModel", "View");
+        var type = Type.GetType(name);
+
         if (type is null)
         {
             return new TextBlock { Text = $"No View For {name}." };
@@ -40,8 +42,5 @@ public class ViewLocator : IDataTemplate
         return res;
     }
 
-    public bool Match(object data)
-    {
-        return data is INotifyPropertyChanged;
-    }
+    public bool Match(object data) => data is INotifyPropertyChanged;
 }

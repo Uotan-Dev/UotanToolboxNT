@@ -10,203 +10,241 @@ namespace UotanToolbox.Common
     {
         public static async Task<string> ADB(string adbshell)
         {
-            string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
-            ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
+            var cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
+
+            var adbexe = new ProcessStartInfo(cmd, adbshell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process adb = new Process();
+
+            using var adb = new Process();
             adb.StartInfo = adbexe;
             _ = adb.Start();
-            string output = await adb.StandardOutput.ReadToEndAsync();
+            var output = await adb.StandardOutput.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await adb.StandardError.ReadToEndAsync();
             }
+
             adb.WaitForExit();
             return output;
         }
 
         public static async Task<string> Fastboot(string fbshell)
         {
-            string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
-            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
+            var cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
+
+            var fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process fb = new Process();
+
+            using var fb = new Process();
             fb.StartInfo = fastboot;
             _ = fb.Start();
-            string output = await fb.StandardError.ReadToEndAsync();
+            var output = await fb.StandardError.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await fb.StandardOutput.ReadToEndAsync();
             }
+
             fb.WaitForExit();
             return output;
         }
 
         public static async Task<string> Devcon(string shell)
         {
-            string cmd = Path.Combine(Global.bin_path, "devcon");
-            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, shell)
+            var cmd = Path.Combine(Global.bin_path, "devcon");
+
+            var fastboot = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process devcon = new Process();
+
+            using var devcon = new Process();
             devcon.StartInfo = fastboot;
             _ = devcon.Start();
-            string output = await devcon.StandardError.ReadToEndAsync();
+            var output = await devcon.StandardError.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await devcon.StandardOutput.ReadToEndAsync();
             }
+
             devcon.WaitForExit();
             return output;
         }
 
         public static async Task<string> QCNTool(string shell)
         {
-            string cmd = "Bin\\QSML\\QCNTool.exe";
-            ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)
+            var cmd = "Bin\\QSML\\QCNTool.exe";
+
+            var qcntool = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process qcn = new Process();
+
+            using var qcn = new Process();
             qcn.StartInfo = qcntool;
             _ = qcn.Start();
-            string output = await qcn.StandardError.ReadToEndAsync();
+            var output = await qcn.StandardError.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await qcn.StandardOutput.ReadToEndAsync();
             }
+
             qcn.WaitForExit();
             return output;
         }
 
         public static async Task<string> Pnputil(string shell)
         {
-            string cmd = @"pnputil.exe";
-            ProcessStartInfo pnputil = new ProcessStartInfo(cmd, shell)
+            var cmd = @"pnputil.exe";
+
+            var pnputil = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process pnp = new Process();
+
+            using var pnp = new Process();
             pnp.StartInfo = pnputil;
             _ = pnp.Start();
-            string output = await pnp.StandardError.ReadToEndAsync();
+            var output = await pnp.StandardError.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await pnp.StandardOutput.ReadToEndAsync();
             }
+
             return output;
         }
 
         public static async Task<string> LsUSB()
         {
-            string cmd = Global.System == "macOS" ? Path.Combine(Global.bin_path, "lsusb") : "lsusb";
-            ProcessStartInfo fastboot = new ProcessStartInfo(cmd)
+            var cmd = Global.System == "macOS" ? Path.Combine(Global.bin_path, "lsusb") : "lsusb";
+
+            var fastboot = new ProcessStartInfo(cmd)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process fb = new Process();
+
+            using var fb = new Process();
             fb.StartInfo = fastboot;
             _ = fb.Start();
-            string output = await fb.StandardError.ReadToEndAsync();
+            var output = await fb.StandardError.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await fb.StandardOutput.ReadToEndAsync();
             }
+
             fb.WaitForExit();
             return output;
         }
 
         public static async Task<string> LinuxLS(string shell)
         {
-            string cmd = "ls";
-            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, shell)
+            var cmd = "ls";
+
+            var fastboot = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process fb = new Process();
+
+            using var fb = new Process();
             fb.StartInfo = fastboot;
             _ = fb.Start();
-            string output = await fb.StandardError.ReadToEndAsync();
+            var output = await fb.StandardError.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await fb.StandardOutput.ReadToEndAsync();
             }
+
             fb.WaitForExit();
             return output;
         }
 
         public static async Task<string> Scrcpy(string arg)
         {
-            string cmd = Path.Combine(Global.bin_path, "platform-tools", "scrcpy");
-            ProcessStartInfo scrcpy = new ProcessStartInfo(cmd, arg)
+            var cmd = Path.Combine(Global.bin_path, "platform-tools", "scrcpy");
+
+            var scrcpy = new ProcessStartInfo(cmd, arg)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process sc = new Process();
+
+            using var sc = new Process();
             sc.StartInfo = scrcpy;
             _ = sc.Start();
-            string output = await sc.StandardError.ReadToEndAsync();
+            var output = await sc.StandardError.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await sc.StandardOutput.ReadToEndAsync();
             }
+
             sc.WaitForExit();
             return output;
         }
+
         public static async Task<string> SevenZip(string args)
         {
-            string cmd = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            var cmd = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
                 ? Path.Combine(Global.bin_path, "7z", "7za.exe")
                 : RuntimeInformation.IsOSPlatform(OSPlatform.Linux) | (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     ? Path.Combine(Global.bin_path, "7zza")
                     : throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux.");
-            ProcessStartInfo SevenZipexe = new ProcessStartInfo(cmd, args)
+
+            var SevenZipexe = new ProcessStartInfo(cmd, args)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process SevenZip = new Process();
+
+            using var SevenZip = new Process();
             SevenZip.StartInfo = SevenZipexe;
             _ = SevenZip.Start();
-            string output = await SevenZip.StandardOutput.ReadToEndAsync();
+            var output = await SevenZip.StandardOutput.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await SevenZip.StandardError.ReadToEndAsync();
             }
+
             SevenZip.WaitForExit();
             return output;
         }
+
         /// <summary>
         /// 调用MagiskBoot执行命令，环境变量由EnvironmentVariable变量设置
         /// </summary>
@@ -220,30 +258,34 @@ namespace UotanToolbox.Common
             Environment.SetEnvironmentVariable("PATCHVBMETAFLAG", EnvironmentVariable.PATCHVBMETAFLAG.ToString().ToLower());
             Environment.SetEnvironmentVariable("RECOVERYMODE", EnvironmentVariable.RECOVERYMODE.ToString().ToLower());
             Environment.SetEnvironmentVariable("LEGACYSAR", EnvironmentVariable.LEGACYSAR.ToString().ToLower());
-            string cmd = Path.Combine(Global.bin_path, "magiskboot");
+            var cmd = Path.Combine(Global.bin_path, "magiskboot");
             Directory.SetCurrentDirectory(workpath);
-            ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)
+
+            var magiskboot = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            Process mb = new Process
+
+            var mb = new Process
             {
                 StartInfo = magiskboot
             };
+
             _ = mb.Start();
-            string output = await mb.StandardError.ReadToEndAsync();
+            var output = await mb.StandardError.ReadToEndAsync();
+
             if (output == "")
             {
                 output = await mb.StandardOutput.ReadToEndAsync();
             }
+
             mb.WaitForExit();
-            int exitCode = mb.ExitCode;
+            var exitCode = mb.ExitCode;
             return (output, exitCode);
         }
-
 
         /// <summary>
         /// 使用file命令判断文件的类型和指令集。暂不支持FAT Binary多架构检测
@@ -253,9 +295,10 @@ namespace UotanToolbox.Common
         public static async Task<string> File(string path)
         {
             string cmd;
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                ProcessStartInfo fileInfo = new ProcessStartInfo
+                var fileInfo = new ProcessStartInfo
                 {
                     FileName = Path.Combine(Global.bin_path, "File", "file.exe"),
                     Arguments = path,
@@ -264,20 +307,22 @@ namespace UotanToolbox.Common
                     RedirectStandardOutput = true,
                     RedirectStandardError = true
                 };
-                using Process process = new Process
+
+                using var process = new Process
                 {
                     StartInfo = fileInfo,
                     EnableRaisingEvents = true
                 };
+
                 _ = process.Start();
-                string output = await process.StandardOutput.ReadToEndAsync();
-                string error = await process.StandardError.ReadToEndAsync();
+                var output = await process.StandardOutput.ReadToEndAsync();
+                var error = await process.StandardError.ReadToEndAsync();
                 process.WaitForExit();
                 return string.IsNullOrEmpty(output) ? error : output;
             }
             else
             {
-                ProcessStartInfo fileInfo = new ProcessStartInfo
+                var fileInfo = new ProcessStartInfo
                 {
                     FileName = "/usr/bin/file",
                     Arguments = path,
@@ -286,14 +331,16 @@ namespace UotanToolbox.Common
                     RedirectStandardOutput = true,
                     RedirectStandardError = true
                 };
-                using Process process = new Process
+
+                using var process = new Process
                 {
                     StartInfo = fileInfo,
                     EnableRaisingEvents = true
                 };
+
                 _ = process.Start();
-                string output = await process.StandardOutput.ReadToEndAsync();
-                string error = await process.StandardError.ReadToEndAsync();
+                var output = await process.StandardOutput.ReadToEndAsync();
+                var error = await process.StandardError.ReadToEndAsync();
                 process.WaitForExit();
                 return string.IsNullOrEmpty(output) ? error : output;
             }

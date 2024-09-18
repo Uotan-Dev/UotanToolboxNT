@@ -10,26 +10,27 @@ namespace UotanToolbox.Common.PatchHelper
 {
     internal class ZipDetect
     {
-        private static string GetTranslation(string key)
-        {
-            return FeaturesHelper.GetTranslation(key);
-        }
+        static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
 
-        public  async Task<ZipInfo> Zip_Detect(string path)
+        public async Task<ZipInfo> Zip_Detect(string path)
         {
             string kmi;
-            ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "")
+
+            var Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "")
             {
                 Path = path
             };
+
             Zipinfo.SHA1 = await FileHelper.SHA1HashAsync(Zipinfo.Path);
             Zipinfo.TempPath = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
-            bool istempclean = true; //FileHelper.ClearFolder(Zipinfo.TempPath);
+            var istempclean = true; //FileHelper.ClearFolder(Zipinfo.TempPath);
+
             if (!istempclean)
             {
                 throw new Exception(GetTranslation("Basicflash_FatalError"));
             }
-            Dictionary<string, string> lkm_dict = new Dictionary<string, string>
+
+            var lkm_dict = new Dictionary<string, string>
             {
                 {"01d17cd7027c752add00f10e65952f9ba766050d" , "1.0.0"},
                 {"fc071efd0b0d89b589f60c0819104d8a3ad6683f" , "1.0.0"},
@@ -42,17 +43,18 @@ namespace UotanToolbox.Common.PatchHelper
                 {"4f8542a4c3fc76613b75b13d34c8baa6a3954bdf" , "1.0.1"},
                 {"2c2c51cb82d80d022687c287f1539aecdd93e8f4" , "1.0.1"}
             };
+
             if (lkm_dict.TryGetValue(Zipinfo.SHA1, out string lkm_version))
             {
                 File.Copy(Zipinfo.Path, Path.Combine(Zipinfo.TempPath, "kernelsu.ko"), true);
                 Zipinfo.Mode = PatchMode.LKM;
-
             }
             else
             {
                 await Task.Run(() =>
                 {
-                    using IArchive archive = ArchiveFactory.Open(path);
+                    using var archive = ArchiveFactory.Open(path);
+
                     foreach (IArchiveEntry entry in archive.Entries)
                     {
                         if (!entry.IsDirectory)
@@ -68,6 +70,7 @@ namespace UotanToolbox.Common.PatchHelper
                         ? PatchMode.GKI
                         : throw new Exception(GetTranslation("Basicflash_ZipError"));
             }
+
             switch (Zipinfo.Mode)
             {
                 case PatchMode.Magisk:
@@ -81,7 +84,7 @@ namespace UotanToolbox.Common.PatchHelper
                     (Zipinfo.SubSHA1, Zipinfo.IsUseful, Zipinfo.Version, Zipinfo.KMI) = await GKI_Valid(Zipinfo.TempPath);
                     break;
                 case PatchMode.LKM:
-                    Dictionary<string, string> kmi_dict = new Dictionary<string, string>
+                    var kmi_dict = new Dictionary<string, string>
                     {
                         {"01d17cd7027c752add00f10e65952f9ba766050d" , "android12-5.10"},
                         {"fc071efd0b0d89b589f60c0819104d8a3ad6683f" , "android13-5.10"},
@@ -100,20 +103,24 @@ namespace UotanToolbox.Common.PatchHelper
                     Zipinfo.KMI = kmi;
                     break;
             }
+
             return Zipinfo;
         }
-        private static string Magisk_Ver(string SHA1)
+
+        static string Magisk_Ver(string SHA1)
         {
-            Dictionary<string, string> version_dict = new Dictionary<string, string>
+            var version_dict = new Dictionary<string, string>
             {
             {"872199f3781706f51b84d8a89c1d148d26bcdbad" , "27000"},
             {"dc7db76b5fb895d34b7274abb6ca59b56590a784" , "26400"},
             {"d052b0e1c1a83cb25739eb87471ba6d8791f4b5a" , "26300"}
              //其他的支持还没写，你要是看到这段文字可以考虑一下帮我写写然后PR到仓库。 -zicai
             };
+
             return version_dict.TryGetValue(SHA1, out string magisk_ver) ? magisk_ver : throw new Exception(GetTranslation("Basicflash_MagsikError"));
         }
-        private static async Task Magisk_Pre(string temp_path)
+
+        static async Task Magisk_Pre(string temp_path)
         {
             List<(string SourcePath, string DestinationPath)> filesToCopy =
             [
@@ -128,19 +135,20 @@ namespace UotanToolbox.Common.PatchHelper
                 (Path.Combine(temp_path, "lib", "x86_64", "libmagisk64.so"), Path.Combine(temp_path, "lib", "x86_64", "magisk64")),
                 (Path.Combine(temp_path, "lib", "x86_64", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "x86_64", "init"))
             ];
+
             await Task.WhenAll(filesToCopy.Select(async file =>
             {
                 try
                 {
-                    using FileStream sourceStream = new FileStream(file.SourcePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    using FileStream destStream = new FileStream(file.DestinationPath, FileMode.Create, FileAccess.Write, FileShare.None);
-                    int bufferSize = Math.Min(4096, (int)(sourceStream.Length / 1024));
-                    byte[] buffer = new byte[bufferSize];
+                    using var sourceStream = new FileStream(file.SourcePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    using var destStream = new FileStream(file.DestinationPath, FileMode.Create, FileAccess.Write, FileShare.None);
+                    var bufferSize = Math.Min(4096, (int)(sourceStream.Length / 1024));
+                    var buffer = new byte[bufferSize];
                     int bytesRead;
+
                     while ((bytesRead = await sourceStream.ReadAsync(buffer, 0, bufferSize)) > 0)
-                    {
                         await destStream.WriteAsync(buffer, 0, bytesRead);
-                    }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -148,7 +156,8 @@ namespace UotanToolbox.Common.PatchHelper
                 }
             }));
         }
-        private static async Task Magisk_Compress(string temp_path)
+
+        static async Task Magisk_Compress(string temp_path)
         {
             List<Task<(string Output, int ExitCode)>> tasks =
             [
@@ -160,22 +169,27 @@ namespace UotanToolbox.Common.PatchHelper
                 CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", Path.Combine(temp_path, "lib", "x86_64")),
                 CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(temp_path, "assets")),
             ];
+
             _ = await Task.WhenAll(tasks);
+
             foreach (Task<(string Output, int ExitCode)> task in tasks)
             {
                 (string result, int exitcode) = await task;
+
                 if (exitcode != 0)
                 {
                     throw new Exception("magiskboot error " + result);
                 }
             }
         }
-        private static async Task<(string, bool, string, string)> GKI_Valid(string temp_path)
+
+        static async Task<(string, bool, string, string)> GKI_Valid(string temp_path)
         {
-            string SubSHA1 = await FileHelper.SHA1HashAsync(Path.Combine(temp_path, "Image"));
+            var SubSHA1 = await FileHelper.SHA1HashAsync(Path.Combine(temp_path, "Image"));
             string KMI = null;
-            bool useful = false;
-            Dictionary<string, string> version_dict = new Dictionary<string, string>
+            var useful = false;
+
+            var version_dict = new Dictionary<string, string>
             {
                 {"453111373ba9ed3ac487b128f07a28b73dd89ee9" , "1.0.0"},
                 {"85e6564ebe4e394e4e31fdd20004672bfec58413" , "1.0.0"},
@@ -218,13 +232,15 @@ namespace UotanToolbox.Common.PatchHelper
                 {"0d015e9f9a48868b11fffd1412d1d59dcadcf838" , "1.0.1"},
                 {"7d591f577a96b7acc401a2718bfc71127486a46c" , "1.0.1"}
             };
+
             if (!version_dict.TryGetValue(SubSHA1, out string version))
             {
                 throw new Exception(GetTranslation("Basicflash_KSUError"));
             }
-            Task<string> KernelVersionTask = Task.Run(() => FileHelper.ReadKernelVersion(Path.Combine(temp_path, "Image")));
-            string KernelVersion = await KernelVersionTask;
-            Task<string> kmiTask = Task.Run(() => StringHelper.ExtractKMI(KernelVersion));
+
+            var KernelVersionTask = Task.Run(() => FileHelper.ReadKernelVersion(Path.Combine(temp_path, "Image")));
+            var KernelVersion = await KernelVersionTask;
+            var kmiTask = Task.Run(() => StringHelper.ExtractKMI(KernelVersion));
             KMI = await kmiTask;
             useful = true;
             return (SubSHA1, useful, version, KMI);

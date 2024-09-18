@@ -9,25 +9,21 @@ namespace UotanToolbox.Features.Scrcpy;
 
 public partial class ScrcpyView : UserControl
 {
-    private ISukiDialogManager dialogManager;
-    private static string GetTranslation(string key)
-    {
-        return FeaturesHelper.GetTranslation(key);
-    }
+    ISukiDialogManager dialogManager;
+    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
 
-    public ScrcpyView()
-    {
-        InitializeComponent();
-    }
+    public ScrcpyView() => InitializeComponent();
 
-    private async void OpenFolderButton_Clicked(object sender, RoutedEventArgs args)
+    async void OpenFolderButton_Clicked(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
-        System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        var topLevel = TopLevel.GetTopLevel(this);
+
+        var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
             Title = "Open Folder",
             AllowMultiple = false
         });
+
         if (files.Count >= 1)
         {
             if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))

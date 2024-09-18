@@ -10,35 +10,33 @@ namespace UotanToolbox.Features.Home;
 
 public partial class HomeView : UserControl
 {
-    private ISukiToastManager toastManager;
-    private static string GetTranslation(string key)
-    {
-        return FeaturesHelper.GetTranslation(key);
-    }
+    ISukiToastManager toastManager;
+    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
 
-    public HomeView()
-    {
-        InitializeComponent();
-    }
+    public HomeView() => InitializeComponent();
 
-    private async void CopyButton_OnClick(object sender, RoutedEventArgs args)
+    async void CopyButton_OnClick(object sender, RoutedEventArgs args)
     {
         if (sender is Button button)
         {
-            Avalonia.Input.Platform.IClipboard clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
-            DataObject dataObject = new DataObject();
+            var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
+            var dataObject = new DataObject();
+
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                var text = button.Content.ToString();
+
                 if (text != null)
                 {
                     dataObject.Set(DataFormats.Text, text);
                 }
             }
+
             if (clipboard != null)
             {
                 await clipboard.SetDataObjectAsync(dataObject);
             }
+
             _ = toastManager.CreateToast()
     .WithTitle(GetTranslation("Home_Copy"))
     .WithContent("o(*≧▽≦)ツ")

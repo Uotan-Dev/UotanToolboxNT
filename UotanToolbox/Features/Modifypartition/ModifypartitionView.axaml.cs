@@ -7,16 +7,12 @@ using Avalonia.Interactivity;
 using SukiUI.Dialogs;
 using UotanToolbox.Common;
 
-
 namespace UotanToolbox.Features.Modifypartition;
 
 public partial class ModifypartitionView : UserControl
 {
-    private ISukiDialogManager dialogManager;
-    private static string GetTranslation(string key)
-    {
-        return FeaturesHelper.GetTranslation(key);
-    }
+    ISukiDialogManager dialogManager;
+    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
 
     public ModifypartitionView()
     {
@@ -26,52 +22,62 @@ public partial class ModifypartitionView : UserControl
 
     public async Task LoadMassage()
     {
-        bool result = false;
+        var result = false;
+
         _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("Modifypartition_Warn"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
+
         Modifypartition.IsEnabled = result == true;
     }
 
-    private async void ReadPart(object sender, RoutedEventArgs args)
+    async void ReadPart(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == "Recovery" || sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 BusyPart.IsBusy = true;
                 ReadPartBut.IsEnabled = false;
                 PartList.ItemsSource = null;
+
                 if (Global.sdatable == "" && sukiViewModel.Status == "Recovery")
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp unmount data");
                 }
+
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
-                    bool result = false;
+                    var result = false;
+
                     _ = dialogManager.CreateDialog()
     .WithTitle("Warn")
     .WithContent(GetTranslation("Common_NeedRoot"))
     .WithActionButton("Yes", _ => result = true, true)
     .WithActionButton("No", _ => result = false, true)
     .TryShow();
+
                     if (result == true)
                     {
                         BusyPart.IsBusy = false;
                         ReadPartBut.IsEnabled = true;
                         return;
                     }
+
                     await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
                 }
                 else
                 {
                     await FeaturesHelper.GetPartTable(Global.thisdevice);
                 }
-                string choice = "";
+
+                var choice = "";
+
                 if (sda.IsChecked != null && (bool)sda.IsChecked)
                 {
                     choice = Global.sdatable;
@@ -109,15 +115,18 @@ public partial class ModifypartitionView : UserControl
 
                 if (choice != "")
                 {
-                    string[] parts = choice.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    var parts = choice.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
                     if (parts.Length > 6)
                     {
-                        string size = string.Format("{0}", StringHelper.DiskSize(choice));
+                        var size = string.Format("{0}", StringHelper.DiskSize(choice));
                         PartSize.Text = size;
-                        PartModel[] part = new PartModel[parts.Length - 5];
+                        var part = new PartModel[parts.Length - 5];
+
                         for (int i = 6; i < parts.Length; i++)
                         {
-                            string[] items = parts[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            var items = parts[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
                             if (items.Length == 5)
                             {
                                 part[i - 6] = new PartModel(items[0], items[1], items[2], items[3], "", items[4], "");
@@ -131,6 +140,7 @@ public partial class ModifypartitionView : UserControl
                                 part[i - 6] = new PartModel(items[0], items[1], items[2], items[3], items[4], items[5], items[6]);
                             }
                         }
+
                         PartList.ItemsSource = part;
                     }
                     else
@@ -142,6 +152,7 @@ public partial class ModifypartitionView : UserControl
                 {
                     _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectDisk")).Dismiss().ByClickingBackground().TryShow();
                 }
+
                 BusyPart.IsBusy = false;
                 ReadPartBut.IsEnabled = true;
             }
@@ -156,18 +167,20 @@ public partial class ModifypartitionView : UserControl
         }
     }
 
-    private async void RMPart(object sender, RoutedEventArgs args)
+    async void RMPart(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == "Recovery")
             {
                 if (IdNumber.Text is not null and not "")
                 {
                     RMPartBut.IsEnabled = false;
                     ESPONBut.IsEnabled = false;
-                    string choice = "";
+                    var choice = "";
+
                     if (sda.IsChecked != null && (bool)sda.IsChecked)
                     {
                         choice = "sda";
@@ -205,11 +218,12 @@ public partial class ModifypartitionView : UserControl
 
                     if (choice != "")
                     {
-                        Regex regex = new Regex("^(-?[0-9]*[.]*[0-9]{0,3})$");
+                        var regex = new Regex("^(-?[0-9]*[.]*[0-9]{0,3})$");
+
                         if (regex.IsMatch(IdNumber.Text))
                         {
-                            int partnum = StringHelper.Onlynum(IdNumber.Text);
-                            string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} rm {partnum}");
+                            var partnum = StringHelper.Onlynum(IdNumber.Text);
+                            var shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} rm {partnum}");
                             _ = await CallExternalProgram.ADB(shell);
                             ReadPart(sender, args);
                             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
@@ -223,6 +237,7 @@ public partial class ModifypartitionView : UserControl
                     {
                         _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
                     }
+
                     RMPartBut.IsEnabled = true;
                     ESPONBut.IsEnabled = true;
                 }
@@ -242,27 +257,31 @@ public partial class ModifypartitionView : UserControl
         }
     }
 
-    private async void ESPON(object sender, RoutedEventArgs args)
+    async void ESPON(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == "Recovery")
             {
-                bool result = false;
+                var result = false;
+
                 _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("Modifypartition_SetEFI"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
+
                 if (result == true)
                 {
                     if (IdNumber.Text is not null and not "")
                     {
                         RMPartBut.IsEnabled = false;
                         ESPONBut.IsEnabled = false;
-                        string choice = "";
+                        var choice = "";
+
                         if (sda.IsChecked != null && (bool)sda.IsChecked)
                         {
                             choice = "sda";
@@ -300,11 +319,12 @@ public partial class ModifypartitionView : UserControl
 
                         if (choice != "")
                         {
-                            Regex regex = new Regex("^(-?[0-9]*[.]*[0-9]{0,3})$");
+                            var regex = new Regex("^(-?[0-9]*[.]*[0-9]{0,3})$");
+
                             if (regex.IsMatch(IdNumber.Text))
                             {
-                                int partnum = StringHelper.Onlynum(IdNumber.Text);
-                                string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} set {partnum} esp on");
+                                var partnum = StringHelper.Onlynum(IdNumber.Text);
+                                var shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} set {partnum} esp on");
                                 _ = await CallExternalProgram.ADB(shell);
                                 ReadPart(sender, args);
                                 _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
@@ -318,6 +338,7 @@ public partial class ModifypartitionView : UserControl
                         {
                             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
                         }
+
                         RMPartBut.IsEnabled = true;
                         ESPONBut.IsEnabled = true;
                     }
@@ -338,17 +359,19 @@ public partial class ModifypartitionView : UserControl
         }
     }
 
-    private async void MKPart(object sender, RoutedEventArgs args)
+    async void MKPart(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == "Recovery")
             {
                 if (NewPartitionName.Text != "" && NewPartitionFormat.Text != "" && NewPartitionStartpoint.Text != "" && NewPartitionEndpoint.Text != "")
                 {
                     MKPartBut.IsEnabled = false;
-                    string choice = "";
+                    var choice = "";
+
                     if (sda.IsChecked != null && (bool)sda.IsChecked)
                     {
                         choice = "sda";
@@ -386,7 +409,7 @@ public partial class ModifypartitionView : UserControl
 
                     if (choice != "")
                     {
-                        string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} mkpart {NewPartitionName.Text} {NewPartitionFormat.Text} {NewPartitionStartpoint.Text} {NewPartitionEndpoint.Text}");
+                        var shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} mkpart {NewPartitionName.Text} {NewPartitionFormat.Text} {NewPartitionStartpoint.Text} {NewPartitionEndpoint.Text}");
                         _ = await CallExternalProgram.ADB(shell);
                         ReadPart(sender, args);
                         _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
@@ -395,6 +418,7 @@ public partial class ModifypartitionView : UserControl
                     {
                         _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
                     }
+
                     MKPartBut.IsEnabled = true;
                 }
                 else
@@ -413,15 +437,17 @@ public partial class ModifypartitionView : UserControl
         }
     }
 
-    private async void RemoveLimit(object sender, RoutedEventArgs args)
+    async void RemoveLimit(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == "Recovery")
             {
                 RemoveLimitBut.IsEnabled = false;
-                string choice = "";
+                var choice = "";
+
                 if (sda.IsChecked != null && (bool)sda.IsChecked)
                 {
                     choice = "sda";
@@ -459,19 +485,22 @@ public partial class ModifypartitionView : UserControl
 
                 if (choice != "")
                 {
-                    bool result = false;
+                    var result = false;
+
                     _ = dialogManager.CreateDialog()
     .WithTitle("Warn")
     .WithContent(GetTranslation("Modifypartition_Set128"))
     .WithActionButton("Yes", _ => result = true, true)
     .WithActionButton("No", _ => result = false, true)
     .TryShow();
+
                     if (result == true)
                     {
                         _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/Push/sgdisk /tmp/");
                         _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell chmod +x /tmp/sgdisk");
-                        string shell = string.Format($"-s {Global.thisdevice} shell /tmp/sgdisk --resize-table=128 /dev/block/{choice}");
-                        string limit = await CallExternalProgram.ADB(shell);
+                        var shell = string.Format($"-s {Global.thisdevice} shell /tmp/sgdisk --resize-table=128 /dev/block/{choice}");
+                        var limit = await CallExternalProgram.ADB(shell);
+
                         if (!limit.Contains("completed successfully"))
                         {
                             _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_ExeFailed")).Dismiss().ByClickingBackground().TryShow();
@@ -487,6 +516,7 @@ public partial class ModifypartitionView : UserControl
                 {
                     _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectCorrPart")).Dismiss().ByClickingBackground().TryShow();
                 }
+
                 RemoveLimitBut.IsEnabled = true;
             }
             else

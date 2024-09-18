@@ -14,7 +14,6 @@ using SukiUI.Enums;
 using SukiUI.Models;
 using SukiUI.Toasts;
 using UotanToolbox.Common;
-
 using UotanToolbox.Utilities;
 
 namespace UotanToolbox.Features.Settings;
@@ -31,24 +30,21 @@ public partial class SettingsViewModel : MainPageBase
     public IAvaloniaReadOnlyList<string> CustomShaders { get; } = new AvaloniaList<string> { "Space", "Weird", "Clouds" };
 
     public AvaloniaList<string> LanguageList { get; } = [GetTranslation("Settings_Default"), "English", "简体中文"];
-    [ObservableProperty] private string _selectedLanguageList;
+    [ObservableProperty] string _selectedLanguageList;
 
-    private readonly SukiTheme _theme = SukiTheme.GetInstance();
+    readonly SukiTheme _theme = SukiTheme.GetInstance();
 
-    [ObservableProperty] private bool _isLightTheme;
-    [ObservableProperty] private SukiBackgroundStyle _backgroundStyle;
-    [ObservableProperty] private bool _backgroundAnimations;
-    [ObservableProperty] private bool _backgroundTransitions;
-    [ObservableProperty] private string _currentVersion = Global.currentVersion;
-    [ObservableProperty] private string _binVersion = null;
-    private ISukiDialogManager dialogManager;
-    private ISukiToastManager toastManager;
-    private string _customShader = null;
+    [ObservableProperty] bool _isLightTheme;
+    [ObservableProperty] SukiBackgroundStyle _backgroundStyle;
+    [ObservableProperty] bool _backgroundAnimations;
+    [ObservableProperty] bool _backgroundTransitions;
+    [ObservableProperty] string _currentVersion = Global.currentVersion;
+    [ObservableProperty] string _binVersion;
+    ISukiDialogManager dialogManager;
+    ISukiToastManager toastManager;
+    string _customShader;
 
-    private static string GetTranslation(string key)
-    {
-        return FeaturesHelper.GetTranslation(key);
-    }
+    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
 
     public SettingsViewModel() : base(GetTranslation("Sidebar_Settings"), MaterialIconKind.SettingsOutline, -200)
     {
@@ -70,23 +66,23 @@ public partial class SettingsViewModel : MainPageBase
         AvailableColors = _theme.ColorThemes;
 
         IsLightTheme = _theme.ActiveBaseTheme == ThemeVariant.Light;
+
         _theme.OnBaseThemeChanged += variant =>
             IsLightTheme = variant == ThemeVariant.Light;
+
         if (Global.isLightThemeChanged == false)
         {
             IsLightTheme = UotanToolbox.Settings.Default.IsLightTheme;
             Global.isLightThemeChanged = true;
         }
+
         _theme.OnColorThemeChanged += theme =>
         {
             // TODO: Implement a way to make this correct, might need to wrap the thing in a VM, this isn't ideal.
         };
     }
 
-    public async Task CheckBinVersion()
-    {
-        BinVersion = await StringHelper.GetBinVersion();
-    }
+    public async Task CheckBinVersion() => BinVersion = await StringHelper.GetBinVersion();
 
     partial void OnIsLightThemeChanged(bool value) =>
         _theme.ChangeBaseTheme(value ? ThemeVariant.Light : ThemeVariant.Dark);
@@ -96,12 +92,13 @@ public partial class SettingsViewModel : MainPageBase
         if (value == GetTranslation("Settings_Default")) UotanToolbox.Settings.Default.Language = "";
         else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
         else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
+
         UotanToolbox.Settings.Default.Save();
-        //_ = toastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
+        // _ = toastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
     }
 
     [RelayCommand]
-    private void SwitchToColorTheme(SukiColorTheme colorTheme)
+    void SwitchToColorTheme(SukiColorTheme colorTheme)
     {
         _theme.ChangeColorTheme(colorTheme);
     }
@@ -116,42 +113,42 @@ public partial class SettingsViewModel : MainPageBase
         BackgroundTransitionsChanged?.Invoke(value);
 
     [RelayCommand]
-    private void TryCustomShader(string shaderType)
+    void TryCustomShader(string shaderType)
     {
         _customShader = _customShader == shaderType ? null : shaderType;
         CustomBackgroundStyleChanged?.Invoke(_customShader);
     }
 
     [RelayCommand]
-    private void OpenURL(string url)
-    {
-        UrlUtilities.OpenURL(url);
-    }
+    void OpenURL(string url) => UrlUtilities.OpenURL(url);
 
     [RelayCommand]
-    private async Task GetUpdate()
+    async Task GetUpdate()
     {
         try
         {
-            using HttpClient client = new HttpClient();
-            string url = "https://toolbox.uotan.cn/api/list";
-            StringContent content = new StringContent("{}", System.Text.Encoding.UTF8);
+            using var client = new HttpClient();
+            var url = "https://toolbox.uotan.cn/api/list";
+            var content = new StringContent("{}", System.Text.Encoding.UTF8);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            HttpResponseMessage response = await client.PostAsync(url, content);
+            var response = await client.PostAsync(url, content);
             _ = response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
+            var responseBody = await response.Content.ReadAsStringAsync();
 
-            dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
-            SettingsViewModel vm = new SettingsViewModel();
+            var convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
+            var vm = new SettingsViewModel();
+
             if (convertedBody.release_version != vm.CurrentVersion)
             {
-                bool result = false;
+                var result = false;
+
                 dialogManager.CreateDialog()
-.WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-.WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                    .WithContent((string)JsonConvert.SerializeObject(convertedBody.release_content))
+                    .WithActionButton("Yes", _ => result = true, true)
+                    .WithActionButton("No", _ => result = false, true)
+                    .TryShow();
+
                 if (result == true)
                 {
                     UrlUtilities.OpenURL("https://toolbox.uotan.cn");
@@ -159,13 +156,15 @@ public partial class SettingsViewModel : MainPageBase
             }
             else if (convertedBody.beta_version != vm.CurrentVersion)
             {
-                bool result = false;
+                var result = false;
+
                 dialogManager.CreateDialog()
-.WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-.WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                    .WithContent((string)JsonConvert.SerializeObject(convertedBody.beta_content))
+                    .WithActionButton("Yes", _ => result = true, true)
+                    .WithActionButton("No", _ => result = false, true)
+                    .TryShow();
+
                 if (result == true)
                 {
                     UrlUtilities.OpenURL("https://toolbox.uotan.cn");
@@ -173,7 +172,6 @@ public partial class SettingsViewModel : MainPageBase
             }
             else
             {
-
                 _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
         }

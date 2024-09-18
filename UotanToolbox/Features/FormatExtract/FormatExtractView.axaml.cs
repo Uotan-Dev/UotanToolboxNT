@@ -12,29 +12,23 @@ using Avalonia.Threading;
 using SukiUI.Dialogs;
 using UotanToolbox.Common;
 
-
 namespace UotanToolbox.Features.FormatExtract;
 
 public partial class FormatExtractView : UserControl
 {
-    private ISukiDialogManager dialogManager;
-    private static string GetTranslation(string key)
-    {
-        return FeaturesHelper.GetTranslation(key);
-    }
+    ISukiDialogManager dialogManager;
+    static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
 
-    public FormatExtractView()
-    {
-        InitializeComponent();
-    }
-    private static readonly string adb_log_path = Path.Combine(Global.log_path, "adb.txt");
-    private string output = "";
+    public FormatExtractView() => InitializeComponent();
+    static readonly string adb_log_path = Path.Combine(Global.log_path, "adb.txt");
+    string output = "";
     public async Task QCNTool(string shell)
     {
         await Task.Run(() =>
         {
-            string cmd = "Bin\\QSML\\QCNTool.exe";
-            ProcessStartInfo qcntool = new ProcessStartInfo(cmd, shell)
+            var cmd = "Bin\\QSML\\QCNTool.exe";
+
+            var qcntool = new ProcessStartInfo(cmd, shell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
@@ -42,7 +36,8 @@ public partial class FormatExtractView : UserControl
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process qcn = new Process();
+
+            using var qcn = new Process();
             qcn.StartInfo = qcntool;
             _ = qcn.Start();
             qcn.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
@@ -58,15 +53,17 @@ public partial class FormatExtractView : UserControl
     {
         await Task.Run(() =>
         {
-            string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
-            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
+            var cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
+
+            var fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process fb = new Process();
+
+            using var fb = new Process();
             fb.StartInfo = fastboot;
             _ = fb.Start();
             fb.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
@@ -82,15 +79,17 @@ public partial class FormatExtractView : UserControl
     {
         await Task.Run(() =>
         {
-            string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
-            ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
+            var cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
+
+            var adbexe = new ProcessStartInfo(cmd, adbshell)
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };
-            using Process adb = new Process();
+
+            using var adb = new Process();
             adb.StartInfo = adbexe;
             _ = adb.Start();
             adb.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
@@ -102,36 +101,38 @@ public partial class FormatExtractView : UserControl
         });
     }
 
-    private async void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
+    async void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
     {
         if (!string.IsNullOrEmpty(outLine.Data))
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                StringBuilder sb = new StringBuilder(FormatExtractLog.Text);
+                var sb = new StringBuilder(FormatExtractLog.Text);
                 FormatExtractLog.Text = sb.AppendLine(outLine.Data).ToString();
                 FormatExtractLog.ScrollToLine(StringHelper.TextBoxLine(FormatExtractLog.Text));
-                StringBuilder op = new StringBuilder(output);
+                var op = new StringBuilder(output);
                 output = op.AppendLine(outLine.Data).ToString();
             });
         }
     }
 
-    private async void OpenQcnFile(object sender, RoutedEventArgs args)
+    async void OpenQcnFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
-        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        var topLevel = TopLevel.GetTopLevel(this);
+
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open QCN File",
             AllowMultiple = false
         });
+
         if (files.Count >= 1)
         {
             QcnFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
 
-    private async void WriteQcn(object sender, RoutedEventArgs args)
+    async void WriteQcn(object sender, RoutedEventArgs args)
     {
         // Write QCN File
         if (Global.System == "Windows")
@@ -140,20 +141,23 @@ public partial class FormatExtractView : UserControl
             {
                 if (!string.IsNullOrEmpty(QcnFile.Text))
                 {
-                    string qcnfilepatch = QcnFile.Text;
-                    MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                    var qcnfilepatch = QcnFile.Text;
+                    var sukiViewModel = GlobalData.MainViewModelInstance;
+
                     if (sukiViewModel.Status is "901D" or "9091")
                     {
                         BusyQCN.IsBusy = true;
                         QCN.IsEnabled = false;
                         output = "";
                         FormatExtractLog.Text = GetTranslation("FormatExtract_Writing") + "\n";
-                        int com = StringHelper.Onlynum(Global.thisdevice);
-                        string shell = string.Format($"-w -p {com} -f \"{qcnfilepatch}\"");
+                        var com = StringHelper.Onlynum(Global.thisdevice);
+                        var shell = string.Format($"-w -p {com} -f \"{qcnfilepatch}\"");
                         await QCNTool(shell);
+
                         _ = FormatExtractLog.Text.Contains("error")
                             ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteFailed")).Dismiss().ByClickingBackground().TryShow()
                             : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteSucc")).Dismiss().ByClickingBackground().TryShow();
+
                         BusyQCN.IsBusy = false;
                         QCN.IsEnabled = true;
                     }
@@ -178,26 +182,29 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void BackupQcn(object sender, RoutedEventArgs args)
+    async void BackupQcn(object sender, RoutedEventArgs args)
     {
         // Backup QCN file
         if (Global.System == "Windows")
         {
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                var sukiViewModel = GlobalData.MainViewModelInstance;
+
                 if (sukiViewModel.Status is "901D" or "9091")
                 {
                     BusyQCN.IsBusy = true;
                     QCN.IsEnabled = false;
                     output = "";
                     FormatExtractLog.Text = GetTranslation("FormatExtract_BackingUp") + "\n";
-                    int com = StringHelper.Onlynum(Global.thisdevice);
-                    string shell = string.Format($"-r -p {com}");
+                    var com = StringHelper.Onlynum(Global.thisdevice);
+                    var shell = string.Format($"-r -p {com}");
                     await QCNTool(shell);
+
                     _ = FormatExtractLog.Text.Contains("error")
                         ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupFailed")).Dismiss().ByClickingBackground().TryShow()
                         : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupSucc")).Dismiss().ByClickingBackground().TryShow();
+
                     BusyQCN.IsBusy = false;
                     QCN.IsEnabled = true;
                 }
@@ -217,25 +224,29 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void OpenBackup(object sender, RoutedEventArgs args)
+    async void OpenBackup(object sender, RoutedEventArgs args)
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            bool result = false;
+            var result = false;
+
             _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
+
             if (result == true)
             {
-                TopLevel topLevel = TopLevel.GetTopLevel(this);
-                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                var topLevel = TopLevel.GetTopLevel(this);
+
+                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                 {
                     Title = "Select Buckup Folder",
                     AllowMultiple = false
                 });
+
                 if (files.Count >= 1)
                 {
                     if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
@@ -258,33 +269,38 @@ public partial class FormatExtractView : UserControl
                 return;
             }
         }
+
         if (Global.backup_path != null)
         {
             FileHelper.OpenFolder(Path.Combine(Global.backup_path));
         }
     }
 
-    private async void Enable901d(object sender, RoutedEventArgs args)
+    async void Enable901d(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 BusyQCN.IsBusy = true;
                 QCN.IsEnabled = false;
-                bool result = false;
+                var result = false;
+
                 _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("Common_NeedRoot"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
+
                 if (result == true)
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
                     _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
+
                 BusyQCN.IsBusy = false;
                 QCN.IsEnabled = true;
             }
@@ -299,22 +315,25 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void Enable9091(object sender, RoutedEventArgs args)
+    async void Enable9091(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 BusyQCN.IsBusy = true;
                 QCN.IsEnabled = false;
-                bool result = false;
+                var result = false;
+
                 _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("FormatExtract_OnlyXiaomi"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
+
                 if (result == true)
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
@@ -323,6 +342,7 @@ public partial class FormatExtractView : UserControl
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
                 }
+
                 BusyQCN.IsBusy = false;
                 QCN.IsEnabled = true;
             }
@@ -337,25 +357,28 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void OpenEmptyFile(object sender, RoutedEventArgs args)
+    async void OpenEmptyFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
-        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        var topLevel = TopLevel.GetTopLevel(this);
+
+        var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open SuperEmpty File",
             AllowMultiple = false
         });
+
         if (files.Count >= 1)
         {
             SuperEmptyFile.Text = StringHelper.FilePath(files[0].Path.ToString());
         }
     }
 
-    private async void FlashSuperEmpty(object sender, RoutedEventArgs args)
+    async void FlashSuperEmpty(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 if (!string.IsNullOrEmpty(SuperEmptyFile.Text))
@@ -366,9 +389,11 @@ public partial class FormatExtractView : UserControl
                     output = "";
                     FormatExtractLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
                     await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile.Text}\"");
+
                     _ = !output.Contains("FAILED") && !output.Contains("error")
                         ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_FlashSucc")).Dismiss().ByClickingBackground().TryShow()
                         : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_RecoveryFailed")).Dismiss().ByClickingBackground().TryShow();
+
                     BusyFlash.IsBusy = false;
                     SuperEmpty.IsEnabled = true;
                     Global.checkdevice = true;
@@ -389,11 +414,12 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void ADBFormat(object sender, RoutedEventArgs args)
+    async void ADBFormat(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 if (!string.IsNullOrEmpty(FormatName.Text))
@@ -402,7 +428,8 @@ public partial class FormatExtractView : UserControl
                     Format.IsEnabled = false;
                     output = "";
                     FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
-                    string formatsystem = "";
+                    var formatsystem = "";
+
                     if (EXT4.IsChecked != null && (bool)EXT4.IsChecked)
                     {
                         formatsystem = "mke2fs -t ext4";
@@ -428,24 +455,27 @@ public partial class FormatExtractView : UserControl
                         formatsystem = "/tmp/mkntfs -f";
                     }
 
-                    string partname = FormatName.Text;
+                    var partname = FormatName.Text;
                     await FeaturesHelper.GetPartTable(Global.thisdevice);
                     FeaturesHelper.PushMakefs(Global.thisdevice);
-                    string sdxx = FeaturesHelper.FindDisk(partname);
+                    var sdxx = FeaturesHelper.FindDisk(partname);
+
                     if (sdxx != "")
                     {
                         await Task.Run(() =>
                         {
                             Thread.Sleep(1000);
                         });
-                        string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
-                        string shell = string.Format($"-s {Global.thisdevice} shell {formatsystem} /dev/block/{sdxx}{partnum}");
+
+                        var partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
+                        var shell = string.Format($"-s {Global.thisdevice} shell {formatsystem} /dev/block/{sdxx}{partnum}");
                         await ADB(shell);
                     }
                     else
                     {
                         _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NotFound")).Dismiss().ByClickingBackground().TryShow();
                     }
+
                     BusyFormat.IsBusy = false;
                     Format.IsEnabled = true;
                 }
@@ -465,11 +495,12 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void FastbootFormat(object sender, RoutedEventArgs args)
+    async void FastbootFormat(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 if (!string.IsNullOrEmpty(FormatName.Text))
@@ -478,8 +509,8 @@ public partial class FormatExtractView : UserControl
                     Format.IsEnabled = false;
                     output = "";
                     FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
-                    string partname = FormatName.Text;
-                    string shell = string.Format($"-s {Global.thisdevice} erase {partname}");
+                    var partname = FormatName.Text;
+                    var shell = string.Format($"-s {Global.thisdevice} erase {partname}");
                     await Fastboot(shell);
                     BusyFormat.IsBusy = false;
                     Format.IsEnabled = true;
@@ -500,11 +531,12 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void FormatData(object sender, RoutedEventArgs args)
+    async void FormatData(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 BusyFormat.IsBusy = true;
@@ -526,11 +558,12 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void TWRPFormatData(object sender, RoutedEventArgs args)
+    async void TWRPFormatData(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 BusyFormat.IsBusy = true;
@@ -552,25 +585,29 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void ExtractPart(object sender, RoutedEventArgs args)
+    async void ExtractPart(object sender, RoutedEventArgs args)
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            bool result = false;
+            var result = false;
+
             _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
+
             if (result == true)
             {
-                TopLevel topLevel = TopLevel.GetTopLevel(this);
-                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                var topLevel = TopLevel.GetTopLevel(this);
+
+                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                 {
                     Title = "Select Buckup Folder",
                     AllowMultiple = false
                 });
+
                 if (files.Count >= 1)
                 {
                     if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
@@ -593,9 +630,11 @@ public partial class FormatExtractView : UserControl
                 return;
             }
         }
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
@@ -604,15 +643,17 @@ public partial class FormatExtractView : UserControl
                     Extract.IsEnabled = false;
                     output = "";
                     FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
-                    string partname = ExtractName.Text;
+                    var partname = ExtractName.Text;
                     await FeaturesHelper.GetPartTable(Global.thisdevice);
-                    string sdxx = FeaturesHelper.FindDisk(partname);
+                    var sdxx = FeaturesHelper.FindDisk(partname);
+
                     if (sdxx != "")
                     {
-                        string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
-                        string shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of={partname}.img");
+                        var partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
+                        var shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of={partname}.img");
                         await ADB(shell);
                         FileHelper.Write(adb_log_path, output);
+
                         if (output.Contains("No space left on device"))
                         {
                             FormatExtractLog.Text = GetTranslation("FormatExtract_TryUseData");
@@ -637,6 +678,7 @@ public partial class FormatExtractView : UserControl
                     {
                         FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
                     }
+
                     BusyExtract.IsBusy = false;
                     Extract.IsEnabled = true;
                 }
@@ -649,26 +691,29 @@ public partial class FormatExtractView : UserControl
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {
-                    bool result = false;
+                    var result = false;
+
                     _ = dialogManager.CreateDialog()
     .WithTitle("Warn")
     .WithContent(GetTranslation("Common_NeedRoot"))
     .WithActionButton("Yes", _ => result = true, true)
     .WithActionButton("No", _ => result = false, true)
     .TryShow();
+
                     if (result == true)
                     {
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
                         output = "";
                         FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
-                        string partname = ExtractName.Text;
+                        var partname = ExtractName.Text;
                         await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
-                        string sdxx = FeaturesHelper.FindDisk(partname);
+                        var sdxx = FeaturesHelper.FindDisk(partname);
+
                         if (sdxx != "")
                         {
-                            string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
-                            string shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
+                            var partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
+                            var shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
                             shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
                             await ADB(shell);
@@ -679,6 +724,7 @@ public partial class FormatExtractView : UserControl
                         {
                             FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
                         }
+
                         BusyExtract.IsBusy = false;
                         Extract.IsEnabled = true;
                     }
@@ -699,25 +745,29 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void ExtractVPart(object sender, RoutedEventArgs args)
+    async void ExtractVPart(object sender, RoutedEventArgs args)
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            bool result = false;
+            var result = false;
+
             _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
+
             if (result == true)
             {
-                TopLevel topLevel = TopLevel.GetTopLevel(this);
-                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                var topLevel = TopLevel.GetTopLevel(this);
+
+                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                 {
                     Title = "Select Buckup Folder",
                     AllowMultiple = false
                 });
+
                 if (files.Count >= 1)
                 {
                     if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
@@ -740,9 +790,11 @@ public partial class FormatExtractView : UserControl
                 return;
             }
         }
+
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            var sukiViewModel = GlobalData.MainViewModelInstance;
+
             if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
@@ -751,17 +803,19 @@ public partial class FormatExtractView : UserControl
                     Extract.IsEnabled = false;
                     output = "";
                     FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
-                    string partname = ExtractName.Text;
-                    string shell = string.Format($"-s {Global.thisdevice} shell ls -l /dev/block/mapper/{partname}");
-                    string vmpart = await CallExternalProgram.ADB(shell);
+                    var partname = ExtractName.Text;
+                    var shell = string.Format($"-s {Global.thisdevice} shell ls -l /dev/block/mapper/{partname}");
+                    var vmpart = await CallExternalProgram.ADB(shell);
+
                     if (!vmpart.Contains("No such file or directory"))
                     {
                         char[] charSeparators = { ' ', '\r', '\n' };
-                        string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-                        string devicepoint = line[^1];
+                        var line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                        var devicepoint = line[^1];
                         shell = string.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of={partname}.img");
                         await ADB(shell);
                         FileHelper.Write(adb_log_path, output);
+
                         if (output.Contains("No space left on device"))
                         {
                             FormatExtractLog.Text = GetTranslation("FormatExtract_TryUseData");
@@ -786,6 +840,7 @@ public partial class FormatExtractView : UserControl
                     {
                         FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
                     }
+
                     BusyExtract.IsBusy = false;
                     Extract.IsEnabled = true;
                 }
@@ -798,27 +853,30 @@ public partial class FormatExtractView : UserControl
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {
-                    bool result = false;
+                    var result = false;
+
                     _ = dialogManager.CreateDialog()
     .WithTitle("Warn")
     .WithContent(GetTranslation("Common_NeedRoot"))
     .WithActionButton("Yes", _ => result = true, true)
     .WithActionButton("No", _ => result = false, true)
     .TryShow();
+
                     if (result == true)
                     {
                         BusyExtract.IsBusy = true;
                         Extract.IsEnabled = false;
                         output = "";
                         FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
-                        string partname = ExtractName.Text;
-                        string shell = string.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");
-                        string vmpart = await CallExternalProgram.ADB(shell);
+                        var partname = ExtractName.Text;
+                        var shell = string.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");
+                        var vmpart = await CallExternalProgram.ADB(shell);
+
                         if (!vmpart.Contains("No such file or directory"))
                         {
                             char[] charSeparators = { ' ', '\r', '\n' };
-                            string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-                            string devicepoint = line[^1];
+                            var line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                            var devicepoint = line[^1];
                             shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
                             await ADB(shell);
                             shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
@@ -830,6 +888,7 @@ public partial class FormatExtractView : UserControl
                         {
                             FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
                         }
+
                         BusyExtract.IsBusy = false;
                         Extract.IsEnabled = true;
                     }
@@ -850,25 +909,29 @@ public partial class FormatExtractView : UserControl
         }
     }
 
-    private async void OpenExtractFile(object sender, RoutedEventArgs args)
+    async void OpenExtractFile(object sender, RoutedEventArgs args)
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            bool result = false;
+            var result = false;
+
             _ = dialogManager.CreateDialog()
 .WithTitle("Warn")
 .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
 .WithActionButton("Yes", _ => result = true, true)
 .WithActionButton("No", _ => result = false, true)
 .TryShow();
+
             if (result == true)
             {
-                TopLevel topLevel = TopLevel.GetTopLevel(this);
-                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                var topLevel = TopLevel.GetTopLevel(this);
+
+                var files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                 {
                     Title = "Select Buckup Folder",
                     AllowMultiple = false
                 });
+
                 if (files.Count >= 1)
                 {
                     if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
@@ -891,6 +954,7 @@ public partial class FormatExtractView : UserControl
                 return;
             }
         }
+
         if (Global.backup_path != null)
         {
             FileHelper.OpenFolder(Path.Combine(Global.backup_path));

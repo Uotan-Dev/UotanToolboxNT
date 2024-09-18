@@ -20,12 +20,11 @@ public partial class MainView : SukiWindow
     public MainView()
     {
         InitializeComponent();
-        Bitmap bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
+        var bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
         Icon = new WindowIcon(bitmap);
-
     }
 
-    private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+    void MenuItem_OnClick(object sender, RoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm)
         {
@@ -45,12 +44,12 @@ public partial class MainView : SukiWindow
         vm.ChangeTheme(cTheme);
     }
 
-    private void InputElement_OnPointerPressed(object sender, PointerPressedEventArgs e)
+    void InputElement_OnPointerPressed(object sender, PointerPressedEventArgs e)
     {
         IsMenuVisible = !IsMenuVisible;
     }
 
-    private void OpenTerminal(object sender, RoutedEventArgs e)
+    void OpenTerminal(object sender, RoutedEventArgs e)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
@@ -63,7 +62,7 @@ public partial class MainView : SukiWindow
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            string[] terminalCommands = new string[]
+            var terminalCommands = new string[]
             {
             "x-terminal-emulator",  // Generic terminal emulator
             "gnome-terminal",       // GNOME terminal
@@ -89,6 +88,7 @@ public partial class MainView : SukiWindow
                         Arguments = $"--working-directory={Path.Combine(Global.bin_path, "platform-tools", "adb")}",
                         UseShellExecute = false
                     });
+
                     break;  // If successful, break out of the loop
                 }
                 catch
@@ -103,12 +103,13 @@ public partial class MainView : SukiWindow
         }
     }
 
-    private void InitializeComponent()
+    void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+
         Closing += (s, e) =>
         {
-            SettingsViewModel settingsViewModel = new SettingsViewModel();
+            var settingsViewModel = new SettingsViewModel();
             Settings.Default.IsLightTheme = settingsViewModel.IsLightTheme;
             Settings.Default.Save();
         };

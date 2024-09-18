@@ -32,15 +32,16 @@ jobs:
       if: ${{ inputs.NEED_NUPKG }}
       run: | 
         Invoke-WebRequest -Uri https://github.com/Uotan-Dev/SukiUI-Uotan/releases/download/v6.0.0/SukiUI.6.0.0.nupkg -OutFile SukiUI.6.0.0.nupkg
-        cd
+        dotnet nuget add source "D:\a\UotanToolboxNT\UotanToolboxNT"
+        nuget add SukiUI.6.0.0.nupkg -Source D:\a\UotanToolboxNT\UotanToolboxNT
 
     - name: Clone Binary
       run: git clone https://github.com/Uotan-Dev/UotanToolboxNT.Binary.git -b ${{ inputs.BINARY_BRANCH }}
 
     - name: Build
       run: |
-        dotnet publish -r windows-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-x64
-        dotnet publish -r windows-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-arm64
+        dotnet publish -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-x64
+        dotnet publish -r win-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-arm64
 
     - name: Make zip-x64
       run: |
@@ -56,5 +57,5 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v3
       with:
-        name: Linux-Package
+        name: Windows-Package
         path: ./UotanToolbox_Windows*

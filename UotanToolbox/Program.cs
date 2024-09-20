@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using Avalonia;
+using Avalonia.Dialogs;
 using ShowMeTheXaml;
 using UotanToolbox.Common;
 
@@ -69,10 +70,14 @@ internal class Program
         }
         Global.bin_path = Path.Combine(Global.runpath, "Bin");
         // No need to set default for Windows
-        return AppBuilder.Configure<App>()
-                .UsePlatformDetect()
-                .WithInterFont()
-                .LogToTrace()
-                .UseXamlDisplay();
+        var app = AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+            .WithInterFont()
+            .LogToTrace()
+            .UseXamlDisplay();
+
+        if (OperatingSystem.IsWindows() || OperatingSystem.IsMacOS() || OperatingSystem.IsLinux())
+            app.UseManagedSystemDialogs();
+        return app;
     }
 }

@@ -49,6 +49,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AdditionalFiles Remove="Features\Components\**" />
+	  <AvaloniaXaml Remove="Features\Components\**" />
+	  <Compile Remove="Features\Components\**" />
+	  <EmbeddedResource Remove="Features\Components\**" />
+	  <None Remove="Features\Components\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Include="Assets\icon.ico" />
 	</ItemGroup>
 
@@ -110,6 +118,5 @@
 
 	<ItemGroup>
 	  <Folder Include="Extensions\" />
-	  <Folder Include="Features\Components\" />
 	</ItemGroup>
 </Project>

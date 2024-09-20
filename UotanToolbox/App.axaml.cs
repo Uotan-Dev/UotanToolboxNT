@@ -7,6 +7,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
+using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
 using UotanToolbox.Services;
@@ -54,7 +56,8 @@ public partial class App : Application
         }
 
         _ = services.AddSingleton<PageNavigationService>();
-
+        services.AddSingleton<ISukiToastManager, SukiToastManager>();
+        services.AddSingleton<ISukiDialogManager, SukiDialogManager>();
         // Viewmodels
         _ = services.AddSingleton<MainViewModel>();
         System.Collections.Generic.IEnumerable<Type> types = AppDomain.CurrentDomain.GetAssemblies()

@@ -8,6 +8,7 @@ using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SukiUI;
+using SukiUI.Dialogs;
 using SukiUI.Enums;
 using SukiUI.Models;
 using SukiUI.Toasts;
@@ -27,7 +28,12 @@ public partial class MainViewModel : ObservableObject
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
 
+    private readonly ISukiDialogManager _dialogManager;
+
     public IAvaloniaReadOnlyList<SukiBackgroundStyle> BackgroundStyles { get; }
+
+    public ISukiToastManager ToastManager { get; }
+    public ISukiDialogManager DialogManager { get; }
 
     [ObservableProperty] private ThemeVariant _baseTheme;
     [ObservableProperty] private bool _animationsEnabled;
@@ -39,7 +45,6 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     private string _status, _codeName, _bLStatus, _vABStatus;
-    private ISukiToastManager toastManager;
     private readonly SukiTheme _theme;
     private readonly SettingsViewModel _theming;
 
@@ -47,9 +52,10 @@ public partial class MainViewModel : ObservableObject
     {
         return FeaturesHelper.GetTranslation(key);
     }
-
-    public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav)
+    public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav, ISukiToastManager toastManager, ISukiDialogManager dialogManager)
     {
+        ToastManager = toastManager;
+        DialogManager = dialogManager;
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         DemoPages = new AvaloniaList<MainPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);
@@ -57,7 +63,7 @@ public partial class MainViewModel : ObservableObject
         _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
         _theming.CustomBackgroundStyleChanged += shader => CustomShaderFile = shader;
         _theming.BackgroundTransitionsChanged += enabled => TransitionsEnabled = enabled;
-
+        _dialogManager = dialogManager;
         BackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         _theme = SukiTheme.GetInstance();
         nav.NavigationRequested += t =>
@@ -95,20 +101,13 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private Task ToggleAnimations()
+    private void ToggleAnimations()
     {
         AnimationsEnabled = !AnimationsEnabled;
-        string title = AnimationsEnabled ? $"{GetTranslation("MainView_AnimationEnabled")}" : $"{GetTranslation("MainView_AnimationDisabled")}";
-        string content = AnimationsEnabled
-            ? $"{GetTranslation("MainView_BackgroundAnimationsEnabled")}"
-            : $"{GetTranslation("MainView_BackgroundAnimationsDisabled")}";
-        return (Task)toastManager.CreateToast()
-.WithTitle(title)
-.WithContent(content)
-.OfType(NotificationType.Success)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+        ToastManager.CreateSimpleInfoToast()
+            .WithTitle(AnimationsEnabled ? "Animation Enabled" : "Animation Disabled")
+            .WithContent(AnimationsEnabled ? "Background animations are now enabled." : "Background animations are now disabled.")
+            .Queue();
 
     }
 

@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using UotanToolbox.Features.Home;
 
 namespace UotanToolbox.Common
 {
@@ -27,6 +28,8 @@ namespace UotanToolbox.Common
         //工具箱版本
         public static string currentVersion = "3.0.0";
         public static bool isLightThemeChanged = false;
+
+        public static HomeView homeView;
     }
     public class BootInfo
     {

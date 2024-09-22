@@ -11,7 +11,6 @@ namespace UotanToolbox.Common;
 public class ViewLocator : IDataTemplate
 {
     private readonly Dictionary<object, Control> _controlCache = [];
-    public ISukiToastManager mainWindowManager;
 
     public Control Build(object data)
     {
@@ -37,7 +36,7 @@ public class ViewLocator : IDataTemplate
         {
             if (!_controlCache.TryGetValue(data!, out Control ress))
             {
-                ress ??= (Control)Activator.CreateInstance(type, mainWindowManager)!;
+                ress ??= Global.homeView!;
                 _controlCache[data!] = ress;
             }
         }

@@ -11,7 +11,7 @@ namespace UotanToolbox.Features.Home;
 
 public partial class HomeView : UserControl
 {
-    public ISukiToastManager _thisWindowManager = new SukiToastManager();
+    //public ISukiToastManager _thisWindowManager = new SukiToastManager();
     public ISukiToastManager _mainWindowManager;
     public static string GetTranslation(string key)
     {
@@ -20,12 +20,9 @@ public partial class HomeView : UserControl
 
     public HomeView(ISukiToastManager mainWindowManager)
     {
-        if (mainWindowManager != null)
-        {
-            _mainWindowManager = mainWindowManager;
-        }
+        _mainWindowManager = mainWindowManager;
         InitializeComponent();
-        ToastHost.Manager = _thisWindowManager;
+        //ToastHost.Manager = _thisWindowManager;
     }
 
     public async void CopyButton_OnClick(object sender, RoutedEventArgs args)
@@ -47,7 +44,7 @@ public partial class HomeView : UserControl
                 await clipboard.SetDataObjectAsync(dataObject);
             }
 
-            _thisWindowManager.CreateSimpleInfoToast()
+            _mainWindowManager.CreateSimpleInfoToast()
                 .WithTitle(GetTranslation("Home_Copy"))
                 .WithContent("o(*≧▽≦)ツ")
                 .OfType(NotificationType.Success)

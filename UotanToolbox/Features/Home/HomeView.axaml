@@ -13,7 +13,8 @@
              x:DataType="home:HomeViewModel"
              mc:Ignorable="d">
 	<suki:SukiWindow.Hosts>
-		<suki:SukiToastHost Name="ToastHost"/>
+		<suki:SukiToastHost Name="ToastHost" Manager="{Binding ToastManager}"/>
+		<suki:SukiDialogHost Name="DialogHost" Manager="{Binding DialogManager}"/>
 	</suki:SukiWindow.Hosts>
 	<WrapPanel Margin="15"
 			   theme:WrapPanelExtensions.AnimatedScroll="True"

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using SukiUI.Controls;
+using SukiUI.Toasts;
 
 namespace UotanToolbox.Common;
 
 public class ViewLocator : IDataTemplate
 {
     private readonly Dictionary<object, Control> _controlCache = [];
+    public ISukiToastManager mainWindowManager;
 
     public Control Build(object data)
     {
@@ -28,6 +31,15 @@ public class ViewLocator : IDataTemplate
         if (type is null)
         {
             return new TextBlock { Text = $"No View For {name}." };
+        }
+
+        if (fullName.Contains("UotanToolbox.Features.Home.HomeView"))
+        {
+            if (!_controlCache.TryGetValue(data!, out Control ress))
+            {
+                ress ??= (Control)Activator.CreateInstance(type, mainWindowManager)!;
+                _controlCache[data!] = ress;
+            }
         }
 
         if (!_controlCache.TryGetValue(data!, out Control res))

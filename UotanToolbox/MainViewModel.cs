@@ -28,8 +28,6 @@ public partial class MainViewModel : ObservableObject
 
     public IAvaloniaReadOnlyList<SukiColorTheme> Themes { get; }
 
-    private readonly ISukiDialogManager _dialogManager;
-
     public IAvaloniaReadOnlyList<SukiBackgroundStyle> BackgroundStyles { get; }
 
     public ISukiToastManager ToastManager { get; }
@@ -63,7 +61,6 @@ public partial class MainViewModel : ObservableObject
         _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
         _theming.CustomBackgroundStyleChanged += shader => CustomShaderFile = shader;
         _theming.BackgroundTransitionsChanged += enabled => TransitionsEnabled = enabled;
-        _dialogManager = dialogManager;
         BackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         _theme = SukiTheme.GetInstance();
         nav.NavigationRequested += t =>

@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using Microsoft.VisualBasic;
 using ReactiveUI;
+using SukiUI.Controls;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using UotanToolbox.Common;
@@ -42,10 +43,11 @@ public partial class HomeViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
+    public HomeViewModel(ISukiToastManager toastManager) : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = CheckEnvironment();
         _ = CheckDeviceList();
+        _ = new HomeView(toastManager);
         _ = this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe(option =>
             {

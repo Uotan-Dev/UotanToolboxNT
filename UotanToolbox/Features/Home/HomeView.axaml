@@ -354,181 +354,35 @@
 			</StackPanel>
 		</suki:GlassCard>
 
-		<!-- Analog Button -->
-		<suki:GlassCard Margin="10"
-						Height="320"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Center">
-			<StackPanel>
+		<!--    -->
+		<suki:GlassCard Width="320" Height="320" Margin="10">
+			<StackPanel Orientation="Vertical" Spacing="10">
 				<TextBlock HorizontalAlignment="Left"
-							FontSize="16"
+							FontSize="15"
 							FontWeight="DemiBold"
-							Text="{x:Static assets:Resources.Home_ButtonAnalog}" />
-				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 40">
-					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
-						<Button Width="100"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding BackCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="ArrowBack" />
-								<TextBlock Text="{x:Static assets:Resources.Home_BackButton}"/>
-							</TextBlock>
-						</Button>
-						<Button Width="100"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding HomeCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="CircleOutline" />
-								<TextBlock Text="{x:Static assets:Resources.Home_HomeButton}"/>
-							</TextBlock>
-						</Button>
-						<Button Width="100"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding MulCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="CardMultipleOutline" />
-								<TextBlock Text="{x:Static assets:Resources.Home_MultiTask}"/>
-							</TextBlock>
-						</Button>
-						<Button Width="100"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding LockCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="LockOpenOutline" />
-								<TextBlock Text="{x:Static assets:Resources.Home_LockScreen}"/>
-							</TextBlock>
-						</Button>
-					</StackPanel>
-					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
-						<Button Width="100"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding VolUCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="VolumePlus" />
-								<TextBlock Text="{x:Static assets:Resources.Home_VolumeUp}"/>
-							</TextBlock>
-						</Button>
-						<Button Width="100"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding VolDCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="VolumeDecrease" />
-								<TextBlock Text="{x:Static assets:Resources.Home_VolumeDown}"/>
-							</TextBlock>
-						</Button>
-						<Button Width="100"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding MuteCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="VolumeOff" />
-								<TextBlock Text="{x:Static assets:Resources.Home_VolumeMute}"/>
-							</TextBlock>
-						</Button>
-						<Button Width="100"
-								HorizontalAlignment="Left"
-								Padding="8"
-								Command="{Binding SCCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="CameraOutline" />
-								<TextBlock Text="{x:Static assets:Resources.Home_Screenshot}"/>
-							</TextBlock>
-						</Button>
-					</StackPanel>
+							Text="{x:Static assets:Resources.Basicflash_DriverPatch}" />
+				<StackPanel Margin="0 20 0 0" Spacing="15">
+					<Button Width="220" Click="OpenAFDI" Content="{x:Static assets:Resources.Basicflash_InstallADBAndFastbootDriver}"></Button>
+					<Button Width="220" Click="Open9008DI" Content="{x:Static assets:Resources.Basicflash_Install9008Driver}"></Button>
+					<Button Width="220" Click="OpenUSBP" Content="{x:Static assets:Resources.Basicflash_XiaomiUSB}"></Button>
+					<Button Width="220" Click="OpenUSBP" Content="撤销USB3.0补丁"></Button>
 				</StackPanel>
 			</StackPanel>
 		</suki:GlassCard>
 
-		<!-- Reboot -->
-		<StackPanel Orientation="Vertical" Margin="10" Spacing="10">
-			<!--  ADB Reboot  -->
-			<suki:GlassCard HorizontalAlignment="Left"
-							VerticalAlignment="Center">
-				<StackPanel Spacing="10">
-					<TextBlock HorizontalAlignment="Left"
-							   FontSize="15"
-							   FontWeight="DemiBold"
-							   Text="{x:Static assets:Resources.Home_AdbRebootTo}" />
-					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding ARebootCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="Android" />
-									<TextBlock Text="{x:Static assets:Resources.Home_System}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding ARRecCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="NetworkOutline" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding ARSideCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="NetworkPos" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Sideload}"/>
-								</TextBlock>
-							</Button>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding ARBootCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Bootloader}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding ARFastCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding AREDLCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Boot9008}"/>
-								</TextBlock>
-							</Button>
-						</StackPanel>
-					</StackPanel>
-
-				</StackPanel>
-			</suki:GlassCard>
-
-			<!--  Fastboot Reboot  -->
-			<suki:GlassCard HorizontalAlignment="Left"
-							VerticalAlignment="Center">
+		<!--  Reboot  -->
+		<suki:GlassCard Width="320"
+						Height="320"
+						Margin="10"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Center">
 				<StackPanel Spacing="10">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.Home_FastbootRebootTo}" />
-					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+								Text="重启至" />
+					<StackPanel Margin="0 40 0 0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="125"
 									HorizontalAlignment="Left"
 									Padding="8"
@@ -547,19 +401,10 @@
 									<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
 								</TextBlock>
 							</Button>
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding FRShutCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="Power" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Shutdown}"/>
-								</TextBlock>
-							</Button>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal"
 									HorizontalAlignment="Center"
-									Spacing="5">
+									Spacing="10">
 							<Button Width="125"
 									HorizontalAlignment="Left"
 									Padding="8"
@@ -578,6 +423,19 @@
 									<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>
 								</TextBlock>
 							</Button>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal"
+									HorizontalAlignment="Center"
+									Spacing="10">
+							<Button Width="125"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Command="{Binding FRShutCommand}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="Power" />
+									<TextBlock Text="{x:Static assets:Resources.Home_Shutdown}"/>
+								</TextBlock>
+							</Button>
 							<Button Width="125"
 									HorizontalAlignment="Left"
 									Padding="8"
@@ -591,12 +449,11 @@
 					</StackPanel>
 				</StackPanel>
 			</suki:GlassCard>
-		</StackPanel>
 
 		<!-- Virtual panel -->
 		<suki:GlassCard Margin="10"
 							Height="320"
-							Width="241"
+							Width="280"
 							HorizontalAlignment="Left"
 							VerticalAlignment="Center">
 			<suki:BusyArea Name="BusyDevicesList"
@@ -607,14 +464,20 @@
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="{x:Static assets:Resources.Home_ChooseDevice}" />
-					<StackPanel Margin="0 55 0 25">
+					<StackPanel Margin="0 15 0 50">
 						<ComboBox Width="185" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
-					<StackPanel Spacing="15">
+					<StackPanel Spacing="20">
 						<Button Width="175" Command="{Binding FreshDeviceListCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
 								<TextBlock Text="{x:Static assets:Resources.Home_Refresh}"/>
+							</TextBlock>
+						</Button>
+						<Button Width="175" Command="{Binding FreshDeviceListCommand}">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="Reload" />
+								<TextBlock Text="无线ADB连接"/>
 							</TextBlock>
 						</Button>
 					</StackPanel>

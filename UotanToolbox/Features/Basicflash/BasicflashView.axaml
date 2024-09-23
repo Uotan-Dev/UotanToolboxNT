@@ -150,20 +150,27 @@
 			</suki:BusyArea>
 		</suki:GlassCard>
 
-		<!--    -->
-		<suki:GlassCard Width="310" Margin="10">
-			<StackPanel Orientation="Vertical" Spacing="10">
-				<TextBlock HorizontalAlignment="Left"
-							FontSize="15"
-							FontWeight="DemiBold"
-							Text="{x:Static assets:Resources.Basicflash_DriverPatch}" />
-				<StackPanel Spacing="15">
-					<Button Width="220" Click="OpenAFDI" Content="{x:Static assets:Resources.Basicflash_InstallADBAndFastbootDriver}"></Button>
-					<Button Width="220" Click="Open9008DI" Content="{x:Static assets:Resources.Basicflash_Install9008Driver}"></Button>
-					<Button Width="220" Click="OpenUSBP" Content="{x:Static assets:Resources.Basicflash_XiaomiUSB}"></Button>
-				</StackPanel>
-			</StackPanel>
-		</suki:GlassCard>
+			<!--  Reboot  -->
+			<suki:GlassCard Width="310" Margin="10">
+				<suki:BusyArea Name="BusyReboot"
+								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
+					<StackPanel Name="RebootPanel" Orientation="Vertical" Spacing="10">
+						<TextBlock HorizontalAlignment="Left"
+									FontSize="15"
+									FontWeight="DemiBold"
+									Text="自定义重启命令" />
+						<ComboBox Name="RebootComm" Width="220" Margin="0 10"/>
+						<StackPanel Spacing="15">
+							<Button Width="210" Click="">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="Reload" />
+									<TextBlock Text="执行重启命令" />
+								</TextBlock>
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</suki:BusyArea>
+			</suki:GlassCard>
 
 		<!--  Patch Boot Image  -->
 		<suki:GlassCard Width="630" Margin="10">

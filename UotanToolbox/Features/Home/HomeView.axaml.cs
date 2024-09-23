@@ -120,4 +120,6 @@ public partial class HomeView : UserControl
             SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_NotUsed")), allowBackgroundClose: true);
         }
     }
+
+    private void OpenWirelessADB(object sender, RoutedEventArgs args) => new WirelessADB().Show();
 }

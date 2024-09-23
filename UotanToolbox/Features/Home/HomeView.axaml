@@ -474,7 +474,7 @@
 								<TextBlock Text="{x:Static assets:Resources.Home_Refresh}"/>
 							</TextBlock>
 						</Button>
-						<Button Width="200" Command="{Binding OpenWirelessADB}">
+						<Button Width="200" Click="OpenWirelessADB">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
 								<TextBlock Text="无线ADB连接"/>

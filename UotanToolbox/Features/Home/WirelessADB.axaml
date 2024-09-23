@@ -4,17 +4,44 @@
                  xmlns:suki="https://github.com/kikipoulet/SukiUI"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 Title="WirelessADB"
-                 Width="760"
-                 Height="400"
+				 Title="WirelessADB"
+				 CanMaximize="False"
+				 CanResize="False"
+                 Width="850"
+                 Height="455"
                  d:DesignHeight="450"
                  d:DesignWidth="800"
                  mc:Ignorable="d">
-    <Grid>
+	<Grid>
 		<WrapPanel>
-			<suki:GlassCard>
-				<Button></Button>
+			<suki:GlassCard Width="380" Height="380" Margin="30 15 15 15">
+				<StackPanel>
+					<Rectangle Margin="0 50 0 0" Width="210" Height="210" RadiusX="10" RadiusY="10">
+						<Rectangle.Fill>
+							<ImageBrush Source="avares://UotanToolbox/Assets/zicai.jpeg"/>
+						</Rectangle.Fill>
+					</Rectangle>
+					<TextBlock HorizontalAlignment="Center" 
+							   Margin="0 10 0 0" 
+							   FontSize="15"
+							   FontWeight="DemiBold" 
+							   Text="扫描二维码连接" />
+				</StackPanel>
+			</suki:GlassCard>
+			<suki:GlassCard Width="380" Height="380" Margin="15 15 30 15">
+				<StackPanel Orientation="Vertical" Margin="15 50 0 0" Spacing="20">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Width="70" VerticalAlignment="Center" Text="IP和端口:"></TextBlock>
+						<TextBox Width="240"/>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Width="70" VerticalAlignment="Center" Text="配对码:"></TextBlock>
+						<TextBox Width="240"/>
+					</StackPanel>
+					<Button Width="240" Content="连接" Margin="0 20 0 0"></Button>
+					<Button Width="240" Content="有线转为无线"></Button>
+				</StackPanel>
 			</suki:GlassCard>
 		</WrapPanel>
-    </Grid>
+	</Grid>
 </suki:SukiWindow>

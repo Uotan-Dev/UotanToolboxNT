@@ -200,6 +200,9 @@ public partial class HomeViewModel : MainPageBase
         }
     }
 
+    [RelayCommand]
+    private static void OpenWirelessADB() => new WirelessADB().Show();
+
     private async Task ADBControl(string shell)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())

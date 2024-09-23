@@ -465,16 +465,16 @@
 								FontWeight="DemiBold"
 								Text="{x:Static assets:Resources.Home_ChooseDevice}" />
 					<StackPanel Margin="0 15 0 50">
-						<ComboBox Width="185" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
+						<ComboBox Width="210" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
 					</StackPanel>
 					<StackPanel Spacing="20">
-						<Button Width="175" Command="{Binding FreshDeviceListCommand}">
+						<Button Width="200" Command="{Binding FreshDeviceListCommand}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
 								<TextBlock Text="{x:Static assets:Resources.Home_Refresh}"/>
 							</TextBlock>
 						</Button>
-						<Button Width="175" Command="{Binding FreshDeviceListCommand}">
+						<Button Width="200" Command="{Binding OpenWirelessADB}">
 							<TextBlock>
 								<avalonia:MaterialIcon Kind="Reload" />
 								<TextBlock Text="无线ADB连接"/>

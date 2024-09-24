@@ -44,7 +44,7 @@ public partial class ScrcpyViewModel : MainPageBase
     [RelayCommand]
     public async Task Connect()
     {
-        if (Global.System == "Windows")
+        if (Global.System == "Windows" | Global.System == "macOS")
         {
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {

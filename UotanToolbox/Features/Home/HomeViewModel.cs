@@ -200,99 +200,42 @@ public partial class HomeViewModel : MainPageBase
         }
     }
 
-    //[RelayCommand]
-    //private static void OpenWirelessADB() => new WirelessADB().Show();
-
-    private async Task ADBControl(string shell)
+    [RelayCommand]
+    public async Task RebootSys() 
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
             {
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot");
+            }
+            else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
+            {
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
             }
         }
         else
         {
             SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
-    }
-
-    private async Task FastbootControl(string shell)
-    {
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
-            {
-                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell}");
-            }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
-            }
-        }
-        else
-        {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
-        }
-    }
+    } 
 
     [RelayCommand]
-    public async Task AReboot() => await ADBControl("reboot");
-
-    [RelayCommand]
-    public async Task ARRec() => await ADBControl("reboot recovery");
-
-    [RelayCommand]
-    public async Task ARSide()
+    public async Task RebootRec() 
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
             {
-                string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
-                if (output.Contains("not found"))
-                {
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
-                }
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot recovery");
             }
-            else
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
-            }
-        }
-        else
-        {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
-        }
-    }
-
-    [RelayCommand]
-    public async Task ARBoot() => await ADBControl("reboot bootloader");
-
-    [RelayCommand]
-    public async Task ARFast() => await ADBControl("reboot fastboot");
-
-    [RelayCommand]
-    public async Task AREDL() => await ADBControl("reboot edl");
-
-    [RelayCommand]
-    public async Task FReboot() => await FastbootControl("reboot");
-
-    [RelayCommand]
-    public async Task FRRec()
-    {
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
+            else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                 if (output.Contains("unknown command"))
@@ -307,7 +250,7 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
             }
         }
         else
@@ -317,12 +260,66 @@ public partial class HomeViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task FRShut()
+    public async Task RebootBL()
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
+            {
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot bootloader");
+            }
+            else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
+            {
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot-bootloader");
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+        }
+    }
+
+    [RelayCommand]
+    public async Task RebootFB()
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
+            {
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot fastboot");
+            }
+            else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
+            {
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot-fastboot");
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+        }
+    }
+
+    [RelayCommand]
+    public async Task PowerOff()
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
+            {
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot -p");
+            }
+            else if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
                 if (output.Contains("unknown command"))
@@ -336,7 +333,7 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterFastboot")), allowBackgroundClose: true);
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
             }
         }
         else
@@ -346,11 +343,27 @@ public partial class HomeViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task FRBoot() => await FastbootControl("reboot-bootloader");
-
-    [RelayCommand]
-    public async Task FRFast() => await FastbootControl("reboot-fastboot");
-
-    [RelayCommand]
-    public async Task FREDL() => await FastbootControl("oem edl");
+    public async Task RebootEDL() 
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
+            {
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot edl");
+            }
+            else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
+            {
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem edl");
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+        }
+    }
 }

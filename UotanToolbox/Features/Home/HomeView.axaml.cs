@@ -121,5 +121,28 @@ public partial class HomeView : UserControl
         }
     }
 
+    private async void OpenReUSBP(object sender, RoutedEventArgs args)
+    {
+        if (Global.System == "Windows")
+        {
+            string cmd = @"drive\ReUSB3.bat";
+            ProcessStartInfo cmdshell = null;
+            cmdshell = new ProcessStartInfo(cmd)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false
+            };
+            Process f = Process.Start(cmdshell);
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+            });
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_NotUsed")), allowBackgroundClose: true);
+        }
+    }
+
     private void OpenWirelessADB(object sender, RoutedEventArgs args) => new WirelessADB().Show();
 }

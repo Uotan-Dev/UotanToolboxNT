@@ -556,7 +556,7 @@
     <value>Close screenlock</value>
   </data>
   <data name="Scrcpy_CloseScreenWhenCasting" xml:space="preserve">
-    <value>Close screen when casting</value>
+    <value>Casting close screen</value>
   </data>
   <data name="Scrcpy_ComputerControl" xml:space="preserve">
     <value>Computer control</value>
@@ -1364,5 +1364,50 @@
   </data>
   <data name="Settings_RestartTheApplication" xml:space="preserve">
     <value>Restart the application to fresh the language</value>
+  </data>
+  <data name="Common_ModeError" xml:space="preserve">
+    <value>The current state cannot be executed</value>
+  </data>
+  <data name="Basicflash_ReXiaomiUSB" xml:space="preserve">
+    <value>Revoke USB 3.0 patch</value>
+  </data>
+  <data name="Basicflash_ExecuteReboot" xml:space="preserve">
+    <value>Execute restart command</value>
+  </data>
+  <data name="Basicflash_MoreReboot" xml:space="preserve">
+    <value>More restart commands</value>
+  </data>
+  <data name="Home_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Home_IPAndPort" xml:space="preserve">
+    <value>IP &amp; Port:</value>
+  </data>
+  <data name="Home_PairingCode" xml:space="preserve">
+    <value>Pair code:</value>
+  </data>
+  <data name="Home_Reboot" xml:space="preserve">
+    <value>Reboot to</value>
+  </data>
+  <data name="Home_ScanQR" xml:space="preserve">
+    <value>Scan the QR code to connect</value>
+  </data>
+  <data name="Home_WiredToLess" xml:space="preserve">
+    <value>Wired to wireless conversion</value>
+  </data>
+  <data name="Home_WirelessADB" xml:space="preserve">
+    <value>Wireless ADB</value>
+  </data>
+  <data name="Home_WirelessADBTitle" xml:space="preserve">
+    <value>Wireless ADB Connection</value>
+  </data>
+  <data name="Main_CanResize" xml:space="preserve">
+    <value>Unlock the window height lock</value>
+  </data>
+  <data name="Main_QuickReboot" xml:space="preserve">
+    <value>Quick reboot to</value>
+  </data>
+  <data name="Main_Title" xml:space="preserve">
+    <value>Uotan Toolbox</value>
   </data>
 </root>

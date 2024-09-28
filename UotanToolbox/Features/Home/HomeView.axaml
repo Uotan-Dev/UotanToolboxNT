@@ -365,7 +365,7 @@
 					<Button Width="220" Click="OpenAFDI" Content="{x:Static assets:Resources.Basicflash_InstallADBAndFastbootDriver}"></Button>
 					<Button Width="220" Click="Open9008DI" Content="{x:Static assets:Resources.Basicflash_Install9008Driver}"></Button>
 					<Button Width="220" Click="OpenUSBP" Content="{x:Static assets:Resources.Basicflash_XiaomiUSB}"></Button>
-					<Button Width="220" Click="OpenUSBP" Content="撤销USB3.0补丁"></Button>
+					<Button Width="220" Click="OpenReUSBP" Content="{x:Static assets:Resources.Basicflash_ReXiaomiUSB}"></Button>
 				</StackPanel>
 			</StackPanel>
 		</suki:GlassCard>
@@ -386,7 +386,7 @@
 							<Button Width="125"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FRebootCommand}">
+									Command="{Binding RebootSys}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="Android" />
 									<TextBlock Text="{x:Static assets:Resources.Home_System}"/>
@@ -395,7 +395,7 @@
 							<Button Width="125"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FRRecCommand}">
+									Command="{Binding RebootRec}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="NetworkOutline" />
 									<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
@@ -408,7 +408,7 @@
 							<Button Width="125"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FRBootCommand}">
+									Command="{Binding RebootBL}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
 									<TextBlock Text="{x:Static assets:Resources.Home_Bootloader}"/>
@@ -417,7 +417,7 @@
 							<Button Width="125"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FRFastCommand}">
+									Command="{Binding RebootFB}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
 									<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>
@@ -430,7 +430,7 @@
 							<Button Width="125"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FRShutCommand}">
+									Command="{Binding PowerOff}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="Power" />
 									<TextBlock Text="{x:Static assets:Resources.Home_Shutdown}"/>
@@ -439,7 +439,7 @@
 							<Button Width="125"
 									HorizontalAlignment="Left"
 									Padding="8"
-									Command="{Binding FREDLCommand}">
+									Command="{Binding RebootEDL}">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="ProgressDownload" />
 									<TextBlock Text="{x:Static assets:Resources.Home_Boot9008}"/>
@@ -476,8 +476,8 @@
 						</Button>
 						<Button Width="200" Click="OpenWirelessADB">
 							<TextBlock>
-								<avalonia:MaterialIcon Kind="Reload" />
-								<TextBlock Text="无线ADB连接"/>
+								<avalonia:MaterialIcon Kind="NetworkOutline" />
+								<TextBlock Text="{x:Static assets:Resources.Home_WirelessADB}"/>
 							</TextBlock>
 						</Button>
 					</StackPanel>

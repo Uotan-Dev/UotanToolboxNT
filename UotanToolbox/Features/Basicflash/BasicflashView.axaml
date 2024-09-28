@@ -151,20 +151,20 @@
 		</suki:GlassCard>
 
 			<!--  Reboot  -->
-			<suki:GlassCard Width="310" Margin="10">
+		<suki:GlassCard Width="310" Margin="10">
 				<suki:BusyArea Name="BusyReboot"
 								BusyText="{x:Static assets:Resources.Basicflash_Executing}">
 					<StackPanel Name="RebootPanel" Orientation="Vertical" Spacing="10">
 						<TextBlock HorizontalAlignment="Left"
 									FontSize="15"
 									FontWeight="DemiBold"
-									Text="自定义重启命令" />
+									Text="{x:Static assets:Resources.Basicflash_MoreReboot}" />
 						<ComboBox Name="RebootComm" Width="220" Margin="0 10"/>
 						<StackPanel Spacing="15">
-							<Button Width="210" Click="">
+							<Button Width="210" Click="MoreReboot">
 								<TextBlock>
 									<avalonia:MaterialIcon Kind="Reload" />
-									<TextBlock Text="执行重启命令" />
+									<TextBlock Text="{x:Static assets:Resources.Basicflash_ExecuteReboot}" />
 								</TextBlock>
 							</Button>
 						</StackPanel>

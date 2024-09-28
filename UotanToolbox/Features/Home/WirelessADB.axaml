@@ -1,10 +1,12 @@
 <suki:SukiWindow x:Class="UotanToolbox.Features.Home.WirelessADB"
                  xmlns="https://github.com/avaloniaui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
                  xmlns:suki="https://github.com/kikipoulet/SukiUI"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-				 Title="WirelessADB"
+				 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+				 Title="{x:Static assets:Resources.Home_WirelessADBTitle}"
 				 CanMaximize="False"
 				 CanResize="False"
                  Width="850"
@@ -12,6 +14,20 @@
                  d:DesignHeight="450"
                  d:DesignWidth="800"
                  mc:Ignorable="d">
+	<suki:SukiWindow.LogoContent>
+		<avalonia:MaterialIcon Width="20"
+                               Height="20"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource SukiPrimaryColor}"
+                               Kind="ToolboxOutline" >
+			<avalonia:MaterialIcon.Transitions>
+				<Transitions>
+					<BrushTransition Property="Foreground" Duration="{DynamicResource ShortAnimationDuration}" />
+				</Transitions>
+			</avalonia:MaterialIcon.Transitions>
+		</avalonia:MaterialIcon>
+	</suki:SukiWindow.LogoContent>
+	
 	<Grid>
 		<WrapPanel>
 			<suki:GlassCard Width="380" Height="380" Margin="30 15 15 15">
@@ -25,21 +41,21 @@
 							   Margin="0 10 0 0" 
 							   FontSize="15"
 							   FontWeight="DemiBold" 
-							   Text="扫描二维码连接" />
+							   Text="{x:Static assets:Resources.Home_ScanQR}" />
 				</StackPanel>
 			</suki:GlassCard>
 			<suki:GlassCard Width="380" Height="380" Margin="15 15 30 15">
 				<StackPanel Orientation="Vertical" Margin="15 50 0 0" Spacing="20">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="70" VerticalAlignment="Center" Text="IP和端口:"></TextBlock>
+						<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_IPAndPort}"></TextBlock>
 						<TextBox Width="240"/>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="70" VerticalAlignment="Center" Text="配对码:"></TextBlock>
+						<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_PairingCode}"></TextBlock>
 						<TextBox Width="240"/>
 					</StackPanel>
-					<Button Width="240" Content="连接" Margin="0 20 0 0"></Button>
-					<Button Width="240" Content="有线转为无线"></Button>
+					<Button Width="240" Content="{x:Static assets:Resources.Home_Connect}" Margin="0 20 0 0"></Button>
+					<Button Width="240" Content="{x:Static assets:Resources.Home_WiredToLess}"></Button>
 				</StackPanel>
 			</suki:GlassCard>
 		</WrapPanel>

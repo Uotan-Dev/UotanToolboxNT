@@ -29,7 +29,7 @@
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
 									   Text="{x:Static assets:Resources.Wiredflash_TXTFlash}" />
-							<StackPanel Orientation="Horizontal" Spacing="20">
+							<StackPanel Orientation="Horizontal" Spacing="15">
 								<StackPanel>
 									<StackPanel Margin="0" Orientation="Horizontal">
 										<TextBlock Width="80"
@@ -97,7 +97,7 @@
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
 									   Text="{x:Static assets:Resources.Wiredflash_MoreFlash}" />
-							<StackPanel Orientation="Horizontal" Spacing="20">
+							<StackPanel Orientation="Horizontal" Spacing="15">
 								<StackPanel>
 									<StackPanel Margin="0" Orientation="Horizontal">
 										<TextBlock Width="110"

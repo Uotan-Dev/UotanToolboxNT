@@ -8,7 +8,7 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
 				 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
-                 Title="Uotan Toolbox"
+                 Title="{x:Static assets:Resources.Main_Title}"
                  d:DesignHeight="600"
                  d:DesignWidth="800"
                  x:DataType="demo:MainViewModel"
@@ -53,7 +53,7 @@
 									<suki:GlassCard CornerRadius="15" Padding="10">
 										<DockPanel  FlowDirection="LeftToRight">
 											<ToggleSwitch IsChecked="{Binding WindowLocked}" VerticalAlignment="Center" DockPanel.Dock="Right" />
-											<TextBlock Text="解除窗口高度锁定" FontSize="14"
+											<TextBlock Text="{x:Static assets:Resources.Main_CanResize}" FontSize="14"
 													   FontWeight="DemiBold"
 													   VerticalAlignment="Center" />
 										</DockPanel>
@@ -65,12 +65,12 @@
 													<TextBlock HorizontalAlignment="Left"
 															   FontSize="14"
 															   FontWeight="DemiBold"
-															   Text="快捷重启至" />
+															   Text="{x:Static assets:Resources.Main_QuickReboot}" />
 													<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 														<Button Width="125"
 																HorizontalAlignment="Left"
 																Padding="8"
-																>
+																Command="{Binding RebootSys}">
 															<TextBlock>
 																<avalonia:MaterialIcon Kind="Android" />
 																<TextBlock Text="{x:Static assets:Resources.Home_System}"/>
@@ -79,7 +79,7 @@
 														<Button Width="125"
 																HorizontalAlignment="Left"
 																Padding="8"
-																>
+																Command="{Binding RebootRec}">
 															<TextBlock>
 																<avalonia:MaterialIcon Kind="NetworkOutline" />
 																<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
@@ -90,7 +90,7 @@
 														<Button Width="125"
 																HorizontalAlignment="Left"
 																Padding="8"
-																>
+																Command="{Binding RebootBL}">
 															<TextBlock>
 																<avalonia:MaterialIcon Kind="ProgressDownload" />
 																<TextBlock Text="{x:Static assets:Resources.Home_Bootloader}"/>
@@ -99,7 +99,7 @@
 														<Button Width="125"
 																HorizontalAlignment="Left"
 																Padding="8"
-																>
+																Command="{Binding RebootFB}">
 															<TextBlock>
 																<avalonia:MaterialIcon Kind="ProgressDownload" />
 																<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>

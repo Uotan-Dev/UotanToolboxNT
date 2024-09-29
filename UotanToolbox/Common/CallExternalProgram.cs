@@ -172,6 +172,7 @@ namespace UotanToolbox.Common
         public static async Task<string> Scrcpy(string arg)
         {
             string cmd = Path.Combine(Global.bin_path, "platform-tools", "scrcpy");
+            Environment.SetEnvironmentVariable("KEEPVERITY", Path.Combine(Global.bin_path, "platform-tools"));
             ProcessStartInfo scrcpy = new ProcessStartInfo(cmd, arg)
             {
                 CreateNoWindow = true,

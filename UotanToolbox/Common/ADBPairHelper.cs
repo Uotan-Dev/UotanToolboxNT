@@ -36,10 +36,6 @@ namespace UotanToolbox.Common
                     if (match.Success)
                     {
                         result = await CallExternalProgram.ADB($"pair {match.Groups[2].Value}:{match.Groups[3].Value} {password}");
-                        if (result.Contains("Successfully paired to "))
-                        {
-                            break;
-                        }
                     }
                 }
                 await Task.Delay(1000);

@@ -34,11 +34,11 @@ public partial class WirelessADB : SukiWindow
         string result = await CallExternalProgram.ADB($"pair {input} {password}");
         if (result.Contains("Successfully paired to "))
         {
-            SukiHost.ShowDialog(new PureDialog("连接成功"), allowBackgroundClose: true);
+            SukiHost.ShowDialog(this, new PureDialog("连接成功"), allowBackgroundClose: true);
         }
         else
         {
-            SukiHost.ShowDialog(new ErrorDialog(result), allowBackgroundClose: true);
+            SukiHost.ShowDialog(this, new ErrorDialog(result), allowBackgroundClose: true);
         }
     }
 }

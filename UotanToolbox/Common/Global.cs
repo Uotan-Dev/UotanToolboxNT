@@ -11,6 +11,8 @@ namespace UotanToolbox.Common
         public static string log_path = null;
         public static string backup_path = null;
         public static string System = "Windows";
+        public static string serviceID = null;
+        public static string password = null;
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
         public static ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");

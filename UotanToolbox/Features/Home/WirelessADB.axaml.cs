@@ -19,13 +19,10 @@ public partial class WirelessADB : SukiWindow
             return new Bitmap(stream);
         }
     }
-    public WirelessADB()
+    public  WirelessADB()
     {
         InitializeComponent();
-        string serviceID = "studio-" + StringHelper.RandomString(8);
-        string password = StringHelper.RandomString(8);
-        QRCode.Source = ConvertToBitmap(ADBPairHelper.QRCodeInit(serviceID, password));
-        ADBPairHelper.ScanmDNS(serviceID, password);
+        QRCode.Source = ConvertToBitmap(ADBPairHelper.QRCodeInit(Global.serviceID, Global.password));
     }
     private async void WConnect(object sender, RoutedEventArgs args)
     {

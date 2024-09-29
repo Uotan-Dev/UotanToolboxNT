@@ -177,7 +177,8 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                WorkingDirectory = Path.Combine(Global.bin_path, "platform-tools")
             };
             using Process sc = new Process();
             sc.StartInfo = scrcpy;

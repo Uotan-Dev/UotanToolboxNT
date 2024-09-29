@@ -28,7 +28,6 @@ namespace UotanToolbox.Common
             while (true) 
             {
                 string result = await CallExternalProgram.ADB("mdns services");
-                SukiHost.ShowDialog(new PureDialog("match.Groups[2].Value"), allowBackgroundClose: true);
                 if (result.Contains("List of discovered mdns services"))
                 {
                     var lineRegex = "([^\\t]+)\\t*_adb-tls-pairing._tcp.\\t*([^:]+):([0-9]+)";
@@ -36,7 +35,6 @@ namespace UotanToolbox.Common
                     string deviceIP = match.Groups[2].Value;
                     if (match.Success)
                     {
-                        SukiHost.ShowDialog(new PureDialog(match.Groups[2].Value), allowBackgroundClose: true);
                         result = await CallExternalProgram.ADB($"pair {match.Groups[2].Value}:{match.Groups[3].Value} {password}");
                         if (result.Contains("Successfully paired to "))
                         {
@@ -44,10 +42,7 @@ namespace UotanToolbox.Common
                         }
                     }
                 }
-                await Dispatcher.UIThread.InvokeAsync(async () =>
-                {
-                    Thread.Sleep(1000);
-                });
+                await Task.Delay(1000);
             }
         }
         public static async Task<bool> Pair(string input, string password)

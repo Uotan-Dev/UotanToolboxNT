@@ -48,7 +48,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             if (bootInfo.Arch != "aarch64")
             {
-                throw new Exception("unsupported arch"+ bootInfo.Arch);
+                throw new Exception("unsupported arch" + bootInfo.Arch);
             }
             File.Copy(Path.Combine(zipInfo.TempPath, "kernelsu.ko"), Path.Combine(bootInfo.TempPath, "kernelsu.ko"), true);
             string archSubfolder = bootInfo.Arch switch

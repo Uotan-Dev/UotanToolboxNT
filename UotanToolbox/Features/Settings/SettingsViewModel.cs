@@ -28,7 +28,7 @@ public partial class SettingsViewModel : MainPageBase
     public IAvaloniaReadOnlyList<SukiBackgroundStyle> AvailableBackgroundStyles { get; }
     public IAvaloniaReadOnlyList<string> CustomShaders { get; } = new AvaloniaList<string> { "Space", "Weird", "Clouds" };
 
-    public AvaloniaList<string> LanguageList { get; } = [GetTranslation("Settings_Default"),"English","简体中文"];
+    public AvaloniaList<string> LanguageList { get; } = [GetTranslation("Settings_Default"), "English", "简体中文"];
     [ObservableProperty] private string _selectedLanguageList;
 
     private readonly SukiTheme _theme = SukiTheme.GetInstance();

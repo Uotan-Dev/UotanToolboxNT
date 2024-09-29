@@ -1,13 +1,7 @@
-﻿using Avalonia.Media.Imaging;
-using QRCoder;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using QRCoder;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Zeroconf;
 
 namespace UotanToolbox.Common
 {
@@ -20,7 +14,7 @@ namespace UotanToolbox.Common
             using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(QRData, QRCodeGenerator.ECCLevel.M))
             using (BitmapByteQRCode qrCode = new BitmapByteQRCode(qrCodeData))
             {
-               return qrCode.GetGraphic(20);
+                return qrCode.GetGraphic(20);
             }
         }
 
@@ -53,7 +47,7 @@ namespace UotanToolbox.Common
                 Thread.Sleep(1000);
             }
         }
-        public static async Task<bool> Pair(string input,string password)
+        public static async Task<bool> Pair(string input, string password)
         {
             string result = await CallExternalProgram.ADB($"pair {input} {password}");
             if (result.Contains("Successfully paired to "))
@@ -65,9 +59,9 @@ namespace UotanToolbox.Common
                 return false;
             }
         }
-            //string serviceID = "studio-" + StringHelper.RandomString(8);
-            //string password = StringHelper.RandomString(8);
-            //QRCodeInit(serviceID, password);
+        //string serviceID = "studio-" + StringHelper.RandomString(8);
+        //string password = StringHelper.RandomString(8);
+        //QRCodeInit(serviceID, password);
     }
 }
 

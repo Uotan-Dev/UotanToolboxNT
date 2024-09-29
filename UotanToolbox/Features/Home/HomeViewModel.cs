@@ -3,7 +3,6 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
-using Microsoft.VisualBasic;
 using ReactiveUI;
 using SukiUI.Controls;
 using SukiUI.Enums;
@@ -201,7 +200,7 @@ public partial class HomeViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task RebootSys() 
+    public async Task RebootSys()
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
@@ -223,10 +222,10 @@ public partial class HomeViewModel : MainPageBase
         {
             SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
-    } 
+    }
 
     [RelayCommand]
-    public async Task RebootRec() 
+    public async Task RebootRec()
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
@@ -343,7 +342,7 @@ public partial class HomeViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task RebootEDL() 
+    public async Task RebootEDL()
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {

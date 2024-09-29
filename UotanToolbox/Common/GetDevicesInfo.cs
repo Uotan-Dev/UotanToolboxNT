@@ -1,9 +1,7 @@
 ﻿using Avalonia.Collections;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Resources;
 using System.Threading.Tasks;
 
 namespace UotanToolbox.Common

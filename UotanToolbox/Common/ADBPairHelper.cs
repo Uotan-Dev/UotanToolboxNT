@@ -11,7 +11,7 @@ namespace UotanToolbox.Common
         {
             string QRData = "WIFI:T:ADB;S:" + serviceID + ";P:" + password + ";;";
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
-            using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(QRData, QRCodeGenerator.ECCLevel.M))
+            using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(QRData, QRCodeGenerator.ECCLevel.H))
             using (BitmapByteQRCode qrCode = new BitmapByteQRCode(qrCodeData))
             {
                 return qrCode.GetGraphic(20);

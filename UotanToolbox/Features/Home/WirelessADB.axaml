@@ -48,13 +48,13 @@
 				<StackPanel Orientation="Vertical" Margin="15 50 0 0" Spacing="20">
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_IPAndPort}"></TextBlock>
-						<TextBox Width="240"/>
+						<TextBox Name="IPAndPort" Width="240"/>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_PairingCode}"></TextBlock>
-						<TextBox Width="240"/>
+						<TextBox Name="PairingCode" Width="240"/>
 					</StackPanel>
-					<Button Width="240" Content="{x:Static assets:Resources.Home_Connect}" Margin="0 20 0 0"></Button>
+					<Button Width="240" Content="{x:Static assets:Resources.Home_Connect}" Margin="0 20 0 0" Click="WConnect"></Button>
 					<Button Width="240" Content="{x:Static assets:Resources.Home_WiredToLess}"></Button>
 				</StackPanel>
 			</suki:GlassCard>

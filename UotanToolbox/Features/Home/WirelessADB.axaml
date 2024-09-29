@@ -32,11 +32,11 @@
 		<WrapPanel>
 			<suki:GlassCard Width="380" Height="380" Margin="30 15 15 15">
 				<StackPanel>
-					<Rectangle Margin="0 50 0 0" Width="210" Height="210" RadiusX="10" RadiusY="10">
-						<Rectangle.Fill>
-							<ImageBrush Source="avares://UotanToolbox/Assets/zicai.jpeg"/>
-						</Rectangle.Fill>
-					</Rectangle>
+					<Image Name="QRCode"
+						   Width="210"
+						   Height="210"
+						   Margin="0 50 0 0"
+						   ToolTip.Tip="QR Code" />
 					<TextBlock HorizontalAlignment="Center" 
 							   Margin="0 10 0 0" 
 							   FontSize="15"

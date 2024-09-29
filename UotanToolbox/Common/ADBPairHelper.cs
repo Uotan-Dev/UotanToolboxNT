@@ -13,7 +13,7 @@ namespace UotanToolbox.Common
 {
     internal class ADBPairHelper
     {
-        private static byte[] QRCodeInit(string serviceID, string password)
+        public static byte[] QRCodeInit(string serviceID, string password)
         {
             string QRData = "WIFI:T:ADB;S:" + serviceID + ";P:" + password + ";;";
             using (QRCodeGenerator qrGenerator = new QRCodeGenerator())

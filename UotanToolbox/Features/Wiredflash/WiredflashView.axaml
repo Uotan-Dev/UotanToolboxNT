@@ -11,7 +11,8 @@
 			 d:DesignWidth="1024"
              x:DataType="wiredflash:WiredflashViewModel"
              mc:Ignorable="d">
-	<WrapPanel Margin="15"
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
 			   theme:WrapPanelExtensions.AnimatedScroll="True"
 			   Orientation="Horizontal">
 		<!-- Fastboot -->
@@ -28,7 +29,7 @@
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
 									   Text="{x:Static assets:Resources.Wiredflash_TXTFlash}" />
-							<StackPanel Orientation="Horizontal" Spacing="20">
+							<StackPanel Orientation="Horizontal" Spacing="15">
 								<StackPanel>
 									<StackPanel Margin="0" Orientation="Horizontal">
 										<TextBlock Width="80"
@@ -96,7 +97,7 @@
 									   VerticalAlignment="Top"
 									   FontWeight="DemiBold"
 									   Text="{x:Static assets:Resources.Wiredflash_MoreFlash}" />
-							<StackPanel Orientation="Horizontal" Spacing="20">
+							<StackPanel Orientation="Horizontal" Spacing="15">
 								<StackPanel>
 									<StackPanel Margin="0" Orientation="Horizontal">
 										<TextBlock Width="110"
@@ -181,4 +182,5 @@
 			</Grid>
 		</suki:GlassCard>
 	</WrapPanel>
+	</ScrollViewer>
 </UserControl>

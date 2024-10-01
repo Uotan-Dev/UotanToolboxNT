@@ -11,7 +11,8 @@
 			 d:DesignWidth="1240"
              x:DataType="formatExtract:FormatExtractViewModel"
              mc:Ignorable="d">
-	<WrapPanel Margin="15"
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
 			   theme:WrapPanelExtensions.AnimatedScroll="True"
 			   Orientation="Horizontal">
 
@@ -304,4 +305,5 @@
 			</Grid>
 		</suki:GlassCard>
 	</WrapPanel>
+	</ScrollViewer>
 </UserControl>

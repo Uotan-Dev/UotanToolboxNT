@@ -7,7 +7,6 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
 using SukiUI.Controls;
 using UotanToolbox.Common;
 using UotanToolbox.Common.PatchHelper;
@@ -19,6 +18,7 @@ public partial class BasicflashView : UserControl
 {
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public AvaloniaList<string> SimpleUnlock = ["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"];
+    public AvaloniaList<string> Command = ["shell twrp sideload", "reboot sideload", "reboot safe-mode", "reboot muc", "reboot factory", "reboot admin"];
     public AvaloniaList<string> Arch = ["aarch64", "armeabi", "X86-64", "X86"];
 
     public BasicflashView()
@@ -26,6 +26,7 @@ public partial class BasicflashView : UserControl
         InitializeComponent();
         SimpleContent.ItemsSource = SimpleUnlock;
         ArchList.ItemsSource = Arch;
+        RebootComm.ItemsSource = Command;
         SetDefaultMagisk();
     }
 
@@ -331,6 +332,34 @@ public partial class BasicflashView : UserControl
         await FlashRec("flash boot_b");
     }
 
+    public async void MoreReboot(object sender, RoutedEventArgs args)
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
+            {
+                BusyReboot.IsBusy = true;
+                RebootPanel.IsEnabled = false;
+                if (RebootComm.SelectedItem != null)
+                {
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} {RebootComm.SelectedItem}");
+                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+                }
+                BusyReboot.IsBusy = false;
+                RebootPanel.IsEnabled = true;
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+        }
+    }
+
     public static FilePickerFileType Zip { get; } = new("Zip")
     {
         Patterns = new[] { "*.zip", "*.apk", "*.ko" },
@@ -490,89 +519,6 @@ public partial class BasicflashView : UserControl
         }
     }
 
-    private async void OpenAFDI(object sender, RoutedEventArgs args)
-    {
-        if (Global.System == "Windows")
-        {
-            if (RuntimeInformation.OSArchitecture == Architecture.X64)
-            {
-                Process.Start(@"Drive\adb.exe");
-            }
-            else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
-            {
-                string drvpath = String.Format($"{Global.runpath}/Drive/adb/*.inf");
-                string shell = String.Format("/add-driver {0} /subdirs /install", drvpath);
-                string drvlog = await CallExternalProgram.Pnputil(shell);
-                FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
-                if (drvlog.Contains(GetTranslation("Basicflash_Success")))
-                {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallSuccess")), allowBackgroundClose: true);
-                }
-                else
-                {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallFailed")), allowBackgroundClose: true);
-                }
-            }
-        }
-        else
-        {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_NotUsed")), allowBackgroundClose: true);
-        }
-    }
-
-    private async void Open9008DI(object sender, RoutedEventArgs args)
-    {
-        if (Global.System == "Windows")
-        {
-            if (RuntimeInformation.OSArchitecture == Architecture.X64)
-            {
-                Process.Start(@"Drive\Qualcomm_HS-USB_Driver.exe");
-            }
-            else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
-            {
-                string drvpath = String.Format($"{Global.runpath}/drive/9008/*.inf");
-                string shell = String.Format("/add-driver {0} /subdirs /install", drvpath);
-                string drvlog = await CallExternalProgram.Pnputil(shell);
-                FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
-                if (drvlog.Contains(GetTranslation("Basicflash_Success")))
-                {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallSuccess")), allowBackgroundClose: true);
-                }
-                else
-                {
-                    SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallFailed")), allowBackgroundClose: true);
-                }
-            }
-        }
-        else
-        {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_NotUsed")), allowBackgroundClose: true);
-        }
-    }
-
-    private async void OpenUSBP(object sender, RoutedEventArgs args)
-    {
-        if (Global.System == "Windows")
-        {
-            string cmd = @"drive\USB3.bat";
-            ProcessStartInfo cmdshell = null;
-            cmdshell = new ProcessStartInfo(cmd)
-            {
-                CreateNoWindow = true,
-                UseShellExecute = false
-            };
-            Process f = Process.Start(cmdshell);
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
-            });
-        }
-        else
-        {
-            SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_NotUsed")), allowBackgroundClose: true);
-        }
-    }
-
     private async void FlashMagisk(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
@@ -596,6 +542,16 @@ public partial class BasicflashView : UserControl
                 }
                 else if (ADBSideload.IsChecked == true)
                 {
+                    if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
+                    {
+                        string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
+                        if (output.Contains("not found"))
+                        {
+                            await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
+                        }
+                        await Task.Delay(2000);
+                        await GetDevicesInfo.SetDevicesInfoLittle();
+                    }
                     if (sukiViewModel.Status == "Sideload")
                     {
                         await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload \"{MagiskFile.Text}\"");
@@ -662,6 +618,16 @@ public partial class BasicflashView : UserControl
             }
             else if (ADBSideload.IsChecked == true)
             {
+                if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
+                {
+                    string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
+                    if (output.Contains("not found"))
+                    {
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
+                    }
+                    await Task.Delay(2000);
+                    await GetDevicesInfo.SetDevicesInfoLittle();
+                }
                 if (sukiViewModel.Status == "Sideload")
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/DisableAutoRecovery.zip");
@@ -702,6 +668,16 @@ public partial class BasicflashView : UserControl
             }
             else if (ADBSideload.IsChecked == true)
             {
+                if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
+                {
+                    string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
+                    if (output.Contains("not found"))
+                    {
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
+                    }
+                    await Task.Delay(2000);
+                    await GetDevicesInfo.SetDevicesInfoLittle();
+                }
                 if (sukiViewModel.Status == "Sideload")
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/copy-partitions.zip");

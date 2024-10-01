@@ -7,7 +7,7 @@ using UotanToolbox.Common;
 
 namespace UotanToolbox;
 
-internal class Program
+internal static class Program
 {
     // Initialization code. Don't use any Avalonia, third-party APIs or any
     // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
@@ -65,6 +65,8 @@ internal class Program
             }
         }
         Global.bin_path = Path.Combine(Global.runpath, "Bin");
+        Global.serviceID = "studio-" + StringHelper.RandomString(8);
+        Global.password = StringHelper.RandomString(8);
         // No need to set default for Windows
         return AppBuilder.Configure<App>()
                 .UsePlatformDetect()

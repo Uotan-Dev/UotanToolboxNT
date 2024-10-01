@@ -207,9 +207,6 @@
   <data name="Home_LockScreen" xml:space="preserve">
     <value>锁屏</value>
   </data>
-  <data name="Home_Missing" xml:space="preserve">
-    <value>缺少程序运行的必须组件</value>
-  </data>
   <data name="Home_MotherboardID" xml:space="preserve">
     <value>主板 ID</value>
   </data>
@@ -260,6 +257,9 @@
   </data>
   <data name="Home_VolumeUp" xml:space="preserve">
     <value>音量+</value>
+  </data>
+  <data name="Home_Missing" xml:space="preserve">
+    <value>缺少程序运行的必须组件</value>
   </data>
   <data name="Home_Prompt" xml:space="preserve">
     <value>提示</value>
@@ -444,6 +444,33 @@
   <data name="Basicflash_BasicCommandUnlock" xml:space="preserve">
     <value>基本命令解锁</value>
   </data>
+  <data name="Basicflash_CodeUnlock" xml:space="preserve">
+    <value>解锁码解锁：</value>
+  </data>
+  <data name="Basicflash_ExecuteUnlockCommand" xml:space="preserve">
+    <value>执行解锁命令</value>
+  </data>
+  <data name="Basicflash_Executing" xml:space="preserve">
+    <value>执行中 ...</value>
+  </data>
+  <data name="Basicflash_FlashRecovery" xml:space="preserve">
+    <value>刷入Recovery</value>
+  </data>
+  <data name="Basicflash_NormalUnlock" xml:space="preserve">
+    <value>普通设备解锁</value>
+  </data>
+  <data name="Basicflash_RelockBL" xml:space="preserve">
+    <value>回锁BL</value>
+  </data>
+  <data name="Basicflash_UnlockFileUnlock" xml:space="preserve">
+    <value>解锁文件解锁：</value>
+  </data>
+  <data name="Basicflash_UnlockNow" xml:space="preserve">
+    <value>立即解锁</value>
+  </data>
+  <data name="Common_ChooseFile" xml:space="preserve">
+    <value>选择文件</value>
+  </data>
   <data name="Basicflash_ChooseBoot" xml:space="preserve">
     <value>选择Boot:</value>
   </data>
@@ -453,26 +480,14 @@
   <data name="Basicflash_ChooseRecovery" xml:space="preserve">
     <value>选择Recovery:</value>
   </data>
-  <data name="Basicflash_CodeUnlock" xml:space="preserve">
-    <value>解锁码解锁：</value>
-  </data>
   <data name="Basicflash_DriverPatch" xml:space="preserve">
     <value>驱动补丁</value>
   </data>
   <data name="Basicflash_EasyFlash" xml:space="preserve">
     <value>快捷刷入</value>
   </data>
-  <data name="Basicflash_ExecuteUnlockCommand" xml:space="preserve">
-    <value>执行解锁命令</value>
-  </data>
-  <data name="Basicflash_Executing" xml:space="preserve">
-    <value>执行中 ...</value>
-  </data>
   <data name="Basicflash_FlashChosenMagisk" xml:space="preserve">
     <value>刷入已选择的面具</value>
-  </data>
-  <data name="Basicflash_FlashRecovery" xml:space="preserve">
-    <value>刷入Recovery</value>
   </data>
   <data name="Basicflash_ForceRootfs" xml:space="preserve">
     <value>强开rootfs</value>
@@ -492,14 +507,8 @@
   <data name="Basicflash_KeepStrongEncryption" xml:space="preserve">
     <value>保持强加密</value>
   </data>
-  <data name="Basicflash_NormalUnlock" xml:space="preserve">
-    <value>普通设备解锁</value>
-  </data>
   <data name="Basicflash_PreventRecoverOfficialRecovery" xml:space="preserve">
     <value>阻止恢复官方Recovery</value>
-  </data>
-  <data name="Basicflash_RelockBL" xml:space="preserve">
-    <value>回锁BL</value>
   </data>
   <data name="Basicflash_RepairBoot" xml:space="preserve">
     <value>修补Boot</value>
@@ -531,17 +540,8 @@
   <data name="Basicflash_ToRecoveryBPart" xml:space="preserve">
     <value>至Recovery B分区</value>
   </data>
-  <data name="Basicflash_UnlockFileUnlock" xml:space="preserve">
-    <value>解锁文件解锁：</value>
-  </data>
-  <data name="Basicflash_UnlockNow" xml:space="preserve">
-    <value>立即解锁</value>
-  </data>
   <data name="Basicflash_XiaomiUSB" xml:space="preserve">
-    <value>小米设备USB3.0补丁</value>
-  </data>
-  <data name="Common_ChooseFile" xml:space="preserve">
-    <value>选择文件</value>
+    <value>小米USB3.0补丁</value>
   </data>
   <data name="Common_ChooseFolder" xml:space="preserve">
     <value>选择文件夹</value>
@@ -575,9 +575,6 @@
   </data>
   <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
     <value>等比缩放</value>
-  </data>
-  <data name="Scrcpy_RecordDictionary" xml:space="preserve">
-    <value />
   </data>
   <data name="Scrcpy_RecordScreen" xml:space="preserve">
     <value>录制屏幕</value>
@@ -764,9 +761,6 @@
   </data>
   <data name="FormatExtract_WriteQCN" xml:space="preserve">
     <value>写入QCN</value>
-  </data>
-  <data name="Sidebar_FormatExtract" xml:space="preserve">
-    <value>格式化&amp;提取</value>
   </data>
   <data name="Sidebar_Appmgr" xml:space="preserve">
     <value>应用管理</value>
@@ -996,6 +990,9 @@
   <data name="Common_NotSupportSystem" xml:space="preserve">
     <value>该功能暂不支持当前系统！</value>
   </data>
+  <data name="Sidebar_FormatExtract" xml:space="preserve">
+    <value>格式化&amp;提取</value>
+  </data>
   <data name="Appmgr_AppIsNotSelected" xml:space="preserve">
     <value>未选择应用</value>
   </data>
@@ -1077,9 +1074,6 @@
   <data name="Others_SetScale" xml:space="preserve">
     <value>设置倍数:</value>
   </data>
-  <data name="Others_ShowSec" xml:space="preserve">
-    <value>显秒</value>
-  </data>
   <data name="Others_Signal" xml:space="preserve">
     <value>信号</value>
   </data>
@@ -1115,6 +1109,9 @@
   </data>
   <data name="Others_WLAN" xml:space="preserve">
     <value>无线</value>
+  </data>
+  <data name="Others_ShowSec" xml:space="preserve">
+    <value>显秒</value>
   </data>
   <data name="Others_WiFisXor" xml:space="preserve">
     <value>WiFi的×或！</value>
@@ -1361,5 +1358,62 @@
   </data>
   <data name="Settings_RestartTheApplication" xml:space="preserve">
     <value>重启应用以刷新语言</value>
+  </data>
+  <data name="Common_ModeError" xml:space="preserve">
+    <value>当前状态无法执行！</value>
+  </data>
+  <data name="Basicflash_ExecuteReboot" xml:space="preserve">
+    <value>执行重启命令</value>
+  </data>
+  <data name="Basicflash_MoreReboot" xml:space="preserve">
+    <value>更多重启命令</value>
+  </data>
+  <data name="Home_Connect" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="Home_IPAndPort" xml:space="preserve">
+    <value>IP和端口:</value>
+  </data>
+  <data name="Home_PairingCode" xml:space="preserve">
+    <value>配对码:</value>
+  </data>
+  <data name="Home_Reboot" xml:space="preserve">
+    <value>重启至</value>
+  </data>
+  <data name="Home_ScanQR" xml:space="preserve">
+    <value>扫描二维码连接</value>
+  </data>
+  <data name="Home_WiredToLess" xml:space="preserve">
+    <value>有线转为无线</value>
+  </data>
+  <data name="Home_WirelessADB" xml:space="preserve">
+    <value>无线ADB连接</value>
+  </data>
+  <data name="Home_WirelessADBTitle" xml:space="preserve">
+    <value>无线ADB连接</value>
+  </data>
+  <data name="Main_CanResize" xml:space="preserve">
+    <value>解除窗口高度锁定</value>
+  </data>
+  <data name="Main_QuickReboot" xml:space="preserve">
+    <value>快捷重启至</value>
+  </data>
+  <data name="Main_Title" xml:space="preserve">
+    <value>柚坛工具箱</value>
+  </data>
+  <data name="Common_EnterAll" xml:space="preserve">
+    <value>请输入全部内容！</value>
+  </data>
+  <data name="MainView_ADB" xml:space="preserve">
+    <value>ADB服务</value>
+  </data>
+  <data name="MainView_Disconnect" xml:space="preserve">
+    <value>尝试断开连接</value>
+  </data>
+  <data name="MainView_RestartADB" xml:space="preserve">
+    <value>重启ADB服务</value>
+  </data>
+  <data name="WirelessADB_Connect" xml:space="preserve">
+    <value>连接成功！</value>
   </data>
 </root>

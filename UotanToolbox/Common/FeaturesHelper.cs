@@ -17,7 +17,7 @@ namespace UotanToolbox.Common
             return res;
         }
 
-            public static async void PushMakefs(string device)
+        public static async void PushMakefs(string device)
         {
             await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/mkfs.f2fs /tmp/");
             await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/mkfs.f2fs");

@@ -8,7 +8,7 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
 				 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
-                 Title="Uotan Toolbox"
+                 Title="{x:Static assets:Resources.Main_Title}"
                  d:DesignHeight="600"
                  d:DesignWidth="800"
                  x:DataType="demo:MainViewModel"
@@ -16,7 +16,8 @@
 				 BackgroundShaderFile="{Binding CustomShaderFile}"
 				 BackgroundStyle="{Binding BackgroundStyle}"
 				 BackgroundTransitionsEnabled="{Binding TransitionsEnabled}"
-                 CanResize="False"
+                 CanResize="{Binding WindowLocked}"
+				 CanMaximize="False"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"
                  mc:Ignorable="d">
@@ -33,12 +34,122 @@
 			</avalonia:MaterialIcon.Transitions>
 		</avalonia:MaterialIcon>
 	</suki:SukiWindow.LogoContent>
+
+	<suki:SukiWindow.RightWindowTitleBarControls>
+		<Button Classes="Basic Rounded WindowControlsButton">
+			<avalonia:MaterialIcon Kind="Cog" Foreground="{DynamicResource SukiText}" />
+			<Button.Flyout>
+				<Flyout>
+					<Panel>
+						<Border CornerRadius="15" Margin="10" BoxShadow="{DynamicResource SukiPopupShadow}"></Border>
+						<Border Margin="10" CornerRadius="15"
+                                ClipToBounds="True" MinWidth="200"
+                                Background="{DynamicResource SukiCardBackground}"
+                                BorderBrush="{DynamicResource SukiLightBorderBrush}"
+                                BorderThickness="1">
+							<Border Background="{DynamicResource PopupGradientBrush}"
+									Padding="10">
+								<StackPanel Margin="0,0,0,0" Spacing="10">
+									<suki:GlassCard CornerRadius="15" Padding="10">
+										<DockPanel  FlowDirection="LeftToRight">
+											<ToggleSwitch IsChecked="{Binding WindowLocked}" VerticalAlignment="Center" DockPanel.Dock="Right" />
+											<TextBlock Text="{x:Static assets:Resources.Main_CanResize}" FontSize="14"
+													   FontWeight="DemiBold"
+													   VerticalAlignment="Center" />
+										</DockPanel>
+									</suki:GlassCard>
+									<suki:GlassCard CornerRadius="15" Padding="10">
+											<DockPanel FlowDirection="LeftToRight">
+												<StackPanel Spacing="10">
+													<TextBlock HorizontalAlignment="Left"
+															   FontSize="14"
+															   FontWeight="DemiBold"
+															   Text="{x:Static assets:Resources.Main_QuickReboot}" />
+													<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+														<Button Width="125"
+																HorizontalAlignment="Left"
+																Padding="8"
+																Command="{Binding RebootSys}">
+															<TextBlock>
+																<avalonia:MaterialIcon Kind="Android" />
+																<TextBlock Text="{x:Static assets:Resources.Home_System}"/>
+															</TextBlock>
+														</Button>
+														<Button Width="125"
+																HorizontalAlignment="Left"
+																Padding="8"
+																Command="{Binding RebootRec}">
+															<TextBlock>
+																<avalonia:MaterialIcon Kind="NetworkOutline" />
+																<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
+															</TextBlock>
+														</Button>
+													</StackPanel>
+													<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+														<Button Width="125"
+																HorizontalAlignment="Left"
+																Padding="8"
+																Command="{Binding RebootBL}">
+															<TextBlock>
+																<avalonia:MaterialIcon Kind="ProgressDownload" />
+																<TextBlock Text="{x:Static assets:Resources.Home_Bootloader}"/>
+															</TextBlock>
+														</Button>
+														<Button Width="125"
+																HorizontalAlignment="Left"
+																Padding="8"
+																Command="{Binding RebootFB}">
+															<TextBlock>
+																<avalonia:MaterialIcon Kind="ProgressDownload" />
+																<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>
+															</TextBlock>
+														</Button>
+													</StackPanel>
+												</StackPanel>
+											</DockPanel>
+										</suki:GlassCard>
+									<suki:GlassCard CornerRadius="15" Padding="10">
+										<DockPanel FlowDirection="LeftToRight">
+											<StackPanel Spacing="10">
+												<TextBlock HorizontalAlignment="Left"
+														   FontSize="14"
+														   FontWeight="DemiBold"
+														   Text="{x:Static assets:Resources.MainView_ADB}" />
+												<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+													<Button Width="125"
+															HorizontalAlignment="Left"
+															Padding="8"
+															Command="{Binding Disconnect}">
+														<TextBlock>
+															<TextBlock Text="{x:Static assets:Resources.MainView_Disconnect}"/>
+														</TextBlock>
+													</Button>
+													<Button Width="125"
+															HorizontalAlignment="Left"
+															Padding="8"
+															Command="{Binding RestartADB}">
+														<TextBlock>
+															<TextBlock Text="{x:Static assets:Resources.MainView_RestartADB}"/>
+														</TextBlock>
+													</Button>
+												</StackPanel>
+											</StackPanel>
+										</DockPanel>
+									</suki:GlassCard>
+								</StackPanel>
+							</Border>
+						</Border>
+					</Panel>
+				</Flyout>
+			</Button.Flyout>
+		</Button>
+	</suki:SukiWindow.RightWindowTitleBarControls>
 	
     <suki:SukiSideMenu ItemsSource="{Binding DemoPages}"
                        SelectedItem="{Binding ActivePage}">
         <suki:SukiSideMenu.ItemTemplate>
             <DataTemplate>
-                <suki:SukiSideMenuItem Header="{Binding DisplayName}">
+                <suki:SukiSideMenuItem Classes="Compact" Header="{Binding DisplayName}">
                     <suki:SukiSideMenuItem.Icon>
                         <avalonia:MaterialIcon Kind="{Binding Icon}" />
                     </suki:SukiSideMenuItem.Icon>

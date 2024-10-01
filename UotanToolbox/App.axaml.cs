@@ -36,7 +36,19 @@ public partial class App : Application
             var mainVm = _provider?.GetRequiredService<MainViewModel>();
 
             desktop.MainWindow = viewLocator?.Build(mainVm) as Window;
-            desktop.MainWindow.Width = 1240;
+            if (OperatingSystem.IsWindows())
+            {
+                desktop.MainWindow.MinWidth = 1220;
+                desktop.MainWindow.MaxWidth = 1220;
+                desktop.MainWindow.Width = 1220;
+            }
+            else
+            {
+                desktop.MainWindow.MinWidth = 1240;
+                desktop.MainWindow.MaxWidth = 1240;
+                desktop.MainWindow.Width = 1240;
+            }
+            desktop.MainWindow.MaxHeight = 840;
             desktop.MainWindow.Height = 840;
         }
 

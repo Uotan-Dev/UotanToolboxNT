@@ -247,7 +247,7 @@ public partial class WiredflashView : UserControl
                     {
                         if (sukiViewModel.Status != "Fastbootd")
                         {
-                            await Fastboot($"reboot fastboot");
+                            await Fastboot($"-s {Global.thisdevice} reboot fastboot");
                             FileHelper.Write(adb_log_path, output);
                             if (output.Contains("FAILED") || output.Contains("error"))
                             {
@@ -279,7 +279,7 @@ public partial class WiredflashView : UserControl
                             }
                         }
                         string slot = "";
-                        string active = await CallExternalProgram.Fastboot($"getvar current-slot");
+                        string active = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar current-slot");
                         if (active.Contains("current-slot: a"))
                         {
                             slot = "_a";
@@ -292,7 +292,7 @@ public partial class WiredflashView : UserControl
                         {
                             slot = null;
                         }
-                        string cow = await CallExternalProgram.Fastboot($"getvar all");
+                        string cow = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                         string[] parts = { "odm", "system", "system_ext", "product", "vendor", "mi_ext" };
                         for (int i = 0; i < parts.Length; i++)
                         {
@@ -320,7 +320,7 @@ public partial class WiredflashView : UserControl
                             {
                                 deleteslot = "_a";
                             }
-                            string part = await CallExternalProgram.Fastboot($"getvar all");
+                            string part = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                             for (int i = 0; i < parts.Length; i++)
                             {
                                 string deletepart = String.Format("{0}{1}", parts[i], deleteslot);
@@ -387,14 +387,14 @@ public partial class WiredflashView : UserControl
                     {
                         if (ErasData.IsChecked == true)
                         {
-                            await Fastboot($"erase metadata");
-                            await Fastboot($"erase userdata");
+                            await Fastboot($"-s {Global.thisdevice} erase metadata");
+                            await Fastboot($"-s {Global.thisdevice} erase userdata");
                         }
                         var newDialog = new ConnectionDialog(GetTranslation("Wiredflash_ROMFlash"));
                         await SukiHost.ShowDialogAsync(newDialog);
                         if (newDialog.Result == true)
                         {
-                            await Fastboot($"reboot");
+                            await Fastboot($"-s {Global.thisdevice} reboot");
                         }
                     }
                     else
@@ -482,7 +482,7 @@ public partial class WiredflashView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Fastboot")
             {
-                await Fastboot($"set_active a");
+                await Fastboot($"-s {Global.thisdevice} set_active a");
             }
             else
             {
@@ -502,7 +502,7 @@ public partial class WiredflashView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == "Fastboot")
             {
-                await Fastboot($"set_active b");
+                await Fastboot($"-s {Global.thisdevice} set_active b");
             }
             else
             {
@@ -540,10 +540,10 @@ public partial class WiredflashView : UserControl
             {
                 if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
                 {
-                    string output = await CallExternalProgram.ADB($"shell twrp sideload");
+                    string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
                     if (output.Contains("not found"))
                     {
-                        await CallExternalProgram.ADB($"reboot sideload");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
                     }
                     await Task.Delay(2000);
                     await GetDevicesInfo.SetDevicesInfoLittle();

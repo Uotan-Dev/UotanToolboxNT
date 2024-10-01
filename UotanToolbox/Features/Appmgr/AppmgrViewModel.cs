@@ -46,9 +46,9 @@ public partial class AppmgrViewModel : MainPageBase
             }
             string fullApplicationsList;
             if (!IsSystemAppDisplayed)
-                fullApplicationsList = await CallExternalProgram.ADB($"shell pm list packages -3");
+                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3");
             else
-                fullApplicationsList = await CallExternalProgram.ADB($"shell pm list packages");
+                fullApplicationsList = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages");
             if (fullApplicationsList.Contains("cannot connect to daemon"))
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
@@ -71,7 +71,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 var packageName = ExtractPackageName(line);
                 if (string.IsNullOrEmpty(packageName)) return null;
-                var combinedOutput = await CallExternalProgram.ADB($"shell dumpsys package {packageName}");
+                var combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
                 var splitOutput = combinedOutput.Split('\n', ' ');
                 var otherInfo = GetVersionName(splitOutput) + " | " + GetInstalledDate(splitOutput) + " | " + GetSdkVersion(splitOutput);
                 return new ApplicationInfo { Name = packageName, OtherInfo = otherInfo };
@@ -117,7 +117,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 if (!string.IsNullOrEmpty(fileArray[i]))
                 {
-                    string output = await CallExternalProgram.ADB($"install -r \"{fileArray[i]}\"");
+                    string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{fileArray[i]}\"");
                     if (output.Contains("Success"))
                     {
                         await SukiHost.ShowToast(GetTranslation("Common_InstallSuccess"), "o(*≧▽≦)ツ", NotificationType.Success);
@@ -151,7 +151,7 @@ public partial class AppmgrViewModel : MainPageBase
                 IsBusy = false; return;
             }
             if (SelectedApplication() != "")
-                await CallExternalProgram.ADB($"shell monkey -p {SelectedApplication()} 1");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell monkey -p {SelectedApplication()} 1");
             else
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
@@ -179,7 +179,7 @@ public partial class AppmgrViewModel : MainPageBase
                 IsBusy = false; return;
             }
             if (SelectedApplication() != "")
-                await CallExternalProgram.ADB($"shell pm disable {SelectedApplication()}");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm disable {SelectedApplication()}");
             else
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
@@ -205,7 +205,7 @@ public partial class AppmgrViewModel : MainPageBase
         }
         var selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
-            await CallExternalProgram.ADB($"shell pm enable {selectedApp}");
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm enable {selectedApp}");
         else
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
@@ -230,7 +230,7 @@ public partial class AppmgrViewModel : MainPageBase
         var selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
-            await CallExternalProgram.ADB($"shell pm uninstall {selectedApp}");
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall {selectedApp}");
         }
         else
         {
@@ -259,7 +259,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             // Note: This command may vary depending on the requirements and platform specifics.
             // The following is a general example and may not work as is.
-            await CallExternalProgram.ADB($"shell pm uninstall -k {selectedApp}");
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k {selectedApp}");
         }
         else
         {
@@ -292,10 +292,10 @@ public partial class AppmgrViewModel : MainPageBase
         if (!string.IsNullOrEmpty(selectedApp))
         {
             // Get the apk file of the selected app, and save it to the user's desktop.
-            var apkFile = await CallExternalProgram.ADB($"shell pm path {selectedApp}");
+            var apkFile = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm path {selectedApp}");
             apkFile = apkFile[(apkFile.IndexOf(':') + 1)..].Trim();
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            await CallExternalProgram.ADB($"pull {apkFile} {desktopPath}");
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} pull {apkFile} {desktopPath}");
         }
         else
         {
@@ -322,7 +322,7 @@ public partial class AppmgrViewModel : MainPageBase
         var selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
-            await CallExternalProgram.ADB($"shell pm clear {selectedApp}");
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm clear {selectedApp}");
         }
         else
         {
@@ -349,7 +349,7 @@ public partial class AppmgrViewModel : MainPageBase
         var selectedApp = SelectedApplication();
         if (!string.IsNullOrEmpty(selectedApp))
         {
-            await CallExternalProgram.ADB($"shell am force-stop {selectedApp}");
+            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell am force-stop {selectedApp}");
         }
         else
         {
@@ -383,7 +383,7 @@ public partial class AppmgrViewModel : MainPageBase
             return;
         }
         string focus_name, package_name;
-        string dumpsys = await CallExternalProgram.ADB($"shell \"dumpsys window | grep mCurrentFocus\"");
+        string dumpsys = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"dumpsys window | grep mCurrentFocus\"");
         string text = await FeaturesHelper.ActiveApp(dumpsys);
         await SukiHost.ShowToast(GetTranslation("Appmgr_AppActivactor"), $"\r\n{text}", NotificationType.Info);
         IsBusy = false;

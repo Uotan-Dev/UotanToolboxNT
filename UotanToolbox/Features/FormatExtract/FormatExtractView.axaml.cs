@@ -276,7 +276,7 @@ public partial class FormatExtractView : UserControl
                 await SukiHost.ShowDialogAsync(newDialog);
                 if (newDialog.Result == true)
                 {
-                    await CallExternalProgram.ADB($"shell su -c \"setprop sys.usb.config diag,adb\"");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 BusyQCN.IsBusy = false;
@@ -306,11 +306,11 @@ public partial class FormatExtractView : UserControl
                 await SukiHost.ShowDialogAsync(newDialog);
                 if (newDialog.Result == true)
                 {
-                    await CallExternalProgram.ADB($"push APK/mi_diag.apk /sdcard");
-                    await CallExternalProgram.ADB($"shell \"am start -a miui.intent.action.OPEN\"");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("FormatExtract_DiagApk")), allowBackgroundClose: true);
-                    await CallExternalProgram.ADB($"shell \"am start -n com.longcheertel.midtest/\"");
-                    await CallExternalProgram.ADB($"shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
                 }
                 BusyQCN.IsBusy = false;
                 QCN.IsEnabled = true;
@@ -354,7 +354,7 @@ public partial class FormatExtractView : UserControl
                     SuperEmpty.IsEnabled = false;
                     output = "";
                     FormatExtractLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
-                    await Fastboot($"wipe-super \"{SuperEmptyFile.Text}\"");
+                    await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile.Text}\"");
                     if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
                         SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_FlashSucc")), allowBackgroundClose: true);
@@ -490,7 +490,7 @@ public partial class FormatExtractView : UserControl
                 Format.IsEnabled = false;
                 output = "";
                 FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
-                await ADB($"shell recovery --wipe_data");
+                await ADB($"-s {Global.thisdevice} shell recovery --wipe_data");
                 BusyFormat.IsBusy = false;
                 Format.IsEnabled = true;
             }
@@ -516,7 +516,7 @@ public partial class FormatExtractView : UserControl
                 Format.IsEnabled = false;
                 output = "";
                 FormatExtractLog.Text = GetTranslation("FormatExtract_Formatting") + "\n";
-                await ADB($"shell twrp format data");
+                await ADB($"-s {Global.thisdevice} shell twrp format data");
                 BusyFormat.IsBusy = false;
                 Format.IsEnabled = true;
             }

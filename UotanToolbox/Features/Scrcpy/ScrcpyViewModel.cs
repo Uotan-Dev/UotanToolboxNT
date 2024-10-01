@@ -110,7 +110,7 @@ public partial class ScrcpyViewModel : MainPageBase
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                await CallExternalProgram.ADB($"{shell}");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
             }
             else
             {
@@ -153,7 +153,7 @@ public partial class ScrcpyViewModel : MainPageBase
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 string pngname = String.Format($"{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}");
-                await CallExternalProgram.ADB($"shell /system/bin/screencap -p /sdcard/{pngname}.png");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell /system/bin/screencap -p /sdcard/{pngname}.png");
                 await SukiHost.ShowToast(GetTranslation("Home_Succeeded"), $"{GetTranslation("Home_Saved")} {pngname}.png {GetTranslation("Home_ToStorage")}", NotificationType.Success);
             }
             else

@@ -49,15 +49,15 @@ public partial class OthersView : UserControl
                     try
                     {
 
-                        ScrResolution.Text = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"shell wm size")));
-                        ScrDPI.Text = StringHelper.Density(await CallExternalProgram.ADB($"shell wm density"));
+                        ScrResolution.Text = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size")));
+                        ScrDPI.Text = StringHelper.Density(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density"));
                         ScrDP.Text = StringHelper.GetDP(ScrResolution.Text, ScrDPI.Text).ToString();
-                        LockTime.Text = (StringHelper.Onlynum(await CallExternalProgram.ADB($"shell settings get system screen_off_timeout")) / 1000).ToString() + "s";
-                        FontZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"shell settings get system font_scale"));
+                        LockTime.Text = (StringHelper.Onlynum(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system screen_off_timeout")) / 1000).ToString() + "s";
+                        FontZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system font_scale"));
                         NowFontZoom.Text = FontZoom.Value.ToString();
-                        WindowZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"shell settings get global window_animation_scale"));
-                        TransitionZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"shell settings get global transition_animation_scale"));
-                        AnimationDuration.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"shell settings get global animator_duration_scale"));
+                        WindowZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get global window_animation_scale"));
+                        TransitionZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get global transition_animation_scale"));
+                        AnimationDuration.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get global animator_duration_scale"));
                     }
                     catch
                     {
@@ -84,7 +84,7 @@ public partial class OthersView : UserControl
             {
                 if (!string.IsNullOrEmpty(Transverse.Text) && !string.IsNullOrEmpty(Direction.Text))
                 {
-                    await CallExternalProgram.ADB($"shell wm size {Transverse.Text}x{Direction.Text}");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size {Transverse.Text}x{Direction.Text}");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 if (!string.IsNullOrEmpty(DPIorDP.Text))
@@ -95,14 +95,14 @@ public partial class OthersView : UserControl
                     }
                     else if (SetUnit.SelectedItem.ToString() == "DPI")
                     {
-                        await CallExternalProgram.ADB($"shell wm density {DPIorDP.Text}");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density {DPIorDP.Text}");
                         SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                     }
                     else if (SetUnit.SelectedItem.ToString() == "DP")
                     {
                         if (!string.IsNullOrEmpty(ScrResolution.Text) && ScrResolution.Text != "--")
                         {
-                            await CallExternalProgram.ADB($"shell wm density {StringHelper.GetDPI(ScrResolution.Text, DPIorDP.Text)}");
+                            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density {StringHelper.GetDPI(ScrResolution.Text, DPIorDP.Text)}");
                             SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                         }
                         else
@@ -139,8 +139,8 @@ public partial class OthersView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                await CallExternalProgram.ADB($"shell wm size reset");
-                await CallExternalProgram.ADB($"shell wm density reset");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size reset");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density reset");
                 SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_Restored")), allowBackgroundClose: true);
             }
             else
@@ -194,7 +194,7 @@ public partial class OthersView : UserControl
                         await SukiHost.ShowToast(GetTranslation("Others_TempLower"), GetTranslation("Others_Nobel") + "(￣y▽,￣)╭ ", NotificationType.Error);
                         return;
                     }
-                    await CallExternalProgram.ADB($"shell dumpsys battery set temp {temp * 10}");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set temp {temp * 10}");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
@@ -223,7 +223,7 @@ public partial class OthersView : UserControl
             {
                 if (!string.IsNullOrEmpty(BLevel.Text))
                 {
-                    await CallExternalProgram.ADB($"shell dumpsys battery set level {BLevel.Text}");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set level {BLevel.Text}");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
@@ -251,7 +251,7 @@ public partial class OthersView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                await CallExternalProgram.ADB($"shell dumpsys battery reset");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery reset");
                 SukiHost.ShowDialog(new PureDialog(GetTranslation("Others_Restored")), allowBackgroundClose: true);
                 NoCharge.IsChecked = false;
                 WirelessCharge.IsChecked = false;
@@ -283,7 +283,7 @@ public partial class OthersView : UserControl
                     WirelessCharge.IsChecked = false;
                     USUCharge.IsChecked = false;
                     ACCharge.IsChecked = false;
-                    await CallExternalProgram.ADB($"shell dumpsys battery set status 1");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
@@ -312,7 +312,7 @@ public partial class OthersView : UserControl
                     NoCharge.IsChecked = false;
                     USUCharge.IsChecked = false;
                     ACCharge.IsChecked = false;
-                    await CallExternalProgram.ADB($"shell dumpsys battery set status 1");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
@@ -341,7 +341,7 @@ public partial class OthersView : UserControl
                     WirelessCharge.IsChecked = false;
                     NoCharge.IsChecked = false;
                     ACCharge.IsChecked = false;
-                    await CallExternalProgram.ADB($"shell dumpsys battery set status 1");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
@@ -371,7 +371,7 @@ public partial class OthersView : UserControl
                     WirelessCharge.IsChecked = false;
                     USUCharge.IsChecked = false;
                     NoCharge.IsChecked = false;
-                    await CallExternalProgram.ADB($"shell dumpsys battery set status 1");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 else
@@ -398,9 +398,9 @@ public partial class OthersView : UserControl
             {
                 if (!string.IsNullOrEmpty(NewLockTime.Text))
                 {
-                    await CallExternalProgram.ADB($"shell settings put system screen_off_timeout {StringHelper.Onlynum(NewLockTime.Text) * 1000}");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put system screen_off_timeout {StringHelper.Onlynum(NewLockTime.Text) * 1000}");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
-                    LockTime.Text = (StringHelper.Onlynum(await CallExternalProgram.ADB($"shell settings get system screen_off_timeout")) / 1000).ToString() + "s";
+                    LockTime.Text = (StringHelper.Onlynum(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system screen_off_timeout")) / 1000).ToString() + "s";
                 }
                 else
                 {
@@ -451,29 +451,29 @@ public partial class OthersView : UserControl
                     addshell += "nfc,";
                 if (Fly.IsChecked == true)
                     addshell += "airplane,";
-                await CallExternalProgram.ADB($"shell settings put secure icon_blacklist rotate,ime,{addshell}");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure icon_blacklist rotate,ime,{addshell}");
                 if (Second.IsChecked == true)
                 {
-                    await CallExternalProgram.ADB($"shell settings put secure clock_seconds 1");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure clock_seconds 1");
                 }
                 else
                 {
-                    await CallExternalProgram.ADB($"shell settings put secure clock_seconds 0");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure clock_seconds 0");
                 }
                 if (Rotate.IsChecked == true)
                 {
-                    await CallExternalProgram.ADB($"shell settings put secure show_rotation_suggestions 0");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure show_rotation_suggestions 0");
                 }
                 else
                 {
-                    await CallExternalProgram.ADB($"shell settings put secure show_rotation_suggestions 1");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put secure show_rotation_suggestions 1");
                 }
                 if (RemoveX.IsChecked == true)
                 {
-                    await CallExternalProgram.ADB($"shell settings put global captive_portal_http_url \"http://connect.rom.miui.com/generate_204\"");
-                    await CallExternalProgram.ADB($"shell settings put global captive_portal_https_url \"https://connect.rom.miui.com/generate_204\"");
-                    await CallExternalProgram.ADB($"shell settings put global time_zone Asia/Shanghai");
-                    await CallExternalProgram.ADB($"shell settings put global ntp_server ntp1.aliyun.com");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global captive_portal_http_url \"http://connect.rom.miui.com/generate_204\"");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global captive_portal_https_url \"https://connect.rom.miui.com/generate_204\"");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global time_zone Asia/Shanghai");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global ntp_server ntp1.aliyun.com");
                 }
                 await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
             }
@@ -532,9 +532,9 @@ public partial class OthersView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                await CallExternalProgram.ADB($"shell settings put system font_scale {FontZoom.Value}");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put system font_scale {FontZoom.Value}");
                 await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
-                NowFontZoom.Text = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"shell settings get system font_scale")).ToString();
+                NowFontZoom.Text = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system font_scale")).ToString();
             }
             else
             {
@@ -573,7 +573,7 @@ public partial class OthersView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                await CallExternalProgram.ADB($"shell settings put global window_animation_scale {WindowZoom.Value}");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global window_animation_scale {WindowZoom.Value}");
                 await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
             }
             else
@@ -613,7 +613,7 @@ public partial class OthersView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                await CallExternalProgram.ADB($"shell settings put global transition_animation_scale {TransitionZoom.Value}");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global transition_animation_scale {TransitionZoom.Value}");
                 await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
             }
             else
@@ -653,7 +653,7 @@ public partial class OthersView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                await CallExternalProgram.ADB($"shell settings put global animator_duration_scale {AnimationDuration.Value}");
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global animator_duration_scale {AnimationDuration.Value}");
                 await SukiHost.ShowToast(GetTranslation("Common_Execution"), GetTranslation("Others_NotEffect"), NotificationType.Success);
             }
             else

@@ -85,8 +85,8 @@ public partial class BasicflashView : UserControl
                 }
                 else if (!string.IsNullOrEmpty(UnlockFile.Text) && string.IsNullOrEmpty(UnlockCode.Text))
                 {
-                    await CallExternalProgram.Fastboot($"flash unlock \"{UnlockFile.Text}\"");
-                    string output = await CallExternalProgram.Fastboot($"oem unlock-go");
+                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash unlock \"{UnlockFile.Text}\"");
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock-go");
                     if (output.Contains("OKAY"))
                     {
                         SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_UnlockSucc")), allowBackgroundClose: true);
@@ -98,7 +98,7 @@ public partial class BasicflashView : UserControl
                 }
                 else if (string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
                 {
-                    string output = await CallExternalProgram.Fastboot($"oem unlock {UnlockCode.Text}");
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {UnlockCode.Text}");
                     if (output.Contains("OKAY"))
                     {
                         SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_UnlockSucc")), allowBackgroundClose: true);
@@ -137,8 +137,8 @@ public partial class BasicflashView : UserControl
                 Global.checkdevice = false;
                 BusyUnlock.IsBusy = true;
                 UnlockPanel.IsEnabled = false;
-                await CallExternalProgram.Fastboot($"oem lock-go");
-                string output = await CallExternalProgram.Fastboot($"flashing lock");
+                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
                 if (output.Contains("OKAY"))
                 {
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_RelockSucc")), allowBackgroundClose: true);
@@ -177,7 +177,7 @@ public partial class BasicflashView : UserControl
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == true)
                     {
-                        await CallExternalProgram.Fastboot($"{SimpleContent.SelectedItem}");
+                        await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {SimpleContent.SelectedItem}");
                         SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_CheckUnlock")), allowBackgroundClose: true);
                     }
                 }
@@ -225,18 +225,18 @@ public partial class BasicflashView : UserControl
                 FlashRecovery.IsEnabled = false;
                 if (!string.IsNullOrEmpty(RecFile.Text))
                 {
-                    string output = await CallExternalProgram.Fastboot($"{shell} \"{RecFile.Text}\"");
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile.Text}\"");
                     if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
                         var newDialog = new ConnectionDialog(GetTranslation("Basicflash_RecoverySucc"));
                         await SukiHost.ShowDialogAsync(newDialog);
                         if (newDialog.Result == true)
                         {
-                            output = await CallExternalProgram.Fastboot($"oem reboot-recovery");
+                            output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                             if (output.Contains("unknown command"))
                             {
-                                await CallExternalProgram.Fastboot($"flash misc {Global.runpath}/Image/misc.img");
-                                await CallExternalProgram.Fastboot($"reboot");
+                                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
+                                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
                             }
                         }
                     }
@@ -291,7 +291,7 @@ public partial class BasicflashView : UserControl
                 FlashRecovery.IsEnabled = false;
                 if (!string.IsNullOrEmpty(RecFile.Text))
                 {
-                    string output = await CallExternalProgram.Fastboot($"boot \"{RecFile.Text}\"");
+                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} boot \"{RecFile.Text}\"");
                     if (output.Contains("Finished"))
                     {
                         SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_BootSucc")), allowBackgroundClose: true);
@@ -341,7 +341,7 @@ public partial class BasicflashView : UserControl
                 RebootPanel.IsEnabled = false;
                 if (RebootComm.SelectedItem != null)
                 {
-                    await CallExternalProgram.ADB($"{RebootComm.SelectedItem}");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} {RebootComm.SelectedItem}");
                     SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
                 }
                 BusyReboot.IsBusy = false;
@@ -490,14 +490,14 @@ public partial class BasicflashView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
                 Global.checkdevice = false;
-                string output = await CallExternalProgram.Fastboot($"flash boot \"{boot}\"");
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash boot \"{boot}\"");
                 if (!output.Contains("FAILED") && !output.Contains("error"))
                 {
                     var newDialog = new ConnectionDialog(GetTranslation("Basicflash_BootFlashSucc"));
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == true)
                     {
-                        await CallExternalProgram.Fastboot($"reboot");
+                        await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
                     }
                 }
                 else
@@ -530,8 +530,8 @@ public partial class BasicflashView : UserControl
                 {
                     if (sukiViewModel.Status == "Recovery")
                     {
-                        await CallExternalProgram.ADB($"push {MagiskFile.Text} /tmp/magisk.apk");
-                        await CallExternalProgram.ADB($"shell twrp install /tmp/magisk.apk");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /tmp/magisk.apk");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/magisk.apk");
                     }
                     else
                     {
@@ -542,17 +542,17 @@ public partial class BasicflashView : UserControl
                 {
                     if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
                     {
-                        string output = await CallExternalProgram.ADB($"shell twrp sideload");
+                        string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
                         if (output.Contains("not found"))
                         {
-                            await CallExternalProgram.ADB($"reboot sideload");
+                            await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
                         }
                         await Task.Delay(2000);
                         await GetDevicesInfo.SetDevicesInfoLittle();
                     }
                     if (sukiViewModel.Status == "Sideload")
                     {
-                        await CallExternalProgram.ADB($"sideload \"{MagiskFile.Text}\"");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload \"{MagiskFile.Text}\"");
                     }
                     else
                     {
@@ -577,7 +577,7 @@ public partial class BasicflashView : UserControl
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == true)
                     {
-                        await CallExternalProgram.ADB($"push \"{MagiskFile.Text}\" /sdcard/magisk.apk");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /sdcard/magisk.apk");
                         SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_InstallMagisk")), allowBackgroundClose: true);
                     }
                     BusyInstall.IsBusy = false;
@@ -606,8 +606,8 @@ public partial class BasicflashView : UserControl
             {
                 if (sukiViewModel.Status == "Recovery")
                 {
-                    await CallExternalProgram.ADB($"push {Global.runpath}/ZIP/DisableAutoRecovery.zip /tmp/");
-                    await CallExternalProgram.ADB($"shell twrp install /tmp/DisableAutoRecovery.zip");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/DisableAutoRecovery.zip /tmp/");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/DisableAutoRecovery.zip");
                 }
                 else
                 {
@@ -618,17 +618,17 @@ public partial class BasicflashView : UserControl
             {
                 if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
                 {
-                    string output = await CallExternalProgram.ADB($"shell twrp sideload");
+                    string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
                     if (output.Contains("not found"))
                     {
-                        await CallExternalProgram.ADB($"reboot sideload");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
                     }
                     await Task.Delay(2000);
                     await GetDevicesInfo.SetDevicesInfoLittle();
                 }
                 if (sukiViewModel.Status == "Sideload")
                 {
-                    await CallExternalProgram.ADB($"sideload ZIP/DisableAutoRecovery.zip");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/DisableAutoRecovery.zip");
                 }
                 else
                 {
@@ -656,8 +656,8 @@ public partial class BasicflashView : UserControl
             {
                 if (sukiViewModel.Status == "Recovery")
                 {
-                    await CallExternalProgram.ADB($"push {Global.runpath}/ZIP/copy-partitions.zip /tmp/");
-                    await CallExternalProgram.ADB($"shell twrp install /tmp/copy-partitions.zip");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/copy-partitions.zip /tmp/");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/copy-partitions.zip");
                 }
                 else
                 {
@@ -668,17 +668,17 @@ public partial class BasicflashView : UserControl
             {
                 if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
                 {
-                    string output = await CallExternalProgram.ADB($"shell twrp sideload");
+                    string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
                     if (output.Contains("not found"))
                     {
-                        await CallExternalProgram.ADB($"reboot sideload");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
                     }
                     await Task.Delay(2000);
                     await GetDevicesInfo.SetDevicesInfoLittle();
                 }
                 if (sukiViewModel.Status == "Sideload")
                 {
-                    await CallExternalProgram.ADB($"sideload ZIP/copy-partitions.zip");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} sideload ZIP/copy-partitions.zip");
                 }
                 else
                 {

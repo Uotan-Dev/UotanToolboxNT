@@ -90,7 +90,7 @@ namespace UotanToolbox.Common
             string adb_output;
             if (output.Contains("moe.shizuku.privileged.api"))
             {
-                adb_output = await CallExternalProgram.ADB($"shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh");
                 if (adb_output.Contains("info: shizuku_starter exit with 0"))
                 {
                     return "Shizuku" + GetTranslation("Appmgr_ActiveSucc");
@@ -103,22 +103,22 @@ namespace UotanToolbox.Common
             else if (output.Contains("com.oasisfeng.greenify"))
             {
                 int a = 0;
-                adb_output = await CallExternalProgram.ADB($"shell pm grant com.oasisfeng.greenify android.permission.WRITE_SECURE_SETTINGS");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.greenify android.permission.WRITE_SECURE_SETTINGS");
                 if (!String.IsNullOrEmpty(adb_output))
                 {
                     a = a + 1;
                 }
-                adb_output = await CallExternalProgram.ADB($"shell pm grant com.oasisfeng.greenify android.permission.DUMP");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.greenify android.permission.DUMP");
                 if (!String.IsNullOrEmpty(adb_output))
                 {
                     a = a + 1;
                 }
-                adb_output = await CallExternalProgram.ADB($"shell pm grant com.oasisfeng.greenify android.permission.READ_LOGS");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.greenify android.permission.READ_LOGS");
                 if (!String.IsNullOrEmpty(adb_output))
                 {
                     a = a + 1;
                 }
-                adb_output = await CallExternalProgram.ADB($"shell am force-stop com.oasisfeng.greenify");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell am force-stop com.oasisfeng.greenify");
                 if (!String.IsNullOrEmpty(adb_output))
                 {
                     a = a + 1;
@@ -134,7 +134,7 @@ namespace UotanToolbox.Common
             }
             else if (output.Contains("com.rosan.dhizuku"))
             {
-                adb_output = await CallExternalProgram.ADB($"shell dpm set-device-owner com.rosan.dhizuku/.server.DhizukuDAReceiver");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dpm set-device-owner com.rosan.dhizuku/.server.DhizukuDAReceiver");
                 if (adb_output.Contains("Success: Device owner set to package"))
                 {
                     return "Dhizuku" + GetTranslation("Appmgr_ActiveSucc");
@@ -146,7 +146,7 @@ namespace UotanToolbox.Common
             }
             else if (output.Contains("com.oasisfeng.island"))
             {
-                adb_output = await CallExternalProgram.ADB($"shell pm grant com.oasisfeng.island android.permission.INTERACT_ACROSS_USERS");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm grant com.oasisfeng.island android.permission.INTERACT_ACROSS_USERS");
                 if (String.IsNullOrEmpty(adb_output))
                 {
                     return "Island" + GetTranslation("Appmgr_ActiveSucc");
@@ -158,7 +158,7 @@ namespace UotanToolbox.Common
             }
             else if (output.Contains("me.piebridge.brevent"))
             {
-                adb_output = await CallExternalProgram.ADB($"shell sh /data/data/me.piebridge.brevent/brevent.sh");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /data/data/me.piebridge.brevent/brevent.sh");
                 if (adb_output.Contains("..success"))
                 {
                     return "Brevent" + GetTranslation("Appmgr_ActiveSucc");
@@ -170,7 +170,7 @@ namespace UotanToolbox.Common
             }
             else if (output.Contains("com.catchingnow.icebox"))
             {
-                adb_output = await CallExternalProgram.ADB($"shell sh /sdcard/Android/data/com.catchingnow.icebox/files/start.sh");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /sdcard/Android/data/com.catchingnow.icebox/files/start.sh");
                 if (adb_output.Contains("success"))
                 {
                     return "IceBox" + GetTranslation("Appmgr_ActiveSucc");
@@ -182,7 +182,7 @@ namespace UotanToolbox.Common
             }
             else if (output.Contains("web1n.stopapp"))
             {
-                adb_output = await CallExternalProgram.ADB($"shell sh /storage/emulated/0/Android/data/web1n.stopapp/files/starter.sh");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /storage/emulated/0/Android/data/web1n.stopapp/files/starter.sh");
                 if (adb_output.Contains("success to register app changed listener."))
                 {
                     return GetTranslation("Appmgr_Stopapp") + GetTranslation("Appmgr_ActiveSucc");
@@ -194,7 +194,7 @@ namespace UotanToolbox.Common
             }
             else if (output.Contains("com.web1n.permissiondog"))
             {
-                adb_output = await CallExternalProgram.ADB($"shell sh /storage/emulated/0/Android/data/com.web1n.permissiondog/files/starter.sh");
+                adb_output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell sh /storage/emulated/0/Android/data/com.web1n.permissiondog/files/starter.sh");
                 if (adb_output.Contains("success to register app changed listener."))
                 {
                     return GetTranslation("Appmgr_PermissionDog") + GetTranslation("Appmgr_ActiveSucc");

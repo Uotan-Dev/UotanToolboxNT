@@ -30,7 +30,7 @@ public partial class AppmgrView : UserControl
         {
             var newDialog = new ConnectionDialog(GetTranslation("Appmgr_ConfirmDeleteApp"));
             await SukiHost.ShowDialogAsync(newDialog);
-            if (newDialog.Result == true) await CallExternalProgram.ADB($"shell pm uninstall -k --user 0 {packageName}");
+            if (newDialog.Result == true) await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}");
             var newAppmgr = new AppmgrViewModel();
             _ = newAppmgr.Connect();
         });

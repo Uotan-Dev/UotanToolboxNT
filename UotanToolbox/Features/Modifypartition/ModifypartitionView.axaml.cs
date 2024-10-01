@@ -44,7 +44,7 @@ public partial class ModifypartitionView : UserControl
                 PartList.ItemsSource = null;
                 if (Global.sdatable == "" && sukiViewModel.Status == "Recovery")
                 {
-                    await CallExternalProgram.ADB($"shell twrp unmount data");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp unmount data");
                 }
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
@@ -344,8 +344,8 @@ public partial class ModifypartitionView : UserControl
                     await SukiHost.ShowDialogAsync(newDialog);
                     if (newDialog.Result == true)
                     {
-                        await CallExternalProgram.ADB($"push {Global.runpath}/Push/sgdisk /tmp/");
-                        await CallExternalProgram.ADB($"shell chmod +x /tmp/sgdisk");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/Push/sgdisk /tmp/");
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell chmod +x /tmp/sgdisk");
                         string shell = String.Format($"-s {Global.thisdevice} shell /tmp/sgdisk --resize-table=128 /dev/block/{choice}");
                         string limit = await CallExternalProgram.ADB(shell);
                         if (!limit.Contains("completed successfully"))

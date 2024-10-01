@@ -42,7 +42,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_DeviceBrand}"/>
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -56,7 +56,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_DeviceModel}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -70,7 +70,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_CodeName}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -84,7 +84,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_AndroidSDK}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -98,7 +98,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_CPUABI}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -112,7 +112,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_Resolution}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -126,7 +126,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_DisplayDensity}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -142,7 +142,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_ConnectionStatus}"/>
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -156,7 +156,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_BootloaderLock}"/>
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -170,7 +170,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_VabStadus}"/>
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -184,7 +184,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_VNDKVersion}"/>
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -198,7 +198,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_CPUCode}"/>
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -212,7 +212,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_PowerOnTime}"/>
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -226,7 +226,7 @@
 											Foreground="{DynamicResource SukiLowText}"
 											Text="{x:Static assets:Resources.Home_FlashType}"/>
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -243,7 +243,7 @@
 										Foreground="{DynamicResource SukiLowText}"
 										Text="{x:Static assets:Resources.Home_MotherboardID}" />
 							<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-								<Button Classes="Toolbox"
+								<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -257,7 +257,7 @@
 										Foreground="{DynamicResource SukiLowText}"
 										Text="{x:Static assets:Resources.Home_Platform}" />
 							<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-								<Button Classes="Toolbox"
+								<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
@@ -271,7 +271,7 @@
 										Foreground="{DynamicResource SukiLowText}"
 										Text="{x:Static assets:Resources.Home_CompiledVersion}" />
 							<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-								<Button Classes="Toolbox"
+								<Button Theme="{StaticResource ToolboxButton}"
 										Foreground="White"
 										FontSize="13"
 										Click="CopyButton_OnClick"
@@ -285,7 +285,7 @@
 										Foreground="{DynamicResource SukiLowText}"
 										Text="{x:Static assets:Resources.Home_KernalVersion}" />
 							<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-								<Button Classes="Toolbox"
+								<Button Theme="{StaticResource ToolboxButton}"
 										Foreground="White"
 										FontSize="13"
 										Click="CopyButton_OnClick"

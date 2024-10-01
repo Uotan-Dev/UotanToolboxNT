@@ -68,7 +68,7 @@
 								    Foreground="{DynamicResource SukiLowText}"
 									Text="{x:Static assets:Resources.Main_Status}"/>
 						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<Button Classes="Toolbox"
+							<Button Theme="{StaticResource ToolboxButton}"
 									Foreground="White"
 									FontSize="13"
 									Content="{Binding Status, Mode=TwoWay}"/>
@@ -81,7 +81,7 @@
 								    Foreground="{DynamicResource SukiLowText}"
 									Text="{x:Static assets:Resources.Main_Code}"/>
 						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<Button Classes="Toolbox"
+							<Button Theme="{StaticResource ToolboxButton}"
 									Foreground="White"
 									FontSize="13"
 									Content="{Binding CodeName, Mode=TwoWay}"/>
@@ -94,7 +94,7 @@
 								    Foreground="{DynamicResource SukiLowText}"
 									Text="{x:Static assets:Resources.Main_BLStatus}"/>
 						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<Button Classes="Toolbox"
+							<Button Theme="{StaticResource ToolboxButton}"
 									Foreground="White"
 									FontSize="13"
 									Content="{Binding BLStatus, Mode=TwoWay}"/>
@@ -107,7 +107,7 @@
 								    Foreground="{DynamicResource SukiLowText}"
 									Text="{x:Static assets:Resources.Main_VABStatus}"/>
 						<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-							<Button Classes="Toolbox"
+							<Button Theme="{StaticResource ToolboxButton}"
 									Foreground="White"
 									FontSize="13"
 									Content="{Binding VABStatus, Mode=TwoWay}"/>

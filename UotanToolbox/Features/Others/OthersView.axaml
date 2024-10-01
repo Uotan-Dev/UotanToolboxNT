@@ -283,19 +283,19 @@
 							</StackPanel>
 						</StackPanel>
 						<StackPanel Margin="183,-10,0,0" Spacing="200" Orientation="Horizontal">
-							<Button Classes="Toolbox"
+							<Button Theme="{StaticResource ToolboxButton}"
 									FontSize="13"
 									Width="40"
 									VerticalAlignment="Center"
 									Click="SetFontZoom"
 									Content="1X" />
-							<Button Classes="Toolbox"
+							<Button Theme="{StaticResource ToolboxButton}"
 									FontSize="13"
 									Width="40"
 									VerticalAlignment="Center"
 									Click="SetFontZoom"
 									Content="3X" />
-							<Button Classes="Toolbox"
+							<Button Theme="{StaticResource ToolboxButton}"
 									FontSize="13"
 									Width="40"
 									VerticalAlignment="Center"
@@ -340,31 +340,31 @@
 											Content="{x:Static assets:Resources.Others_Modify}" />
 								</StackPanel>
 								<StackPanel Margin="125,0,0,0" Spacing="79" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetWindowZoom"
 											Content="1X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetWindowZoom"
 											Content="3X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetWindowZoom"
 											Content="5X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetWindowZoom"
 											Content="7X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
@@ -403,31 +403,31 @@
 											Content="{x:Static assets:Resources.Others_Modify}" />
 								</StackPanel>
 								<StackPanel Margin="125,0,0,0" Spacing="79" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetTransitionZoom"
 											Content="1X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetTransitionZoom"
 											Content="3X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetTransitionZoom"
 											Content="5X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetTransitionZoom"
 											Content="7X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
@@ -466,31 +466,31 @@
 											Content="{x:Static assets:Resources.Others_Modify}" />
 								</StackPanel>
 								<StackPanel Margin="125,0,0,0" Spacing="79" Orientation="Horizontal">
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetAnimationDuration"
 											Content="1X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetAnimationDuration"
 											Content="3X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetAnimationDuration"
 											Content="5X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"
 											Click="SetAnimationDuration"
 											Content="7X" />
-									<Button Classes="Toolbox"
+									<Button Theme="{StaticResource ToolboxButton}"
 											FontSize="13"
 											Width="40"
 											VerticalAlignment="Center"

@@ -55,7 +55,7 @@ public partial class WirelessADB : SukiWindow
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell ip addr show to 0.0.0.0/0 scope global | findstr inet");
+                string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell ip addr show to 0.0.0.0/0 scope global");
                 string pattern = @"inet\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/";
 
                 Match match = Regex.Match(output, pattern);

@@ -44,7 +44,7 @@
 							   Text="{x:Static assets:Resources.Home_ScanQR}" />
 				</StackPanel>
 			</suki:GlassCard>
-			<suki:GlassCard Width="380" Height="380" Margin="15 15 30 15">
+			<suki:GlassCard Width="380" Height="380" Margin="15 15 0 15">
 				<StackPanel Orientation="Vertical" Margin="15 50 0 0" Spacing="20">
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_IPAndPort}"></TextBlock>

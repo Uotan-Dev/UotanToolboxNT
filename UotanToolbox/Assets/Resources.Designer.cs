@@ -1114,6 +1114,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter all the content! 的本地化字符串。
+        /// </summary>
+        public static string Common_EnterAll {
+            get {
+                return ResourceManager.GetString("Common_EnterAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please enter Fastboot mode! 的本地化字符串。
         /// </summary>
         public static string Common_EnterFastboot {
@@ -3936,6 +3945,15 @@ namespace UotanToolbox.Assets {
         public static string Wiredflash_XiaomiFlashScript {
             get {
                 return ResourceManager.GetString("Wiredflash_XiaomiFlashScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Connection successful! 的本地化字符串。
+        /// </summary>
+        public static string WirelessADB_Connect {
+            get {
+                return ResourceManager.GetString("WirelessADB_Connect", resourceCulture);
             }
         }
     }

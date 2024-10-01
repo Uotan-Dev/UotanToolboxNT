@@ -1401,4 +1401,10 @@
   <data name="Main_Title" xml:space="preserve">
     <value>柚坛工具箱</value>
   </data>
+  <data name="Common_EnterAll" xml:space="preserve">
+    <value>请输入全部内容！</value>
+  </data>
+  <data name="WirelessADB_Connect" xml:space="preserve">
+    <value>连接成功！</value>
+  </data>
 </root>

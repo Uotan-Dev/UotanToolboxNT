@@ -1410,4 +1410,10 @@
   <data name="Main_Title" xml:space="preserve">
     <value>Uotan Toolbox</value>
   </data>
+  <data name="Common_EnterAll" xml:space="preserve">
+    <value>Please enter all the content!</value>
+  </data>
+  <data name="WirelessADB_Connect" xml:space="preserve">
+    <value>Connection successful!</value>
+  </data>
 </root>

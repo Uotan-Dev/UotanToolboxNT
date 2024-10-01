@@ -31,51 +31,62 @@ public partial class WirelessADB : SukiWindow
     {
         string input = IPAndPort.Text;
         string password = PairingCode.Text;
-        if (String.IsNullOrEmpty(input))
+        if (string.IsNullOrEmpty(input) && string.IsNullOrEmpty(password))
         {
-            SukiHost.ShowDialog(this, new PureDialog("请输入IP与端口"), allowBackgroundClose: true);
-            return;
-        }
-        if (String.IsNullOrEmpty(password))
-        {
-            SukiHost.ShowDialog(this, new PureDialog("请输入配对码"), allowBackgroundClose: true);
-            return;
-        }
-        string result = await CallExternalProgram.ADB($"pair {input} {password}");
-        if (result.Contains("Successfully paired to "))
-        {
-            SukiHost.ShowDialog(this, new PureDialog("连接成功"), allowBackgroundClose: true);
+            string result = await CallExternalProgram.ADB($"pair {input} {password}");
+            if (result.Contains("Successfully paired to "))
+            {
+                SukiHost.ShowDialog(this, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
+            }
+            else
+            {
+                SukiHost.ShowDialog(this, new PureDialog(result), allowBackgroundClose: true);
+            }
         }
         else
         {
-            SukiHost.ShowDialog(this, new PureDialog(result), allowBackgroundClose: true);
+            SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_EnterAll")), allowBackgroundClose: true);
         }
     }
     private async void TWConnect(object sender, RoutedEventArgs args)
     {
-        string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell ip addr show to 0.0.0.0/0 scope global | findstr inet");
-        string pattern = @"inet\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/";
-
-        Match match = Regex.Match(output, pattern);
-
-        if (!match.Success)
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            SukiHost.ShowDialog(this, new PureDialog(output), allowBackgroundClose: true);
-            return;
-        }
-        output = await CallExternalProgram.ADB($"-s {Global.thisdevice} tcpip 5555");
-        if (output.Contains("restarting"))
-        {
-            string output2 = await CallExternalProgram.ADB($"connect {match.Groups[1].Value}");
-            if (output2.Contains("connected"))
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                SukiHost.ShowDialog(this, new PureDialog("连接成功"), allowBackgroundClose: true);
+                string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell ip addr show to 0.0.0.0/0 scope global | findstr inet");
+                string pattern = @"inet\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/";
+
+                Match match = Regex.Match(output, pattern);
+
+                if (!match.Success)
+                {
+                    SukiHost.ShowDialog(this, new PureDialog(output), allowBackgroundClose: true);
+                    return;
+                }
+                output = await CallExternalProgram.ADB($"-s {Global.thisdevice} tcpip 5555");
+                if (output.Contains("restarting"))
+                {
+                    string output2 = await CallExternalProgram.ADB($"connect {match.Groups[1].Value}");
+                    if (output2.Contains("connected"))
+                    {
+                        SukiHost.ShowDialog(this, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
+                    }
+                    else
+                    {
+                        SukiHost.ShowDialog(this, new PureDialog(output + "\n" + output2), allowBackgroundClose: true);
+                    }
+                }
             }
             else
             {
-                SukiHost.ShowDialog(this, new PureDialog(output+"\n"+output2), allowBackgroundClose: true);
+                SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
-
+        else
+        {
+            SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+        }
     }
 }

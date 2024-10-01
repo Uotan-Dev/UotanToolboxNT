@@ -27,7 +27,7 @@ namespace UotanToolbox.Common
         public static string sdftable = "";
         public static string emmcrom = "";
         //工具箱版本
-        public static string currentVersion = "3.0.0";
+        public static string currentVersion = "3.1.0-rc1";
         public static bool isLightThemeChanged = false;
     }
     public class BootInfo

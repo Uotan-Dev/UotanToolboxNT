@@ -1,7 +1,9 @@
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
+using Microsoft.VisualBasic;
 using SukiUI.Controls;
 using System.IO;
+using System.Text.RegularExpressions;
 using UotanToolbox.Common;
 
 using UotanToolbox.Features.Components;
@@ -35,7 +37,34 @@ public partial class WirelessADB : SukiWindow
         }
         else
         {
-            SukiHost.ShowDialog(this, new ErrorDialog(result), allowBackgroundClose: true);
+            SukiHost.ShowDialog(this, new PureDialog(result), allowBackgroundClose: true);
         }
+    }
+    private async void TWConnect(object sender, RoutedEventArgs args)
+    {
+        string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell ip addr show to 0.0.0.0/0 scope global | findstr inet");
+        string pattern = @"inet\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/";
+
+        Match match = Regex.Match(output, pattern);
+
+        if (!match.Success)
+        {
+            SukiHost.ShowDialog(this, new PureDialog(output), allowBackgroundClose: true);
+            return;
+        }
+        output = await CallExternalProgram.ADB($"-s {Global.thisdevice} tcpip 5555");
+        if (output.Contains("restarting"))
+        {
+            string output2 = await CallExternalProgram.ADB($"connect {match.Groups[1].Value}");
+            if (output2.Contains("connected"))
+            {
+                SukiHost.ShowDialog(this, new PureDialog("连接成功"), allowBackgroundClose: true);
+            }
+            else
+            {
+                SukiHost.ShowDialog(this, new PureDialog(output+"\n"+output2), allowBackgroundClose: true);
+            }
+        }
+
     }
 }

@@ -1,0 +1,61 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build Windows
+
+on:
+  workflow_dispatch:
+    inputs:
+      VERSION:
+        description: 'Version'
+        required: true
+      BINARY_BRANCH:
+        description: 'Binary branch'
+        required: true
+      NEED_NUPKG:
+        description: 'Use self nupkg'
+        type: boolean
+        required: true
+        default: false
+
+jobs:
+  windows-zip:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Download NuGet package
+      if: ${{ inputs.NEED_NUPKG }}
+      run: | 
+        Invoke-WebRequest -Uri https://github.com/Uotan-Dev/SukiUI-Uotan/releases/download/v6.0.0/SukiUI.6.0.0.nupkg -OutFile SukiUI.6.0.0.nupkg
+        dotnet nuget add source "D:\a\UotanToolboxNT\UotanToolboxNT"
+        nuget add SukiUI.6.0.0.nupkg -Source D:\a\UotanToolboxNT\UotanToolboxNT
+
+    - name: Clone Binary
+      run: git clone https://github.com/Uotan-Dev/UotanToolboxNT.Binary.git -b ${{ inputs.BINARY_BRANCH }}
+
+    - name: Build
+      run: |
+        dotnet publish -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-x64
+        dotnet publish -r win-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-arm64
+
+    - name: Make zip-x64
+      run: |
+        xcopy ./UotanToolboxNT.Binary/Windows\* ./publish-x64 /e
+        7z a -tzip UotanToolbox_Windows_x64_${{ inputs.VERSION }}.zip -mx=9 -m0=lzma -md=64m -mfb=64 ./publish-x64
+        
+
+    - name: Make zip-arm64
+      run: |
+        xcopy ./UotanToolboxNT.Binary/Windows\* ./publish-arm64 /e
+        7z a -tzip UotanToolbox_Windows_arm64_${{ inputs.VERSION }}.zip -mx=9 -m0=lzma -md=64m -mfb=64 ./publish-arm64
+
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: Windows-Package
+        path: ./UotanToolbox_Windows*

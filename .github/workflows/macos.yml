@@ -1,0 +1,72 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build macOS
+
+on:
+  workflow_dispatch:
+    inputs:
+      VERSION:
+        description: 'Version'
+        required: true
+      BINARY_BRANCH:
+        description: 'Binary branch'
+        required: true
+      NEED_NUPKG:
+        description: 'Use self nupkg'
+        type: boolean
+        required: true
+        default: false
+
+jobs:
+  macos-app:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Download NuGet package
+      if: ${{ inputs.NEED_NUPKG }}
+      run: | 
+        wget https://github.com/Uotan-Dev/SukiUI-Uotan/releases/download/v6.0.0/SukiUI.6.0.0.nupkg
+        dotnet nuget add source "/Users/runner/work/UotanToolboxNT/UotanToolboxNT"
+        nuget add SukiUI.6.0.0.nupkg -Source /Users/runner/work/UotanToolboxNT/UotanToolboxNT
+
+    - name: Clone Binary
+      run: git clone https://github.com/Uotan-Dev/UotanToolboxNT.Binary.git -b ${{ inputs.BINARY_BRANCH }}
+
+    - name: Build
+      run: |
+        dotnet publish -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-x64
+        dotnet publish -r osx-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-arm64
+
+    - name: Make app-x64
+      run: |
+        mkdir UotanToolbox.app
+        mkdir UotanToolbox.app/Contents
+        mkdir UotanToolbox.app/Contents/MacOS
+        mkdir UotanToolbox.app/Contents/Resources
+        cp /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/Info.plist ./UotanToolbox.app/Contents/Info.plist
+        cp /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/PkgInfo ./UotanToolbox.app/Contents/PkgInfo
+        cp /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/Icon.icns ./UotanToolbox.app/Contents/Resources/Icon.icns
+        cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
+        cp -r ./publish-x64/* ./UotanToolbox.app/Contents/MacOS/
+        zip -rq ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        rm -rf ./UotanToolbox.app/Contents/MacOS/*
+        
+
+    - name: Make app-arm64
+      run: |
+        cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
+        cp -r ./publish-arm64/* ./UotanToolbox.app/Contents/MacOS/
+        zip -rq ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        rm -rf ./UotanToolbox.app/Contents/MacOS/*
+
+    - name: Upload
+      uses: actions/upload-artifact@v3
+      with:
+        name: macOS-Package
+        path: ./UotanToolbox_macOS*

@@ -2,6 +2,7 @@ using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using Microsoft.VisualBasic;
 using SukiUI.Controls;
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using UotanToolbox.Common;
@@ -30,6 +31,16 @@ public partial class WirelessADB : SukiWindow
     {
         string input = IPAndPort.Text;
         string password = PairingCode.Text;
+        if (String.IsNullOrEmpty(input))
+        {
+            SukiHost.ShowDialog(this, new PureDialog("请输入IP与端口"), allowBackgroundClose: true);
+            return;
+        }
+        if (String.IsNullOrEmpty(password))
+        {
+            SukiHost.ShowDialog(this, new PureDialog("请输入配对码"), allowBackgroundClose: true);
+            return;
+        }
         string result = await CallExternalProgram.ADB($"pair {input} {password}");
         if (result.Contains("Successfully paired to "))
         {

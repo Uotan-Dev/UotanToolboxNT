@@ -100,11 +100,11 @@ public partial class MainViewModel : ObservableObject
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
             {
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot");
+                await CallExternalProgram.ADB($"reboot");
             }
             else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
-                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
+                await CallExternalProgram.Fastboot($"reboot");
             }
             else
             {
@@ -125,19 +125,19 @@ public partial class MainViewModel : ObservableObject
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
             {
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot recovery");
+                await CallExternalProgram.ADB($"reboot recovery");
             }
             else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
-                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
+                string output = await CallExternalProgram.Fastboot($"oem reboot-recovery");
                 if (output.Contains("unknown command"))
                 {
-                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
-                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
+                    await CallExternalProgram.Fastboot($"flash misc {Global.runpath}/Image/misc.img");
+                    await CallExternalProgram.Fastboot($"reboot");
                 }
                 else
                 {
-                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot recovery");
+                    await CallExternalProgram.Fastboot($"reboot recovery");
                 }
             }
             else
@@ -159,11 +159,11 @@ public partial class MainViewModel : ObservableObject
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
             {
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot bootloader");
+                await CallExternalProgram.ADB($"reboot bootloader");
             }
             else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
-                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot-bootloader");
+                await CallExternalProgram.Fastboot($"reboot-bootloader");
             }
             else
             {
@@ -184,11 +184,11 @@ public partial class MainViewModel : ObservableObject
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
             {
-                await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot fastboot");
+                await CallExternalProgram.ADB($"reboot fastboot");
             }
             else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
-                await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot-fastboot");
+                await CallExternalProgram.Fastboot($"reboot-fastboot");
             }
             else
             {

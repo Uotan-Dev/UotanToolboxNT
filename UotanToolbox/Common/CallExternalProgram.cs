@@ -11,6 +11,7 @@ namespace UotanToolbox.Common
         public static async Task<string> ADB(string adbshell)
         {
             string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
+            adbshell = $"-s {Global.thisdevice} "+adbshell;
             ProcessStartInfo adbexe = new ProcessStartInfo(cmd, adbshell)
             {
                 CreateNoWindow = true,
@@ -33,6 +34,7 @@ namespace UotanToolbox.Common
         public static async Task<string> Fastboot(string fbshell)
         {
             string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
+            fbshell = $"-s {Global.thisdevice} " + fbshell;
             ProcessStartInfo fastboot = new ProcessStartInfo(cmd, fbshell)
             {
                 CreateNoWindow = true,

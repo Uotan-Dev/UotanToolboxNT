@@ -202,5 +202,32 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
+    public async Task Disconnect()
+    {
+        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            {
+                await CallExternalProgram.ADB($"-s {Global.thisdevice} disconnect");
+            }
+            else
+            {
+                SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+            }
+        }
+        else
+        {
+            SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+        }
+    }
+
+    [RelayCommand]
+    public async Task RestartADB()
+    {
+        await CallExternalProgram.ADB("kill-server");
+    }
+
+    [RelayCommand]
     private static void OpenURL(string url) => UrlUtilities.OpenURL(url);
 }

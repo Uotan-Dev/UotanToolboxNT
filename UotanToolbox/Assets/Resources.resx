@@ -1413,6 +1413,15 @@
   <data name="Common_EnterAll" xml:space="preserve">
     <value>Please enter all the content!</value>
   </data>
+  <data name="MainView_ADB" xml:space="preserve">
+    <value>ADB Services</value>
+  </data>
+  <data name="MainView_Disconnect" xml:space="preserve">
+    <value>Try Disconnect</value>
+  </data>
+  <data name="MainView_RestartADB" xml:space="preserve">
+    <value>Restart ADB</value>
+  </data>
   <data name="WirelessADB_Connect" xml:space="preserve">
     <value>Connection successful!</value>
   </data>

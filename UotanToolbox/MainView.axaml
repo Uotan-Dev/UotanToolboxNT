@@ -58,8 +58,7 @@
 													   VerticalAlignment="Center" />
 										</DockPanel>
 									</suki:GlassCard>
-									<Grid>
-										<suki:GlassCard CornerRadius="15" Padding="10">
+									<suki:GlassCard CornerRadius="15" Padding="10">
 											<DockPanel FlowDirection="LeftToRight">
 												<StackPanel Spacing="10">
 													<TextBlock HorizontalAlignment="Left"
@@ -109,7 +108,34 @@
 												</StackPanel>
 											</DockPanel>
 										</suki:GlassCard>
-									</Grid>
+									<suki:GlassCard CornerRadius="15" Padding="10">
+										<DockPanel FlowDirection="LeftToRight">
+											<StackPanel Spacing="10">
+												<TextBlock HorizontalAlignment="Left"
+														   FontSize="14"
+														   FontWeight="DemiBold"
+														   Text="{x:Static assets:Resources.MainView_ADB}" />
+												<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+													<Button Width="125"
+															HorizontalAlignment="Left"
+															Padding="8"
+															Command="{Binding Disconnect}">
+														<TextBlock>
+															<TextBlock Text="{x:Static assets:Resources.MainView_Disconnect}"/>
+														</TextBlock>
+													</Button>
+													<Button Width="125"
+															HorizontalAlignment="Left"
+															Padding="8"
+															Command="{Binding RestartADB}">
+														<TextBlock>
+															<TextBlock Text="{x:Static assets:Resources.MainView_RestartADB}"/>
+														</TextBlock>
+													</Button>
+												</StackPanel>
+											</StackPanel>
+										</DockPanel>
+									</suki:GlassCard>
 								</StackPanel>
 							</Border>
 						</Border>

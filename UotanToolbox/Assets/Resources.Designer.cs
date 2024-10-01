@@ -2464,6 +2464,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 ADB Services 的本地化字符串。
+        /// </summary>
+        public static string MainView_ADB {
+            get {
+                return ResourceManager.GetString("MainView_ADB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Animation Disabled 的本地化字符串。
         /// </summary>
         public static string MainView_AnimationDisabled {
@@ -2514,6 +2523,24 @@ namespace UotanToolbox.Assets {
         public static string MainView_ChangedThemeTo {
             get {
                 return ResourceManager.GetString("MainView_ChangedThemeTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Try Disconnect 的本地化字符串。
+        /// </summary>
+        public static string MainView_Disconnect {
+            get {
+                return ResourceManager.GetString("MainView_Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Restart ADB 的本地化字符串。
+        /// </summary>
+        public static string MainView_RestartADB {
+            get {
+                return ResourceManager.GetString("MainView_RestartADB", resourceCulture);
             }
         }
         

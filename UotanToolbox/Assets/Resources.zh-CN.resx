@@ -1416,4 +1416,7 @@
   <data name="WirelessADB_Connect" xml:space="preserve">
     <value>连接成功！</value>
   </data>
+  <data name="Basicflash_ReXiaomiUSB" xml:space="preserve">
+    <value>撤销USB3.0补丁</value>
+  </data>
 </root>

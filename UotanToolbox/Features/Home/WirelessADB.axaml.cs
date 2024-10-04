@@ -7,8 +7,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UotanToolbox.Common;
 
-using UotanToolbox.Features.Components;
-
 
 namespace UotanToolbox.Features.Home;
 
@@ -36,16 +34,16 @@ public partial class WirelessADB : SukiWindow
             string result = await CallExternalProgram.ADB($"pair {input} {password}");
             if (result.Contains("Successfully paired to "))
             {
-                SukiHost.ShowDialog(this, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
+                //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
             }
             else
             {
-                SukiHost.ShowDialog(this, new PureDialog(result), allowBackgroundClose: true);
+                //SukiHost.ShowDialog(this, new PureDialog(result), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_EnterAll")), allowBackgroundClose: true);
+            //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_EnterAll")), allowBackgroundClose: true);
         }
     }
     private async void TWConnect(object sender, RoutedEventArgs args)
@@ -62,7 +60,7 @@ public partial class WirelessADB : SukiWindow
 
                 if (!match.Success)
                 {
-                    SukiHost.ShowDialog(this, new PureDialog(output), allowBackgroundClose: true);
+                    //SukiHost.ShowDialog(this, new PureDialog(output), allowBackgroundClose: true);
                     return;
                 }
                 output = await CallExternalProgram.ADB($"-s {Global.thisdevice} tcpip 5555");
@@ -71,22 +69,22 @@ public partial class WirelessADB : SukiWindow
                     string output2 = await CallExternalProgram.ADB($"connect {match.Groups[1].Value}");
                     if (output2.Contains("connected"))
                     {
-                        SukiHost.ShowDialog(this, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
+                        //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
                     }
                     else
                     {
-                        SukiHost.ShowDialog(this, new PureDialog(output + "\n" + output2), allowBackgroundClose: true);
+                        //SukiHost.ShowDialog(this, new PureDialog(output + "\n" + output2), allowBackgroundClose: true);
                     }
                 }
             }
             else
             {
-                SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+                //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
             }
         }
         else
         {
-            SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
         }
     }
 }

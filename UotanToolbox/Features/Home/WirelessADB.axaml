@@ -7,7 +7,6 @@
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 				 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
 				 Title="{x:Static assets:Resources.Home_WirelessADBTitle}"
-				 CanMaximize="False"
 				 CanResize="False"
                  Width="850"
                  Height="455"

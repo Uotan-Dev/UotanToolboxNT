@@ -538,6 +538,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Execute restart command 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ExecuteReboot {
+            get {
+                return ResourceManager.GetString("Basicflash_ExecuteReboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Unlock 的本地化字符串。
         /// </summary>
         public static string Basicflash_ExecuteUnlockCommand {
@@ -709,6 +718,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 More restart commands 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_MoreReboot {
+            get {
+                return ResourceManager.GetString("Basicflash_MoreReboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please do not fill in both methods at the same time! 的本地化字符串。
         /// </summary>
         public static string Basicflash_NoBoth {
@@ -840,6 +858,15 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_RepairVbmeta {
             get {
                 return ResourceManager.GetString("Basicflash_RepairVbmeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Revoke USB 3.0 patch 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_ReXiaomiUSB {
+            get {
+                return ResourceManager.GetString("Basicflash_ReXiaomiUSB", resourceCulture);
             }
         }
         
@@ -1087,6 +1114,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter all the content! 的本地化字符串。
+        /// </summary>
+        public static string Common_EnterAll {
+            get {
+                return ResourceManager.GetString("Common_EnterAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please enter Fastboot mode! 的本地化字符串。
         /// </summary>
         public static string Common_EnterFastboot {
@@ -1173,6 +1209,15 @@ namespace UotanToolbox.Assets {
         public static string Common_Log {
             get {
                 return ResourceManager.GetString("Common_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The current state cannot be executed 的本地化字符串。
+        /// </summary>
+        public static string Common_ModeError {
+            get {
+                return ResourceManager.GetString("Common_ModeError", resourceCulture);
             }
         }
         
@@ -1798,6 +1843,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Connect 的本地化字符串。
+        /// </summary>
+        public static string Home_Connect {
+            get {
+                return ResourceManager.GetString("Home_Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 DeviceStatus 的本地化字符串。
         /// </summary>
         public static string Home_ConnectionStatus {
@@ -1933,6 +1987,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 IP &amp; Port: 的本地化字符串。
+        /// </summary>
+        public static string Home_IPAndPort {
+            get {
+                return ResourceManager.GetString("Home_IPAndPort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Kernel Version 的本地化字符串。
         /// </summary>
         public static string Home_KernalVersion {
@@ -1987,6 +2050,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Pair code: 的本地化字符串。
+        /// </summary>
+        public static string Home_PairingCode {
+            get {
+                return ResourceManager.GetString("Home_PairingCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Platform 的本地化字符串。
         /// </summary>
         public static string Home_Platform {
@@ -2010,6 +2082,15 @@ namespace UotanToolbox.Assets {
         public static string Home_Prompt {
             get {
                 return ResourceManager.GetString("Home_Prompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Reboot to 的本地化字符串。
+        /// </summary>
+        public static string Home_Reboot {
+            get {
+                return ResourceManager.GetString("Home_Reboot", resourceCulture);
             }
         }
         
@@ -2046,6 +2127,15 @@ namespace UotanToolbox.Assets {
         public static string Home_Saved {
             get {
                 return ResourceManager.GetString("Home_Saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Scan the QR code to connect 的本地化字符串。
+        /// </summary>
+        public static string Home_ScanQR {
+            get {
+                return ResourceManager.GetString("Home_ScanQR", resourceCulture);
             }
         }
         
@@ -2167,6 +2257,33 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Wired to wireless conversion 的本地化字符串。
+        /// </summary>
+        public static string Home_WiredToLess {
+            get {
+                return ResourceManager.GetString("Home_WiredToLess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Wireless ADB 的本地化字符串。
+        /// </summary>
+        public static string Home_WirelessADB {
+            get {
+                return ResourceManager.GetString("Home_WirelessADB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Wireless ADB Connection 的本地化字符串。
+        /// </summary>
+        public static string Home_WirelessADBTitle {
+            get {
+                return ResourceManager.GetString("Home_WirelessADBTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 A-Only device 的本地化字符串。
         /// </summary>
         public static string Info_AOnly {
@@ -2266,6 +2383,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Unlock the window height lock 的本地化字符串。
+        /// </summary>
+        public static string Main_CanResize {
+            get {
+                return ResourceManager.GetString("Main_CanResize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Code 的本地化字符串。
         /// </summary>
         public static string Main_Code {
@@ -2302,6 +2428,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Quick reboot to 的本地化字符串。
+        /// </summary>
+        public static string Main_QuickReboot {
+            get {
+                return ResourceManager.GetString("Main_QuickReboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Status 的本地化字符串。
         /// </summary>
         public static string Main_Status {
@@ -2311,11 +2446,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Uotan Toolbox 的本地化字符串。
+        /// </summary>
+        public static string Main_Title {
+            get {
+                return ResourceManager.GetString("Main_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 A/B Slot 的本地化字符串。
         /// </summary>
         public static string Main_VABStatus {
             get {
                 return ResourceManager.GetString("Main_VABStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ADB Services 的本地化字符串。
+        /// </summary>
+        public static string MainView_ADB {
+            get {
+                return ResourceManager.GetString("MainView_ADB", resourceCulture);
             }
         }
         
@@ -2370,6 +2523,24 @@ namespace UotanToolbox.Assets {
         public static string MainView_ChangedThemeTo {
             get {
                 return ResourceManager.GetString("MainView_ChangedThemeTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Try Disconnect 的本地化字符串。
+        /// </summary>
+        public static string MainView_Disconnect {
+            get {
+                return ResourceManager.GetString("MainView_Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Restart ADB 的本地化字符串。
+        /// </summary>
+        public static string MainView_RestartADB {
+            get {
+                return ResourceManager.GetString("MainView_RestartADB", resourceCulture);
             }
         }
         
@@ -3148,7 +3319,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Close screen when casting 的本地化字符串。
+        ///   查找类似 Casting close screen 的本地化字符串。
         /// </summary>
         public static string Scrcpy_CloseScreenWhenCasting {
             get {
@@ -3801,6 +3972,15 @@ namespace UotanToolbox.Assets {
         public static string Wiredflash_XiaomiFlashScript {
             get {
                 return ResourceManager.GetString("Wiredflash_XiaomiFlashScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Connection successful! 的本地化字符串。
+        /// </summary>
+        public static string WirelessADB_Connect {
+            get {
+                return ResourceManager.GetString("WirelessADB_Connect", resourceCulture);
             }
         }
     }

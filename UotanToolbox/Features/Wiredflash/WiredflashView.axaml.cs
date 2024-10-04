@@ -549,6 +549,16 @@ public partial class WiredflashView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (AdbSideloadFile.Text != "" && FastbootUpdatedFile.Text == "" && BatFile.Text == "")
             {
+                if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
+                {
+                    string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp sideload");
+                    if (output.Contains("not found"))
+                    {
+                        await CallExternalProgram.ADB($"-s {Global.thisdevice} reboot sideload");
+                    }
+                    await Task.Delay(2000);
+                    await GetDevicesInfo.SetDevicesInfoLittle();
+                }
                 if (sukiViewModel.Status == "Sideload")
                 {
                     MoreFlashBusy(true);

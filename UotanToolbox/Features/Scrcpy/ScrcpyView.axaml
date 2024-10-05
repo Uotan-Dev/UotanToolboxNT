@@ -73,7 +73,7 @@
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Scrcpy_RecordScreen}" />
-							<ToggleSwitch Margin="285,0,0,0" IsChecked="{Binding RecordScreen}" />
+							<ToggleSwitch Margin="275,0,0,0" IsChecked="{Binding RecordScreen}" />
 						</StackPanel>
 						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 							<TextBlock Width="60"
@@ -84,6 +84,7 @@
 									   Text="{x:Static assets:Resources.Scrcpy_Folder}" />
 							<TextBox Width="250" Name="RecordFolder" Watermark="{x:Static assets:Resources.Scrcpy_RecordDictionary}" Text="{Binding RecordFolder, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
 							<Button Height="35"
+									Margin="5 0 0 0"
 									Padding="10,0,10,0"
 									Click="OpenFolderButton_Clicked"
 									Content="{x:Static assets:Resources.Common_ChooseFolder}">

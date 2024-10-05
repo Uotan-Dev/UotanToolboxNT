@@ -576,6 +576,9 @@
   <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
     <value>等比缩放</value>
   </data>
+  <data name="Scrcpy_RecordDictionary" xml:space="preserve">
+    <value> </value>
+  </data>
   <data name="Scrcpy_RecordScreen" xml:space="preserve">
     <value>录制屏幕</value>
   </data>
@@ -1258,7 +1261,7 @@
     <value>KernelSU安装包错误</value>
   </data>
   <data name="Basicflash_MagiskOrKSU" xml:space="preserve">
-    <value>↓可选择Magisk或KernelSU的AnyKernel文件↓</value>
+    <value>↓可选择Magisk或KernelSU的AnyKernel或ko文件↓</value>
   </data>
   <data name="Basicflash_MagsikError" xml:space="preserve">
     <value>Magisk安装包错误</value>
@@ -1361,6 +1364,9 @@
   </data>
   <data name="Common_ModeError" xml:space="preserve">
     <value>当前状态无法执行！</value>
+  </data>
+  <data name="Basicflash_ReXiaomiUSB" xml:space="preserve">
+    <value>撤销USB3.0补丁</value>
   </data>
   <data name="Basicflash_ExecuteReboot" xml:space="preserve">
     <value>执行重启命令</value>

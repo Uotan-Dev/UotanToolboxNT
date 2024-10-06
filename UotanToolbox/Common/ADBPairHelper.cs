@@ -8,8 +8,10 @@ using UotanToolbox.Features.Components;
 
 namespace UotanToolbox.Common
 {
+
     internal class ADBPairHelper
     {
+        private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
         public static byte[] QRCodeInit(string serviceID, string password)
         {
             string QRData = "WIFI:T:ADB;S:" + serviceID + ";P:" + password + ";;";
@@ -36,6 +38,10 @@ namespace UotanToolbox.Common
                     if (match.Success)
                     {
                         result = await CallExternalProgram.ADB($"pair {match.Groups[2].Value}:{match.Groups[3].Value} {password}");
+                        if (result.Contains("Successfully paired to "))
+                        {
+                            SukiHost.ShowDialog(new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
+                        }
                     }
                 }
                 await Task.Delay(1000);

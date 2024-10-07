@@ -25,8 +25,15 @@ public partial class WirelessADB : SukiWindow
     public  WirelessADB()
     {
         InitializeComponent();
+        StartScanm();
         QRCode.Source = ConvertToBitmap(ADBPairHelper.QRCodeInit(Global.serviceID, Global.password));
     }
+
+    private async void StartScanm()
+    {
+        await ADBPairHelper.ScanmDNS(Global.serviceID, Global.password, this);
+    }
+
     private async void WConnect(object sender, RoutedEventArgs args)
     {
         string input = IPAndPort.Text;

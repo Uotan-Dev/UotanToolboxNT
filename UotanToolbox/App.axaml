@@ -10,6 +10,11 @@
         <common:ViewLocator />
     </Application.DataTemplates>
 	<Application.Resources>
+		<ResourceDictionary>
+			<FontFamily x:Key="DefaultFontFamily">avares://UotanToolbox/Assets#MiSans</FontFamily>
+		</ResourceDictionary>
+	</Application.Resources>
+	<Application.Resources>
 		<ControlTheme x:Key="ToolboxButton" TargetType="Button">
 			<Setter Property="Foreground" Value="{DynamicResource SukiPrimaryColor}" />
 			<Setter Property="Cursor" Value="Hand" />

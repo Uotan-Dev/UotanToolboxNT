@@ -18,13 +18,13 @@
 	<string>APPL</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2020-2024 UOTAN All rights reserved.</string>
-	<key>CFBundleShortVersionString</key>
-	<string>3.0.0</string>
-	<key>CFBundleVersion</key>
-	<string>3.0.0</string>
 	<key>CFBundleSupportedPlatforms</key>
 	<array>
 		<string>MacOSX</string>
 	</array>
+	<key>CFBundleShortVersionString</key>
+	<string>3.1.0</string>
+	<key>CFBundleVersion</key>
+	<string>3.1.0</string>
 </dict>
 </plist>

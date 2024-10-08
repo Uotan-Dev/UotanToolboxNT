@@ -38,6 +38,8 @@ public partial class WirelessADB : SukiWindow
     {
         string input = IPAndPort.Text;
         string password = PairingCode.Text;
+        Connect.IsBusy = true;
+        ConnectPanel.IsEnabled = false;
         if (!string.IsNullOrEmpty(input) && !string.IsNullOrEmpty(password))
         {
             string result = await CallExternalProgram.ADB($"pair {input} {password}");
@@ -54,7 +56,10 @@ public partial class WirelessADB : SukiWindow
         {
             SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_EnterAll")), allowBackgroundClose: true);
         }
+        Connect.IsBusy = false;
+        ConnectPanel.IsEnabled = true;
     }
+
     private async void TWConnect(object sender, RoutedEventArgs args)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
@@ -62,6 +67,8 @@ public partial class WirelessADB : SukiWindow
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
+                Connect.IsBusy = true;
+                ConnectPanel.IsEnabled = false;
                 string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell ip addr show to 0.0.0.0/0 scope global");
                 string pattern = @"inet\s+(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/";
 
@@ -85,6 +92,8 @@ public partial class WirelessADB : SukiWindow
                         SukiHost.ShowDialog(this, new PureDialog(output + "\n" + output2), allowBackgroundClose: true);
                     }
                 }
+                Connect.IsBusy = false;
+                ConnectPanel.IsEnabled = true;
             }
             else
             {

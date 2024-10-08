@@ -45,18 +45,20 @@
 				</StackPanel>
 			</suki:GlassCard>
 			<suki:GlassCard Width="380" Height="380" Margin="15 15 0 15">
-				<StackPanel Orientation="Vertical" Margin="15 50 0 0" Spacing="20">
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_IPAndPort}"></TextBlock>
-						<TextBox Name="IPAndPort" Width="240"/>
+				<suki:BusyArea Name="Connect">
+					<StackPanel Name="ConnectPanel" Orientation="Vertical" Margin="15 50 0 0" Spacing="20">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_IPAndPort}"></TextBlock>
+							<TextBox Name="IPAndPort" Width="240"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_PairingCode}"></TextBlock>
+							<TextBox Name="PairingCode" Width="240"/>
+						</StackPanel>
+						<Button Width="240" Content="{x:Static assets:Resources.Home_Connect}" Margin="0 20 0 0" Click="WConnect"></Button>
+						<Button Width="240" Content="{x:Static assets:Resources.Home_WiredToLess}" Click="TWConnect"></Button>
 					</StackPanel>
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_PairingCode}"></TextBlock>
-						<TextBox Name="PairingCode" Width="240"/>
-					</StackPanel>
-					<Button Width="240" Content="{x:Static assets:Resources.Home_Connect}" Margin="0 20 0 0" Click="WConnect"></Button>
-					<Button Width="240" Content="{x:Static assets:Resources.Home_WiredToLess}" Click="TWConnect"></Button>
-				</StackPanel>
+				</suki:BusyArea>
 			</suki:GlassCard>
 		</WrapPanel>
 	</Grid>

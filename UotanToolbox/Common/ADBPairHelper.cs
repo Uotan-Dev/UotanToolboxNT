@@ -1,7 +1,10 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Threading;
+using Makaretu.Dns;
 using QRCoder;
 using SukiUI.Controls;
+using System.Linq;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,28 +28,48 @@ namespace UotanToolbox.Common
             }
         }
 
-
-        //Todo:使用原生Zeroconf做网络mdns扫描
         public static async Task ScanmDNS(string serviceID, string password, Window window)
         {
-            while (true) 
+            string ip;
+            int port = 5554;
+            string target = null;
+            var mdns = new MulticastService();
+            var sd = new ServiceDiscovery(mdns);
+            mdns.AnswerReceived += (s, e) =>
             {
-                string result = await CallExternalProgram.ADB("mdns services");
-                if (result.Contains("List of discovered mdns services"))
+                var servers = e.Message.Answers.OfType<SRVRecord>();
+                foreach (var server in servers)
                 {
-                    var lineRegex = "([^\\t]+)\\t*_adb-tls-pairing._tcp.\\t*([^:]+):([0-9]+)";
-                    var match = Regex.Match(result, lineRegex);
-                    string deviceIP = match.Groups[2].Value;
-                    if (match.Success)
+                    if (server.Name.ToString().Contains(serviceID))
                     {
-                        result = await CallExternalProgram.ADB($"pair {match.Groups[2].Value}:{match.Groups[3].Value} {password}");
+                        target = server.Target.ToString();
+                        port = server.Port;
+                    }
+                    //Console.WriteLine($"host '{server.Target}' for '{server.Name}' {server.Port}");
+                    mdns.SendQuery(server.Target, type: DnsType.A);
+                }
+                var addresses = e.Message.Answers.OfType<AddressRecord>();
+                foreach (var address in addresses)
+                {
+                    if (address.Name.ToString() == target && StringHelper.IsIPv4(address.Address.ToString()))
+                    {
+                        string result = CallExternalProgram.ADB($"pair {address.Address}:{port} {password}").Result;
                         if (result.Contains("Successfully paired to "))
                         {
                             SukiHost.ShowDialog(window, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
                         }
                     }
+                    //Console.WriteLine($"host '{address.Name}' at {address.Address}");
                 }
-                await Task.Delay(1000);
+            };
+            try
+            {
+                mdns.Start();
+            }
+            finally
+            {
+                sd.Dispose();
+                mdns.Stop();
             }
         }
         public static async Task<bool> Pair(string input, string password)

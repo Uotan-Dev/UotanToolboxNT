@@ -3,6 +3,7 @@ using SukiUI.Controls;
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -431,6 +432,12 @@ namespace UotanToolbox.Common
                 result.Append(((int)data[i]).ToString("X2") + " ");
             }
             return Convert.ToString(result);
+        }
+        public static bool IsIPv4(string ip)
+        {
+            IPAddress address;
+            return ip != null && ip.Count(c => c == '.') == 3 &&
+                IPAddress.TryParse(ip, out address);
         }
     }
 }

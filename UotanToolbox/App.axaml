@@ -22,7 +22,8 @@
 			<Setter Property="Template">
 				<ControlTemplate>
 					<Border Padding="{TemplateBinding Padding}"
-							TextElement.Foreground="{DynamicResource SukiPrimaryColor}">
+							TextElement.Foreground="{DynamicResource SukiPrimaryColor}"
+							TextElement.FontWeight="Bold">
 						<Panel>
 							<ContentPresenter Content="{TemplateBinding Content}"
 											  Margin="{TemplateBinding Padding}"/>

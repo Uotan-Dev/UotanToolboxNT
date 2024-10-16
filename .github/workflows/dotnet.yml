@@ -24,7 +24,6 @@ jobs:
       run: | 
         wget https://github.com/Uotan-Dev/SukiUI-Uotan/releases/download/v6.0.0/SukiUI.6.0.0.nupkg
         dotnet nuget add source "/home/runner/work/UotanToolboxNT"
-        nuget add SukiUI.6.0.0.nupkg -Source /home/runner/work/UotanToolboxNT
     - name: Restore dependencies
       run: dotnet restore
     - name: Build

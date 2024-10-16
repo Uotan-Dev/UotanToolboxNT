@@ -84,7 +84,6 @@ public partial class HomeViewModel : MainPageBase
                 .TryShow();
 
         }
-        await ADBPairHelper.ScanmDNS(Global.serviceID, Global.password);
     }
 
     public async Task<bool> GetDevicesList()

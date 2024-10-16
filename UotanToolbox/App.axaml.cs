@@ -46,9 +46,9 @@ public partial class App : Application
             }
             else
             {
-                desktop.MainWindow.MinWidth = 1240;
-                desktop.MainWindow.MaxWidth = 1240;
-                desktop.MainWindow.Width = 1240;
+                desktop.MainWindow.MinWidth = 1235;
+                desktop.MainWindow.MaxWidth = 1235;
+                desktop.MainWindow.Width = 1235;
             }
             desktop.MainWindow.MaxHeight = 840;
             desktop.MainWindow.Height = 840;

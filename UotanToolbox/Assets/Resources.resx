@@ -1264,7 +1264,7 @@
     <value>wrong KernelSU package</value>
   </data>
   <data name="Basicflash_MagiskOrKSU" xml:space="preserve">
-    <value>↓ Choose between Magisk or KernelSU AnyKernel files ↓</value>
+    <value>↓ Choose between Magisk or KernelSU AnyKernel or ko file ↓</value>
   </data>
   <data name="Basicflash_MagsikError" xml:space="preserve">
     <value>wrong magisk package</value>

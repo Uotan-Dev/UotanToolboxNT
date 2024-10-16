@@ -31,6 +31,9 @@
 ## Setup
 
 - Download latest version at [Github Release](https://github.com/Uotan-Dev/UotanToolboxNT/releases)
+	- Please use unzip tools like 7-zip on Windows if you download the portable version.
+	- macOS users should execute this command in Bash Termnial：sudo xattr -r -d com.apple.quarantine UotanToolbox.app
+	- ABI2.0 is recommended on LoongArch devices.
 
 ## ⚙️ Environment
 

@@ -188,7 +188,7 @@
 							</StackPanel>
 						</StackPanel>
 					</StackPanel>
-					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
+					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
 							<Button Width="155"
 									HorizontalAlignment="Left"

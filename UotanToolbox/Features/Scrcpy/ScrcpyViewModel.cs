@@ -15,6 +15,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
+using SukiUI.Toasts;
 
 namespace UotanToolbox.Features.Scrcpy;
 
@@ -29,14 +30,18 @@ public partial class ScrcpyViewModel : MainPageBase
     [ObservableProperty][Range(0d, 50d)] private double _bitRate = 8;
     [ObservableProperty][Range(0d, 144d)] private double _frameRate = 60;
     [ObservableProperty][Range(0d, 2048d)] private double _sizeResolution = 0;
-    private ISukiDialogManager dialogManager;
+    public ISukiDialogManager DialogManager { get; }
+    public ISukiToastManager ToastManager { get; }
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public ScrcpyViewModel() : base("Scrcpy", MaterialIconKind.CellphoneLink, -500)
+    public ScrcpyViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base("Scrcpy", MaterialIconKind.CellphoneLink, -500)
     {
+        DialogManager = dialogManager;
+        ToastManager = toastManager;
+        Global.scrcpyView = new ScrcpyView(dialogManager, toastManager);
         _ = this.WhenAnyValue(x => x.ComputerControl)
             .Subscribe(jug =>
             {
@@ -70,7 +75,7 @@ public partial class ScrcpyViewModel : MainPageBase
                         {
                             if (string.IsNullOrEmpty(RecordFolder))
                             {
-                                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Scrcpy_RecordFileNotChosen")).Dismiss().ByClickingBackground().TryShow();
+                                _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Scrcpy_RecordFileNotChosen")).Dismiss().ByClickingBackground().TryShow();
                                 IsConnecting = false;
                                 return;
                             }
@@ -139,17 +144,17 @@ public partial class ScrcpyViewModel : MainPageBase
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                    _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+                _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
+            _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 

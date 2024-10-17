@@ -1,4 +1,6 @@
 ﻿using Material.Icons;
+using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Wiredflash;
@@ -10,7 +12,8 @@ public partial class WiredflashViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public WiredflashViewModel() : base(GetTranslation("Sidebar_WiredFlash"), MaterialIconKind.JumpRope, -600)
+    public WiredflashViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_WiredFlash"), MaterialIconKind.JumpRope, -600)
     {
+        Global.wiredflashView = new WiredflashView(dialogManager, toastManager);
     }
 }

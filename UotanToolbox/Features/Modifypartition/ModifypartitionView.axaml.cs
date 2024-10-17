@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 
 
@@ -12,28 +13,18 @@ namespace UotanToolbox.Features.Modifypartition;
 
 public partial class ModifypartitionView : UserControl
 {
-    private ISukiDialogManager dialogManager;
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public ModifypartitionView()
+    public ModifypartitionView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
-        _ = LoadMassage();
-    }
-
-    public async Task LoadMassage()
-    {
-        bool result = false;
-        _ = dialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("Modifypartition_Warn"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
-        Modifypartition.IsEnabled = result == true;
     }
 
     private async void ReadPart(object sender, RoutedEventArgs args)
@@ -54,11 +45,11 @@ public partial class ModifypartitionView : UserControl
                 {
                     bool result = false;
                     _ = dialogManager.CreateDialog()
-    .WithTitle("Warn")
-    .WithContent(GetTranslation("Common_NeedRoot"))
-    .WithActionButton("Yes", _ => result = true, true)
-    .WithActionButton("No", _ => result = false, true)
-    .TryShow();
+                        .WithTitle("Warn")
+                        .WithContent(GetTranslation("Common_NeedRoot"))
+                        .WithActionButton("Yes", _ => result = true, true)
+                        .WithActionButton("No", _ => result = false, true)
+                        .TryShow();
                     if (result == true)
                     {
                         BusyPart.IsBusy = false;
@@ -76,37 +67,30 @@ public partial class ModifypartitionView : UserControl
                 {
                     choice = Global.sdatable;
                 }
-
                 if (sdb.IsChecked != null && (bool)sdb.IsChecked)
                 {
                     choice = Global.sdbtable;
                 }
-
                 if (sdc.IsChecked != null && (bool)sdc.IsChecked)
                 {
                     choice = Global.sdctable;
                 }
-
                 if (sdd.IsChecked != null && (bool)sdd.IsChecked)
                 {
                     choice = Global.sddtable;
                 }
-
                 if (sde.IsChecked != null && (bool)sde.IsChecked)
                 {
                     choice = Global.sdetable;
                 }
-
                 if (sdf.IsChecked != null && (bool)sdf.IsChecked)
                 {
                     choice = Global.sdftable;
                 }
-
                 if (emmc.IsChecked != null && (bool)emmc.IsChecked)
                 {
                     choice = Global.emmcrom;
                 }
-
                 if (choice != "")
                 {
                     string[] parts = choice.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);

@@ -3,20 +3,24 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Scrcpy;
 
 public partial class ScrcpyView : UserControl
 {
-    private ISukiDialogManager dialogManager;
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public ScrcpyView()
+    public ScrcpyView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
     }
 

@@ -167,12 +167,12 @@ public partial class HomeViewModel : MainPageBase
                     SimpleContent = null;
                     IsConnecting = false;
                     _ = ToastManager.CreateToast()
-    .WithTitle(GetTranslation("Home_Prompt"))
-    .WithContent(GetTranslation("Home_Disconnected"))
-    .OfType(NotificationType.Warning)
-    .Dismiss().ByClicking()
-    .Dismiss().After(TimeSpan.FromSeconds(3))
-    .Queue();
+                        .WithTitle(GetTranslation("Home_Prompt"))
+                        .WithContent(GetTranslation("Home_Disconnected"))
+                        .OfType(NotificationType.Warning)
+                        .Dismiss().ByClicking()
+                        .Dismiss().After(TimeSpan.FromSeconds(3))
+                        .Queue();
                     MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                     Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
                     VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";

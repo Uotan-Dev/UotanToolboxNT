@@ -9,6 +9,7 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 
 
@@ -16,7 +17,8 @@ namespace UotanToolbox.Features.Wiredflash;
 
 public partial class WiredflashView : UserControl
 {
-    private ISukiDialogManager dialogManager;
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
@@ -25,8 +27,10 @@ public partial class WiredflashView : UserControl
     private readonly string adb_log_path = Path.Combine(Global.log_path, "adb.txt");
     private string output = "";
 
-    public WiredflashView()
+    public WiredflashView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
     }
 

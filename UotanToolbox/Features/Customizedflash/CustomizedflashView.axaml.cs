@@ -8,23 +8,27 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Customizedflash;
 
 public partial class CustomizedflashView : UserControl
 {
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public CustomizedflashView()
+    public CustomizedflashView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
     }
 
-    private ISukiDialogManager dialogManager;
     public async Task Fastboot(string fbshell)//Fastboot实时输出
     {
         await Task.Run(() =>

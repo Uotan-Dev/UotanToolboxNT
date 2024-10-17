@@ -10,6 +10,7 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 
 
@@ -17,14 +18,17 @@ namespace UotanToolbox.Features.FormatExtract;
 
 public partial class FormatExtractView : UserControl
 {
-    private ISukiDialogManager dialogManager;
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public FormatExtractView()
+    public FormatExtractView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
     }
     private static readonly string adb_log_path = Path.Combine(Global.log_path, "adb.txt");

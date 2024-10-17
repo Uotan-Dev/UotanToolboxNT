@@ -247,8 +247,7 @@
 									Margin="20,0,0,0"
 									IsSnapToTickEnabled="True"
 									Maximum="5" Minimum="0"
-									TickFrequency="0.01"
-									Value="{Binding FontScale}" />
+									TickFrequency="0.01" />
 						</StackPanel>
 						<StackPanel Margin="0,-37,10,0" Spacing="5" HorizontalAlignment="Right">
 							<StackPanel Orientation="Horizontal">
@@ -272,8 +271,7 @@
 								<TextBlock Margin="5,0,0,0"
 										   Width="40"
 										   VerticalAlignment="Center"
-										   FontWeight="DemiBold"
-										   Text="{Binding FontScale}" />
+										   FontWeight="DemiBold"/>
 								<Button Name="SetFontZoomBut"
 										Width="75"
 										Height="50"
@@ -321,8 +319,7 @@
 											Width="630"
 											IsSnapToTickEnabled="True"
 											Maximum="10" Minimum="0"
-											TickFrequency="0.01"
-											Value="{Binding WindowScale}" />
+											TickFrequency="0.01" />
 									<TextBlock Width="70"
 											   Margin="21,0,0,0"
 											   VerticalAlignment="Center"
@@ -331,8 +328,7 @@
 									<TextBlock Margin="5,0,0,0"
 											   Width="40"
 											   VerticalAlignment="Center"
-											   FontWeight="DemiBold"
-											   Text="{Binding WindowScale}" />
+											   FontWeight="DemiBold"/>
 									<Button Name="SetWindowZoomBut"
 											Width="75"
 											Height="35"
@@ -384,8 +380,7 @@
 											Width="630"
 											IsSnapToTickEnabled="True"
 											Maximum="10" Minimum="0"
-											TickFrequency="0.01"
-											Value="{Binding TransitionScale}" />
+											TickFrequency="0.01"/>
 									<TextBlock Width="70"
 											   Margin="21,0,0,0"
 											   VerticalAlignment="Center"
@@ -394,8 +389,7 @@
 									<TextBlock Margin="5,0,0,0"
 											   Width="40"
 											   VerticalAlignment="Center"
-											   FontWeight="DemiBold"
-											   Text="{Binding TransitionScale}" />
+											   FontWeight="DemiBold"/>
 									<Button Name="SetTransitionZoomBut"
 											Width="75"
 											Height="35"
@@ -447,8 +441,7 @@
 											Width="630"
 											IsSnapToTickEnabled="True"
 											Maximum="10" Minimum="0"
-											TickFrequency="0.01"
-											Value="{Binding AnimationLast}" />
+											TickFrequency="0.01"/>
 									<TextBlock Width="70"
 											   Margin="21,0,0,0"
 											   VerticalAlignment="Center"
@@ -457,8 +450,7 @@
 									<TextBlock Margin="5,0,0,0"
 											   Width="40"
 											   VerticalAlignment="Center"
-											   FontWeight="DemiBold"
-											   Text="{Binding AnimationLast}" />
+											   FontWeight="DemiBold"/>
 									<Button Name="SetAnimationDurationBut"
 											Width="75"
 											Height="35"

@@ -12,16 +12,18 @@ namespace UotanToolbox.Features.Others;
 
 public partial class OthersView : UserControl
 {
-    private ISukiToastManager toastManager;
-    private ISukiDialogManager dialogManager;
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
     public AvaloniaList<string> Unit = ["DPI", "DP"];
-    public OthersView()
+    public OthersView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
         SetUnit.ItemsSource = Unit;
         _ = GetDisplayInfo();
@@ -48,33 +50,39 @@ public partial class OthersView : UserControl
     {
         while (true)
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                if (ScrResolution.Text == "--" && ScrDPI.Text == "--" && ScrDP.Text == "--")
+                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
-                    try
+                    if (ScrResolution.Text == "--" && ScrDPI.Text == "--" && ScrDP.Text == "--")
                     {
-
-                        ScrResolution.Text = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size")));
-                        ScrDPI.Text = StringHelper.Density(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density"));
-                        ScrDP.Text = StringHelper.GetDP(ScrResolution.Text, ScrDPI.Text).ToString();
-                        LockTime.Text = (StringHelper.Onlynum(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system screen_off_timeout")) / 1000).ToString() + "s";
-                        FontZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system font_scale"));
-                        NowFontZoom.Text = FontZoom.Value.ToString();
-                        WindowZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get global window_animation_scale"));
-                        TransitionZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get global transition_animation_scale"));
-                        AnimationDuration.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get global animator_duration_scale"));
-                    }
-                    catch
-                    {
-                        SetNull();
+                        try
+                        {
+                            ScrResolution.Text = StringHelper.ColonSplit(StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size")));
+                            ScrDPI.Text = StringHelper.Density(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density"));
+                            ScrDP.Text = StringHelper.GetDP(ScrResolution.Text, ScrDPI.Text).ToString();
+                            LockTime.Text = (StringHelper.Onlynum(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system screen_off_timeout")) / 1000).ToString() + "s";
+                            FontZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system font_scale"));
+                            NowFontZoom.Text = FontZoom.Value.ToString();
+                            WindowZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get global window_animation_scale"));
+                            TransitionZoom.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get global transition_animation_scale"));
+                            AnimationDuration.Value = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get global animator_duration_scale"));
+                        }
+                        catch
+                        {
+                            SetNull();
+                        }
                     }
                 }
+                else
+                {
+                    SetNull();
+                }
             }
-            else
-            {
-                SetNull();
+            else 
+            { 
+                SetNull(); 
             }
             await Task.Delay(1000);
         }

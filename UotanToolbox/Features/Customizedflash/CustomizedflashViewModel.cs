@@ -1,4 +1,6 @@
 ﻿using Material.Icons;
+using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Customizedflash;
@@ -10,7 +12,8 @@ public partial class CustomizedflashViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public CustomizedflashViewModel() : base(GetTranslation("Sidebar_Customizedflash"), MaterialIconKind.PencilPlusOutline, -500)
+    public CustomizedflashViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_Customizedflash"), MaterialIconKind.PencilPlusOutline, -500)
     {
+        Global.customizedflashView = new CustomizedflashView(dialogManager, toastManager);
     }
 }

@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
+using Splat;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using UotanToolbox.Common;
@@ -23,8 +24,8 @@ public partial class AppmgrViewModel : MainPageBase
     private bool isSystemAppDisplayed = false, isInstalling = false;
     [ObservableProperty]
     private string _apkFile;
-    private ISukiDialogManager dialogManager;
-    private ISukiToastManager toastManager;
+    public ISukiDialogManager DialogManager { get; }
+    public ISukiToastManager ToastManager { get; }
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
@@ -32,6 +33,8 @@ public partial class AppmgrViewModel : MainPageBase
 
     public AppmgrViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
+        DialogManager = dialogManager;
+        ToastManager = toastManager;
         Global.appmgrView = new AppmgrView(dialogManager, toastManager);
     }
 
@@ -47,7 +50,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    _ = dialogManager.CreateDialog()
+                    _ = DialogManager.CreateDialog()
                                 .OfType(NotificationType.Error)
                                 .WithTitle("Error")
                                 .WithContent(GetTranslation("Common_NotConnected"))
@@ -63,7 +66,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    _ = dialogManager.CreateDialog()
+                    _ = DialogManager.CreateDialog()
                                 .OfType(NotificationType.Error)
                                 .WithTitle("Error")
                                 .WithContent(GetTranslation("Common_DeviceFailedToConnect"))
@@ -76,7 +79,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    _ = dialogManager.CreateDialog()
+                    _ = DialogManager.CreateDialog()
                                 .OfType(NotificationType.Error)
                                 .WithTitle("Error")
                                 .WithContent(GetTranslation("Appmgr_PleaseExecuteInSystem"))
@@ -136,7 +139,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    _ = dialogManager.CreateDialog()
+                    _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -152,14 +155,14 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{fileArray[i]}\"");
                     _ = output.Contains("Success")
-                        ? toastManager.CreateToast()
+                        ? ToastManager.CreateToast()
     .WithTitle("Info")
     .WithContent(GetTranslation("Common_InstallSuccess"))
     .OfType(NotificationType.Success)
     .Dismiss().ByClicking()
     .Dismiss().After(TimeSpan.FromSeconds(3))
     .Queue()
-                        : toastManager.CreateToast()
+                        : ToastManager.CreateToast()
 .WithTitle("Info")
 .WithContent(GetTranslation("Common_InstallFailed"))
 .OfType(NotificationType.Error)
@@ -171,7 +174,7 @@ public partial class AppmgrViewModel : MainPageBase
         }
         else
         {
-            _ = dialogManager.CreateDialog()
+            _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_NoApkFileSelected"))
@@ -191,7 +194,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    _ = dialogManager.CreateDialog()
+                    _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -208,7 +211,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    _ = dialogManager.CreateDialog()
+                    _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
@@ -231,7 +234,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    _ = dialogManager.CreateDialog()
+                    _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -248,7 +251,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
-                    _ = dialogManager.CreateDialog()
+                    _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
@@ -268,7 +271,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -286,7 +289,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
@@ -304,7 +307,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -322,7 +325,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
@@ -341,7 +344,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -361,7 +364,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
@@ -385,7 +388,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -407,7 +410,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
@@ -426,7 +429,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -444,7 +447,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
@@ -463,7 +466,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -481,7 +484,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
@@ -500,7 +503,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Common_NotConnected"))
@@ -514,7 +517,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                _ = dialogManager.CreateDialog()
+                _ = DialogManager.CreateDialog()
             .OfType(NotificationType.Error)
             .WithTitle("Error")
             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
@@ -526,7 +529,7 @@ public partial class AppmgrViewModel : MainPageBase
         string focus_name, package_name;
         string dumpsys = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"dumpsys window | grep mCurrentFocus\"");
         string text = await FeaturesHelper.ActiveApp(dumpsys);
-        _ = toastManager.CreateToast()
+        _ = ToastManager.CreateToast()
 .WithTitle("Info")
 .WithContent(GetTranslation("Appmgr_AppActivactor") + $"\r\n{text}")
 .OfType(NotificationType.Information)

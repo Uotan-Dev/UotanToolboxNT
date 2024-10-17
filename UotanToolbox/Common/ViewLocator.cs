@@ -38,6 +38,7 @@ public class ViewLocator : IDataTemplate
             {
                 ress ??= Global.homeView!;
                 _controlCache[data!] = ress;
+                _ = FeaturesHelper.CheckEnvironment(Global.HomeDialogManager);
             }
         }
 
@@ -110,6 +111,7 @@ public class ViewLocator : IDataTemplate
             {
                 ress ??= Global.modifypartitionView!;
                 _controlCache[data!] = ress;
+                _ = FeaturesHelper.LoadMassage(Global.ModPartDialogManager);
             }
         }
 

@@ -14,7 +14,6 @@
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
 		<WrapPanel Name="Modifypartition"
 				   Margin="15"
-				   IsEnabled="{Binding IsEnabled}"
 			       theme:WrapPanelExtensions.AnimatedScroll="True"
 			       Orientation="Horizontal">
 		<suki:GlassCard Classes="Card" Margin="10 15" Width="662">

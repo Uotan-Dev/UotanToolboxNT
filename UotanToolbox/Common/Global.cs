@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using SukiUI.Dialogs;
 using UotanToolbox.Features.Appmgr;
 using UotanToolbox.Features.Basicflash;
 using UotanToolbox.Features.Customizedflash;
@@ -38,7 +39,7 @@ namespace UotanToolbox.Common
         //工具箱版本
         public static string currentVersion = "3.1.0";
         public static bool isLightThemeChanged = false;
-
+        //储存各个页面的实例化
         public static HomeView homeView;
         public static BasicflashView basicflashView;
         public static AppmgrView appmgrView;
@@ -48,6 +49,11 @@ namespace UotanToolbox.Common
         public static FormatExtractView formatExtractView;
         public static OthersView othersView;
         public static ModifypartitionView modifypartitionView;
+        //修改分区页面的Dialog
+        public static ISukiDialogManager ModPartDialogManager;
+        public static bool ModPartIsEnable;
+        //主页的Dialog
+        public static ISukiDialogManager HomeDialogManager;
     }
     public class BootInfo
     {

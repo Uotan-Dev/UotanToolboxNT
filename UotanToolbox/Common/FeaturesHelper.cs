@@ -1,4 +1,9 @@
-﻿using System.Globalization;
+﻿using Avalonia.Controls.Notifications;
+using Splat;
+using SukiUI.Dialogs;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Resources;
 using System.Threading.Tasks;
 
@@ -165,6 +170,42 @@ namespace UotanToolbox.Common
             }
             return "当前主界面应用不被支持！";
 
+        }
+
+        public static async Task LoadMassage(ISukiDialogManager dialogManager)
+        {
+            _ = dialogManager.CreateDialog()
+                .WithTitle("Warn")
+                .WithContent(GetTranslation("Modifypartition_Warn"))
+                .WithActionButton("Yes", _ => Global.ModPartIsEnable = true, true)
+                .WithActionButton("No", _ => Global.ModPartIsEnable = false, true)
+                .TryShow();
+        }
+
+        public static async Task CheckEnvironment(ISukiDialogManager dialogManager)
+        {
+            string filepath1 = "";
+            string filepath2 = "";
+            if (Global.System == "Windows")
+            {
+                filepath1 = Path.Combine(Global.bin_path, "platform-tools", "adb.exe");
+                filepath2 = Path.Combine(Global.bin_path, "platform-tools", "fastboot.exe");
+            }
+            else
+            {
+                filepath1 = Path.Combine(Global.bin_path, "platform-tools", "adb");
+                filepath2 = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
+            }
+            if (!File.Exists(filepath1) || !File.Exists(filepath2))
+            {
+                _ = dialogManager.CreateDialog()
+                    .WithTitle("Warn")
+                    .WithContent(GetTranslation("Home_Missing"))
+                    .OfType(NotificationType.Error)
+                    .WithActionButton("OK", _ => Process.GetCurrentProcess().Kill(), true)
+                    .TryShow();
+
+            }
         }
     }
 }

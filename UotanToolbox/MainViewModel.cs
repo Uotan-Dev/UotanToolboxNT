@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Collections;
@@ -79,21 +81,21 @@ public partial class MainViewModel : ObservableObject
         {
             BaseTheme = variant;
             _ = toastManager.CreateToast()
-.WithTitle($"{GetTranslation("MainView_SuccessfullyChangedTheme")}")
-.WithContent($"{GetTranslation("MainView_ChangedThemeTo")} {variant}")
-.OfType(NotificationType.Success)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                            .WithTitle($"{GetTranslation("MainView_SuccessfullyChangedTheme")}")
+                            .WithContent($"{GetTranslation("MainView_ChangedThemeTo")} {variant}")
+                            .OfType(NotificationType.Success)
+                            .Dismiss().ByClicking()
+                            .Dismiss().After(TimeSpan.FromSeconds(3))
+                            .Queue();
         };
         _theme.OnColorThemeChanged += async theme =>
                     toastManager.CreateToast()
-.WithTitle($"{GetTranslation("MainView_SuccessfullyChangedColor")}")
-.WithContent($"{GetTranslation("MainView_ChangedColorTo")} {theme.DisplayName}")
-.OfType(NotificationType.Success)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                                .WithTitle($"{GetTranslation("MainView_SuccessfullyChangedColor")}")
+                                .WithContent($"{GetTranslation("MainView_ChangedColorTo")} {theme.DisplayName}")
+                                .OfType(NotificationType.Success)
+                                .Dismiss().ByClicking()
+                                .Dismiss().After(TimeSpan.FromSeconds(3))
+                                .Queue();
         GlobalData.MainViewModelInstance = this;
     }
 

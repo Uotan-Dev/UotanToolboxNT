@@ -25,6 +25,24 @@ public partial class ModifypartitionView : UserControl
         dialogManager = sukiDialogManager;
         toastManager = sukiToastManager;
         InitializeComponent();
+        _ = CheckRedme();
+    }
+
+    public async Task CheckRedme()
+    {
+        while (true)
+        {
+            if (Global.ModPartIsEnable)
+            {
+                Modifypartition.IsEnabled = true;
+                break;
+            }
+            else
+            {
+                Modifypartition.IsEnabled = false;
+            }
+            await Task.Delay(1000);
+        }
     }
 
     private async void ReadPart(object sender, RoutedEventArgs args)

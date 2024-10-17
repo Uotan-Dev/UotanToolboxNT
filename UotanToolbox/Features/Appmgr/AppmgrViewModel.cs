@@ -30,8 +30,9 @@ public partial class AppmgrViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
+    public AppmgrViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
+        Global.appmgrView = new AppmgrView(dialogManager, toastManager);
     }
 
     [RelayCommand]

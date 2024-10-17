@@ -10,23 +10,24 @@ using SukiUI.Enums;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UotanToolbox.Common;
+using SukiUI.Dialogs;
 
 namespace UotanToolbox.Features.Home;
 
 public partial class HomeView : UserControl
 {
-    //public ISukiToastManager _thisWindowManager = new SukiToastManager();
-    public ISukiToastManager _mainWindowManager;
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     public static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public HomeView(ISukiToastManager mainWindowManager)
+    public HomeView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
-        _mainWindowManager = mainWindowManager;
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
-        //ToastHost.Manager = _thisWindowManager;
     }
 
     public async void CopyButton_OnClick(object sender, RoutedEventArgs args)
@@ -48,7 +49,7 @@ public partial class HomeView : UserControl
                 await clipboard.SetDataObjectAsync(dataObject);
             }
 
-            _mainWindowManager.CreateSimpleInfoToast()
+            toastManager.CreateSimpleInfoToast()
                 .WithTitle(GetTranslation("Home_Copy"))
                 .WithContent("o(*≧▽≦)ツ")
                 .OfType(NotificationType.Success)
@@ -164,5 +165,5 @@ public partial class HomeView : UserControl
         }
     }
 
-    private void OpenWirelessADB(object sender, RoutedEventArgs args) => new WirelessADB().Show();
+    private void OpenWirelessADB(object sender, RoutedEventArgs args) => new WirelessADB(dialogManager,toastManager).Show();
 }

@@ -1,5 +1,13 @@
 ﻿using Avalonia.Collections;
+using UotanToolbox.Features.Appmgr;
+using UotanToolbox.Features.Basicflash;
+using UotanToolbox.Features.Customizedflash;
+using UotanToolbox.Features.FormatExtract;
 using UotanToolbox.Features.Home;
+using UotanToolbox.Features.Modifypartition;
+using UotanToolbox.Features.Others;
+using UotanToolbox.Features.Scrcpy;
+using UotanToolbox.Features.Wiredflash;
 
 namespace UotanToolbox.Common
 {
@@ -32,6 +40,14 @@ namespace UotanToolbox.Common
         public static bool isLightThemeChanged = false;
 
         public static HomeView homeView;
+        public static BasicflashView basicflashView;
+        public static AppmgrView appmgrView;
+        public static WiredflashView wiredflashView;
+        public static CustomizedflashView customizedflashView;
+        public static ScrcpyView scrcpyView;
+        public static FormatExtractView formatExtractView;
+        public static OthersView othersView;
+        public static ModifypartitionView modifypartitionView;
     }
     public class BootInfo
     {

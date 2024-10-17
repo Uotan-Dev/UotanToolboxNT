@@ -41,6 +41,78 @@ public class ViewLocator : IDataTemplate
             }
         }
 
+        if (fullName.Contains("UotanToolbox.Features.Basicflash.BasicflashView"))
+        {
+            if (!_controlCache.TryGetValue(data!, out Control ress))
+            {
+                ress ??= Global.basicflashView!;
+                _controlCache[data!] = ress;
+            }
+        }
+
+        if (fullName.Contains("UotanToolbox.Features.Appmgr.AppmgrView"))
+        {
+            if (!_controlCache.TryGetValue(data!, out Control ress))
+            {
+                ress ??= Global.appmgrView!;
+                _controlCache[data!] = ress;
+            }
+        }
+
+        if (fullName.Contains("UotanToolbox.Features.Wiredflash.WiredflashView"))
+        {
+            if (!_controlCache.TryGetValue(data!, out Control ress))
+            {
+                ress ??= Global.wiredflashView!;
+                _controlCache[data!] = ress;
+            }
+        }
+
+        if (fullName.Contains("UotanToolbox.Features.Customizedflash.CustomizedflashView"))
+        {
+            if (!_controlCache.TryGetValue(data!, out Control ress))
+            {
+                ress ??= Global.customizedflashView!;
+                _controlCache[data!] = ress;
+            }
+        }
+
+        if (fullName.Contains("UotanToolbox.Features.Scrcpy.ScrcpyView"))
+        {
+            if (!_controlCache.TryGetValue(data!, out Control ress))
+            {
+                ress ??= Global.scrcpyView!;
+                _controlCache[data!] = ress;
+            }
+        }
+
+        if (fullName.Contains("UotanToolbox.Features.FormatExtract.FormatExtractView"))
+        {
+            if (!_controlCache.TryGetValue(data!, out Control ress))
+            {
+                ress ??= Global.formatExtractView!;
+                _controlCache[data!] = ress;
+            }
+        }
+
+        if (fullName.Contains("UotanToolbox.Features.Others.OthersView"))
+        {
+            if (!_controlCache.TryGetValue(data!, out Control ress))
+            {
+                ress ??= Global.othersView!;
+                _controlCache[data!] = ress;
+            }
+        }
+
+        if (fullName.Contains("UotanToolbox.Features.Modifypartition.ModifypartitionView"))
+        {
+            if (!_controlCache.TryGetValue(data!, out Control ress))
+            {
+                ress ??= Global.modifypartitionView!;
+                _controlCache[data!] = ress;
+            }
+        }
+
         if (!_controlCache.TryGetValue(data!, out Control res))
         {
             res ??= (Control)Activator.CreateInstance(type)!;

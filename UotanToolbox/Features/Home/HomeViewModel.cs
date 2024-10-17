@@ -42,13 +42,13 @@ public partial class HomeViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public HomeViewModel(ISukiToastManager toastManager, ISukiDialogManager dialogManager) : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
+    public HomeViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
+        DialogManager = dialogManager;
+        ToastManager = toastManager;
+        Global.homeView = new HomeView(dialogManager, toastManager);
         _ = CheckEnvironment();
         _ = CheckDeviceList();
-        ToastManager = toastManager;
-        DialogManager = dialogManager;
-        Global.homeView = new HomeView(toastManager);
         _ = this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe(option =>
             {

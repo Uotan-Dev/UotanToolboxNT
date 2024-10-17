@@ -4,20 +4,24 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Appmgr;
 
 public partial class AppmgrView : UserControl
 {
-    private ISukiDialogManager dialogManager;
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public AppmgrView()
+    public AppmgrView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
     }
 
@@ -44,7 +48,7 @@ public partial class AppmgrView : UserControl
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}");
             }
 
-            AppmgrViewModel newAppmgr = new AppmgrViewModel();
+            AppmgrViewModel newAppmgr = new AppmgrViewModel(dialogManager, toastManager);
             _ = newAppmgr.Connect();
         });
     }

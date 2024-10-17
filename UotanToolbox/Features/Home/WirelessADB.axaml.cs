@@ -2,6 +2,8 @@ using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using Microsoft.VisualBasic;
 using SukiUI.Controls;
+using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -12,6 +14,8 @@ namespace UotanToolbox.Features.Home;
 
 public partial class WirelessADB : SukiWindow
 {
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public static Bitmap ConvertToBitmap(byte[] imageData)
     {
@@ -20,8 +24,10 @@ public partial class WirelessADB : SukiWindow
             return new Bitmap(stream);
         }
     }
-    public  WirelessADB()
+    public  WirelessADB(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
         StartScanm();
         QRCode.Source = ConvertToBitmap(ADBPairHelper.QRCodeInit(Global.serviceID, Global.password));

@@ -12,10 +12,6 @@
 			 d:DesignWidth="1024"
              x:DataType="home:HomeViewModel"
              mc:Ignorable="d">
-	<suki:SukiWindow.Hosts>
-		<suki:SukiToastHost Name="ToastHost" Manager="{Binding ToastManager}"/>
-		<suki:SukiDialogHost Name="DialogHost" Manager="{Binding DialogManager}"/>
-	</suki:SukiWindow.Hosts>
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
 		<WrapPanel Margin="15"
 			   theme:WrapPanelExtensions.AnimatedScroll="True"

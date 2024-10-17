@@ -23,13 +23,16 @@ public partial class BasicflashView : UserControl
     {
         return FeaturesHelper.GetTranslation(key);
     }
-    ISukiDialogManager dialogManager;
+    public ISukiDialogManager dialogManager;
+    public ISukiToastManager toastManager;
     public AvaloniaList<string> SimpleUnlock = ["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"];
     public AvaloniaList<string> Command = ["shell twrp sideload", "reboot sideload", "reboot safe-mode", "reboot muc", "reboot factory", "reboot admin"];
     public AvaloniaList<string> Arch = ["aarch64", "armeabi", "X86-64", "X86"];
 
-    public BasicflashView()
+    public BasicflashView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
     {
+        dialogManager = sukiDialogManager;
+        toastManager = sukiToastManager;
         InitializeComponent();
         SimpleContent.ItemsSource = SimpleUnlock;
         ArchList.ItemsSource = Arch;

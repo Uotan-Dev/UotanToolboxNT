@@ -11,17 +11,13 @@ namespace UotanToolbox.Features.Appmgr;
 
 public partial class AppmgrView : UserControl
 {
-    public ISukiDialogManager dialogManager;
-    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public AppmgrView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
+    public AppmgrView()
     {
-        dialogManager = sukiDialogManager;
-        toastManager = sukiToastManager;
         InitializeComponent();
     }
 
@@ -37,7 +33,7 @@ public partial class AppmgrView : UserControl
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
             bool result = false;
-            _ = dialogManager.CreateDialog()
+            _ = Global.MainDialogManager.CreateDialog()
                          .WithTitle("Warn")
                          .WithContent(GetTranslation("Appmgr_ConfirmDeleteApp"))
                          .WithActionButton("Yes", _ => result = true, true)
@@ -48,7 +44,7 @@ public partial class AppmgrView : UserControl
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}");
             }
 
-            AppmgrViewModel newAppmgr = new AppmgrViewModel(dialogManager, toastManager);
+            AppmgrViewModel newAppmgr = new AppmgrViewModel();
             _ = newAppmgr.Connect();
         });
     }

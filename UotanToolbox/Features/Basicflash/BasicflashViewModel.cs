@@ -14,8 +14,7 @@ public partial class BasicflashViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public BasicflashViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_Basicflash"), MaterialIconKind.CableData, -1000)
+    public BasicflashViewModel() : base(GetTranslation("Sidebar_Basicflash"), MaterialIconKind.CableData, -1000)
     {
-        Global.basicflashView = new BasicflashView(dialogManager, toastManager);
     }
 }

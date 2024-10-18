@@ -12,8 +12,7 @@ public partial class WiredflashViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public WiredflashViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_WiredFlash"), MaterialIconKind.JumpRope, -600)
+    public WiredflashViewModel() : base(GetTranslation("Sidebar_WiredFlash"), MaterialIconKind.JumpRope, -600)
     {
-        Global.wiredflashView = new WiredflashView(dialogManager, toastManager);
     }
 }

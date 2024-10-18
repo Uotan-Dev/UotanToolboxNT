@@ -14,8 +14,7 @@ public partial class OthersViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public OthersViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_Others"), MaterialIconKind.WrenchCogOutline, -350)
+    public OthersViewModel() : base(GetTranslation("Sidebar_Others"), MaterialIconKind.WrenchCogOutline, -350)
     {
-        Global.othersView = new OthersView(dialogManager, toastManager);
     }
 }

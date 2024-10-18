@@ -24,10 +24,8 @@ public partial class WirelessADB : SukiWindow
             return new Bitmap(stream);
         }
     }
-    public  WirelessADB(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
+    public  WirelessADB()
     {
-        dialogManager = sukiDialogManager;
-        toastManager = sukiToastManager;
         InitializeComponent();
         StartScanm();
         QRCode.Source = ConvertToBitmap(ADBPairHelper.QRCodeInit(Global.serviceID, Global.password));

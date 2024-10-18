@@ -13,9 +13,9 @@
              mc:Ignorable="d"
 			 x:DataType="appmgr:AppmgrViewModel">
 
-	<!--<UserControl.DataContext>
+	<UserControl.DataContext>
 		<appmgr:AppmgrViewModel />
-	</UserControl.DataContext>-->
+	</UserControl.DataContext>
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
 		<WrapPanel Margin="15"
                theme:WrapPanelExtensions.AnimatedScroll="True"

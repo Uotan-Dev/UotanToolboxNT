@@ -12,8 +12,7 @@ public partial class CustomizedflashViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public CustomizedflashViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_Customizedflash"), MaterialIconKind.PencilPlusOutline, -500)
+    public CustomizedflashViewModel() : base(GetTranslation("Sidebar_Customizedflash"), MaterialIconKind.PencilPlusOutline, -500)
     {
-        Global.customizedflashView = new CustomizedflashView(dialogManager, toastManager);
     }
 }

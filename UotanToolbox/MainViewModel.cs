@@ -54,8 +54,8 @@ public partial class MainViewModel : ObservableObject
     }
     public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav, ISukiToastManager toastManager, ISukiDialogManager dialogManager)
     {
-        ToastManager = toastManager;
-        DialogManager = dialogManager;
+        Global.MainToastManager = ToastManager = toastManager;
+        Global.MainDialogManager =  DialogManager = dialogManager;
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         DemoPages = new AvaloniaList<MainPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);

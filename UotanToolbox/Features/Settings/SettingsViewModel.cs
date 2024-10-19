@@ -92,11 +92,18 @@ public partial class SettingsViewModel : MainPageBase
 
     partial void OnSelectedLanguageListChanged(string value)
     {
-        if (value == GetTranslation("Settings_Default")) UotanToolbox.Settings.Default.Language = "";
-        else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
-        else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
-        UotanToolbox.Settings.Default.Save();
-        //_ = Global.MainToastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
+        string OldLanguage = null;
+        if (value == GetTranslation("Settings_Default")) OldLanguage = "";
+        else if (value == "English") OldLanguage = "en-US";
+        else if (value == "简体中文") OldLanguage = "zh-CN";
+        if (OldLanguage != UotanToolbox.Settings.Default.Language)
+        {
+            if (value == GetTranslation("Settings_Default")) UotanToolbox.Settings.Default.Language = "";
+            else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
+            else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
+            UotanToolbox.Settings.Default.Save();
+            _ = Global.MainToastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
+        }
     }
 
     [RelayCommand]

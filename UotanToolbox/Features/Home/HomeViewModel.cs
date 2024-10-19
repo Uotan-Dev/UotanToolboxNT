@@ -30,8 +30,6 @@ public partial class HomeViewModel : MainPageBase
     [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private bool _commonDevicesList;
     [ObservableProperty] private static AvaloniaList<string> _simpleContent;
-    //public ISukiDialogManager DialogManager { get; }
-    //public ISukiToastManager ToastManager { get; }
     public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
 
     [ObservableProperty] private bool _animationsEnabled;
@@ -45,11 +43,6 @@ public partial class HomeViewModel : MainPageBase
 
     public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
-        //DialogManager = dialogManager;
-        //ToastManager = toastManager;
-        //Global.homeView = new HomeView(dialogManager, toastManager);
-        //Global.HomeDialogManager = dialogManager;
-        //_ = CheckEnvironment();
         _ = CheckDeviceList();
         _ = this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe(option =>

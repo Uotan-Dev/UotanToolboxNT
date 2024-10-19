@@ -1,3 +1,4 @@
+using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Media.Imaging;
 using Microsoft.VisualBasic;
@@ -14,8 +15,8 @@ namespace UotanToolbox.Features.Home;
 
 public partial class WirelessADB : SukiWindow
 {
-    public ISukiDialogManager dialogManager;
-    public ISukiToastManager toastManager;
+    private readonly ISukiDialogManager _thisDialogManager = new SukiDialogManager();
+    private readonly ISukiToastManager _thisToastManager = new SukiToastManager();
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public static Bitmap ConvertToBitmap(byte[] imageData)
     {
@@ -27,13 +28,15 @@ public partial class WirelessADB : SukiWindow
     public  WirelessADB()
     {
         InitializeComponent();
+        DialogHost.Manager = _thisDialogManager;
+        ToastHost.Manager = _thisToastManager;
         StartScanm();
         QRCode.Source = ConvertToBitmap(ADBPairHelper.QRCodeInit(Global.serviceID, Global.password));
     }
 
     private async void StartScanm()
     {
-        await ADBPairHelper.ScanmDNS(Global.serviceID, Global.password, this);
+        await ADBPairHelper.ScanmDNS(Global.serviceID, Global.password, _thisDialogManager);
     }
 
     private async void WConnect(object sender, RoutedEventArgs args)
@@ -47,16 +50,16 @@ public partial class WirelessADB : SukiWindow
             string result = await CallExternalProgram.ADB($"pair {input} {password}");
             if (result.Contains("Successfully paired to "))
             {
-                //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
+                _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
             }
             else
             {
-                //SukiHost.ShowDialog(this, new PureDialog(result), allowBackgroundClose: true);
+                _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(result).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_EnterAll")), allowBackgroundClose: true);
+            _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterAll")).Dismiss().ByClickingBackground().TryShow();
         }
         Connect.IsBusy = false;
         ConnectPanel.IsEnabled = true;
@@ -78,7 +81,7 @@ public partial class WirelessADB : SukiWindow
 
                 if (!match.Success)
                 {
-                    //SukiHost.ShowDialog(this, new PureDialog(output), allowBackgroundClose: true);
+                    _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(output).Dismiss().ByClickingBackground().TryShow();
                     return;
                 }
                 output = await CallExternalProgram.ADB($"-s {Global.thisdevice} tcpip 5555");
@@ -87,11 +90,11 @@ public partial class WirelessADB : SukiWindow
                     string output2 = await CallExternalProgram.ADB($"connect {match.Groups[1].Value}");
                     if (output2.Contains("connected"))
                     {
-                        //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
+                        _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
                     }
                     else
                     {
-                        //SukiHost.ShowDialog(this, new PureDialog(output + "\n" + output2), allowBackgroundClose: true);
+                        _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(output + "\n" + output2).Dismiss().ByClickingBackground().TryShow();
                     }
                 }
                 Connect.IsBusy = false;
@@ -99,12 +102,12 @@ public partial class WirelessADB : SukiWindow
             }
             else
             {
-                //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+                _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            //SukiHost.ShowDialog(this, new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 }

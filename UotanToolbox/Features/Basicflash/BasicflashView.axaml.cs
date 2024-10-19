@@ -459,19 +459,34 @@ public partial class BasicflashView : UserControl
                 if (RebootComm.SelectedItem != null)
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} {RebootComm.SelectedItem}");
-                    //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+                    _ = Global.MainDialogManager.CreateDialog()
+                                        .WithTitle("Error")
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_Execution"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
                 }
                 BusyReboot.IsBusy = false;
                 RebootPanel.IsEnabled = true;
             }
             else
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_EnterRecOrOpenADB")), allowBackgroundClose: true);
+                _ = Global.MainDialogManager.CreateDialog()
+                                        .WithTitle("Error")
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_EnterRecOrOpenADB"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
             }
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            _ = Global.MainDialogManager.CreateDialog()
+                                        .WithTitle("Error")
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
 

@@ -326,18 +326,18 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"Unable to find {regex} in the file: {filePath}").TryShow();
+                    dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"Unable to find {regex} in the file: {filePath}").TryShow();
                     return null;
                 }
             }
             catch (FileNotFoundException)
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"File not found: {filePath}").TryShow();
+                dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"File not found: {filePath}").TryShow();
                 return null;
             }
             catch (Exception ex)
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"An error occurred while reading the file: {ex.Message}").TryShow();
+                dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"An error occurred while reading the file: {ex.Message}").TryShow();
                 return null;
             }
         }

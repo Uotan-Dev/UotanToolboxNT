@@ -29,19 +29,19 @@ namespace UotanToolbox.Common
             }
             if (_function is not "oemunlockon" and not "oemunlockoff")
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent("{%c_e%}参数错误{%c_i%}{\n}").TryShow();
+                dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent("{%c_e%}参数错误{%c_i%}{\n}").TryShow();
                 return false;
             }
             if (!File.Exists(_filePath))
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent("{%c_e%}找不到{_filePath}{%c_i%}{\n}").TryShow();
+                dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent("{%c_e%}找不到{_filePath}{%c_i%}{\n}").TryShow();
                 return false;
             }
             byte[] fileBytes = File.ReadAllBytes(_filePath);
             byte lastByte = fileBytes[^1];
             if (lastByte is not 0x00 and not 0x01)
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent("frp文件末尾1字节16进制数值不是00或01").TryShow();
+                dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent("frp文件末尾1字节16进制数值不是00或01").TryShow();
                 return false;
             }
             if (lastByte == target)
@@ -53,7 +53,7 @@ namespace UotanToolbox.Common
                 byte[] bytes = File.ReadAllBytes(_filePath);
                 bytes[^1] = target;
                 File.WriteAllBytes(_filePath, bytes);
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent("frp文件修补成功").Dismiss().ByClickingBackground().TryShow();
+                dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent("frp文件修补成功").Dismiss().ByClickingBackground().TryShow();
                 return true;
             }
             catch

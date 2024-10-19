@@ -22,7 +22,7 @@ public partial class OthersView : UserControl
     {
         InitializeComponent();
         SetUnit.ItemsSource = Unit;
-        _ = GetDisplayInfo();
+        GetDisplayInfo();
     }
 
     public void SetNull()
@@ -96,46 +96,46 @@ public partial class OthersView : UserControl
                 if (!string.IsNullOrEmpty(Transverse.Text) && !string.IsNullOrEmpty(Direction.Text))
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size {Transverse.Text}x{Direction.Text}");
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
                 if (!string.IsNullOrEmpty(DPIorDP.Text))
                 {
                     if (SetUnit.SelectedItem == null)
                     {
-                        _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_SetUnit")).Dismiss().ByClickingBackground().TryShow();
+                        Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_SetUnit")).Dismiss().ByClickingBackground().TryShow();
                     }
                     else if (SetUnit.SelectedItem.ToString() == "DPI")
                     {
                         _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density {DPIorDP.Text}");
-                        _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                        Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                     }
                     else if (SetUnit.SelectedItem.ToString() == "DP")
                     {
                         if (!string.IsNullOrEmpty(ScrResolution.Text) && ScrResolution.Text != "--")
                         {
                             _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density {StringHelper.GetDPI(ScrResolution.Text, DPIorDP.Text)}");
-                            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                         }
                         else
                         {
-                            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_NoScreen")).Dismiss().ByClickingBackground().TryShow();
+                            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_NoScreen")).Dismiss().ByClickingBackground().TryShow();
                         }
                     }
                 }
                 if ((string.IsNullOrEmpty(Transverse.Text) || string.IsNullOrEmpty(Direction.Text)) && (SetUnit.SelectedItem == null || string.IsNullOrEmpty(DPIorDP.Text)))
                 {
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_EnterPara")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_EnterPara")).Dismiss().ByClickingBackground().TryShow();
                 }
 
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         Display.IsEnabled = true;
         BusyDisplay.IsBusy = false;
@@ -152,16 +152,16 @@ public partial class OthersView : UserControl
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size reset");
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density reset");
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_Restored")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_Restored")).Dismiss().ByClickingBackground().TryShow();
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         Display.IsEnabled = true;
         BusyDisplay.IsBusy = false;
@@ -194,7 +194,7 @@ public partial class OthersView : UserControl
                     float temp = StringHelper.OnlynumFloat(Temp.Text);
                     if (temp >= 100)
                     {
-                        _ = Global.MainToastManager.CreateToast()
+                        Global.MainToastManager.CreateToast()
                             .WithTitle(GetTranslation("Others_TempHigh"))
                             .WithContent(GetTranslation("Others_PhoneBoom") + "(╯‵□′)╯")
                             .OfType(NotificationType.Error)
@@ -204,7 +204,7 @@ public partial class OthersView : UserControl
                     }
                     else if (temp is < (-30) and > (float)-273.15)
                     {
-                        _ = Global.MainToastManager.CreateToast()
+                        Global.MainToastManager.CreateToast()
                             .WithTitle(GetTranslation("Others_TempLow"))
                             .WithContent(GetTranslation("Others_PhoneTake") + "{{{(>_<)}}}")
                             .OfType(NotificationType.Error)
@@ -214,7 +214,7 @@ public partial class OthersView : UserControl
                     }
                     else if (temp < -273.15)
                     {
-                        _ = Global.MainToastManager.CreateToast()
+                        Global.MainToastManager.CreateToast()
                             .WithTitle(GetTranslation("Others_TempLower"))
                             .WithContent(GetTranslation("Others_Nobel") + "(￣y▽,￣)╭ ")
                             .OfType(NotificationType.Error)
@@ -224,21 +224,21 @@ public partial class OthersView : UserControl
                         return;
                     }
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set temp {temp * 10}");
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_EnterTemp")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_EnterTemp")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         SetEnable(false);
     }
@@ -253,21 +253,21 @@ public partial class OthersView : UserControl
                 if (!string.IsNullOrEmpty(BLevel.Text))
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set level {BLevel.Text}");
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_EnterBattery")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_EnterBattery")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         SetEnable(false);
     }
@@ -281,7 +281,7 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery reset");
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_Restored")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_Restored")).Dismiss().ByClickingBackground().TryShow();
                 NoCharge.IsChecked = false;
                 WirelessCharge.IsChecked = false;
                 USUCharge.IsChecked = false;
@@ -289,12 +289,12 @@ public partial class OthersView : UserControl
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         SetEnable(false);
     }
@@ -313,16 +313,16 @@ public partial class OthersView : UserControl
                     USUCharge.IsChecked = false;
                     ACCharge.IsChecked = false;
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
             SetEnable(false);
         }
@@ -342,16 +342,16 @@ public partial class OthersView : UserControl
                     USUCharge.IsChecked = false;
                     ACCharge.IsChecked = false;
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
             SetEnable(false);
         }
@@ -371,16 +371,16 @@ public partial class OthersView : UserControl
                     NoCharge.IsChecked = false;
                     ACCharge.IsChecked = false;
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
             SetEnable(false);
         }
@@ -401,16 +401,16 @@ public partial class OthersView : UserControl
                     USUCharge.IsChecked = false;
                     NoCharge.IsChecked = false;
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set status 1");
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
             SetEnable(false);
         }
@@ -428,22 +428,22 @@ public partial class OthersView : UserControl
                 if (!string.IsNullOrEmpty(NewLockTime.Text))
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put system screen_off_timeout {StringHelper.Onlynum(NewLockTime.Text) * 1000}");
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                     LockTime.Text = (StringHelper.Onlynum(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system screen_off_timeout")) / 1000).ToString() + "s";
                 }
                 else
                 {
-                    _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_EnterLock")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Others_EnterLock")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         BusyLock.IsBusy = false;
         Lock.IsEnabled = true;
@@ -527,7 +527,7 @@ public partial class OthersView : UserControl
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global time_zone Asia/Shanghai");
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global ntp_server ntp1.aliyun.com");
                 }
-                _ = Global.MainToastManager.CreateToast()
+                Global.MainToastManager.CreateToast()
                     .WithTitle(GetTranslation("Common_Execution"))
                     .WithContent(GetTranslation("Others_NotEffect"))
                     .OfType(NotificationType.Success)
@@ -537,12 +537,12 @@ public partial class OthersView : UserControl
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         ShowAndHide.IsEnabled = true;
     }
@@ -591,7 +591,7 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put system font_scale {FontZoom.Value}");
-                _ = Global.MainToastManager.CreateToast()
+                Global.MainToastManager.CreateToast()
                     .WithTitle(GetTranslation("Common_Execution"))
                     .WithContent(GetTranslation("Others_NotEffect"))
                     .OfType(NotificationType.Success)
@@ -602,12 +602,12 @@ public partial class OthersView : UserControl
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         SetFalse(false);
     }
@@ -638,7 +638,7 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global window_animation_scale {WindowZoom.Value}");
-                _ = Global.MainToastManager.CreateToast()
+                Global.MainToastManager.CreateToast()
                     .WithTitle(GetTranslation("Common_Execution"))
                     .WithContent(GetTranslation("Others_NotEffect"))
                     .OfType(NotificationType.Success)
@@ -648,12 +648,12 @@ public partial class OthersView : UserControl
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         SetFalse(false);
     }
@@ -684,7 +684,7 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global transition_animation_scale {TransitionZoom.Value}");
-                _ = Global.MainToastManager.CreateToast()
+                Global.MainToastManager.CreateToast()
                     .WithTitle(GetTranslation("Common_Execution"))
                     .WithContent(GetTranslation("Others_NotEffect"))
                     .OfType(NotificationType.Success)
@@ -694,12 +694,12 @@ public partial class OthersView : UserControl
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         SetFalse(false);
     }
@@ -730,7 +730,7 @@ public partial class OthersView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global animator_duration_scale {AnimationDuration.Value}");
-                _ = Global.MainToastManager.CreateToast()
+                Global.MainToastManager.CreateToast()
                     .WithTitle(GetTranslation("Common_Execution"))
                     .WithContent(GetTranslation("Others_NotEffect"))
                     .OfType(NotificationType.Success)
@@ -740,12 +740,12 @@ public partial class OthersView : UserControl
             }
             else
             {
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
         SetFalse(false);
     }

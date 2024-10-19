@@ -102,7 +102,7 @@ public partial class SettingsViewModel : MainPageBase
             else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
             else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
             UotanToolbox.Settings.Default.Save();
-            _ = Global.MainToastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
+            Global.MainToastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
         }
     }
 
@@ -170,12 +170,12 @@ public partial class SettingsViewModel : MainPageBase
             else
             {
 
-                _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         catch (HttpRequestException e)
         {
-            _ = Global.MainDialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent(e.Message).TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent(e.Message).TryShow();
         }
     }
 }

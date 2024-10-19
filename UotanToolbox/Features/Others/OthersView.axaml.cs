@@ -195,32 +195,32 @@ public partial class OthersView : UserControl
                     if (temp >= 100)
                     {
                         _ = Global.MainToastManager.CreateToast()
-            .WithTitle(GetTranslation("Others_TempHigh"))
-            .WithContent(GetTranslation("Others_PhoneBoom") + "(╯‵□′)╯")
-            .OfType(NotificationType.Error)
-            .Dismiss().ByClicking()
-            .Dismiss().After(TimeSpan.FromSeconds(3))
-            .Queue();
+                            .WithTitle(GetTranslation("Others_TempHigh"))
+                            .WithContent(GetTranslation("Others_PhoneBoom") + "(╯‵□′)╯")
+                            .OfType(NotificationType.Error)
+                            .Dismiss().ByClicking()
+                            .Dismiss().After(TimeSpan.FromSeconds(3))
+                            .Queue();
                     }
                     else if (temp is < (-30) and > (float)-273.15)
                     {
                         _ = Global.MainToastManager.CreateToast()
-.WithTitle(GetTranslation("Others_TempLow"))
-.WithContent(GetTranslation("Others_PhoneTake") + "{{{(>_<)}}}")
-.OfType(NotificationType.Error)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                            .WithTitle(GetTranslation("Others_TempLow"))
+                            .WithContent(GetTranslation("Others_PhoneTake") + "{{{(>_<)}}}")
+                            .OfType(NotificationType.Error)
+                            .Dismiss().ByClicking()
+                            .Dismiss().After(TimeSpan.FromSeconds(3))
+                            .Queue();
                     }
                     else if (temp < -273.15)
                     {
                         _ = Global.MainToastManager.CreateToast()
-.WithTitle(GetTranslation("Others_TempLower"))
-.WithContent(GetTranslation("Others_Nobel") + "(￣y▽,￣)╭ ")
-.OfType(NotificationType.Error)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                            .WithTitle(GetTranslation("Others_TempLower"))
+                            .WithContent(GetTranslation("Others_Nobel") + "(￣y▽,￣)╭ ")
+                            .OfType(NotificationType.Error)
+                            .Dismiss().ByClicking()
+                            .Dismiss().After(TimeSpan.FromSeconds(3))
+                            .Queue();
                         return;
                     }
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery set temp {temp * 10}");
@@ -528,12 +528,12 @@ public partial class OthersView : UserControl
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global ntp_server ntp1.aliyun.com");
                 }
                 _ = Global.MainToastManager.CreateToast()
-.WithTitle(GetTranslation("Common_Execution"))
-.WithContent(GetTranslation("Others_NotEffect"))
-.OfType(NotificationType.Success)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                    .WithTitle(GetTranslation("Common_Execution"))
+                    .WithContent(GetTranslation("Others_NotEffect"))
+                    .OfType(NotificationType.Success)
+                    .Dismiss().ByClicking()
+                    .Dismiss().After(TimeSpan.FromSeconds(3))
+                    .Queue();
             }
             else
             {
@@ -592,12 +592,12 @@ public partial class OthersView : UserControl
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put system font_scale {FontZoom.Value}");
                 _ = Global.MainToastManager.CreateToast()
-.WithTitle(GetTranslation("Common_Execution"))
-.WithContent(GetTranslation("Others_NotEffect"))
-.OfType(NotificationType.Success)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                    .WithTitle(GetTranslation("Common_Execution"))
+                    .WithContent(GetTranslation("Others_NotEffect"))
+                    .OfType(NotificationType.Success)
+                    .Dismiss().ByClicking()
+                    .Dismiss().After(TimeSpan.FromSeconds(3))
+                    .Queue();
                 NowFontZoom.Text = StringHelper.OnlynumFloat(await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings get system font_scale")).ToString();
             }
             else
@@ -639,12 +639,12 @@ public partial class OthersView : UserControl
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global window_animation_scale {WindowZoom.Value}");
                 _ = Global.MainToastManager.CreateToast()
-.WithTitle(GetTranslation("Common_Execution"))
-.WithContent(GetTranslation("Others_NotEffect"))
-.OfType(NotificationType.Success)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                    .WithTitle(GetTranslation("Common_Execution"))
+                    .WithContent(GetTranslation("Others_NotEffect"))
+                    .OfType(NotificationType.Success)
+                    .Dismiss().ByClicking()
+                    .Dismiss().After(TimeSpan.FromSeconds(3))
+                    .Queue();
             }
             else
             {
@@ -685,12 +685,12 @@ public partial class OthersView : UserControl
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global transition_animation_scale {TransitionZoom.Value}");
                 _ = Global.MainToastManager.CreateToast()
-.WithTitle(GetTranslation("Common_Execution"))
-.WithContent(GetTranslation("Others_NotEffect"))
-.OfType(NotificationType.Success)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                    .WithTitle(GetTranslation("Common_Execution"))
+                    .WithContent(GetTranslation("Others_NotEffect"))
+                    .OfType(NotificationType.Success)
+                    .Dismiss().ByClicking()
+                    .Dismiss().After(TimeSpan.FromSeconds(3))
+                    .Queue();
             }
             else
             {
@@ -731,12 +731,12 @@ public partial class OthersView : UserControl
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global animator_duration_scale {AnimationDuration.Value}");
                 _ = Global.MainToastManager.CreateToast()
-.WithTitle(GetTranslation("Common_Execution"))
-.WithContent(GetTranslation("Others_NotEffect"))
-.OfType(NotificationType.Success)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                    .WithTitle(GetTranslation("Common_Execution"))
+                    .WithContent(GetTranslation("Others_NotEffect"))
+                    .OfType(NotificationType.Success)
+                    .Dismiss().ByClicking()
+                    .Dismiss().After(TimeSpan.FromSeconds(3))
+                    .Queue();
             }
             else
             {

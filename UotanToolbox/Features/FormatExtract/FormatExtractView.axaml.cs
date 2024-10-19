@@ -223,11 +223,11 @@ public partial class FormatExtractView : UserControl
         {
             bool result = false;
             _ = Global.MainDialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                                        .WithTitle("Warn")
+                                        .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .WithActionButton("Yes", _ => result = true, true)
+                                        .WithActionButton("No", _ => result = false, true)
+                                        .TryShow();
             if (result == true)
             {
                 TopLevel topLevel = TopLevel.GetTopLevel(this);
@@ -275,11 +275,11 @@ public partial class FormatExtractView : UserControl
                 QCN.IsEnabled = false;
                 bool result = false;
                 _ = Global.MainDialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("Common_NeedRoot"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                                        .WithTitle("Warn")
+                                        .WithContent(GetTranslation("Common_NeedRoot"))
+                                        .WithActionButton("Yes", _ => result = true, true)
+                                        .WithActionButton("No", _ => result = false, true)
+                                        .TryShow();
                 if (result == true)
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
@@ -310,11 +310,11 @@ public partial class FormatExtractView : UserControl
                 QCN.IsEnabled = false;
                 bool result = false;
                 _ = Global.MainDialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_OnlyXiaomi"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                                        .WithTitle("Warn")
+                                        .WithContent(GetTranslation("FormatExtract_OnlyXiaomi"))
+                                        .WithActionButton("Yes", _ => result = true, true)
+                                        .WithActionButton("No", _ => result = false, true)
+                                        .TryShow();
                 if (result == true)
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
@@ -558,11 +558,11 @@ public partial class FormatExtractView : UserControl
         {
             bool result = false;
             _ = Global.MainDialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                                        .WithTitle("Warn")
+                                        .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .WithActionButton("Yes", _ => result = true, true)
+                                        .WithActionButton("No", _ => result = false, true)
+                                        .TryShow();
             if (result == true)
             {
                 TopLevel topLevel = TopLevel.GetTopLevel(this);
@@ -651,11 +651,11 @@ public partial class FormatExtractView : UserControl
                 {
                     bool result = false;
                     _ = Global.MainDialogManager.CreateDialog()
-    .WithTitle("Warn")
-    .WithContent(GetTranslation("Common_NeedRoot"))
-    .WithActionButton("Yes", _ => result = true, true)
-    .WithActionButton("No", _ => result = false, true)
-    .TryShow();
+                                                .WithTitle("Warn")
+                                                .WithContent(GetTranslation("Common_NeedRoot"))
+                                                .WithActionButton("Yes", _ => result = true, true)
+                                                .WithActionButton("No", _ => result = false, true)
+                                                .TryShow();
                     if (result == true)
                     {
                         BusyExtract.IsBusy = true;
@@ -705,11 +705,11 @@ public partial class FormatExtractView : UserControl
         {
             bool result = false;
             _ = Global.MainDialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                                        .WithTitle("Warn")
+                                        .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .WithActionButton("Yes", _ => result = true, true)
+                                        .WithActionButton("No", _ => result = false, true)
+                                        .TryShow();
             if (result == true)
             {
                 TopLevel topLevel = TopLevel.GetTopLevel(this);
@@ -800,11 +800,11 @@ public partial class FormatExtractView : UserControl
                 {
                     bool result = false;
                     _ = Global.MainDialogManager.CreateDialog()
-    .WithTitle("Warn")
-    .WithContent(GetTranslation("Common_NeedRoot"))
-    .WithActionButton("Yes", _ => result = true, true)
-    .WithActionButton("No", _ => result = false, true)
-    .TryShow();
+                                                .WithTitle("Warn")
+                                                .WithContent(GetTranslation("Common_NeedRoot"))
+                                                .WithActionButton("Yes", _ => result = true, true)
+                                                .WithActionButton("No", _ => result = false, true)
+                                                .TryShow();
                     if (result == true)
                     {
                         BusyExtract.IsBusy = true;
@@ -856,11 +856,11 @@ public partial class FormatExtractView : UserControl
         {
             bool result = false;
             _ = Global.MainDialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                                        .WithTitle("Warn")
+                                        .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .WithActionButton("Yes", _ => result = true, true)
+                                        .WithActionButton("No", _ => result = false, true)
+                                        .TryShow();
             if (result == true)
             {
                 TopLevel topLevel = TopLevel.GetTopLevel(this);

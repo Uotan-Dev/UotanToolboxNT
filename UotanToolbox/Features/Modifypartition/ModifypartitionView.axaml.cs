@@ -242,11 +242,11 @@ public partial class ModifypartitionView : UserControl
             {
                 bool result = false;
                 _ = Global.MainDialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("Modifypartition_SetEFI"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                                            .WithTitle("Warn")
+                                            .WithContent(GetTranslation("Modifypartition_SetEFI"))
+                                            .WithActionButton("Yes", _ => result = true, true)
+                                            .WithActionButton("No", _ => result = false, true)
+                                            .TryShow();
                 if (result == true)
                 {
                     if (IdNumber.Text is not null and not "")
@@ -452,11 +452,11 @@ public partial class ModifypartitionView : UserControl
                 {
                     bool result = false;
                     _ = Global.MainDialogManager.CreateDialog()
-    .WithTitle("Warn")
-    .WithContent(GetTranslation("Modifypartition_Set128"))
-    .WithActionButton("Yes", _ => result = true, true)
-    .WithActionButton("No", _ => result = false, true)
-    .TryShow();
+                                                .WithTitle("Warn")
+                                                .WithContent(GetTranslation("Modifypartition_Set128"))
+                                                .WithActionButton("Yes", _ => result = true, true)
+                                                .WithActionButton("No", _ => result = false, true)
+                                                .TryShow();
                     if (result == true)
                     {
                         _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/Push/sgdisk /tmp/");

@@ -151,30 +151,30 @@ public partial class AppmgrViewModel : MainPageBase
                     string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{fileArray[i]}\"");
                     _ = output.Contains("Success")
                         ? Global.MainToastManager.CreateToast()
-    .WithTitle("Info")
-    .WithContent(GetTranslation("Common_InstallSuccess"))
-    .OfType(NotificationType.Success)
-    .Dismiss().ByClicking()
-    .Dismiss().After(TimeSpan.FromSeconds(3))
-    .Queue()
+                                                 .WithTitle("Info")
+                                                 .WithContent(GetTranslation("Common_InstallSuccess"))
+                                                 .OfType(NotificationType.Success)
+                                                 .Dismiss().ByClicking()
+                                                 .Dismiss().After(TimeSpan.FromSeconds(3))
+                                                 .Queue()
                         : Global.MainToastManager.CreateToast()
-.WithTitle("Info")
-.WithContent(GetTranslation("Common_InstallFailed"))
-.OfType(NotificationType.Error)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                                                 .WithTitle("Info")
+                                                 .WithContent(GetTranslation("Common_InstallFailed"))
+                                                 .OfType(NotificationType.Error)
+                                                 .Dismiss().ByClicking()
+                                                 .Dismiss().After(TimeSpan.FromSeconds(3))
+                                                 .Queue();
                 }
             }
         }
         else
         {
             _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_NoApkFileSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                      .OfType(NotificationType.Error)
+                      .WithTitle("Error")
+                      .WithContent(GetTranslation("Appmgr_NoApkFileSelected"))
+                      .Dismiss().ByClickingBackground()
+                      .TryShow();
         }
         IsInstalling = false;
     }
@@ -190,11 +190,11 @@ public partial class AppmgrViewModel : MainPageBase
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                                .OfType(NotificationType.Error)
+                                                .WithTitle("Error")
+                                                .WithContent(GetTranslation("Common_NotConnected"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 });
                 IsBusy = false; return;
             }
@@ -207,11 +207,11 @@ public partial class AppmgrViewModel : MainPageBase
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                                .OfType(NotificationType.Error)
+                                                .WithTitle("Error")
+                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 });
             }
 
@@ -230,11 +230,11 @@ public partial class AppmgrViewModel : MainPageBase
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                                .OfType(NotificationType.Error)
+                                                .WithTitle("Error")
+                                                .WithContent(GetTranslation("Common_NotConnected"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 });
                 IsBusy = false; return;
             }
@@ -247,11 +247,11 @@ public partial class AppmgrViewModel : MainPageBase
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                                .OfType(NotificationType.Error)
+                                                .WithTitle("Error")
+                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 });
             }
             IsBusy = false;
@@ -267,11 +267,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Common_NotConnected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
             IsBusy = false; return;
         }
@@ -285,11 +285,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
         }
         IsBusy = false;
@@ -303,11 +303,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Common_NotConnected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
             IsBusy = false; return;
         }
@@ -321,11 +321,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
         }
         IsBusy = false;
@@ -340,11 +340,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Common_NotConnected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
             IsBusy = false; return;
         }
@@ -360,11 +360,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
         }
         IsBusy = false;
@@ -384,11 +384,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Common_NotConnected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
             IsBusy = false; return;
         }
@@ -406,11 +406,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
         }
         IsBusy = false;
@@ -425,11 +425,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Common_NotConnected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
             IsBusy = false; return;
         }
@@ -443,11 +443,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
         }
         IsBusy = false;
@@ -462,11 +462,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Common_NotConnected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
             IsBusy = false; return;
         }
@@ -480,11 +480,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
         }
         IsBusy = false;
@@ -499,11 +499,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Common_NotConnected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
             IsBusy = false; return;
         }
@@ -513,11 +513,11 @@ public partial class AppmgrViewModel : MainPageBase
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 _ = Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle("Error")
+                                            .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             });
             return;
         }
@@ -525,12 +525,12 @@ public partial class AppmgrViewModel : MainPageBase
         string dumpsys = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"dumpsys window | grep mCurrentFocus\"");
         string text = await FeaturesHelper.ActiveApp(dumpsys);
         _ = Global.MainToastManager.CreateToast()
-.WithTitle("Info")
-.WithContent(GetTranslation("Appmgr_AppActivactor") + $"\r\n{text}")
-.OfType(NotificationType.Information)
-.Dismiss().ByClicking()
-.Dismiss().After(TimeSpan.FromSeconds(3))
-.Queue();
+                                   .WithTitle("Info")
+                                   .WithContent(GetTranslation("Appmgr_AppActivactor") + $"\r\n{text}")
+                                   .OfType(NotificationType.Information)
+                                   .Dismiss().ByClicking()
+                                   .Dismiss().After(TimeSpan.FromSeconds(3))
+                                   .Queue();
         IsBusy = false;
     }
 

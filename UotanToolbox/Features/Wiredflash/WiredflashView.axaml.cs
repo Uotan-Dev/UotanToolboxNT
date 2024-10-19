@@ -398,11 +398,11 @@ public partial class WiredflashView : UserControl
                         }
                         bool result = false;
                         _ = Global.MainDialogManager.CreateDialog()
-        .WithTitle("Warn")
-        .WithContent(GetTranslation("Wiredflash_ROMFlash"))
-        .WithActionButton("Yes", _ => result = true, true)
-        .WithActionButton("No", _ => result = false, true)
-        .TryShow();
+                            .WithTitle("Warn")
+                            .WithContent(GetTranslation("Wiredflash_ROMFlash"))
+                            .WithActionButton("Yes", _ => result = true, true)
+                            .WithActionButton("No", _ => result = false, true)
+                            .TryShow();
                         if (result == true)
                         {
                             await Fastboot($"-s {Global.thisdevice} reboot");

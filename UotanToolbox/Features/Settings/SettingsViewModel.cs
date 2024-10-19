@@ -151,31 +151,21 @@ public partial class SettingsViewModel : MainPageBase
             SettingsViewModel vm = new SettingsViewModel();
             if (convertedBody.release_version != vm.CurrentVersion)
             {
-                bool result = false;
                 Global.MainDialogManager.CreateDialog()
                 .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                 .WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
-                .WithActionButton("Yes", _ => result = true, true)
-                .WithActionButton("No", _ => result = false, true)
+                .WithActionButton("Yes", _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                .WithActionButton("No", _ => { }, true)
                 .TryShow();
-                if (result == true)
-                {
-                    UrlUtilities.OpenURL("https://toolbox.uotan.cn");
-                }
             }
             else if (convertedBody.beta_version != vm.CurrentVersion)
             {
-                bool result = false;
                 Global.MainDialogManager.CreateDialog()
                 .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                 .WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
-                .WithActionButton("Yes", _ => result = true, true)
-                .WithActionButton("No", _ => result = false, true)
+                .WithActionButton("Yes", _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                .WithActionButton("No", _ => { }, true)
                 .TryShow();
-                if (result == true)
-                {
-                    UrlUtilities.OpenURL("https://toolbox.uotan.cn");
-                }
             }
             else
             {

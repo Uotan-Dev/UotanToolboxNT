@@ -396,17 +396,12 @@ public partial class WiredflashView : UserControl
                             await Fastboot($"-s {Global.thisdevice} erase metadata");
                             await Fastboot($"-s {Global.thisdevice} erase userdata");
                         }
-                        bool result = false;
                         _ = Global.MainDialogManager.CreateDialog()
                             .WithTitle("Warn")
                             .WithContent(GetTranslation("Wiredflash_ROMFlash"))
-                            .WithActionButton("Yes", _ => result = true, true)
-                            .WithActionButton("No", _ => result = false, true)
+                            .WithActionButton("Yes", async _ => await Fastboot($"-s {Global.thisdevice} reboot"), true)
+                            .WithActionButton("No", _ => { }, true)
                             .TryShow();
-                        if (result == true)
-                        {
-                            await Fastboot($"-s {Global.thisdevice} reboot");
-                        }
                     }
                     else
                     {

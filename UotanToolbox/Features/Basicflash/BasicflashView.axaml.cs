@@ -215,28 +215,27 @@ public partial class BasicflashView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
             {
-
-                BusyBaseUnlock.IsBusy = true;
-                BaseUnlockPanel.IsEnabled = false;
-                bool result = false;
                 if (SimpleContent.SelectedItem != null)
                 {
                     _ = Global.MainDialogManager.CreateDialog()
                                                 .WithTitle("Warn")
                                                 .WithContent(GetTranslation("Basicflash_BasicUnlock"))
-                                                .WithActionButton("Yes", _ => result = true, true)
-                                                .WithActionButton("No", _ => result = false, true)
-                                                .TryShow();
-                    if (result == true)
-                    {
-                        _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {SimpleContent.SelectedItem}");
-                        _ = Global.MainDialogManager.CreateDialog()
+                                                .WithActionButton("Yes", async _ => 
+                                                {
+                                                    BusyBaseUnlock.IsBusy = true;
+                                                    BaseUnlockPanel.IsEnabled = false;
+                                                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {SimpleContent.SelectedItem}");
+                                                    Global.MainDialogManager.CreateDialog()
                                                     .WithTitle("Error")
                                                     .OfType(NotificationType.Error)
                                                     .WithContent(GetTranslation("Basicflash_CheckUnlock"))
                                                     .Dismiss().ByClickingBackground()
                                                     .TryShow();
-                    }
+                                                    BusyBaseUnlock.IsBusy = false;
+                                                    BaseUnlockPanel.IsEnabled = true;
+                                                }, true)
+                                                .WithActionButton("No", _ => { }, true)
+                                                .TryShow();
                 }
                 else
                 {
@@ -247,8 +246,6 @@ public partial class BasicflashView : UserControl
                                                 .Dismiss().ByClickingBackground()
                                                 .TryShow();
                 }
-                BusyBaseUnlock.IsBusy = false;
-                BaseUnlockPanel.IsEnabled = true;
             }
             else
             {
@@ -300,22 +297,20 @@ public partial class BasicflashView : UserControl
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {shell} \"{RecFile.Text}\"");
                     if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
-                        bool result = false;
                         _ = Global.MainDialogManager.CreateDialog()
                                                     .WithTitle("Warn")
                                                     .WithContent(GetTranslation("Basicflash_RecoverySucc"))
-                                                    .WithActionButton("Yes", _ => result = true, true)
-                                                    .WithActionButton("No", _ => result = false, true)
+                                                    .WithActionButton("Yes", async _ => 
+                                                    {
+                                                        output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
+                                                        if (output.Contains("unknown command"))
+                                                        {
+                                                            await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
+                                                            await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
+                                                        }
+                                                    }, true)
+                                                    .WithActionButton("No", _ => { }, true)
                                                     .TryShow();
-                        if (result == true)
-                        {
-                            output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
-                            if (output.Contains("unknown command"))
-                            {
-                                _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
-                                _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
-                            }
-                        }
                     }
                     else
                     {
@@ -611,21 +606,12 @@ public partial class BasicflashView : UserControl
                     break;
                     //throw new Exception(GetTranslation("Basicflash_CantKSU"));
             }
-            bool result = false;
             _ = Global.MainDialogManager.CreateDialog()
                                         .WithTitle("Warn")
                                         .WithContent(GetTranslation("Basicflash_PatchDone"))
-                                        .WithActionButton("Yes", _ => result = true, true)
-                                        .WithActionButton("No", _ => result = false, true)
+                                        .WithActionButton("Yes", async _ => await FlashBoot(newboot), true)
+                                        .WithActionButton("No", _ => FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path)), true)
                                         .TryShow();
-            if (result == true)
-            {
-                await FlashBoot(newboot);
-            }
-            else
-            {
-                FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path));
-            }
             Global.Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
             Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
             SetDefaultMagisk();
@@ -656,17 +642,12 @@ public partial class BasicflashView : UserControl
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash boot \"{boot}\"");
                 if (!output.Contains("FAILED") && !output.Contains("error"))
                 {
-                    bool result = false;
                     _ = Global.MainDialogManager.CreateDialog()
                                                 .WithTitle("Warn")
                                                 .WithContent(GetTranslation("Basicflash_BootFlashSucc"))
-                                                .WithActionButton("Yes", _ => result = true, true)
-                                                .WithActionButton("No", _ => result = false, true)
+                                                .WithActionButton("Yes", async _ => await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot"), true)
+                                                .WithActionButton("No", _ => { }, true)
                                                 .TryShow();
-                    if (result == true)
-                    {
-                        _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
-                    }
                 }
                 else
                 {
@@ -774,27 +755,25 @@ public partial class BasicflashView : UserControl
             {
                 if (MagiskFile.Text != null)
                 {
-                    BusyInstall.IsBusy = true;
-                    InstallZIP.IsEnabled = false;
-                    bool result = false;
                     _ = Global.MainDialogManager.CreateDialog()
                                                 .WithTitle("Warn")
                                                 .WithContent(GetTranslation("Basicflash_PushMagisk"))
-                                                .WithActionButton("Yes", _ => result = true, true)
-                                                .WithActionButton("No", _ => result = false, true)
+                                                .WithActionButton("Yes", async _ =>
+                                                {
+                                                    BusyInstall.IsBusy = true;
+                                                    InstallZIP.IsEnabled = false;
+                                                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /sdcard/magisk.apk");
+                                                    Global.MainDialogManager.CreateDialog()
+                                                                                .WithTitle("Error")
+                                                                                .OfType(NotificationType.Error)
+                                                                                .WithContent(GetTranslation("Basicflash_InstallMagisk"))
+                                                                                .Dismiss().ByClickingBackground()
+                                                                                .TryShow();
+                                                    BusyInstall.IsBusy = false;
+                                                    InstallZIP.IsEnabled = true;
+                                                }, true)
+                                                .WithActionButton("No", _ => { }, true)
                                                 .TryShow();
-                    if (result == true)
-                    {
-                        _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /sdcard/magisk.apk");
-                        _ = Global.MainDialogManager.CreateDialog()
-                                                    .WithTitle("Error")
-                                                    .OfType(NotificationType.Error)
-                                                    .WithContent(GetTranslation("Basicflash_InstallMagisk"))
-                                                    .Dismiss().ByClickingBackground()
-                                                    .TryShow();
-                    }
-                    BusyInstall.IsBusy = false;
-                    InstallZIP.IsEnabled = true;
                 }
                 else
                 {

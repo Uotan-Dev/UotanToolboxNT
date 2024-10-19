@@ -32,17 +32,12 @@ public partial class AppmgrView : UserControl
     {
         await Dispatcher.UIThread.InvokeAsync(async () =>
         {
-            bool result = false;
             _ = Global.MainDialogManager.CreateDialog()
                          .WithTitle("Warn")
                          .WithContent(GetTranslation("Appmgr_ConfirmDeleteApp"))
-                         .WithActionButton("Yes", _ => result = true, true)
-                         .WithActionButton("No", _ => result = false, true)
+                         .WithActionButton("Yes", async _ => await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}"), true)
+                         .WithActionButton("No", _ => { }, true)
                          .TryShow();
-            if (result == true)
-            {
-                _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}");
-            }
 
             AppmgrViewModel newAppmgr = new AppmgrViewModel();
             _ = newAppmgr.Connect();

@@ -51,10 +51,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AdditionalFiles Remove="Extensions\**" />
 	  <AdditionalFiles Remove="Features\Components\**" />
+	  <AvaloniaXaml Remove="Extensions\**" />
 	  <AvaloniaXaml Remove="Features\Components\**" />
+	  <Compile Remove="Extensions\**" />
 	  <Compile Remove="Features\Components\**" />
+	  <EmbeddedResource Remove="Extensions\**" />
 	  <EmbeddedResource Remove="Features\Components\**" />
+	  <None Remove="Extensions\**" />
 	  <None Remove="Features\Components\**" />
 	</ItemGroup>
 
@@ -119,9 +124,5 @@
 		<EmbeddedResource Include="Assets\space.sksl" />
 		<EmbeddedResource Include="Assets\clouds.sksl" />
 		<EmbeddedResource Include="Assets\weird.sksl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Extensions\" />
 	</ItemGroup>
 </Project>

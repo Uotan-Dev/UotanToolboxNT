@@ -50,16 +50,16 @@ public partial class WirelessADB : SukiWindow
             string result = await CallExternalProgram.ADB($"pair {input} {password}");
             if (result.Contains("Successfully paired to "))
             {
-                _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
             }
             else
             {
-                _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(result).Dismiss().ByClickingBackground().TryShow();
+                _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(result).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterAll")).Dismiss().ByClickingBackground().TryShow();
+            _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterAll")).Dismiss().ByClickingBackground().TryShow();
         }
         Connect.IsBusy = false;
         ConnectPanel.IsEnabled = true;
@@ -81,7 +81,7 @@ public partial class WirelessADB : SukiWindow
 
                 if (!match.Success)
                 {
-                    _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(output).Dismiss().ByClickingBackground().TryShow();
+                    _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(output).Dismiss().ByClickingBackground().TryShow();
                     return;
                 }
                 output = await CallExternalProgram.ADB($"-s {Global.thisdevice} tcpip 5555");
@@ -90,11 +90,11 @@ public partial class WirelessADB : SukiWindow
                     string output2 = await CallExternalProgram.ADB($"connect {match.Groups[1].Value}");
                     if (output2.Contains("connected"))
                     {
-                        _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                        _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
                     }
                     else
                     {
-                        _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(output + "\n" + output2).Dismiss().ByClickingBackground().TryShow();
+                        _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(output + "\n" + output2).Dismiss().ByClickingBackground().TryShow();
                     }
                 }
                 Connect.IsBusy = false;
@@ -102,12 +102,12 @@ public partial class WirelessADB : SukiWindow
             }
             else
             {
-                _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _thisDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 }

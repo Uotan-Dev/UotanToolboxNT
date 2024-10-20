@@ -83,7 +83,7 @@ public partial class BasicflashView : UserControl
                 if (!string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Basicflash_NoBoth"))
                                                 .Dismiss().ByClickingBackground()
@@ -95,13 +95,13 @@ public partial class BasicflashView : UserControl
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock-go");
                     _ = output.Contains("OKAY")
                         ? Global.MainDialogManager.CreateDialog()
-                                                  .WithTitle("Success")
+                                                  .WithTitle(GetTranslation("Common_Succ"))
                                                   .OfType(NotificationType.Success)
                                                   .WithContent(GetTranslation("Basicflash_UnlockSucc"))
                                                   .Dismiss().ByClickingBackground()
                                                   .TryShow()
                         : Global.MainDialogManager.CreateDialog()
-                                                  .WithTitle("Error")
+                                                  .WithTitle(GetTranslation("Common_Error"))
                                                   .OfType(NotificationType.Error)
                                                   .WithContent(GetTranslation("Basicflash_UnlockFailed"))
                                                   .Dismiss().ByClickingBackground()
@@ -112,13 +112,13 @@ public partial class BasicflashView : UserControl
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {UnlockCode.Text}");
                     _ = output.Contains("OKAY")
                         ? Global.MainDialogManager.CreateDialog()
-                                                  .WithTitle("Success")
+                                                  .WithTitle(GetTranslation("Common_Succ"))
                                                   .OfType(NotificationType.Success)
                                                   .WithContent(GetTranslation("Basicflash_UnlockSucc"))
                                                   .Dismiss().ByClickingBackground()
                                                   .TryShow()
                         : Global.MainDialogManager.CreateDialog()
-                                                  .WithTitle("Error")
+                                                  .WithTitle(GetTranslation("Common_Error"))
                                                   .OfType(NotificationType.Error)
                                                   .WithContent(GetTranslation("Basicflash_UnlockFailed"))
                                                   .Dismiss().ByClickingBackground()
@@ -127,7 +127,7 @@ public partial class BasicflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Basicflash_SelectUnlock"))
                                                 .Dismiss().ByClickingBackground()
@@ -140,7 +140,7 @@ public partial class BasicflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Common_EnterFastboot"))
                                             .Dismiss().ByClickingBackground()
@@ -150,7 +150,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -172,13 +172,13 @@ public partial class BasicflashView : UserControl
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
                 _ = output.Contains("OKAY")
                     ? Global.MainDialogManager.CreateDialog()
-                                              .WithTitle("Success")
+                                              .WithTitle(GetTranslation("Common_Succ"))
                                               .OfType(NotificationType.Success)
                                               .WithContent(GetTranslation("Basicflash_RelockSucc"))
                                               .Dismiss().ByClickingBackground()
                                               .TryShow()
                     : Global.MainDialogManager.CreateDialog()
-                                              .WithTitle("Error")
+                                              .WithTitle(GetTranslation("Common_Error"))
                                               .OfType(NotificationType.Error)
                                               .WithContent(GetTranslation("Basicflash_RelockFailed"))
                                               .Dismiss().ByClickingBackground()
@@ -190,7 +190,7 @@ public partial class BasicflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Common_EnterFastboot"))
                                             .Dismiss().ByClickingBackground()
@@ -200,7 +200,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -218,15 +218,15 @@ public partial class BasicflashView : UserControl
                 if (SimpleContent.SelectedItem != null)
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Warn")
+                                                .WithTitle(GetTranslation("Common_Warn"))
                                                 .WithContent(GetTranslation("Basicflash_BasicUnlock"))
-                                                .WithActionButton("Yes", async _ => 
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
                                                 {
                                                     BusyBaseUnlock.IsBusy = true;
                                                     BaseUnlockPanel.IsEnabled = false;
                                                     await CallExternalProgram.Fastboot($"-s {Global.thisdevice} {SimpleContent.SelectedItem}");
                                                     Global.MainDialogManager.CreateDialog()
-                                                    .WithTitle("Error")
+                                                    .WithTitle(GetTranslation("Common_Error"))
                                                     .OfType(NotificationType.Error)
                                                     .WithContent(GetTranslation("Basicflash_CheckUnlock"))
                                                     .Dismiss().ByClickingBackground()
@@ -234,13 +234,13 @@ public partial class BasicflashView : UserControl
                                                     BusyBaseUnlock.IsBusy = false;
                                                     BaseUnlockPanel.IsEnabled = true;
                                                 }, true)
-                                                .WithActionButton("No", _ => { }, true)
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                                 .TryShow();
                 }
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Basicflash_SelectCommand"))
                                                 .Dismiss().ByClickingBackground()
@@ -250,7 +250,7 @@ public partial class BasicflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Common_EnterFastboot"))
                                             .Dismiss().ByClickingBackground()
@@ -260,7 +260,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -298,9 +298,9 @@ public partial class BasicflashView : UserControl
                     if (!output.Contains("FAILED") && !output.Contains("error"))
                     {
                         Global.MainDialogManager.CreateDialog()
-                                                    .WithTitle("Warn")
+                                                    .WithTitle(GetTranslation("Common_Succ"))
                                                     .WithContent(GetTranslation("Basicflash_RecoverySucc"))
-                                                    .WithActionButton("Yes", async _ => 
+                                                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
                                                     {
                                                         output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                                                         if (output.Contains("unknown command"))
@@ -309,13 +309,13 @@ public partial class BasicflashView : UserControl
                                                             await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
                                                         }
                                                     }, true)
-                                                    .WithActionButton("No", _ => { }, true)
+                                                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                                     .TryShow();
                     }
                     else
                     {
                         Global.MainDialogManager.CreateDialog()
-                                                    .WithTitle("Error")
+                                                    .WithTitle(GetTranslation("Common_Error"))
                                                     .OfType(NotificationType.Error)
                                                     .WithContent(GetTranslation("Basicflash_RecoveryFailed"))
                                                     .Dismiss().ByClickingBackground()
@@ -325,7 +325,7 @@ public partial class BasicflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Basicflash_SelectRecovery"))
                                                 .Dismiss().ByClickingBackground()
@@ -338,7 +338,7 @@ public partial class BasicflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Common_EnterFastboot"))
                                             .Dismiss().ByClickingBackground()
@@ -348,7 +348,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -386,13 +386,13 @@ public partial class BasicflashView : UserControl
                     string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} boot \"{RecFile.Text}\"");
                     _ = output.Contains("Finished")
                         ? Global.MainDialogManager.CreateDialog()
-                                                  .WithTitle("Success")
+                                                  .WithTitle(GetTranslation("Common_Succ"))
                                                   .OfType(NotificationType.Success)
                                                   .WithContent(GetTranslation("Basicflash_BootSucc"))
                                                   .Dismiss().ByClickingBackground()
                                                   .TryShow()
                         : Global.MainDialogManager.CreateDialog()
-                                                  .WithTitle("Error")
+                                                  .WithTitle(GetTranslation("Common_Error"))
                                                   .OfType(NotificationType.Error)
                                                   .WithContent(GetTranslation("Basicflash_BootFailed"))
                                                   .Dismiss().ByClickingBackground()
@@ -401,7 +401,7 @@ public partial class BasicflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Basicflash_SelectRecovery"))
                                                 .Dismiss().ByClickingBackground()
@@ -414,7 +414,7 @@ public partial class BasicflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Common_EnterFastboot"))
                                             .Dismiss().ByClickingBackground()
@@ -424,7 +424,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -455,7 +455,7 @@ public partial class BasicflashView : UserControl
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} {RebootComm.SelectedItem}");
                     Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_Execution"))
                                         .Dismiss().ByClickingBackground()
@@ -467,7 +467,7 @@ public partial class BasicflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_EnterRecOrOpenADB"))
                                         .Dismiss().ByClickingBackground()
@@ -477,7 +477,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -511,7 +511,6 @@ public partial class BasicflashView : UserControl
             MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
             //Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Info")
                                         .OfType(NotificationType.Information)
                                         .WithContent($"{GetTranslation("Basicflash_DetectZIP")}\nUseful:{Global.Zipinfo.IsUseful}\nMode:{Global.Zipinfo.Mode}\nVersion:{Global.Zipinfo.Version}")
                                         .Dismiss().ByClickingBackground()
@@ -520,7 +519,7 @@ public partial class BasicflashView : UserControl
         catch (Exception ex)
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(ex.Message)
                                         .Dismiss().ByClickingBackground()
@@ -556,7 +555,6 @@ public partial class BasicflashView : UserControl
             //Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
             ArchList.SelectedItem = Global.Bootinfo.Arch;
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Info")
                                         .OfType(NotificationType.Information)
                                         .WithContent($"{GetTranslation("Basicflash_DetectdBoot")}\nArch:{Global.Bootinfo.Arch}\nOS:{Global.Bootinfo.OSVersion}\nPatch_level:{Global.Bootinfo.PatchLevel}\nRamdisk:{Global.Bootinfo.HaveRamdisk}\nKMI:{Global.Bootinfo.KMI}\nKERNEL_FMT:{Global.Bootinfo.Compress}")
                                         .Dismiss().ByClickingBackground()
@@ -565,7 +563,7 @@ public partial class BasicflashView : UserControl
         catch (Exception ex)
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(ex.Message)
                                         .Dismiss().ByClickingBackground()
@@ -607,10 +605,10 @@ public partial class BasicflashView : UserControl
                     //throw new Exception(GetTranslation("Basicflash_CantKSU"));
             }
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Warn")
+                                        .WithTitle(GetTranslation("Common_Succ"))
                                         .WithContent(GetTranslation("Basicflash_PatchDone"))
-                                        .WithActionButton("Yes", async _ => await FlashBoot(newboot), true)
-                                        .WithActionButton("No", _ => FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path)), true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await FlashBoot(newboot), true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path)), true)
                                         .TryShow();
             Global.Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
             Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
@@ -621,7 +619,7 @@ public partial class BasicflashView : UserControl
         catch (Exception ex)
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(ex.Message)
                                         .Dismiss().ByClickingBackground()
@@ -643,16 +641,16 @@ public partial class BasicflashView : UserControl
                 if (!output.Contains("FAILED") && !output.Contains("error"))
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Warn")
+                                                .WithTitle(GetTranslation("Common_Succ"))
                                                 .WithContent(GetTranslation("Basicflash_BootFlashSucc"))
-                                                .WithActionButton("Yes", async _ => await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot"), true)
-                                                .WithActionButton("No", _ => { }, true)
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot"), true)
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                                 .TryShow();
                 }
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Basicflash_RecoveryFailed"))
                                                 .Dismiss().ByClickingBackground()
@@ -663,7 +661,7 @@ public partial class BasicflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Common_EnterFastboot"))
                                             .Dismiss().ByClickingBackground()
@@ -673,7 +671,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -700,7 +698,7 @@ public partial class BasicflashView : UserControl
                     else
                     {
                         Global.MainDialogManager.CreateDialog()
-                                                    .WithTitle("Error")
+                                                    .WithTitle(GetTranslation("Common_Error"))
                                                     .OfType(NotificationType.Error)
                                                     .WithContent(GetTranslation("Common_EnterRecovery"))
                                                     .Dismiss().ByClickingBackground()
@@ -726,7 +724,7 @@ public partial class BasicflashView : UserControl
                     else
                     {
                         Global.MainDialogManager.CreateDialog()
-                                                    .WithTitle("Error")
+                                                    .WithTitle(GetTranslation("Common_Error"))
                                                     .OfType(NotificationType.Error)
                                                     .WithContent(GetTranslation("Common_EnterSideload"))
                                                     .Dismiss().ByClickingBackground()
@@ -734,7 +732,7 @@ public partial class BasicflashView : UserControl
                     }
                 }
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Common_Execution"))
                                             .Dismiss().ByClickingBackground()
@@ -745,7 +743,7 @@ public partial class BasicflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Basicflash_SelectMagiskRight"))
                                             .Dismiss().ByClickingBackground()
@@ -756,15 +754,15 @@ public partial class BasicflashView : UserControl
                 if (MagiskFile.Text != null)
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Warn")
+                                                .WithTitle(GetTranslation("Common_Warn"))
                                                 .WithContent(GetTranslation("Basicflash_PushMagisk"))
-                                                .WithActionButton("Yes", async _ =>
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                                 {
                                                     BusyInstall.IsBusy = true;
                                                     InstallZIP.IsEnabled = false;
                                                     await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /sdcard/magisk.apk");
                                                     Global.MainDialogManager.CreateDialog()
-                                                                                .WithTitle("Error")
+                                                                                .WithTitle(GetTranslation("Common_Error"))
                                                                                 .OfType(NotificationType.Error)
                                                                                 .WithContent(GetTranslation("Basicflash_InstallMagisk"))
                                                                                 .Dismiss().ByClickingBackground()
@@ -772,13 +770,13 @@ public partial class BasicflashView : UserControl
                                                     BusyInstall.IsBusy = false;
                                                     InstallZIP.IsEnabled = true;
                                                 }, true)
-                                                .WithActionButton("No", _ => { }, true)
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                                 .TryShow();
                 }
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Basicflash_SelectMagiskRight"))
                                                 .Dismiss().ByClickingBackground()
@@ -789,7 +787,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -814,7 +812,7 @@ public partial class BasicflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterRecovery"))
                                                 .Dismiss().ByClickingBackground()
@@ -840,7 +838,7 @@ public partial class BasicflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterSideload"))
                                                 .Dismiss().ByClickingBackground()
@@ -848,7 +846,7 @@ public partial class BasicflashView : UserControl
                 }
             }
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_Execution"))
                                         .Dismiss().ByClickingBackground()
@@ -859,7 +857,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -884,7 +882,7 @@ public partial class BasicflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterRecovery"))
                                                 .Dismiss().ByClickingBackground()
@@ -910,7 +908,7 @@ public partial class BasicflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterSideload"))
                                                 .Dismiss().ByClickingBackground()
@@ -918,7 +916,7 @@ public partial class BasicflashView : UserControl
                 }
             }
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_Execution"))
                                         .Dismiss().ByClickingBackground()
@@ -929,7 +927,7 @@ public partial class BasicflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()

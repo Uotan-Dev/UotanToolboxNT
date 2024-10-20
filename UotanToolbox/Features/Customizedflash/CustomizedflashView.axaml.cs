@@ -98,7 +98,7 @@ public partial class CustomizedflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterFastboot"))
                                                 .Dismiss().ByClickingBackground()
@@ -108,7 +108,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Customizedflash_SelectFile"))
                                             .Dismiss().ByClickingBackground()
@@ -118,7 +118,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -161,7 +161,7 @@ public partial class CustomizedflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterFastboot"))
                                                 .Dismiss().ByClickingBackground()
@@ -171,7 +171,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Customizedflash_SelectFile"))
                                             .Dismiss().ByClickingBackground()
@@ -181,7 +181,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -223,7 +223,7 @@ public partial class CustomizedflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterFastboot"))
                                                 .Dismiss().ByClickingBackground()
@@ -233,7 +233,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Customizedflash_SelectFile"))
                                             .Dismiss().ByClickingBackground()
@@ -243,7 +243,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -285,7 +285,7 @@ public partial class CustomizedflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterFastboot"))
                                                 .Dismiss().ByClickingBackground()
@@ -295,7 +295,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Customizedflash_SelectFile"))
                                             .Dismiss().ByClickingBackground()
@@ -305,7 +305,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -347,7 +347,7 @@ public partial class CustomizedflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterFastboot"))
                                                 .Dismiss().ByClickingBackground()
@@ -357,7 +357,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Customizedflash_SelectFile"))
                                             .Dismiss().ByClickingBackground()
@@ -367,7 +367,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -409,7 +409,7 @@ public partial class CustomizedflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterFastboot"))
                                                 .Dismiss().ByClickingBackground()
@@ -419,7 +419,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Customizedflash_SelectFile"))
                                             .Dismiss().ByClickingBackground()
@@ -429,7 +429,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -471,7 +471,7 @@ public partial class CustomizedflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterFastboot"))
                                                 .Dismiss().ByClickingBackground()
@@ -481,7 +481,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Customizedflash_SelectFile"))
                                             .Dismiss().ByClickingBackground()
@@ -491,7 +491,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -533,7 +533,7 @@ public partial class CustomizedflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterFastboot"))
                                                 .Dismiss().ByClickingBackground()
@@ -543,7 +543,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Customizedflash_SelectFile"))
                                             .Dismiss().ByClickingBackground()
@@ -553,7 +553,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -595,7 +595,7 @@ public partial class CustomizedflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .OfType(NotificationType.Error)
                                                 .WithContent(GetTranslation("Common_EnterFastboot"))
                                                 .Dismiss().ByClickingBackground()
@@ -605,7 +605,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Customizedflash_SelectFile"))
                                             .Dismiss().ByClickingBackground()
@@ -615,7 +615,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -636,7 +636,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Common_EnterFastboot"))
                                             .Dismiss().ByClickingBackground()
@@ -646,7 +646,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
@@ -667,7 +667,7 @@ public partial class CustomizedflashView : UserControl
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .OfType(NotificationType.Error)
                                             .WithContent(GetTranslation("Common_EnterFastboot"))
                                             .Dismiss().ByClickingBackground()
@@ -677,7 +677,7 @@ public partial class CustomizedflashView : UserControl
         else
         {
             Global.MainDialogManager.CreateDialog()
-                                        .WithTitle("Error")
+                                        .WithTitle(GetTranslation("Common_Error"))
                                         .OfType(NotificationType.Error)
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()

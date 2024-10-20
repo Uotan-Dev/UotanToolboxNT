@@ -1422,7 +1422,16 @@
   <data name="WirelessADB_Connect" xml:space="preserve">
     <value>连接成功！</value>
   </data>
-  <data name="Basicflash_ReXiaomiUSB" xml:space="preserve">
-    <value>撤销USB3.0补丁</value>
+  <data name="Common_Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="Common_Know" xml:space="preserve">
+    <value>知道了</value>
+  </data>
+  <data name="Common_Succ" xml:space="preserve">
+    <value>执行成功</value>
+  </data>
+  <data name="Common_Warn" xml:space="preserve">
+    <value>警告</value>
   </data>
 </root>

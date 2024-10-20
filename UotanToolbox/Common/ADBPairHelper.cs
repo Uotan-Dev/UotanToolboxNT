@@ -42,7 +42,7 @@ namespace UotanToolbox.Common
                         result = await CallExternalProgram.ADB($"pair {match.Groups[2].Value}:{match.Groups[3].Value} {password}");
                         if (result.Contains("Successfully paired to "))
                         {
-                            dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                            dialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
                         }
                     }
                 }

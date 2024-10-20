@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
@@ -30,13 +31,14 @@ public partial class AppmgrView : UserControl
 
     private async Task UninstallApplication(string packageName)
     {
-        await Dispatcher.UIThread.InvokeAsync(async () =>
+        await Dispatcher.UIThread.InvokeAsync(() =>
         {
             Global.MainDialogManager.CreateDialog()
-                         .WithTitle("Warn")
+                         .OfType(NotificationType.Error)
+                         .WithTitle(GetTranslation("Common_Warn"))
                          .WithContent(GetTranslation("Appmgr_ConfirmDeleteApp"))
-                         .WithActionButton("Yes", async _ => await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}"), true)
-                         .WithActionButton("No", _ => { }, true)
+                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}"), true)
+                         .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                          .TryShow();
 
             AppmgrViewModel newAppmgr = new AppmgrViewModel();

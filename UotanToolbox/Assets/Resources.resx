@@ -1425,4 +1425,16 @@
   <data name="WirelessADB_Connect" xml:space="preserve">
     <value>Connection successful!</value>
   </data>
+  <data name="Common_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Common_Know" xml:space="preserve">
+    <value>Got it</value>
+  </data>
+  <data name="Common_Succ" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="Common_Warn" xml:space="preserve">
+    <value>Warming</value>
+  </data>
 </root>

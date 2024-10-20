@@ -27,10 +27,10 @@ public partial class ModifypartitionView : UserControl
     public async Task LoadMassage()
     {
         Global.MainDialogManager.CreateDialog()
-            .WithTitle("Warn")
+            .WithTitle(GetTranslation("Common_Warn"))
             .WithContent(GetTranslation("Modifypartition_Warn"))
-            .WithActionButton("Yes", _ => Modifypartition.IsEnabled = true, true)
-            .WithActionButton("No", _ => Modifypartition.IsEnabled = false, true)
+            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => Modifypartition.IsEnabled = true, true)
+            .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => Modifypartition.IsEnabled = false, true)
             .TryShow();
     }
 
@@ -93,12 +93,12 @@ public partial class ModifypartitionView : UserControl
             }
             else
             {
-                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_PartFailed")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_PartFailed")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectDisk")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectDisk")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -119,14 +119,14 @@ public partial class ModifypartitionView : UserControl
                 if (sukiViewModel.Status == GetTranslation("Home_System"))
                 {
                     Global.MainDialogManager.CreateDialog()
-                        .WithTitle("Warn")
+                        .WithTitle(GetTranslation("Common_Warn"))
                         .WithContent(GetTranslation("Common_NeedRoot"))
-                        .WithActionButton("Yes", async _ => 
+                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
                         {
                             await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
                             AddPartList();
                         }, true)
-                        .WithActionButton("No", _ =>
+                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ =>
                         {
                             BusyPart.IsBusy = false;
                             ReadPartBut.IsEnabled = true;
@@ -144,12 +144,12 @@ public partial class ModifypartitionView : UserControl
             }
             else
             {
-                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecOrOpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecOrOpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -209,33 +209,33 @@ public partial class ModifypartitionView : UserControl
                             string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} rm {partnum}");
                             _ = await CallExternalProgram.ADB(shell);
                             ReadPart(sender, args);
-                            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                         }
                         else
                         {
-                            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterCorrNum")).Dismiss().ByClickingBackground().TryShow();
+                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterCorrNum")).Dismiss().ByClickingBackground().TryShow();
                         }
                     }
                     else
                     {
-                        Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
+                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
                     }
                     RMPartBut.IsEnabled = true;
                     ESPONBut.IsEnabled = true;
                 }
                 else
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterNum")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterNum")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -247,9 +247,9 @@ public partial class ModifypartitionView : UserControl
             if (sukiViewModel.Status == "Recovery")
             {
                 Global.MainDialogManager.CreateDialog()
-                                            .WithTitle("Warn")
+                                            .WithTitle(GetTranslation("Common_Warn"))
                                             .WithContent(GetTranslation("Modifypartition_SetEFI"))
-                                            .WithActionButton("Yes", async _ =>
+                                            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                             {
                                                 if (IdNumber.Text is not null and not "")
                                                 {
@@ -300,36 +300,36 @@ public partial class ModifypartitionView : UserControl
                                                             string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} set {partnum} esp on");
                                                             await CallExternalProgram.ADB(shell);
                                                             ReadPart(sender, args);
-                                                            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                                                         }
                                                         else
                                                         {
-                                                            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterNum")).Dismiss().ByClickingBackground().TryShow();
+                                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterNum")).Dismiss().ByClickingBackground().TryShow();
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
+                                                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
                                                     }
                                                     RMPartBut.IsEnabled = true;
                                                     ESPONBut.IsEnabled = true;
                                                 }
                                                 else
                                                 {
-                                                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterNum")).Dismiss().ByClickingBackground().TryShow();
+                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterNum")).Dismiss().ByClickingBackground().TryShow();
                                                 }
                                             }, true)
-                                            .WithActionButton("No", _ => { }, true)
+                                            .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                             .TryShow();
             }
             else
             {
-                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -384,27 +384,27 @@ public partial class ModifypartitionView : UserControl
                         string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} mkpart {NewPartitionName.Text} {NewPartitionFormat.Text} {NewPartitionStartpoint.Text} {NewPartitionEndpoint.Text}");
                         _ = await CallExternalProgram.ADB(shell);
                         ReadPart(sender, args);
-                        Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                     }
                     else
                     {
-                        Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
+                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectAndRead")).Dismiss().ByClickingBackground().TryShow();
                     }
                     MKPartBut.IsEnabled = true;
                 }
                 else
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterCreat")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_EnterCreat")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -455,9 +455,9 @@ public partial class ModifypartitionView : UserControl
                 if (choice != "")
                 {
                     Global.MainDialogManager.CreateDialog()
-                                                .WithTitle("Warn")
+                                                .WithTitle(GetTranslation("Common_Warn"))
                                                 .WithContent(GetTranslation("Modifypartition_Set128"))
-                                                .WithActionButton("Yes", async _ =>
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                                 {
                                                     await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/Push/sgdisk /tmp/");
                                                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell chmod +x /tmp/sgdisk");
@@ -465,31 +465,31 @@ public partial class ModifypartitionView : UserControl
                                                     string limit = await CallExternalProgram.ADB(shell);
                                                     if (!limit.Contains("completed successfully"))
                                                     {
-                                                        Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_ExeFailed")).Dismiss().ByClickingBackground().TryShow();
+                                                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ExeFailed")).Dismiss().ByClickingBackground().TryShow();
                                                     }
                                                     else
                                                     {
-                                                        Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                                                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                                                         await CallExternalProgram.ADB("reboot recovery");
                                                     }
                                                 }, true)
-                                                .WithActionButton("No", _ => { }, true)
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                                 .TryShow();
                 }
                 else
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectCorrPart")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Modifypartition_SelectCorrPart")).Dismiss().ByClickingBackground().TryShow();
                 }
                 RemoveLimitBut.IsEnabled = true;
             }
             else
             {
-                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 }

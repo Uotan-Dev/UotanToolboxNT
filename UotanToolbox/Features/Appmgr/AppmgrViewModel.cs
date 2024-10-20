@@ -47,7 +47,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     Global.MainDialogManager.CreateDialog()
                                 .OfType(NotificationType.Error)
-                                .WithTitle("Error")
+                                .WithTitle(GetTranslation("Common_Error"))
                                 .WithContent(GetTranslation("Common_NotConnected"))
                                 .Dismiss().ByClickingBackground()
                                 .TryShow();
@@ -63,7 +63,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     Global.MainDialogManager.CreateDialog()
                                 .OfType(NotificationType.Error)
-                                .WithTitle("Error")
+                                .WithTitle(GetTranslation("Common_Error"))
                                 .WithContent(GetTranslation("Common_DeviceFailedToConnect"))
                                 .Dismiss().ByClickingBackground()
                                 .TryShow();
@@ -76,7 +76,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     Global.MainDialogManager.CreateDialog()
                                 .OfType(NotificationType.Error)
-                                .WithTitle("Error")
+                                .WithTitle(GetTranslation("Common_Error"))
                                 .WithContent(GetTranslation("Appmgr_PleaseExecuteInSystem"))
                                 .Dismiss().ByClickingBackground()
                                 .TryShow();
@@ -135,11 +135,11 @@ public partial class AppmgrViewModel : MainPageBase
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
                     Global.MainDialogManager.CreateDialog()
-            .OfType(NotificationType.Error)
-            .WithTitle("Error")
-            .WithContent(GetTranslation("Common_NotConnected"))
-            .Dismiss().ByClickingBackground()
-            .TryShow();
+                                            .OfType(NotificationType.Error)
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .WithContent(GetTranslation("Common_NotConnected"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
                 });
                 IsInstalling = false; return;
             }
@@ -151,14 +151,14 @@ public partial class AppmgrViewModel : MainPageBase
                     string output = await CallExternalProgram.ADB($"-s {Global.thisdevice} install -r \"{fileArray[i]}\"");
                     _ = output.Contains("Success")
                         ? Global.MainToastManager.CreateToast()
-                                                 .WithTitle("Info")
+                                                 .WithTitle(GetTranslation("Common_Succ"))
                                                  .WithContent(GetTranslation("Common_InstallSuccess"))
                                                  .OfType(NotificationType.Success)
                                                  .Dismiss().ByClicking()
                                                  .Dismiss().After(TimeSpan.FromSeconds(3))
                                                  .Queue()
                         : Global.MainToastManager.CreateToast()
-                                                 .WithTitle("Info")
+                                                 .WithTitle(GetTranslation("Common_Succ"))
                                                  .WithContent(GetTranslation("Common_InstallFailed"))
                                                  .OfType(NotificationType.Error)
                                                  .Dismiss().ByClicking()
@@ -171,7 +171,7 @@ public partial class AppmgrViewModel : MainPageBase
         {
             Global.MainDialogManager.CreateDialog()
                       .OfType(NotificationType.Error)
-                      .WithTitle("Error")
+                      .WithTitle(GetTranslation("Common_Error"))
                       .WithContent(GetTranslation("Appmgr_NoApkFileSelected"))
                       .Dismiss().ByClickingBackground()
                       .TryShow();
@@ -191,7 +191,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     Global.MainDialogManager.CreateDialog()
                                                 .OfType(NotificationType.Error)
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .WithContent(GetTranslation("Common_NotConnected"))
                                                 .Dismiss().ByClickingBackground()
                                                 .TryShow();
@@ -208,7 +208,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     Global.MainDialogManager.CreateDialog()
                                                 .OfType(NotificationType.Error)
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
                                                 .Dismiss().ByClickingBackground()
                                                 .TryShow();
@@ -231,7 +231,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     Global.MainDialogManager.CreateDialog()
                                                 .OfType(NotificationType.Error)
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .WithContent(GetTranslation("Common_NotConnected"))
                                                 .Dismiss().ByClickingBackground()
                                                 .TryShow();
@@ -248,7 +248,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     Global.MainDialogManager.CreateDialog()
                                                 .OfType(NotificationType.Error)
-                                                .WithTitle("Error")
+                                                .WithTitle(GetTranslation("Common_Error"))
                                                 .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
                                                 .Dismiss().ByClickingBackground()
                                                 .TryShow();
@@ -268,7 +268,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Common_NotConnected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -286,7 +286,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -304,7 +304,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Common_NotConnected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -322,7 +322,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -341,7 +341,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Common_NotConnected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -361,7 +361,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -385,7 +385,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Common_NotConnected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -407,7 +407,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -426,7 +426,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Common_NotConnected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -444,7 +444,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -463,7 +463,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Common_NotConnected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -481,7 +481,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -500,7 +500,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Common_NotConnected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -514,7 +514,7 @@ public partial class AppmgrViewModel : MainPageBase
             {
                 Global.MainDialogManager.CreateDialog()
                                             .OfType(NotificationType.Error)
-                                            .WithTitle("Error")
+                                            .WithTitle(GetTranslation("Common_Error"))
                                             .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
@@ -525,7 +525,7 @@ public partial class AppmgrViewModel : MainPageBase
         string dumpsys = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"dumpsys window | grep mCurrentFocus\"");
         string text = await FeaturesHelper.ActiveApp(dumpsys);
         Global.MainToastManager.CreateToast()
-                                   .WithTitle("Info")
+                                   .WithTitle(GetTranslation("Common_Error"))
                                    .WithContent(GetTranslation("Appmgr_AppActivactor") + $"\r\n{text}")
                                    .OfType(NotificationType.Information)
                                    .Dismiss().ByClicking()

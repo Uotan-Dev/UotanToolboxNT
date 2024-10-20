@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Avalonia.Controls.Notifications;
 using SukiUI.Dialogs;
 
 
 namespace UotanToolbox.Common
 {
-
-
     internal class StringHelper
     {
+        private static string GetTranslation(string key)
+        {
+            return FeaturesHelper.GetTranslation(key);
+        }
+
         internal static readonly char[] separator = ['\r', '\n'];
 
         public static string[] ADBDevices(string ADBInfo)
@@ -326,18 +330,18 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"Unable to find {regex} in the file: {filePath}").TryShow();
+                    dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"Unable to find {regex} in the file: {filePath}").TryShow();
                     return null;
                 }
             }
             catch (FileNotFoundException)
             {
-                dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"File not found: {filePath}").TryShow();
+                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"File not found: {filePath}").TryShow();
                 return null;
             }
             catch (Exception ex)
             {
-                dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"An error occurred while reading the file: {ex.Message}").TryShow();
+                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"An error occurred while reading the file: {ex.Message}").TryShow();
                 return null;
             }
         }

@@ -46,7 +46,7 @@ public partial class HomeView : UserControl
         if (!File.Exists(filepath1) || !File.Exists(filepath2))
         {
             Global.MainDialogManager.CreateDialog()
-                .WithTitle("Warn")
+                .WithTitle(GetTranslation("Common_Warn"))
                 .WithContent(GetTranslation("Home_Missing"))
                 .OfType(NotificationType.Error)
                 .WithActionButton("OK", _ => Process.GetCurrentProcess().Kill(), true)
@@ -100,17 +100,17 @@ public partial class HomeView : UserControl
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains(GetTranslation("Basicflash_Success")))
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallFailed")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallFailed")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();        }
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();        }
     }
 
     private async void Open9008DI(object sender, RoutedEventArgs args)
@@ -129,17 +129,17 @@ public partial class HomeView : UserControl
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains(GetTranslation("Basicflash_Success")))
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallFailed")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallFailed")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -157,12 +157,12 @@ public partial class HomeView : UserControl
             Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
             });
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -180,12 +180,12 @@ public partial class HomeView : UserControl
             Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
             });
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 

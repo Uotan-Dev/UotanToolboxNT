@@ -154,8 +154,8 @@ public partial class SettingsViewModel : MainPageBase
                 Global.MainDialogManager.CreateDialog()
                 .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                 .WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
-                .WithActionButton("Yes", _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
-                .WithActionButton("No", _ => { }, true)
+                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                 .TryShow();
             }
             else if (convertedBody.beta_version != vm.CurrentVersion)
@@ -163,19 +163,19 @@ public partial class SettingsViewModel : MainPageBase
                 Global.MainDialogManager.CreateDialog()
                 .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                 .WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
-                .WithActionButton("Yes", _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
-                .WithActionButton("No", _ => { }, true)
+                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                 .TryShow();
             }
             else
             {
 
-                Global.MainDialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         catch (HttpRequestException e)
         {
-            Global.MainDialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent(e.Message).TryShow();
+            Global.MainDialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent(e.Message).TryShow();
         }
     }
 }

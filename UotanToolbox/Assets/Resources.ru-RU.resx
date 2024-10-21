@@ -1,0 +1,1428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Home_NotSupported" xml:space="preserve">
+    <value>Текущее устройство не поддерживает эту команду!</value>
+  </data>
+  <data name="Home_Successful" xml:space="preserve">
+    <value>Успешно!</value>
+  </data>
+  <data name="Home_AdbRebootTo" xml:space="preserve">
+    <value>ADB перезагрузиться в</value>
+  </data>
+  <data name="Home_AndroidSDK" xml:space="preserve">
+    <value>Андроид SDK</value>
+  </data>
+  <data name="Home_BackButton" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="Home_Battery" xml:space="preserve">
+    <value>Аккумулятор</value>
+  </data>
+  <data name="Home_Boot9008" xml:space="preserve">
+    <value>9008</value>
+  </data>
+  <data name="Home_Bootloader" xml:space="preserve">
+    <value>Bootloader</value>
+  </data>
+  <data name="Home_BootloaderLock" xml:space="preserve">
+    <value>Bootloader</value>
+  </data>
+  <data name="Home_ButtonAnalog" xml:space="preserve">
+    <value>Эмуляция кнопки</value>
+  </data>
+  <data name="Home_ChooseDevice" xml:space="preserve">
+    <value>Выбрать устройство</value>
+  </data>
+  <data name="Home_CodeName" xml:space="preserve">
+    <value>Кодовое имя</value>
+  </data>
+  <data name="Home_CompiledVersion" xml:space="preserve">
+    <value>Инкрементальная версия</value>
+  </data>
+  <data name="Home_ConnectionStatus" xml:space="preserve">
+    <value>Статус устройства</value>
+  </data>
+  <data name="Home_Copy" xml:space="preserve">
+    <value>Копировать в буфер обмена</value>
+  </data>
+  <data name="Home_CPUABI" xml:space="preserve">
+    <value>Архитектура процессора</value>
+  </data>
+  <data name="Home_CPUCode" xml:space="preserve">
+    <value>Кодовое имя процессора</value>
+  </data>
+  <data name="Home_DeviceBrand" xml:space="preserve">
+    <value>Бренд</value>
+  </data>
+  <data name="Home_DeviceInfo" xml:space="preserve">
+    <value>Информация об устройстве</value>
+  </data>
+  <data name="Home_DeviceModel" xml:space="preserve">
+    <value>Модель</value>
+  </data>
+  <data name="Home_DisplayDensity" xml:space="preserve">
+    <value>Плотность дисплея</value>
+  </data>
+  <data name="Home_Fastboot" xml:space="preserve">
+    <value>Fastboot</value>
+  </data>
+  <data name="Home_Fastbootd" xml:space="preserve">
+    <value>Fastbootd</value>
+  </data>
+  <data name="Home_FastbootRebootTo" xml:space="preserve">
+    <value>перезагрузиться в Fastboot</value>
+  </data>
+  <data name="Home_Fetching" xml:space="preserve">
+    <value>Получение ...</value>
+  </data>
+  <data name="Home_FlashType" xml:space="preserve">
+    <value>Тип флеш-памяти</value>
+  </data>
+  <data name="Home_HomeButton" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="Sidebar_HomePage" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="Home_KernalVersion" xml:space="preserve">
+    <value>Версия ядра Linux</value>
+  </data>
+  <data name="Home_LockScreen" xml:space="preserve">
+    <value>Блокировка экрана</value>
+  </data>
+  <data name="Home_MotherboardID" xml:space="preserve">
+    <value>ID материнской платы телефона</value>
+  </data>
+  <data name="Home_MultiTask" xml:space="preserve">
+    <value>Многозадачность</value>
+  </data>
+  <data name="Home_Platform" xml:space="preserve">
+    <value>Платформа</value>
+  </data>
+  <data name="Home_PowerOnTime" xml:space="preserve">
+    <value>Время включения</value>
+  </data>
+  <data name="Home_Recovery" xml:space="preserve">
+    <value>Recovery</value>
+  </data>
+  <data name="Home_Refresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Home_Resolution" xml:space="preserve">
+    <value>Разрешение</value>
+  </data>
+  <data name="Home_Screenshot" xml:space="preserve">
+    <value>Снимок экрана</value>
+  </data>
+  <data name="Home_Shutdown" xml:space="preserve">
+    <value>Выключение</value>
+  </data>
+  <data name="Home_Sideload" xml:space="preserve">
+    <value>Sideload</value>
+  </data>
+  <data name="Home_StorageAndMemory" xml:space="preserve">
+    <value>Хранилище и память</value>
+  </data>
+  <data name="Home_System" xml:space="preserve">
+    <value>Система</value>
+  </data>
+  <data name="Home_VabStadus" xml:space="preserve">
+    <value>Слот A/B</value>
+  </data>
+  <data name="Home_VNDKVersion" xml:space="preserve">
+    <value>Версия VNDK</value>
+  </data>
+  <data name="Home_VolumeDown" xml:space="preserve">
+    <value>Громкость -</value>
+  </data>
+  <data name="Home_VolumeMute" xml:space="preserve">
+    <value>Без звука</value>
+  </data>
+  <data name="Home_VolumeUp" xml:space="preserve">
+    <value>Громкость +</value>
+  </data>
+  <data name="Home_Missing" xml:space="preserve">
+    <value>Отсутствуют необходимые компоненты для выполнения программы</value>
+  </data>
+  <data name="Home_Prompt" xml:space="preserve">
+    <value>Подсказка</value>
+  </data>
+  <data name="Home_Disconnected" xml:space="preserve">
+    <value>Устройство отключено</value>
+  </data>
+  <data name="Common_EnterRecOrOpenADB" xml:space="preserve">
+    <value>Пожалуйста, войдите в режим восстановления или включите отладку по USB!</value>
+  </data>
+  <data name="Common_NotConnected" xml:space="preserve">
+    <value>Устройство не подключено!</value>
+  </data>
+  <data name="Common_EnterFastboot" xml:space="preserve">
+    <value>Пожалуйста, войдите в режим Fastboot!</value>
+  </data>
+  <data name="Home_Succeeded" xml:space="preserve">
+    <value>Выполнение успешно</value>
+  </data>
+  <data name="Home_Saved" xml:space="preserve">
+    <value>Сохранено</value>
+  </data>
+  <data name="Home_ToStorage" xml:space="preserve">
+    <value>в хранилище телефона</value>
+  </data>
+  <data name="Info_AOnly" xml:space="preserve">
+    <value>A-Only устройство</value>
+  </data>
+  <data name="Info_ASlot" xml:space="preserve">
+    <value>Слот A</value>
+  </data>
+  <data name="Info_BLstatusLocked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="Info_BLstatusUnlocked" xml:space="preserve">
+    <value>Unlocked</value>
+  </data>
+  <data name="Info_BSlot" xml:space="preserve">
+    <value>Слот B</value>
+  </data>
+  <data name="Info_Day" xml:space="preserve">
+    <value>д</value>
+  </data>
+  <data name="Info_Hour" xml:space="preserve">
+    <value>ч</value>
+  </data>
+  <data name="Info_Minute" xml:space="preserve">
+    <value>м</value>
+  </data>
+  <data name="Info_Second" xml:space="preserve">
+    <value>с</value>
+  </data>
+  <data name="Info_UnauthorizedDevice" xml:space="preserve">
+    <value>Неавторизовано</value>
+  </data>
+  <data name="MainView_AnimationDisabled" xml:space="preserve">
+    <value>Анимация отключена</value>
+  </data>
+  <data name="MainView_AnimationEnabled" xml:space="preserve">
+    <value>Анимация включена</value>
+  </data>
+  <data name="MainView_BackgroundAnimationsDisabled" xml:space="preserve">
+    <value>Анимации фона теперь отключены.</value>
+  </data>
+  <data name="MainView_BackgroundAnimationsEnabled" xml:space="preserve">
+    <value>Анимации фона теперь включены.</value>
+  </data>
+  <data name="MainView_ChangedColorTo" xml:space="preserve">
+    <value>Цвет изменён на</value>
+  </data>
+  <data name="MainView_ChangedThemeTo" xml:space="preserve">
+    <value>Тема изменена на</value>
+  </data>
+  <data name="MainView_SuccessfullyChangedColor" xml:space="preserve">
+    <value>Цвет успешно изменён</value>
+  </data>
+  <data name="MainView_SuccessfullyChangedTheme" xml:space="preserve">
+    <value>Тема успешно изменена</value>
+  </data>
+  <data name="Settings_AnimatedBackground" xml:space="preserve">
+    <value>Animated Background</value>
+  </data>
+  <data name="Settings_BaseTheme" xml:space="preserve">
+    <value>Анимированный фон</value>
+  </data>
+  <data name="Settings_ColorTheme" xml:space="preserve">
+    <value>Цветовая тема</value>
+  </data>
+  <data name="Settings_DarkMode" xml:space="preserve">
+    <value>Тёмный режим</value>
+  </data>
+  <data name="Settings_EnableAnimationsForBackground" xml:space="preserve">
+    <value>Включите/выключите анимации фона, которые управляются текущим активным эффектом.</value>
+  </data>
+  <data name="Settings_LightMode" xml:space="preserve">
+    <value>Светлая тема</value>
+  </data>
+  <data name="Settings_Other" xml:space="preserve">
+    <value>Прочее</value>
+  </data>
+  <data name="Settings_Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="Main_BLStatus" xml:space="preserve">
+    <value>Статус Bootloader</value>
+  </data>
+  <data name="Main_Code" xml:space="preserve">
+    <value>Кодовое имя</value>
+  </data>
+  <data name="Main_OpenOnGithub" xml:space="preserve">
+    <value>Открыть на GitHub</value>
+  </data>
+  <data name="Main_OpenTerminal" xml:space="preserve">
+    <value>Открыть терминал</value>
+  </data>
+  <data name="Main_OpenUOTANCommunity" xml:space="preserve">
+    <value>Открыть сообщество UOTAN</value>
+  </data>
+  <data name="Main_Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Main_VABStatus" xml:space="preserve">
+    <value>A/B Слот</value>
+  </data>
+  <data name="ConnectionDialog_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ConnectionDialog_Confirm" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
+  <data name="ConnectionDialog_Notice" xml:space="preserve">
+    <value>Уведомление</value>
+  </data>
+  <data name="Sidebar_Basicflash" xml:space="preserve">
+    <value>Базовое прошивание</value>
+  </data>
+  <data name="Sidebar_WiredFlash" xml:space="preserve">
+    <value>Проводное прошивание</value>
+  </data>
+  <data name="Wiredflash_ClearAllData" xml:space="preserve">
+    <value>Очистить все данные</value>
+  </data>
+  <data name="Wiredflash_Executing" xml:space="preserve">
+    <value>Выполняется...</value>
+  </data>
+  <data name="Common_Log" xml:space="preserve">
+    <value>Вывод журнала</value>
+  </data>
+  <data name="Wiredflash_MoreFlash" xml:space="preserve">
+    <value>Больше проводных прошивок</value>
+  </data>
+  <data name="Wiredflash_StartFlashing" xml:space="preserve">
+    <value>Запустить прошивку</value>
+  </data>
+  <data name="Wiredflash_SwitchToASlot" xml:space="preserve">
+    <value>Установить слот A</value>
+  </data>
+  <data name="Wiredflash_SwitchToBSlot" xml:space="preserve">
+    <value>Установить слот B</value>
+  </data>
+  <data name="Wiredflash_TXTFlash" xml:space="preserve">
+    <value>TXT-прошивка</value>
+  </data>
+  <data name="Wiredflash_XiaomiFlashScript" xml:space="preserve">
+    <value>Скрипт прошивки Xiaomi</value>
+  </data>
+  <data name="Settings_About" xml:space="preserve">
+    <value>О программе</value>
+  </data>
+  <data name="Settings_Developers" xml:space="preserve">
+    <value>Разработчики</value>
+  </data>
+  <data name="Settings_AboutToolbox" xml:space="preserve">
+    <value>О UotanToolBox</value>
+  </data>
+  <data name="Settings_AboutToolboxContent" xml:space="preserve">
+    <value>"UotanToolboxNT" разработан на основе "UotanToolBox" и является совершенно новым современным продвинутым инструментом для разработки телефонов, разработанным специально для любителей мобильных телефонов.</value>
+  </data>
+  <data name="Settings_SpecialThanks" xml:space="preserve">
+    <value>Особая благодарность</value>
+  </data>
+  <data name="Basicflash_BasicCommandUnlock" xml:space="preserve">
+    <value>Разблокировка загрузчика с помощью базовой команды</value>
+  </data>
+  <data name="Basicflash_CodeUnlock" xml:space="preserve">
+    <value>Код разблокировки загрузчика:</value>
+  </data>
+  <data name="Basicflash_ExecuteUnlockCommand" xml:space="preserve">
+    <value>Разблокировать загрузчик</value>
+  </data>
+  <data name="Basicflash_Executing" xml:space="preserve">
+    <value>Выполняется...</value>
+  </data>
+  <data name="Basicflash_FlashRecovery" xml:space="preserve">
+    <value>Установить образ Recovery</value>
+  </data>
+  <data name="Basicflash_NormalUnlock" xml:space="preserve">
+    <value>Разблокировка загрузчика обычного устройства</value>
+  </data>
+  <data name="Basicflash_RelockBL" xml:space="preserve">
+    <value>Заблокировать загрузчик</value>
+  </data>
+  <data name="Basicflash_UnlockFileUnlock" xml:space="preserve">
+    <value>Файл для разблокировки загрузчика:</value>
+  </data>
+  <data name="Basicflash_UnlockNow" xml:space="preserve">
+    <value>Немедленно разблокировать загрузчик</value>
+  </data>
+  <data name="Common_ChooseFile" xml:space="preserve">
+    <value>Выбрать файл</value>
+  </data>
+  <data name="Basicflash_ChooseBoot" xml:space="preserve">
+    <value>Выбрать образ boot:</value>
+  </data>
+  <data name="Basicflash_ChooseMagisk" xml:space="preserve">
+    <value>Выбрать образ файл:</value>
+  </data>
+  <data name="Basicflash_ChooseRecovery" xml:space="preserve">
+    <value>Выбрать образ Recovery:</value>
+  </data>
+  <data name="Basicflash_DriverPatch" xml:space="preserve">
+    <value>Драйвер и патч</value>
+  </data>
+  <data name="Basicflash_EasyFlash" xml:space="preserve">
+    <value>Легкое прошивание</value>
+  </data>
+  <data name="Basicflash_FlashChosenMagisk" xml:space="preserve">
+    <value>Установить выбранный Magisk</value>
+  </data>
+  <data name="Basicflash_ForceRootfs" xml:space="preserve">
+    <value>Принудительно разрешить доступ к rootfs</value>
+  </data>
+  <data name="Basicflash_Install9008Driver" xml:space="preserve">
+    <value>Установить драйвер 9008</value>
+  </data>
+  <data name="Basicflash_InstallADBAndFastbootDriver" xml:space="preserve">
+    <value>Установить драйвер ADB</value>
+  </data>
+  <data name="Basicflash_InstallToRecovery" xml:space="preserve">
+    <value>Установить в Recovery</value>
+  </data>
+  <data name="Basicflash_KeepAVBOrDM" xml:space="preserve">
+    <value>Сохранить AVB2.0/dm-verity</value>
+  </data>
+  <data name="Basicflash_KeepStrongEncryption" xml:space="preserve">
+    <value>Сохранить полное шифрование диска</value>
+  </data>
+  <data name="Basicflash_PreventRecoverOfficialRecovery" xml:space="preserve">
+    <value>Запретить автоматическое восстановление в "Recovery"</value>
+  </data>
+  <data name="Basicflash_RepairBoot" xml:space="preserve">
+    <value>Patch boot</value>
+  </data>
+  <data name="Basicflash_RepairVbmeta" xml:space="preserve">
+    <value>Patch vbmeta</value>
+  </data>
+  <data name="Basicflash_Start" xml:space="preserve">
+    <value>Start patching</value>
+  </data>
+  <data name="Basicflash_SyncABPart" xml:space="preserve">
+    <value>Sync AB Partition</value>
+  </data>
+  <data name="Basicflash_TempBoot" xml:space="preserve">
+    <value>Boot Recovery</value>
+  </data>
+  <data name="Basicflash_ToBootAPart" xml:space="preserve">
+    <value>To Boot_A</value>
+  </data>
+  <data name="Basicflash_ToBootBPart" xml:space="preserve">
+    <value>To Boot_B</value>
+  </data>
+  <data name="Basicflash_ToRecovery" xml:space="preserve">
+    <value>To Recovery</value>
+  </data>
+  <data name="Basicflash_ToRecoveryAPart" xml:space="preserve">
+    <value>To Recovery_A</value>
+  </data>
+  <data name="Basicflash_ToRecoveryBPart" xml:space="preserve">
+    <value>To Recovery_B</value>
+  </data>
+  <data name="Basicflash_XiaomiUSB" xml:space="preserve">
+    <value>Patch for Xiaomi USB 3.0</value>
+  </data>
+  <data name="Common_ChooseFolder" xml:space="preserve">
+    <value>Select Folder</value>
+  </data>
+  <data name="Scrcpy_Bitrate" xml:space="preserve">
+    <value>Bitrate</value>
+  </data>
+  <data name="Scrcpy_Casting" xml:space="preserve">
+    <value>Casting...</value>
+  </data>
+  <data name="Scrcpy_CloseScreenlock" xml:space="preserve">
+    <value>Close screenlock</value>
+  </data>
+  <data name="Scrcpy_CloseScreenWhenCasting" xml:space="preserve">
+    <value>Casting close screen</value>
+  </data>
+  <data name="Scrcpy_ComputerControl" xml:space="preserve">
+    <value>Computer control</value>
+  </data>
+  <data name="Scrcpy_FillInWantedTitle" xml:space="preserve">
+    <value>Fill in the title you want, otherwise the phone model in Home will be filled.</value>
+  </data>
+  <data name="Scrcpy_Fullscreen" xml:space="preserve">
+    <value>Fullscreen</value>
+  </data>
+  <data name="Scrcpy_MaxFps" xml:space="preserve">
+    <value>Max FPS</value>
+  </data>
+  <data name="Scrcpy_MoreSettings" xml:space="preserve">
+    <value>More Settings</value>
+  </data>
+  <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="Scrcpy_RecordDictionary" xml:space="preserve">
+    <value>Record Dictionary</value>
+  </data>
+  <data name="Scrcpy_RecordScreen" xml:space="preserve">
+    <value>Record Screen</value>
+  </data>
+  <data name="Scrcpy_ScrcpyCastingTool" xml:space="preserve">
+    <value>Scrcpy Casting Tool</value>
+  </data>
+  <data name="Scrcpy_ShowBorder" xml:space="preserve">
+    <value>Show border</value>
+  </data>
+  <data name="Scrcpy_ShowTouch" xml:space="preserve">
+    <value>Show touch</value>
+  </data>
+  <data name="Scrcpy_StartCasting" xml:space="preserve">
+    <value>Start Casting</value>
+  </data>
+  <data name="Scrcpy_TransmitAndRecord" xml:space="preserve">
+    <value>Transmit and Record</value>
+  </data>
+  <data name="Scrcpy_WindowTitle" xml:space="preserve">
+    <value>Window Title</value>
+  </data>
+  <data name="Scrcpy_WindowTopping" xml:space="preserve">
+    <value>Window topping</value>
+  </data>
+  <data name="Modifypartition_CreatePart" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Modifypartition_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Modifypartition_EndpointColon" xml:space="preserve">
+    <value>End:</value>
+  </data>
+  <data name="Modifypartition_IdColon" xml:space="preserve">
+    <value>ID:</value>
+  </data>
+  <data name="Modifypartition_Mark" xml:space="preserve">
+    <value>ESP On</value>
+  </data>
+  <data name="Modifypartition_PartFormat" xml:space="preserve">
+    <value>Format:</value>
+  </data>
+  <data name="Modifypartition_ReadPart" xml:space="preserve">
+    <value>Read Part</value>
+  </data>
+  <data name="Modifypartition_RemoveLimit" xml:space="preserve">
+    <value>Remove limit</value>
+  </data>
+  <data name="Modifypartition_StartpointColon" xml:space="preserve">
+    <value>Start:</value>
+  </data>
+  <data name="Modifypartition_TotalSize" xml:space="preserve">
+    <value>Total Size:</value>
+  </data>
+  <data name="Sidebar_ModifyPartition" xml:space="preserve">
+    <value>Modify Partition</value>
+  </data>
+  <data name="Customizedflash_CustomizedPartFlash" xml:space="preserve">
+    <value>Customized Partition Flash</value>
+  </data>
+  <data name="Customizedflash_DisableVbmeta" xml:space="preserve">
+    <value>Disable vbmeta</value>
+  </data>
+  <data name="Customizedflash_Executing" xml:space="preserve">
+    <value>Выполняется...</value>
+  </data>
+  <data name="Customizedflash_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Customizedflash_Flash" xml:space="preserve">
+    <value>Flash</value>
+  </data>
+  <data name="Customizedflash_FlashTo" xml:space="preserve">
+    <value>Flash to</value>
+  </data>
+  <data name="Customizedflash_PresetPartitionFlash" xml:space="preserve">
+    <value>Preset partition flash</value>
+  </data>
+  <data name="Customizedflash_SwitchSlot" xml:space="preserve">
+    <value>Switch slot</value>
+  </data>
+  <data name="Appmgr_ApkFile" xml:space="preserve">
+    <value>Apk File</value>
+  </data>
+  <data name="Appmgr_ApplicationListHasntBeenFetched" xml:space="preserve">
+    <value>Application list hasn't been fetched</value>
+  </data>
+  <data name="Appmgr_AppManager" xml:space="preserve">
+    <value>App Manager</value>
+  </data>
+  <data name="Appmgr_Disable" xml:space="preserve">
+    <value>Disable</value>
+  </data>
+  <data name="Appmgr_DisplaySystemApp" xml:space="preserve">
+    <value>Display system application</value>
+  </data>
+  <data name="Appmgr_Enable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="Appmgr_ExtractApk" xml:space="preserve">
+    <value>Extract Apk</value>
+  </data>
+  <data name="Appmgr_FetchApplicationList" xml:space="preserve">
+    <value>Fetch application list</value>
+  </data>
+  <data name="Appmgr_Fetching" xml:space="preserve">
+    <value>Fetching</value>
+  </data>
+  <data name="Appmgr_InstallApp" xml:space="preserve">
+    <value>Install App</value>
+  </data>
+  <data name="Appmgr_Installing" xml:space="preserve">
+    <value>Installing</value>
+  </data>
+  <data name="Appmgr_KeepDataUninstall" xml:space="preserve">
+    <value>Dirty uninst</value>
+  </data>
+  <data name="Appmgr_Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Appmgr_StartInstalling" xml:space="preserve">
+    <value>Start installing</value>
+  </data>
+  <data name="Appmgr_Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+  <data name="FormatExtract_ADBFormat" xml:space="preserve">
+    <value>ADB Format</value>
+  </data>
+  <data name="FormatExtract_BackupQCN" xml:space="preserve">
+    <value>Backup QCN</value>
+  </data>
+  <data name="FormatExtract_Enable901D" xml:space="preserve">
+    <value>Enable 901D</value>
+  </data>
+  <data name="FormatExtract_Enable9091" xml:space="preserve">
+    <value>Enable 9091</value>
+  </data>
+  <data name="FormatExtract_Executing" xml:space="preserve">
+    <value>Выполняется...</value>
+  </data>
+  <data name="FormatExtract_Extract" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+  <data name="FormatExtract_OpenExtractFolder" xml:space="preserve">
+    <value>Open Extract Folder</value>
+  </data>
+  <data name="FormatExtract_FastbootFormat" xml:space="preserve">
+    <value>Fastboot Format</value>
+  </data>
+  <data name="FormatExtract_FlashFile" xml:space="preserve">
+    <value>Flash file</value>
+  </data>
+  <data name="FormatExtract_Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="FormatExtract_FormatDataPart" xml:space="preserve">
+    <value>Format Data</value>
+  </data>
+  <data name="FormatExtract_FormatTo" xml:space="preserve">
+    <value>Format to</value>
+  </data>
+  <data name="FormatExtract_Log" xml:space="preserve">
+    <value>Log</value>
+  </data>
+  <data name="FormatExtract_OpenBackup" xml:space="preserve">
+    <value>Open backup</value>
+  </data>
+  <data name="FormatExtract_PartName" xml:space="preserve">
+    <value>Part Name</value>
+  </data>
+  <data name="FormatExtract_PhysicalPart" xml:space="preserve">
+    <value>Physical Part</value>
+  </data>
+  <data name="FormatExtract_QCNFile" xml:space="preserve">
+    <value>QCN File</value>
+  </data>
+  <data name="FormatExtract_TWRPFormatData" xml:space="preserve">
+    <value>TWRP Format Data</value>
+  </data>
+  <data name="FormatExtract_VirtualPart" xml:space="preserve">
+    <value>Virtual Part</value>
+  </data>
+  <data name="FormatExtract_WriteQCN" xml:space="preserve">
+    <value>Write QCN</value>
+  </data>
+  <data name="Sidebar_Advanced" xml:space="preserve">
+    <value>Format&amp;Extract</value>
+  </data>
+  <data name="Sidebar_Appmgr" xml:space="preserve">
+    <value>App Manager</value>
+  </data>
+  <data name="Sidebar_Customizedflash" xml:space="preserve">
+    <value>Customized Flash</value>
+  </data>
+  <data name="Sidebar_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Sidebar_Others" xml:space="preserve">
+    <value>Others</value>
+  </data>
+  <data name="Dialog_ErrorLog" xml:space="preserve">
+    <value>Error Log:</value>
+  </data>
+  <data name="Settings_BackgroundStyle" xml:space="preserve">
+    <value>Background Style</value>
+  </data>
+  <data name="Settings_BackgroundTransitions" xml:space="preserve">
+    <value>Background Transitions</value>
+  </data>
+  <data name="Settings_CurrentVersion" xml:space="preserve">
+    <value>Current Version: </value>
+  </data>
+  <data name="Settings_CustomShaders" xml:space="preserve">
+    <value>Custom Shaders</value>
+  </data>
+  <data name="Settings_DisplayedProjects" xml:space="preserve">
+    <value>The open source projects below are presented in alphabetical order</value>
+  </data>
+  <data name="Settings_EnableBackgroundShader" xml:space="preserve">
+    <value>Click any of the buttons below to enable a background shader. Click it again to disable it. These are likely to put quite a load on your GPU and are purely to demonstrate and test the capabilities of the background renderer.</value>
+  </data>
+  <data name="Settings_EnableBackgroundTransitions" xml:space="preserve">
+    <value>Enable/disable the transitions for the background, these will fade between the active effects when changed.</value>
+  </data>
+  <data name="Settings_CheckUpdate" xml:space="preserve">
+    <value>Check Update</value>
+  </data>
+  <data name="Settings_SelectFromIncludedBackgroundStyles" xml:space="preserve">
+    <value>Select from the included background styles.</value>
+  </data>
+  <data name="Settings_UotanCommunity" xml:space="preserve">
+    <value>Uotan Community</value>
+  </data>
+  <data name="Scrcpy_CameraMirror" xml:space="preserve">
+    <value>Camera Mirror</value>
+  </data>
+  <data name="Scrcpy_ClipboardSync" xml:space="preserve">
+    <value>Clipboard Sync</value>
+  </data>
+  <data name="Scrcpy_RecordFileNotChosen" xml:space="preserve">
+    <value>Record file isn't chosen!</value>
+  </data>
+  <data name="Common_FolderNoPermission" xml:space="preserve">
+    <value>The selected folder does not have write permission, please select again!</value>
+  </data>
+  <data name="Settings_NewVersionAvailable" xml:space="preserve">
+    <value>New version available!</value>
+  </data>
+  <data name="Settings_UpToDate" xml:space="preserve">
+    <value>This software is up to date</value>
+  </data>
+  <data name="Appmgr_ActivateSwitch" xml:space="preserve">
+    <value>Activate App</value>
+  </data>
+  <data name="Appmgr_ClearData" xml:space="preserve">
+    <value>Clear Data</value>
+  </data>
+  <data name="Appmgr_ForceStop" xml:space="preserve">
+    <value>Force Stop</value>
+  </data>
+  <data name="Basicflash_Easyinstall" xml:space="preserve">
+    <value>Installing...</value>
+  </data>
+  <data name="Basicflash_PatchBoot" xml:space="preserve">
+    <value>Processing...</value>
+  </data>
+  <data name="Basicflash_UseUnlockCode" xml:space="preserve">
+    <value>To unlock with an unlock code, you may need to add '0x' yourself</value>
+  </data>
+  <data name="Basicflash_BasicUnlock" xml:space="preserve">
+    <value>This function is brand-specific! After execution, your device should display a confirmation unlock prompt. If it does not appear, it means that your device does not support this operation.</value>
+  </data>
+  <data name="Basicflash_BootFailed" xml:space="preserve">
+    <value>Boot failed!</value>
+  </data>
+  <data name="Basicflash_BootSucc" xml:space="preserve">
+    <value>Boot successfully!</value>
+  </data>
+  <data name="Basicflash_CheckError" xml:space="preserve">
+    <value>Magiskboot verification error</value>
+  </data>
+  <data name="Basicflash_CheckUnlock" xml:space="preserve">
+    <value>Execution completed, please check your device!</value>
+  </data>
+  <data name="Basicflash_CleanDirError" xml:space="preserve">
+    <value>Cleaning the packaging directory failed</value>
+  </data>
+  <data name="Basicflash_DetectdBoot" xml:space="preserve">
+    <value>Boot:</value>
+  </data>
+  <data name="Basicflash_ErrorClean" xml:space="preserve">
+    <value>Error cleaning temporary directory</value>
+  </data>
+  <data name="Basicflash_ErrorComp" xml:space="preserve">
+    <value>Error compressing stud.apk</value>
+  </data>
+  <data name="Common_Execution" xml:space="preserve">
+    <value>Execution completed!</value>
+  </data>
+  <data name="Basicflash_FileError" xml:space="preserve">
+    <value>Error occurred during file preprocessing!</value>
+  </data>
+  <data name="Basicflash_FlashBoot" xml:space="preserve">
+    <value>Flash Boot</value>
+  </data>
+  <data name="Basicflash_FlashSucc" xml:space="preserve">
+    <value>Flash successfully!</value>
+  </data>
+  <data name="Common_InstallFailed" xml:space="preserve">
+    <value>Installation failed!</value>
+  </data>
+  <data name="Basicflash_InstallMagisk" xml:space="preserve">
+    <value>It has been pushed to the root directory, please install it yourself.</value>
+  </data>
+  <data name="Common_InstallSuccess" xml:space="preserve">
+    <value>Installation successful!</value>
+  </data>
+  <data name="Basicflash_MagsikNotSupport" xml:space="preserve">
+    <value>Failed to obtain a valid Magisk version number</value>
+  </data>
+  <data name="Basicflash_NoBoth" xml:space="preserve">
+    <value>Please do not fill in both methods at the same time!</value>
+  </data>
+  <data name="Basicflash_NotUsed" xml:space="preserve">
+    <value>The current device does not require this operation!</value>
+  </data>
+  <data name="Basicflash_PatchDone" xml:space="preserve">
+    <value>Boot patch done, is it flashing to the currently connected device?</value>
+  </data>
+  <data name="Basicflash_PreMagisk" xml:space="preserve">
+    <value>During pre-processing of Magisk components</value>
+  </data>
+  <data name="Basicflash_PushMagisk" xml:space="preserve">
+    <value>Detected current system mode, do you want to push Magisk application?</value>
+  </data>
+  <data name="Basicflash_RecoveryFailed" xml:space="preserve">
+    <value>Flash failed!</value>
+  </data>
+  <data name="Basicflash_RecoverySucc" xml:space="preserve">
+    <value>Done! Reboot to Recovery?</value>
+  </data>
+  <data name="Basicflash_RelockFailed" xml:space="preserve">
+    <value>Relock failed!</value>
+  </data>
+  <data name="Basicflash_RelockSucc" xml:space="preserve">
+    <value>Relock successfully!</value>
+  </data>
+  <data name="Basicflash_SelectBoot" xml:space="preserve">
+    <value>Please select Boot file!</value>
+  </data>
+  <data name="Basicflash_SelectBootMagisk" xml:space="preserve">
+    <value>Please select a valid Zip and Boot file!</value>
+  </data>
+  <data name="Basicflash_SelectCommand" xml:space="preserve">
+    <value>Please select the unlock command!</value>
+  </data>
+  <data name="Basicflash_SelectMagiskRight" xml:space="preserve">
+    <value>Please select Magisk file on the right!</value>
+  </data>
+  <data name="Basicflash_SelectRecovery" xml:space="preserve">
+    <value>Please select the Recovery file!</value>
+  </data>
+  <data name="Basicflash_SelectUnlock" xml:space="preserve">
+    <value>Please select the unlock file or enter the unlock code!</value>
+  </data>
+  <data name="Basicflash_Success" xml:space="preserve">
+    <value>uccessfully</value>
+  </data>
+  <data name="Basicflash_UnknowArch" xml:space="preserve">
+    <value>Unknown architecture:</value>
+  </data>
+  <data name="Basicflash_UnlockFailed" xml:space="preserve">
+    <value>Unlock failed!</value>
+  </data>
+  <data name="Basicflash_UnlockSucc" xml:space="preserve">
+    <value>Unlocked successfully!</value>
+  </data>
+  <data name="Basicflash_UnsupportImage" xml:space="preserve">
+    <value>The image has been patched by unsupported software. Please choose a native image!</value>
+  </data>
+  <data name="Common_EnterRecovery" xml:space="preserve">
+    <value>Please enter Recovery mode!</value>
+  </data>
+  <data name="Appmgr_PleaseExecuteInSystem" xml:space="preserve">
+    <value>Please execute in system</value>
+  </data>
+  <data name="Common_DeviceFailedToConnect" xml:space="preserve">
+    <value>Device is failed to connect</value>
+  </data>
+  <data name="Appmgr_AppActivactor" xml:space="preserve">
+    <value>Activator</value>
+  </data>
+  <data name="Appmgr_NoApkFileSelected" xml:space="preserve">
+    <value>No APK file selected!</value>
+  </data>
+  <data name="Appmgr_UnknownAppVersion" xml:space="preserve">
+    <value>Unknown App Version</value>
+  </data>
+  <data name="Appmgr_UnknownSDKVersion" xml:space="preserve">
+    <value>Unknown SDK Version</value>
+  </data>
+  <data name="Appmgr_UnknownTime" xml:space="preserve">
+    <value>Unknown Time</value>
+  </data>
+  <data name="FormatExtract_AddPostfix" xml:space="preserve">
+    <value>Please add _a or _b suffix to the AB partition</value>
+  </data>
+  <data name="FormatExtract_OnlyADBFotmatSupport" xml:space="preserve">
+    <value>Only ADB Format support selected filesystem</value>
+  </data>
+  <data name="Appmgr_ConfirmDeleteApp" xml:space="preserve">
+    <value>Comfirm deleting the App?</value>
+  </data>
+  <data name="Common_NotSupportSystem" xml:space="preserve">
+    <value>This feature is currently not supported by the current system!</value>
+  </data>
+  <data name="Sidebar_FormatExtract" xml:space="preserve">
+    <value>Format&amp;Extract</value>
+  </data>
+  <data name="Appmgr_AppIsNotSelected" xml:space="preserve">
+    <value>App is not selected</value>
+  </data>
+  <data name="Others_AirMode" xml:space="preserve">
+    <value>AirMode</value>
+  </data>
+  <data name="Others_Alarm" xml:space="preserve">
+    <value>Alarm</value>
+  </data>
+  <data name="Others_AnimationDuration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Others_AnimationSpeed" xml:space="preserve">
+    <value>Animation Scale</value>
+  </data>
+  <data name="Others_Battery" xml:space="preserve">
+    <value>Battery</value>
+  </data>
+  <data name="Others_BatteryLevel" xml:space="preserve">
+    <value>Battery Level(%)</value>
+  </data>
+  <data name="Others_Bluetooth" xml:space="preserve">
+    <value>Bluetooth</value>
+  </data>
+  <data name="Others_CurrentLockscreenTime" xml:space="preserve">
+    <value>Current lockscreen time:</value>
+  </data>
+  <data name="Others_CurrentScale" xml:space="preserve">
+    <value>Now Scale:</value>
+  </data>
+  <data name="Others_DisplayProperty" xml:space="preserve">
+    <value>Display Property</value>
+  </data>
+  <data name="Others_DP" xml:space="preserve">
+    <value>DP:</value>
+  </data>
+  <data name="Others_DPI" xml:space="preserve">
+    <value>DPI:</value>
+  </data>
+  <data name="Others_Earphone" xml:space="preserve">
+    <value>Earphone</value>
+  </data>
+  <data name="Others_FontAdjust" xml:space="preserve">
+    <value>Font Adjust</value>
+  </data>
+  <data name="Others_HideOrShow" xml:space="preserve">
+    <value>Hide/Show</value>
+  </data>
+  <data name="Others_Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Others_IconHide" xml:space="preserve">
+    <value>Icon Hide</value>
+  </data>
+  <data name="Others_Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Others_LockscreenTime" xml:space="preserve">
+    <value>Lockscreen Time</value>
+  </data>
+  <data name="Others_Modify" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="Others_Modifying" xml:space="preserve">
+    <value>Modifying...</value>
+  </data>
+  <data name="Others_Recover" xml:space="preserve">
+    <value>Revert</value>
+  </data>
+  <data name="Others_Resolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="Others_RotationNotice" xml:space="preserve">
+    <value>Rotation Notice</value>
+  </data>
+  <data name="Others_Scale" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="Others_SetScale" xml:space="preserve">
+    <value>Set Scale:</value>
+  </data>
+  <data name="Others_Signal" xml:space="preserve">
+    <value>Signal</value>
+  </data>
+  <data name="Others_SimulateDCCharge" xml:space="preserve">
+    <value>Simulate DC Charge</value>
+  </data>
+  <data name="Others_SimulateUncharge" xml:space="preserve">
+    <value>Simulate Uncharge</value>
+  </data>
+  <data name="Others_SimulateUSBCharge" xml:space="preserve">
+    <value>Simulate USB Charge</value>
+  </data>
+  <data name="Others_SimulateWirelessCharge" xml:space="preserve">
+    <value>Simulate Wireless Charge</value>
+  </data>
+  <data name="Others_Sound" xml:space="preserve">
+    <value>Sound</value>
+  </data>
+  <data name="Others_Temperature" xml:space="preserve">
+    <value>Temp(℃)</value>
+  </data>
+  <data name="Others_Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Others_TransitionScale" xml:space="preserve">
+    <value>Transition</value>
+  </data>
+  <data name="Others_Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="Others_WindowScale" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="Others_WLAN" xml:space="preserve">
+    <value>WLAN</value>
+  </data>
+  <data name="Others_ShowSec" xml:space="preserve">
+    <value>Second</value>
+  </data>
+  <data name="Others_WiFisXor" xml:space="preserve">
+    <value>WiFi's(x/!)</value>
+  </data>
+  <data name="Scrcpy_Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Modifypartition_AddUnit" xml:space="preserve">
+    <value>Please add a unit!</value>
+  </data>
+  <data name="Modifypartition_CreatePartTitle" xml:space="preserve">
+    <value>Create Partition</value>
+  </data>
+  <data name="Modifypartition_DeletOrESP" xml:space="preserve">
+    <value>Delete/ESP On</value>
+  </data>
+  <data name="Modifypartition_OnlyOenPart" xml:space="preserve">
+    <value>Only one Part ID for once!</value>
+  </data>
+  <data name="Modifypartition_PartName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="Common_EnterSideload" xml:space="preserve">
+    <value>Please enter Sideload mode!</value>
+  </data>
+  <data name="Customizedflash_Flashing" xml:space="preserve">
+    <value>Flashing...</value>
+  </data>
+  <data name="Customizedflash_SelectFile" xml:space="preserve">
+    <value>Please select a file!</value>
+  </data>
+  <data name="Wiredflash_FaildRestart" xml:space="preserve">
+    <value>Failed to restart to Fastboot mode! Unable to continue flashing!</value>
+  </data>
+  <data name="Wiredflash_FlashError" xml:space="preserve">
+    <value>Error occurred during flashing, please check the logs!</value>
+  </data>
+  <data name="Wiredflash_ModelError" xml:space="preserve">
+    <value>Model error!</value>
+  </data>
+  <data name="Wiredflash_ModelErrorCantFlash" xml:space="preserve">
+    <value>Model error cannot be flashed!</value>
+  </data>
+  <data name="Wiredflash_NoMul" xml:space="preserve">
+    <value>Please do not fill in multiple ways at the same time!</value>
+  </data>
+  <data name="Wiredflash_ROMFlash" xml:space="preserve">
+    <value>ROM flashing completed! Do you want to restart the system?</value>
+  </data>
+  <data name="Wiredflash_SelectFlashFile" xml:space="preserve">
+    <value>Please select the flashing file!</value>
+  </data>
+  <data name="Common_NeedRoot" xml:space="preserve">
+    <value>This operation requires ROOT permission. Please ensure that your phone has ROOT and grant Shell ROOT permission in the following pop-up window!</value>
+  </data>
+  <data name="Common_OpenADB" xml:space="preserve">
+    <value>Please enter the system and enable USB debugging!</value>
+  </data>
+  <data name="FormatExtract_BackingUp" xml:space="preserve">
+    <value>Backing up...</value>
+  </data>
+  <data name="FormatExtract_BackupFailed" xml:space="preserve">
+    <value>Backup failed</value>
+  </data>
+  <data name="FormatExtract_BackupSucc" xml:space="preserve">
+    <value>Backup successful</value>
+  </data>
+  <data name="FormatExtract_DiagApk" xml:space="preserve">
+    <value>The file named 'mi_iag. apk' has been pushed to the root directory of the device. Please click OK after installation is complete!</value>
+  </data>
+  <data name="FormatExtract_EnterExtractPart" xml:space="preserve">
+    <value>Please enter the partition name that needs to be extracted!</value>
+  </data>
+  <data name="FormatExtract_EnterFormatPart" xml:space="preserve">
+    <value>Please enter the partition name that needs to be formatted!</value>
+  </data>
+  <data name="FormatExtract_ExtractFolder" xml:space="preserve">
+    <value>Please select the directory for storing extracted files!</value>
+  </data>
+  <data name="FormatExtract_Extracting" xml:space="preserve">
+    <value>Extracting...</value>
+  </data>
+  <data name="FormatExtract_Formatting" xml:space="preserve">
+    <value>Formatting...</value>
+  </data>
+  <data name="FormatExtract_NotFound" xml:space="preserve">
+    <value>The partition was not found!</value>
+  </data>
+  <data name="FormatExtract_OnlyXiaomi" xml:space="preserve">
+    <value>This feature is only available on Xiaomi devices! Other devices will not be able to use!</value>
+  </data>
+  <data name="FormatExtract_Open901D" xml:space="preserve">
+    <value>Please open port 901D/9091 first!</value>
+  </data>
+  <data name="FormatExtract_SelectQCN" xml:space="preserve">
+    <value>Please select the QCN file first</value>
+  </data>
+  <data name="FormatExtract_SelectSuperEmpty" xml:space="preserve">
+    <value>Please select SuperEmpty file!</value>
+  </data>
+  <data name="FormatExtract_TryUseData" xml:space="preserve">
+    <value>Insufficient root directory space, attempting to use Data partition...</value>
+  </data>
+  <data name="FormatExtract_WriteFailed" xml:space="preserve">
+    <value>Write failed</value>
+  </data>
+  <data name="FormatExtract_WriteSucc" xml:space="preserve">
+    <value>Write successful</value>
+  </data>
+  <data name="FormatExtract_Writing" xml:space="preserve">
+    <value>Writing...</value>
+  </data>
+  <data name="Appmgr_ActiveFail" xml:space="preserve">
+    <value>Possible activation failure</value>
+  </data>
+  <data name="Appmgr_ActiveSucc" xml:space="preserve">
+    <value>Activation successful</value>
+  </data>
+  <data name="Appmgr_Greenify" xml:space="preserve">
+    <value>Greenify</value>
+  </data>
+  <data name="Appmgr_PermissionDog" xml:space="preserve">
+    <value>PermissionDog</value>
+  </data>
+  <data name="Appmgr_Stopapp" xml:space="preserve">
+    <value>Stopapp</value>
+  </data>
+  <data name="Basicflash_BootWrong" xml:space="preserve">
+    <value>wrong Boot.img file format</value>
+  </data>
+  <data name="Basicflash_CantKSU" xml:space="preserve">
+    <value>KernelSU patching is currently not supported</value>
+  </data>
+  <data name="Basicflash_DetectZIP" xml:space="preserve">
+    <value>Zip detected:</value>
+  </data>
+  <data name="Basicflash_ELFError" xml:space="preserve">
+    <value>Non standard elf file header</value>
+  </data>
+  <data name="Basicflash_FatalError" xml:space="preserve">
+    <value>fatal error!</value>
+  </data>
+  <data name="Basicflash_KSUError" xml:space="preserve">
+    <value>wrong KernelSU package</value>
+  </data>
+  <data name="Basicflash_MagiskOrKSU" xml:space="preserve">
+    <value>↓ Choose between Magisk or KernelSU AnyKernel or ko file ↓</value>
+  </data>
+  <data name="Basicflash_MagsikError" xml:space="preserve">
+    <value>wrong magisk package</value>
+  </data>
+  <data name="Basicflash_ZipError" xml:space="preserve">
+    <value>An error occurred while parsing the zip format</value>
+  </data>
+  <data name="Common_ExeFailed" xml:space="preserve">
+    <value>Execution failed!</value>
+  </data>
+  <data name="Modifypartition_EnterCorrNum" xml:space="preserve">
+    <value>Please enter the correct partition number!</value>
+  </data>
+  <data name="Modifypartition_EnterCreat" xml:space="preserve">
+    <value>Please enter the parameters required to create a partition!</value>
+  </data>
+  <data name="Modifypartition_EnterNum" xml:space="preserve">
+    <value>Please enter the partition number!</value>
+  </data>
+  <data name="Modifypartition_PartFailed" xml:space="preserve">
+    <value>Partition table retrieval failed!</value>
+  </data>
+  <data name="Modifypartition_SelectAndRead" xml:space="preserve">
+    <value>Please first select the disk to be read and read the partition table!</value>
+  </data>
+  <data name="Modifypartition_SelectCorrPart" xml:space="preserve">
+    <value>Please select the correct disk! Note: sdb cannot execute this instruction!</value>
+  </data>
+  <data name="Modifypartition_SelectDisk" xml:space="preserve">
+    <value>Please select the disk to be read first!</value>
+  </data>
+  <data name="Modifypartition_Set128" xml:space="preserve">
+    <value>This operation will set the maximum number of partitions on the disk to 128, and will restart Recovery after successful execution!</value>
+  </data>
+  <data name="Modifypartition_SetEFI" xml:space="preserve">
+    <value>This function marks EFI partitions. Please confirm your understanding of its purpose before continuing!</value>
+  </data>
+  <data name="Modifypartition_Warn" xml:space="preserve">
+    <value>Modifying partitions carries great risks. This tool is only used for interactive operations and does not limit the number or size of partitions! Developers are not responsible for any issues that may arise. Please be aware!</value>
+  </data>
+  <data name="Others_EnterBattery" xml:space="preserve">
+    <value>Please enter the battery level!</value>
+  </data>
+  <data name="Others_EnterLock" xml:space="preserve">
+    <value>Please enter the screen lock time!</value>
+  </data>
+  <data name="Others_EnterPara" xml:space="preserve">
+    <value>Please enter the parameters to be modified!</value>
+  </data>
+  <data name="Others_EnterTemp" xml:space="preserve">
+    <value>Please enter the temperature!</value>
+  </data>
+  <data name="Others_Nobel" xml:space="preserve">
+    <value>Hurry up and apply for the Nobel Prize!</value>
+  </data>
+  <data name="Others_NoScreen" xml:space="preserve">
+    <value>Unable to obtain screen resolution and set it!</value>
+  </data>
+  <data name="Others_NotEffect" xml:space="preserve">
+    <value>But it may not necessarily take effect!</value>
+  </data>
+  <data name="Others_PhoneBoom" xml:space="preserve">
+    <value>The phone is about to explode</value>
+  </data>
+  <data name="Others_PhoneTake" xml:space="preserve">
+    <value>My phone can't take it anymore</value>
+  </data>
+  <data name="Others_Restored" xml:space="preserve">
+    <value>Default restored!</value>
+  </data>
+  <data name="Others_SetUnit" xml:space="preserve">
+    <value>Please select a unit!</value>
+  </data>
+  <data name="Others_TempHigh" xml:space="preserve">
+    <value>The temperature is too high!</value>
+  </data>
+  <data name="Others_TempLow" xml:space="preserve">
+    <value>The temperature is too low!</value>
+  </data>
+  <data name="Others_TempLower" xml:space="preserve">
+    <value>Even lower than absolute zero!</value>
+  </data>
+  <data name="Basicflash_BootFlashSucc" xml:space="preserve">
+    <value>Successfully flashed in! Do you want to restart the system?</value>
+  </data>
+  <data name="Settings_Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Settings_ChooseLanguage" xml:space="preserve">
+    <value>Select your language on the right, and the selected language will be displayed after restarting the toolbox.</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Settings_LanguageHasBeenSet" xml:space="preserve">
+    <value>Language has been set</value>
+  </data>
+  <data name="Settings_RestartTheApplication" xml:space="preserve">
+    <value>Restart the application to fresh the language</value>
+  </data>
+  <data name="Common_ModeError" xml:space="preserve">
+    <value>The current state cannot be executed</value>
+  </data>
+  <data name="Basicflash_ReXiaomiUSB" xml:space="preserve">
+    <value>Revoke USB 3.0 patch</value>
+  </data>
+  <data name="Basicflash_ExecuteReboot" xml:space="preserve">
+    <value>Execute restart command</value>
+  </data>
+  <data name="Basicflash_MoreReboot" xml:space="preserve">
+    <value>More restart commands</value>
+  </data>
+  <data name="Home_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Home_IPAndPort" xml:space="preserve">
+    <value>IP &amp; Port:</value>
+  </data>
+  <data name="Home_PairingCode" xml:space="preserve">
+    <value>Pair code:</value>
+  </data>
+  <data name="Home_Reboot" xml:space="preserve">
+    <value>Reboot to</value>
+  </data>
+  <data name="Home_ScanQR" xml:space="preserve">
+    <value>Scan the QR code to connect</value>
+  </data>
+  <data name="Home_WiredToLess" xml:space="preserve">
+    <value>Wired to wireless conversion</value>
+  </data>
+  <data name="Home_WirelessADB" xml:space="preserve">
+    <value>Wireless ADB</value>
+  </data>
+  <data name="Home_WirelessADBTitle" xml:space="preserve">
+    <value>Wireless ADB Connection</value>
+  </data>
+  <data name="Main_CanResize" xml:space="preserve">
+    <value>Unlock the window height lock</value>
+  </data>
+  <data name="Main_QuickReboot" xml:space="preserve">
+    <value>Quick reboot to</value>
+  </data>
+  <data name="Main_Title" xml:space="preserve">
+    <value>Uotan Toolbox</value>
+  </data>
+  <data name="Common_EnterAll" xml:space="preserve">
+    <value>Please enter all the content!</value>
+  </data>
+  <data name="MainView_ADB" xml:space="preserve">
+    <value>ADB Services</value>
+  </data>
+  <data name="MainView_Disconnect" xml:space="preserve">
+    <value>Try Disconnect</value>
+  </data>
+  <data name="MainView_RestartADB" xml:space="preserve">
+    <value>Restart ADB</value>
+  </data>
+  <data name="WirelessADB_Connect" xml:space="preserve">
+    <value>Connection successful!</value>
+  </data>
+</root>

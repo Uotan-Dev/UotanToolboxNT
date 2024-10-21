@@ -31,7 +31,7 @@ public partial class SettingsViewModel : MainPageBase
     public IAvaloniaReadOnlyList<SukiBackgroundStyle> AvailableBackgroundStyles { get; }
     public IAvaloniaReadOnlyList<string> CustomShaders { get; } = new AvaloniaList<string> { "Space", "Weird", "Clouds" };
 
-    public AvaloniaList<string> LanguageList { get; } = [GetTranslation("Settings_Default"), "English", "简体中文"];
+    public AvaloniaList<string> LanguageList { get; } = [GetTranslation("Settings_Default"), "English", "简体中文", "Русский"];
     [ObservableProperty] private string _selectedLanguageList;
 
     private readonly SukiTheme _theme = SukiTheme.GetInstance();
@@ -63,7 +63,10 @@ public partial class SettingsViewModel : MainPageBase
         {
             SelectedLanguageList = "简体中文";
         }
-
+        else if (UotanToolbox.Settings.Default.Language == "ru-RU")
+        {
+            SelectedLanguageList = "Русский";
+        }
         _ = CheckBinVersion();
         AvailableBackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         AvailableColors = _theme.ColorThemes;
@@ -96,13 +99,25 @@ public partial class SettingsViewModel : MainPageBase
         if (value == GetTranslation("Settings_Default")) OldLanguage = "";
         else if (value == "English") OldLanguage = "en-US";
         else if (value == "简体中文") OldLanguage = "zh-CN";
+        else if (value == "Русский") OldLanguage = "Русский";
         if (OldLanguage != UotanToolbox.Settings.Default.Language)
         {
             if (value == GetTranslation("Settings_Default")) UotanToolbox.Settings.Default.Language = "";
             else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
             else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
+            else if (value == "Русский") UotanToolbox.Settings.Default.Language = "ru-RU";
             UotanToolbox.Settings.Default.Save();
-            Global.MainToastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
+            //Console.WriteLine($"default is "+UotanToolbox.Settings.Default.Language);
+            //Console.WriteLine($"old is "+OldLanguage);
+            //TODO:encoding bugs 'Русский'
+            if (Global.MainToastManager == null)
+            {
+                Console.WriteLine("MainToastManager is not initialized.");
+            }
+            else
+            {
+                Global.MainToastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
+            }
         }
     }
 

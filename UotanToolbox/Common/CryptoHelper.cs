@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,72 +8,93 @@ namespace UotanToolbox.Common
 {
     internal class CryptoHelper
     {
-        private static string SHA256Hash(string input)
+        public static byte[] HexStringToByteArray(string s)
         {
-            using SHA256 sha256 = SHA256.Create();
-            return BitConverter.ToString(sha256.ComputeHash(Encoding.UTF8.GetBytes(input))).Replace("-", "");
-        }
-        public static byte[] AESEncrypt(byte[] plainText, byte[] key, byte[] iv)
-        {
-            using Aes aesAlg = Aes.Create();
-            aesAlg.Key = key;
-            aesAlg.IV = iv;
-
-            ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
-
-            using MemoryStream msEncrypt = new MemoryStream();
-            using CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write);
-            csEncrypt.Write(plainText, 0, plainText.Length);
-            csEncrypt.FlushFinalBlock();
-            return msEncrypt.ToArray();
-        }
-        public static byte[] AESDecrypt(byte[] cipherText, byte[] key, byte[] iv)
-        {
-            using Aes aesAlg = Aes.Create();
-            aesAlg.Key = key;
-            aesAlg.IV = iv;
-
-            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-
-            using MemoryStream msDecrypt = new MemoryStream(cipherText);
-            using CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
-            byte[] decryptedData = new byte[cipherText.Length];
-            int decryptedByteCount = csDecrypt.Read(decryptedData, 0, decryptedData.Length);
-            Array.Resize(ref decryptedData, decryptedByteCount);
-            return decryptedData;
-        }
-        public static byte[] AESCBC(byte[] data, byte[] key, byte[] iv, bool decrypt)
-        {
-            using Aes aesAlg = Aes.Create();
-            aesAlg.Key = key;
-            aesAlg.IV = iv;
-
-            ICryptoTransform encryptorOrDecryptor = decrypt ? aesAlg.CreateDecryptor() : aesAlg.CreateEncryptor();
-
-            using MemoryStream ms = new();
-            using CryptoStream cs = new(ms, encryptorOrDecryptor, CryptoStreamMode.Write);
-            cs.Write(data, 0, data.Length);
-            cs.FlushFinalBlock();
-            return ms.ToArray();
-        }
-        public static byte[] Unhexlify(string hexString)
-        {
-            if (string.IsNullOrEmpty(hexString))
+            s = s.Replace(" ", "");
+            byte[] buffer = new byte[s.Length / 2];
+            for (int i = 0; i < s.Length; i += 2)
             {
-                throw new ArgumentException("hexString cannot be null or empty.", nameof(hexString));
+                buffer[i / 2] = (byte)Convert.ToByte(s.Substring(i, 2), 16);
             }
-
-            if (hexString.Length % 2 != 0)
-            {
-                throw new ArgumentException("The length of the hexString must be even.", nameof(hexString));
-            }
-
-            byte[] bytes = new byte[hexString.Length / 2];
-            for (int i = 0; i < hexString.Length; i += 2)
-            {
-                bytes[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-            }
+            return buffer;
+        }
+        public static byte[] Combine(byte[] first, byte[] second)
+        {
+            byte[] bytes = new byte[first.Length + second.Length];
+            Buffer.BlockCopy(first, 0, bytes, 0, first.Length);
+            Buffer.BlockCopy(second, 0, bytes, first.Length, second.Length);
             return bytes;
+        }
+        public static byte[] AesCbcDecrypt(byte[] key, byte[] iv, byte[] data)
+        {
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = key;
+                aes.IV = iv;
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.None;
+
+                using (ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                {
+                    return decryptor.TransformFinalBlock(data, 0, data.Length);
+                }
+            }
+        }
+        public static byte[] Combine(params byte[][] arrays)
+        {
+            byte[] rv = new byte[arrays.Sum(a => a.Length)];
+            int offset = 0;
+            foreach (byte[] array in arrays)
+            {
+                Buffer.BlockCopy(array, 0, rv, offset, array.Length);
+                offset += array.Length;
+            }
+            return rv;
+        }
+
+        public static byte[] Encrypt(Aes aes, byte[] key, byte[] iv, byte[] data)
+        {
+            aes.Key = key;
+            aes.IV = iv;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.None;
+
+            using (ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
+            {
+                return encryptor.TransformFinalBlock(data, 0, data.Length);
+            }
+        }
+
+
+
+        public static byte[] Encrypt(Aes aes, byte[] data)
+        {
+            using (ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV))
+            {
+                return encryptor.TransformFinalBlock(data, 0, data.Length);
+            }
+        }
+
+        public static byte[] Decrypt(Aes aes, byte[] data)
+        {
+            using (ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+            {
+                return decryptor.TransformFinalBlock(data, 0, data.Length);
+            }
+        }
+
+        public static string ComputeSha256Hash(string rawData)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
         }
     }
 }

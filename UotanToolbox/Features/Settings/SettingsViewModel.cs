@@ -42,8 +42,6 @@ public partial class SettingsViewModel : MainPageBase
     [ObservableProperty] private bool _backgroundTransitions;
     [ObservableProperty] private string _currentVersion = Global.currentVersion;
     [ObservableProperty] private string _binVersion = null;
-    public ISukiDialogManager DialogManager { get; }
-    public ISukiToastManager ToastManager { get; }
     private string _customShader = null;
 
     private static string GetTranslation(string key)
@@ -51,10 +49,8 @@ public partial class SettingsViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public SettingsViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_Settings"), MaterialIconKind.SettingsOutline, -200)
+    public SettingsViewModel() : base(GetTranslation("Sidebar_Settings"), MaterialIconKind.SettingsOutline, -200)
     {
-        DialogManager = dialogManager;
-        ToastManager = toastManager;
         if (UotanToolbox.Settings.Default.Language is null or "")
         {
             SelectedLanguageList = GetTranslation("Settings_Default");
@@ -96,11 +92,18 @@ public partial class SettingsViewModel : MainPageBase
 
     partial void OnSelectedLanguageListChanged(string value)
     {
-        if (value == GetTranslation("Settings_Default")) UotanToolbox.Settings.Default.Language = "";
-        else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
-        else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
-        UotanToolbox.Settings.Default.Save();
-        _ = ToastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
+        string OldLanguage = null;
+        if (value == GetTranslation("Settings_Default")) OldLanguage = "";
+        else if (value == "English") OldLanguage = "en-US";
+        else if (value == "简体中文") OldLanguage = "zh-CN";
+        if (OldLanguage != UotanToolbox.Settings.Default.Language)
+        {
+            if (value == GetTranslation("Settings_Default")) UotanToolbox.Settings.Default.Language = "";
+            else if (value == "English") UotanToolbox.Settings.Default.Language = "en-US";
+            else if (value == "简体中文") UotanToolbox.Settings.Default.Language = "zh-CN";
+            UotanToolbox.Settings.Default.Save();
+            Global.MainToastManager.CreateToast().WithTitle($"{GetTranslation("Settings_LanguageHasBeenSet")}").WithContent(GetTranslation("Settings_RestartTheApplication")).OfType(NotificationType.Success).Dismiss().ByClicking().Dismiss().After(TimeSpan.FromSeconds(3)).Queue();
+        }
     }
 
     [RelayCommand]
@@ -145,44 +148,34 @@ public partial class SettingsViewModel : MainPageBase
             string responseBody = await response.Content.ReadAsStringAsync();
 
             dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
-            SettingsViewModel vm = new SettingsViewModel(DialogManager, ToastManager);
+            SettingsViewModel vm = new SettingsViewModel();
             if (convertedBody.release_version != vm.CurrentVersion)
             {
-                bool result = false;
-                DialogManager.CreateDialog()
+                Global.MainDialogManager.CreateDialog()
                 .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                 .WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
-                .WithActionButton("Yes", _ => result = true, true)
-                .WithActionButton("No", _ => result = false, true)
+                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                 .TryShow();
-                if (result == true)
-                {
-                    UrlUtilities.OpenURL("https://toolbox.uotan.cn");
-                }
             }
             else if (convertedBody.beta_version != vm.CurrentVersion)
             {
-                bool result = false;
-                DialogManager.CreateDialog()
+                Global.MainDialogManager.CreateDialog()
                 .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                 .WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
-                .WithActionButton("Yes", _ => result = true, true)
-                .WithActionButton("No", _ => result = false, true)
+                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                 .TryShow();
-                if (result == true)
-                {
-                    UrlUtilities.OpenURL("https://toolbox.uotan.cn");
-                }
             }
             else
             {
 
-                _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         catch (HttpRequestException e)
         {
-            _ = DialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent(e.Message).TryShow();
+            Global.MainDialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent(e.Message).TryShow();
         }
     }
 }

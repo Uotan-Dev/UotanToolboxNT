@@ -12,8 +12,7 @@ public partial class FormatExtractViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public FormatExtractViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_FormatExtract"), MaterialIconKind.AccountHardHatOutline, -400)
+    public FormatExtractViewModel() : base(GetTranslation("Sidebar_FormatExtract"), MaterialIconKind.AccountHardHatOutline, -400)
     {
-        Global.formatExtractView = new FormatExtractView(dialogManager, toastManager);
     }
 }

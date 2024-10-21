@@ -10,17 +10,13 @@ namespace UotanToolbox.Features.Scrcpy;
 
 public partial class ScrcpyView : UserControl
 {
-    public ISukiDialogManager dialogManager;
-    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public ScrcpyView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
+    public ScrcpyView()
     {
-        dialogManager = sukiDialogManager;
-        toastManager = sukiToastManager;
         InitializeComponent();
     }
 
@@ -40,7 +36,7 @@ public partial class ScrcpyView : UserControl
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
             }
         }
     }

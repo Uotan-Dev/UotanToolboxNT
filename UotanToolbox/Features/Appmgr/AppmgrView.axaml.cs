@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
@@ -11,17 +12,13 @@ namespace UotanToolbox.Features.Appmgr;
 
 public partial class AppmgrView : UserControl
 {
-    public ISukiDialogManager dialogManager;
-    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public AppmgrView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
+    public AppmgrView()
     {
-        dialogManager = sukiDialogManager;
-        toastManager = sukiToastManager;
         InitializeComponent();
     }
 
@@ -34,21 +31,17 @@ public partial class AppmgrView : UserControl
 
     private async Task UninstallApplication(string packageName)
     {
-        await Dispatcher.UIThread.InvokeAsync(async () =>
+        await Dispatcher.UIThread.InvokeAsync(() =>
         {
-            bool result = false;
-            _ = dialogManager.CreateDialog()
-                         .WithTitle("Warn")
+            Global.MainDialogManager.CreateDialog()
+                         .OfType(NotificationType.Error)
+                         .WithTitle(GetTranslation("Common_Warn"))
                          .WithContent(GetTranslation("Appmgr_ConfirmDeleteApp"))
-                         .WithActionButton("Yes", _ => result = true, true)
-                         .WithActionButton("No", _ => result = false, true)
+                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}"), true)
+                         .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                          .TryShow();
-            if (result == true)
-            {
-                _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}");
-            }
 
-            AppmgrViewModel newAppmgr = new AppmgrViewModel(dialogManager, toastManager);
+            AppmgrViewModel newAppmgr = new AppmgrViewModel();
             _ = newAppmgr.Connect();
         });
     }

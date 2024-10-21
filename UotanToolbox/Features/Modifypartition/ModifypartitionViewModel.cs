@@ -14,9 +14,7 @@ public partial class ModifypartitionViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public ModifypartitionViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_ModifyPartition"), MaterialIconKind.ChartPieOutline, -300)
+    public ModifypartitionViewModel() : base(GetTranslation("Sidebar_ModifyPartition"), MaterialIconKind.ChartPieOutline, -300)
     {
-        Global.modifypartitionView = new ModifypartitionView(dialogManager, toastManager);
-        Global.ModPartDialogManager = dialogManager;
     }
 }

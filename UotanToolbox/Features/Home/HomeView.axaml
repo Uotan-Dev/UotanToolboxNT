@@ -79,13 +79,13 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_AndroidSDK}" />
+											Text="{x:Static assets:Resources.Home_SystemSDK}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"
 											FontSize="13"
 											Click="CopyButton_OnClick"
-											Content="{Binding AndroidSDK, Mode=TwoWay}"/>
+											Content="{Binding SystemSDK, Mode=TwoWay}"/>
 								</StackPanel>
 							</Grid>
 							<Grid Margin="0,12,0,0">
@@ -380,7 +380,7 @@
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="重启至" />
+								Text="{x:Static assets:Resources.Basicflash_Reboot}" />
 					<StackPanel Margin="0 40 0 0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="125"

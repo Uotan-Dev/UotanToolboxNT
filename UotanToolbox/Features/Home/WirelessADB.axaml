@@ -13,6 +13,10 @@
                  d:DesignHeight="450"
                  d:DesignWidth="800"
                  mc:Ignorable="d">
+	<suki:SukiWindow.Hosts>
+		<suki:SukiToastHost Name="ToastHost"/>
+		<suki:SukiDialogHost Name="DialogHost"/>
+	</suki:SukiWindow.Hosts>
 	<suki:SukiWindow.LogoContent>
 		<avalonia:MaterialIcon Width="20"
                                Height="20"

@@ -691,7 +691,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 ↓ Choose between Magisk or KernelSU AnyKernel files ↓ 的本地化字符串。
+        ///   查找类似 ↓ Choose between Magisk or KernelSU AnyKernel or ko file ↓ 的本地化字符串。
         /// </summary>
         public static string Basicflash_MagiskOrKSU {
             get {
@@ -795,6 +795,15 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_PushMagisk {
             get {
                 return ResourceManager.GetString("Basicflash_PushMagisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Reboot to 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_Reboot {
+            get {
+                return ResourceManager.GetString("Basicflash_Reboot", resourceCulture);
             }
         }
         
@@ -1159,6 +1168,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Error 的本地化字符串。
+        /// </summary>
+        public static string Common_Error {
+            get {
+                return ResourceManager.GetString("Common_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Execution completed! 的本地化字符串。
         /// </summary>
         public static string Common_Execution {
@@ -1200,6 +1218,15 @@ namespace UotanToolbox.Assets {
         public static string Common_InstallSuccess {
             get {
                 return ResourceManager.GetString("Common_InstallSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Got it 的本地化字符串。
+        /// </summary>
+        public static string Common_Know {
+            get {
+                return ResourceManager.GetString("Common_Know", resourceCulture);
             }
         }
         
@@ -1254,6 +1281,24 @@ namespace UotanToolbox.Assets {
         public static string Common_OpenADB {
             get {
                 return ResourceManager.GetString("Common_OpenADB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Success 的本地化字符串。
+        /// </summary>
+        public static string Common_Succ {
+            get {
+                return ResourceManager.GetString("Common_Succ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Warming 的本地化字符串。
+        /// </summary>
+        public static string Common_Warn {
+            get {
+                return ResourceManager.GetString("Common_Warn", resourceCulture);
             }
         }
         
@@ -1753,15 +1798,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Android SDK 的本地化字符串。
-        /// </summary>
-        public static string Home_AndroidSDK {
-            get {
-                return ResourceManager.GetString("Home_AndroidSDK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Back 的本地化字符串。
         /// </summary>
         public static string Home_BackButton {
@@ -2208,6 +2244,13 @@ namespace UotanToolbox.Assets {
         public static string Home_ToStorage {
             get {
                 return ResourceManager.GetString("Home_ToStorage", resourceCulture);
+            }
+        }
+        ///   查找类似 System SDK 的本地化字符串。
+        /// </summary>
+        public static string Home_SystemSDK {
+            get {
+                return ResourceManager.GetString("Home_SystemSDK", resourceCulture);
             }
         }
         

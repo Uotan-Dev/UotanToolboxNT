@@ -11,9 +11,9 @@
 		<PublishAot>False</PublishAot>
 		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-		<AssemblyVersion>3.1.0.0</AssemblyVersion>
-		<FileVersion>3.1.0.0</FileVersion>
-		<Version>3.1.0</Version>
+		<AssemblyVersion>3.1.5.0</AssemblyVersion>
+		<FileVersion>3.1.5.0</FileVersion>
+		<Version>3.1.5</Version>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <Optimize>False</Optimize>
@@ -51,10 +51,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AdditionalFiles Remove="Extensions\**" />
 	  <AdditionalFiles Remove="Features\Components\**" />
+	  <AvaloniaXaml Remove="Extensions\**" />
 	  <AvaloniaXaml Remove="Features\Components\**" />
+	  <Compile Remove="Extensions\**" />
 	  <Compile Remove="Features\Components\**" />
+	  <EmbeddedResource Remove="Extensions\**" />
 	  <EmbeddedResource Remove="Features\Components\**" />
+	  <None Remove="Extensions\**" />
 	  <None Remove="Features\Components\**" />
 	</ItemGroup>
 
@@ -119,9 +124,5 @@
 		<EmbeddedResource Include="Assets\space.sksl" />
 		<EmbeddedResource Include="Assets\clouds.sksl" />
 		<EmbeddedResource Include="Assets\weird.sksl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Extensions\" />
 	</ItemGroup>
 </Project>

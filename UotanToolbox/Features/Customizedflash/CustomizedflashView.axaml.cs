@@ -15,17 +15,13 @@ namespace UotanToolbox.Features.Customizedflash;
 
 public partial class CustomizedflashView : UserControl
 {
-    public ISukiDialogManager dialogManager;
-    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public CustomizedflashView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
+    public CustomizedflashView()
     {
-        dialogManager = sukiDialogManager;
-        toastManager = sukiToastManager;
         InitializeComponent();
     }
 
@@ -101,30 +97,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterFastboot"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Customizedflash_SelectFile"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Customizedflash_SelectFile"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
 
@@ -162,32 +160,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterFastboot"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Customizedflash_SelectFile"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Customizedflash_SelectFile"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
     private async void OpenVenderFile(object sender, RoutedEventArgs args)
@@ -224,32 +222,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterFastboot"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Customizedflash_SelectFile"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Customizedflash_SelectFile"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
     private async void OpenBootFile(object sender, RoutedEventArgs args)
@@ -286,32 +284,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterFastboot"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Customizedflash_SelectFile"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Customizedflash_SelectFile"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
     private async void OpenSystemextFile(object sender, RoutedEventArgs args)
@@ -348,32 +346,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterFastboot"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Customizedflash_SelectFile"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Customizedflash_SelectFile"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
     private async void OpenOdmFile(object sender, RoutedEventArgs args)
@@ -410,32 +408,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterFastboot"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Customizedflash_SelectFile"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Customizedflash_SelectFile"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
     private async void OpenVenderbootFile(object sender, RoutedEventArgs args)
@@ -472,32 +470,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterFastboot"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Customizedflash_SelectFile"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Customizedflash_SelectFile"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
     private async void OpenInitbootFile(object sender, RoutedEventArgs args)
@@ -534,32 +532,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterFastboot"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Customizedflash_SelectFile"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Customizedflash_SelectFile"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
     private async void OpenImageFile(object sender, RoutedEventArgs args)
@@ -596,32 +594,32 @@ public partial class CustomizedflashView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterFastboot"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Customizedflash_SelectFile"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Customizedflash_SelectFile"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
     private async void DisableVbmeta(object sender, RoutedEventArgs args)
@@ -637,22 +635,22 @@ public partial class CustomizedflashView : UserControl
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Common_EnterFastboot"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
     private async void SetOther(object sender, RoutedEventArgs args)
@@ -668,22 +666,22 @@ public partial class CustomizedflashView : UserControl
             }
             else
             {
-                _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_EnterFastboot"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+                Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent(GetTranslation("Common_EnterFastboot"))
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog()
-.WithTitle("Error")
-.OfType(NotificationType.Error)
-.WithContent(GetTranslation("Common_NotConnected"))
-.Dismiss().ByClickingBackground()
-.TryShow();
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
         }
     }
 }

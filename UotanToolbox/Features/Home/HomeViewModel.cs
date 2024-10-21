@@ -10,6 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using ReactiveUI;
+using Splat;
 using SukiUI.Controls;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
@@ -22,15 +23,13 @@ public partial class HomeViewModel : MainPageBase
     [ObservableProperty]
     private string _progressDisk = "0", _memLevel = "0", _status = "--", _bLStatus = "--",
     _vABStatus = "--", _codeName = "--", _vNDKVersion = "--", _cPUCode = "--",
-    _powerOnTime = "--", _deviceBrand = "--", _deviceModel = "--", _androidSDK = "--",
+    _powerOnTime = "--", _deviceBrand = "--", _deviceModel = "--", _systemSDK = "--",
     _cPUABI = "--", _displayHW = "--", _density = "--", _boardID = "--", _platform = "--",
     _compile = "--", _kernel = "--", _selectedSimpleContent = null, _diskType = "--",
     _batteryLevel = "0", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
     [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private bool _commonDevicesList;
     [ObservableProperty] private static AvaloniaList<string> _simpleContent;
-    public ISukiDialogManager DialogManager { get; }
-    public ISukiToastManager ToastManager { get; }
     public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
 
     [ObservableProperty] private bool _animationsEnabled;
@@ -42,12 +41,8 @@ public partial class HomeViewModel : MainPageBase
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public HomeViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
+    public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
-        DialogManager = dialogManager;
-        ToastManager = toastManager;
-        Global.homeView = new HomeView(dialogManager, toastManager);
-        Global.HomeDialogManager = dialogManager;
         _ = CheckDeviceList();
         _ = this.WhenAnyValue(x => x.SelectedSimpleContent)
             .Subscribe(option =>
@@ -60,56 +55,18 @@ public partial class HomeViewModel : MainPageBase
             });
     }
 
-    public async Task<bool> GetDevicesList()
+    public async Task CheckDeviceList()
     {
-        string[] devices = await GetDevicesInfo.DevicesList();
-        if (devices.Length != 0)
+        while (true)
         {
-            Global.deviceslist = new AvaloniaList<string>(devices);
-            SimpleContent = Global.deviceslist;
-            if (SelectedSimpleContent == null || !string.Join("", SimpleContent).Contains(SelectedSimpleContent))
+            if (await ListChecker() == true)
             {
-                SelectedSimpleContent = Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice) ? Global.thisdevice : SimpleContent.First();
+                CommonDevicesList = true;
+                _ = await GetDevicesList();
+                CommonDevicesList = false;
             }
-            return true;
+            await Task.Delay(1000);
         }
-        else
-        {
-            _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
-            return false;
-        }
-    }
-
-    public async Task ConnectCore()
-    {
-        IsConnecting = true;
-        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-        Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
-        Status = sukiViewModel.Status = DevicesInfo["Status"];
-        BLStatus = sukiViewModel.BLStatus = DevicesInfo["BLStatus"];
-        VABStatus = sukiViewModel.VABStatus = DevicesInfo["VABStatus"];
-        CodeName = sukiViewModel.CodeName = DevicesInfo["CodeName"];
-        VNDKVersion = DevicesInfo["VNDKVersion"];
-        CPUCode = DevicesInfo["CPUCode"];
-        PowerOnTime = DevicesInfo["PowerOnTime"];
-        DeviceBrand = DevicesInfo["DeviceBrand"];
-        DeviceModel = DevicesInfo["DeviceModel"];
-        AndroidSDK = DevicesInfo["AndroidSDK"];
-        CPUABI = DevicesInfo["CPUABI"];
-        DisplayHW = DevicesInfo["DisplayHW"];
-        Density = DevicesInfo["Density"];
-        DiskType = DevicesInfo["DiskType"];
-        BoardID = DevicesInfo["BoardID"];
-        Platform = DevicesInfo["Platform"];
-        Compile = DevicesInfo["Compile"];
-        Kernel = DevicesInfo["Kernel"];
-        BatteryLevel = DevicesInfo["BatteryLevel"];
-        BatteryInfo = DevicesInfo["BatteryInfo"];
-        MemLevel = DevicesInfo["MemLevel"];
-        UseMem = DevicesInfo["UseMem"];
-        DiskInfo = DevicesInfo["DiskInfo"];
-        ProgressDisk = DevicesInfo["ProgressDisk"];
-        IsConnecting = false;
     }
 
     public async Task<bool> ListChecker()
@@ -140,7 +97,7 @@ public partial class HomeViewModel : MainPageBase
                     Global.thisdevice = null;
                     SimpleContent = null;
                     IsConnecting = false;
-                    _ = ToastManager.CreateToast()
+                    Global.MainToastManager.CreateToast()
                         .WithTitle(GetTranslation("Home_Prompt"))
                         .WithContent(GetTranslation("Home_Disconnected"))
                         .OfType(NotificationType.Warning)
@@ -149,7 +106,7 @@ public partial class HomeViewModel : MainPageBase
                         .Queue();
                     MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                     Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
-                    VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
+                    VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = SystemSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
                     BatteryLevel = MemLevel = ProgressDisk = "0";
                 }
             }
@@ -157,18 +114,56 @@ public partial class HomeViewModel : MainPageBase
         return false;
     }
 
-    public async Task CheckDeviceList()
+    public async Task<bool> GetDevicesList()
     {
-        while (true)
+        string[] devices = await GetDevicesInfo.DevicesList();
+        if (devices.Length != 0)
         {
-            if (await ListChecker() == true)
+            Global.deviceslist = new AvaloniaList<string>(devices);
+            SimpleContent = Global.deviceslist;
+            if (SelectedSimpleContent == null || !string.Join("", SimpleContent).Contains(SelectedSimpleContent))
             {
-                CommonDevicesList = true;
-                _ = await GetDevicesList();
-                CommonDevicesList = false;
+                SelectedSimpleContent = Global.thisdevice != null && Global.deviceslist.Contains(Global.thisdevice) ? Global.thisdevice : SimpleContent.First();
             }
-            await Task.Delay(1000);
+            return true;
         }
+        else
+        {
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            return false;
+        }
+    }
+
+    public async Task ConnectCore()
+    {
+        IsConnecting = true;
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        Dictionary<string, string> DevicesInfo = await GetDevicesInfo.DevicesInfo(Global.thisdevice);
+        Status = sukiViewModel.Status = DevicesInfo["Status"];
+        BLStatus = sukiViewModel.BLStatus = DevicesInfo["BLStatus"];
+        VABStatus = sukiViewModel.VABStatus = DevicesInfo["VABStatus"];
+        CodeName = sukiViewModel.CodeName = DevicesInfo["CodeName"];
+        VNDKVersion = DevicesInfo["VNDKVersion"];
+        CPUCode = DevicesInfo["CPUCode"];
+        PowerOnTime = DevicesInfo["PowerOnTime"];
+        DeviceBrand = DevicesInfo["DeviceBrand"];
+        DeviceModel = DevicesInfo["DeviceModel"];
+        SystemSDK = DevicesInfo["SystemSDK"];
+        CPUABI = DevicesInfo["CPUABI"];
+        DisplayHW = DevicesInfo["DisplayHW"];
+        Density = DevicesInfo["Density"];
+        DiskType = DevicesInfo["DiskType"];
+        BoardID = DevicesInfo["BoardID"];
+        Platform = DevicesInfo["Platform"];
+        Compile = DevicesInfo["Compile"];
+        Kernel = DevicesInfo["Kernel"];
+        BatteryLevel = DevicesInfo["BatteryLevel"];
+        BatteryInfo = DevicesInfo["BatteryInfo"];
+        MemLevel = DevicesInfo["MemLevel"];
+        UseMem = DevicesInfo["UseMem"];
+        DiskInfo = DevicesInfo["DiskInfo"];
+        ProgressDisk = DevicesInfo["ProgressDisk"];
+        IsConnecting = false;
     }
 
     [RelayCommand]
@@ -202,12 +197,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -236,12 +231,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -261,12 +256,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -286,12 +281,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -309,17 +304,17 @@ public partial class HomeViewModel : MainPageBase
             {
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
                 _ = output.Contains("unknown command")
-                    ? DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Home_NotSupported")).Dismiss().ByClickingBackground().TryShow()
-                    : DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Home_Successful")).Dismiss().ByClickingBackground().TryShow();
+                    ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Home_NotSupported")).Dismiss().ByClickingBackground().TryShow()
+                    : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Home_Successful")).Dismiss().ByClickingBackground().TryShow();
             }
             else
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -339,12 +334,12 @@ public partial class HomeViewModel : MainPageBase
             }
             else
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_ModeError")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
 using QRCoder;
 using SukiUI.Controls;
+using SukiUI.Dialogs;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +27,7 @@ namespace UotanToolbox.Common
 
 
         //Todo:使用原生Zeroconf做网络mdns扫描
-        public static async Task ScanmDNS(string serviceID, string password, Window window)
+        public static async Task ScanmDNS(string serviceID, string password, ISukiDialogManager dialogManager)
         {
             while (true) 
             {
@@ -40,7 +42,7 @@ namespace UotanToolbox.Common
                         result = await CallExternalProgram.ADB($"pair {match.Groups[2].Value}:{match.Groups[3].Value} {password}");
                         if (result.Contains("Successfully paired to "))
                         {
-                            //SukiHost.ShowDialog(window, new PureDialog(GetTranslation("WirelessADB_Connect")), allowBackgroundClose: true);
+                            dialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
                         }
                     }
                 }

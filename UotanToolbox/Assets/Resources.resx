@@ -126,8 +126,8 @@
   <data name="Home_AdbRebootTo" xml:space="preserve">
     <value>ADB reboot to</value>
   </data>
-  <data name="Home_AndroidSDK" xml:space="preserve">
-    <value>Android SDK</value>
+  <data name="Home_SystemSDK" xml:space="preserve">
+    <value>System SDK</value>
   </data>
   <data name="Home_BackButton" xml:space="preserve">
     <value>Back</value>
@@ -1424,5 +1424,20 @@
   </data>
   <data name="WirelessADB_Connect" xml:space="preserve">
     <value>Connection successful!</value>
+  </data>
+  <data name="Common_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Common_Know" xml:space="preserve">
+    <value>Got it</value>
+  </data>
+  <data name="Common_Succ" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="Common_Warn" xml:space="preserve">
+    <value>Warming</value>
+  </data>
+  <data name="Basicflash_Reboot" xml:space="preserve">
+    <value>Reboot to</value>
   </data>
 </root>

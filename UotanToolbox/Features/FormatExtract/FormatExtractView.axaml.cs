@@ -18,17 +18,13 @@ namespace UotanToolbox.Features.FormatExtract;
 
 public partial class FormatExtractView : UserControl
 {
-    public ISukiDialogManager dialogManager;
-    public ISukiToastManager toastManager;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public FormatExtractView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
+    public FormatExtractView()
     {
-        dialogManager = sukiDialogManager;
-        toastManager = sukiToastManager;
         InitializeComponent();
     }
     private static readonly string adb_log_path = Path.Combine(Global.log_path, "adb.txt");
@@ -156,29 +152,29 @@ public partial class FormatExtractView : UserControl
                         string shell = string.Format($"-w -p {com} -f \"{qcnfilepatch}\"");
                         await QCNTool(shell);
                         _ = FormatExtractLog.Text.Contains("error")
-                            ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteFailed")).Dismiss().ByClickingBackground().TryShow()
-                            : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteSucc")).Dismiss().ByClickingBackground().TryShow();
+                            ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteFailed")).Dismiss().ByClickingBackground().TryShow()
+                            : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteSucc")).Dismiss().ByClickingBackground().TryShow();
                         BusyQCN.IsBusy = false;
                         QCN.IsEnabled = true;
                     }
                     else
                     {
-                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_Open901D")).Dismiss().ByClickingBackground().TryShow();
+                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_Open901D")).Dismiss().ByClickingBackground().TryShow();
                     }
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_SelectQCN")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_SelectQCN")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -200,24 +196,24 @@ public partial class FormatExtractView : UserControl
                     string shell = string.Format($"-r -p {com}");
                     await QCNTool(shell);
                     _ = FormatExtractLog.Text.Contains("error")
-                        ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupFailed")).Dismiss().ByClickingBackground().TryShow()
-                        : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupSucc")).Dismiss().ByClickingBackground().TryShow();
+                        ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupFailed")).Dismiss().ByClickingBackground().TryShow()
+                        : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupSucc")).Dismiss().ByClickingBackground().TryShow();
                     BusyQCN.IsBusy = false;
                     QCN.IsEnabled = true;
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_Open901D")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_Open901D")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -225,42 +221,36 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            bool result = false;
-            _ = dialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
-            if (result == true)
-            {
-                TopLevel topLevel = TopLevel.GetTopLevel(this);
-                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
-                {
-                    Title = "Select Buckup Folder",
-                    AllowMultiple = false
-                });
-                if (files.Count >= 1)
-                {
-                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
-                    {
-                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
-                    }
-                    else
-                    {
-                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-            else
-            {
-                return;
-            }
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Warn"))
+                                        .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                        {
+                                            TopLevel topLevel = TopLevel.GetTopLevel(this);
+                                            System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                                            {
+                                                Title = "Select Buckup Folder",
+                                                AllowMultiple = false
+                                            });
+                                            if (files.Count >= 1)
+                                            {
+                                                if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                                                {
+                                                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                                                }
+                                                else
+                                                {
+                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
+                                                    return;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                return;
+                                            }
+                                        }, true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                        .TryShow();
         }
         if (Global.backup_path != null)
         {
@@ -275,31 +265,29 @@ public partial class FormatExtractView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                BusyQCN.IsBusy = true;
-                QCN.IsEnabled = false;
-                bool result = false;
-                _ = dialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("Common_NeedRoot"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
-                if (result == true)
-                {
-                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
-                }
-                BusyQCN.IsBusy = false;
-                QCN.IsEnabled = true;
+                Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Warn"))
+                                        .WithContent(GetTranslation("Common_NeedRoot"))
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                        {
+                                            BusyQCN.IsBusy = true;
+                                            QCN.IsEnabled = false;
+                                            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
+                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                                            BusyQCN.IsBusy = false;
+                                            QCN.IsEnabled = true;
+                                        }, true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                        .TryShow();
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -310,34 +298,32 @@ public partial class FormatExtractView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
-                BusyQCN.IsBusy = true;
-                QCN.IsEnabled = false;
-                bool result = false;
-                _ = dialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_OnlyXiaomi"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
-                if (result == true)
-                {
-                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
-                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DiagApk")).Dismiss().ByClickingBackground().TryShow();
-                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
-                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
-                }
-                BusyQCN.IsBusy = false;
-                QCN.IsEnabled = true;
+                Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Warn"))
+                                        .WithContent(GetTranslation("FormatExtract_OnlyXiaomi"))
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                        {
+                                            BusyQCN.IsBusy = true;
+                                            QCN.IsEnabled = false;
+                                            await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
+                                            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
+                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DiagApk")).Dismiss().ByClickingBackground().TryShow();
+                                            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
+                                            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
+                                            BusyQCN.IsBusy = true;
+                                            QCN.IsEnabled = false;
+                                        }, true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                        .TryShow();
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -371,25 +357,25 @@ public partial class FormatExtractView : UserControl
                     FormatExtractLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
                     await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile.Text}\"");
                     _ = !output.Contains("FAILED") && !output.Contains("error")
-                        ? dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_FlashSucc")).Dismiss().ByClickingBackground().TryShow()
-                        : dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_RecoveryFailed")).Dismiss().ByClickingBackground().TryShow();
+                        ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_FlashSucc")).Dismiss().ByClickingBackground().TryShow()
+                        : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_RecoveryFailed")).Dismiss().ByClickingBackground().TryShow();
                     BusyFlash.IsBusy = false;
                     SuperEmpty.IsEnabled = true;
                     Global.checkdevice = true;
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_SelectSuperEmpty")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_SelectSuperEmpty")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -448,24 +434,24 @@ public partial class FormatExtractView : UserControl
                     }
                     else
                     {
-                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NotFound")).Dismiss().ByClickingBackground().TryShow();
+                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NotFound")).Dismiss().ByClickingBackground().TryShow();
                     }
                     BusyFormat.IsBusy = false;
                     Format.IsEnabled = true;
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterFormatPart")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterFormatPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -490,17 +476,17 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterFormatPart")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterFormatPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -521,12 +507,12 @@ public partial class FormatExtractView : UserControl
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -547,12 +533,12 @@ public partial class FormatExtractView : UserControl
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecovery")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -560,42 +546,36 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            bool result = false;
-            _ = dialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
-            if (result == true)
-            {
-                TopLevel topLevel = TopLevel.GetTopLevel(this);
-                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
-                {
-                    Title = "Select Buckup Folder",
-                    AllowMultiple = false
-                });
-                if (files.Count >= 1)
-                {
-                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
-                    {
-                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
-                    }
-                    else
-                    {
-                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-            else
-            {
-                return;
-            }
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Warn"))
+                                        .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                        {
+                                            TopLevel topLevel = TopLevel.GetTopLevel(this);
+                                            System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                                            {
+                                                Title = "Select Buckup Folder",
+                                                AllowMultiple = false
+                                            });
+                                            if (files.Count >= 1)
+                                            {
+                                                if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                                                {
+                                                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                                                }
+                                                else
+                                                {
+                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
+                                                    return;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                return;
+                                            }
+                                        }, true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                        .TryShow();
         }
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
@@ -646,60 +626,58 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {
-                    bool result = false;
-                    _ = dialogManager.CreateDialog()
-    .WithTitle("Warn")
-    .WithContent(GetTranslation("Common_NeedRoot"))
-    .WithActionButton("Yes", _ => result = true, true)
-    .WithActionButton("No", _ => result = false, true)
-    .TryShow();
-                    if (result == true)
-                    {
-                        BusyExtract.IsBusy = true;
-                        Extract.IsEnabled = false;
-                        output = "";
-                        FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
-                        string partname = ExtractName.Text;
-                        await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
-                        string sdxx = FeaturesHelper.FindDisk(partname);
-                        if (sdxx != "")
-                        {
-                            string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
-                            string shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
-                            await ADB(shell);
-                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
-                            await ADB(shell);
-                            shell = string.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
-                            await ADB(shell);
-                        }
-                        else
-                        {
-                            FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
-                        }
-                        BusyExtract.IsBusy = false;
-                        Extract.IsEnabled = true;
-                    }
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Warn"))
+                                                .WithContent(GetTranslation("Common_NeedRoot"))
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                                {
+                                                    BusyExtract.IsBusy = true;
+                                                    Extract.IsEnabled = false;
+                                                    output = "";
+                                                    FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
+                                                    string partname = ExtractName.Text;
+                                                    await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
+                                                    string sdxx = FeaturesHelper.FindDisk(partname);
+                                                    if (sdxx != "")
+                                                    {
+                                                        string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
+                                                        string shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
+                                                        await ADB(shell);
+                                                        shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                                                        await ADB(shell);
+                                                        shell = string.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
+                                                        await ADB(shell);
+                                                    }
+                                                    else
+                                                    {
+                                                        FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
+                                                    }
+                                                    BusyExtract.IsBusy = false;
+                                                    Extract.IsEnabled = true;
+                                                }, true)
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                                .TryShow();
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecOrOpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecOrOpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -707,42 +685,36 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            bool result = false;
-            _ = dialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
-            if (result == true)
-            {
-                TopLevel topLevel = TopLevel.GetTopLevel(this);
-                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
-                {
-                    Title = "Select Buckup Folder",
-                    AllowMultiple = false
-                });
-                if (files.Count >= 1)
-                {
-                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
-                    {
-                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
-                    }
-                    else
-                    {
-                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-            else
-            {
-                return;
-            }
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Warn"))
+                                        .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                        {
+                                            TopLevel topLevel = TopLevel.GetTopLevel(this);
+                                            System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                                            {
+                                                Title = "Select Buckup Folder",
+                                                AllowMultiple = false
+                                            });
+                                            if (files.Count >= 1)
+                                            {
+                                                if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                                                {
+                                                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                                                }
+                                                else
+                                                {
+                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
+                                                    return;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                return;
+                                            }
+                                        }, true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                        .TryShow();
         }
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
@@ -795,62 +767,60 @@ public partial class FormatExtractView : UserControl
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else if (sukiViewModel.Status == GetTranslation("Home_System"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {
-                    bool result = false;
-                    _ = dialogManager.CreateDialog()
-    .WithTitle("Warn")
-    .WithContent(GetTranslation("Common_NeedRoot"))
-    .WithActionButton("Yes", _ => result = true, true)
-    .WithActionButton("No", _ => result = false, true)
-    .TryShow();
-                    if (result == true)
-                    {
-                        BusyExtract.IsBusy = true;
-                        Extract.IsEnabled = false;
-                        output = "";
-                        FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
-                        string partname = ExtractName.Text;
-                        string shell = string.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");
-                        string vmpart = await CallExternalProgram.ADB(shell);
-                        if (!vmpart.Contains("No such file or directory"))
-                        {
-                            char[] charSeparators = { ' ', '\r', '\n' };
-                            string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-                            string devicepoint = line[^1];
-                            shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
-                            await ADB(shell);
-                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
-                            await ADB(shell);
-                            shell = string.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
-                            await ADB(shell);
-                        }
-                        else
-                        {
-                            FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
-                        }
-                        BusyExtract.IsBusy = false;
-                        Extract.IsEnabled = true;
-                    }
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Warn"))
+                                                .WithContent(GetTranslation("Common_NeedRoot"))
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                                {
+                                                    BusyExtract.IsBusy = true;
+                                                    Extract.IsEnabled = false;
+                                                    output = "";
+                                                    FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
+                                                    string partname = ExtractName.Text;
+                                                    string shell = string.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/mapper/{partname}\"");
+                                                    string vmpart = await CallExternalProgram.ADB(shell);
+                                                    if (!vmpart.Contains("No such file or directory"))
+                                                    {
+                                                        char[] charSeparators = { ' ', '\r', '\n' };
+                                                        string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                                                        string devicepoint = line[^1];
+                                                        shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
+                                                        await ADB(shell);
+                                                        shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                                                        await ADB(shell);
+                                                        shell = string.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
+                                                        await ADB(shell);
+                                                    }
+                                                    else
+                                                    {
+                                                        FormatExtractLog.Text = GetTranslation("FormatExtract_NotFound");
+                                                    }
+                                                    BusyExtract.IsBusy = false;
+                                                    Extract.IsEnabled = true;
+                                                }, true)
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                                .TryShow();
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecOrOpenADB")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterRecOrOpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -858,42 +828,36 @@ public partial class FormatExtractView : UserControl
     {
         if (OperatingSystem.IsLinux() && Global.backup_path == null)
         {
-            bool result = false;
-            _ = dialogManager.CreateDialog()
-.WithTitle("Warn")
-.WithContent(GetTranslation("FormatExtract_ExtractFolder"))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
-            if (result == true)
-            {
-                TopLevel topLevel = TopLevel.GetTopLevel(this);
-                System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
-                {
-                    Title = "Select Buckup Folder",
-                    AllowMultiple = false
-                });
-                if (files.Count >= 1)
-                {
-                    if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
-                    {
-                        Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
-                    }
-                    else
-                    {
-                        _ = dialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
-                        return;
-                    }
-                }
-                else
-                {
-                    return;
-                }
-            }
-            else
-            {
-                return;
-            }
+            Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Warn"))
+                                        .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                        {
+                                            TopLevel topLevel = TopLevel.GetTopLevel(this);
+                                            System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+                                            {
+                                                Title = "Select Buckup Folder",
+                                                AllowMultiple = false
+                                            });
+                                            if (files.Count >= 1)
+                                            {
+                                                if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                                                {
+                                                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                                                }
+                                                else
+                                                {
+                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_FolderNoPermission")).Dismiss().ByClickingBackground().TryShow();
+                                                    return;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                return;
+                                            }
+                                        }, true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                        .TryShow();
         }
         if (Global.backup_path != null)
         {

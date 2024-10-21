@@ -11,23 +11,48 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UotanToolbox.Common;
 using SukiUI.Dialogs;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace UotanToolbox.Features.Home;
 
 public partial class HomeView : UserControl
 {
-    public ISukiDialogManager dialogManager;
-    public ISukiToastManager toastManager;
     public static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public HomeView(ISukiDialogManager sukiDialogManager, ISukiToastManager sukiToastManager)
+    public HomeView()
     {
-        dialogManager = sukiDialogManager;
-        toastManager = sukiToastManager;
+        _ = CheckEnvironment();
         InitializeComponent();
+    }
+
+    public async Task CheckEnvironment()
+    {
+        string filepath1 = "";
+        string filepath2 = "";
+        if (Global.System == "Windows")
+        {
+            filepath1 = Path.Combine(Global.bin_path, "platform-tools", "adb.exe");
+            filepath2 = Path.Combine(Global.bin_path, "platform-tools", "fastboot.exe");
+        }
+        else
+        {
+            filepath1 = Path.Combine(Global.bin_path, "platform-tools", "adb");
+            filepath2 = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
+        }
+        if (!File.Exists(filepath1) || !File.Exists(filepath2))
+        {
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle(GetTranslation("Common_Warn"))
+                .WithContent(GetTranslation("Home_Missing"))
+                .OfType(NotificationType.Error)
+                .WithActionButton("OK", _ => Process.GetCurrentProcess().Kill(), true)
+                .TryShow();
+
+        }
     }
 
     public async void CopyButton_OnClick(object sender, RoutedEventArgs args)
@@ -49,7 +74,7 @@ public partial class HomeView : UserControl
                 await clipboard.SetDataObjectAsync(dataObject);
             }
 
-            toastManager.CreateSimpleInfoToast()
+            Global.MainToastManager.CreateSimpleInfoToast()
                 .WithTitle(GetTranslation("Home_Copy"))
                 .WithContent("o(*≧▽≦)ツ")
                 .OfType(NotificationType.Success)
@@ -75,18 +100,17 @@ public partial class HomeView : UserControl
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains(GetTranslation("Basicflash_Success")))
                 {
-                    //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallSuccess")), allowBackgroundClose: true);
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallFailed")), allowBackgroundClose: true);
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallFailed")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_NotUsed")), allowBackgroundClose: true);
-        }
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();        }
     }
 
     private async void Open9008DI(object sender, RoutedEventArgs args)
@@ -105,17 +129,17 @@ public partial class HomeView : UserControl
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains(GetTranslation("Basicflash_Success")))
                 {
-                    //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallSuccess")), allowBackgroundClose: true);
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
-                    //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_InstallFailed")), allowBackgroundClose: true);
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallFailed")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_NotUsed")), allowBackgroundClose: true);
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -133,12 +157,12 @@ public partial class HomeView : UserControl
             Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
             });
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_NotUsed")), allowBackgroundClose: true);
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -156,14 +180,14 @@ public partial class HomeView : UserControl
             Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_Execution")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
             });
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Basicflash_NotUsed")), allowBackgroundClose: true);
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
-    private void OpenWirelessADB(object sender, RoutedEventArgs args) => new WirelessADB(dialogManager,toastManager).Show();
+    private void OpenWirelessADB(object sender, RoutedEventArgs args) => new WirelessADB().Show();
 }

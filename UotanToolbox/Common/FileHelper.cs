@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Controls.Notifications;
 using SukiUI.Dialogs;
 
 
@@ -14,6 +15,10 @@ namespace UotanToolbox.Common
 {
     internal class FileHelper
     {
+        private static string GetTranslation(string key)
+        {
+            return FeaturesHelper.GetTranslation(key);
+        }
         private ISukiDialogManager dialogManager;
         public static void CopyDirectory(string srcPath, string aimPath)
         {
@@ -101,17 +106,17 @@ namespace UotanToolbox.Common
             }
             catch (FileNotFoundException)
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"The file '{filePath}' was not found.").TryShow();
+                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"The file '{filePath}' was not found.").TryShow();
                 throw;
             }
             catch (UnauthorizedAccessException)
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"Access to the file '{filePath}' is denied.").TryShow();
+                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"Access to the file '{filePath}' is denied.").TryShow();
                 throw;
             }
             catch (Exception ex)
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}").TryShow();
+                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}").TryShow();
                 return null;
             }
         }

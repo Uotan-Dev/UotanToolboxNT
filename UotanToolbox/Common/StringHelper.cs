@@ -1,18 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using Avalonia.Controls.Shapes;
+using SukiUI.Controls;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Avalonia.Controls.Notifications;
 using SukiUI.Dialogs;
+using UotanToolbox.Features.Appmgr;
 
 
 namespace UotanToolbox.Common
 {
-
-
     internal class StringHelper
     {
+        private static string GetTranslation(string key)
+        {
+            return FeaturesHelper.GetTranslation(key);
+        }
+
         internal static readonly char[] separator = ['\r', '\n'];
 
         public static string[] ADBDevices(string ADBInfo)
@@ -45,6 +53,13 @@ namespace UotanToolbox.Common
                 }
             }
             devices = devices.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            return devices;
+        }
+
+        public static string[] HDCDevices(string HDCInfo)
+        {
+            string[] devices = HDCInfo.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            devices = devices.Where(s => !String.IsNullOrEmpty(s) && !s.Contains("[Empty]")).ToArray();
             return devices;
         }
 
@@ -104,6 +119,25 @@ namespace UotanToolbox.Common
             }
         }
 
+        public static List<ApplicationInfo> ParseApplicationInfo(string input)
+        {
+            var applicationInfos = new List<ApplicationInfo>();
+            var lines = input.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var line in lines)
+            {
+                var parts = line.Split(new[] { ' ' }, 3, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 3)
+                {
+                    applicationInfos.Add(new ApplicationInfo
+                    {
+                        Name = parts[1],
+                        DisplayName = parts[2],
+                    });
+                }
+            }
+            return applicationInfos;
+        }
         public static string RemoveLineFeed(string str)
         {
             string[] lines = str.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
@@ -113,10 +147,39 @@ namespace UotanToolbox.Common
                 : result;
         }
 
+        public static string RemoveSpace(string str)
+        {
+            string[] lines = str.Split(new char[] { ' '}, StringSplitOptions.RemoveEmptyEntries);
+            string result = string.Concat(lines);
+            if (string.IsNullOrEmpty(result))
+                return "--";
+            return result;
+        }
+
         public static string ColonSplit(string info)
         {
             string[] parts = info.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
             return parts.Length > 0 ? parts.Last() : "--";
+        }
+
+        public static string OHColonSplit(string info)
+        {
+            string[] infos = info.Split(new char[] { '\r', '\n', ','}, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < infos.Length; i++)
+            {
+                if (infos[i].Contains("physical screen resolution"))
+                {
+                    string[] device = infos[i].Split(':', StringSplitOptions.RemoveEmptyEntries);
+                    return device[1];
+                }
+            }
+            return "--";
+        }
+
+        public static string OHKernel(string info)
+        {
+            string[] infos = info.Split('#', StringSplitOptions.RemoveEmptyEntries);
+            return infos[0];
         }
 
         public static string Density(string info)
@@ -149,6 +212,28 @@ namespace UotanToolbox.Common
             }
             infos = infos.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             return infos;
+        }
+
+        public static string[] BatteryOH(string info)
+        {
+            string[] infos = new string[100];
+            string[] Lines = info.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < Lines.Length; i++)
+            {
+                if (Lines[i].Contains("capacity") || Lines[i].Contains("voltage") || Lines[i].Contains("temperature"))
+                {
+                    string[] device = Lines[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                    infos[i] = device[device.Length - 1];
+                }
+            }
+            infos = infos.Where(s => !String.IsNullOrEmpty(s)).ToArray();
+            return infos;
+        }
+
+        public static string OHVersion(string info)
+        {
+            string[] version = info.Split(new char[] { ' ', '(' }, StringSplitOptions.RemoveEmptyEntries);
+            return version[1];
         }
 
         public static string[] Mem(string info)
@@ -326,18 +411,18 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"Unable to find {regex} in the file: {filePath}").TryShow();
+                    dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"Unable to find {regex} in the file: {filePath}").TryShow();
                     return null;
                 }
             }
             catch (FileNotFoundException)
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"File not found: {filePath}").TryShow();
+                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"File not found: {filePath}").TryShow();
                 return null;
             }
             catch (Exception ex)
             {
-                _ = dialogManager.CreateDialog().WithTitle("Error").WithActionButton("知道了", _ => { }, true).WithContent($"An error occurred while reading the file: {ex.Message}").TryShow();
+                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"An error occurred while reading the file: {ex.Message}").TryShow();
                 return null;
             }
         }

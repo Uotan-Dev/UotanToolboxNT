@@ -30,18 +30,13 @@ public partial class ScrcpyViewModel : MainPageBase
     [ObservableProperty][Range(0d, 50d)] private double _bitRate = 8;
     [ObservableProperty][Range(0d, 144d)] private double _frameRate = 60;
     [ObservableProperty][Range(0d, 2048d)] private double _sizeResolution = 0;
-    public ISukiDialogManager DialogManager { get; }
-    public ISukiToastManager ToastManager { get; }
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
 
-    public ScrcpyViewModel(ISukiDialogManager dialogManager, ISukiToastManager toastManager) : base("Scrcpy", MaterialIconKind.CellphoneLink, -500)
+    public ScrcpyViewModel() : base("Scrcpy", MaterialIconKind.CellphoneLink, -500)
     {
-        DialogManager = dialogManager;
-        ToastManager = toastManager;
-        Global.scrcpyView = new ScrcpyView(dialogManager, toastManager);
         _ = this.WhenAnyValue(x => x.ComputerControl)
             .Subscribe(jug =>
             {
@@ -75,7 +70,7 @@ public partial class ScrcpyViewModel : MainPageBase
                         {
                             if (string.IsNullOrEmpty(RecordFolder))
                             {
-                                _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Scrcpy_RecordFileNotChosen")).Dismiss().ByClickingBackground().TryShow();
+                                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Scrcpy_RecordFileNotChosen")).Dismiss().ByClickingBackground().TryShow();
                                 IsConnecting = false;
                                 return;
                             }
@@ -144,17 +139,17 @@ public partial class ScrcpyViewModel : MainPageBase
                 }
                 else
                 {
-                    _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
             else
             {
-                _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            _ = DialogManager.CreateDialog().WithTitle("Error").OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotSupportSystem")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -169,12 +164,12 @@ public partial class ScrcpyViewModel : MainPageBase
             }
             else
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 
@@ -209,16 +204,22 @@ public partial class ScrcpyViewModel : MainPageBase
             {
                 string pngname = String.Format($"{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}");
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell /system/bin/screencap -p /sdcard/{pngname}.png");
-                //await SukiHost.ShowToast(GetTranslation("Home_Succeeded"), $"{GetTranslation("Home_Saved")} {pngname}.png {GetTranslation("Home_ToStorage")}", NotificationType.Success);
+                Global.MainToastManager.CreateSimpleInfoToast()
+                    .WithTitle(GetTranslation("Home_Succeeded"))
+                    .WithContent($"{GetTranslation("Home_Saved")} {pngname}.png {GetTranslation("Home_ToStorage")}")
+                    .OfType(NotificationType.Success)
+                    .Dismiss().ByClicking()
+                    .Dismiss().After(TimeSpan.FromSeconds(3))
+                    .Queue();
             }
             else
             {
-                //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_OpenADB")), allowBackgroundClose: true);
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_OpenADB")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         else
         {
-            //SukiHost.ShowDialog(new PureDialog(GetTranslation("Common_NotConnected")), allowBackgroundClose: true);
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
         }
     }
 }

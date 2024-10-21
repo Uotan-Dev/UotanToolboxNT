@@ -172,14 +172,14 @@
 					<WrapPanel theme:WrapPanelExtensions.AnimatedScroll="True"
 							   Orientation="Vertical">
 						<DockPanel Width="900">
-							<Button MinWidth="135"
+							<Button Width="135"
 									Height="40"
 									Command="{Binding ConnectCommand}"
 									FontWeight="DemiBold"
-									theme:ButtonExtensions.ShowProgress="{Binding IsBusy}"
 									DockPanel.Dock="Left"
 									Content="{x:Static assets:Resources.Appmgr_FetchApplicationList}">
 							</Button>
+							<TextBox Height="40" Width="300" Margin="145 0 0 0" Watermark="搜索你想要的应用" Text="{Binding Search, Mode=TwoWay}"></TextBox>
 							<StackPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
 								<TextBlock Classes="h4" Text="{x:Static assets:Resources.Appmgr_DisplaySystemApp}"></TextBlock>
 								<ToggleSwitch IsChecked="{Binding IsSystemAppDisplayed}"/>
@@ -199,8 +199,9 @@
 										<StackPanel Orientation="Vertical" Spacing="5">
 											<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0">
 												<RadioButton GroupName="ApplicationSelection" HorizontalAlignment="Right" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
-												<TextBlock FontSize="15" FontWeight="DemiBold" Text="{Binding Name}" HorizontalAlignment="Left" />
+												<TextBlock FontSize="15" FontWeight="DemiBold" Text="{Binding DisplayName}" HorizontalAlignment="Left" />
 											</StackPanel>
+											<TextBlock FontSize="15" FontWeight="DemiBold" Text="{Binding Name}" HorizontalAlignment="Left" />
 											<TextBlock FontSize="12" Text="{Binding OtherInfo}" />
 											<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="{x:Static assets:Resources.Appmgr_Uninstall}" Click="UninstallButton_Click" HorizontalAlignment="Right"/>
 										</StackPanel>

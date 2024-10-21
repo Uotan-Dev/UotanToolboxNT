@@ -23,7 +23,7 @@ public partial class HomeViewModel : MainPageBase
     [ObservableProperty]
     private string _progressDisk = "0", _memLevel = "0", _status = "--", _bLStatus = "--",
     _vABStatus = "--", _codeName = "--", _vNDKVersion = "--", _cPUCode = "--",
-    _powerOnTime = "--", _deviceBrand = "--", _deviceModel = "--", _androidSDK = "--",
+    _powerOnTime = "--", _deviceBrand = "--", _deviceModel = "--", _systemSDK = "--",
     _cPUABI = "--", _displayHW = "--", _density = "--", _boardID = "--", _platform = "--",
     _compile = "--", _kernel = "--", _selectedSimpleContent = null, _diskType = "--",
     _batteryLevel = "0", _batteryInfo = "--", _useMem = "--", _diskInfo = "--";
@@ -106,7 +106,7 @@ public partial class HomeViewModel : MainPageBase
                         .Queue();
                     MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                     Status = sukiViewModel.Status = BLStatus = sukiViewModel.BLStatus = VABStatus = sukiViewModel.VABStatus = CodeName = sukiViewModel.CodeName = "--";
-                    VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = AndroidSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
+                    VNDKVersion = CPUCode = PowerOnTime = DeviceBrand = DeviceModel = SystemSDK = CPUABI = DisplayHW = Density = DiskType = BoardID = Platform = Compile = Kernel = BatteryInfo = UseMem = DiskInfo = "--";
                     BatteryLevel = MemLevel = ProgressDisk = "0";
                 }
             }
@@ -148,7 +148,7 @@ public partial class HomeViewModel : MainPageBase
         PowerOnTime = DevicesInfo["PowerOnTime"];
         DeviceBrand = DevicesInfo["DeviceBrand"];
         DeviceModel = DevicesInfo["DeviceModel"];
-        AndroidSDK = DevicesInfo["AndroidSDK"];
+        SystemSDK = DevicesInfo["SystemSDK"];
         CPUABI = DevicesInfo["CPUABI"];
         DisplayHW = DevicesInfo["DisplayHW"];
         Density = DevicesInfo["Density"];

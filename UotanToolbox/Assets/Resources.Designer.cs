@@ -1798,15 +1798,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Android SDK 的本地化字符串。
-        /// </summary>
-        public static string Home_AndroidSDK {
-            get {
-                return ResourceManager.GetString("Home_AndroidSDK", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Back 的本地化字符串。
         /// </summary>
         public static string Home_BackButton {
@@ -2253,6 +2244,13 @@ namespace UotanToolbox.Assets {
         public static string Home_ToStorage {
             get {
                 return ResourceManager.GetString("Home_ToStorage", resourceCulture);
+            }
+        }
+        ///   查找类似 System SDK 的本地化字符串。
+        /// </summary>
+        public static string Home_SystemSDK {
+            get {
+                return ResourceManager.GetString("Home_SystemSDK", resourceCulture);
             }
         }
         

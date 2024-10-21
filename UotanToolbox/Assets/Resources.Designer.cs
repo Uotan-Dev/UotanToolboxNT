@@ -799,6 +799,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Reboot to 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_Reboot {
+            get {
+                return ResourceManager.GetString("Basicflash_Reboot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Flash failed! 的本地化字符串。
         /// </summary>
         public static string Basicflash_RecoveryFailed {

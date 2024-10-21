@@ -380,7 +380,7 @@
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
-								Text="重启至" />
+								Text="{x:Static assets:Resources.Basicflash_Reboot}" />
 					<StackPanel Margin="0 40 0 0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="125"

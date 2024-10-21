@@ -150,11 +150,11 @@ public partial class SettingsViewModel : MainPageBase
             {
                 bool result = false;
                 DialogManager.CreateDialog()
-.WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-.WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                .WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
+                .WithActionButton("Yes", _ => result = true, true)
+                .WithActionButton("No", _ => result = false, true)
+                .TryShow();
                 if (result == true)
                 {
                     UrlUtilities.OpenURL("https://toolbox.uotan.cn");
@@ -164,11 +164,11 @@ public partial class SettingsViewModel : MainPageBase
             {
                 bool result = false;
                 DialogManager.CreateDialog()
-.WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-.WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
-.WithActionButton("Yes", _ => result = true, true)
-.WithActionButton("No", _ => result = false, true)
-.TryShow();
+                .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                .WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
+                .WithActionButton("Yes", _ => result = true, true)
+                .WithActionButton("No", _ => result = false, true)
+                .TryShow();
                 if (result == true)
                 {
                     UrlUtilities.OpenURL("https://toolbox.uotan.cn");

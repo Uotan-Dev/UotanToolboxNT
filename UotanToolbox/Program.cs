@@ -77,9 +77,6 @@ internal static class Program
             .WithInterFont()
             .LogToTrace()
             .UseXamlDisplay();
-
-        if (OperatingSystem.IsWindows() || OperatingSystem.IsMacOS() || OperatingSystem.IsLinux())
-            app.UseManagedSystemDialogs();
         return app;
     }
 }

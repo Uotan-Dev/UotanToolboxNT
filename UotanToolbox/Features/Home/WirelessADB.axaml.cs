@@ -45,7 +45,7 @@ public partial class WirelessADB : SukiWindow
         string password = PairingCode.Text;
         Connect.IsBusy = true;
         ConnectPanel.IsEnabled = false;
-        if (!string.IsNullOrEmpty(input) && !string.IsNullOrEmpty(password))
+        if (!string.IsNullOrEmpty(input))
         {
             string result = await CallExternalProgram.ADB($"pair {input} {password}");
             if (result.Contains("Successfully paired to "))

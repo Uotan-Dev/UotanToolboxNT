@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Controls.Notifications;
 using SukiUI.Dialogs;
+using UotanToolbox.Features.Appmgr;
 
 
 namespace UotanToolbox.Common
@@ -108,6 +110,25 @@ namespace UotanToolbox.Common
             }
         }
 
+        public static List<ApplicationInfo> ParseApplicationInfo(string input)
+        {
+            var applicationInfos = new List<ApplicationInfo>();
+            var lines = input.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var line in lines)
+            {
+                var parts = line.Split(new[] { ' ' }, 3, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 3)
+                {
+                    applicationInfos.Add(new ApplicationInfo
+                    {
+                        Name = parts[1],
+                        DisplayName = parts[2],
+                    });
+                }
+            }
+            return applicationInfos;
+        }
         public static string RemoveLineFeed(string str)
         {
             string[] lines = str.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);

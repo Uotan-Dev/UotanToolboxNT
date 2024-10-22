@@ -153,7 +153,7 @@ public partial class FormatExtractView : UserControl
                         await QCNTool(shell);
                         _ = FormatExtractLog.Text.Contains("error")
                             ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteFailed")).Dismiss().ByClickingBackground().TryShow()
-                            : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_WriteSucc")).Dismiss().ByClickingBackground().TryShow();
+                            : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("FormatExtract_WriteSucc")).Dismiss().ByClickingBackground().TryShow();
                         BusyQCN.IsBusy = false;
                         QCN.IsEnabled = true;
                     }
@@ -197,7 +197,7 @@ public partial class FormatExtractView : UserControl
                     await QCNTool(shell);
                     _ = FormatExtractLog.Text.Contains("error")
                         ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupFailed")).Dismiss().ByClickingBackground().TryShow()
-                        : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_BackupSucc")).Dismiss().ByClickingBackground().TryShow();
+                        : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("FormatExtract_BackupSucc")).Dismiss().ByClickingBackground().TryShow();
                     BusyQCN.IsBusy = false;
                     QCN.IsEnabled = true;
                 }
@@ -224,6 +224,7 @@ public partial class FormatExtractView : UserControl
             Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Warn"))
                                         .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .OfType(NotificationType.Warning)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                         {
                                             TopLevel topLevel = TopLevel.GetTopLevel(this);
@@ -268,12 +269,13 @@ public partial class FormatExtractView : UserControl
                 Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Warn"))
                                         .WithContent(GetTranslation("Common_NeedRoot"))
+                                        .OfType(NotificationType.Warning)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                         {
                                             BusyQCN.IsBusy = true;
                                             QCN.IsEnabled = false;
                                             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell su -c \"setprop sys.usb.config diag,adb\"");
-                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                                             BusyQCN.IsBusy = false;
                                             QCN.IsEnabled = true;
                                         }, true)
@@ -301,15 +303,23 @@ public partial class FormatExtractView : UserControl
                 Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Warn"))
                                         .WithContent(GetTranslation("FormatExtract_OnlyXiaomi"))
+                                        .OfType(NotificationType.Warning)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                         {
                                             BusyQCN.IsBusy = true;
                                             QCN.IsEnabled = false;
                                             await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
                                             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
-                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DiagApk")).Dismiss().ByClickingBackground().TryShow();
-                                            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
-                                            await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
+                                            Global.MainDialogManager.CreateDialog()
+                                                                    .WithTitle(GetTranslation("Common_Error"))
+                                                                    .OfType(NotificationType.Information)
+                                                                    .WithContent(GetTranslation("FormatExtract_DiagApk"))
+                                                                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
+                                                                    {
+                                                                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/\"");
+                                                                        await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
+                                                                    },true)
+                                                                    .TryShow();
                                             BusyQCN.IsBusy = true;
                                             QCN.IsEnabled = false;
                                         }, true)
@@ -357,7 +367,7 @@ public partial class FormatExtractView : UserControl
                     FormatExtractLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
                     await Fastboot($"-s {Global.thisdevice} wipe-super \"{SuperEmptyFile.Text}\"");
                     _ = !output.Contains("FAILED") && !output.Contains("error")
-                        ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_FlashSucc")).Dismiss().ByClickingBackground().TryShow()
+                        ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("Basicflash_FlashSucc")).Dismiss().ByClickingBackground().TryShow()
                         : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_RecoveryFailed")).Dismiss().ByClickingBackground().TryShow();
                     BusyFlash.IsBusy = false;
                     SuperEmpty.IsEnabled = true;
@@ -549,6 +559,7 @@ public partial class FormatExtractView : UserControl
             Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Warn"))
                                         .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .OfType(NotificationType.Warning)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                         {
                                             TopLevel topLevel = TopLevel.GetTopLevel(this);
@@ -636,6 +647,7 @@ public partial class FormatExtractView : UserControl
                     Global.MainDialogManager.CreateDialog()
                                                 .WithTitle(GetTranslation("Common_Warn"))
                                                 .WithContent(GetTranslation("Common_NeedRoot"))
+                                                .OfType(NotificationType.Warning)
                                                 .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                                 {
                                                     BusyExtract.IsBusy = true;
@@ -688,6 +700,7 @@ public partial class FormatExtractView : UserControl
             Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Warn"))
                                         .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .OfType(NotificationType.Warning)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                         {
                                             TopLevel topLevel = TopLevel.GetTopLevel(this);
@@ -777,6 +790,7 @@ public partial class FormatExtractView : UserControl
                     Global.MainDialogManager.CreateDialog()
                                                 .WithTitle(GetTranslation("Common_Warn"))
                                                 .WithContent(GetTranslation("Common_NeedRoot"))
+                                                .OfType(NotificationType.Warning)
                                                 .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                                 {
                                                     BusyExtract.IsBusy = true;
@@ -831,6 +845,7 @@ public partial class FormatExtractView : UserControl
             Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Warn"))
                                         .WithContent(GetTranslation("FormatExtract_ExtractFolder"))
+                                        .OfType(NotificationType.Warning)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                         {
                                             TopLevel topLevel = TopLevel.GetTopLevel(this);

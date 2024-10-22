@@ -100,7 +100,7 @@ public partial class HomeView : UserControl
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains(GetTranslation("Basicflash_Success")))
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
@@ -129,7 +129,7 @@ public partial class HomeView : UserControl
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
                 if (drvlog.Contains(GetTranslation("Basicflash_Success")))
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("Common_InstallSuccess")).Dismiss().ByClickingBackground().TryShow();
                 }
                 else
                 {
@@ -157,7 +157,7 @@ public partial class HomeView : UserControl
             Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
             });
         }
         else
@@ -180,7 +180,7 @@ public partial class HomeView : UserControl
             Process f = Process.Start(cmdshell);
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
             });
         }
         else

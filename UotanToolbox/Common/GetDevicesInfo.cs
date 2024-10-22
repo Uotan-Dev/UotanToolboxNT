@@ -153,7 +153,7 @@ namespace UotanToolbox.Common
                 }
                 else if (thisdevice.Contains("	device"))
                 {
-                    status = GetTranslation("Home_System");
+                    status = GetTranslation("Home_Android");
                 }
                 else if (thisdevice.Contains("unauthorized"))
                 {
@@ -167,7 +167,7 @@ namespace UotanToolbox.Common
                         : status == GetTranslation("Info_UnauthorizedDevice") || status == GetTranslation("Home_Sideload")
                                             ? "--"
                                             : GetTranslation("Info_AOnly");
-                if (status == GetTranslation("Home_System"))
+                if (status == GetTranslation("Home_Android"))
                 {
                     string android = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.release");
                     string sdk = await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.build.version.sdk");
@@ -261,17 +261,32 @@ namespace UotanToolbox.Common
             }
             if (hdc.Contains(devicename))
             {
-                status = "系统";
+                status = GetTranslation("Home_OpenHOS");
                 blstatus = "--";
-                string harmony = StringHelper.OHVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.software.version"));
                 string sdk = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.ohos.apiversion"));
-                systemsdk = String.Format($"OpenHarmony {harmony}({StringHelper.RemoveSpace(sdk)})");
+                try
+                {
+                    string[] deviceinfo = StringHelper.OHDeviceInof(await CallExternalProgram.HDC($"-t {devicename} shell SP_daemon -deviceinfo"));
+                    systemsdk = String.Format($"{deviceinfo[1]}({StringHelper.RemoveSpace(sdk)})"); 
+                    cpucode = deviceinfo[0];
+                }
+                catch
+                {
+                    string harmony = StringHelper.OHVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.software.version"));
+                    systemsdk = String.Format($"OpenHarmony {harmony}({StringHelper.RemoveSpace(sdk)})");
+                    cpucode = "--";
+                }
                 codename = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.model"));
                 devicebrand = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.brand"));
+                if (devicebrand.Contains("default"))
+                {
+                    devicebrand = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.manufacturer"));
+                }
                 devicemodel = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.name"));
                 displayhw = StringHelper.OHColonSplit(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s RenderService -a screen"));
                 kernel = StringHelper.OHKernel(await CallExternalProgram.HDC($"-t {devicename} shell uname -a"));
                 cpuabi = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.cpu.abilist"));
+                compileversion = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.incremental.version"));
                 try
                 {
                     string[] battery = StringHelper.BatteryOH(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s BatteryService -a -i"));
@@ -282,6 +297,30 @@ namespace UotanToolbox.Common
                 {
                     batterylevel = "0";
                     batteryinfo = "--";
+                }
+
+                try
+                {
+                    string[] mem = StringHelper.OHMem(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s MemoryManagerService --mem"));
+                    memlevel = Math.Round(Math.Round(double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
+                    usemem = string.Format($"{Math.Round(double.Parse(mem[1]) * 1.024 / 1000000, 1)}GB/{Math.Round(double.Parse(mem[0]) * 1.024 / 1000000)}GB");
+                }
+                catch
+                {
+                    memlevel = "0";
+                    usemem = "--";
+                }
+                try
+                {
+                    string diskinfos2 = await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s StorageManager --storage");
+                    string[] columns = StringHelper.DiskInfo(diskinfos2, "/data", true);
+                    progressdisk = columns[4].TrimEnd('%');
+                    diskinfo = string.Format($"{double.Parse(columns[2]) / 1024 / 1024:0.00}GB/{double.Parse(columns[1]) / 1024 / 1024:0.00}GB");
+                }
+                catch
+                {
+                    progressdisk = "0";
+                    diskinfo = "--";
                 }
             }
             string[] deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
@@ -407,7 +446,7 @@ namespace UotanToolbox.Common
                 }
                 else if (thisdevice.Contains("	device"))
                 {
-                    status = GetTranslation("Home_System");
+                    status = GetTranslation("Home_Android");
                 }
                 else if (thisdevice.Contains("unauthorized"))
                 {

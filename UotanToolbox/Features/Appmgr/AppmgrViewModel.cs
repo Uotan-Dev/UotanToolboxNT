@@ -89,7 +89,7 @@ public partial class AppmgrViewModel : MainPageBase
                 IsBusy = false; return;
             }
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (!(sukiViewModel.Status == GetTranslation("Home_System")))
+            if (!(sukiViewModel.Status == GetTranslation("Home_Android")))
             {
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {

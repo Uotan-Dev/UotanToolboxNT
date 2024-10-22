@@ -264,7 +264,7 @@ public partial class FormatExtractView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Warn"))
@@ -298,7 +298,7 @@ public partial class FormatExtractView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Warn"))
@@ -640,7 +640,7 @@ public partial class FormatExtractView : UserControl
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
-            else if (sukiViewModel.Status == GetTranslation("Home_System"))
+            else if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {
@@ -783,7 +783,7 @@ public partial class FormatExtractView : UserControl
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_EnterExtractPart")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
-            else if (sukiViewModel.Status == GetTranslation("Home_System"))
+            else if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 if (!string.IsNullOrEmpty(ExtractName.Text))
                 {

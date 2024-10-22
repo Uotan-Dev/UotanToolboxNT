@@ -126,9 +126,6 @@
   <data name="Home_AdbRebootTo" xml:space="preserve">
     <value>ADB reboot to</value>
   </data>
-  <data name="Home_SystemSDK" xml:space="preserve">
-    <value>System SDK</value>
-  </data>
   <data name="Home_BackButton" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -1439,5 +1436,11 @@
   </data>
   <data name="Basicflash_Reboot" xml:space="preserve">
     <value>Reboot to</value>
+  </data>
+  <data name="Home_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Home_OpenHOS" xml:space="preserve">
+    <value>OpenHarmony</value>
   </data>
 </root>

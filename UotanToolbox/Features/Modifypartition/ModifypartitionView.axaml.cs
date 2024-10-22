@@ -108,7 +108,7 @@ public partial class ModifypartitionView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == "Recovery" || sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == "Recovery" || sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 BusyPart.IsBusy = true;
                 ReadPartBut.IsEnabled = false;
@@ -117,7 +117,7 @@ public partial class ModifypartitionView : UserControl
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp unmount data");
                 }
-                if (sukiViewModel.Status == GetTranslation("Home_System"))
+                if (sukiViewModel.Status == GetTranslation("Home_Android"))
                 {
                     Global.MainDialogManager.CreateDialog()
                         .WithTitle(GetTranslation("Common_Warn"))

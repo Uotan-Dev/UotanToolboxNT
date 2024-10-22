@@ -1798,6 +1798,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Android 的本地化字符串。
+        /// </summary>
+        public static string Home_Android {
+            get {
+                return ResourceManager.GetString("Home_Android", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Back 的本地化字符串。
         /// </summary>
         public static string Home_BackButton {
@@ -2086,6 +2095,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 OpenHarmony 的本地化字符串。
+        /// </summary>
+        public static string Home_OpenHOS {
+            get {
+                return ResourceManager.GetString("Home_OpenHOS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Pair code: 的本地化字符串。
         /// </summary>
         public static string Home_PairingCode {
@@ -2244,13 +2262,6 @@ namespace UotanToolbox.Assets {
         public static string Home_ToStorage {
             get {
                 return ResourceManager.GetString("Home_ToStorage", resourceCulture);
-            }
-        }
-        ///   查找类似 System SDK 的本地化字符串。
-        /// </summary>
-        public static string Home_SystemSDK {
-            get {
-                return ResourceManager.GetString("Home_SystemSDK", resourceCulture);
             }
         }
         

@@ -126,9 +126,6 @@
   <data name="Home_AdbRebootTo" xml:space="preserve">
     <value>ADB 重启至</value>
   </data>
-  <data name="Home_SystemSDK" xml:space="preserve">
-    <value>系统</value>
-  </data>
   <data name="Home_BackButton" xml:space="preserve">
     <value>返回</value>
   </data>
@@ -1436,5 +1433,11 @@
   </data>
   <data name="Basicflash_Reboot" xml:space="preserve">
     <value>重启至</value>
+  </data>
+  <data name="Home_Android" xml:space="preserve">
+    <value>Android</value>
+  </data>
+  <data name="Home_OpenHOS" xml:space="preserve">
+    <value>OpenHarmony</value>
   </data>
 </root>

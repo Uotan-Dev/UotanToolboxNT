@@ -70,7 +70,7 @@ public partial class WirelessADB : SukiWindow
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 Connect.IsBusy = true;
                 ConnectPanel.IsEnabled = false;

@@ -60,7 +60,7 @@ public partial class ScrcpyViewModel : MainPageBase
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_System"))
+                if (sukiViewModel.Status == GetTranslation("Home_Android"))
                 {
                     IsConnecting = true;
                     await Dispatcher.UIThread.InvokeAsync(async () =>
@@ -158,7 +158,7 @@ public partial class ScrcpyViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} {shell}");
             }
@@ -200,7 +200,7 @@ public partial class ScrcpyViewModel : MainPageBase
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 string pngname = String.Format($"{DateAndTime.Now:yyyy-MM-dd_HH-mm-ss}");
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell /system/bin/screencap -p /sdcard/{pngname}.png");

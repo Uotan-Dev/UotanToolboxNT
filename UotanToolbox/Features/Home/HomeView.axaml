@@ -79,7 +79,7 @@
 											FontSize="13"
 											FontWeight="DemiBold"
 											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_SystemSDK}" />
+											Text="{x:Static assets:Resources.Home_System}" />
 								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 									<Button Theme="{StaticResource ToolboxButton}"
 											Foreground="White"

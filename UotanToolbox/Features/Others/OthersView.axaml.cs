@@ -49,7 +49,7 @@ public partial class OthersView : UserControl
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_System"))
+                if (sukiViewModel.Status == GetTranslation("Home_Android"))
                 {
                     if (ScrResolution.Text == "--" && ScrDPI.Text == "--" && ScrDP.Text == "--")
                     {
@@ -91,7 +91,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 if (!string.IsNullOrEmpty(Transverse.Text) && !string.IsNullOrEmpty(Direction.Text))
                 {
@@ -148,7 +148,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm size reset");
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell wm density reset");
@@ -187,7 +187,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 if (!string.IsNullOrEmpty(Temp.Text))
                 {
@@ -248,7 +248,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 if (!string.IsNullOrEmpty(BLevel.Text))
                 {
@@ -278,7 +278,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys battery reset");
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Others_Restored")).Dismiss().ByClickingBackground().TryShow();
@@ -307,7 +307,7 @@ public partial class OthersView : UserControl
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_System"))
+                if (sukiViewModel.Status == GetTranslation("Home_Android"))
                 {
                     WirelessCharge.IsChecked = false;
                     USUCharge.IsChecked = false;
@@ -336,7 +336,7 @@ public partial class OthersView : UserControl
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_System"))
+                if (sukiViewModel.Status == GetTranslation("Home_Android"))
                 {
                     NoCharge.IsChecked = false;
                     USUCharge.IsChecked = false;
@@ -365,7 +365,7 @@ public partial class OthersView : UserControl
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_System"))
+                if (sukiViewModel.Status == GetTranslation("Home_Android"))
                 {
                     WirelessCharge.IsChecked = false;
                     NoCharge.IsChecked = false;
@@ -394,7 +394,7 @@ public partial class OthersView : UserControl
             if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_System"))
+                if (sukiViewModel.Status == GetTranslation("Home_Android"))
                 {
 
                     WirelessCharge.IsChecked = false;
@@ -423,7 +423,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 if (!string.IsNullOrEmpty(NewLockTime.Text))
                 {
@@ -455,7 +455,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 string addshell = "";
                 if (Time.IsChecked == true)
@@ -588,7 +588,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put system font_scale {FontZoom.Value}");
                 Global.MainToastManager.CreateToast()
@@ -635,7 +635,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global window_animation_scale {WindowZoom.Value}");
                 Global.MainToastManager.CreateToast()
@@ -681,7 +681,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global transition_animation_scale {TransitionZoom.Value}");
                 Global.MainToastManager.CreateToast()
@@ -727,7 +727,7 @@ public partial class OthersView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell settings put global animator_duration_scale {AnimationDuration.Value}");
                 Global.MainToastManager.CreateToast()

@@ -252,8 +252,31 @@ namespace UotanToolbox.Common
             return infos;
         }
 
-        public static string[] DiskInfo(string info, string find)
+        public static string[] OHMem(string info)
         {
+            string[] infos = new string[2];
+            string infolite = info.Substring(info.LastIndexOf("Total Pss by Category:"));
+            string[] Lines = infolite.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            int j = 0;
+            for (int i = 0; i < Lines.Length; i++)
+            {
+                if (Lines[i].Contains("Total RAM:") || Lines[i].Contains("Free RAM:"))
+                {
+                    string[] device = Lines[i].Split(new char[] { ' ', ':' }, StringSplitOptions.RemoveEmptyEntries);
+                    infos[j] = device[2];
+                    j++;
+                }
+            }
+            infos = infos.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            return infos;
+        }
+
+        public static string[] DiskInfo(string info, string find, bool isohhs = false)
+        {
+            if (isohhs)
+            {
+                info = info.Substring(0, info.IndexOf("COMMAND"));
+            }
             string[] columns = new string[20];
             string[] lines = info.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             string targetLine = lines.FirstOrDefault(line => line.Contains(find));
@@ -261,9 +284,27 @@ namespace UotanToolbox.Common
             {
                 columns = targetLine.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             }
-
             columns = columns.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             return columns;
+        }
+
+        public static string[] OHDeviceInof(string info)
+        {
+            string[] infos = new string[2];
+            string[] lines = info.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            string targetLine = lines.FirstOrDefault(line => line.Contains(""));
+            int j = 0;
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].Contains("fullname:") || lines[i].Contains("deviceTypeName:"))
+                {
+                    string[] device = lines[i].Split(new char[] { ' ', ':' }, StringSplitOptions.RemoveEmptyEntries);
+                    infos[j] = device[1];
+                    j++;
+                }
+            }
+            infos = infos.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            return infos;
         }
 
         public static string FastbootVar(string info, string find)

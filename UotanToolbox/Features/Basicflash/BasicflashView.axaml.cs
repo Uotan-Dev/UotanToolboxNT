@@ -449,7 +449,7 @@ public partial class BasicflashView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_System") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android") || sukiViewModel.Status == GetTranslation("Home_Recovery") || sukiViewModel.Status == GetTranslation("Home_Sideload"))
             {
                 BusyReboot.IsBusy = true;
                 RebootPanel.IsEnabled = false;
@@ -753,7 +753,7 @@ public partial class BasicflashView : UserControl
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
             }
-            if (sukiViewModel.Status == GetTranslation("Home_System"))
+            if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
                 if (MagiskFile.Text != null)
                 {

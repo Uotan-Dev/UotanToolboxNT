@@ -399,6 +399,7 @@ public partial class WiredflashView : UserControl
                         Global.MainDialogManager.CreateDialog()
                             .WithTitle(GetTranslation("Common_Succ"))
                             .WithContent(GetTranslation("Wiredflash_ROMFlash"))
+                            .OfType(NotificationType.Success)
                             .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await Fastboot($"-s {Global.thisdevice} reboot"), true)
                             .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                             .TryShow();
@@ -561,7 +562,7 @@ public partial class WiredflashView : UserControl
                     WiredflashLog.Text = "";
                     string shell = string.Format($"-s {Global.thisdevice} sideload \"{AdbSideloadFile.Text}\"");
                     await ADB(shell);
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                     MoreFlashBusy(false);
                 }
                 else
@@ -578,7 +579,7 @@ public partial class WiredflashView : UserControl
                     WiredflashLog.Text = "";
                     string shell = string.Format($"-s {Global.thisdevice} update \"{FastbootUpdatedFile.Text}\"");
                     await Fastboot(shell);
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                     MoreFlashBusy(false);
                 }
                 else
@@ -601,7 +602,7 @@ public partial class WiredflashView : UserControl
                     {
                         await RunSH(BatFile.Text);
                     }
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                     MoreFlashBusy(false);
                 }
                 else

@@ -50,7 +50,7 @@ public partial class WirelessADB : SukiWindow
             string result = await CallExternalProgram.ADB($"pair {input} {password}");
             if (result.Contains("Successfully paired to "))
             {
-                _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
             }
             else
             {
@@ -90,7 +90,7 @@ public partial class WirelessADB : SukiWindow
                     string output2 = await CallExternalProgram.ADB($"connect {match.Groups[1].Value}");
                     if (output2.Contains("connected"))
                     {
-                        _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                        _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
                     }
                     else
                     {

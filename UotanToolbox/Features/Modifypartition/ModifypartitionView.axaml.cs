@@ -29,6 +29,7 @@ public partial class ModifypartitionView : UserControl
         Global.MainDialogManager.CreateDialog()
             .WithTitle(GetTranslation("Common_Warn"))
             .WithContent(GetTranslation("Modifypartition_Warn"))
+            .OfType(NotificationType.Warning)
             .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => Modifypartition.IsEnabled = true, true)
             .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => Modifypartition.IsEnabled = false, true)
             .TryShow();
@@ -121,6 +122,7 @@ public partial class ModifypartitionView : UserControl
                     Global.MainDialogManager.CreateDialog()
                         .WithTitle(GetTranslation("Common_Warn"))
                         .WithContent(GetTranslation("Common_NeedRoot"))
+                        .OfType(NotificationType.Warning)
                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
                         {
                             await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
@@ -209,7 +211,7 @@ public partial class ModifypartitionView : UserControl
                             string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} rm {partnum}");
                             _ = await CallExternalProgram.ADB(shell);
                             ReadPart(sender, args);
-                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                         }
                         else
                         {
@@ -249,6 +251,7 @@ public partial class ModifypartitionView : UserControl
                 Global.MainDialogManager.CreateDialog()
                                             .WithTitle(GetTranslation("Common_Warn"))
                                             .WithContent(GetTranslation("Modifypartition_SetEFI"))
+                                            .OfType(NotificationType.Warning)
                                             .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                             {
                                                 if (IdNumber.Text is not null and not "")
@@ -300,7 +303,7 @@ public partial class ModifypartitionView : UserControl
                                                             string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} set {partnum} esp on");
                                                             await CallExternalProgram.ADB(shell);
                                                             ReadPart(sender, args);
-                                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                                                         }
                                                         else
                                                         {
@@ -384,7 +387,7 @@ public partial class ModifypartitionView : UserControl
                         string shell = string.Format($"-s {Global.thisdevice} shell /tmp/parted /dev/block/{choice} mkpart {NewPartitionName.Text} {NewPartitionFormat.Text} {NewPartitionStartpoint.Text} {NewPartitionEndpoint.Text}");
                         _ = await CallExternalProgram.ADB(shell);
                         ReadPart(sender, args);
-                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                     }
                     else
                     {
@@ -457,6 +460,7 @@ public partial class ModifypartitionView : UserControl
                     Global.MainDialogManager.CreateDialog()
                                                 .WithTitle(GetTranslation("Common_Warn"))
                                                 .WithContent(GetTranslation("Modifypartition_Set128"))
+                                                .OfType(NotificationType.Warning)
                                                 .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                                 {
                                                     await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/Push/sgdisk /tmp/");
@@ -469,7 +473,7 @@ public partial class ModifypartitionView : UserControl
                                                     }
                                                     else
                                                     {
-                                                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                                                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                                                         await CallExternalProgram.ADB("reboot recovery");
                                                     }
                                                 }, true)

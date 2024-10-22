@@ -12,129 +12,84 @@ namespace UotanToolbox.Common.QcomHelper.modules
         public string Cm { get; set; }
         public int ParamMode { get; set; }
     }
-    public class Oneplus
+    internal class Oneplus
     {
-        public string fh { get; set; }
-        public string projid { get; set; }
-        public long serial { get; set; }
+        public string Fh { get; set; }
+        public string Projid { get; set; }
+        public long Serial { get; set; }
         public int ATOBuild { get; set; }
-        public int Flash_Mode { get; set; }
-        public int cf { get; set; }
-        public Oneplus(string FH, string Projid, long Serial, int AtoBuild, int Flash_mode, int CF)
+        public int FlashMode { get; set; }
+        public int Cf { get; set; }
+
+        public Oneplus(string fh, string projid, long serial, int atoBuild, int flashMode, int cf)
         {
-            fh = FH; 
-            projid = Projid; 
-            serial = Serial; 
-            ATOBuild = AtoBuild;
-            Flash_Mode = Flash_mode;
-            cf = CF;
+            Fh = fh;
+            Projid = projid;
+            Serial = serial;
+            ATOBuild = atoBuild;
+            FlashMode = flashMode;
+            Cf = cf;
         }
-    }
-    internal class Oneplus_One
-    {
-        public Dictionary<string, DeviceConfig> deviceConfig = new Dictionary<string, DeviceConfig>
+        public Dictionary<string, DeviceConfig> DeviceConfig { get; } = new Dictionary<string, DeviceConfig>
         {
-            // OP5, cheeseburger
             { "16859", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // OP5t, dumpling
             { "17801", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // OP6, enchilada
             { "17819", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // OP6t, fajita
             { "18801", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // OP6t T-Mo, fajitat
             { "18811", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // Oneplus 7, guacamoleb
             { "18857", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // Oneplus 7 Pro, guacamole
             { "18821", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // Oneplus 7 Pro 5G Sprint, guacamoles
             { "18825", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // Oneplus 7 Pro 5G EE and Elisa, guacamoleg
             { "18827", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // Oneplus 7 Pro T-Mo, guacamolet
             { "18831", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // Oneplus 7t, hotdogb
             { "18865", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // Oneplus 7t T-Mo, hotdogt
             { "19863", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // Oneplus 7t Pro, hotdog
             { "19801", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // Oneplus 7t Pro 5G T-Mo, hotdogg
             { "19861", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-
-            // OP8, instantnoodle
             { "19821", new DeviceConfig { Version = 2, Cm = "0cffee8a", ParamMode = 0 } },
-            // OP8 T-Mo, instantnoodlet
             { "19855", new DeviceConfig { Version = 2, Cm = "6d9215b4", ParamMode = 0 } },
-            // OP8 Verizon, instantnoodlev
             { "19867", new DeviceConfig { Version = 2, Cm = "4107b2d4", ParamMode = 0 } },
-            // OP8 Visible, instantnoodlevis
             { "19868", new DeviceConfig { Version = 2, Cm = "178d8213", ParamMode = 0 } },
-            // OP8 Pro, instantnoodlep
             { "19811", new DeviceConfig { Version = 2, Cm = "40217c07", ParamMode = 0 } },
-            // OP8t, kebab
             { "19805", new DeviceConfig { Version = 2, Cm = "1a5ec176", ParamMode = 0 } },
-            // OP8t T-Mo, kebabt
             { "20809", new DeviceConfig { Version = 2, Cm = "d6bc8c36", ParamMode = 0 } },
-
-            // OP Nord, avicii
             { "20801", new DeviceConfig { Version = 2, Cm = "eacf50e7", ParamMode = 0 } },
-
-            // OP N10 5G Metro, billie8t
             { "20885", new DeviceConfig { Version = 3, Cm = "3a403a71", ParamMode = 1 } },
-            // OP N10 5G Global, billie8
             { "20886", new DeviceConfig { Version = 3, Cm = "b8bd9e39", ParamMode = 1 } },
-            // billie8t, OP N10 5G TMO
             { "20888", new DeviceConfig { Version = 3, Cm = "142f1bd7", ParamMode = 1 } },
-            // OP N10 5G Europe, billie8
             { "20889", new DeviceConfig { Version = 3, Cm = "f2056ae1", ParamMode = 1 } },
-
-            // OP N100 Metro, billie2t
             { "20880", new DeviceConfig { Version = 3, Cm = "6ccf5913", ParamMode = 1 } },
-            // OP N100 Global, billie2
             { "20881", new DeviceConfig { Version = 3, Cm = "fa9ff378", ParamMode = 1 } },
-            // OP N100 TMO, billie2t
             { "20882", new DeviceConfig { Version = 3, Cm = "4ca1e84e", ParamMode = 1 } },
-            // OP N100 Europe, billie2
             { "20883", new DeviceConfig { Version = 3, Cm = "ad9dba4a", ParamMode = 1 } },
-
-            // OP9 Pro, lemonadep
             { "19815", new DeviceConfig { Version = 2, Cm = "9c151c7f", ParamMode = 0 } },
             { "20859", new DeviceConfig { Version = 2, Cm = "9c151c7f", ParamMode = 0 } },
             { "20857", new DeviceConfig { Version = 2, Cm = "9c151c7f", ParamMode = 0 } },
-            // OP9, lemonade
             { "19825", new DeviceConfig { Version = 2, Cm = "0898dcd6", ParamMode = 0 } },
             { "20851", new DeviceConfig { Version = 2, Cm = "0898dcd6", ParamMode = 0 } },
             { "20852", new DeviceConfig { Version = 2, Cm = "0898dcd6", ParamMode = 0 } },
             { "20853", new DeviceConfig { Version = 2, Cm = "0898dcd6", ParamMode = 0 } },
-            // OP9R, lemonades
             { "20828", new DeviceConfig { Version = 2, Cm = "f498b60f", ParamMode = 0 } },
             { "20838", new DeviceConfig { Version = 2, Cm = "f498b60f", ParamMode = 0 } },
-            // OP9 TMO, lemonadet
             { "20854", new DeviceConfig { Version = 2, Cm = "16225d4e", ParamMode = 0 } },
-            // OP9 Pro TMO, lemonadept
             { "2085A", new DeviceConfig { Version = 2, Cm = "7f19519a", ParamMode = 0 } },
-
-            // dre8t
             { "20818", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // dre8m
             { "2083C", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-            // dre9
             { "2083D", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
-
-            // op nord ce, ebba
             { "20813", new DeviceConfig { Version = 2, Cm = "48ad7b61", ParamMode = 0 } }
         };
+        public static Oneplus Init(string projid,string serial)
+        {
+            return new Oneplus("","",0,0,0,0);
+        }
         private static string GeneratePK()
         {
-            string val = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-            StringBuilder pk = new StringBuilder();
-            Random random = new Random();
+            const string val = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            var pk = new StringBuilder(16);
+            var random = new Random();
             for (int i = 0; i < 16; i++)
             {
-                int rand = random.Next(0, 0x100);
-                int nr = (rand & 0xFF) % 0x3E;
+                int nr = random.Next(val.Length);
                 pk.Append(val[nr]);
             }
             return pk.ToString();

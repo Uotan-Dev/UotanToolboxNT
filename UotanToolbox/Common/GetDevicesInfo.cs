@@ -264,16 +264,16 @@ namespace UotanToolbox.Common
                 status = GetTranslation("Home_OpenHOS");
                 blstatus = "--";
                 string sdk = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.ohos.apiversion"));
+                string harmony = StringHelper.OHVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.software.version"));
+                systemsdk = String.Format($"OpenHarmony {harmony}({StringHelper.RemoveSpace(sdk)})");
                 try
                 {
                     string[] deviceinfo = StringHelper.OHDeviceInof(await CallExternalProgram.HDC($"-t {devicename} shell SP_daemon -deviceinfo"));
-                    systemsdk = String.Format($"{deviceinfo[1]}({StringHelper.RemoveSpace(sdk)})"); 
+                    //systemsdk = String.Format($"{deviceinfo[1]}({StringHelper.RemoveSpace(sdk)})");
                     cpucode = deviceinfo[0];
                 }
                 catch
                 {
-                    string harmony = StringHelper.OHVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.software.version"));
-                    systemsdk = String.Format($"OpenHarmony {harmony}({StringHelper.RemoveSpace(sdk)})");
                     cpucode = "--";
                 }
                 codename = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.model"));
@@ -286,7 +286,7 @@ namespace UotanToolbox.Common
                 displayhw = StringHelper.OHColonSplit(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s RenderService -a screen"));
                 kernel = StringHelper.OHKernel(await CallExternalProgram.HDC($"-t {devicename} shell uname -a"));
                 cpuabi = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.cpu.abilist"));
-                compileversion = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.incremental.version"));
+                compileversion = StringHelper.OHBuildVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.build.description"));
                 try
                 {
                     string[] battery = StringHelper.BatteryOH(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s BatteryService -a -i"));
@@ -298,7 +298,14 @@ namespace UotanToolbox.Common
                     batterylevel = "0";
                     batteryinfo = "--";
                 }
-
+                try
+                {
+                    density = StringHelper.OHDensity(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s DisplayManagerService -a -a"));
+                }
+                catch
+                {
+                    density = "--";
+                }
                 try
                 {
                     string[] mem = StringHelper.OHMem(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s MemoryManagerService --mem"));

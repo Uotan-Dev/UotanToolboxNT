@@ -195,6 +195,22 @@ namespace UotanToolbox.Common
             }
         }
 
+        public static string OHDensity(string info)
+        {
+            string[] infos = info.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < infos.Length; i++)
+            {
+                if (infos[i].Contains("DPI<X, Y>:"))
+                {
+                    string[] device = infos[i].Split(new char[] { ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    float x = OnlynumFloat(device[2]);
+                    float y = OnlynumFloat(device[3]);
+                    return Math.Round(Math.Sqrt(x * y)).ToString();
+                }
+            }
+            return "--";
+        }
+
         public static string[] Battery(string info)
         {
             string[] infos = new string[100];
@@ -305,6 +321,12 @@ namespace UotanToolbox.Common
             }
             infos = infos.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             return infos;
+        }
+
+        public static string OHBuildVersion(string info)
+        {
+            string[] infos = info.Split(new char[] { '\r', '\n', ' '}, StringSplitOptions.RemoveEmptyEntries);
+            return infos[0] + " " + infos[1] + " " + infos[3] + " " + infos[4];
         }
 
         public static string FastbootVar(string info, string find)

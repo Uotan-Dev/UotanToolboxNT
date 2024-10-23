@@ -289,6 +289,14 @@ namespace UotanToolbox.Common
                 compileversion = StringHelper.OHBuildVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.build.description"));
                 try
                 {
+                    powerontime = StringHelper.OHPowerOnTime(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s TimeService -a -a"));
+                }
+                catch
+                {
+                    powerontime = "--";
+                }
+                try
+                {
                     string[] battery = StringHelper.BatteryOH(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s BatteryService -a -i"));
                     batterylevel = battery[0];
                     batteryinfo = String.Format($"{Double.Parse(battery[1]) / 1000000.0}V {Double.Parse(battery[2]) / 10.0}℃");

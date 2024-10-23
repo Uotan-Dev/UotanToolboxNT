@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Avalonia.Controls.Notifications;
 using SukiUI.Dialogs;
 using UotanToolbox.Features.Appmgr;
+using System.Globalization;
 
 
 namespace UotanToolbox.Common
@@ -327,6 +328,27 @@ namespace UotanToolbox.Common
         {
             string[] infos = info.Split(new char[] { '\r', '\n', ' '}, StringSplitOptions.RemoveEmptyEntries);
             return infos[0] + " " + infos[1] + " " + infos[3] + " " + infos[4];
+        }
+
+        public static string OHPowerOnTime(string info)
+        {
+            string[] infos = info.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < infos.Length; i++)
+            {
+                if (infos[i].Contains(" * date time"))
+                {
+                    string[] needline = infos[i].Split('=',StringSplitOptions.RemoveEmptyEntries);
+                    string format = " yyyy-MM-dd HH:mm:ss";
+                    DateTime dateTime;
+                    if (DateTime.TryParseExact(needline[1], format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime))
+                    {
+                        DateTime date1old = new DateTime(1970, 1, 1, 8, 0, 0);
+                        TimeSpan timeSpan = dateTime - date1old;
+                        return $"{timeSpan.Days}{GetTranslation("Info_Day")}{timeSpan.Hours}{GetTranslation("Info_Hour")}{timeSpan.Minutes}{GetTranslation("Info_Minute")}{timeSpan.Seconds}{GetTranslation("Info_Second")}";
+                    }
+                }
+            }
+            return "--";
         }
 
         public static string FastbootVar(string info, string find)

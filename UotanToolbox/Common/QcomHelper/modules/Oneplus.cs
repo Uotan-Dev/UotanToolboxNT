@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -80,6 +81,7 @@ namespace UotanToolbox.Common.QcomHelper.modules
         };
         public static Oneplus Init(string projid,string serial)
         {
+            //$"[{projid}][{pk}][{Demica(serial, pk)}][{generatetoken(prodkey, ModelVerifyPrjName, random_postfix, Version, cf, soc_sn, timestamp, pk)}][{generatetoken(prodkey, ModelVerifyPrjName, random_postfix, Version, cf, soc_sn, timestamp, pk, true)}]";
             return new Oneplus("","",0,0,0,0);
         }
         private static string GeneratePK()
@@ -149,6 +151,28 @@ namespace UotanToolbox.Common.QcomHelper.modules
                 }
                 byte[] encryptedData = CryptoHelper.Encrypt(aes, aesKey, aesIv, data);
                 return BitConverter.ToString(encryptedData).Replace("-", "").ToUpper();
+            }
+        }
+        public static string generatetoken(string prodkey, string ModelVerifyPrjName, string random_postfix, string Version, int cf, string soc_sn, string timestamp, string pk, bool program = false)
+        {
+            string h1 = prodkey + ModelVerifyPrjName + random_postfix;
+            string ModelVerifyHashToken = CryptoHelper.ComputeSha256Hash(h1).ToUpper();
+            string h2 = "c4b95538c57df231" + ModelVerifyPrjName + cf.ToString() + soc_sn + Version + timestamp + ModelVerifyHashToken + "5b0217457e49381b";
+            Console.WriteLine(h2);
+            string secret = CryptoHelper.ComputeSha256Hash(h2).ToUpper();
+            if (program)
+            {
+                string[] items = { timestamp, secret };
+                string data = string.Join(",", items);
+                string token = CryptToken(Encoding.UTF8.GetBytes(data), pk);
+                return token;
+            }
+            else
+            {
+                string[] items = { ModelVerifyPrjName, random_postfix, ModelVerifyHashToken, Version, cf.ToString(), soc_sn, timestamp, secret };
+                string data = string.Join(",", items);
+                string token = CryptToken(Encoding.UTF8.GetBytes(data), pk);
+                return token;
             }
         }
     }

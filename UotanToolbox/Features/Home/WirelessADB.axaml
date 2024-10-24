@@ -39,6 +39,7 @@
 						   Width="210"
 						   Height="210"
 						   Margin="0 50 0 0"
+						   Source="/Assets/NotSupport.png"
 						   ToolTip.Tip="QR Code" />
 					<TextBlock HorizontalAlignment="Center" 
 							   Margin="0 10 0 0" 
@@ -49,7 +50,7 @@
 			</suki:GlassCard>
 			<suki:GlassCard Width="380" Height="380" Margin="15 15 0 15">
 				<suki:BusyArea Name="Connect">
-					<StackPanel Name="ConnectPanel" Orientation="Vertical" Margin="15 50 0 0" Spacing="20">
+					<StackPanel Name="ConnectPanel" Orientation="Vertical" Margin="15 40 0 0" Spacing="20">
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_IPAndPort}"></TextBlock>
 							<TextBox Name="IPAndPort" Width="240"/>
@@ -58,8 +59,9 @@
 							<TextBlock Width="70" VerticalAlignment="Center" Text="{x:Static assets:Resources.Home_PairingCode}"></TextBlock>
 							<TextBox Name="PairingCode" Width="240"/>
 						</StackPanel>
-						<Button Width="240" Content="{x:Static assets:Resources.Home_Connect}" Margin="0 20 0 0" Click="WConnect"></Button>
-						<Button Width="240" Content="{x:Static assets:Resources.Home_WiredToLess}" Click="TWConnect"></Button>
+						<CheckBox Name="OHCheck" Margin="85 -10 0 0" Content="OpenHarmony设备" IsCheckedChanged="SetOH"/>
+						<Button Width="240" Content="{x:Static assets:Resources.Home_Connect}" Click="WConnect"></Button>
+						<Button Width="240" Content="{x:Static assets:Resources.Home_WiredToLess}" Click="TWConnect" Name="WTW"></Button>
 					</StackPanel>
 				</suki:BusyArea>
 			</suki:GlassCard>

@@ -135,6 +135,10 @@ public partial class MainViewModel : ObservableObject
             {
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot");
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
@@ -163,6 +167,10 @@ public partial class MainViewModel : ObservableObject
                 {
                     await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
                     await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
+                }
+                else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+                {
+                    await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot -recovery");
                 }
                 else
                 {
@@ -194,6 +202,10 @@ public partial class MainViewModel : ObservableObject
             {
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot-bootloader");
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot -bootloader");
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
@@ -219,6 +231,10 @@ public partial class MainViewModel : ObservableObject
             {
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot-fastboot");
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot -fastboot");
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
@@ -240,6 +256,10 @@ public partial class MainViewModel : ObservableObject
             {
                 await CallExternalProgram.ADB($"-s {Global.thisdevice} disconnect");
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"tconn {Global.thisdevice} -remove");
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
@@ -255,6 +275,7 @@ public partial class MainViewModel : ObservableObject
     public async Task RestartADB()
     {
         await CallExternalProgram.ADB("kill-server");
+        await CallExternalProgram.HDC("kill -r");
     }
 
     [RelayCommand]

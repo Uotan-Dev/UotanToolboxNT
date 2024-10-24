@@ -2527,7 +2527,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 ADB Services 的本地化字符串。
+        ///   查找类似 ADB/HDC Services 的本地化字符串。
         /// </summary>
         public static string MainView_ADB {
             get {
@@ -2599,7 +2599,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Restart ADB 的本地化字符串。
+        ///   查找类似 Restart Services 的本地化字符串。
         /// </summary>
         public static string MainView_RestartADB {
             get {

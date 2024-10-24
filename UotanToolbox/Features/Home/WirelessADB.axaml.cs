@@ -1,5 +1,6 @@
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Microsoft.VisualBasic;
 using SukiUI.Controls;
@@ -9,6 +10,7 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using UotanToolbox.Common;
+using ZstdSharp.Unsafe;
 
 
 namespace UotanToolbox.Features.Home;
@@ -17,6 +19,7 @@ public partial class WirelessADB : SukiWindow
 {
     private readonly ISukiDialogManager _thisDialogManager = new SukiDialogManager();
     private readonly ISukiToastManager _thisToastManager = new SukiToastManager();
+    private static IImage image;
     private static string GetTranslation(string key) => FeaturesHelper.GetTranslation(key);
     public static Bitmap ConvertToBitmap(byte[] imageData)
     {
@@ -28,10 +31,27 @@ public partial class WirelessADB : SukiWindow
     public  WirelessADB()
     {
         InitializeComponent();
+        image = QRCode.Source;
         DialogHost.Manager = _thisDialogManager;
         ToastHost.Manager = _thisToastManager;
         StartScanm();
         QRCode.Source = ConvertToBitmap(ADBPairHelper.QRCodeInit(Global.serviceID, Global.password));
+    }
+
+    private async void SetOH(object sender, RoutedEventArgs args)
+    {
+        if ((bool)OHCheck.IsChecked)
+        {
+            WTW.IsEnabled = false;
+            PairingCode.IsEnabled = false;
+            QRCode.Source = image;
+        }
+        else
+        {
+            WTW.IsEnabled = true;
+            PairingCode.IsEnabled = true;
+            QRCode.Source = ConvertToBitmap(ADBPairHelper.QRCodeInit(Global.serviceID, Global.password));
+        }
     }
 
     private async void StartScanm()
@@ -47,14 +67,29 @@ public partial class WirelessADB : SukiWindow
         ConnectPanel.IsEnabled = false;
         if (!string.IsNullOrEmpty(input))
         {
-            string result = await CallExternalProgram.ADB($"pair {input} {password}");
-            if (result.Contains("Successfully paired to "))
+            if (!(bool)OHCheck.IsChecked)
             {
-                _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                string result = await CallExternalProgram.ADB($"pair {input} {password}");
+                if (result.Contains("Successfully paired to "))
+                {
+                    _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                }
+                else
+                {
+                    _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(result).Dismiss().ByClickingBackground().TryShow();
+                }
             }
             else
             {
-                _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(result).Dismiss().ByClickingBackground().TryShow();
+                string result = await CallExternalProgram.HDC($"tconn {input}");
+                if (result.Contains("Connect OK"))
+                {
+                    _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                }
+                else
+                {
+                    _thisDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(result).Dismiss().ByClickingBackground().TryShow();
+                }
             }
         }
         else

@@ -196,6 +196,10 @@ public partial class HomeViewModel : MainPageBase
             {
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot");
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
@@ -230,6 +234,10 @@ public partial class HomeViewModel : MainPageBase
                     _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot recovery");
                 }
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot -recovery");
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
@@ -255,6 +263,10 @@ public partial class HomeViewModel : MainPageBase
             {
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot-bootloader");
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot -bootloader");
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
@@ -279,6 +291,10 @@ public partial class HomeViewModel : MainPageBase
             else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot-fastboot");
+            }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot -fastboot");
             }
             else
             {
@@ -308,6 +324,10 @@ public partial class HomeViewModel : MainPageBase
                     ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Home_NotSupported")).Dismiss().ByClickingBackground().TryShow()
                     : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("Home_Successful")).Dismiss().ByClickingBackground().TryShow();
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot shutdown");
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_ModeError")).Dismiss().ByClickingBackground().TryShow();
@@ -332,6 +352,10 @@ public partial class HomeViewModel : MainPageBase
             else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem edl");
+            }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                await CallExternalProgram.HDC($"-t {Global.thisdevice} target boot -edl");
             }
             else
             {

@@ -120,7 +120,8 @@
 														   FontWeight="DemiBold"
 														   Text="{x:Static assets:Resources.MainView_ADB}" />
 												<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-													<Button Width="125"
+													<Button Name="Dconnect"
+															Width="125"
 															HorizontalAlignment="Left"
 															Padding="8"
 															Command="{Binding Disconnect}">
@@ -128,7 +129,8 @@
 															<TextBlock Text="{x:Static assets:Resources.MainView_Disconnect}"/>
 														</TextBlock>
 													</Button>
-													<Button Width="125"
+													<Button Name="Restart"
+															Width="125"
 															HorizontalAlignment="Left"
 															Padding="8"
 															Command="{Binding RestartADB}">

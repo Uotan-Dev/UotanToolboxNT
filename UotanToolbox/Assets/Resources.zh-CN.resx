@@ -1405,13 +1405,13 @@
     <value>请输入全部内容！</value>
   </data>
   <data name="MainView_ADB" xml:space="preserve">
-    <value>ADB服务</value>
+    <value>ADB/HDC服务</value>
   </data>
   <data name="MainView_Disconnect" xml:space="preserve">
     <value>尝试断开连接</value>
   </data>
   <data name="MainView_RestartADB" xml:space="preserve">
-    <value>重启ADB服务</value>
+    <value>重启服务</value>
   </data>
   <data name="WirelessADB_Connect" xml:space="preserve">
     <value>连接成功！</value>

@@ -169,6 +169,7 @@ public partial class HomeViewModel : MainPageBase
     [RelayCommand]
     public async Task FreshDeviceList()
     {
+        Global.root = true;
         AvaloniaList<string> OldDeviceList = Global.deviceslist;
         if (await GetDevicesList() && Global.thisdevice != null && string.Join("", Global.deviceslist).Contains(Global.thisdevice))
         {

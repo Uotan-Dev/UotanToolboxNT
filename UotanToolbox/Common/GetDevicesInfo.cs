@@ -23,7 +23,7 @@ namespace UotanToolbox.Common
             string[] fbdevices = StringHelper.FastbootDevices(await CallExternalProgram.Fastboot("devices"));
             string[] hdcdevice = StringHelper.HDCDevices(await CallExternalProgram.HDC("list targets"));
             string[] comdevices = StringHelper.COMDevices(devcon);
-            if (Global.System == "Linux")
+            if (Global.System.Contains("Linux") && Global.root)
             {
                 if (devcon.Contains("Google Inc. Nexus/Pixel Device") && adbdevices.Length == 0)
                 {
@@ -34,10 +34,12 @@ namespace UotanToolbox.Common
                             .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
                             {
                                 string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
-                                adbdevices = StringHelper.ADBDevices(await CallExternalProgram.Sudo($"{cmd} devices"));
+                                await CallExternalProgram.Sudo("chmod -R 777 /dev/bus/usb/");
+                                adbdevices = StringHelper.ADBDevices(await CallExternalProgram.ADB("devices"));
                             }, true)
                             .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                             .TryShow();
+                    Global.root = false;
                 }
                 if (devcon.Contains("HDC Device") && hdcdevice.Length == 0)
                 {
@@ -49,10 +51,11 @@ namespace UotanToolbox.Common
                             {
                                 string cmd = Path.Combine(Global.bin_path, "toolchains", "hdc");
                                 await CallExternalProgram.Sudo("chmod -R 777 /dev/bus/usb/");
-                                hdcdevice = StringHelper.HDCDevices(await CallExternalProgram.Sudo($"{cmd} list targets"));
+                                hdcdevice = StringHelper.HDCDevices(await CallExternalProgram.HDC("list targets"));
                             }, true)
                             .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                             .TryShow();
+                    Global.root = false;
                 }
             }
             string[] devices = new string[adbdevices.Length + fbdevices.Length + hdcdevice.Length + comdevices.Length];

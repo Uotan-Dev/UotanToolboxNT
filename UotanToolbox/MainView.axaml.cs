@@ -22,7 +22,19 @@ public partial class MainView : SukiWindow
         InitializeComponent();
         Bitmap bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
         Icon = new WindowIcon(bitmap);
+        SetSystemDecorationsBasedOnPlatform();
+    }
 
+    private void SetSystemDecorationsBasedOnPlatform()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            this.SystemDecorations = SystemDecorations.BorderOnly;
+        }
+        else
+        {
+            this.SystemDecorations = SystemDecorations.Full;
+        }
     }
 
     private void MenuItem_OnClick(object sender, RoutedEventArgs e)

@@ -12,6 +12,7 @@
                  d:DesignHeight="600"
                  d:DesignWidth="800"
                  x:DataType="demo:MainViewModel"
+				 SystemDecorations="Full"
                  BackgroundAnimationEnabled="{Binding AnimationsEnabled}"
 				 BackgroundShaderFile="{Binding CustomShaderFile}"
 				 BackgroundStyle="{Binding BackgroundStyle}"

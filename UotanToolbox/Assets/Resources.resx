@@ -151,7 +151,7 @@
     <value>Code Name</value>
   </data>
   <data name="Home_CompiledVersion" xml:space="preserve">
-    <value>Incremental Version</value>
+    <value>Build Version</value>
   </data>
   <data name="Home_ConnectionStatus" xml:space="preserve">
     <value>DeviceStatus</value>
@@ -265,7 +265,7 @@
     <value>The device has been disconnected</value>
   </data>
   <data name="Common_EnterRecOrOpenADB" xml:space="preserve">
-    <value>Please enter Recovery mode or enable USB debugging!</value>
+    <value>Please enter Recovery mode or enable USB debugging in the Android system!</value>
   </data>
   <data name="Common_NotConnected" xml:space="preserve">
     <value>Device not connected!</value>
@@ -1171,7 +1171,7 @@
     <value>This operation requires ROOT permission. Please ensure that your phone has ROOT and grant Shell ROOT permission in the following pop-up window!</value>
   </data>
   <data name="Common_OpenADB" xml:space="preserve">
-    <value>Please enter the system and enable USB debugging!</value>
+    <value>Please enter the Android system and enable USB debugging!</value>
   </data>
   <data name="FormatExtract_BackingUp" xml:space="preserve">
     <value>Backing up...</value>
@@ -1393,10 +1393,7 @@
     <value>Wired to wireless conversion</value>
   </data>
   <data name="Home_WirelessADB" xml:space="preserve">
-    <value>Wireless ADB</value>
-  </data>
-  <data name="Home_WirelessADBTitle" xml:space="preserve">
-    <value>Wireless ADB Connection</value>
+    <value>Wireless Connection</value>
   </data>
   <data name="Main_CanResize" xml:space="preserve">
     <value>Unlock the window height lock</value>
@@ -1442,5 +1439,11 @@
   </data>
   <data name="Home_OpenHOS" xml:space="preserve">
     <value>OpenHarmony</value>
+  </data>
+  <data name="Common_ADBRoot" xml:space="preserve">
+    <value>ADB device detected, but it seems that the current system has not written relevant USB rules. Should you try to execute with root privileges?</value>
+  </data>
+  <data name="Common_HDCRoot" xml:space="preserve">
+    <value>HDC device detected, but it seems that the current system has not written relevant USB rules. Should you try to execute with root privileges?</value>
   </data>
 </root>

@@ -1096,6 +1096,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 ADB device detected, but it seems that the current system has not written relevant USB rules. Should you try to execute with root privileges? 的本地化字符串。
+        /// </summary>
+        public static string Common_ADBRoot {
+            get {
+                return ResourceManager.GetString("Common_ADBRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Select File 的本地化字符串。
         /// </summary>
         public static string Common_ChooseFile {
@@ -1141,7 +1150,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please enter Recovery mode or enable USB debugging! 的本地化字符串。
+        ///   查找类似 Please enter Recovery mode or enable USB debugging in the Android system! 的本地化字符串。
         /// </summary>
         public static string Common_EnterRecOrOpenADB {
             get {
@@ -1200,6 +1209,15 @@ namespace UotanToolbox.Assets {
         public static string Common_FolderNoPermission {
             get {
                 return ResourceManager.GetString("Common_FolderNoPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 HDC device detected, but it seems that the current system has not written relevant USB rules. Should you try to execute with root privileges? 的本地化字符串。
+        /// </summary>
+        public static string Common_HDCRoot {
+            get {
+                return ResourceManager.GetString("Common_HDCRoot", resourceCulture);
             }
         }
         
@@ -1276,7 +1294,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please enter the system and enable USB debugging! 的本地化字符串。
+        ///   查找类似 Please enter the Android system and enable USB debugging! 的本地化字符串。
         /// </summary>
         public static string Common_OpenADB {
             get {
@@ -1879,7 +1897,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Incremental Version 的本地化字符串。
+        ///   查找类似 Build Version 的本地化字符串。
         /// </summary>
         public static string Home_CompiledVersion {
             get {
@@ -2320,20 +2338,11 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Wireless ADB 的本地化字符串。
+        ///   查找类似 Wireless Connection 的本地化字符串。
         /// </summary>
         public static string Home_WirelessADB {
             get {
                 return ResourceManager.GetString("Home_WirelessADB", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Wireless ADB Connection 的本地化字符串。
-        /// </summary>
-        public static string Home_WirelessADBTitle {
-            get {
-                return ResourceManager.GetString("Home_WirelessADBTitle", resourceCulture);
             }
         }
         

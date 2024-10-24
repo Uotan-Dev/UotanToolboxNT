@@ -265,7 +265,7 @@
     <value>设备已断开连接</value>
   </data>
   <data name="Common_EnterRecOrOpenADB" xml:space="preserve">
-    <value>请进入Recovery模式或开启USB调试！</value>
+    <value>请进入Recovery模式或在安卓系统中开启USB调试！</value>
   </data>
   <data name="Common_NotConnected" xml:space="preserve">
     <value>设备未连接！</value>
@@ -1168,7 +1168,7 @@
     <value>该操作需要ROOT权限，请确保手机已ROOT，并在接下来的弹窗中授予 Shell ROOT权限！</value>
   </data>
   <data name="Common_OpenADB" xml:space="preserve">
-    <value>请进入系统并开启USB调试！</value>
+    <value>请进入安卓系统并开启USB调试！</value>
   </data>
   <data name="FormatExtract_BackingUp" xml:space="preserve">
     <value>正在备份...</value>
@@ -1390,10 +1390,7 @@
     <value>有线转为无线</value>
   </data>
   <data name="Home_WirelessADB" xml:space="preserve">
-    <value>无线ADB连接</value>
-  </data>
-  <data name="Home_WirelessADBTitle" xml:space="preserve">
-    <value>无线ADB连接</value>
+    <value>无线连接</value>
   </data>
   <data name="Main_CanResize" xml:space="preserve">
     <value>解除窗口高度锁定</value>
@@ -1439,5 +1436,11 @@
   </data>
   <data name="Home_OpenHOS" xml:space="preserve">
     <value>OpenHarmony</value>
+  </data>
+  <data name="Common_ADBRoot" xml:space="preserve">
+    <value>检测到ADB设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？</value>
+  </data>
+  <data name="Common_HDCRoot" xml:space="preserve">
+    <value>检测到HDC设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？</value>
   </data>
 </root>

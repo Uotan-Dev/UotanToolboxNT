@@ -30,7 +30,7 @@ namespace UotanToolbox.Common
                 {
                     Global.MainDialogManager.CreateDialog()
                             .WithTitle(GetTranslation("Common_Warn"))
-                            .WithContent("检测到ADB设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？")
+                            .WithContent(GetTranslation("Common_ADBRoot"))
                             .OfType(NotificationType.Warning)
                             .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
                             {
@@ -46,7 +46,7 @@ namespace UotanToolbox.Common
                 {
                     Global.MainDialogManager.CreateDialog()
                             .WithTitle(GetTranslation("Common_Warn"))
-                            .WithContent("检测到HDC设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？")
+                            .WithContent(GetTranslation("Common_HDCRoot"))
                             .OfType(NotificationType.Warning)
                             .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                             {

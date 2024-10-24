@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Collections;
+using Avalonia.Controls.Notifications;
+using SukiUI.Dialogs;
 
 namespace UotanToolbox.Common
 {
@@ -15,14 +18,43 @@ namespace UotanToolbox.Common
 
         public static async Task<string[]> DevicesList()
         {
-            string adb = await CallExternalProgram.ADB("devices");
-            string fastboot = await CallExternalProgram.Fastboot("devices");
             string devcon = Global.System == "Windows" ? await CallExternalProgram.Devcon("find usb*") : await CallExternalProgram.LsUSB();
-            string hdc = await CallExternalProgram.HDC("list targets");
-            string[] adbdevices = StringHelper.ADBDevices(adb);
-            string[] fbdevices = StringHelper.FastbootDevices(fastboot);
-            string[] hdcdevice = StringHelper.HDCDevices(hdc);
+            string[] adbdevices = StringHelper.ADBDevices(await CallExternalProgram.ADB("devices"));
+            string[] fbdevices = StringHelper.FastbootDevices(await CallExternalProgram.Fastboot("devices"));
+            string[] hdcdevice = StringHelper.HDCDevices(await CallExternalProgram.HDC("list targets"));
             string[] comdevices = StringHelper.COMDevices(devcon);
+            if (Global.System == "Linux")
+            {
+                if (devcon.Contains("Google Inc. Nexus/Pixel Device") && adbdevices.Length == 0)
+                {
+                    Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Warn"))
+                            .WithContent("检测到ADB设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？")
+                            .OfType(NotificationType.Warning)
+                            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
+                            {
+                                string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
+                                adbdevices = StringHelper.ADBDevices(await CallExternalProgram.Sudo($"{cmd} devices"));
+                            }, true)
+                            .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                            .TryShow();
+                }
+                if (devcon.Contains("HDC Device") && hdcdevice.Length == 0)
+                {
+                    Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Warn"))
+                            .WithContent("检测到HDC设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？")
+                            .OfType(NotificationType.Warning)
+                            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                            {
+                                string cmd = Path.Combine(Global.bin_path, "toolchains", "hdc");
+                                await CallExternalProgram.Sudo("chmod -R 777 /dev/bus/usb/");
+                                hdcdevice = StringHelper.HDCDevices(await CallExternalProgram.Sudo($"{cmd} list targets"));
+                            }, true)
+                            .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                            .TryShow();
+                }
+            }
             string[] devices = new string[adbdevices.Length + fbdevices.Length + hdcdevice.Length + comdevices.Length];
             Array.Copy(adbdevices, 0, devices, 0, adbdevices.Length);
             Array.Copy(fbdevices, 0, devices, adbdevices.Length, fbdevices.Length);

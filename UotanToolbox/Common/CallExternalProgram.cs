@@ -96,6 +96,28 @@ namespace UotanToolbox.Common
             return output;
         }
 
+        public static async Task<string> Sudo(string shell)
+        {
+            string cmd = "pkexec";
+            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, shell)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+            using Process fb = new Process();
+            fb.StartInfo = fastboot;
+            _ = fb.Start();
+            string output = await fb.StandardError.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await fb.StandardOutput.ReadToEndAsync();
+            }
+            fb.WaitForExit();
+            return output;
+        }
+
         public static async Task<string> QCNTool(string shell)
         {
             string cmd = "Bin\\QSML\\QCNTool.exe";

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
@@ -448,6 +449,7 @@ namespace UotanToolbox.Common
             string adb = await CallExternalProgram.ADB("devices");
             string fastboot = await CallExternalProgram.Fastboot("devices");
             string devcon = Global.System == "Windows" ? await CallExternalProgram.Devcon("find usb*") : await CallExternalProgram.LsUSB();
+            string hdc = await CallExternalProgram.HDC("list targets");
             if (fastboot.Contains(devicename))
             {
                 string isuserspace = await CallExternalProgram.Fastboot($"-s {devicename} getvar is-userspace");
@@ -516,6 +518,11 @@ namespace UotanToolbox.Common
                 {
                     blstatus = StringHelper.RemoveLineFeed(await CallExternalProgram.ADB($"-s {devicename} shell getprop ro.boot.vbmeta.device_state"));
                 }
+            }
+            if (hdc.Contains(devicename))
+            {
+                status = GetTranslation("Home_OpenHOS");
+                codename = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.model"));
             }
             string[] deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
             if (devcon.Contains(devicename))

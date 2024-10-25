@@ -455,9 +455,8 @@ namespace UotanToolbox.Common
                 string partneed = parts[i];
                 if (partneed.Contains(findpart))
                 {
-                    string[] partno = partneed.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
-                    int lastPartIndex = partno.Length == 5 ? 4 : 5;
-                    if (partno[lastPartIndex] == findpart)
+                    string[] partno = Items(partneed.ToCharArray());
+                    if (partno[5] == findpart)
                     {
                         return partno[0];
                     }
@@ -472,6 +471,41 @@ namespace UotanToolbox.Common
             string[] NeedLine = Lines[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string size = NeedLine[^1];
             return size;
+        }
+
+        public static string[] Items(char[] chars)
+        {
+            int index = 0;
+            int nrindex = 0;
+            bool notnr = false;
+            string[] items = new string[7];
+            for (int j = 0; j < chars.Length; j++)
+            {
+                if (chars[j] == ' ')
+                {
+                    if (notnr)
+                    {
+                        index++;
+                        notnr = false;
+                    }
+                    else
+                    {
+                        nrindex++;
+                        if (nrindex > 12)
+                        {
+                            index++;
+                            nrindex = 0;
+                        }
+                    }
+                }
+                else
+                {
+                    items[index] += chars[j];
+                    notnr = true;
+                    nrindex = 0;
+                }
+            }
+            return items;
         }
 
         /// <summary>

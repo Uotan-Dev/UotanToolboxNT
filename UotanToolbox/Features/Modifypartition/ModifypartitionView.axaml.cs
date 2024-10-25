@@ -76,19 +76,8 @@ public partial class ModifypartitionView : UserControl
                 PartModel[] part = new PartModel[parts.Length - 5];
                 for (int i = 6; i < parts.Length; i++)
                 {
-                    string[] items = parts[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                    if (items.Length == 5)
-                    {
-                        part[i - 6] = new PartModel(items[0], items[1], items[2], items[3], "", items[4], "");
-                    }
-                    else if (items.Length == 6)
-                    {
-                        part[i - 6] = new PartModel(items[0], items[1], items[2], items[3], items[4], items[5], "");
-                    }
-                    else if (items.Length >= 7)
-                    {
-                        part[i - 6] = new PartModel(items[0], items[1], items[2], items[3], items[4], items[5], items[6]);
-                    }
+                    string[] items = StringHelper.Items(parts[i].ToCharArray());
+                    part[i - 6] = new PartModel(items[0], items[1], items[2], items[3], items[4], items[5], items[6]);
                 }
                 PartList.ItemsSource = part;
             }

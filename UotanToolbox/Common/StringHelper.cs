@@ -491,7 +491,7 @@ namespace UotanToolbox.Common
                     else
                     {
                         nrindex++;
-                        if (nrindex > 12)
+                        if (nrindex > 13)
                         {
                             index++;
                             nrindex = 0;
@@ -500,7 +500,11 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    items[index] += chars[j];
+                    try
+                    {
+                        items[index] += chars[j];
+                    }
+                    catch { }
                     notnr = true;
                     nrindex = 0;
                 }

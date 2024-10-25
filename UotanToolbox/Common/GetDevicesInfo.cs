@@ -258,8 +258,9 @@ namespace UotanToolbox.Common
                 try
                 {
                     string[] mem = StringHelper.Mem(await CallExternalProgram.ADB($"-s {devicename} shell cat /proc/meminfo | grep Mem"));
-                    memlevel = Math.Round(Math.Round(double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
-                    usemem = string.Format($"{Math.Round(double.Parse(mem[1]) * 1.024 / 1000000, 1)}GB/{Math.Round(double.Parse(mem[0]) * 1.024 / 1000000)}GB");
+                    double use = double.Parse(mem[0]) - double.Parse(mem[1]);
+                    memlevel = Math.Round(Math.Round(use * 1.024 / 1000000, 1) / Math.Round(double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
+                    usemem = string.Format($"{Math.Round(use * 1.024 / 1000000, 1)}GB/{Math.Round(double.Parse(mem[0]) * 1.024 / 1000000)}GB");
                 }
                 catch
                 {
@@ -353,8 +354,9 @@ namespace UotanToolbox.Common
                 try
                 {
                     string[] mem = StringHelper.OHMem(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s MemoryManagerService --mem"));
-                    memlevel = Math.Round(Math.Round(double.Parse(mem[1]) * 1.024 / 1000000, 1) / Math.Round(double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
-                    usemem = string.Format($"{Math.Round(double.Parse(mem[1]) * 1.024 / 1000000, 1)}GB/{Math.Round(double.Parse(mem[0]) * 1.024 / 1000000)}GB");
+                    double use = double.Parse(mem[0]) - double.Parse(mem[1]);
+                    memlevel = Math.Round(Math.Round(use * 1.024 / 1000000, 1) / Math.Round(double.Parse(mem[0]) * 1.024 / 1000000) * 100).ToString();
+                    usemem = string.Format($"{Math.Round(use * 1.024 / 1000000, 1)}GB/{Math.Round(double.Parse(mem[0]) * 1.024 / 1000000)}GB");
                 }
                 catch
                 {

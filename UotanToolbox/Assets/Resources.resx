@@ -679,7 +679,7 @@
     <value>Extract Apk</value>
   </data>
   <data name="Appmgr_FetchApplicationList" xml:space="preserve">
-    <value>Fetch application list</value>
+    <value>Fetch List</value>
   </data>
   <data name="Appmgr_Fetching" xml:space="preserve">
     <value>Fetching</value>
@@ -959,9 +959,6 @@
   </data>
   <data name="Common_EnterRecovery" xml:space="preserve">
     <value>Please enter Recovery mode!</value>
-  </data>
-  <data name="Appmgr_PleaseExecuteInSystem" xml:space="preserve">
-    <value>Please execute in system</value>
   </data>
   <data name="Common_DeviceFailedToConnect" xml:space="preserve">
     <value>Device is failed to connect</value>
@@ -1448,6 +1445,9 @@
   </data>
   <data name="ConnectionDialog_GetUpdate" xml:space="preserve">
     <value>Get Update</value>
+  </data>
+  <data name="Appmgr_SearchApp" xml:space="preserve">
+    <value>Search for the application you want</value>
   </data>
   <data name="ConnectionDialog_Updates" xml:space="preserve">
     <value>New version discovered, it is recommended to update as soon as possible!</value>

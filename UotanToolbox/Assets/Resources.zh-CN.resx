@@ -957,9 +957,6 @@
   <data name="Common_EnterRecovery" xml:space="preserve">
     <value>请进入Recovery模式！</value>
   </data>
-  <data name="Appmgr_PleaseExecuteInSystem" xml:space="preserve">
-    <value>请在系统内执行</value>
-  </data>
   <data name="Common_DeviceFailedToConnect" xml:space="preserve">
     <value>设备连接失败</value>
   </data>
@@ -1445,6 +1442,9 @@
   </data>
   <data name="ConnectionDialog_GetUpdate" xml:space="preserve">
     <value>前往更新</value>
+  </data>
+  <data name="Appmgr_SearchApp" xml:space="preserve">
+    <value>搜索你想要的应用</value>
   </data>
   <data name="ConnectionDialog_Updates" xml:space="preserve">
     <value>发现新版本，建议尽快更新哦！</value>

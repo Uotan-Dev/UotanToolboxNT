@@ -187,7 +187,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Fetch application list 的本地化字符串。
+        ///   查找类似 Fetch List 的本地化字符串。
         /// </summary>
         public static string Appmgr_FetchApplicationList {
             get {
@@ -268,20 +268,20 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please execute in system 的本地化字符串。
-        /// </summary>
-        public static string Appmgr_PleaseExecuteInSystem {
-            get {
-                return ResourceManager.GetString("Appmgr_PleaseExecuteInSystem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Run 的本地化字符串。
         /// </summary>
         public static string Appmgr_Run {
             get {
                 return ResourceManager.GetString("Appmgr_Run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Search for the application you want 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_SearchApp {
+            get {
+                return ResourceManager.GetString("Appmgr_SearchApp", resourceCulture);
             }
         }
         

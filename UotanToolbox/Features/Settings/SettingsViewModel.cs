@@ -150,12 +150,12 @@ public partial class SettingsViewModel : MainPageBase
             dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
             SettingsViewModel vm = new SettingsViewModel();
             string version = convertedBody.release_version;
-            string serializedContent = (String)JsonConvert.SerializeObject(convertedBody.release_content).Replace("\\n", "\n");
-            if (serializedContent.Length > 1) serializedContent = serializedContent.Substring(1, serializedContent.Length - 2);
             if (version.Contains("beta"))
             {
                 if (convertedBody.beta_version != vm.CurrentVersion)
                 {
+                    string serializedContent = (String)JsonConvert.SerializeObject(convertedBody.beta_content).Replace("\\n", "\n");
+                    if (serializedContent.Length > 1) serializedContent = serializedContent.Substring(1, serializedContent.Length - 2);
                     Global.MainDialogManager.CreateDialog()
                     .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                     .WithContent(serializedContent)
@@ -170,6 +170,8 @@ public partial class SettingsViewModel : MainPageBase
             {
                 if (convertedBody.release_version != vm.CurrentVersion)
                 {
+                    string serializedContent = (String)JsonConvert.SerializeObject(convertedBody.release_content).Replace("\\n", "\n");
+                    if (serializedContent.Length > 1) serializedContent = serializedContent.Substring(1, serializedContent.Length - 2);
                     Global.MainDialogManager.CreateDialog()
                     .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                     .WithContent(serializedContent)

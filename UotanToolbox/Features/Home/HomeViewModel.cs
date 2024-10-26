@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
+using Newtonsoft.Json;
 using ReactiveUI;
-using Splat;
-using SukiUI.Controls;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using UotanToolbox.Common;
+using UotanToolbox.Features.Settings;
+using UotanToolbox.Utilities;
 
 namespace UotanToolbox.Features.Home;
 
@@ -53,6 +53,73 @@ public partial class HomeViewModel : MainPageBase
                     _ = ConnectCore();
                 }
             });
+        _ = CheckForUpdate();
+    }
+
+    public async Task CheckForUpdate()
+    {
+        try
+        {
+            using HttpClient client = new HttpClient();
+            string url = "https://toolbox.uotan.cn/api/list";
+            StringContent content = new StringContent("{}", System.Text.Encoding.UTF8);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            HttpResponseMessage response = await client.PostAsync(url, content);
+            _ = response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
+            SettingsViewModel vm = new SettingsViewModel();
+            string version = convertedBody.release_version;
+            
+
+            
+            if (version.Contains("beta"))
+            {
+                if (convertedBody.beta_version != vm.CurrentVersion)
+                {
+                    string serializedContent = (String)JsonConvert.SerializeObject(convertedBody.beta_content).Replace("\\n", "\n");
+                    if (serializedContent.Length > 1) serializedContent = serializedContent.Substring(1, serializedContent.Length - 2);
+                    Global.MainToastManager.CreateToast()
+                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                    .WithActionButton(GetTranslation("ConnectionDialog_More"), _ =>
+                        Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                        .WithContent(serializedContent)
+                        .OfType(NotificationType.Information)
+                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                        .TryShow()
+                        , true)
+                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                    .Queue();
+                }
+                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
+            }
+            else
+            {
+                if (convertedBody.release_version != vm.CurrentVersion)
+                {
+                    string serializedContent = (String)JsonConvert.SerializeObject(convertedBody.release_content).Replace("\\n", "\n");
+                    if (serializedContent.Length > 1) serializedContent = serializedContent.Substring(1, serializedContent.Length - 2);
+                    Global.MainToastManager.CreateToast()
+                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                    .WithActionButton(GetTranslation("ConnectionDialog_More"), _ =>
+                        Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                        .WithContent(serializedContent)
+                        .OfType(NotificationType.Information)
+                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                        .TryShow()
+                        , true)
+                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                    .Queue();
+                }
+                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
+            }
+        }
+        catch (HttpRequestException e) { }
     }
 
     public async Task CheckDeviceList()

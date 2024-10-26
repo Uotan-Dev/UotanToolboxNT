@@ -1443,7 +1443,13 @@
   <data name="Common_HDCRoot" xml:space="preserve">
     <value>检测到HDC设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？</value>
   </data>
-  <data name="ConnectionDialog_More" xml:space="preserve">
+  <data name="ConnectionDialog_GetUpdate" xml:space="preserve">
     <value>前往更新</value>
+  </data>
+  <data name="ConnectionDialog_Updates" xml:space="preserve">
+    <value>发现新版本，建议尽快更新哦！</value>
+  </data>
+  <data name="ConnectionDialog_ViewUpdates" xml:space="preserve">
+    <value>查看更新</value>
   </data>
 </root>

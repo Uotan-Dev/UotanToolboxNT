@@ -160,7 +160,7 @@ public partial class SettingsViewModel : MainPageBase
                     .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                     .WithContent(serializedContent)
                     .OfType(NotificationType.Information)
-                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                    .WithActionButton(GetTranslation("ConnectionDialog_GetUpdate"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
                     .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                     .TryShow();
                 }
@@ -176,7 +176,7 @@ public partial class SettingsViewModel : MainPageBase
                     .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                     .WithContent(serializedContent)
                     .OfType(NotificationType.Information)
-                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                    .WithActionButton(GetTranslation("ConnectionDialog_GetUpdate"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
                     .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                     .TryShow();
                 }

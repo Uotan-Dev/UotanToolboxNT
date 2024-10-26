@@ -81,18 +81,19 @@ public partial class HomeViewModel : MainPageBase
                     string serializedContent = (String)JsonConvert.SerializeObject(convertedBody.beta_content).Replace("\\n", "\n");
                     if (serializedContent.Length > 1) serializedContent = serializedContent.Substring(1, serializedContent.Length - 2);
                     Global.MainToastManager.CreateToast()
-                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-                    .WithActionButton(GetTranslation("ConnectionDialog_More"), _ =>
-                        Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-                        .WithContent(serializedContent)
-                        .OfType(NotificationType.Information)
-                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
-                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
-                        .TryShow()
-                        , true)
-                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
-                    .Queue();
+                          .OfType(NotificationType.Information)
+                          .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                          .WithContent(GetTranslation("ConnectionDialog_Updates"))
+                          .WithActionButton(GetTranslation("ConnectionDialog_ViewUpdates"), _ =>
+                              Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                                    .WithContent(serializedContent)
+                                    .OfType(NotificationType.Information)
+                                    .WithActionButton(GetTranslation("ConnectionDialog_GetUpdate"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                    .TryShow(), true)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                          .Queue();
                 }
                 else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
@@ -103,18 +104,19 @@ public partial class HomeViewModel : MainPageBase
                     string serializedContent = (String)JsonConvert.SerializeObject(convertedBody.release_content).Replace("\\n", "\n");
                     if (serializedContent.Length > 1) serializedContent = serializedContent.Substring(1, serializedContent.Length - 2);
                     Global.MainToastManager.CreateToast()
-                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-                    .WithActionButton(GetTranslation("ConnectionDialog_More"), _ =>
-                        Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-                        .WithContent(serializedContent)
-                        .OfType(NotificationType.Information)
-                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
-                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
-                        .TryShow()
-                        , true)
-                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
-                    .Queue();
+                          .OfType(NotificationType.Information)
+                          .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                          .WithContent(GetTranslation("ConnectionDialog_Updates"))
+                          .WithActionButton(GetTranslation("ConnectionDialog_ViewUpdates"), _ =>
+                              Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                                    .WithContent(serializedContent)
+                                    .OfType(NotificationType.Information)
+                                    .WithActionButton(GetTranslation("ConnectionDialog_GetUpdate"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                    .TryShow(), true)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                          .Queue();
                 }
                 else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }

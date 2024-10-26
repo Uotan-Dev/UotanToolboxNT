@@ -1339,11 +1339,38 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Get Update 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_GetUpdate {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_GetUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Notice 的本地化字符串。
         /// </summary>
         public static string ConnectionDialog_Notice {
             get {
                 return ResourceManager.GetString("ConnectionDialog_Notice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 New version discovered, it is recommended to update as soon as possible! 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_Updates {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_Updates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 View Updates 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_ViewUpdates {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_ViewUpdates", resourceCulture);
             }
         }
         

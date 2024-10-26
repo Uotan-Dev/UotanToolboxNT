@@ -323,7 +323,14 @@ namespace UotanToolbox.Common
                 displayhw = StringHelper.OHColonSplit(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s RenderService -a screen"));
                 kernel = StringHelper.OHKernel(await CallExternalProgram.HDC($"-t {devicename} shell uname -a"));
                 cpuabi = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.cpu.abilist"));
-                compileversion = StringHelper.OHBuildVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.build.description"));
+                try
+                {
+                    compileversion = StringHelper.OHBuildVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.build.description"));
+                }
+                catch
+                {
+                    compileversion = "--";
+                }
                 try
                 {
                     powerontime = StringHelper.OHPowerOnTime(await CallExternalProgram.HDC($"-t {devicename} shell hidumper -s TimeService -a -a"));

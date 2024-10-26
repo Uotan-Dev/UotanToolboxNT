@@ -168,9 +168,9 @@ namespace UotanToolbox.Common
             string[] infos = info.Split(new char[] { '\r', '\n', ','}, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < infos.Length; i++)
             {
-                if (infos[i].Contains("physical screen resolution"))
+                if (infos[i].Contains("physical screen resolution") || infos[i].Contains("supportedMode[0]"))
                 {
-                    string[] device = infos[i].Split(':', StringSplitOptions.RemoveEmptyEntries);
+                    string[] device = infos[i].Split(new char[] { ':', ' '}, StringSplitOptions.RemoveEmptyEntries);
                     return device[1];
                 }
             }
@@ -292,7 +292,7 @@ namespace UotanToolbox.Common
         {
             if (isohhs)
             {
-                info = info.Substring(0, info.IndexOf("COMMAND"));
+                info = info.Substring(0, info.IndexOf("cmd is: lsof"));
             }
             string[] columns = new string[20];
             string[] lines = info.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);

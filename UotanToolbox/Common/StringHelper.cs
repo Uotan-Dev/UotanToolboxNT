@@ -139,6 +139,58 @@ namespace UotanToolbox.Common
             }
             return applicationInfos;
         }
+
+        public static string[] OHAppList(string applist)
+        {
+            string[] lines = applist.Split(new char[] { '\r', '\n' , '	' , ' '}, StringSplitOptions.RemoveEmptyEntries);
+            return lines;
+        }
+
+        public static string[] OHAppInfo(string appname)
+        {
+            string[] info = new string[3];
+            appname = appname.Substring(appname.LastIndexOf("\"targetVersion\""));
+            string[] lines = appname.Split(new char[] { '\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0;i < lines.Length;i++)
+            {
+                if (lines[i].Contains("\"targetVersion\""))
+                {
+                    try
+                    {
+                        string[] line = lines[i].Split(new char[] { ':', ' ', '"', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (line[1].Length > 2)
+                        {
+                            line[1] = line[1].Substring(line[1].Length - 2);
+                        }
+                        info[0] = line[1];
+                    }
+                    catch { }
+                }
+                if (lines[i].Contains("\"vendor\""))
+                {
+                    try
+                    {
+                        string[] line = lines[i].Split(new char[] { ':', ' ', '"', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        info[1] = line[1];
+                    }
+                    catch 
+                    {
+                        info[1] = "Unknow Application";
+                    }
+                }
+                if (lines[i].Contains("\"versionName\""))
+                {
+                    try
+                    {
+                        string[] line = lines[i].Split(new char[] { ':', ' ', '"', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        info[2] = line[1];
+                    }
+                    catch { }
+                }
+            }
+            return info;
+        }
+
         public static string RemoveLineFeed(string str)
         {
             string[] lines = str.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);

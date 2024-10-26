@@ -48,7 +48,7 @@ public partial class HomeView : UserControl
             Global.MainDialogManager.CreateDialog()
                 .WithTitle(GetTranslation("Common_Warn"))
                 .WithContent(GetTranslation("Home_Missing"))
-                .OfType(NotificationType.Error)
+                .OfType(NotificationType.Warning)
                 .WithActionButton("OK", _ => Process.GetCurrentProcess().Kill(), true)
                 .TryShow();
 

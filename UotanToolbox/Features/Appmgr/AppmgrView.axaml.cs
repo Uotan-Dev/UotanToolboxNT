@@ -34,7 +34,7 @@ public partial class AppmgrView : UserControl
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
             Global.MainDialogManager.CreateDialog()
-                         .OfType(NotificationType.Error)
+                         .OfType(NotificationType.Warning)
                          .WithTitle(GetTranslation("Common_Warn"))
                          .WithContent(GetTranslation("Appmgr_ConfirmDeleteApp"))
                          .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}"), true)
@@ -47,9 +47,10 @@ public partial class AppmgrView : UserControl
     }
 
 
-    private static FilePickerFileType ApkPicker { get; } = new("APK File")
+    private static FilePickerFileType ApkPicker { get; } = new("APP File")
     {
-        Patterns = new[] { "*.apk" }
+        Patterns = new[] { "*.apk", "*.hap" },
+        AppleUniformTypeIdentifiers = new[] { "*.apk", "*.hap" }
     };
 
     private async void OpenApkFile(object sender, RoutedEventArgs args)

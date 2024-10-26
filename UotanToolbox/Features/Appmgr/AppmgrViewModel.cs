@@ -151,6 +151,23 @@ public partial class AppmgrViewModel : MainPageBase
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell rm /data/local/tmp/list_apps");
                     File.Delete(Path.Join(Global.tmp_path, "apps.txt"));
                 }
+                else if(sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+                {
+                    string[] applist = StringHelper.OHAppList(await CallExternalProgram.HDC($"-t {Global.thisdevice} shell bm dump -a"));
+                    HasItems = applist.Length > 2;
+                    ApplicationInfo[] applicationInfo = new ApplicationInfo[applist.Length - 2];
+                    for (int i = 2;i < applist.Length; i++)
+                    {
+                        string[] appinfo = StringHelper.OHAppInfo(await CallExternalProgram.HDC($"-t {Global.thisdevice} shell bm dump -n {applist[i]}"));
+                        applicationInfo[i - 2] = new ApplicationInfo { Name = applist[i], DisplayName = appinfo[1], OtherInfo = appinfo[2] + "|API:" + appinfo[0] };
+                    }
+                    allApplicationInfos = applicationInfo;
+                    applicationInfos = allApplicationInfos.Where(info => info != null)
+                                                      .OrderByDescending(app => app.Size)
+                                                      .ThenBy(app => app.Name)
+                                                      .ToList();
+                    Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+                }
                 else
                 {
                     await Dispatcher.UIThread.InvokeAsync(() =>

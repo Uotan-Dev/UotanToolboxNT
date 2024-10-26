@@ -1446,4 +1446,7 @@
   <data name="Common_HDCRoot" xml:space="preserve">
     <value>HDC device detected, but it seems that the current system has not written relevant USB rules. Should you try to execute with root privileges?</value>
   </data>
+  <data name="ConnectionDialog_More" xml:space="preserve">
+    <value>More</value>
+  </data>
 </root>

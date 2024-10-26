@@ -1,17 +1,22 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
+using UotanToolbox.Features.Settings;
 using UotanToolbox.Services;
+using UotanToolbox.Utilities;
 
 namespace UotanToolbox;
 
@@ -27,6 +32,7 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        // Load Language settings
         CultureInfo CurCulture = Settings.Default.Language is not null and not ""
             ? new CultureInfo(Settings.Default.Language, false)
             : CultureInfo.CurrentCulture;

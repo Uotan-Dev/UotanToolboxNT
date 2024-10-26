@@ -154,9 +154,11 @@ public partial class SettingsViewModel : MainPageBase
             {
                 if (convertedBody.beta_version != vm.CurrentVersion)
                 {
+                    string serializedContent = (String)JsonConvert.SerializeObject(convertedBody.beta_content).Replace("\\n", "\n");
+                    if (serializedContent.Length > 1) serializedContent = serializedContent.Substring(1, serializedContent.Length - 2);
                     Global.MainDialogManager.CreateDialog()
                     .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-                    .WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
+                    .WithContent(serializedContent)
                     .OfType(NotificationType.Information)
                     .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
                     .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
@@ -168,9 +170,11 @@ public partial class SettingsViewModel : MainPageBase
             {
                 if (convertedBody.release_version != vm.CurrentVersion)
                 {
+                    string serializedContent = (String)JsonConvert.SerializeObject(convertedBody.release_content).Replace("\\n", "\n");
+                    if (serializedContent.Length > 1) serializedContent = serializedContent.Substring(1, serializedContent.Length - 2);
                     Global.MainDialogManager.CreateDialog()
                     .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-                    .WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
+                    .WithContent(serializedContent)
                     .OfType(NotificationType.Information)
                     .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
                     .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)

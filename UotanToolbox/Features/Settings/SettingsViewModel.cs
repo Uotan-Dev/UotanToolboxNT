@@ -149,30 +149,34 @@ public partial class SettingsViewModel : MainPageBase
 
             dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
             SettingsViewModel vm = new SettingsViewModel();
-            if (convertedBody.release_version != vm.CurrentVersion)
+            string version = convertedBody.release_version;
+            if (version.Contains("beta"))
             {
-                Global.MainDialogManager.CreateDialog()
-                .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-                .WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
-                .OfType(NotificationType.Information)
-                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
-                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
-                .TryShow();
-            }
-            else if (convertedBody.beta_version != vm.CurrentVersion)
-            {
-                Global.MainDialogManager.CreateDialog()
-                .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
-                .WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
-                .OfType(NotificationType.Information)
-                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
-                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
-                .TryShow();
+                if (convertedBody.beta_version != vm.CurrentVersion)
+                {
+                    Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                    .WithContent((String)JsonConvert.SerializeObject(convertedBody.beta_content))
+                    .OfType(NotificationType.Information)
+                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                    .TryShow();
+                }
+                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
             else
             {
-
-                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
+                if (convertedBody.release_version != vm.CurrentVersion)
+                {
+                    Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
+                    .WithContent((String)JsonConvert.SerializeObject(convertedBody.release_content))
+                    .OfType(NotificationType.Information)
+                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
+                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                    .TryShow();
+                }
+                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         catch (HttpRequestException e)

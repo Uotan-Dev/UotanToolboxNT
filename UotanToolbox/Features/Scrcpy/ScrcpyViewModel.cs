@@ -7,7 +7,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using Microsoft.VisualBasic;
-using ReactiveUI;
 using SukiUI.Dialogs;
 using SukiUI.Controls;
 using SukiUI.Enums;
@@ -37,19 +36,19 @@ public partial class ScrcpyViewModel : MainPageBase
 
     public ScrcpyViewModel() : base("Scrcpy", MaterialIconKind.CellphoneLink, -500)
     {
-        _ = this.WhenAnyValue(x => x.ComputerControl)
-            .Subscribe(jug =>
-            {
-                if (!jug)
-                {
-                    ScreenAwakeStatus = false;
-                    ScreenAwake = false;
-                }
-                else
-                {
-                    ScreenAwakeStatus = true;
-                }
-            });
+        //_ = this.WhenAnyValue(x => x.ComputerControl)
+        //    .Subscribe(jug =>
+        //    {
+        //        if (!jug)
+        //        {
+        //            ScreenAwakeStatus = false;
+        //            ScreenAwake = false;
+        //        }
+        //        else
+        //        {
+        //            ScreenAwakeStatus = true;
+        //        }
+        //    });
     }
 
     [RelayCommand]

@@ -9,7 +9,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using Newtonsoft.Json;
-using ReactiveUI;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using UotanToolbox.Common;
@@ -44,15 +43,15 @@ public partial class HomeViewModel : MainPageBase
     public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = CheckDeviceList();
-        _ = this.WhenAnyValue(x => x.SelectedSimpleContent)
-            .Subscribe(option =>
-            {
-                if (option != null && option != Global.thisdevice && SimpleContent != null && SimpleContent.Count != 0)
-                {
-                    Global.thisdevice = option;
-                    _ = ConnectCore();
-                }
-            });
+        //_ = this.WhenAnyValue(x => x.SelectedSimpleContent)
+        //    .Subscribe(option =>
+        //    {
+        //        if (option != null && option != Global.thisdevice && SimpleContent != null && SimpleContent.Count != 0)
+        //        {
+        //            Global.thisdevice = option;
+        //            _ = ConnectCore();
+        //        }
+        //    });
         _ = CheckForUpdate();
     }
 

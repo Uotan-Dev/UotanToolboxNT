@@ -18,6 +18,7 @@
 				 BackgroundStyle="{Binding BackgroundStyle}"
 				 BackgroundTransitionsEnabled="{Binding TransitionsEnabled}"
                  CanResize="{Binding WindowLocked}"
+				 CanMaximize="False"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"
                  mc:Ignorable="d">
@@ -152,7 +153,8 @@
 	</suki:SukiWindow.RightWindowTitleBarControls>
 	
     <suki:SukiSideMenu ItemsSource="{Binding DemoPages}"
-                       SelectedItem="{Binding ActivePage}">
+                       SelectedItem="{Binding ActivePage}"
+					   SidebarToggleEnabled="False">
         <suki:SukiSideMenu.ItemTemplate>
             <DataTemplate>
                 <suki:SukiSideMenuItem Classes="Compact" Header="{Binding DisplayName}">

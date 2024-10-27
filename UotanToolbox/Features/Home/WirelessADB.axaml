@@ -8,6 +8,7 @@
 				 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
 				 Title="{x:Static assets:Resources.Home_WirelessADB}"
 				 CanResize="False"
+				 CanMaximize="False"
                  Width="850"
                  Height="455"
                  d:DesignHeight="450"

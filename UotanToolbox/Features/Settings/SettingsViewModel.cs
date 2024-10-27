@@ -8,7 +8,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using Newtonsoft.Json;
-using Splat;
 using SukiUI;
 using SukiUI.Dialogs;
 using SukiUI.Enums;

@@ -11,8 +11,6 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
-using ReactiveUI;
-using Splat;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using UotanToolbox.Common;
@@ -43,31 +41,31 @@ public partial class AppmgrViewModel : MainPageBase
 
     public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
-        _ = this.WhenAnyValue(app => app.Search)
-            .Subscribe(option =>
-            {
-                if (applicationInfos != null && allApplicationInfos != null)
-                {
-                    if (!string.IsNullOrEmpty(Search))
-                    {
-                        applicationInfos.Clear();
-                        applicationInfos.AddRange(allApplicationInfos.Where(app => app.DisplayName.Contains(Search) || app.Name.Contains(Search))
-                                                                     .OrderByDescending(app => app.Size)
-                                                                     .ThenBy(app => app.Name)
-                                                                     .ToList());
-                        Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
-                    }
-                    else
-                    {
-                        applicationInfos.Clear();
-                        applicationInfos.AddRange(allApplicationInfos.Where(info => info != null)
-                                                                     .OrderByDescending(app => app.Size)
-                                                                     .ThenBy(app => app.Name)
-                                                                     .ToList());
-                        Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
-                    }
-                }
-            });
+        //_ = this.WhenAnyValue(app => app.Search)
+        //    .Subscribe(option =>
+        //    {
+        //        if (applicationInfos != null && allApplicationInfos != null)
+        //        {
+        //            if (!string.IsNullOrEmpty(Search))
+        //            {
+        //                applicationInfos.Clear();
+        //                applicationInfos.AddRange(allApplicationInfos.Where(app => app.DisplayName.Contains(Search) || app.Name.Contains(Search))
+        //                                                             .OrderByDescending(app => app.Size)
+        //                                                             .ThenBy(app => app.Name)
+        //                                                             .ToList());
+        //                Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+        //            }
+        //            else
+        //            {
+        //                applicationInfos.Clear();
+        //                applicationInfos.AddRange(allApplicationInfos.Where(info => info != null)
+        //                                                             .OrderByDescending(app => app.Size)
+        //                                                             .ThenBy(app => app.Name)
+        //                                                             .ToList());
+        //                Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+        //            }
+        //        }
+        //    });
     }
 
     private static readonly char[] separatorArray = ['\r', '\n'];

@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls.Notifications;
-using Splat;
 using SukiUI.Dialogs;
 using System.Diagnostics;
 using System.Globalization;

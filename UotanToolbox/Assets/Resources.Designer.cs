@@ -88,7 +88,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Apk File 的本地化字符串。
+        ///   查找类似 App File 的本地化字符串。
         /// </summary>
         public static string Appmgr_ApkFile {
             get {
@@ -1303,11 +1303,21 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Please enter the Android system and enable USB debugging! 的本地化字符串。
+        ///   查找类似 Please enter the Android system and enable USB debugging!
+        ///*Not currently supporting the OpenHarmony devices! 的本地化字符串。
         /// </summary>
         public static string Common_OpenADB {
             get {
                 return ResourceManager.GetString("Common_OpenADB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please enter the Android or OpenHarmony system and enable USB debugging 的本地化字符串。
+        /// </summary>
+        public static string Common_OpenADBOrHDC {
+            get {
+                return ResourceManager.GetString("Common_OpenADBOrHDC", resourceCulture);
             }
         }
         

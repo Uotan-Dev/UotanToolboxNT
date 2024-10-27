@@ -403,6 +403,13 @@ namespace UotanToolbox.Common
             return "--";
         }
 
+        public static string OHApp(string input)
+        {
+            string[] infos = input.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string error = infos[0].Substring(infos[0].LastIndexOf("error:"));
+            return error;
+        }
+
         public static string FastbootVar(string info, string find)
         {
             string[] infos = info.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);

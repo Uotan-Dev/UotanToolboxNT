@@ -37,7 +37,27 @@ public partial class AppmgrView : UserControl
                          .OfType(NotificationType.Warning)
                          .WithTitle(GetTranslation("Common_Warn"))
                          .WithContent(GetTranslation("Appmgr_ConfirmDeleteApp"))
-                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}"), true)
+                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
+                         {
+                             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                             if (sukiViewModel.Status == GetTranslation("Home_Android"))
+                             {
+                                 await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm uninstall -k --user 0 {packageName}");
+                             }
+                             else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+                             {
+                                 await CallExternalProgram.HDC($"-t {Global.thisdevice} app uninstall {packageName}");
+                             }
+                             else
+                             {
+                                 Global.MainDialogManager.CreateDialog()
+                                       .OfType(NotificationType.Error)
+                                       .WithTitle(GetTranslation("Common_Error"))
+                                       .WithContent(GetTranslation("Common_OpenADBOrHDC"))
+                                       .Dismiss().ByClickingBackground()
+                                       .TryShow();
+                             }
+                         }, true)
                          .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                          .TryShow();
 

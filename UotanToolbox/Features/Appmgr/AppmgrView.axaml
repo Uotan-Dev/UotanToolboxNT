@@ -133,8 +133,8 @@
 								   FontWeight="DemiBold"
 								   Text="{x:Static assets:Resources.Appmgr_InstallApp}" />
 							<StackPanel Margin="0,15,0,0" Orientation="Horizontal">
-								<TextBlock Width="60"
-										   Margin="8,15,0,0"
+								<TextBlock Width="65"
+										   Margin="8,0,0,0"
 										   VerticalAlignment="Center"
 										   FontSize="13"
 										   Text="{x:Static assets:Resources.Appmgr_ApkFile}" />

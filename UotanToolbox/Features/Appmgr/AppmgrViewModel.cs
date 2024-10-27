@@ -198,7 +198,7 @@ public partial class AppmgrViewModel : MainPageBase
                         Global.MainDialogManager.CreateDialog()
                                     .OfType(NotificationType.Error)
                                     .WithTitle(GetTranslation("Common_Error"))
-                                    .WithContent(GetTranslation("Common_OpenADB"))
+                                    .WithContent(GetTranslation("Common_OpenADBOrHDC"))
                                     .Dismiss().ByClickingBackground()
                                     .TryShow();
                     });
@@ -228,10 +228,10 @@ public partial class AppmgrViewModel : MainPageBase
         IsInstalling = true;
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
+            if (!string.IsNullOrEmpty(ApkFile))
             {
-                if (!string.IsNullOrEmpty(ApkFile))
+                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                if (sukiViewModel.Status == GetTranslation("Home_Android"))
                 {
                     string[] fileArray = ApkFile.Split("|||");
                     for (int i = 0; i < fileArray.Length; i++)
@@ -248,33 +248,74 @@ public partial class AppmgrViewModel : MainPageBase
                                                          .Dismiss().After(TimeSpan.FromSeconds(3))
                                                          .Queue()
                                 : Global.MainToastManager.CreateToast()
-                                                         .WithTitle(GetTranslation("Common_Succ"))
+                                                         .WithTitle(GetTranslation("Common_Error"))
                                                          .WithContent(GetTranslation("Common_InstallFailed"))
                                                          .OfType(NotificationType.Error)
                                                          .Dismiss().ByClicking()
-                                                         .Dismiss().After(TimeSpan.FromSeconds(3))
+                                                         .Dismiss().After(TimeSpan.FromSeconds(5))
                                                          .Queue();
+                        }
+                    }
+                }
+                else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+                {
+                    string[] fileArray = ApkFile.Split("|||");
+                    for (int i = 0; i < fileArray.Length; i++)
+                    {
+                        if (!string.IsNullOrEmpty(fileArray[i]) && File.Exists(fileArray[i]))
+                        {
+                            try
+                            {
+                                File.Copy(fileArray[i], Path.Combine(Global.runpath, "APK", Path.GetFileName(fileArray[i])));
+                                string output = await CallExternalProgram.HDC($"-t {Global.thisdevice} app install \"{Path.Combine("APK", Path.GetFileName(fileArray[i]))}\"");
+                                _ = output.Contains("successfully")
+                                    ? Global.MainToastManager.CreateToast()
+                                                             .WithTitle(GetTranslation("Common_Succ"))
+                                                             .WithContent(GetTranslation("Common_InstallSuccess"))
+                                                             .OfType(NotificationType.Success)
+                                                             .Dismiss().ByClicking()
+                                                             .Dismiss().After(TimeSpan.FromSeconds(3))
+                                                             .Queue()
+                                    : Global.MainToastManager.CreateToast()
+                                                             .WithTitle(GetTranslation("Common_Error"))
+                                                             .WithContent(GetTranslation("Common_InstallFailed") + "\r\n" + StringHelper.OHApp(output))
+                                                             .OfType(NotificationType.Error)
+                                                             .Dismiss().ByClicking()
+                                                             .Dismiss().After(TimeSpan.FromSeconds(5))
+                                                             .Queue();
+                                File.Delete(Path.Combine(Global.runpath, "APK", Path.GetFileName(fileArray[i])));
+                            }
+                            catch
+                            {
+                                Global.MainToastManager.CreateToast()
+                                                             .WithTitle(GetTranslation("Common_Error"))
+                                                             .WithContent(GetTranslation("Common_InstallFailed"))
+                                                             .OfType(NotificationType.Error)
+                                                             .Dismiss().ByClicking()
+                                                             .Dismiss().After(TimeSpan.FromSeconds(5))
+                                                             .Queue();
+                            }
                         }
                     }
                 }
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                              .OfType(NotificationType.Error)
-                              .WithTitle(GetTranslation("Common_Error"))
-                              .WithContent(GetTranslation("Appmgr_NoApkFileSelected"))
-                              .Dismiss().ByClickingBackground()
-                              .TryShow();
+                                .OfType(NotificationType.Error)
+                                .WithTitle(GetTranslation("Common_Error"))
+                                .WithContent(GetTranslation("Common_OpenADBOrHDC"))
+                                .Dismiss().ByClickingBackground()
+                                .TryShow();
                 }
             }
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
+                          .OfType(NotificationType.Error)
+                          .WithTitle(GetTranslation("Common_Error"))
+                          .WithContent(GetTranslation("Appmgr_NoApkFileSelected"))
+                          .Dismiss().ByClickingBackground()
+                          .TryShow();
             }
         }
         else
@@ -454,12 +495,29 @@ public partial class AppmgrViewModel : MainPageBase
                                                 .TryShow();
                 }
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                string selectedApp = SelectedApplication();
+                if (!string.IsNullOrEmpty(selectedApp))
+                {
+                    _ = await CallExternalProgram.HDC($"-t {Global.thisdevice} app uninstall {selectedApp}");
+                }
+                else
+                {
+                    Global.MainDialogManager.CreateDialog()
+                                                .OfType(NotificationType.Error)
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
+                }
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog()
                             .OfType(NotificationType.Error)
                             .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
+                            .WithContent(GetTranslation("Common_OpenADBOrHDC"))
                             .Dismiss().ByClickingBackground()
                             .TryShow();
             }
@@ -598,12 +656,29 @@ public partial class AppmgrViewModel : MainPageBase
                                                 .TryShow();
                 }
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                string selectedApp = SelectedApplication();
+                if (!string.IsNullOrEmpty(selectedApp))
+                {
+                    _ = await CallExternalProgram.HDC($"-t {Global.thisdevice} shell bm clean -n {selectedApp} -d");
+                }
+                else
+                {
+                    Global.MainDialogManager.CreateDialog()
+                                                .OfType(NotificationType.Error)
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
+                }
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog()
                             .OfType(NotificationType.Error)
                             .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
+                            .WithContent(GetTranslation("Common_OpenADBOrHDC"))
                             .Dismiss().ByClickingBackground()
                             .TryShow();
             }
@@ -647,12 +722,32 @@ public partial class AppmgrViewModel : MainPageBase
                     });
                 }
             }
+            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+            {
+                string selectedApp = SelectedApplication();
+                if (!string.IsNullOrEmpty(selectedApp))
+                {
+                    _ = await CallExternalProgram.HDC($"-t {Global.thisdevice} shell aa force-stop {selectedApp}");
+                }
+                else
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        Global.MainDialogManager.CreateDialog()
+                                                    .OfType(NotificationType.Error)
+                                                    .WithTitle(GetTranslation("Common_Error"))
+                                                    .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
+                                                    .Dismiss().ByClickingBackground()
+                                                    .TryShow();
+                    });
+                }
+            }
             else
             {
                 Global.MainDialogManager.CreateDialog()
                             .OfType(NotificationType.Error)
                             .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
+                            .WithContent(GetTranslation("Common_OpenADBOrHDC"))
                             .Dismiss().ByClickingBackground()
                             .TryShow();
             }

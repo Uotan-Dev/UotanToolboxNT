@@ -658,7 +658,7 @@
     <value>切换槽位</value>
   </data>
   <data name="Appmgr_ApkFile" xml:space="preserve">
-    <value>APK文件</value>
+    <value>安装包文件</value>
   </data>
   <data name="Appmgr_ApplicationListHasntBeenFetched" xml:space="preserve">
     <value>暂未获取应用列表</value>
@@ -1165,7 +1165,8 @@
     <value>该操作需要ROOT权限，请确保手机已ROOT，并在接下来的弹窗中授予 Shell ROOT权限！</value>
   </data>
   <data name="Common_OpenADB" xml:space="preserve">
-    <value>请进入安卓系统并开启USB调试！</value>
+    <value>请进入安卓系统并开启USB调试！
+*暂不支持鸿蒙设备！</value>
   </data>
   <data name="FormatExtract_BackingUp" xml:space="preserve">
     <value>正在备份...</value>
@@ -1454,5 +1455,8 @@
   </data>
   <data name="Appmgr_SearchWait" xml:space="preserve">
     <value>请等待应用全部加载......</value>
+  </data>
+  <data name="Common_OpenADBOrHDC" xml:space="preserve">
+    <value>请进入安卓或鸿蒙系统并开启USB调试</value>
   </data>
 </root>

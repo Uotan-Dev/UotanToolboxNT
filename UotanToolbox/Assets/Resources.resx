@@ -658,7 +658,7 @@
     <value>Switch slot</value>
   </data>
   <data name="Appmgr_ApkFile" xml:space="preserve">
-    <value>Apk File</value>
+    <value>App File</value>
   </data>
   <data name="Appmgr_ApplicationListHasntBeenFetched" xml:space="preserve">
     <value>Application list hasn't been fetched</value>
@@ -1168,7 +1168,8 @@
     <value>This operation requires ROOT permission. Please ensure that your phone has ROOT and grant Shell ROOT permission in the following pop-up window!</value>
   </data>
   <data name="Common_OpenADB" xml:space="preserve">
-    <value>Please enter the Android system and enable USB debugging!</value>
+    <value>Please enter the Android system and enable USB debugging!
+*Not currently supporting the OpenHarmony devices!</value>
   </data>
   <data name="FormatExtract_BackingUp" xml:space="preserve">
     <value>Backing up...</value>
@@ -1457,5 +1458,8 @@
   </data>
   <data name="Appmgr_SearchWait" xml:space="preserve">
     <value>Wait for all applications to load</value>
+  </data>
+  <data name="Common_OpenADBOrHDC" xml:space="preserve">
+    <value>Please enter the Android or OpenHarmony system and enable USB debugging</value>
   </data>
 </root>

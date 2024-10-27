@@ -1462,4 +1462,9 @@
   <data name="Common_OpenADBOrHDC" xml:space="preserve">
     <value>Please enter the Android or OpenHarmony system and enable USB debugging</value>
   </data>
+  <data name="Home_CheckDevice" xml:space="preserve">
+    <value>No device connection detected.
+If in Android or HarmonyOS system, please ensure that the device has enabled USB debugging. 
+If in other modes, please ensure that the driver is installed correctly.</value>
+  </data>
 </root>

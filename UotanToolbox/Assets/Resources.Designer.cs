@@ -1925,6 +1925,17 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 No device connection detected.
+        ///If in Android or HarmonyOS system, please ensure that the device has enabled USB debugging. 
+        ///If in other modes, please ensure that the driver is installed correctly. 的本地化字符串。
+        /// </summary>
+        public static string Home_CheckDevice {
+            get {
+                return ResourceManager.GetString("Home_CheckDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Choose Device 的本地化字符串。
         /// </summary>
         public static string Home_ChooseDevice {

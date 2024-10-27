@@ -1459,4 +1459,9 @@
   <data name="Common_OpenADBOrHDC" xml:space="preserve">
     <value>请进入安卓或鸿蒙系统并开启USB调试</value>
   </data>
+  <data name="Home_CheckDevice" xml:space="preserve">
+    <value>未检测到设备连接，
+如在安卓或鸿蒙系统下请确保设备已开启USB调试，
+如在其他模式请确保驱动正确安装。</value>
+  </data>
 </root>

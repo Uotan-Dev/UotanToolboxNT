@@ -198,7 +198,7 @@ public partial class HomeViewModel : MainPageBase
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Home_CheckDevice")).Dismiss().ByClickingBackground().TryShow();
             return false;
         }
     }

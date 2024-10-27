@@ -57,7 +57,7 @@ public partial class CustomizedflashView : UserControl
             {
                 StringBuilder sb = new StringBuilder(CustomizedflashLog.Text);
                 CustomizedflashLog.Text = sb.AppendLine(outLine.Data).ToString();
-                CustomizedflashLog.ScrollToLine(StringHelper.TextBoxLine(CustomizedflashLog.Text));
+                CustomizedflashLog.CaretIndex = CustomizedflashLog.Text.Length;
             });
         }
     }

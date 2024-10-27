@@ -110,7 +110,7 @@ public partial class FormatExtractView : UserControl
             {
                 StringBuilder sb = new StringBuilder(FormatExtractLog.Text);
                 FormatExtractLog.Text = sb.AppendLine(outLine.Data).ToString();
-                FormatExtractLog.ScrollToLine(StringHelper.TextBoxLine(FormatExtractLog.Text));
+                FormatExtractLog.CaretIndex = FormatExtractLog.Text.Length;
                 StringBuilder op = new StringBuilder(output);
                 output = op.AppendLine(outLine.Data).ToString();
             });

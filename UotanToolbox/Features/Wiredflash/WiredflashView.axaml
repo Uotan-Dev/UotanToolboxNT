@@ -62,8 +62,14 @@
 										</Button>
 									</StackPanel>
 								</StackPanel>
-								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-									<StackPanel Height="35" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="0">
+									<StackPanel Margin="-10 -10 0 0" Height="20" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+										<CheckBox Name="AddRoot" IsChecked="False" />
+										<TextBlock VerticalAlignment="Center"
+												   FontSize="13"
+												   Text="添加Magisk" />
+									</StackPanel>
+									<StackPanel Height="30" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
 										<CheckBox Name="ErasData" IsChecked="False" />
 										<TextBlock VerticalAlignment="Center"
 												   FontSize="13"

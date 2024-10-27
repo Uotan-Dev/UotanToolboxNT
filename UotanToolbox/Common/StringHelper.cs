@@ -223,7 +223,7 @@ namespace UotanToolbox.Common
                 if (infos[i].Contains("physical screen resolution") || infos[i].Contains("supportedMode[0]"))
                 {
                     string[] device = infos[i].Split(new char[] { ':', ' '}, StringSplitOptions.RemoveEmptyEntries);
-                    return device[1];
+                    return device[device.Length - 1];
                 }
             }
             return "--";

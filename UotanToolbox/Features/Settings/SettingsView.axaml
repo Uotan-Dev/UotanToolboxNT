@@ -212,11 +212,11 @@
 												<suki:GlassCard Margin="15" IsInteractive="True">
 													<suki:GroupBox>
 														<suki:GroupBox.Header>
-															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@yuzh" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/yuzh0816"/>
+															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@暮间雾" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/mujianwu"/>
 														</suki:GroupBox.Header>
 														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
 															<Rectangle.Fill>
-																<ImageBrush Source="avares://UotanToolbox/Assets/yuzh.png"/>
+																<ImageBrush Source="avares://UotanToolbox/Assets/mujianwu.jpg"/>
 															</Rectangle.Fill>
 														</Rectangle>
 													</suki:GroupBox>
@@ -224,11 +224,11 @@
 												<suki:GlassCard Margin="15" IsInteractive="True">
 													<suki:GroupBox>
 														<suki:GroupBox.Header>
-															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@暮间雾" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/mujianwu"/>
+															<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@yuzh" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/yuzh0816"/>
 														</suki:GroupBox.Header>
 														<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
 															<Rectangle.Fill>
-																<ImageBrush Source="avares://UotanToolbox/Assets/mujianwu.jpg"/>
+																<ImageBrush Source="avares://UotanToolbox/Assets/yuzh.png"/>
 															</Rectangle.Fill>
 														</Rectangle>
 													</suki:GroupBox>
@@ -251,10 +251,28 @@
                                                        Text="{x:Static assets:Resources.Settings_SpecialThanks}" />
 											<StackPanel Orientation="Horizontal">
 												<suki:GlassCard Margin="15" IsInteractive="True">
-													<suki:GroupBox Header="@某贼">
+													<suki:GroupBox Header="{Binding KCN}">
+														<Rectangle Width="100" Height="100" RadiusX="10" RadiusY="10">
+															<Rectangle.Fill>
+																<ImageBrush Source="avares://UotanToolbox/Assets/kcn.jpg"/>
+															</Rectangle.Fill>
+														</Rectangle>
+													</suki:GroupBox>
+												</suki:GlassCard>
+												<suki:GlassCard Margin="15" IsInteractive="True">
+													<suki:GroupBox Header="{Binding MouZei}">
 														<Rectangle Width="100" Height="100" RadiusX="10" RadiusY="10">
 															<Rectangle.Fill>
 																<ImageBrush Source="avares://UotanToolbox/Assets/mouzei.jpg"/>
+															</Rectangle.Fill>
+														</Rectangle>
+													</suki:GroupBox>
+												</suki:GlassCard>
+												<suki:GlassCard Margin="15" IsInteractive="True">
+													<suki:GroupBox Header="{Binding ACA}">
+														<Rectangle Width="100" Height="100" RadiusX="10" RadiusY="10">
+															<Rectangle.Fill>
+																<ImageBrush Source="avares://UotanToolbox/Assets/aca.jpg"/>
 															</Rectangle.Fill>
 														</Rectangle>
 													</suki:GroupBox>
@@ -281,7 +299,7 @@
 												<TextBlock>MagiskBoot of win (from Github repo https://github.com/affggh/Magisk_patcher)</TextBlock>
 												<TextBlock>QCNTool (from Github repo https://github.com/MindowsToolBox/QCNTool)</TextBlock>
 												<TextBlock>QMSL_MSVC10R.dll (from QPST)</TextBlock>
-												<TextBlock>Suki UI (modified from Github repo https://github.com/kikipoulet/SukiUI)</TextBlock>
+												<TextBlock>Suki UI (from Github repo https://github.com/kikipoulet/SukiUI)</TextBlock>
 												<TextBlock Text="{Binding BinVersion}" />
 										</StackPanel>
 									</DockPanel>

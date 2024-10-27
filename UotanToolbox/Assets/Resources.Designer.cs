@@ -3808,6 +3808,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Open source project 的本地化字符串。
+        /// </summary>
+        public static string Settings_OpenSource {
+            get {
+                return ResourceManager.GetString("Settings_OpenSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Other 的本地化字符串。
         /// </summary>
         public static string Settings_Other {

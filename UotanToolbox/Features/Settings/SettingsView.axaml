@@ -266,7 +266,7 @@
 							</controls:SettingsLayoutItem.Content>
 						</controls:SettingsLayoutItem>
 
-						<controls:SettingsLayoutItem Header="开源项目">
+						<controls:SettingsLayoutItem Header="{x:Static assets:Resources.Settings_OpenSource}">
 							<controls:SettingsLayoutItem.Content>
 								<controls:GlassCard Margin="15">
 									<DockPanel>

@@ -1464,4 +1464,7 @@
 如在安卓或鸿蒙系统下请确保设备已开启USB调试，
 如在其他模式请确保驱动正确安装。</value>
   </data>
+  <data name="Settings_OpenSource" xml:space="preserve">
+    <value>开源项目</value>
+  </data>
 </root>

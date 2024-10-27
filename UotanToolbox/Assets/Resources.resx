@@ -1467,4 +1467,7 @@
 If in Android or HarmonyOS system, please ensure that the device has enabled USB debugging. 
 If in other modes, please ensure that the driver is installed correctly.</value>
   </data>
+  <data name="Settings_OpenSource" xml:space="preserve">
+    <value>Open source project</value>
+  </data>
 </root>

@@ -179,7 +179,7 @@
 									DockPanel.Dock="Left"
 									Content="{x:Static assets:Resources.Appmgr_FetchApplicationList}">
 							</Button>
-							<TextBox Height="40" Width="300" Margin="145 0 0 0" Watermark="{x:Static assets:Resources.Appmgr_SearchApp}" Text="{Binding Search, Mode=TwoWay}"></TextBox>
+							<TextBox Height="40" Width="300" Margin="145 0 0 0" Watermark="{Binding SBoxWater, Mode=TwoWay}" Text="{Binding Search, Mode=TwoWay}" IsEnabled="{Binding SBoxEnabled, Mode=TwoWay}"></TextBox>
 							<StackPanel DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Spacing="20">
 								<TextBlock Classes="h4" Text="{x:Static assets:Resources.Appmgr_DisplaySystemApp}"></TextBlock>
 								<ToggleSwitch IsChecked="{Binding IsSystemAppDisplayed}"/>

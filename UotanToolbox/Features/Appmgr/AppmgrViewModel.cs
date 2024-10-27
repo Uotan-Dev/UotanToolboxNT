@@ -24,14 +24,15 @@ public partial class AppmgrViewModel : MainPageBase
     [ObservableProperty]
     private ObservableCollection<ApplicationInfo> applications = [];
     [ObservableProperty]
-    private bool isBusy = false, hasItems = false;
+    private bool isBusy = false, hasItems = false, sBoxEnabled = true;
     [ObservableProperty]
     private bool isSystemAppDisplayed = false, isInstalling = false;
     [ObservableProperty]
     private string _apkFile;
     [ObservableProperty]
     private string _search;
-
+    [ObservableProperty]
+    private string _sBoxWater = GetTranslation("Appmgr_SearchApp");
     ApplicationInfo[] allApplicationInfos;
     List<ApplicationInfo> applicationInfos;
 
@@ -90,6 +91,8 @@ public partial class AppmgrViewModel : MainPageBase
     public async Task Connect()
     {
         IsBusy = true;
+        SBoxEnabled = false;
+        SBoxWater = GetTranslation("Appmgr_SearchWait");
         await Task.Run(async () =>
         {
             if (await GetDevicesInfo.SetDevicesInfoLittle())
@@ -156,17 +159,37 @@ public partial class AppmgrViewModel : MainPageBase
                     string[] applist = StringHelper.OHAppList(await CallExternalProgram.HDC($"-t {Global.thisdevice} shell bm dump -a"));
                     HasItems = applist.Length > 2;
                     ApplicationInfo[] applicationInfo = new ApplicationInfo[applist.Length - 2];
+                    ApplicationInfo[] OHApplicationInfos;
+                    List<ApplicationInfo> OHApplicationList = null;
                     for (int i = 2;i < applist.Length; i++)
                     {
                         string[] appinfo = StringHelper.OHAppInfo(await CallExternalProgram.HDC($"-t {Global.thisdevice} shell bm dump -n {applist[i]}"));
                         applicationInfo[i - 2] = new ApplicationInfo { Name = applist[i], DisplayName = appinfo[1], OtherInfo = appinfo[2] + "|API:" + appinfo[0] };
+                        if (i == applicationInfo.Length % 10)
+                        {
+                            OHApplicationInfos = applicationInfo;
+                            OHApplicationList = OHApplicationInfos.Where(info => info != null)
+                                                              .OrderByDescending(app => app.Size)
+                                                              .ThenBy(app => app.Name)
+                                                              .ToList();
+                            Applications = new ObservableCollection<ApplicationInfo>(OHApplicationList);
+                            IsBusy = false;
+                        }
+                        if (i % (applicationInfo.Length % 10) == 0 && i != applicationInfo.Length % 10)
+                        {
+                            OHApplicationInfos = applicationInfo.Skip(i - (applicationInfo.Length % 10)).Take(i).ToArray();
+                            OHApplicationList.AddRange(OHApplicationInfos.Where(info => info != null)
+                                                              .OrderByDescending(app => app.Size)
+                                                              .ThenBy(app => app.Name)
+                                                              .ToList());
+                            Applications = new ObservableCollection<ApplicationInfo>(OHApplicationList);
+                        }
                     }
                     allApplicationInfos = applicationInfo;
                     applicationInfos = allApplicationInfos.Where(info => info != null)
                                                       .OrderByDescending(app => app.Size)
                                                       .ThenBy(app => app.Name)
                                                       .ToList();
-                    Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
                 }
                 else
                 {
@@ -194,6 +217,8 @@ public partial class AppmgrViewModel : MainPageBase
                 });
             }
         });
+        SBoxEnabled = true;
+        SBoxWater = GetTranslation("Appmgr_SearchApp");
         IsBusy = false;
     }
 

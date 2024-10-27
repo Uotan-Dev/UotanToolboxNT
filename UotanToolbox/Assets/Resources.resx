@@ -1455,4 +1455,7 @@
   <data name="ConnectionDialog_ViewUpdates" xml:space="preserve">
     <value>View Updates</value>
   </data>
+  <data name="Appmgr_SearchWait" xml:space="preserve">
+    <value>Wait for all applications to load</value>
+  </data>
 </root>

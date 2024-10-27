@@ -1452,4 +1452,7 @@
   <data name="ConnectionDialog_ViewUpdates" xml:space="preserve">
     <value>查看更新</value>
   </data>
+  <data name="Appmgr_SearchWait" xml:space="preserve">
+    <value>请等待应用全部加载......</value>
+  </data>
 </root>

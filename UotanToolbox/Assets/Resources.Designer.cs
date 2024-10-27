@@ -286,6 +286,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Wait for all applications to load 的本地化字符串。
+        /// </summary>
+        public static string Appmgr_SearchWait {
+            get {
+                return ResourceManager.GetString("Appmgr_SearchWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Start installing 的本地化字符串。
         /// </summary>
         public static string Appmgr_StartInstalling {

@@ -165,7 +165,7 @@ namespace UotanToolbox.Common
         /// </summary>
         /// <param name="folderPath">要删除的目录路径。</param>
         /// <returns>删除目录是否成功</returns>
-        public bool ClearFolder(string folderPath)
+        public static bool ClearFolder(string folderPath)
         {
             if (!Directory.Exists(folderPath))
             {

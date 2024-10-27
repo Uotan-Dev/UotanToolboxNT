@@ -15,7 +15,7 @@ namespace UotanToolbox.Common.PatchHelper
             return FeaturesHelper.GetTranslation(key);
         }
 
-        public async Task<ZipInfo> Zip_Detect(string path)
+        public static async Task<ZipInfo> Zip_Detect(string path)
         {
             string kmi;
             ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "")
@@ -24,7 +24,7 @@ namespace UotanToolbox.Common.PatchHelper
             };
             Zipinfo.SHA1 = await FileHelper.SHA1HashAsync(Zipinfo.Path);
             Zipinfo.TempPath = Path.Combine(Global.tmp_path, "Zip-" + StringHelper.RandomString(8));
-            bool istempclean = true; //FileHelper.ClearFolder(Zipinfo.TempPath);
+            bool istempclean = FileHelper.ClearFolder(Zipinfo.TempPath);
             if (!istempclean)
             {
                 throw new Exception(GetTranslation("Basicflash_FatalError"));
@@ -106,9 +106,10 @@ namespace UotanToolbox.Common.PatchHelper
         {
             Dictionary<string, string> version_dict = new Dictionary<string, string>
             {
-            {"872199f3781706f51b84d8a89c1d148d26bcdbad" , "27000"},
-            {"dc7db76b5fb895d34b7274abb6ca59b56590a784" , "26400"},
-            {"d052b0e1c1a83cb25739eb87471ba6d8791f4b5a" , "26300"}
+                {"fc5705bf2a0d668ea6e74f0fa9f9d5c8102abc49" , "28000"},
+                {"872199f3781706f51b84d8a89c1d148d26bcdbad" , "27000"},
+                {"dc7db76b5fb895d34b7274abb6ca59b56590a784" , "26400"},
+                {"d052b0e1c1a83cb25739eb87471ba6d8791f4b5a" , "26300"}
              //其他的支持还没写，你要是看到这段文字可以考虑一下帮我写写然后PR到仓库。 -zicai
             };
             return version_dict.TryGetValue(SHA1, out string magisk_ver) ? magisk_ver : throw new Exception(GetTranslation("Basicflash_MagsikError"));

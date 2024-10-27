@@ -13,7 +13,7 @@ namespace UotanToolbox.Common.PatchHelper
             return FeaturesHelper.GetTranslation(key);
         }
 
-        public async Task<BootInfo> Boot_Detect(string path)
+        public static async Task<BootInfo> Boot_Detect(string path)
         {
             BootInfo bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "")
             {
@@ -21,7 +21,7 @@ namespace UotanToolbox.Common.PatchHelper
             };
             bootinfo.SHA1 = await FileHelper.SHA1HashAsync(bootinfo.Path);
             bootinfo.TempPath = Path.Combine(Global.tmp_path, "Boot-" + StringHelper.RandomString(8));
-            bool istempclean = true; // FileHelper.ClearFolder(bootinfo.TempPath);
+            bool istempclean = FileHelper.ClearFolder(bootinfo.TempPath);
             if (!istempclean)
             {
                 throw new Exception(GetTranslation("Basicflash_FatalError"));

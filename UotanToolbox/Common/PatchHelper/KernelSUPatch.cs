@@ -12,7 +12,7 @@ namespace UotanToolbox.Common.PatchHelper
             return FeaturesHelper.GetTranslation(key);
         }
 
-        public async Task<string> GKI_Patch(ZipInfo zipInfo, BootInfo bootInfo)
+        public static async Task<string> GKI_Patch(ZipInfo zipInfo, BootInfo bootInfo)
         {
             if (bootInfo.HaveKernel == false)
             {

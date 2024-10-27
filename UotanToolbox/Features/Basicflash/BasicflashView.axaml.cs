@@ -507,7 +507,7 @@ public partial class BasicflashView : UserControl
                 return;
             }
             MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
-            //Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
+            Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
             Global.MainDialogManager.CreateDialog()
                                         .OfType(NotificationType.Information)
                                         .WithContent($"{GetTranslation("Basicflash_DetectZIP")}\nUseful:{Global.Zipinfo.IsUseful}\nMode:{Global.Zipinfo.Mode}\nVersion:{Global.Zipinfo.Version}")
@@ -550,7 +550,7 @@ public partial class BasicflashView : UserControl
                 return;
             }
             BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
-            //Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
+            Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
             ArchList.SelectedItem = Global.Bootinfo.Arch;
             Global.MainDialogManager.CreateDialog()
                                         .OfType(NotificationType.Information)
@@ -586,7 +586,7 @@ public partial class BasicflashView : UserControl
             }
             if ((Global.Zipinfo.Mode == PatchMode.None) | (Global.Zipinfo.IsUseful != true))
             {
-                //Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
+                Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
             }
             string newboot = null;
             switch (Global.Zipinfo.Mode)
@@ -595,12 +595,12 @@ public partial class BasicflashView : UserControl
                     newboot = await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
                 case PatchMode.GKI:
-                    //newboot = await KernelSUPatch.GKI_Patch(Global.Zipinfo, Global.Bootinfo);
+                    newboot = await KernelSUPatch.GKI_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
                 case PatchMode.LKM:
                     newboot = await KernelSUPatch.LKM_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
-                    //throw new Exception(GetTranslation("Basicflash_CantKSU"));
+                    throw new Exception(GetTranslation("Basicflash_CantKSU"));
             }
             Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Succ"))

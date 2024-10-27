@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Avalonia.Controls.Notifications;
+using SukiUI.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,8 +9,6 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Avalonia.Controls.Notifications;
-using SukiUI.Dialogs;
 
 
 namespace UotanToolbox.Common
@@ -172,28 +172,28 @@ namespace UotanToolbox.Common
                 _ = Directory.CreateDirectory(folderPath);
                 return true;
             }
-                string[] subDirs = Directory.GetDirectories(folderPath);
-                foreach (string subDirPath in subDirs)
+            string[] subDirs = Directory.GetDirectories(folderPath);
+            foreach (string subDirPath in subDirs)
+            {
+                _ = ClearFolder(subDirPath);
+            }
+            string[] files = Directory.GetFiles(folderPath, "*", SearchOption.TopDirectoryOnly);
+            foreach (string filePath in files)
+            {
+                FileAttributes attr = File.GetAttributes(filePath);
+                if ((attr & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
                 {
-                    _ = ClearFolder(subDirPath);
+                    File.SetAttributes(filePath, attr & ~FileAttributes.ReadOnly);
                 }
-                string[] files = Directory.GetFiles(folderPath, "*", SearchOption.TopDirectoryOnly);
-                foreach (string filePath in files)
-                {
-                    FileAttributes attr = File.GetAttributes(filePath);
-                    if ((attr & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
-                    {
-                        File.SetAttributes(filePath, attr & ~FileAttributes.ReadOnly);
-                    }
-                    File.Delete(filePath);
-                }
-                subDirs = Directory.GetDirectories(folderPath);
-                foreach (string subDirPath in subDirs)
-                {
-                    Directory.Delete(subDirPath, true);
-                }
-                return true;
-            
+                File.Delete(filePath);
+            }
+            subDirs = Directory.GetDirectories(folderPath);
+            foreach (string subDirPath in subDirs)
+            {
+                Directory.Delete(subDirPath, true);
+            }
+            return true;
+
         }
         /// <summary>
         /// 跨平台打开指定文件夹。

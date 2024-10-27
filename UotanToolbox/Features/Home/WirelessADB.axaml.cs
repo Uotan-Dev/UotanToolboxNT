@@ -2,15 +2,12 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
-using Microsoft.VisualBasic;
 using SukiUI.Controls;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
-using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using UotanToolbox.Common;
-using ZstdSharp.Unsafe;
 
 
 namespace UotanToolbox.Features.Home;
@@ -28,7 +25,7 @@ public partial class WirelessADB : SukiWindow
             return new Bitmap(stream);
         }
     }
-    public  WirelessADB()
+    public WirelessADB()
     {
         InitializeComponent();
         image = QRCode.Source;

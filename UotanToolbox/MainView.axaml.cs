@@ -1,7 +1,3 @@
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -10,6 +6,10 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using SukiUI.Controls;
 using SukiUI.Models;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Settings;
 

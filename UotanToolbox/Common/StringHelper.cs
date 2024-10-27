@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Avalonia.Controls.Notifications;
+using SukiUI.Dialogs;
+using System;
 using System.Collections.Generic;
-using Avalonia.Controls.Shapes;
-using SukiUI.Controls;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Avalonia.Controls.Notifications;
-using SukiUI.Dialogs;
 using UotanToolbox.Features.Appmgr;
-using System.Globalization;
 
 
 namespace UotanToolbox.Common
@@ -142,7 +140,7 @@ namespace UotanToolbox.Common
 
         public static string[] OHAppList(string applist)
         {
-            string[] lines = applist.Split(new char[] { '\r', '\n' , '	' , ' '}, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = applist.Split(new char[] { '\r', '\n', '	', ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return lines;
         }
 
@@ -150,8 +148,8 @@ namespace UotanToolbox.Common
         {
             string[] info = new string[3];
             appname = appname.Substring(appname.LastIndexOf("\"targetVersion\""));
-            string[] lines = appname.Split(new char[] { '\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0;i < lines.Length;i++)
+            string[] lines = appname.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < lines.Length; i++)
             {
                 if (lines[i].Contains("\"targetVersion\""))
                 {
@@ -173,7 +171,7 @@ namespace UotanToolbox.Common
                         string[] line = lines[i].Split(new char[] { ':', ' ', '"', ',' }, StringSplitOptions.RemoveEmptyEntries);
                         info[1] = line[1];
                     }
-                    catch 
+                    catch
                     {
                         info[1] = "Unknow Application";
                     }
@@ -202,7 +200,7 @@ namespace UotanToolbox.Common
 
         public static string RemoveSpace(string str)
         {
-            string[] lines = str.Split(new char[] { ' '}, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string result = string.Concat(lines);
             if (string.IsNullOrEmpty(result))
                 return "--";
@@ -217,12 +215,12 @@ namespace UotanToolbox.Common
 
         public static string OHColonSplit(string info)
         {
-            string[] infos = info.Split(new char[] { '\r', '\n', ','}, StringSplitOptions.RemoveEmptyEntries);
+            string[] infos = info.Split(new char[] { '\r', '\n', ',' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < infos.Length; i++)
             {
                 if (infos[i].Contains("physical screen resolution") || infos[i].Contains("supportedMode[0]"))
                 {
-                    string[] device = infos[i].Split(new char[] { ':', ' '}, StringSplitOptions.RemoveEmptyEntries);
+                    string[] device = infos[i].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     return device[device.Length - 1];
                 }
             }
@@ -378,7 +376,7 @@ namespace UotanToolbox.Common
 
         public static string OHBuildVersion(string info)
         {
-            string[] infos = info.Split(new char[] { '\r', '\n', ' '}, StringSplitOptions.RemoveEmptyEntries);
+            string[] infos = info.Split(new char[] { '\r', '\n', ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return infos[0] + " " + infos[1] + " " + infos[3] + " " + infos[4];
         }
 
@@ -389,7 +387,7 @@ namespace UotanToolbox.Common
             {
                 if (infos[i].Contains(" * date time"))
                 {
-                    string[] needline = infos[i].Split('=',StringSplitOptions.RemoveEmptyEntries);
+                    string[] needline = infos[i].Split('=', StringSplitOptions.RemoveEmptyEntries);
                     string format = " yyyy-MM-dd HH:mm:ss";
                     DateTime dateTime;
                     if (DateTime.TryParseExact(needline[1], format, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateTime))

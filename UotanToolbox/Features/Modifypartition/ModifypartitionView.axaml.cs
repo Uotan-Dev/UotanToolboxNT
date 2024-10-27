@@ -1,11 +1,11 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
+using System;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 
 
@@ -112,7 +112,7 @@ public partial class ModifypartitionView : UserControl
                         .WithTitle(GetTranslation("Common_Warn"))
                         .WithContent(GetTranslation("Common_NeedRoot"))
                         .OfType(NotificationType.Warning)
-                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
+                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                         {
                             await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
                             AddPartList();

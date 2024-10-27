@@ -1,20 +1,16 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using Avalonia.Controls.Notifications;
+﻿using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using Microsoft.VisualBasic;
+using ReactiveUI;
 using SukiUI.Dialogs;
-using SukiUI.Controls;
-using SukiUI.Enums;
+using SukiUI.Toasts;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
-using SukiUI.Toasts;
 
 namespace UotanToolbox.Features.Scrcpy;
 
@@ -36,19 +32,18 @@ public partial class ScrcpyViewModel : MainPageBase
 
     public ScrcpyViewModel() : base("Scrcpy", MaterialIconKind.CellphoneLink, -500)
     {
-        //_ = this.WhenAnyValue(x => x.ComputerControl)
-        //    .Subscribe(jug =>
-        //    {
-        //        if (!jug)
-        //        {
-        //            ScreenAwakeStatus = false;
-        //            ScreenAwake = false;
-        //        }
-        //        else
-        //        {
-        //            ScreenAwakeStatus = true;
-        //        }
-        //    });
+        _ = this.WhenAnyValue(x => x.ComputerControl)
+            .Subscribe(jug =>
+            {
+                if (!jug)
+                {
+                    ScreenAwake = false;
+                }
+                else
+                {
+                    ScreenAwakeStatus = true;
+                }
+            });
     }
 
     [RelayCommand]

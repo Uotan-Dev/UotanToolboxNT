@@ -1,17 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
-using SukiUI.Controls;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Common.PatchHelper;
 
@@ -221,7 +217,7 @@ public partial class BasicflashView : UserControl
                                                 .WithTitle(GetTranslation("Common_Warn"))
                                                 .WithContent(GetTranslation("Basicflash_BasicUnlock"))
                                                 .OfType(NotificationType.Warning)
-                                                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
+                                                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                                 {
                                                     BusyBaseUnlock.IsBusy = true;
                                                     BaseUnlockPanel.IsEnabled = false;
@@ -302,7 +298,7 @@ public partial class BasicflashView : UserControl
                                                     .WithTitle(GetTranslation("Common_Succ"))
                                                     .WithContent(GetTranslation("Basicflash_RecoverySucc"))
                                                     .OfType(NotificationType.Success)
-                                                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
+                                                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                                     {
                                                         output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                                                         if (output.Contains("unknown command"))

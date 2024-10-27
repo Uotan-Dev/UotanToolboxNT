@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
 using Avalonia.Styling;
@@ -14,6 +8,10 @@ using SukiUI.Dialogs;
 using SukiUI.Enums;
 using SukiUI.Models;
 using SukiUI.Toasts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
 using UotanToolbox.Features.Settings;
@@ -55,7 +53,7 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(IEnumerable<MainPageBase> demoPages, PageNavigationService nav, ISukiToastManager toastManager, ISukiDialogManager dialogManager)
     {
         Global.MainToastManager = ToastManager = toastManager;
-        Global.MainDialogManager =  DialogManager = dialogManager;
+        Global.MainDialogManager = DialogManager = dialogManager;
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         DemoPages = new AvaloniaList<MainPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);

@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
 using Newtonsoft.Json;
+using ReactiveUI;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Settings;
 using UotanToolbox.Utilities;
@@ -43,15 +44,15 @@ public partial class HomeViewModel : MainPageBase
     public HomeViewModel() : base(GetTranslation("Sidebar_HomePage"), MaterialIconKind.HomeOutline, int.MinValue)
     {
         _ = CheckDeviceList();
-        //_ = this.WhenAnyValue(x => x.SelectedSimpleContent)
-        //    .Subscribe(option =>
-        //    {
-        //        if (option != null && option != Global.thisdevice && SimpleContent != null && SimpleContent.Count != 0)
-        //        {
-        //            Global.thisdevice = option;
-        //            _ = ConnectCore();
-        //        }
-        //    });
+        this.WhenAnyValue(x => x.SelectedSimpleContent)
+            .Subscribe(option =>
+            {
+                if (option != null && option != Global.thisdevice && SimpleContent != null && SimpleContent.Count != 0)
+                {
+                    Global.thisdevice = option;
+                    _ = ConnectCore();
+                }
+            });
         _ = CheckForUpdate();
     }
 
@@ -70,9 +71,9 @@ public partial class HomeViewModel : MainPageBase
             dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
             SettingsViewModel vm = new SettingsViewModel();
             string version = convertedBody.release_version;
-            
 
-            
+
+
             if (version.Contains("beta"))
             {
                 if (convertedBody.beta_version != vm.CurrentVersion)

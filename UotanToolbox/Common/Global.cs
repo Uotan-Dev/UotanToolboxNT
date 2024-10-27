@@ -1,15 +1,6 @@
 ﻿using Avalonia.Collections;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
-using UotanToolbox.Features.Appmgr;
-using UotanToolbox.Features.Basicflash;
-using UotanToolbox.Features.Customizedflash;
-using UotanToolbox.Features.FormatExtract;
-using UotanToolbox.Features.Home;
-using UotanToolbox.Features.Modifypartition;
-using UotanToolbox.Features.Others;
-using UotanToolbox.Features.Scrcpy;
-using UotanToolbox.Features.Wiredflash;
 
 namespace UotanToolbox.Common
 {

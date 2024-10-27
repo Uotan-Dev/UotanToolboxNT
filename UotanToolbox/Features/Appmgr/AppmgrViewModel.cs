@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Avalonia.Controls.Notifications;
+﻿using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
+using ReactiveUI;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Appmgr;
@@ -41,31 +40,31 @@ public partial class AppmgrViewModel : MainPageBase
 
     public AppmgrViewModel() : base(GetTranslation("Sidebar_Appmgr"), MaterialIconKind.ViewGridPlusOutline, -700)
     {
-        //_ = this.WhenAnyValue(app => app.Search)
-        //    .Subscribe(option =>
-        //    {
-        //        if (applicationInfos != null && allApplicationInfos != null)
-        //        {
-        //            if (!string.IsNullOrEmpty(Search))
-        //            {
-        //                applicationInfos.Clear();
-        //                applicationInfos.AddRange(allApplicationInfos.Where(app => app.DisplayName.Contains(Search) || app.Name.Contains(Search))
-        //                                                             .OrderByDescending(app => app.Size)
-        //                                                             .ThenBy(app => app.Name)
-        //                                                             .ToList());
-        //                Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
-        //            }
-        //            else
-        //            {
-        //                applicationInfos.Clear();
-        //                applicationInfos.AddRange(allApplicationInfos.Where(info => info != null)
-        //                                                             .OrderByDescending(app => app.Size)
-        //                                                             .ThenBy(app => app.Name)
-        //                                                             .ToList());
-        //                Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
-        //            }
-        //        }
-        //    });
+        _ = this.WhenAnyValue(app => app.Search)
+            .Subscribe(option =>
+            {
+                if (applicationInfos != null && allApplicationInfos != null)
+                {
+                    if (!string.IsNullOrEmpty(Search))
+                    {
+                        applicationInfos.Clear();
+                        applicationInfos.AddRange(allApplicationInfos.Where(app => app.DisplayName.Contains(Search) || app.Name.Contains(Search))
+                                                                     .OrderByDescending(app => app.Size)
+                                                                     .ThenBy(app => app.Name)
+                                                                     .ToList());
+                        Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+                    }
+                    else
+                    {
+                        applicationInfos.Clear();
+                        applicationInfos.AddRange(allApplicationInfos.Where(info => info != null)
+                                                                     .OrderByDescending(app => app.Size)
+                                                                     .ThenBy(app => app.Name)
+                                                                     .ToList());
+                        Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+                    }
+                }
+            });
     }
 
     private static readonly char[] separatorArray = ['\r', '\n'];
@@ -152,14 +151,14 @@ public partial class AppmgrViewModel : MainPageBase
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell rm /data/local/tmp/list_apps");
                     File.Delete(Path.Join(Global.tmp_path, "apps.txt"));
                 }
-                else if(sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+                else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
                 {
                     string[] applist = StringHelper.OHAppList(await CallExternalProgram.HDC($"-t {Global.thisdevice} shell bm dump -a"));
                     HasItems = applist.Length > 2;
                     ApplicationInfo[] applicationInfo = new ApplicationInfo[applist.Length - 2];
                     ApplicationInfo[] OHApplicationInfos;
                     List<ApplicationInfo> OHApplicationList = null;
-                    for (int i = 2;i < applist.Length; i++)
+                    for (int i = 2; i < applist.Length; i++)
                     {
                         string[] appinfo = StringHelper.OHAppInfo(await CallExternalProgram.HDC($"-t {Global.thisdevice} shell bm dump -n {applist[i]}"));
                         applicationInfo[i - 2] = new ApplicationInfo { Name = applist[i], DisplayName = appinfo[1], OtherInfo = appinfo[2] + "|API:" + appinfo[0] };

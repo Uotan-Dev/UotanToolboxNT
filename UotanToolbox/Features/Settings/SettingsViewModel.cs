@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
 using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,8 +10,10 @@ using SukiUI.Dialogs;
 using SukiUI.Enums;
 using SukiUI.Models;
 using SukiUI.Toasts;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
-
 using UotanToolbox.Utilities;
 
 namespace UotanToolbox.Features.Settings;

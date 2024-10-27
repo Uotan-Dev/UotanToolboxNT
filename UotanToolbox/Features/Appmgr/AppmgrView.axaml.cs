@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Appmgr;
@@ -37,7 +37,7 @@ public partial class AppmgrView : UserControl
                          .OfType(NotificationType.Warning)
                          .WithTitle(GetTranslation("Common_Warn"))
                          .WithContent(GetTranslation("Appmgr_ConfirmDeleteApp"))
-                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
+                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                          {
                              MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                              if (sukiViewModel.Status == GetTranslation("Home_Android"))

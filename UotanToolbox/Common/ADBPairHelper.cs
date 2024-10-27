@@ -1,11 +1,7 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
-using Avalonia.Threading;
+﻿using Avalonia.Controls.Notifications;
 using QRCoder;
-using SukiUI.Controls;
 using SukiUI.Dialogs;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace UotanToolbox.Common
@@ -29,7 +25,7 @@ namespace UotanToolbox.Common
         //Todo:使用原生Zeroconf做网络mdns扫描
         public static async Task ScanmDNS(string serviceID, string password, ISukiDialogManager dialogManager)
         {
-            while (true) 
+            while (true)
             {
                 string result = await CallExternalProgram.ADB("mdns services");
                 if (result.Contains("List of discovered mdns services"))

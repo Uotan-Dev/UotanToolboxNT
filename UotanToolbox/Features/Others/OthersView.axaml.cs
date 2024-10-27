@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Avalonia.Collections;
+﻿using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
+using System;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Others;
@@ -76,9 +76,9 @@ public partial class OthersView : UserControl
                     SetNull();
                 }
             }
-            else 
-            { 
-                SetNull(); 
+            else
+            {
+                SetNull();
             }
             await Task.Delay(1000);
         }

@@ -1,18 +1,16 @@
-﻿using System;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
-using SukiUI.Controls;
-using SukiUI.Toasts;
-using SukiUI.Enums;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using UotanToolbox.Common;
 using SukiUI.Dialogs;
-using System.Threading.Tasks;
+using SukiUI.Toasts;
+using System;
+using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Home;
 
@@ -110,7 +108,8 @@ public partial class HomeView : UserControl
         }
         else
         {
-            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();        }
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Basicflash_NotUsed")).Dismiss().ByClickingBackground().TryShow();
+        }
     }
 
     private async void Open9008DI(object sender, RoutedEventArgs args)

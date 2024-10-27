@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Avalonia.Collections;
+using Avalonia.Controls.Notifications;
+using SukiUI.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Threading.Tasks;
-using Avalonia.Collections;
-using Avalonia.Controls.Notifications;
-using SukiUI.Dialogs;
 
 namespace UotanToolbox.Common
 {
@@ -32,7 +31,7 @@ namespace UotanToolbox.Common
                             .WithTitle(GetTranslation("Common_Warn"))
                             .WithContent(GetTranslation("Common_ADBRoot"))
                             .OfType(NotificationType.Warning)
-                            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
+                            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                             {
                                 string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
                                 await CallExternalProgram.Sudo("chmod -R 777 /dev/bus/usb/");

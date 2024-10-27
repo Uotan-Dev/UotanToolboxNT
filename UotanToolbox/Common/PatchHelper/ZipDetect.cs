@@ -1,10 +1,10 @@
-﻿using System;
+﻿using SharpCompress.Archives;
+using SharpCompress.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using SharpCompress.Archives;
-using SharpCompress.Common;
 
 namespace UotanToolbox.Common.PatchHelper
 {
@@ -15,7 +15,7 @@ namespace UotanToolbox.Common.PatchHelper
             return FeaturesHelper.GetTranslation(key);
         }
 
-        public  async Task<ZipInfo> Zip_Detect(string path)
+        public async Task<ZipInfo> Zip_Detect(string path)
         {
             string kmi;
             ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "")

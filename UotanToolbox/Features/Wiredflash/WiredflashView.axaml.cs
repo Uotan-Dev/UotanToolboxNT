@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
+using UotanToolbox.Common.PatchHelper;
 
 
 namespace UotanToolbox.Features.Wiredflash;
@@ -182,6 +183,17 @@ public partial class WiredflashView : UserControl
         }
     }
 
+    private async void CheckRoot(object sender, RoutedEventArgs args)
+    {
+        Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Home_Prompt"))
+                            .WithContent(GetTranslation("Wiredflash_AddRootTip"))
+                            .OfType(NotificationType.Information)
+                            .WithActionButton(GetTranslation("Wiredflash_OpenAPK"), _ => FileHelper.OpenFolder(Path.Combine(Global.runpath, "APK")), true)
+                            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => { }, true)
+                            .TryShow();
+    }
+
     public void TXTFlashBusy(bool is_busy)
     {
         if (is_busy)
@@ -242,13 +254,25 @@ public partial class WiredflashView : UserControl
                             if (fbflashparts[i].Contains(' '))
                             {
                                 string[] partandpath = fbflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                string shell2 = string.Format($"-s {Global.thisdevice} flash {partandpath[0]} \"{fbtxt[..fbtxt.LastIndexOf('/')]}{partandpath[1]}\"");
-                                await Fastboot(shell2);
+                                string shell = string.Format($"-s {Global.thisdevice} flash {partandpath[0]} \"{fbtxt[..fbtxt.LastIndexOf('/')]}{partandpath[1]}\"");
+                                await Fastboot(shell);
                             }
                             else
                             {
-                                string shell = string.Format($"-s {Global.thisdevice} flash {fbflashparts[i]} \"{imgpath}/{fbflashparts[i]}.img\"");
-                                await Fastboot(shell);
+                                if (fbflashparts[i] == "boot" && (bool)AddRoot.IsChecked)
+                                {
+                                    WiredflashLog.Text += GetTranslation("Wiredflash_RepairBoot");
+                                    Global.Bootinfo = await BootDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");
+                                    Global.Zipinfo = await ZipDetect.Zip_Detect(Path.Combine(Global.runpath, "APK", "Magisk.apk"));
+                                    string newboot = await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
+                                    string shell = string.Format($"-s {Global.thisdevice} flash boot {newboot}");
+                                    await Fastboot(shell);
+                                }
+                                else
+                                {
+                                    string shell = string.Format($"-s {Global.thisdevice} flash {fbflashparts[i]} \"{imgpath}/{fbflashparts[i]}.img\"");
+                                    await Fastboot(shell);
+                                }
                             }
                             FileHelper.Write(adb_log_path, output);
                             if (output.Contains("FAILED") || output.Contains("error"))
@@ -360,9 +384,9 @@ public partial class WiredflashView : UserControl
                                 if (fbdflashparts[i].Contains(' '))
                                 {
                                     string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                    string deletepart2 = string.Format("{0}{1}", partandpath[0], slot);
-                                    string shell2 = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart2}");
-                                    await Fastboot(shell2);
+                                    string deletepart = string.Format("{0}{1}", partandpath[0], slot);
+                                    string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
+                                    await Fastboot(shell);
                                 }
                                 else
                                 {
@@ -385,9 +409,9 @@ public partial class WiredflashView : UserControl
                                 if (fbdflashparts[i].Contains(' '))
                                 {
                                     string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                    string makepart2 = string.Format("{0}{1}", partandpath[0], slot);
-                                    string shell2 = string.Format($"-s {Global.thisdevice} create-logical-partition {makepart2} 00");
-                                    await Fastboot(shell2);
+                                    string makepart = string.Format("{0}{1}", partandpath[0], slot);
+                                    string shell = string.Format($"-s {Global.thisdevice} create-logical-partition {makepart} 00");
+                                    await Fastboot(shell);
                                 }
                                 else
                                 {
@@ -410,8 +434,8 @@ public partial class WiredflashView : UserControl
                                 if (fbdflashparts[i].Contains(' '))
                                 {
                                     string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                    string shell2 = string.Format($"-s {Global.thisdevice} flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
-                                    await Fastboot(shell2);
+                                    string shell = string.Format($"-s {Global.thisdevice} flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
+                                    await Fastboot(shell);
                                 }
                                 else
                                 {

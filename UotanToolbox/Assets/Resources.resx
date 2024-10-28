@@ -1470,4 +1470,18 @@ If in other modes, please ensure that the driver is installed correctly.</value>
   <data name="Settings_OpenSource" xml:space="preserve">
     <value>Open source project</value>
   </data>
+  <data name="Wiredflash_AddMagisk" xml:space="preserve">
+    <value>Add  Magisk</value>
+  </data>
+  <data name="Wiredflash_AddRootTip" xml:space="preserve">
+    <value>Checking this option will default to using the built-in Magisk in the toolbox to patch Boot, and the version will be consistent with the default display on the Basic Flash page. 
+If you wish to replace Magisk, please first select your Magisk on the Basic Flash page, confirm that the toolbox supports this version of Magisk, and then replace it with the Magisk.apk file in the APK folder of the toolbox directory.
+*Only valid when the ROM uses the original Boot image!</value>
+  </data>
+  <data name="Wiredflash_OpenAPK" xml:space="preserve">
+    <value>Open APK directory</value>
+  </data>
+  <data name="Wiredflash_RepairBoot" xml:space="preserve">
+    <value>Repairing Boot image......</value>
+  </data>
 </root>

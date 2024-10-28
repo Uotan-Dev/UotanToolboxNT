@@ -1467,4 +1467,18 @@
   <data name="Settings_OpenSource" xml:space="preserve">
     <value>开源项目</value>
   </data>
+  <data name="Wiredflash_AddMagisk" xml:space="preserve">
+    <value>添加   Magisk</value>
+  </data>
+  <data name="Wiredflash_AddRootTip" xml:space="preserve">
+    <value>勾选该选项将默认使用工具箱内置的Magisk对Boot进行修补，版本与基础刷入页面默认显示的一致。
+如您希望更换Magisk，请先在基础刷入页面选择您的Magisk，确认工具箱支持该版本的Magisk后将其替换为工具箱目录下APK文件夹内的Magisk.apk文件。
+*仅当刷机包使用原版Boot镜像时有效！</value>
+  </data>
+  <data name="Wiredflash_OpenAPK" xml:space="preserve">
+    <value>打开APK目录</value>
+  </data>
+  <data name="Wiredflash_RepairBoot" xml:space="preserve">
+    <value>正在修补Boot镜像......</value>
+  </data>
 </root>

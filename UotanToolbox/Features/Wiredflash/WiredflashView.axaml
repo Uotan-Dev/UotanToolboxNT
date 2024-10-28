@@ -63,11 +63,11 @@
 									</StackPanel>
 								</StackPanel>
 								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="0">
-									<StackPanel Margin="-10 -10 0 0" Height="20" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
-										<CheckBox Name="AddRoot" IsChecked="False" />
+									<StackPanel Margin="0 -10 0 0" Height="20" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
+										<CheckBox Name="AddRoot" IsChecked="False" Checked="CheckRoot"/>
 										<TextBlock VerticalAlignment="Center"
 												   FontSize="13"
-												   Text="添加Magisk" />
+												   Text="{x:Static assets:Resources.Wiredflash_AddMagisk}" />
 									</StackPanel>
 									<StackPanel Height="30" HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
 										<CheckBox Name="ErasData" IsChecked="False" />

@@ -3970,6 +3970,26 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Add  Magisk 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_AddMagisk {
+            get {
+                return ResourceManager.GetString("Wiredflash_AddMagisk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Checking this option will default to using the built-in Magisk in the toolbox to patch Boot, and the version will be consistent with the default display on the Basic Flash page. 
+        ///If you wish to replace Magisk, please first select your Magisk on the Basic Flash page, confirm that the toolbox supports this version of Magisk, and then replace it with the Magisk.apk file in the APK folder of the toolbox directory.
+        ///*Only valid when the ROM uses the original Boot image! 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_AddRootTip {
+            get {
+                return ResourceManager.GetString("Wiredflash_AddRootTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Format data 的本地化字符串。
         /// </summary>
         public static string Wiredflash_ClearAllData {
@@ -4038,6 +4058,24 @@ namespace UotanToolbox.Assets {
         public static string Wiredflash_NoMul {
             get {
                 return ResourceManager.GetString("Wiredflash_NoMul", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open APK directory 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_OpenAPK {
+            get {
+                return ResourceManager.GetString("Wiredflash_OpenAPK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Repairing Boot image...... 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_RepairBoot {
+            get {
+                return ResourceManager.GetString("Wiredflash_RepairBoot", resourceCulture);
             }
         }
         

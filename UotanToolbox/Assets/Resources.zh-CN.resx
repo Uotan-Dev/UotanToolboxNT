@@ -622,7 +622,7 @@
     <value>读取分区表</value>
   </data>
   <data name="Modifypartition_RemoveLimit" xml:space="preserve">
-    <value>解除限制</value>
+    <value>解除分区数量限制</value>
   </data>
   <data name="Modifypartition_StartpointColon" xml:space="preserve">
     <value>起始点:</value>

@@ -2827,7 +2827,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Remove limit 的本地化字符串。
+        ///   查找类似 Remove limit of partition 的本地化字符串。
         /// </summary>
         public static string Modifypartition_RemoveLimit {
             get {

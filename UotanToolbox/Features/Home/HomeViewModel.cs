@@ -71,9 +71,9 @@ public partial class HomeViewModel : MainPageBase
             dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
             SettingsViewModel vm = new SettingsViewModel();
             string version = convertedBody.release_version;
-            
 
-            
+
+
             if (version.Contains("beta"))
             {
                 if (convertedBody.beta_version != vm.CurrentVersion)

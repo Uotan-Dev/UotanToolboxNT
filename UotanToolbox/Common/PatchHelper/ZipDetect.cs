@@ -106,7 +106,7 @@ namespace UotanToolbox.Common.PatchHelper
         {
             Dictionary<string, string> version_dict = new Dictionary<string, string>
             {
-                {"fc5705bf2a0d668ea6e74f0fa9f9d5c8102abc49" , "28000"},
+                {"84c3cdea6f4b10d0e2abeb24bdfead502a348a63" , "28000"},
                 {"872199f3781706f51b84d8a89c1d148d26bcdbad" , "27000"},
                 {"dc7db76b5fb895d34b7274abb6ca59b56590a784" , "26400"},
                 {"d052b0e1c1a83cb25739eb87471ba6d8791f4b5a" , "26300"}
@@ -116,9 +116,13 @@ namespace UotanToolbox.Common.PatchHelper
         }
         private static async Task Magisk_Pre(string temp_path)
         {
-            List<(string SourcePath, string DestinationPath)> filesToCopy =
-            [
-                (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(temp_path, "lib", "armeabi-v7a", "magisk32")),
+            List<(string SourcePath, string DestinationPath)> filesToCopy;
+            if (File.Exists(Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk32.so")))
+            {
+
+                filesToCopy =
+                [
+                    (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(temp_path, "lib", "armeabi-v7a", "magisk32")),
                 (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "armeabi-v7a", "init")),
                 (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "magisk32")),
                 (Path.Combine(temp_path, "lib", "arm64-v8a", "libmagisk64.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "magisk64")),
@@ -128,7 +132,24 @@ namespace UotanToolbox.Common.PatchHelper
                 (Path.Combine(temp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(temp_path, "lib", "x86_64", "magisk32")),
                 (Path.Combine(temp_path, "lib", "x86_64", "libmagisk64.so"), Path.Combine(temp_path, "lib", "x86_64", "magisk64")),
                 (Path.Combine(temp_path, "lib", "x86_64", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "x86_64", "init"))
-            ];
+                ];
+            }
+            else
+            {
+                filesToCopy =
+                [
+                (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk.so"), Path.Combine(temp_path, "lib", "armeabi-v7a", "magisk32")),
+                (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "armeabi-v7a", "init")),
+                (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "magisk32")),
+                (Path.Combine(temp_path, "lib", "arm64-v8a", "libmagisk.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "magisk64")),
+                (Path.Combine(temp_path, "lib", "arm64-v8a", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "init")),
+                (Path.Combine(temp_path, "lib", "x86", "libmagisk.so"), Path.Combine(temp_path, "lib", "x86", "magisk32")),
+                (Path.Combine(temp_path, "lib", "x86", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "x86", "init")),
+                (Path.Combine(temp_path, "lib", "x86", "libmagisk.so"), Path.Combine(temp_path, "lib", "x86_64", "magisk32")),
+                (Path.Combine(temp_path, "lib", "x86_64", "libmagisk.so"), Path.Combine(temp_path, "lib", "x86_64", "magisk64")),
+                (Path.Combine(temp_path, "lib", "x86_64", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "x86_64", "init"))
+                ];
+            }
             await Task.WhenAll(filesToCopy.Select(async file =>
             {
                 try

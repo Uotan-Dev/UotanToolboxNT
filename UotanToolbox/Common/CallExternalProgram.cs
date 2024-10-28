@@ -16,7 +16,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process adb = new Process();
             adb.StartInfo = adbexe;
@@ -38,7 +40,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process hdc = new Process();
             hdc.StartInfo = hdcexe;
@@ -60,7 +64,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;
@@ -82,7 +88,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process devcon = new Process();
             devcon.StartInfo = fastboot;
@@ -104,7 +112,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;
@@ -126,7 +136,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process qcn = new Process();
             qcn.StartInfo = qcntool;
@@ -148,7 +160,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process pnp = new Process();
             pnp.StartInfo = pnputil;
@@ -169,7 +183,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;
@@ -191,7 +207,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;
@@ -215,6 +233,8 @@ namespace UotanToolbox.Common
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8,
                 WorkingDirectory = Path.Combine(Global.bin_path, "platform-tools")
             };
             using Process sc = new Process();
@@ -240,7 +260,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process SevenZip = new Process();
             SevenZip.StartInfo = SevenZipexe;
@@ -273,7 +295,9 @@ namespace UotanToolbox.Common
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             Process mb = new Process
             {
@@ -308,7 +332,9 @@ namespace UotanToolbox.Common
                     CreateNoWindow = true,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
-                    RedirectStandardError = true
+                    RedirectStandardError = true,
+                    StandardOutputEncoding = System.Text.Encoding.UTF8,
+                    StandardErrorEncoding = System.Text.Encoding.UTF8
                 };
                 using Process process = new Process
                 {

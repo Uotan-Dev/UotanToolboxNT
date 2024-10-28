@@ -99,9 +99,7 @@ public partial class AppmgrViewModel : MainPageBase
                 {
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{Path.Join(Global.runpath, "Push", "list_apps")}\" /data/local/tmp/");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell chmod 777 /data/local/tmp/list_apps");
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell /data/local/tmp/list_apps > /data/local/tmp/apps.txt");
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} pull /data/local/tmp/apps.txt {Global.tmp_path}");
-                    string fulllists = File.ReadAllText(Path.Join(Global.tmp_path, "apps.txt"));
+                    string fulllists = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell /data/local/tmp/list_apps ");
                     List<ApplicationInfo> fullapplications = StringHelper.ParseApplicationInfo(fulllists);
                     string fullApplicationsList = !IsSystemAppDisplayed
                         ? await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm list packages -3")
@@ -147,9 +145,7 @@ public partial class AppmgrViewModel : MainPageBase
                                                              .ThenBy(app => app.Name)
                                                              .ToList();
                     Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
-                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell rm /data/local/tmp/apps.txt");
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell rm /data/local/tmp/list_apps");
-                    File.Delete(Path.Join(Global.tmp_path, "apps.txt"));
                 }
                 else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
                 {

@@ -334,7 +334,7 @@
 								<TextBlock>QCNTool (from Github repo https://github.com/MindowsToolBox/QCNTool)</TextBlock>
 								<TextBlock>QMSL_MSVC10R.dll (from QPST)</TextBlock>
 								<TextBlock>Suki UI (from Github repo https://github.com/kikipoulet/SukiUI)</TextBlock>
-								<TextBlock Text="{Binding BinVersion}" />
+								<TextBlock TextWrapping="Wrap" Text="{Binding BinVersion}" />
 							</StackPanel>
 						</DockPanel>
 					</StackPanel>

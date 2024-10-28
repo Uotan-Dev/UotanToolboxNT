@@ -106,7 +106,7 @@ namespace UotanToolbox.Common.PatchHelper
         {
             Dictionary<string, string> version_dict = new Dictionary<string, string>
             {
-                {"84c3cdea6f4b10d0e2abeb24bdfead502a348a63" , "28000"},
+                //{"84c3cdea6f4b10d0e2abeb24bdfead502a348a63" , "28000"},
                 {"872199f3781706f51b84d8a89c1d148d26bcdbad" , "27000"},
                 {"dc7db76b5fb895d34b7274abb6ca59b56590a784" , "26400"},
                 {"d052b0e1c1a83cb25739eb87471ba6d8791f4b5a" , "26300"}

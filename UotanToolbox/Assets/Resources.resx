@@ -622,7 +622,7 @@
     <value>Read Part</value>
   </data>
   <data name="Modifypartition_RemoveLimit" xml:space="preserve">
-    <value>Remove limit</value>
+    <value>Remove limit of partition</value>
   </data>
   <data name="Modifypartition_StartpointColon" xml:space="preserve">
     <value>Start:</value>

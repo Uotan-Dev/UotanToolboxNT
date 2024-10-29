@@ -137,7 +137,7 @@ public partial class AppmgrViewModel : MainPageBase
                         string combinedOutput = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell dumpsys package {packageName}");
                         string[] splitOutput = combinedOutput.Split('\n', ' ');
                         string otherInfo = GetVersionName(splitOutput) + " | " + GetInstalledDate(splitOutput) + " | " + GetSdkVersion(splitOutput);
-                        return new ApplicationInfo { Name = packageName, DisplayName = displayName, OtherInfo = otherInfo };
+                        return new ApplicationInfo { Name = packageName, DisplayName = StringHelper.RemoveLineFeed(displayName), OtherInfo = otherInfo };
                     });
                     allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
                     applicationInfos = allApplicationInfos.Where(info => info != null)

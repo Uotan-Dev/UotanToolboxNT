@@ -1482,4 +1482,7 @@
   <data name="Wiredflash_RepairBoot" xml:space="preserve">
     <value>正在修补Boot镜像......</value>
   </data>
+  <data name="Common_FBRoot" xml:space="preserve">
+    <value>检测到Fastboot设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？</value>
+  </data>
 </root>

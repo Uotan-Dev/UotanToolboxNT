@@ -20,7 +20,8 @@ namespace UotanToolbox.Common
         {
             string devcon = Global.System == "Windows" ? await CallExternalProgram.Devcon("find usb*") : await CallExternalProgram.LsUSB();
             string[] adbdevices = StringHelper.ADBDevices(await CallExternalProgram.ADB("devices"));
-            string[] fbdevices = StringHelper.FastbootDevices(await CallExternalProgram.Fastboot("devices"));
+            string fbdevice = await CallExternalProgram.Fastboot("devices");
+            string[] fbdevices = StringHelper.FastbootDevices(fbdevice);
             string[] hdcdevice = StringHelper.HDCDevices(await CallExternalProgram.HDC("list targets"));
             string[] comdevices = StringHelper.COMDevices(devcon);
             if (Global.System.Contains("Linux") && Global.root)
@@ -36,6 +37,22 @@ namespace UotanToolbox.Common
                                 string cmd = Path.Combine(Global.bin_path, "platform-tools", "adb");
                                 await CallExternalProgram.Sudo("chmod -R 777 /dev/bus/usb/");
                                 adbdevices = StringHelper.ADBDevices(await CallExternalProgram.ADB("devices"));
+                            }, true)
+                            .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                            .TryShow();
+                    Global.root = false;
+                }
+                if (fbdevice.Contains("no permissions"))
+                {
+                    Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Warn"))
+                            .WithContent(GetTranslation("Common_FBRoot"))
+                            .OfType(NotificationType.Warning)
+                            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                            {
+                                string cmd = Path.Combine(Global.bin_path, "platform-tools", "fastboot");
+                                await CallExternalProgram.Sudo("chmod -R 777 /dev/bus/usb/");
+                                fbdevices = StringHelper.FastbootDevices(await CallExternalProgram.Fastboot("devices"));
                             }, true)
                             .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                             .TryShow();

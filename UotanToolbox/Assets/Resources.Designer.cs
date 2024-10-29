@@ -1213,6 +1213,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Fastboot device detected, but it seems that the current system has not written relevant USB rules. Should you try to execute with root privileges? 的本地化字符串。
+        /// </summary>
+        public static string Common_FBRoot {
+            get {
+                return ResourceManager.GetString("Common_FBRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The selected folder does not have write permission, please select again! 的本地化字符串。
         /// </summary>
         public static string Common_FolderNoPermission {

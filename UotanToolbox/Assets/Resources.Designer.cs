@@ -2863,7 +2863,8 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 This operation will set the maximum number of partitions on the disk to 128, and will restart Recovery after successful execution! 的本地化字符串。
+        ///   查找类似 This operation will set the maximum number of partitions on the disk to 128, and will restart Recovery after successful execution!
+        ///*Warning: This operation carries great risks. Please ensure that there are successful precedents or unauthorized deep flashing of the device on this disk! Developers are not responsible for any issues that may arise. Please be aware! 的本地化字符串。
         /// </summary>
         public static string Modifypartition_Set128 {
             get {

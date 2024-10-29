@@ -1292,7 +1292,8 @@
     <value>Please select the disk to be read first!</value>
   </data>
   <data name="Modifypartition_Set128" xml:space="preserve">
-    <value>This operation will set the maximum number of partitions on the disk to 128, and will restart Recovery after successful execution!</value>
+    <value>This operation will set the maximum number of partitions on the disk to 128, and will restart Recovery after successful execution!
+*Warning: This operation carries great risks. Please ensure that there are successful precedents or unauthorized deep flashing of the device on this disk! Developers are not responsible for any issues that may arise. Please be aware!</value>
   </data>
   <data name="Modifypartition_SetEFI" xml:space="preserve">
     <value>This function marks EFI partitions. Please confirm your understanding of its purpose before continuing!</value>

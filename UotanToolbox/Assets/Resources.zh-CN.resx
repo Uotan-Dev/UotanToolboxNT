@@ -1289,7 +1289,8 @@
     <value>请先选择需要读取的磁盘！</value>
   </data>
   <data name="Modifypartition_Set128" xml:space="preserve">
-    <value>此操作会将该磁盘最大分区数量设置为128个，执行成功后将重启Recovery！</value>
+    <value>此操作会将该磁盘最大分区数量设置为128个，执行成功后将重启Recovery！
+*警告：此操作存在极大风险，请确保该设备该磁盘下有成功先例或可对设备进行免授权深度刷机！出现任何问题开发者概不负责，请您悉知！</value>
   </data>
   <data name="Modifypartition_SetEFI" xml:space="preserve">
     <value>该功能为标记EFI分区，请确认知晓其作用后继续！</value>

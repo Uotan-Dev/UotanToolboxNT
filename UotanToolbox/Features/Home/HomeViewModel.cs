@@ -95,7 +95,6 @@ public partial class HomeViewModel : MainPageBase
                           .WithActionButtonNormal(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                           .Queue();
                 }
-                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
             else
             {
@@ -118,7 +117,6 @@ public partial class HomeViewModel : MainPageBase
                           .WithActionButtonNormal(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                           .Queue();
                 }
-                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         catch (HttpRequestException e) { }

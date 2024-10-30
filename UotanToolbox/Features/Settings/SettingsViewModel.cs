@@ -165,7 +165,7 @@ public partial class SettingsViewModel : MainPageBase
                     .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                     .TryShow();
                 }
-                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
+                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
             else
             {
@@ -181,7 +181,7 @@ public partial class SettingsViewModel : MainPageBase
                     .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                     .TryShow();
                 }
-                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
+                else Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("Settings_UpToDate")).Dismiss().ByClickingBackground().TryShow();
             }
         }
         catch (HttpRequestException e)

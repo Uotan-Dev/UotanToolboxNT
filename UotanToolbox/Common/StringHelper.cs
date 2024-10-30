@@ -58,7 +58,7 @@ namespace UotanToolbox.Common
         public static string[] HDCDevices(string HDCInfo)
         {
             string[] devices = HDCInfo.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            devices = devices.Where(s => !String.IsNullOrEmpty(s) && !s.Contains("[Empty]")).ToArray();
+            devices = devices.Where(s => !String.IsNullOrEmpty(s) && !s.Contains("[Empty]") && !s.Contains("FreeChannelContinue")).ToArray();
             return devices;
         }
 
@@ -193,7 +193,11 @@ namespace UotanToolbox.Common
         {
             string[] lines = str.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             string result = string.Concat(lines);
-            return string.IsNullOrEmpty(result) || result.Contains("not found") || result.Contains("dialog on your device") || result.Contains("device offline") || result.Contains("closed")
+            if (result.Contains("FreeChannelContinue"))
+            {
+                result = lines[0];
+            }
+            return string.IsNullOrEmpty(result) || result.Contains("not found") || result.Contains("dialog on your device") || result.Contains("device offline") || result.Contains("closed") || result.Contains("fail!")
                 ? "--"
                 : result;
         }

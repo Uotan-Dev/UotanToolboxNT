@@ -57,8 +57,8 @@ namespace UotanToolbox.Common
 
         public static string[] HDCDevices(string HDCInfo)
         {
-            string[] devices = HDCInfo.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            devices = devices.Where(s => !String.IsNullOrEmpty(s) && !s.Contains("[Empty]") && !s.Contains("FreeChannelContinue")).ToArray();
+            string[] devices = HDCInfo.Split(new char[] { '\t', '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            devices = devices.Where(s => !String.IsNullOrEmpty(s) && !s.Contains("[Empty]") && !s.Contains("FreeChannelContinue") && !s.Contains("Unauthorized")).ToArray();
             return devices;
         }
 
@@ -197,7 +197,7 @@ namespace UotanToolbox.Common
             {
                 result = lines[0];
             }
-            return string.IsNullOrEmpty(result) || result.Contains("not found") || result.Contains("dialog on your device") || result.Contains("device offline") || result.Contains("closed") || result.Contains("fail!")
+            return string.IsNullOrEmpty(result) || result.Contains("not found") || result.Contains("dialog on your device") || result.Contains("device offline") || result.Contains("closed") || result.Contains("fail!") || result.Contains("Fail") || result.Contains("unauthorized")
                 ? "--"
                 : result;
         }
@@ -233,8 +233,12 @@ namespace UotanToolbox.Common
 
         public static string OHKernel(string info)
         {
-            string[] infos = info.Split('#', StringSplitOptions.RemoveEmptyEntries);
-            return infos[0];
+            if (!info.Contains("Fail"))
+            {
+                string[] infos = info.Split('#', StringSplitOptions.RemoveEmptyEntries);
+                return infos[0];
+            }
+            return "--";
         }
 
         public static string Density(string info)
@@ -303,8 +307,12 @@ namespace UotanToolbox.Common
 
         public static string OHVersion(string info)
         {
-            string[] version = info.Split(new char[] { ' ', '(' }, StringSplitOptions.RemoveEmptyEntries);
-            return version[1];
+            if (!info.Contains("Fail"))
+            {
+                string[] version = info.Split(new char[] { ' ', '(' }, StringSplitOptions.RemoveEmptyEntries);
+                return version[1];
+            }
+            return "--";
         }
 
         public static string[] Mem(string info)
@@ -380,8 +388,12 @@ namespace UotanToolbox.Common
 
         public static string OHBuildVersion(string info)
         {
-            string[] infos = info.Split(new char[] { '\r', '\n', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            return infos[0] + " " + infos[1] + " " + infos[3] + " " + infos[4];
+            if (!info.Contains("Fail"))
+            {
+                string[] infos = info.Split(new char[] { '\r', '\n', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                return infos[0] + " " + infos[1] + " " + infos[3] + " " + infos[4];
+            }
+            return "--";
         }
 
         public static string OHPowerOnTime(string info)

@@ -314,11 +314,31 @@ namespace UotanToolbox.Common
             }
             if (hdc.Contains(devicename))
             {
-                status = GetTranslation("Home_OpenHOS");
+                string thisdevice = "";
+                string[] Lines = hdc.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    if (Lines[i].Contains(devicename))
+                    {
+                        thisdevice = Lines[i];
+                        break;
+                    }
+                }
+                if (thisdevice.Contains("Unauthorized"))
+                {
+                    status = GetTranslation("Info_UnauthorizedDevice");
+                }
+                else
+                {
+                    status = GetTranslation("Home_OpenHOS");
+                }
                 blstatus = "--";
                 string sdk = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.ohos.apiversion"));
                 string harmony = StringHelper.OHVersion(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.software.version"));
-                systemsdk = String.Format($"OpenHarmony {harmony}({StringHelper.RemoveSpace(sdk)})");
+                if (harmony != "--")
+                {
+                    systemsdk = String.Format($"OpenHarmony {harmony}({StringHelper.RemoveSpace(sdk)})");
+                }
                 try
                 {
                     string[] deviceinfo = StringHelper.OHDeviceInof(await CallExternalProgram.HDC($"-t {devicename} shell SP_daemon -deviceinfo"));
@@ -546,7 +566,24 @@ namespace UotanToolbox.Common
             }
             if (hdc.Contains(devicename))
             {
-                status = GetTranslation("Home_OpenHOS");
+                string thisdevice = "";
+                string[] Lines = hdc.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < Lines.Length; i++)
+                {
+                    if (Lines[i].Contains(devicename))
+                    {
+                        thisdevice = Lines[i];
+                        break;
+                    }
+                }
+                if (thisdevice.Contains("Unauthorized"))
+                {
+                    status = GetTranslation("Info_UnauthorizedDevice");
+                }
+                else
+                {
+                    status = GetTranslation("Home_OpenHOS");
+                }
                 codename = StringHelper.RemoveLineFeed(await CallExternalProgram.HDC($"-t {devicename} shell param get const.product.model"));
             }
             string[] deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);

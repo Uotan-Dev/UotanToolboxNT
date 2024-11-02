@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls.Notifications;
-using SukiUI.Dialogs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -9,6 +7,8 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Controls.Notifications;
+using SukiUI.Dialogs;
 
 
 namespace UotanToolbox.Common

@@ -1,8 +1,8 @@
-﻿using Avalonia.Controls.Notifications;
+﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Avalonia.Controls.Notifications;
 using QRCoder;
 using SukiUI.Dialogs;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace UotanToolbox.Common
 {

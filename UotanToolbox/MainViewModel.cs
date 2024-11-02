@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Collections;
 using Avalonia.Controls.Notifications;
 using Avalonia.Styling;
@@ -8,10 +12,6 @@ using SukiUI.Dialogs;
 using SukiUI.Enums;
 using SukiUI.Models;
 using SukiUI.Toasts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features;
 using UotanToolbox.Features.Settings;

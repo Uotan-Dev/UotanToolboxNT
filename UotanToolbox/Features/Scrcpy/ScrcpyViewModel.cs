@@ -1,4 +1,7 @@
-﻿using Avalonia.Controls.Notifications;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -7,9 +10,6 @@ using Microsoft.VisualBasic;
 using ReactiveUI;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Scrcpy;

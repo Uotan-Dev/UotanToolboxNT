@@ -1,10 +1,10 @@
-﻿using SharpCompress.Archives;
-using SharpCompress.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using SharpCompress.Archives;
+using SharpCompress.Common;
 
 namespace UotanToolbox.Common.PatchHelper
 {

@@ -40,7 +40,7 @@ namespace UotanToolbox.Common.SpraseHelper
                 {
                     if (currentFill != null)
                     {
-                        if (ByteUtils.AreByteArraysEqual(fill, currentFill))
+                        if (FileName.AreByteArraysEqual(fill, currentFill))
                         {
                             fillCount++;
                         }

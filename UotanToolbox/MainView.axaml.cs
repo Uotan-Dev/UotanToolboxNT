@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -20,6 +21,9 @@ public partial class MainView : SukiWindow
     public MainView()
     {
         InitializeComponent();
+#if DEBUG
+        this.AttachDevTools();
+#endif
         Bitmap bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
         Icon = new WindowIcon(bitmap);
         SetSystemDecorationsBasedOnPlatform();

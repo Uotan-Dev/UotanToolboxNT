@@ -34,7 +34,6 @@
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 		<PackageReference Include="Google.Protobuf" Version="3.28.3" />
-		<PackageReference Include="KaitaiStruct.Runtime.CSharp" Version="0.10.0" />
 		<PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -46,6 +45,7 @@
 		<PackageReference Include="SkiaSharp" Version="2.88.8" />
 		<PackageReference Include="SukiUI" Version="6.0.0-rc" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
+		<PackageReference Include="ZachWolfe.KaitaiStruct.Runtime.CSharp" Version="0.11.0" />
 		<PackageReference Include="Zeroconf" Version="3.6.11" />
 	</ItemGroup>
 

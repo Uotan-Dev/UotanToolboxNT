@@ -82,16 +82,22 @@
 			<DependentUpon>AppmgrView.axaml</DependentUpon>
 		</Compile>
 		<Compile Update="Features\Basicflash\BasicflashView.axaml.cs">
-		  <DependentUpon>BasicflashView.axaml</DependentUpon>
+			<DependentUpon>BasicflashView.axaml</DependentUpon>
 		</Compile>
 		<Compile Update="Features\FormatExtract\FormatExtractView.axaml.cs">
-		  <DependentUpon>FormatExtractView.axaml</DependentUpon>
+			<DependentUpon>FormatExtractView.axaml</DependentUpon>
 		</Compile>
 		<Compile Update="Features\Home\WirelessADB.axaml.cs">
-		  <DependentUpon>WirelessADB.axaml</DependentUpon>
+			<DependentUpon>WirelessADB.axaml</DependentUpon>
 		</Compile>
 		<Compile Update="Features\Home\HomeView.axaml.cs">
 			<DependentUpon>HomeView.axaml</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Rom\RomView.axaml.cs">
+			<DependentUpon>RomView.axaml</DependentUpon>
+		</Compile>
+		<Compile Update="Features\Rom\RomProject.axaml.cs">
+			<DependentUpon>RomProject.axaml</DependentUpon>
 		</Compile>
 		<Compile Update="Features\Settings\SettingsView.axaml.cs">
 			<DependentUpon>SettingsView.axaml</DependentUpon>
@@ -100,9 +106,9 @@
 			<DependentUpon>MainView.axaml</DependentUpon>
 		</Compile>
 		<Compile Update="Settings.Designer.cs">
-		  <DesignTimeSharedInput>True</DesignTimeSharedInput>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>Settings.settings</DependentUpon>
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
 		</Compile>
 	</ItemGroup>
 

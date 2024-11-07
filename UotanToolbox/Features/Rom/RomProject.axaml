@@ -1,0 +1,120 @@
+<suki:SukiWindow x:Class="UotanToolbox.Features.Rom.RomProject"
+                 xmlns="https://github.com/avaloniaui"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+                 xmlns:suki="https://github.com/kikipoulet/SukiUI"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+				 Title="ROM工程"
+				 CanResize="False"
+				 CanMaximize="False"
+                 Width="850"
+                 Height="685"
+                 d:DesignHeight="685"
+                 d:DesignWidth="850"
+                 mc:Ignorable="d">
+	<suki:SukiWindow.Hosts>
+		<suki:SukiToastHost Name="ToastHost"/>
+		<suki:SukiDialogHost Name="DialogHost"/>
+	</suki:SukiWindow.Hosts>
+	<suki:SukiWindow.LogoContent>
+		<avalonia:MaterialIcon Width="20"
+                               Height="20"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource SukiPrimaryColor}"
+                               Kind="ToolboxOutline" >
+			<avalonia:MaterialIcon.Transitions>
+				<Transitions>
+					<BrushTransition Property="Foreground" Duration="{DynamicResource ShortAnimationDuration}" />
+				</Transitions>
+			</avalonia:MaterialIcon.Transitions>
+		</avalonia:MaterialIcon>
+	</suki:SukiWindow.LogoContent>
+	
+	<Grid>
+		<WrapPanel>
+			<suki:GlassCard Width="340" Height="600" Margin="20 20 10 15">
+				<StackPanel>
+					<StackPanel Margin="0 0 0 10" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+						<Button Width="140">
+							<TextBlock Text="分解列表" />
+						</Button>
+						<Button Width="140">
+							<TextBlock Text="打包列表" />
+						</Button>
+					</StackPanel>
+					<suki:GlassCard Width="300" Height="510" Margin="0 0 0 10">
+						<ItemsControl Name="ImageList" ItemsSource="">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<VirtualizingStackPanel Orientation="Vertical" />
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<StackPanel>
+										<StackPanel Orientation="Horizontal" Margin="0 0 0 15" Spacing="10">
+											<CheckBox HorizontalAlignment="Right" IsChecked=""/>
+											<TextBlock Width="100" FontSize="15" FontWeight="DemiBold" Text="system_dlkm" HorizontalAlignment="Left" />
+											<TextBlock Margin="50 0 0 0" Width="100" FontSize="15" FontWeight="DemiBold" Text="1059.5MB" HorizontalAlignment="Left" />
+										</StackPanel>
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</suki:GlassCard>
+				</StackPanel>
+			</suki:GlassCard>
+			<suki:GlassCard Width="450" Height="225" Margin="10 -370 0 0">
+				<suki:BusyArea Name="Connect">
+					<StackPanel Orientation="Vertical" Spacing="15" >
+						<TextBlock HorizontalAlignment="Left"
+							   VerticalAlignment="Top"
+		                       FontWeight="DemiBold"
+							   Text="功能" />
+						<StackPanel Margin="10 0 0 0" Orientation="Horizontal" Spacing="15">
+							<Button Width="140">
+								<TextBlock Text="分解选中文件" />
+							</Button>
+							<Button Width="110">
+								<TextBlock Text="合成img" />
+							</Button>
+							<Button Width="110">
+								<TextBlock Text="合成br" />
+							</Button>
+						</StackPanel>
+						<StackPanel Margin="10 0 0 0" Orientation="Horizontal" Spacing="15">
+							<Button Width="140">
+								<TextBlock Text="删除选中文件" />
+							</Button>
+							<Button Width="110">
+								<TextBlock Text="合成Super" />
+							</Button>
+							<Button Width="110">
+								<TextBlock Text="合成dat" />
+							</Button>
+						</StackPanel>
+						<StackPanel Margin="10 0 0 0" Orientation="Horizontal" Spacing="15">
+							<Button Width="140">
+								<TextBlock Text="应用AnyKernel" />
+							</Button>
+							<Button Width="110">
+								<TextBlock Text="合成Rec" />
+							</Button>
+							<Button Width="110">
+								<TextBlock Text="打包ZIP" />
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</suki:BusyArea>
+			</suki:GlassCard>
+			<suki:GlassCard Classes="Card" Margin="380 -385 0 0" Width="450" Height="355">
+				<Grid VerticalAlignment="Top">
+					<TextBox Name="WiredflashLog" Watermark="{x:Static assets:Resources.Common_Log}" Margin="0,0,0,0" Height="315" AcceptsReturn="True" IsReadOnly="True"
+							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
+				</Grid>
+			</suki:GlassCard>
+		</WrapPanel>
+	</Grid>
+</suki:SukiWindow>

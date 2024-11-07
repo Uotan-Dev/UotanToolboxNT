@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace UotanToolbox.Common
+namespace UotanToolbox.Common.SpraseHelper
 {
     internal class SimgInfo
     {

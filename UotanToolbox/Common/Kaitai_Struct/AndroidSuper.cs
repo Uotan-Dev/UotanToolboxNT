@@ -245,7 +245,7 @@ namespace Kaitai
                 private void _read()
                 {
                     _numSectors = m_io.ReadU8le();
-                    _targetType = ((TargetType) m_io.ReadU4le());
+                    _targetType = ((TargetType)m_io.ReadU4le());
                     _targetData = m_io.ReadU8le();
                     _targetSource = m_io.ReadU4le();
                 }
@@ -292,35 +292,41 @@ namespace Kaitai
                         _table = new List<object>();
                         for (var i = 0; i < NumEntries; i++)
                         {
-                            switch (Kind) {
-                            case AndroidSuper.Metadata.TableKind.Partitions: {
-                                __raw_table.Add(m_io.ReadBytes(EntrySize));
-                                var io___raw_table = new KaitaiStream(__raw_table[__raw_table.Count - 1]);
-                                _table.Add(new Partition(io___raw_table, this, m_root));
-                                break;
-                            }
-                            case AndroidSuper.Metadata.TableKind.Extents: {
-                                __raw_table.Add(m_io.ReadBytes(EntrySize));
-                                var io___raw_table = new KaitaiStream(__raw_table[__raw_table.Count - 1]);
-                                _table.Add(new Extent(io___raw_table, this, m_root));
-                                break;
-                            }
-                            case AndroidSuper.Metadata.TableKind.Groups: {
-                                __raw_table.Add(m_io.ReadBytes(EntrySize));
-                                var io___raw_table = new KaitaiStream(__raw_table[__raw_table.Count - 1]);
-                                _table.Add(new Group(io___raw_table, this, m_root));
-                                break;
-                            }
-                            case AndroidSuper.Metadata.TableKind.BlockDevices: {
-                                __raw_table.Add(m_io.ReadBytes(EntrySize));
-                                var io___raw_table = new KaitaiStream(__raw_table[__raw_table.Count - 1]);
-                                _table.Add(new BlockDevice(io___raw_table, this, m_root));
-                                break;
-                            }
-                            default: {
-                                _table.Add(m_io.ReadBytes(EntrySize));
-                                break;
-                            }
+                            switch (Kind)
+                            {
+                                case AndroidSuper.Metadata.TableKind.Partitions:
+                                    {
+                                        __raw_table.Add(m_io.ReadBytes(EntrySize));
+                                        var io___raw_table = new KaitaiStream(__raw_table[__raw_table.Count - 1]);
+                                        _table.Add(new Partition(io___raw_table, this, m_root));
+                                        break;
+                                    }
+                                case AndroidSuper.Metadata.TableKind.Extents:
+                                    {
+                                        __raw_table.Add(m_io.ReadBytes(EntrySize));
+                                        var io___raw_table = new KaitaiStream(__raw_table[__raw_table.Count - 1]);
+                                        _table.Add(new Extent(io___raw_table, this, m_root));
+                                        break;
+                                    }
+                                case AndroidSuper.Metadata.TableKind.Groups:
+                                    {
+                                        __raw_table.Add(m_io.ReadBytes(EntrySize));
+                                        var io___raw_table = new KaitaiStream(__raw_table[__raw_table.Count - 1]);
+                                        _table.Add(new Group(io___raw_table, this, m_root));
+                                        break;
+                                    }
+                                case AndroidSuper.Metadata.TableKind.BlockDevices:
+                                    {
+                                        __raw_table.Add(m_io.ReadBytes(EntrySize));
+                                        var io___raw_table = new KaitaiStream(__raw_table[__raw_table.Count - 1]);
+                                        _table.Add(new BlockDevice(io___raw_table, this, m_root));
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        _table.Add(m_io.ReadBytes(EntrySize));
+                                        break;
+                                    }
                             }
                         }
                         m_io.Seek(_pos);

@@ -50,13 +50,16 @@ namespace Kaitai
             _cmdline = System.Text.Encoding.GetEncoding("ASCII").GetString(KaitaiStream.BytesTerminate(m_io.ReadBytes(512), 0, false));
             _sha = m_io.ReadBytes(32);
             _extraCmdline = System.Text.Encoding.GetEncoding("ASCII").GetString(KaitaiStream.BytesTerminate(m_io.ReadBytes(1024), 0, false));
-            if (HeaderVersion > 0) {
+            if (HeaderVersion > 0)
+            {
                 _recoveryDtbo = new SizeOffset(m_io, this, m_root);
             }
-            if (HeaderVersion > 0) {
+            if (HeaderVersion > 0)
+            {
                 _bootHeaderSize = m_io.ReadU4le();
             }
-            if (HeaderVersion > 1) {
+            if (HeaderVersion > 1)
+            {
                 _dtb = new LoadLong(m_io, this, m_root);
             }
         }
@@ -171,7 +174,7 @@ namespace Kaitai
                 {
                     if (f_month)
                         return _month;
-                    _month = (int) ((Version & 15));
+                    _month = (int)((Version & 15));
                     f_month = true;
                     return _month;
                 }
@@ -184,7 +187,7 @@ namespace Kaitai
                 {
                     if (f_patch)
                         return _patch;
-                    _patch = (int) (((Version >> 11) & 127));
+                    _patch = (int)(((Version >> 11) & 127));
                     f_patch = true;
                     return _patch;
                 }
@@ -197,7 +200,7 @@ namespace Kaitai
                 {
                     if (f_year)
                         return _year;
-                    _year = (int) ((((Version >> 4) & 127) + 2000));
+                    _year = (int)((((Version >> 4) & 127) + 2000));
                     f_year = true;
                     return _year;
                 }
@@ -210,7 +213,7 @@ namespace Kaitai
                 {
                     if (f_major)
                         return _major;
-                    _major = (int) (((Version >> 25) & 127));
+                    _major = (int)(((Version >> 25) & 127));
                     f_major = true;
                     return _major;
                 }
@@ -223,7 +226,7 @@ namespace Kaitai
                 {
                     if (f_minor)
                         return _minor;
-                    _minor = (int) (((Version >> 18) & 127));
+                    _minor = (int)(((Version >> 18) & 127));
                     f_minor = true;
                     return _minor;
                 }
@@ -263,7 +266,7 @@ namespace Kaitai
             {
                 if (f_tagsOffset)
                     return _tagsOffset;
-                _tagsOffset = (int) ((TagsLoad - Base));
+                _tagsOffset = (int)((TagsLoad - Base));
                 f_tagsOffset = true;
                 return _tagsOffset;
             }
@@ -280,7 +283,7 @@ namespace Kaitai
             {
                 if (f_ramdiskOffset)
                     return _ramdiskOffset;
-                _ramdiskOffset = (int) ((Ramdisk.Addr > 0 ? (Ramdisk.Addr - Base) : 0));
+                _ramdiskOffset = (int)((Ramdisk.Addr > 0 ? (Ramdisk.Addr - Base) : 0));
                 f_ramdiskOffset = true;
                 return _ramdiskOffset;
             }
@@ -297,7 +300,7 @@ namespace Kaitai
             {
                 if (f_secondOffset)
                     return _secondOffset;
-                _secondOffset = (int) ((Second.Addr > 0 ? (Second.Addr - Base) : 0));
+                _secondOffset = (int)((Second.Addr > 0 ? (Second.Addr - Base) : 0));
                 f_secondOffset = true;
                 return _secondOffset;
             }
@@ -314,7 +317,7 @@ namespace Kaitai
             {
                 if (f_kernelOffset)
                     return _kernelOffset;
-                _kernelOffset = (int) ((Kernel.Addr - Base));
+                _kernelOffset = (int)((Kernel.Addr - Base));
                 f_kernelOffset = true;
                 return _kernelOffset;
             }
@@ -331,8 +334,9 @@ namespace Kaitai
             {
                 if (f_dtbOffset)
                     return _dtbOffset;
-                if (HeaderVersion > 1) {
-                    _dtbOffset = (int) ((Dtb.Addr > 0 ? (Dtb.Addr - (ulong)Base) : 0));
+                if (HeaderVersion > 1)
+                {
+                    _dtbOffset = (int)((Dtb.Addr > 0 ? (Dtb.Addr - (ulong)Base) : 0));
                 }
                 f_dtbOffset = true;
                 return _dtbOffset;
@@ -346,7 +350,8 @@ namespace Kaitai
             {
                 if (f_dtbImg)
                     return _dtbImg;
-                if ( ((HeaderVersion > 1) && (Dtb.Size > 0)) ) {
+                if (((HeaderVersion > 1) && (Dtb.Size > 0)))
+                {
                     long _pos = m_io.Pos;
                     m_io.Seek(((((((((PageSize + Kernel.Size) + Ramdisk.Size) + Second.Size) + RecoveryDtbo.Size) + PageSize) - 1) / PageSize) * PageSize));
                     _dtbImg = m_io.ReadBytes(Dtb.Size);
@@ -364,7 +369,8 @@ namespace Kaitai
             {
                 if (f_ramdiskImg)
                     return _ramdiskImg;
-                if (Ramdisk.Size > 0) {
+                if (Ramdisk.Size > 0)
+                {
                     long _pos = m_io.Pos;
                     m_io.Seek((((((PageSize + Kernel.Size) + PageSize) - 1) / PageSize) * PageSize));
                     _ramdiskImg = m_io.ReadBytes(Ramdisk.Size);
@@ -382,7 +388,8 @@ namespace Kaitai
             {
                 if (f_recoveryDtboImg)
                     return _recoveryDtboImg;
-                if ( ((HeaderVersion > 0) && (RecoveryDtbo.Size > 0)) ) {
+                if (((HeaderVersion > 0) && (RecoveryDtbo.Size > 0)))
+                {
                     long _pos = m_io.Pos;
                     m_io.Seek((long)RecoveryDtbo.Offset);
                     _recoveryDtboImg = m_io.ReadBytes(RecoveryDtbo.Size);
@@ -400,7 +407,8 @@ namespace Kaitai
             {
                 if (f_secondImg)
                     return _secondImg;
-                if (Second.Size > 0) {
+                if (Second.Size > 0)
+                {
                     long _pos = m_io.Pos;
                     m_io.Seek(((((((PageSize + Kernel.Size) + Ramdisk.Size) + PageSize) - 1) / PageSize) * PageSize));
                     _secondImg = m_io.ReadBytes(Second.Size);
@@ -422,7 +430,7 @@ namespace Kaitai
             {
                 if (f_base)
                     return _base;
-                _base = (int) ((Kernel.Addr - 32768));
+                _base = (int)((Kernel.Addr - 32768));
                 f_base = true;
                 return _base;
             }

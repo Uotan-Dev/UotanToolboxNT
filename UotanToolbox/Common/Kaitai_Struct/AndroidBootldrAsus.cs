@@ -66,7 +66,7 @@ namespace Kaitai
             private void _read()
             {
                 _chunkId = System.Text.Encoding.GetEncoding("ASCII").GetString(m_io.ReadBytes(8));
-                if (!( ((ChunkId == "IFWI!!!!") || (ChunkId == "DROIDBT!") || (ChunkId == "SPLASHS!")) ))
+                if (!(((ChunkId == "IFWI!!!!") || (ChunkId == "DROIDBT!") || (ChunkId == "SPLASHS!"))))
                 {
                     throw new ValidationNotAnyOfError(ChunkId, M_Io, "/types/image/seq/0");
                 }
@@ -92,7 +92,7 @@ namespace Kaitai
                 {
                     if (f_fileName)
                         return _fileName;
-                    _fileName = (string) ((ChunkId == "IFWI!!!!" ? "ifwi.bin" : (ChunkId == "DROIDBT!" ? "droidboot.img" : (ChunkId == "SPLASHS!" ? "splashscreen.img" : ""))));
+                    _fileName = (string)((ChunkId == "IFWI!!!!" ? "ifwi.bin" : (ChunkId == "DROIDBT!" ? "droidboot.img" : (ChunkId == "SPLASHS!" ? "splashscreen.img" : ""))));
                     f_fileName = true;
                     return _fileName;
                 }

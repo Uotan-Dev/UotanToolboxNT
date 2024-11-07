@@ -137,7 +137,8 @@ namespace Kaitai
                 _entries = new List<ImageHdrEntry>();
                 {
                     var i = 0;
-                    while (!m_io.IsEof) {
+                    while (!m_io.IsEof)
+                    {
                         _entries.Add(new ImageHdrEntry(m_io, this, m_root));
                         i++;
                     }
@@ -196,7 +197,7 @@ namespace Kaitai
                 {
                     if (f_isUsed)
                         return _isUsed;
-                    _isUsed = (bool) ( ((OfsBody != 0) && (LenBody != 0)) );
+                    _isUsed = (bool)(((OfsBody != 0) && (LenBody != 0)));
                     f_isUsed = true;
                     return _isUsed;
                 }
@@ -209,7 +210,8 @@ namespace Kaitai
                 {
                     if (f_body)
                         return _body;
-                    if (IsUsed) {
+                    if (IsUsed)
+                    {
                         KaitaiStream io = M_Root.M_Io;
                         long _pos = io.Pos;
                         io.Seek(OfsBody);

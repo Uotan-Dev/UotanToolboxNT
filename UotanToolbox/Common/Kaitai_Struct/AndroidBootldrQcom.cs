@@ -192,7 +192,7 @@ namespace Kaitai
                 {
                     if (f_imgHeader)
                         return _imgHeader;
-                    _imgHeader = (ImgHeader) (M_Root.ImgHeaders[Idx]);
+                    _imgHeader = (ImgHeader)(M_Root.ImgHeaders[Idx]);
                     f_imgHeader = true;
                     return _imgHeader;
                 }

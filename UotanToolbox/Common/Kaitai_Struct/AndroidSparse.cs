@@ -135,7 +135,7 @@ namespace Kaitai
                 {
                     if (f_version)
                         return _version;
-                    _version = (Version) (M_Root.HeaderPrefix.Version);
+                    _version = (Version)(M_Root.HeaderPrefix.Version);
                     f_version = true;
                     return _version;
                 }
@@ -152,7 +152,7 @@ namespace Kaitai
                 {
                     if (f_lenHeader)
                         return _lenHeader;
-                    _lenHeader = (ushort) (M_Root.HeaderPrefix.LenHeader);
+                    _lenHeader = (ushort)(M_Root.HeaderPrefix.LenHeader);
                     f_lenHeader = true;
                     return _lenHeader;
                 }
@@ -211,15 +211,18 @@ namespace Kaitai
                 __raw_header = m_io.ReadBytes(M_Root.Header.LenChunkHeader);
                 var io___raw_header = new KaitaiStream(__raw_header);
                 _header = new ChunkHeader(io___raw_header, this, m_root);
-                switch (Header.ChunkType) {
-                case AndroidSparse.ChunkTypes.Crc32: {
-                    _body = m_io.ReadU4le();
-                    break;
-                }
-                default: {
-                    _body = m_io.ReadBytes(Header.LenBody);
-                    break;
-                }
+                switch (Header.ChunkType)
+                {
+                    case AndroidSparse.ChunkTypes.Crc32:
+                        {
+                            _body = m_io.ReadU4le();
+                            break;
+                        }
+                    default:
+                        {
+                            _body = m_io.ReadBytes(Header.LenBody);
+                            break;
+                        }
                 }
             }
             public partial class ChunkHeader : KaitaiStruct
@@ -239,7 +242,7 @@ namespace Kaitai
                 }
                 private void _read()
                 {
-                    _chunkType = ((AndroidSparse.ChunkTypes) m_io.ReadU2le());
+                    _chunkType = ((AndroidSparse.ChunkTypes)m_io.ReadU2le());
                     _reserved1 = m_io.ReadU2le();
                     _numBodyBlocks = m_io.ReadU4le();
                     _lenChunk = m_io.ReadU4le();
@@ -256,7 +259,7 @@ namespace Kaitai
                     {
                         if (f_lenBody)
                             return _lenBody;
-                        _lenBody = (int) ((LenChunk - M_Root.Header.LenChunkHeader));
+                        _lenBody = (int)((LenChunk - M_Root.Header.LenChunkHeader));
                         f_lenBody = true;
                         return _lenBody;
                     }
@@ -282,7 +285,7 @@ namespace Kaitai
                     {
                         if (f_lenBodyExpected)
                             return _lenBodyExpected;
-                        _lenBodyExpected = (int) ((ChunkType == AndroidSparse.ChunkTypes.Raw ? ((int)M_Root.Header.BlockSize * NumBodyBlocks) : (ChunkType == AndroidSparse.ChunkTypes.Fill ? 4 : (ChunkType == AndroidSparse.ChunkTypes.DontCare ? 0 : (ChunkType == AndroidSparse.ChunkTypes.Crc32 ? 4 : -1)))));
+                        _lenBodyExpected = (int)((ChunkType == AndroidSparse.ChunkTypes.Raw ? ((int)M_Root.Header.BlockSize * NumBodyBlocks) : (ChunkType == AndroidSparse.ChunkTypes.Fill ? 4 : (ChunkType == AndroidSparse.ChunkTypes.DontCare ? 0 : (ChunkType == AndroidSparse.ChunkTypes.Crc32 ? 4 : -1)))));
                         f_lenBodyExpected = true;
                         return _lenBodyExpected;
                     }

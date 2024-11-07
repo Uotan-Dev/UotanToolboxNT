@@ -56,7 +56,7 @@ namespace Kaitai
             {
                 if (f_isSigned)
                     return _isSigned;
-                _isSigned = (bool) ((Flags & 1) != 0);
+                _isSigned = (bool)((Flags & 1) != 0);
                 f_isSigned = true;
                 return _isSigned;
             }
@@ -69,7 +69,7 @@ namespace Kaitai
             {
                 if (f_isEncrypted)
                     return _isEncrypted;
-                _isEncrypted = (bool) ((Flags & 2) != 0);
+                _isEncrypted = (bool)((Flags & 2) != 0);
                 f_isEncrypted = true;
                 return _isEncrypted;
             }
@@ -82,7 +82,7 @@ namespace Kaitai
             {
                 if (f_isTcmCapable)
                     return _isTcmCapable;
-                _isTcmCapable = (bool) ((Flags & 4) != 0);
+                _isTcmCapable = (bool)((Flags & 4) != 0);
                 f_isTcmCapable = true;
                 return _isTcmCapable;
             }

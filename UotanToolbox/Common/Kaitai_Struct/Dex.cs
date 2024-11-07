@@ -88,7 +88,7 @@ namespace Kaitai
                 _signature = m_io.ReadBytes(20);
                 _fileSize = m_io.ReadU4le();
                 _headerSize = m_io.ReadU4le();
-                _endianTag = ((EndianConstant) m_io.ReadU4le());
+                _endianTag = ((EndianConstant)m_io.ReadU4le());
                 _linkSize = m_io.ReadU4le();
                 _linkOff = m_io.ReadU4le();
                 _mapOff = m_io.ReadU4le();
@@ -334,73 +334,90 @@ namespace Kaitai
             private void _read()
             {
                 _valueArg = m_io.ReadBitsIntBe(3);
-                _valueType = ((ValueTypeEnum) m_io.ReadBitsIntBe(5));
+                _valueType = ((ValueTypeEnum)m_io.ReadBitsIntBe(5));
                 m_io.AlignToByte();
-                switch (ValueType) {
-                case ValueTypeEnum.Int: {
-                    _value = m_io.ReadS4le();
-                    break;
-                }
-                case ValueTypeEnum.Annotation: {
-                    _value = new EncodedAnnotation(m_io, this, m_root);
-                    break;
-                }
-                case ValueTypeEnum.Long: {
-                    _value = m_io.ReadS8le();
-                    break;
-                }
-                case ValueTypeEnum.MethodHandle: {
-                    _value = m_io.ReadU4le();
-                    break;
-                }
-                case ValueTypeEnum.Byte: {
-                    _value = m_io.ReadS1();
-                    break;
-                }
-                case ValueTypeEnum.Array: {
-                    _value = new EncodedArray(m_io, this, m_root);
-                    break;
-                }
-                case ValueTypeEnum.MethodType: {
-                    _value = m_io.ReadU4le();
-                    break;
-                }
-                case ValueTypeEnum.Short: {
-                    _value = m_io.ReadS2le();
-                    break;
-                }
-                case ValueTypeEnum.Method: {
-                    _value = m_io.ReadU4le();
-                    break;
-                }
-                case ValueTypeEnum.Double: {
-                    _value = m_io.ReadF8le();
-                    break;
-                }
-                case ValueTypeEnum.Float: {
-                    _value = m_io.ReadF4le();
-                    break;
-                }
-                case ValueTypeEnum.Type: {
-                    _value = m_io.ReadU4le();
-                    break;
-                }
-                case ValueTypeEnum.Enum: {
-                    _value = m_io.ReadU4le();
-                    break;
-                }
-                case ValueTypeEnum.Field: {
-                    _value = m_io.ReadU4le();
-                    break;
-                }
-                case ValueTypeEnum.String: {
-                    _value = m_io.ReadU4le();
-                    break;
-                }
-                case ValueTypeEnum.Char: {
-                    _value = m_io.ReadU2le();
-                    break;
-                }
+                switch (ValueType)
+                {
+                    case ValueTypeEnum.Int:
+                        {
+                            _value = m_io.ReadS4le();
+                            break;
+                        }
+                    case ValueTypeEnum.Annotation:
+                        {
+                            _value = new EncodedAnnotation(m_io, this, m_root);
+                            break;
+                        }
+                    case ValueTypeEnum.Long:
+                        {
+                            _value = m_io.ReadS8le();
+                            break;
+                        }
+                    case ValueTypeEnum.MethodHandle:
+                        {
+                            _value = m_io.ReadU4le();
+                            break;
+                        }
+                    case ValueTypeEnum.Byte:
+                        {
+                            _value = m_io.ReadS1();
+                            break;
+                        }
+                    case ValueTypeEnum.Array:
+                        {
+                            _value = new EncodedArray(m_io, this, m_root);
+                            break;
+                        }
+                    case ValueTypeEnum.MethodType:
+                        {
+                            _value = m_io.ReadU4le();
+                            break;
+                        }
+                    case ValueTypeEnum.Short:
+                        {
+                            _value = m_io.ReadS2le();
+                            break;
+                        }
+                    case ValueTypeEnum.Method:
+                        {
+                            _value = m_io.ReadU4le();
+                            break;
+                        }
+                    case ValueTypeEnum.Double:
+                        {
+                            _value = m_io.ReadF8le();
+                            break;
+                        }
+                    case ValueTypeEnum.Float:
+                        {
+                            _value = m_io.ReadF4le();
+                            break;
+                        }
+                    case ValueTypeEnum.Type:
+                        {
+                            _value = m_io.ReadU4le();
+                            break;
+                        }
+                    case ValueTypeEnum.Enum:
+                        {
+                            _value = m_io.ReadU4le();
+                            break;
+                        }
+                    case ValueTypeEnum.Field:
+                        {
+                            _value = m_io.ReadU4le();
+                            break;
+                        }
+                    case ValueTypeEnum.String:
+                        {
+                            _value = m_io.ReadU4le();
+                            break;
+                        }
+                    case ValueTypeEnum.Char:
+                        {
+                            _value = m_io.ReadU2le();
+                            break;
+                        }
                 }
             }
             private ulong _valueArg;
@@ -479,7 +496,7 @@ namespace Kaitai
                 {
                     if (f_className)
                         return _className;
-                    _className = (string) (M_Root.TypeIds[ClassIdx].TypeName);
+                    _className = (string)(M_Root.TypeIds[ClassIdx].TypeName);
                     f_className = true;
                     return _className;
                 }
@@ -496,7 +513,7 @@ namespace Kaitai
                 {
                     if (f_protoDesc)
                         return _protoDesc;
-                    _protoDesc = (string) (M_Root.ProtoIds[ProtoIdx].ShortyDesc);
+                    _protoDesc = (string)(M_Root.ProtoIds[ProtoIdx].ShortyDesc);
                     f_protoDesc = true;
                     return _protoDesc;
                 }
@@ -513,7 +530,7 @@ namespace Kaitai
                 {
                     if (f_methodName)
                         return _methodName;
-                    _methodName = (string) (M_Root.StringIds[(int)NameIdx].Value.Data);
+                    _methodName = (string)(M_Root.StringIds[(int)NameIdx].Value.Data);
                     f_methodName = true;
                     return _methodName;
                 }
@@ -569,7 +586,7 @@ namespace Kaitai
                 {
                     if (f_value)
                         return _value;
-                    _value = (string) (M_Root.TypeIds[TypeIdx].TypeName);
+                    _value = (string)(M_Root.TypeIds[TypeIdx].TypeName);
                     f_value = true;
                     return _value;
                 }
@@ -607,7 +624,7 @@ namespace Kaitai
                 {
                     if (f_typeName)
                         return _typeName;
-                    _typeName = (string) (M_Root.StringIds[(int)DescriptorIdx].Value.Data);
+                    _typeName = (string)(M_Root.StringIds[(int)DescriptorIdx].Value.Data);
                     f_typeName = true;
                     return _typeName;
                 }
@@ -868,7 +885,7 @@ namespace Kaitai
                 {
                     if (f_className)
                         return _className;
-                    _className = (string) (M_Root.TypeIds[ClassIdx].TypeName);
+                    _className = (string)(M_Root.TypeIds[ClassIdx].TypeName);
                     f_className = true;
                     return _className;
                 }
@@ -885,7 +902,7 @@ namespace Kaitai
                 {
                     if (f_typeName)
                         return _typeName;
-                    _typeName = (string) (M_Root.TypeIds[TypeIdx].TypeName);
+                    _typeName = (string)(M_Root.TypeIds[TypeIdx].TypeName);
                     f_typeName = true;
                     return _typeName;
                 }
@@ -902,7 +919,7 @@ namespace Kaitai
                 {
                     if (f_fieldName)
                         return _fieldName;
-                    _fieldName = (string) (M_Root.StringIds[(int)NameIdx].Value.Data);
+                    _fieldName = (string)(M_Root.StringIds[(int)NameIdx].Value.Data);
                     f_fieldName = true;
                     return _fieldName;
                 }
@@ -1001,7 +1018,7 @@ namespace Kaitai
             private void _read()
             {
                 _classIdx = m_io.ReadU4le();
-                _accessFlags = ((Dex.ClassAccessFlags) m_io.ReadU4le());
+                _accessFlags = ((Dex.ClassAccessFlags)m_io.ReadU4le());
                 _superclassIdx = m_io.ReadU4le();
                 _interfacesOff = m_io.ReadU4le();
                 _sourceFileIdx = m_io.ReadU4le();
@@ -1017,7 +1034,7 @@ namespace Kaitai
                 {
                     if (f_typeName)
                         return _typeName;
-                    _typeName = (string) (M_Root.TypeIds[(int)ClassIdx].TypeName);
+                    _typeName = (string)(M_Root.TypeIds[(int)ClassIdx].TypeName);
                     f_typeName = true;
                     return _typeName;
                 }
@@ -1030,7 +1047,8 @@ namespace Kaitai
                 {
                     if (f_classData)
                         return _classData;
-                    if (ClassDataOff != 0) {
+                    if (ClassDataOff != 0)
+                    {
                         long _pos = m_io.Pos;
                         m_io.Seek(ClassDataOff);
                         _classData = new ClassDataItem(m_io, this, m_root);
@@ -1048,7 +1066,8 @@ namespace Kaitai
                 {
                     if (f_staticValues)
                         return _staticValues;
-                    if (StaticValuesOff != 0) {
+                    if (StaticValuesOff != 0)
+                    {
                         long _pos = m_io.Pos;
                         m_io.Seek(StaticValuesOff);
                         _staticValues = new EncodedArrayItem(m_io, this, m_root);
@@ -1296,7 +1315,7 @@ namespace Kaitai
                 {
                     if (f_shortyDesc)
                         return _shortyDesc;
-                    _shortyDesc = (string) (M_Root.StringIds[(int)ShortyIdx].Value.Data);
+                    _shortyDesc = (string)(M_Root.StringIds[(int)ShortyIdx].Value.Data);
                     f_shortyDesc = true;
                     return _shortyDesc;
                 }
@@ -1313,7 +1332,8 @@ namespace Kaitai
                 {
                     if (f_paramsTypes)
                         return _paramsTypes;
-                    if (ParametersOff != 0) {
+                    if (ParametersOff != 0)
+                    {
                         KaitaiStream io = M_Root.M_Io;
                         long _pos = io.Pos;
                         io.Seek(ParametersOff);
@@ -1336,7 +1356,7 @@ namespace Kaitai
                 {
                     if (f_returnType)
                         return _returnType;
-                    _returnType = (string) (M_Root.TypeIds[(int)ReturnTypeIdx].TypeName);
+                    _returnType = (string)(M_Root.TypeIds[(int)ReturnTypeIdx].TypeName);
                     f_returnType = true;
                     return _returnType;
                 }
@@ -1462,7 +1482,7 @@ namespace Kaitai
             }
             private void _read()
             {
-                _type = ((MapItemType) m_io.ReadU2le());
+                _type = ((MapItemType)m_io.ReadU2le());
                 _unused = m_io.ReadU2le();
                 _size = m_io.ReadU4le();
                 _offset = m_io.ReadU4le();

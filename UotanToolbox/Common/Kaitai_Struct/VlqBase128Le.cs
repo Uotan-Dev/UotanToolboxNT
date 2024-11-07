@@ -47,7 +47,8 @@ namespace Kaitai
             {
                 var i = 0;
                 Group M_;
-                do {
+                do
+                {
                     M_ = new Group(m_io, this, m_root);
                     _groups.Add(M_);
                     i++;
@@ -89,7 +90,7 @@ namespace Kaitai
                 {
                     if (f_hasNext)
                         return _hasNext;
-                    _hasNext = (bool) ((B & 128) != 0);
+                    _hasNext = (bool)((B & 128) != 0);
                     f_hasNext = true;
                     return _hasNext;
                 }
@@ -106,7 +107,7 @@ namespace Kaitai
                 {
                     if (f_value)
                         return _value;
-                    _value = (int) ((B & 127));
+                    _value = (int)((B & 127));
                     f_value = true;
                     return _value;
                 }
@@ -126,7 +127,7 @@ namespace Kaitai
             {
                 if (f_len)
                     return _len;
-                _len = (int) (Groups.Count);
+                _len = (int)(Groups.Count);
                 f_len = true;
                 return _len;
             }
@@ -143,7 +144,7 @@ namespace Kaitai
             {
                 if (f_value)
                     return _value;
-                _value = (int) ((((((((Groups[0].Value + (Len >= 2 ? (Groups[1].Value << 7) : 0)) + (Len >= 3 ? (Groups[2].Value << 14) : 0)) + (Len >= 4 ? (Groups[3].Value << 21) : 0)) + (Len >= 5 ? (Groups[4].Value << 28) : 0)) + (Len >= 6 ? (Groups[5].Value << 35) : 0)) + (Len >= 7 ? (Groups[6].Value << 42) : 0)) + (Len >= 8 ? (Groups[7].Value << 49) : 0)));
+                _value = (int)((((((((Groups[0].Value + (Len >= 2 ? (Groups[1].Value << 7) : 0)) + (Len >= 3 ? (Groups[2].Value << 14) : 0)) + (Len >= 4 ? (Groups[3].Value << 21) : 0)) + (Len >= 5 ? (Groups[4].Value << 28) : 0)) + (Len >= 6 ? (Groups[5].Value << 35) : 0)) + (Len >= 7 ? (Groups[6].Value << 42) : 0)) + (Len >= 8 ? (Groups[7].Value << 49) : 0)));
                 f_value = true;
                 return _value;
             }

@@ -22,7 +22,8 @@ namespace Kaitai
             _files = new List<File>();
             {
                 var i = 0;
-                while (!m_io.IsEof) {
+                while (!m_io.IsEof)
+                {
                     _files.Add(new File(m_io, this, m_root));
                     i++;
                 }
@@ -50,7 +51,8 @@ namespace Kaitai
                 {
                     throw new ValidationNotEqualError(new byte[] { 0 }, StringTerminator, M_Io, "/types/file/seq/2");
                 }
-                if (KaitaiStream.Mod(Header.PathNameSize, 2) == 1) {
+                if (KaitaiStream.Mod(Header.PathNameSize, 2) == 1)
+                {
                     _pathNamePadding = m_io.ReadBytes(1);
                     if (!((KaitaiStream.ByteArrayCompare(PathNamePadding, new byte[] { 0 }) == 0)))
                     {
@@ -58,14 +60,16 @@ namespace Kaitai
                     }
                 }
                 _fileData = m_io.ReadBytes(Header.FileSize.Value);
-                if (KaitaiStream.Mod(Header.FileSize.Value, 2) == 1) {
+                if (KaitaiStream.Mod(Header.FileSize.Value, 2) == 1)
+                {
                     _fileDataPadding = m_io.ReadBytes(1);
                     if (!((KaitaiStream.ByteArrayCompare(FileDataPadding, new byte[] { 0 }) == 0)))
                     {
                         throw new ValidationNotEqualError(new byte[] { 0 }, FileDataPadding, M_Io, "/types/file/seq/5");
                     }
                 }
-                if ( (((KaitaiStream.ByteArrayCompare(PathName, new byte[] { 84, 82, 65, 73, 76, 69, 82, 33, 33, 33 }) == 0)) && (Header.FileSize.Value == 0)) ) {
+                if ((((KaitaiStream.ByteArrayCompare(PathName, new byte[] { 84, 82, 65, 73, 76, 69, 82, 33, 33, 33 }) == 0)) && (Header.FileSize.Value == 0)))
+                {
                     _endOfFilePadding = m_io.ReadBytesFull();
                 }
             }
@@ -173,7 +177,7 @@ namespace Kaitai
                 {
                     if (f_value)
                         return _value;
-                    _value = (int) ((LeastSignificantBits + (MostSignificantBits << 16)));
+                    _value = (int)((LeastSignificantBits + (MostSignificantBits << 16)));
                     f_value = true;
                     return _value;
                 }

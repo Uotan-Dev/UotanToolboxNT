@@ -45,6 +45,9 @@
 		<PackageReference Include="SkiaSharp" Version="2.88.8" />
 		<PackageReference Include="SukiUI" Version="6.0.0-rc" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+		<PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
 		<PackageReference Include="ZachWolfe.KaitaiStruct.Runtime.CSharp" Version="0.11.0" />
 		<PackageReference Include="Zeroconf" Version="3.6.11" />
 	</ItemGroup>

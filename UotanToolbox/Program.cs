@@ -68,7 +68,7 @@ internal static class Program
             }
         }
         Global.bin_path = Path.Combine(Global.runpath, "Bin");
-        Global.serviceID = "studio-" + StringHelper.RandomString(8);
+        Global.serviceID = "Uotan-" + StringHelper.RandomString(8);
         Global.password = StringHelper.RandomString(8);
         // No need to set default for Windows
         var app = AppBuilder.Configure<App>()

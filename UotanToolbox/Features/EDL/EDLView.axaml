@@ -1,0 +1,204 @@
+﻿<UserControl x:Class="UotanToolbox.Features.EDL.EDLView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:edl="clr-namespace:UotanToolbox.Features.EDL"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             d:DesignHeight="800"
+             d:DesignWidth="1024"
+             x:DataType="edl:EDLViewModel"
+             mc:Ignorable="d">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
+			   theme:WrapPanelExtensions.AnimatedScroll="True"
+			   Orientation="Horizontal">
+
+			<!--    -->
+			<suki:GlassCard Height="110" Width="725" Margin="10 -85 10 10">
+			<suki:BusyArea Name="BusyUnlock"
+							BusyText="">
+				<StackPanel Name="UnlockPanel">
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="发送引导" />
+					<StackPanel Orientation="Vertical" Margin="10 0 0 0">
+						<StackPanel Orientation="Horizontal" Spacing="5">
+							<TextBlock VerticalAlignment="Center" Text="引导文件:"></TextBlock>
+							<TextBox Width="353" Name="UnlockFile" theme:TextBoxExtensions.AddDeleteButton="True"/>
+							<ComboBox Width="130" />
+							<Button Height="35"
+									Content="{x:Static assets:Resources.Common_ChooseFile}">
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+			<!--    -->
+			<suki:GlassCard Height="215" Width="215" Margin="10 10 0 0">
+			<StackPanel Margin="0 10 0 0" Name="BaseUnlockPanel" Orientation="Vertical" Spacing="10">
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="设备信息" />
+					<StackPanel Margin="10 0 0 0" Spacing="10">
+						<TextBlock Text="当前连接：COM5" />
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="存储类型："/>
+							<RadioButton Content="自动" IsChecked="True"/>
+						</StackPanel>
+						<StackPanel Margin="0 -10 0 0" Orientation="Horizontal" Spacing="0">
+							<RadioButton Content="UFS" />
+							<ComboBox Width="88" Margin="15 0 0 0" SelectedIndex="0" ItemsSource="678" ToolTip.Tip="UFS的lun数"/>
+						</StackPanel>
+						<StackPanel Margin="0 -5 0 0" Orientation="Horizontal" Spacing="0">
+							<RadioButton Content="EMMC" />
+							<RadioButton Margin="5 0 0 0" Content="Spinor" />
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+		</suki:GlassCard>
+
+			<!--    -->
+			<suki:GlassCard Height="225" Width="725" Margin="10 -130 10 10">
+			<suki:BusyArea Name="BusyFlash"
+							BusyText="">
+				<StackPanel Name="FlashRecovery">
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="读写分区" />
+					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 10 0 0">
+						<TextBlock VerticalAlignment="Center" Text="XML文件:"></TextBlock>
+						<TextBox Width="480" Name="RecFile" />
+						<Button Height="35" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+					</StackPanel>
+					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15" Margin="0 10 0 0">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
+							<Button Width="120"
+									HorizontalAlignment="Left"
+									Padding="8">
+								<TextBlock>
+									<TextBlock Text="批量写入" />
+								</TextBlock>
+							</Button>
+							<Button Width="120"
+									HorizontalAlignment="Left"
+									Padding="8">
+								<TextBlock>
+									<TextBlock Text="批量读取" />
+								</TextBlock>
+							</Button>
+							<Button Width="120"
+									HorizontalAlignment="Left"
+									Padding="8">
+								<TextBlock>
+									<TextBlock Text="写入分区表" />
+								</TextBlock>
+							</Button>
+							<Button Width="120"
+									HorizontalAlignment="Left"
+									Padding="8">
+								<TextBlock>
+									<TextBlock Text="读取分区表" />
+								</TextBlock>
+							</Button>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="5" Margin="0 -5 0 0">
+							<TextBlock VerticalAlignment="Center" Text="单个分区:"></TextBlock>
+							<TextBox Width="260" />
+							<Button Height="35" Content="写入分区"></Button>
+							<Button Height="35" Content="读取分区"></Button>
+							<Button Height="35" Content="擦除分区"></Button>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+			<!--    -->
+			<suki:GlassCard Height="180" Width="215" Margin="10 20 0 0">
+				<suki:BusyArea Name="BusyReboot"
+								BusyText="">
+					<StackPanel Margin="0 10 0 0" Name="RebootPanel" Orientation="Vertical" Spacing="10">
+						<TextBlock HorizontalAlignment="Left"
+									FontSize="15"
+									FontWeight="DemiBold"
+									Text="9008重启" />
+						<StackPanel Spacing="15">
+							<Button Width="160">
+								<TextBlock>
+									<TextBlock Text="重启到9008" />
+								</TextBlock>
+							</Button>
+							<Button Width="160">
+								<TextBlock>
+									<TextBlock Text="重启到开机" />
+								</TextBlock>
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</suki:BusyArea>
+			</suki:GlassCard>
+
+			<!--    -->
+			<suki:GlassCard Height="155" Width="725" Margin="10 -235 10 10">
+			<suki:BusyArea Name="BusyPatch"
+							BusyText="">
+				<StackPanel Name="PanelPatch">
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="分区表" />
+					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 0 0 0">
+						<TextBlock Width="80" VerticalAlignment="Center" Text="解析分区表:"></TextBlock>
+						<TextBox Width="455" Name="BootFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
+						<Button Height="35" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+					</StackPanel>
+					<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" >
+						<ComboBox Width="150" />
+						<ComboBox Width="150" />
+						<Button Height="35" Content="解析分区表" />
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+			<!--    -->
+			<suki:GlassCard Height="310" Width="215" Margin="10 20 0 0">
+			<suki:BusyArea Name="BusyInstall"
+							BusyText="">
+				<StackPanel Margin="0 10 0 0" Name="InstallZIP" Orientation="Vertical" Spacing="15">
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="更多功能" />
+					<StackPanel Spacing="15">
+						<ComboBox />
+						<Button Width="160" Content="恢复出厂设置" />
+						<Button Margin="0 10 0 0" Width="160" Content="开启OEM解锁" />
+						<Button Width="160" Content="配置UFS" />
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+			<!-- Log -->
+			<suki:GlassCard Width="725"
+							Height="190"
+							Margin="10 -190 0 0"
+							VerticalAlignment="Top">
+				<Grid>
+					<TextBox Name="FormatExtractLog" Watermark="{x:Static assets:Resources.FormatExtract_Log}" Margin="0" Height="150" AcceptsReturn="True"
+							 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
+				</Grid>
+			</suki:GlassCard>
+		</WrapPanel>
+	</ScrollViewer>
+</UserControl>

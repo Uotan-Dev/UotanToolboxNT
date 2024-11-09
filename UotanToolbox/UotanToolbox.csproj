@@ -42,7 +42,7 @@
 		<PackageReference Include="SharpCompress" Version="0.38.0" />
 		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.5.1" />
 		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.5.1" />
-		<PackageReference Include="SkiaSharp" Version="2.88.8" />
+		<PackageReference Include="SkiaSharp" Version="2.88.9" />
 		<PackageReference Include="SukiUI" Version="6.0.0-rc" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />

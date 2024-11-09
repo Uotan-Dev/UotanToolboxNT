@@ -1,11 +1,9 @@
-﻿using Avalonia.Collections;
+﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Appmgr;
 
 namespace UotanToolbox.Features.Rom;
 

@@ -1,7 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Home;
 
 
 namespace UotanToolbox.Features.Rom;

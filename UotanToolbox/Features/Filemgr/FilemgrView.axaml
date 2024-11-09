@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="UotanToolbox.Features.Filemgr.FilemgrView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:filemgr="clr-namespace:UotanToolbox.Features.Filemgr"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+			 d:DesignWidth="1024"
+			 d:DesignHeight="800"
+             x:DataType="filemgr:FilemgrViewModel"
+             mc:Ignorable="d">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<Grid>
+			<WrapPanel  Name="Rom"
+						Margin="15"
+						theme:WrapPanelExtensions.AnimatedScroll="True"
+						Orientation="Horizontal">
+				<suki:GlassCard Margin="10" Width="250" Height="750">
+				<StackPanel Orientation="Vertical" Spacing="0">
+					<TextBlock HorizontalAlignment="Left"
+							   VerticalAlignment="Top"
+		                       FontWeight="DemiBold"
+							   Text="快速浏览" />
+					<TreeView Height="680" ItemsSource="{Binding TreeViewContent}">
+						<TreeView.ItemTemplate>
+							<TreeDataTemplate ItemsSource="{Binding SubNodes}">
+								<Button Theme="{StaticResource ToolboxButtonFile}" Click="Open">
+									<TextBlock Text="{Binding Value}" />
+								</Button>
+							</TreeDataTemplate>
+						</TreeView.ItemTemplate>
+					</TreeView>
+				</StackPanel>
+			</suki:GlassCard>
+			
+			<suki:GlassCard Margin="10 0 0 0" Height="750" Width="695">
+			<suki:BusyArea  Name="BusyProject"
+							BusyText="">
+				<StackPanel>
+					<StackPanel Orientation="Horizontal" Spacing="5">
+						<TextBox Width="540"/>
+						<Button Height="35" Width="100" Content="搜索"/>
+					</StackPanel>
+					<suki:GlassCard Height="665">
+						<suki:GlassCard.ContextMenu>
+							<ContextMenu>
+								<MenuItem Header="新建文件夹" />
+								<MenuItem Header="发送文件"/>
+								<MenuItem Header="发送文件夹"/>
+								<MenuItem Header="刷新"/>
+							</ContextMenu>
+						</suki:GlassCard.ContextMenu>
+						<ScrollViewer VerticalScrollBarVisibility="Hidden">
+							<ItemsControl Name="FileView" ItemsSource="">
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<WrapPanel />
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<suki:GlassCard Margin="5 10 5 0" IsInteractive="True">
+											<suki:GlassCard.ContextMenu>
+												<ContextMenu>
+													<MenuItem Header="打开" />
+													<MenuItem Header="删除"/>
+													<MenuItem Header="提取至">
+														<MenuItem Header="桌面"/>
+														<MenuItem Header="下载"/>
+														<MenuItem Header="指定目录"/>
+													</MenuItem>
+												</ContextMenu>
+											</suki:GlassCard.ContextMenu>
+											<Button Theme="{StaticResource ToolboxButtonFile}" Click="Open">
+												<StackPanel Orientation="Vertical" Margin="0">
+													<Image  Width="100"
+															Height="90"
+															Margin="0"
+															Source="/Assets/folder.png" />
+													<TextBlock FontSize="15" FontWeight="DemiBold" HorizontalAlignment="Center" Text="Android"/>
+													<TextBlock FontSize="10" FontWeight="DemiBold" HorizontalAlignment="Center" Text="2023/01/01"/>
+												</StackPanel>
+											</Button>
+										</suki:GlassCard>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</ScrollViewer>
+					</suki:GlassCard>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+			</WrapPanel>
+		</Grid>
+	</ScrollViewer>
+</UserControl>

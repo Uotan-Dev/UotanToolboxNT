@@ -287,7 +287,7 @@
 									</suki:GlassCard>
 									<suki:GlassCard Margin="15" IsInteractive="True">
 										<suki:GroupBox Header="{Binding MouZei}">
-											<Rectangle Width="100" Height="100" RadiusX="10" RadiusY="10">
+											<Rectangle Width="100" Height="100" RadiusX="0" RadiusY="0">
 												<Rectangle.Fill>
 													<ImageBrush Source="avares://UotanToolbox/Assets/mouzei.jpg"/>
 												</Rectangle.Fill>

@@ -50,7 +50,7 @@
 						<ItemsControl Name="ImageList" ItemsSource="">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
-									<VirtualizingStackPanel Orientation="Vertical" />
+									<WrapPanel Orientation="Vertical" />
 								</ItemsPanelTemplate>
 							</ItemsControl.ItemsPanel>
 							<ItemsControl.ItemTemplate>

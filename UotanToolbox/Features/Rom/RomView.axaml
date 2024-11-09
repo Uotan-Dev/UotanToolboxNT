@@ -24,7 +24,7 @@
 					<ItemsControl ItemsSource="{Binding ProjectList}">
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
-								<VirtualizingStackPanel Orientation="Vertical" />
+								<WrapPanel Orientation="Vertical" />
 							</ItemsPanelTemplate>
 						</ItemsControl.ItemsPanel>
 						<ItemsControl.ItemTemplate>

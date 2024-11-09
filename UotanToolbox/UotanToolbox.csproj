@@ -87,6 +87,9 @@
 		<Compile Update="Features\EDL\EDLView.axaml.cs">
 		  <DependentUpon>EDLView.axaml</DependentUpon>
 		</Compile>
+		<Compile Update="Features\Filemgr\FilemgrView.axaml.cs">
+		  <DependentUpon>FilemgrView.axaml</DependentUpon>
+		</Compile>
 		<Compile Update="Features\FormatExtract\FormatExtractView.axaml.cs">
 			<DependentUpon>FormatExtractView.axaml</DependentUpon>
 		</Compile>

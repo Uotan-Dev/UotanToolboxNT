@@ -55,6 +55,25 @@
 				<Setter Property="Background" Value="Transparent" />
 			</Style>
 		</ControlTheme>
+		<ControlTheme x:Key="ToolboxButtonFile" TargetType="Button">
+			<Setter Property="Cursor" Value="Hand" />
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Border Padding="{TemplateBinding Padding}"
+							TextElement.FontWeight="Bold">
+						<Panel>
+							<ContentPresenter Content="{TemplateBinding Content}"
+											  Margin="{TemplateBinding Padding}"/>
+						</Panel>
+					</Border>
+				</ControlTemplate>
+			</Setter>
+			<Style Selector="^:pressed /template/ Border">
+				<Setter Property="Background" Value="Transparent" />
+			</Style>
+		</ControlTheme>
+
 	</Application.Resources>
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />

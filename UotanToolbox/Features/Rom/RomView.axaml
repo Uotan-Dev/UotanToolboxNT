@@ -20,26 +20,28 @@
 		<suki:GlassCard Classes="Card" Margin="10" Height="650" Width="622">
 			<suki:BusyArea  Name="BusyProject"
 							BusyText="载入中...">
-				<ItemsControl ItemsSource="{Binding ProjectList}">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<VirtualizingStackPanel Orientation="Vertical" />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<suki:GlassCard Width="580" Height="62" Margin="0 0 0 10">
-								<StackPanel>
-									<StackPanel Orientation="Horizontal" Margin="0">
-										<CheckBox Margin="-8 -8 5 0" HorizontalAlignment="Right" IsChecked="{Binding IsSelected}"/>
-										<TextBlock Width="445" FontSize="15" FontWeight="DemiBold" Text="{Binding ProjectName}" HorizontalAlignment="Left" />
-										<Button Classes="Hyperlink" Margin="0 -9 0 0" Padding="10 8 10 8" Click="OpenProject" Foreground="White" Content="打开工程" HorizontalAlignment="Right"/>
+				<ScrollViewer VerticalScrollBarVisibility="Hidden">
+					<ItemsControl ItemsSource="{Binding ProjectList}">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<VirtualizingStackPanel Orientation="Vertical" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<suki:GlassCard Width="580" Height="62" Margin="0 0 0 10">
+									<StackPanel>
+										<StackPanel Orientation="Horizontal" Margin="0">
+											<CheckBox Margin="-8 -8 5 0" HorizontalAlignment="Right" IsChecked="{Binding IsSelected}"/>
+											<TextBlock Width="445" FontSize="15" FontWeight="DemiBold" Text="{Binding ProjectName}" HorizontalAlignment="Left" />
+											<Button Classes="Hyperlink" Margin="0 -9 0 0" Padding="10 8 10 8" Click="OpenProject" Foreground="White" Content="打开工程" HorizontalAlignment="Right"/>
+										</StackPanel>
 									</StackPanel>
-								</StackPanel>
-							</suki:GlassCard>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
+								</suki:GlassCard>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</ScrollViewer>
 			</suki:BusyArea>
 		</suki:GlassCard>
 		<suki:GlassCard Classes="Card" Margin="10 -55 0 0" Width="320" Height="595">
@@ -168,7 +170,7 @@
 						<Button Height="40" Width="100" Command="{Binding DeleteProject}">
 							<TextBlock Text="删除工程" />
 						</Button>
-						<TextBox Height="50" Width="250" Watermark="工程名称"/>
+						<TextBox Height="50" Width="250" Text="{Binding ProjectName}" Watermark="工程名称"/>
 						<Button Height="40" Width="100" Command="{Binding NewProject}">
 							<TextBlock Text="新建工程" />
 						</Button>

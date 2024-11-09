@@ -44,7 +44,9 @@
 							<TextBlock Text="打包列表" />
 						</Button>
 					</StackPanel>
+					
 					<suki:GlassCard Width="300" Height="510" Margin="0 0 0 10">
+						<ScrollViewer VerticalScrollBarVisibility="Hidden">
 						<ItemsControl Name="ImageList" ItemsSource="">
 							<ItemsControl.ItemsPanel>
 								<ItemsPanelTemplate>
@@ -63,6 +65,7 @@
 								</DataTemplate>
 							</ItemsControl.ItemTemplate>
 						</ItemsControl>
+						</ScrollViewer>
 					</suki:GlassCard>
 				</StackPanel>
 			</suki:GlassCard>

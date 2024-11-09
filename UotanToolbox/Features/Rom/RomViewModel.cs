@@ -24,11 +24,11 @@ public partial class RomViewModel : MainPageBase
     [ObservableProperty]
     private int eROFSComGrade = 8, bRComGrade = 3;
     [ObservableProperty]
-    private string sUPERSize = "9126805504", sUPERName = "qti_dynamic_partitions", uTCTime = "1230768000", dATSeg = "15";
+    private string projectName = "", sUPERSize = "9126805504", sUPERName = "qti_dynamic_partitions", uTCTime = "1230768000", dATSeg = "15";
 
     public RomViewModel() : base("ROM工坊", MaterialIconKind.ChartPieOutline, -250)
     {
-        Project[] projects = new Project[2];
+        Project[] projects = new Project[10];
         projects[0] = new Project { ProjectName = "muyu-ota_full-OS2.0.4.0.VOYCNXM-user-15.0-4152616bf9" };
         projects[1] = new Project { ProjectName = "sheng-ota_full-OS2.0.1.10.VNXCNXM-user-15.0-25b489e98b" };
         ProjectList = new ObservableCollection<Project>(projects);

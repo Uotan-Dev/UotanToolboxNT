@@ -8,7 +8,7 @@ public partial class RomProject : SukiWindow
     public RomProject()
     {
         InitializeComponent();
-        Project[] projects = new Project[13];
+        Project[] projects = new Project[23];
         ImageList.ItemsSource = new ObservableCollection<Project>(projects);
     }
 }

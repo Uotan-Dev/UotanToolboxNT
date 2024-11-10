@@ -14,8 +14,7 @@
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
 		<Grid>
-			<WrapPanel  Name="Rom"
-						Margin="15"
+			<WrapPanel  Margin="15"
 						theme:WrapPanelExtensions.AnimatedScroll="True"
 						Orientation="Horizontal">
 				<suki:GlassCard Margin="10" Width="250" Height="750">
@@ -37,19 +36,28 @@
 			</suki:GlassCard>
 			
 			<suki:GlassCard Margin="10 0 0 0" Height="750" Width="695">
-			<suki:BusyArea  Name="BusyProject"
-							BusyText="">
+			<suki:BusyArea BusyText="">
 				<StackPanel>
 					<StackPanel Orientation="Horizontal" Spacing="5">
-						<TextBox Width="540"/>
+						<Button Margin="5 0 0 0" Theme="{StaticResource ToolboxButton}">
+							<avalonia:MaterialIcon Kind="ArrowUp" />
+						</Button>
+						<TextBox Width="520"/>
 						<Button Height="35" Width="100" Content="搜索"/>
 					</StackPanel>
 					<suki:GlassCard Height="665">
 						<suki:GlassCard.ContextMenu>
 							<ContextMenu>
-								<MenuItem Header="新建文件夹" />
-								<MenuItem Header="发送文件"/>
-								<MenuItem Header="发送文件夹"/>
+								<MenuItem Header="新建">
+									<MenuItem Header="文件"/>
+									<MenuItem Header="文件夹"/>
+								</MenuItem>
+								<MenuItem Header="发送">
+									<MenuItem Header="文件"/>
+									<MenuItem Header="文件夹"/>
+								</MenuItem>
+								<MenuItem Header="粘贴" IsEnabled="False"/>
+								<Separator/>
 								<MenuItem Header="刷新"/>
 							</ContextMenu>
 						</suki:GlassCard.ContextMenu>
@@ -65,8 +73,12 @@
 										<suki:GlassCard Margin="5 10 5 0" IsInteractive="True">
 											<suki:GlassCard.ContextMenu>
 												<ContextMenu>
-													<MenuItem Header="打开" />
+													<MenuItem Header="打开"/>
+													<MenuItem Header="复制"/>
+													<MenuItem Header="剪切"/>
 													<MenuItem Header="删除"/>
+													<MenuItem Header="重命名"/>
+													<Separator/>
 													<MenuItem Header="提取至">
 														<MenuItem Header="桌面"/>
 														<MenuItem Header="下载"/>

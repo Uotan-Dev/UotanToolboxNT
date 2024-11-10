@@ -23,7 +23,7 @@ public partial class FilemgrViewModel : MainPageBase
     }
     public AvaloniaList<Node> TreeViewContent { get; } = [];
 
-    public FilemgrViewModel() : base("ROM工坊", MaterialIconKind.ChartPieOutline, -250)
+    public FilemgrViewModel() : base("文件管理", MaterialIconKind.ChartPieOutline, -250)
     {
         TreeViewContent.AddRange(
             Enumerable.Range(1, 10).Select(x => new Node($"Outer {x}",

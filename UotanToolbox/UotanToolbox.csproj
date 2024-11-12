@@ -32,6 +32,7 @@
 		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.0" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.0" />
+		<PackageReference Include="BouncyCastle.Cryptography" Version="2.4.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 		<PackageReference Include="Google.Protobuf" Version="3.28.3" />
 		<PackageReference Include="Material.Icons.Avalonia" Version="2.1.10" />
@@ -141,5 +142,11 @@
 		<EmbeddedResource Include="Assets\space.sksl" />
 		<EmbeddedResource Include="Assets\clouds.sksl" />
 		<EmbeddedResource Include="Assets\weird.sksl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Common\ROMHelper\HuaweiUpdateLibrary\Algorithms\" />
+	  <Folder Include="Common\ROMHelper\HuaweiUpdateLibrary\Core\" />
+	  <Folder Include="Common\ROMHelper\HuaweiUpdateLibrary\Streams\" />
 	</ItemGroup>
 </Project>

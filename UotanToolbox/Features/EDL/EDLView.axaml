@@ -28,10 +28,13 @@
 					<StackPanel Orientation="Vertical" Margin="10 0 0 0">
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center" Text="引导文件:"></TextBlock>
-							<TextBox Width="353" Text="{Binding FirehoseFile}"/>
+							<TextBox Name="FirehoseFile" Width="300" Text="{Binding FirehoseFile}"/>
 							<ComboBox Width="130" SelectedIndex="{Binding SelectFlie}" ItemsSource="{Binding BuiltInFile}" />
-							<Button Height="35" Command="{Binding OpenFlie}"
+							<Button Height="35" Padding="0" Width="80" Click="OpenFirehoseFile"
 									Content="{x:Static assets:Resources.Common_ChooseFile}">
+							</Button>
+							<Button Height="35" Padding="0" Width="80" Command="{Binding SendFirehose}"
+									Content="发送引导">
 							</Button>
 						</StackPanel>
 					</StackPanel>
@@ -74,14 +77,14 @@
 								Text="读写分区" />
 					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 0 0 0">
 						<TextBlock VerticalAlignment="Center" Text="XML文件:"></TextBlock>
-						<TextBox Width="480" Text="{Binding XMLFile}"/>
-						<Button Height="35" Command="{Binding OpenXMLFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+						<TextBox Name="XMLFile" Width="480" Text="{Binding XMLFile}"/>
+						<Button Height="35" Click="OpenXMLFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 					</StackPanel>
 					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" Margin="0 5 0 0">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
 							<Button Width="120"
 									HorizontalAlignment="Left"
-									Command="{Binding BatchWrite}"
+									Click="BatchWrite"
 									Padding="8">
 								<TextBlock>
 									<TextBlock Text="批量写入" />
@@ -172,7 +175,7 @@
 							Margin="10 10 0 0"
 							VerticalAlignment="Top">
 				<Grid>
-					<TextBox Text="{Binding EDLLog}" Watermark="{x:Static assets:Resources.FormatExtract_Log}" Margin="0" Height="240" AcceptsReturn="True"
+					<TextBox Name="EDLLog" Text="{Binding EDLLog}" Watermark="{x:Static assets:Resources.FormatExtract_Log}" Margin="0" Height="240" AcceptsReturn="True"
 							 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>

@@ -1,5 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using Avalonia.Collections;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
@@ -29,21 +33,15 @@ public partial class EDLViewModel : MainPageBase
     }
 
     [RelayCommand]
-    public async Task OpenFlie()
+    public async Task SendFirehose()
     {
-
-    }
-
-    [RelayCommand]
-    public async Task OpenXMLFile()
-    {
-
+        
     }
 
     [RelayCommand]
     public async Task BatchWrite()
     {
-
+        
     }
 
     [RelayCommand]

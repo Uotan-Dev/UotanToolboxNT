@@ -1,96 +1,107 @@
-﻿using System;
+﻿using Org.BouncyCastle.Crypto.Engines;
+using Org.BouncyCastle.Crypto.Modes;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto;
+using System.Security.Cryptography;
+using System.Text;
+using System.Xml.Linq;
+using System.IO.Compression;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using System;
+using SharpCompress.Common;
 
 namespace UotanToolbox.Common.ROMHelper
 {
     internal class Ofp_QC_Helper
     {
-        private static byte[] FromHex(string hex)
+        public static byte Swap(byte ch)
         {
-            if (hex.Length % 2 != 0)
-            {
-                throw new ArgumentException("Hex string must have an even length");
-            }
-
-            byte[] bytes = new byte[hex.Length / 2];
-            for (int i = 0; i < hex.Length; i += 2)
-            {
-                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
-            }
-            return bytes;
+            return (byte)((ch & 0x0F) << 4 | (ch & 0xF0) >> 4);
         }
 
-        // {version , key , iv}
-        private static readonly string[] Array0 = ["V1.4.17/1.4.27", "64313534616665656161666139353866", "32633034306635373836383239323037"];
-        private static readonly string[] Array1 = ["V1.6.17", "32653936643766343632353931613066", "31376363363332323463323038373038"];
-        private static readonly string[] Array2 = ["V1.5.13", "39346436326538333163663161316130", "37616235653333626435306438316361"];
-        private static readonly string[] Array3 = ["V1.6.6/1.6.9/1.6.17/1.6.24/1.6.26/1.7.6", "34613833373232396536666337376434", "30306265643437623830656563396437"];
-        private static readonly string[] Array4 = ["V1.7.2", "33333938363939616365626461306461", "62333961343666356363346630643435"];
-        private static readonly string[] Array5 = ["V2.0.3", "62346237333538656561323230393931", "65393037376532366162313032643162"];
+        public static byte[] KeyShuffle(byte[] key, byte[] hkey)
+        {
+            for (int i = 0; i < 0x10; i += 4)
+            {
+                key[i] = Swap((byte)(hkey[i] ^ key[i]));
+                key[i + 1] = Swap((byte)(hkey[i + 1] ^ key[i + 1]));
+                key[i + 2] = Swap((byte)(hkey[i + 2] ^ key[i + 2]));
+                key[i + 3] = Swap((byte)(hkey[i + 3] ^ key[i + 3]));
+            }
+            return key;
+        }
+        public static (byte[], byte[]) GenerateKey1()
+        {
+            string key1Str = "42F2D5399137E2B2813CD8ECDF2F4D72";
+            string key2Str = "F6C50203515A2CE7D8C3E1F938B7E94C";
+            string key3Str = "67657963787565E837D226B69A495D21";
 
-        private static (int pageSize, byte[] key, byte[] iv, byte[] data) GenerateKey2(string filename)
+            byte[] key1 = Enumerable.Range(0, key1Str.Length / 2).Select(x => Convert.ToByte(key1Str.Substring(x * 2, 2), 16)).ToArray();
+            byte[] key2 = Enumerable.Range(0, key2Str.Length / 2).Select(x => Convert.ToByte(key2Str.Substring(x * 2, 2), 16)).ToArray();
+            byte[] key3 = Enumerable.Range(0, key3Str.Length / 2).Select(x => Convert.ToByte(key3Str.Substring(x * 2, 2), 16)).ToArray();
+
+            key2 = KeyShuffle(key2, key3);
+            byte[] aesKey = Encoding.UTF8.GetBytes(BitConverter.ToString(MD5.HashData(key2)).Replace("-", "")[..16]);
+
+            key1 = KeyShuffle(key1, key3);
+            byte[] iv = Encoding.UTF8.GetBytes(BitConverter.ToString(MD5.HashData(key1)).Replace("-", "")[..16]);
+
+            return (aesKey, iv);
+        }
+
+        public static byte ROL(byte x, int n, int bits = 8)
+        {
+            n = bits - n;
+            byte mask = (byte)((1 << n) - 1);
+            byte maskBits = (byte)(x & mask);
+            return (byte)(x >> n | maskBits << bits - n);
+        }
+
+        public static byte[] Deobfuscate(byte[] data, byte[] mask)
+        {
+            byte[] ret = new byte[data.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                byte v = ROL((byte)(data[i] ^ mask[i]), 4, 8);
+                ret[i] = v;
+            }
+            return ret;
+        }
+
+        public static (int, byte[], byte[], byte[]) GenerateKey2(string filename)
         {
             var keys = new List<string[]>
         {
-            Array0,
-            Array1,
-            Array2,
-            Array3,
-            Array4,
-            Array5
+            new string[] { "V1.4.17/1.4.27", "27827963787265EF89D126B69A495A21", "82C50203285A2CE7D8C3E198383CE94C", "422DD5399181E223813CD8ECDF2E4D72" },
+            new string[] { "V1.6.17", "E11AA7BB558A436A8375FD15DDD4651F", "77DDF6A0696841F6B74782C097835169", "A739742384A44E8BA45207AD5C3700EA" },
+            new string[] { "V1.5.13", "67657963787565E837D226B69A495D21", "F6C50203515A2CE7D8C3E1F938B7E94C", "42F2D5399137E2B2813CD8ECDF2F4D72" },
+            new string[] { "V1.6.6/1.6.9/1.6.17/1.6.24/1.6.26/1.7.6", "3C2D518D9BF2E4279DC758CD535147C3", "87C74A29709AC1BF2382276C4E8DF232", "598D92E967265E9BCABE2469FE4A915E" },
+            new string[] { "V1.7.2", "8FB8FB261930260BE945B841AEFA9FD4", "E529E82B28F5A2F8831D860AE39E425D", "8A09DA60ED36F125D64709973372C1CF" },
+            new string[] { "V2.0.3", "E8AE288C0192C54BF10C5707E9C4705B", "D64FC385DCD52A3C9B5FBA8650F92EDA", "79051FD8D8B6297E2E4559E997F63B7F" }
         };
 
             foreach (var dkey in keys)
             {
-                byte[] key = FromHex(dkey[1]);
-
-                byte[] iv = FromHex(dkey[2]);
-
-                Console.WriteLine($"trying {dkey[0]} Key: {BitConverter.ToString(key)} IV: {BitConverter.ToString(iv)}");
+                byte[] mc = Enumerable.Range(0, dkey[1].Length / 2).Select(x => Convert.ToByte(dkey[1].Substring(x * 2, 2), 16)).ToArray();
+                byte[] userKey = Enumerable.Range(0, dkey[2].Length / 2).Select(x => Convert.ToByte(dkey[2].Substring(x * 2, 2), 16)).ToArray();
+                byte[] ivec = Enumerable.Range(0, dkey[3].Length / 2).Select(x => Convert.ToByte(dkey[3].Substring(x * 2, 2), 16)).ToArray();
+                byte[] key = Encoding.UTF8.GetBytes(BitConverter.ToString(MD5.HashData(Deobfuscate(userKey, mc))).Replace("-", "").ToLower()[..16]);
+                byte[] iv = Encoding.UTF8.GetBytes(BitConverter.ToString(MD5.HashData(Deobfuscate(ivec, mc))).Replace("-", "").ToLower()[..16]);
+                Console.WriteLine(Convert.ToHexString(key));
+                Console.WriteLine(Convert.ToHexString(iv));
                 var (pageSize, data) = ExtractXml(filename, key, iv);
+
                 if (pageSize != 0)
                 {
                     return (pageSize, key, iv, data);
                 }
             }
-            return (0, null, null, null);
+            return (0, [], [], []);
         }
-        private static byte[] Deobfuscate(byte[] data, byte[] mask)
-        {
-            byte[] ret = new byte[data.Length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                byte v = (byte)ROL((uint)(data[i] ^ mask[i]), 4, 8);
-                ret[i] = v;
-            }
-            return ret;
-        }
-        private static uint ROL(uint x, int n, int bits = 32)
-        {
-            n = bits - n;
-            uint mask = (uint)((1 << n) - 1);
-            uint maskBits = x & mask;
-            return (x >> n) | (maskBits << (bits - n));
-        }/*
-    
-    private static byte[] AesCfbDecrypt(byte[] data, byte[] key, byte[] iv)
-    {
-        using Aes aes = Aes.Create();
-        aes.Key = key;
-        aes.IV = iv;
-        aes.Mode = CipherMode.CFB;
-        aes.Padding = PaddingMode.None;
-        using ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-        return decryptor.TransformFinalBlock(data, 0, data.Length);
-    }*/
 
-        private static (int pagesize, byte[] data) ExtractXml(string filename, byte[] key, byte[] iv)
+        public static (int pagesize, byte[] data) ExtractXml(string filename, byte[] key, byte[] iv)
         {
             long filesize = new FileInfo(filename).Length;
             using FileStream rf = new(filename, FileMode.Open, FileAccess.Read);
@@ -112,7 +123,6 @@ namespace UotanToolbox.Common.ROMHelper
                 Environment.Exit(0);
             }
             long xmloffset = filesize - pagesize;
-            Console.WriteLine(xmloffset);
             rf.Seek(xmloffset + 0x14, SeekOrigin.Begin);
             byte[] offsetBuffer = new byte[4];
             rf.Read(offsetBuffer, 0, 4);
@@ -129,8 +139,9 @@ namespace UotanToolbox.Common.ROMHelper
             rf.Seek(offset, SeekOrigin.Begin);
             byte[] data = new byte[length];
             rf.Read(data, 0, length);
+            //Console.WriteLine("data: "+Convert.ToHexString(data).ToLower());
             byte[] dec = AesCfbDecrypt(data, key, iv);
-            Console.WriteLine(Convert.ToHexString(dec));
+            Console.WriteLine("dec: " + Convert.ToHexString(dec).ToLower());
             if (Encoding.UTF8.GetString(dec).Contains("<?xml"))
             {
                 return (pagesize, dec);
@@ -140,32 +151,27 @@ namespace UotanToolbox.Common.ROMHelper
                 return (0, []);
             }
         }
-
-        //主要问题就是这个函数，我不知道怎么改。C#好像不支持指定块大小的解密
-        private static byte[] AesCfbDecrypt(byte[] data, byte[] key, byte[] iv)
+        static byte[] AesCfbDecrypt(byte[] data, byte[] key, byte[] iv)
         {
-            using Aes aes = Aes.Create();
-            Console.WriteLine(data.Length);
-            aes.Key = key;
-            aes.IV = iv;
-            aes.Mode = CipherMode.CFB;
-            aes.Padding = PaddingMode.None;
-            using ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-            using MemoryStream ms = new(data);
-            using CryptoStream cs = new(ms, decryptor, CryptoStreamMode.Read);
-            byte[] decrypted = new byte[data.Length];
-            cs.Read(decrypted, 0, decrypted.Length);
+            //什么？你问我为什么不用NET内置的AES解密库？那自然是它算出来的有问题啊！这问题浪费了我足足3天的时间   --Zi_Cai
+            AesEngine engine = new();
+            CfbBlockCipher cfb = new(engine, 128);
+            BufferedBlockCipher cipher = new(cfb);
+            cipher.Init(false, new ParametersWithIV(new KeyParameter(key), iv));
+            byte[] decrypted = new byte[cipher.GetOutputSize(data.Length)];
+            int len = cipher.ProcessBytes(data, 0, data.Length, decrypted, 0);
+            cipher.DoFinal(decrypted, len);
             return decrypted;
         }
-        private static long CopySub(FileStream rf, FileStream wf, long start, long length)
+        public static long CopySub(FileStream rf, FileStream wf, long start, long length)
         {
             rf.Seek(start, SeekOrigin.Begin);
             long rlen = 0;
-            byte[] buffer = new byte[0x100000];
+            byte[] buffer = new byte[0x100000]; // 1 MB buffer
 
             while (length > 0)
             {
-                int size = (int)Math.Min(length, buffer.Length);
+                int size = length < 0x100000 ? (int)length : 0x100000;
                 int bytesRead = rf.Read(buffer, 0, size);
                 wf.Write(buffer, 0, bytesRead);
                 rlen += bytesRead;
@@ -174,27 +180,23 @@ namespace UotanToolbox.Common.ROMHelper
 
             return rlen;
         }
-
-        private static void Copy(string filename, string wfilename, string path, long start, long length, string[] checksums)
+        public static void Copy(string filename, string wfilename, string path, long start, long length, string[] checksums)
         {
             Console.WriteLine($"\nExtracting {wfilename}");
             string outputPath = Path.Combine(path, wfilename);
 
-            using (FileStream rf = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            using (FileStream rf = new(filename, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream wf = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
-                {
-                    rf.Seek(start, SeekOrigin.Begin);
-                    byte[] data = new byte[length];
-                    rf.Read(data, 0, (int)length);
-                    wf.Write(data, 0, data.Length);
-                }
+                using FileStream wf = new(outputPath, FileMode.Create, FileAccess.Write);
+                rf.Seek(start, SeekOrigin.Begin);
+                byte[] data = new byte[length];
+                rf.Read(data, 0, (int)length);
+                wf.Write(data, 0, data.Length);
             }
 
             CheckHashFile(outputPath, checksums, true);
         }
-
-        private static void DecryptFile(byte[] key, byte[] iv, string filename, string path, string wfilename, long start, long length, long rlength, string[] checksums, int decryptsize = 0x40000)
+        public static void DecryptFile(byte[] key, byte[] iv, string filename, string path, string wfilename, long start, long length, long rlength, string[] checksums, int decryptsize = 0x40000)
         {
             Console.WriteLine($"\nExtracting {wfilename}");
             if (rlength == length)
@@ -209,130 +211,124 @@ namespace UotanToolbox.Common.ROMHelper
 
             string outputPath = Path.Combine(path, wfilename);
 
-            using (FileStream rf = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            using (FileStream rf = new(filename, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream wf = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
+                using FileStream wf = new(outputPath, FileMode.Create, FileAccess.Write);
+                rf.Seek(start, SeekOrigin.Begin);
+                int size = decryptsize;
+                if (rlength < decryptsize)
                 {
-                    rf.Seek(start, SeekOrigin.Begin);
-                    int size = decryptsize;
-                    if (rlength < decryptsize)
-                    {
-                        size = (int)rlength;
-                    }
-                    byte[] data = new byte[size];
-                    rf.Read(data, 0, size);
-                    if (size % 4 != 0)
-                    {
-                        Array.Resize(ref data, size + (4 - (size % 4)));
-                    }
-                    byte[] outp = AesCfbDecrypt(data, key, iv);
-                    wf.Write(outp, 0, size);
+                    size = (int)rlength;
+                }
+                byte[] data = new byte[size];
+                rf.Read(data, 0, size);
+                if (size % 4 != 0)
+                {
+                    Array.Resize(ref data, size + (4 - (size % 4)));
+                }
+                byte[] outp = AesCfbDecrypt(data, key, iv);
+                wf.Write(outp, 0, size);
 
-                    if (rlength > decryptsize)
-                    {
-                        CopySub(rf, wf, start + size, rlength - size);
-                    }
+                if (rlength > decryptsize)
+                {
+                    CopySub(rf, wf, start + size, rlength - size);
+                }
 
-                    if (rlength % 0x1000 != 0)
-                    {
-                        byte[] fill = new byte[0x1000 - (rlength % 0x1000)];
-                        // wf.Write(fill, 0, fill.Length);
-                    }
+                if (rlength % 0x1000 != 0)
+                {
+                    byte[] fill = new byte[0x1000 - (rlength % 0x1000)];
+                    // wf.Write(fill, 0, fill.Length);
                 }
             }
 
             CheckHashFile(outputPath, checksums, false);
         }
-
-        private static void CheckHashFile(string wfilename, string[] checksums, bool isCopy)
+        public static void CheckHashFile(string wfilename, string[] checksums, bool isCopy)
         {
             string sha256sum = checksums[0];
             string md5sum = checksums[1];
             string prefix = isCopy ? "Copy: " : "Decrypt: ";
 
-            using (FileStream rf = new FileStream(wfilename, FileMode.Open, FileAccess.Read))
+            using FileStream rf = new(wfilename, FileMode.Open, FileAccess.Read);
+            long size = new FileInfo(wfilename).Length;
+            rf.Seek(0, SeekOrigin.Begin);
+            byte[] buffer = new byte[0x40000];
+            rf.Read(buffer, 0, buffer.Length);
+            byte[] md5Hash = MD5.HashData(buffer);
+            string md5Hex = BitConverter.ToString(md5Hash).Replace("-", "").ToLower();
+
+            bool sha256bad = false;
+            bool md5bad = false;
+            string md5status = "empty";
+            string sha256status = "empty";
+
+            if (!string.IsNullOrEmpty(sha256sum))
             {
-                long size = new FileInfo(wfilename).Length;
-                using (MD5 md5 = MD5.Create())
+                foreach (long x in new long[] { 0x40000, size })
                 {
-                    byte[] md5Hash = md5.ComputeHash(rf);
                     rf.Seek(0, SeekOrigin.Begin);
-
-                    bool sha256bad = false;
-                    bool md5bad = false;
-                    string md5status = "empty";
-                    string sha256status = "empty";
-
-                    if (!string.IsNullOrEmpty(sha256sum))
+                    using (SHA256 sha256 = SHA256.Create())
                     {
-                        foreach (long x in new long[] { 0x40000, size })
+                        if (x == 0x40000)
                         {
-                            rf.Seek(0, SeekOrigin.Begin);
-                            using (SHA256 sha256 = SHA256.Create())
-                            {
-                                if (x == 0x40000)
-                                {
-                                    byte[] buffer = new byte[x];
-                                    rf.Read(buffer, 0, buffer.Length);
-                                    sha256.TransformFinalBlock(buffer, 0, buffer.Length);
-                                }
-                                else if (x == size)
-                                {
-                                    byte[] buffer = new byte[128 * sha256.HashSize];
-                                    int bytesRead;
-                                    while ((bytesRead = rf.Read(buffer, 0, buffer.Length)) > 0)
-                                    {
-                                        sha256.TransformBlock(buffer, 0, bytesRead, buffer, 0);
-                                    }
-                                    sha256.TransformFinalBlock(buffer, 0, 0);
-                                }
-
-                                if (!sha256sum.Equals(BitConverter.ToString(sha256.Hash).Replace("-", ""), StringComparison.InvariantCultureIgnoreCase))
-                                {
-                                    sha256bad = true;
-                                    sha256status = "bad";
-                                }
-                                else
-                                {
-                                    sha256status = "verified";
-                                    break;
-                                }
-                            }
+                            sha256.TransformBlock(buffer, 0, buffer.Length, buffer, 0);
+                            sha256.TransformFinalBlock([], 0, 0);
                         }
-                    }
-
-                    if (!string.IsNullOrEmpty(md5sum))
-                    {
-                        if (md5sum != BitConverter.ToString(md5Hash).Replace("-", "").ToLowerInvariant())
+                        else if (x == size)
                         {
-                            md5bad = true;
-                            md5status = "bad";
+                            int bytesRead;
+                            while ((bytesRead = rf.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                sha256.TransformBlock(buffer, 0, bytesRead, buffer, 0);
+                            }
+                            sha256.TransformFinalBlock([], 0, 0);
+                        }
+
+                        string sha256Hex = BitConverter.ToString(sha256.Hash).Replace("-", "").ToLower();
+                        if (sha256sum != sha256Hex)
+                        {
+                            sha256bad = true;
+                            sha256status = "bad";
                         }
                         else
                         {
-                            md5status = "verified";
+                            sha256status = "verified";
+                            break;
                         }
-                    }
-
-                    if ((sha256bad && md5bad) || (sha256bad && string.IsNullOrEmpty(md5sum)) || (md5bad && string.IsNullOrEmpty(sha256sum)))
-                    {
-                        Console.WriteLine($"{prefix}error on hashes. File might be broken!");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{prefix}success! (md5: {md5status} | sha256: {sha256status})");
                     }
                 }
             }
+
+            if (!string.IsNullOrEmpty(md5sum))
+            {
+                if (md5sum != md5Hex)
+                {
+                    md5bad = true;
+                    md5status = "bad";
+                }
+                else
+                {
+                    md5status = "verified";
+                }
+            }
+
+            if ((sha256bad && md5bad) || (sha256bad && string.IsNullOrEmpty(md5sum)) || (md5bad && string.IsNullOrEmpty(sha256sum)))
+            {
+                Console.WriteLine($"{prefix}error on hashes. File might be broken!");
+            }
+            else
+            {
+                Console.WriteLine($"{prefix}success! (md5: {md5status} | sha256: {sha256status})");
+            }
         }
-        private static (string wfilename, long start, long length, long rlength, string[] checksums, int decryptsize) DecryptItem(XElement item, int pagesize)
+        public static (string, long, long, long, string[], int) DecryptItem(XElement item, int pageSize)
         {
             string sha256sum = "";
             string md5sum = "";
             string wfilename = "";
             long start = -1;
             long rlength = 0;
-            int decryptsize = 0x40000;
+            int decryptSize = 0x40000;
 
             if (item.Attribute("Path") != null)
             {
@@ -355,11 +351,11 @@ namespace UotanToolbox.Common.ROMHelper
 
             if (item.Attribute("FileOffsetInSrc") != null)
             {
-                start = long.Parse(item.Attribute("FileOffsetInSrc").Value) * pagesize;
+                start = long.Parse(item.Attribute("FileOffsetInSrc").Value) * pageSize;
             }
             else if (item.Attribute("SizeInSectorInSrc") != null)
             {
-                start = long.Parse(item.Attribute("SizeInSectorInSrc").Value) * pagesize;
+                start = long.Parse(item.Attribute("SizeInSectorInSrc").Value) * pageSize;
             }
 
             if (item.Attribute("SizeInByteInSrc") != null)
@@ -370,123 +366,134 @@ namespace UotanToolbox.Common.ROMHelper
             long length;
             if (item.Attribute("SizeInSectorInSrc") != null)
             {
-                length = long.Parse(item.Attribute("SizeInSectorInSrc").Value) * pagesize;
+                length = long.Parse(item.Attribute("SizeInSectorInSrc").Value) * pageSize;
             }
             else
             {
                 length = rlength;
             }
 
-            return (wfilename, start, length, rlength, new string[] { sha256sum, md5sum }, decryptsize);
-        }/*
-    private static void Main(string[] args)
-    {
-        if (args.Length < 2)
+            return (wfilename, start, length, rlength, new string[] { sha256sum, md5sum }, decryptSize);
+        } } }
+        /*
+        public static void Extract(string[] args)
         {
-            Console.WriteLine("Oppo MTK QC decrypt tool 1.1 (c) B.Kerler 2020-2022\n");
-            Console.WriteLine("Usage: ofp_qc_extract.exe [Filename.ofp] [Directory to extract files to]");
-            Environment.Exit(1);
-        }
-        string filename = args[0];
-        string outdir = args[1];
-        if (!Directory.Exists(outdir))
-        {
-            Directory.CreateDirectory(outdir);
-        }
-        bool pk = false;
-        using (FileStream rf = new FileStream(filename, FileMode.Open, FileAccess.Read))
-        {
-            byte[] buffer = new byte[2];
-            rf.Read(buffer, 0, 2);
-            if (Encoding.ASCII.GetString(buffer) == "PK")
+            if (args.Length < 2)
             {
-                pk = true;
+                Console.WriteLine("Oppo MTK QC decrypt Logic 1.1 (c) B.Kerler 2020-2022\n");
+                Environment.Exit(1);
             }
-        }
-        if (pk)
-        {
-            Console.WriteLine("Zip file detected, trying to decrypt files");
-            byte[] zippw = Encoding.UTF8.GetBytes("flash@realme$50E7F7D847732396F1582CD62DD385ED7ABB0897");
-            using (ZipArchive archive = ZipFile.OpenRead(filename))
+
+            string filename = args[0];
+            string outdir = args[1];
+            if (!Directory.Exists(outdir))
             {
-                foreach (ZipArchiveEntry entry in archive.Entries)
+                Directory.CreateDirectory(outdir);
+            }
+
+            bool pk = false;
+            using (FileStream rf = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            {
+                byte[] buffer = new byte[2];
+                rf.Read(buffer, 0, 2);
+                if (buffer[0] == 'P' && buffer[1] == 'K')
                 {
-                    Console.WriteLine("Extracting " + entry.FullName + " to " + outdir);
-                    entry.ExtractToFile(Path.Combine(outdir, entry.FullName), true);
+                    pk = true;
                 }
             }
-            Console.WriteLine("Files extracted to " + outdir);
-            Environment.Exit(0);
-        }
-        string xml = "";
-        var (pagesize, key, iv, data) = GenerateKey2(filename);
-        if (pagesize == 0)
-        {
-            Console.WriteLine("Unknown key. Aborting");
-            Environment.Exit(0);
-        }
-        else
-        {
-            xml = Encoding.UTF8.GetString(data, 0, data.ToList().LastIndexOf((byte)'>') + 1);
-        }
 
-        string path = Path.Combine(Path.GetDirectoryName(filename), outdir);
-
-        if (Directory.Exists(path))
-        {
-            Directory.Delete(path, true);
-            Directory.CreateDirectory(path);
-        }
-        else
-        {
-            Directory.CreateDirectory(path);
-        }
-
-        Console.WriteLine("Saving ProFile.xml");
-        File.WriteAllText(Path.Combine(path, "ProFile.xml"), xml);
-
-        XElement root = XElement.Parse(xml);
-        foreach (XElement child in root.Elements())
-        {
-            foreach (XElement item in child.Elements())
+            if (pk)
             {
-                if (item.Attribute("Path") == null && item.Attribute("filename") == null)
+                string zippw = "flash@realme$50E7F7D847732396F1582CD62DD385ED7ABB0897";
+                Console.WriteLine("Zip file detected, trying to decrypt files");
+
+                using (var archive = ZipArchive.Open(filename, new ReaderOptions { Password = zippw }))
                 {
-                    foreach (XElement subitem in item.Elements())
+                    foreach (var entry in archive.Entries)
                     {
-                        var (wfilenamei, starti, lengthi, rlengthi, checksumsi, decryptsizei) = DecryptItem(subitem, pagesize);
-                        if (string.IsNullOrEmpty(wfilenamei) || starti == -1)
+                        if (!entry.IsDirectory)
                         {
-                            continue;
+                            Console.WriteLine($"Extracting {entry.Key} to {outdir}");
+                            entry.WriteToDirectory(outdir, new ExtractionOptions
+                            {
+                                ExtractFullPath = true,
+                                Overwrite = true
+                            });
                         }
-                        DecryptFile(key, iv, filename, path, wfilenamei, starti, lengthi, rlengthi, checksumsi, decryptsizei);
                     }
                 }
-                var (wfilename, start, length, rlength, checksums, decryptsize) = DecryptItem(item, pagesize);
-                if (string.IsNullOrEmpty(wfilename) || start == -1)
+
+                Console.WriteLine($"Files extracted to {outdir}");
+                Environment.Exit(0);
+            }
+            var (pageSize, key, iv, data) = GenerateKey2(filename);
+            if (pageSize == 0)
+            {
+                Console.WriteLine("Unknown key. Aborting");
+                Environment.Exit(0);
+            }
+            else
+            {
+                string xml = Encoding.UTF8.GetString(data, 0, data.ToList().LastIndexOf((byte)'>') + 1);
+                string path = Path.Combine(Path.GetDirectoryName(filename), outdir);
+
+                if (Directory.Exists(path))
                 {
-                    continue;
-                }
-                if (child.Name.LocalName == "Sahara")
-                {
-                    decryptsize = (int)rlength;
-                }
-                if (new[] { "Config", "Provision", "ChainedTableOfDigests", "DigestsToSign", "Firmware" }.Contains(child.Name.LocalName))
-                {
-                    length = rlength;
-                }
-                if (new[] { "DigestsToSign", "ChainedTableOfDigests", "Firmware" }.Contains(child.Name.LocalName))
-                {
-                    Copy(filename, wfilename, path, start, length, checksums);
+                    Directory.Delete(path, true);
+                    Directory.CreateDirectory(path);
                 }
                 else
                 {
-                    DecryptFile(key, iv, filename, path, wfilename, start, length, rlength, checksums, decryptsize);
+                    Directory.CreateDirectory(path);
                 }
+
+                Console.WriteLine("Saving ProFile.xml");
+                File.WriteAllText(Path.Combine(path, "ProFile.xml"), xml);
+
+                XElement root = XElement.Parse(xml);
+                foreach (XElement child in root.Elements())
+                {
+                    foreach (XElement item in child.Elements())
+                    {
+                        if (item.Attribute("Path") == null && item.Attribute("filename") == null)
+                        {
+                            foreach (XElement subitem in item.Elements())
+                            {
+                                var (wfilenamei, starti, lengthi, rlengthi, checksumsi, decryptSizei) = DecryptItem(subitem, pageSize);
+                                if (wfilenamei == "" || starti == -1)
+                                {
+                                    continue;
+                                }
+                                DecryptFile(key, iv, filename, path, wfilenamei, starti, lengthi, rlengthi, checksumsi, decryptSizei);
+                            }
+                        }
+                        var (wfilename, start, length, rlength, checksums, decryptSize) = DecryptItem(item, pageSize);
+                        if (wfilename == "" || start == -1)
+                        {
+                            continue;
+                        }
+                        if (child.Name.LocalName == "Sahara")
+                        {
+                            decryptSize = (int)rlength;
+                        }
+                        if (new[] { "Config", "Provision", "ChainedTableOfDigests", "DigestsToSign", "Firmware" }.Contains(child.Name.LocalName))
+                        {
+                            length = rlength;
+                        }
+                        if (new[] { "DigestsToSign", "ChainedTableOfDigests", "Firmware" }.Contains(child.Name.LocalName))
+                        {
+                            Copy(filename, wfilename, path, start, length, checksums);
+                        }
+                        else
+                        {
+                            DecryptFile(key, iv, filename, path, wfilename, start, length, rlength, checksums, decryptSize);
+                        }
+                    }
+                }
+                Console.WriteLine($"\nDone. Extracted files to {path}");
+                Environment.Exit(0);
             }
         }
-        Console.WriteLine("\nDone. Extracted files to " + path);
-        Environment.Exit(0);
-    }*/
     }
 }
+        */

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -369,6 +370,102 @@ namespace UotanToolbox.Common
                 process.WaitForExit();
                 return string.IsNullOrEmpty(output) ? error : output;
             }
+        }
+        public static async Task<string> QSaharaServer(
+            string port = null,
+            int? verbose = null,
+            string command = null,
+            bool memdump = false,
+            bool image = false,
+            string sahara = null,
+            string prefix = null,
+            string where = null,
+            string ramdumpimage = null,
+            bool efssyncloop = false,
+            int? rxtimeout = null,
+            int? maxwrite = null,
+            string addsearchpath = null,
+            bool sendclearstate = false,
+            int? portnumber = null,
+            bool switchimagetx = false,
+            bool nomodereset = false,
+            string cmdrespfilepath = null,
+            bool uart = false,
+            bool ethernet = false,
+            int? ethernet_port = null,
+            bool noreset = false,
+            bool resettxfail = false
+        )
+        {
+            string cmd = Path.Combine(Global.bin_path, "QSaharaServer");
+            List<string> args = [];
+
+            if (port != null) args.Add($"--port {port}");
+            if (verbose.HasValue) args.Add($"--verbose {verbose}");
+            if (command != null) args.Add($"--command {command}");
+            if (memdump) args.Add("--memdump");
+            if (image) args.Add("--image  ");
+            if (sahara != null) args.Add($"--sahara {sahara}");
+            if (prefix != null) args.Add($"--prefix {prefix}");
+            if (where != null) args.Add($"--where {where}");
+            if (ramdumpimage != null) args.Add($"--ramdumpimage {ramdumpimage}");
+            if (efssyncloop) args.Add("--efssyncloop");
+            if (rxtimeout.HasValue) args.Add($"--rxtimeout {rxtimeout}");
+            if (maxwrite.HasValue) args.Add($"--maxwrite {maxwrite}");
+            if (addsearchpath != null) args.Add($"--addsearchpath {addsearchpath}");
+            if (sendclearstate) args.Add("--sendclearstate");
+            if (portnumber.HasValue) args.Add($"--portnumber {portnumber}");
+            if (switchimagetx) args.Add("--switchimagetx");
+            if (nomodereset) args.Add("--nomodereset");
+            if (cmdrespfilepath != null) args.Add($"--cmdrespfilepath {cmdrespfilepath}");
+            if (uart) args.Add("--UART");
+            if (ethernet) args.Add("--ethernet");
+            if (ethernet_port.HasValue) args.Add($"--ethernet_port   {ethernet_port}");
+            if (noreset) args.Add("--noreset");
+            if (resettxfail) args.Add("--resettxfail");
+
+            ProcessStartInfo adbexe = new ProcessStartInfo(cmd, string.Join(" ", args))
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
+            };
+            using Process QSS = new Process();
+            QSS.StartInfo = adbexe;
+            _ = QSS.Start();
+            string output = await QSS.StandardOutput.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await QSS.StandardError.ReadToEndAsync();
+            }
+            QSS.WaitForExit();
+            return output;
+        }
+        public static async Task<string> Fh_Loader(string args)
+        {
+            string cmd = Path.Combine(Global.bin_path, "fh_loader");
+            ProcessStartInfo adbexe = new ProcessStartInfo(cmd, args)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
+            };
+            using Process fh_loader = new Process();
+            fh_loader.StartInfo = adbexe;
+            _ = fh_loader.Start();
+            string output = await fh_loader.StandardOutput.ReadToEndAsync();
+            if (output == "")
+            {
+                output = await fh_loader.StandardError.ReadToEndAsync();
+            }
+            fh_loader.WaitForExit();
+            return output;
         }
     }
 }

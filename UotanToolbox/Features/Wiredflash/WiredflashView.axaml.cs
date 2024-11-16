@@ -67,7 +67,9 @@ public partial class WiredflashView : UserControl
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process adb = new Process();
             adb.StartInfo = adbexe;

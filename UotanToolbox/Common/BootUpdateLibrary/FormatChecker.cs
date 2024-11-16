@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace UotanToolbox.Common.MagiskBoot
+namespace UotanToolbox.Common.BootUpdateLibrary
 {
     internal class FormatChecker
     {

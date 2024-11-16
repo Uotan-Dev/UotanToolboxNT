@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-
+//标记准备弃置此方法库
 namespace UotanToolbox.Common
 {
     internal class CryptoHelper

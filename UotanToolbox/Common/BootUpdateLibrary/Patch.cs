@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace UotanToolbox.Common.MagiskBoot
+namespace UotanToolbox.Common.BootUpdateLibrary
 {
     internal class Patch
     {

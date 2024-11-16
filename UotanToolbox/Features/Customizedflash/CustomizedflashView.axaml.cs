@@ -35,7 +35,9 @@ public partial class CustomizedflashView : UserControl
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process fb = new Process();
             fb.StartInfo = fastboot;

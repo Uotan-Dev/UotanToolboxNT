@@ -73,8 +73,17 @@ internal static class Program
         // No need to set default for Windows
         var app = AppBuilder.Configure<App>()
             .UsePlatformDetect()
+            .With(new Win32PlatformOptions
+            {
+                RenderingMode = new[]
+                    {
+                        Win32RenderingMode.Vulkan
+                    }
+            })
             .WithInterFont()
+#if DEBUG
             .LogToTrace()
+#endif
             .UseXamlDisplay();
         return app;
     }

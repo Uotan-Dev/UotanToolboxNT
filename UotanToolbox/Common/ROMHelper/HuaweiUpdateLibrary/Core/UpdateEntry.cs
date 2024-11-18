@@ -13,9 +13,9 @@
  *  
  */
 
+using HuaweiUpdateLibrary.Streams;
 using System;
 using System.IO;
-using HuaweiUpdateLibrary.Streams;
 
 namespace HuaweiUpdateLibrary.Core
 {
@@ -30,7 +30,7 @@ namespace HuaweiUpdateLibrary.Core
         public const ushort DefaultBlockSize = 4096;
         private const UInt32 FileMagic = 0xA55AAA55;
         private FileHeader _fileHeader;
-        
+
         // Can be set by UpdateFile
         internal long DataOffset;
         internal ushort[] CheckSumTable;
@@ -39,7 +39,7 @@ namespace HuaweiUpdateLibrary.Core
         /// <see cref="EntryType"/>
         /// </summary>
         public EntryType Type { get; internal set; }
-        
+
         /// <summary>
         /// Header Id
         /// </summary>
@@ -169,7 +169,7 @@ namespace HuaweiUpdateLibrary.Core
 
                 // Caclulate checksum
                 ComputeHeaderChecksum();
-                
+
                 // Verify crc
                 if (HeaderChecksum != crc)
                 {
@@ -208,11 +208,11 @@ namespace HuaweiUpdateLibrary.Core
 
             // Set id
             HeaderId = FileMagic;
-            
+
             // Block size
             BlockSize = blockSize;
         }
-        
+
         private UpdateEntry(ushort blockSize)
         {
             CreateEntry(blockSize);
@@ -268,7 +268,7 @@ namespace HuaweiUpdateLibrary.Core
             // Return stream
             return new PartialStream(stream, FileSize);
         }
-        
+
         /// <summary>
         /// Extract the current <see cref="UpdateEntry"/> from an input <see cref="Stream"/> to an output <see cref="Stream"/>
         /// </summary>

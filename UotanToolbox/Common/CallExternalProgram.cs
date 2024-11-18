@@ -371,6 +371,33 @@ namespace UotanToolbox.Common
                 return string.IsNullOrEmpty(output) ? error : output;
             }
         }
+        /// <summary>
+        /// 调用QSaharaServer执行命令
+        /// </summary>
+        /// <param name="port">COM Port / TTY device to use. Example /dev/ttyUSB0 or \\\\.\\COM5</param>
+        /// <param name="verbose">Print verbose messages</param>
+        /// <param name="command">Force Sahara command mode</param>
+        /// <param name="memdump">Force Sahara memory debug mode</param>
+        /// <param name="image">Force Sahara image transfer mode</param>
+        /// <param name="sahara">Specify Sahara protocol file mapping</param>
+        /// <param name="prefix">Specify prefix to use on files received from target</param>
+        /// <param name="where">Path to store files received from target</param>
+        /// <param name="ramdumpimage">Image ID which must be transferred before forcing Sahara memory dump mode</param>
+        /// <param name="efssyncloop">At the end of the Sahara state machine loop back to the beginning</param>
+        /// <param name="rxtimeout">Timeout for which to wait for data from the port</param>
+        /// <param name="maxwrite">Max bytes to write in a single shot to the port</param>
+        /// <param name="addsearchpath">Where to look for files</param>
+        /// <param name="sendclearstate">Send command to target to reset the Sahara State Machine. Does not work on all targets.</param>
+        /// <param name="portnumber">Specify the port number instead of port file. the string \\\\.\\COM will be added as the port.</param>
+        /// <param name="switchimagetx">Forcefully put the target into image transfer mode after command execution</param>
+        /// <param name="nomodereset">After downloading ram dumps, do not switch to any mode, just return. If enabled returns error after downloading dumps.</param>
+        /// <param name="cmdrespfilepath">File name with path to save response received for executed command, cmd</param>
+        /// <param name="uart">Sahara protocol over UART</param>
+        /// <param name="ethernet">Sahara protocol over ethernet</param>
+        /// <param name="ethernet_port">Ethernet/Network port number to listen for connections on when using ethernet interface</param>
+        /// <param name="noreset">Option in Android Disable sending the sahara reset PKT</param>
+        /// <param name="resettxfail">Option in Android Send reset to client when image transfer fails, resets are not sent if flag -n or -noreset is set</param>
+        /// <returns></returns>
         public static async Task<string> QSaharaServer(
             string port = null,
             int? verbose = null,
@@ -402,25 +429,25 @@ namespace UotanToolbox.Common
 
             if (port != null) args.Add($"--port {port}");
             if (verbose.HasValue) args.Add($"--verbose {verbose}");
-            if (command != null) args.Add($"--command {command}");
+            if (command != null) args.Add($"--command \"{command}\"");
             if (memdump) args.Add("--memdump");
             if (image) args.Add("--image  ");
-            if (sahara != null) args.Add($"--sahara {sahara}");
-            if (prefix != null) args.Add($"--prefix {prefix}");
-            if (where != null) args.Add($"--where {where}");
-            if (ramdumpimage != null) args.Add($"--ramdumpimage {ramdumpimage}");
+            if (sahara != null) args.Add($"--sahara \"{sahara}\"");
+            if (prefix != null) args.Add($"--prefix \"{prefix}\"");
+            if (where != null) args.Add($"--where \"{where}\"");
+            if (ramdumpimage != null) args.Add($"--ramdumpimage \"{ramdumpimage}\"");
             if (efssyncloop) args.Add("--efssyncloop");
-            if (rxtimeout.HasValue) args.Add($"--rxtimeout {rxtimeout}");
-            if (maxwrite.HasValue) args.Add($"--maxwrite {maxwrite}");
-            if (addsearchpath != null) args.Add($"--addsearchpath {addsearchpath}");
+            if (rxtimeout.HasValue) args.Add($"--rxtimeout \"{rxtimeout}\"");
+            if (maxwrite.HasValue) args.Add($"--maxwrite \"{maxwrite}\"");
+            if (addsearchpath != null) args.Add($"--addsearchpath \"{addsearchpath}\"");
             if (sendclearstate) args.Add("--sendclearstate");
-            if (portnumber.HasValue) args.Add($"--portnumber {portnumber}");
+            if (portnumber.HasValue) args.Add($"--portnumber \"{portnumber}\"");
             if (switchimagetx) args.Add("--switchimagetx");
             if (nomodereset) args.Add("--nomodereset");
-            if (cmdrespfilepath != null) args.Add($"--cmdrespfilepath {cmdrespfilepath}");
+            if (cmdrespfilepath != null) args.Add($"--cmdrespfilepath \"{cmdrespfilepath}\"");
             if (uart) args.Add("--UART");
             if (ethernet) args.Add("--ethernet");
-            if (ethernet_port.HasValue) args.Add($"--ethernet_port   {ethernet_port}");
+            if (ethernet_port.HasValue) args.Add($"--ethernet_port \"{ethernet_port}\"");
             if (noreset) args.Add("--noreset");
             if (resettxfail) args.Add("--resettxfail");
 
@@ -430,8 +457,6 @@ namespace UotanToolbox.Common
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                StandardOutputEncoding = System.Text.Encoding.UTF8,
-                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process QSS = new Process();
             QSS.StartInfo = adbexe;
@@ -444,17 +469,91 @@ namespace UotanToolbox.Common
             QSS.WaitForExit();
             return output;
         }
-        public static async Task<string> Fh_Loader(string args)
+        public static async Task<string> Fh_Loader(
+            bool benchmarkdigestperformance = false,
+            bool benchmarkreads = false,
+            bool benchmarkwrites = false,
+            string createvipdigests = null,
+            string chaineddigests = null,
+            string contentsxml = null,
+            bool convertprogram2read = false,
+            string digestsperfilename = null,
+            string erase = null,
+            string files = null,
+            bool firmwarewrite = false,
+            string fixgpt = null,
+            string flattenbuildto = null,
+            string flavor = null,
+            bool forcecontentsxmlpaths = false,
+            string getstorageinfo = null,
+            string json_in = null,
+            string labels = null,
+            string loglevel = null,
+            string lun = null,
+            string mainoutputdir = null,
+            string maxpayloadsizeinbytes = null,
+            string memoryname = null,
+            string notfiles = null,
+            string notlabels = null,
+            bool nop = false,
+            bool noprompt = false,
+            string num_sectors = null,
+            string port = null,
+            string start_sector = null,
+            bool verbose = false,
+            bool verify_programming_getsha = false,
+            bool verify_programming = false,
+            string zlpawarehost = null,
+            bool noautoconfigure = false,
+            bool autoconfig = false
+            )
         {
+            List<string> args = [];
             string cmd = Path.Combine(Global.bin_path, "fh_loader");
-            ProcessStartInfo adbexe = new ProcessStartInfo(cmd, args)
+
+            if (benchmarkdigestperformance) args.Add("--benchmarkdigestperformance");
+            if (benchmarkreads) args.Add("--benchmarkreads");
+            if (benchmarkwrites) args.Add("--benchmarkwrites");
+            if (createvipdigests != null) args.Add($"--createvipdigests=\"{createvipdigests}\"");
+            if (chaineddigests != null) args.Add($"--chaineddigests=\"{chaineddigests}\"");
+            if (contentsxml != null) args.Add($"--contentsxml=\"{contentsxml}\"");
+            if (convertprogram2read) args.Add("--convertprogram2read");
+            if (digestsperfilename != null) args.Add($"--digestsperfilename=\"{digestsperfilename}\"");
+            if (erase != null) args.Add($"--erase=\"{erase}\"");
+            if (files != null) args.Add($"--files=\"{files}\"");
+            if (firmwarewrite) args.Add("--firmwarewrite");
+            if (fixgpt != null) args.Add($"--fixgpt=\"{fixgpt}\"");
+            if (flattenbuildto != null) args.Add($"--flattenbuildto=\"{flattenbuildto}\"");
+            if (flavor != null) args.Add($"--flavor=\"{flavor}\"");
+            if (forcecontentsxmlpaths) args.Add("--forcecontentsxmlpaths");
+            if (getstorageinfo != null) args.Add($"--getstorageinfo=\"{getstorageinfo}\"");
+            if (json_in != null) args.Add($"--json_in=\"{json_in}\"");
+            if (labels != null) args.Add($"--labels=\"{labels}\"");
+            if (loglevel != null) args.Add($"--loglevel=\"{loglevel}\"");
+            if (lun != null) args.Add($"--lun=\"{lun}\"");
+            if (mainoutputdir != null) args.Add($"--mainoutputdir=\"{mainoutputdir}\"");
+            if (maxpayloadsizeinbytes != null) args.Add($"--maxpayloadsizeinbytes=\"{maxpayloadsizeinbytes}\"");
+            if (memoryname != null) args.Add($"--memoryname=\"{memoryname}\"");
+            if (notfiles != null) args.Add($"--notfiles=\"{notfiles}\"");
+            if (notlabels != null) args.Add($"--notlabels=\"{notlabels}\"");
+            if (nop) args.Add("--nop");
+            if (noprompt) args.Add("--noprompt");
+            if (num_sectors != null) args.Add($"--num_sectors=\"{num_sectors}\"");
+            if (port != null) args.Add($"--port={port}");
+            if (start_sector != null) args.Add($"--start_sector=\"{start_sector}\"");
+            if (verbose) args.Add("--verbose");
+            if (verify_programming_getsha) args.Add("--verify_programming_getsha");
+            if (verify_programming) args.Add("--verify_programming");
+            if (zlpawarehost != null) args.Add($"--zlpawarehost=\"{zlpawarehost}\"");
+            if (noautoconfigure) args.Add("--noautoconfigure");
+            if (autoconfig) args.Add("--autoconfig");
+
+            ProcessStartInfo adbexe = new ProcessStartInfo(cmd, string.Join(" ", args))
             {
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-                StandardOutputEncoding = System.Text.Encoding.UTF8,
-                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process fh_loader = new Process();
             fh_loader.StartInfo = adbexe;

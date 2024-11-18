@@ -329,11 +329,12 @@
 								<TextBlock>Avalonia (Avalonia™ is a registered trademark of AvaloniaUI OÜ.)</TextBlock>
 								<TextBlock>File (cross compiled from Github repo https://github.com/file/file)</TextBlock>
 								<TextBlock>MagiskBoot of unix (from Github repo https://github.com/ookiineko/magiskboot_build)</TextBlock>
-								<TextBlock>MiSans (from )https://hyperos.mi.com/font</TextBlock>
+								<TextBlock>MiSans (from https://hyperos.mi.com/font)</TextBlock>
 								<TextBlock>MagiskBoot of win (from Github repo https://github.com/affggh/Magisk_patcher)</TextBlock>
 								<TextBlock>QCNTool (from Github repo https://github.com/MindowsToolBox/QCNTool)</TextBlock>
 								<TextBlock>QMSL_MSVC10R.dll (from QPST)</TextBlock>
 								<TextBlock>Suki UI (from Github repo https://github.com/kikipoulet/SukiUI)</TextBlock>
+								<TextBlock>HDC (from Gitee repo https://gitee.com/openharmony/developtools_hdc)</TextBlock>
 								<TextBlock TextWrapping="Wrap" Text="{Binding BinVersion}" />
 							</StackPanel>
 						</DockPanel>

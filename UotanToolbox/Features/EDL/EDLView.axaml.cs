@@ -80,8 +80,8 @@ public partial class EDLView : UserControl
 
     public static FilePickerFileType Firehose { get; } = new("Firehose File")
     {
-        Patterns = new[] { "*firehose*.elf", "*firehose*.mbn", "*firehose*.melf" },
-        AppleUniformTypeIdentifiers = new[] { "*firehose*.elf", "*firehose*.mbn", "*firehose*.melf" }
+        Patterns = new[] { "*.elf", "*.mbn", "*.melf", "*.bin" },
+        AppleUniformTypeIdentifiers = new[] { "*.elf", "*.mbn", "*.melf", "*.bin" }
     };
 
     public static FilePickerFileType RawProgramXML { get; } = new("XML Flie")

@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Rom;

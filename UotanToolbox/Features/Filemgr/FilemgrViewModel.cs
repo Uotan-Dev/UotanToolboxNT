@@ -1,17 +1,10 @@
 ﻿using Avalonia.Collections;
-using Avalonia.Controls.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using DynamicData;
 using Material.Icons;
-using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Appmgr;
 
 namespace UotanToolbox.Features.Filemgr;
 

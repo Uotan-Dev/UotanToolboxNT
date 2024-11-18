@@ -27,7 +27,7 @@ namespace HuaweiUpdateLibrary.Algorithms
         private readonly ushort _polynomial;
         private readonly ushort _xorValue;
         private readonly byte[] _initialSum;
-        
+
         private void InitializeTable()
         {
             for (ushort i = 0; i < _table.Length; ++i)
@@ -49,7 +49,7 @@ namespace HuaweiUpdateLibrary.Algorithms
                 _table[i] = value;
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -61,7 +61,7 @@ namespace HuaweiUpdateLibrary.Algorithms
             _initialSum = BitConverter.GetBytes(initialSum);
             _polynomial = polynomial;
             _xorValue = xorValue;
-            
+
             // Init table
             InitializeTable();
 
@@ -96,7 +96,7 @@ namespace HuaweiUpdateLibrary.Algorithms
 
             if (size != 0)
             {
-                for (var n = array[i] << 8;; n >>= 1)
+                for (var n = array[i] << 8; ; n >>= 1)
                 {
                     if (size == 0) break;
                     size -= 1;

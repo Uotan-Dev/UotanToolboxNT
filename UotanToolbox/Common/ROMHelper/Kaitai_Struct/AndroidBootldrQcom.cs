@@ -1,7 +1,7 @@
 // This is a generated file! Please edit source .ksy file and use kaitai-struct-compiler to rebuild
 
-using System.Collections.Generic;
 using Kaitai;
+using System.Collections.Generic;
 
 namespace UotanToolbox.Common.ROMHelper.Kaitai_Struct
 {

@@ -13,14 +13,14 @@
  *  
  */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using HuaweiUpdateLibrary.Streams;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 
 namespace HuaweiUpdateLibrary.Core
 {
@@ -51,8 +51,8 @@ namespace HuaweiUpdateLibrary.Core
             // Store filename
             _fileName = fileName;
 
-           // Load entries
-           LoadEntries(checksum, identify);
+            // Load entries
+            LoadEntries(checksum, identify);
         }
 
         private UpdateFile(string fileName)
@@ -215,18 +215,18 @@ namespace HuaweiUpdateLibrary.Core
         public void Add(UpdateEntry entry, Stream stream)
         {
             // Set size
-            entry.FileSize = (uint) stream.Length;
+            entry.FileSize = (uint)stream.Length;
 
             // Calculate checksum table size
-            var checksumTableSize = entry.FileSize/entry.BlockSize;
-            if ((entry.FileSize%entry.BlockSize) != 0)
+            var checksumTableSize = entry.FileSize / entry.BlockSize;
+            if ((entry.FileSize % entry.BlockSize) != 0)
                 checksumTableSize++;
 
             // Allocate checksum table
             entry.CheckSumTable = new ushort[checksumTableSize];
 
             // Set headersize
-            entry.HeaderSize = (uint) (FileHeader.Size + (checksumTableSize*Utilities.UshortSize));
+            entry.HeaderSize = (uint)(FileHeader.Size + (checksumTableSize * Utilities.UshortSize));
 
             // Compute header checksum
             entry.ComputeHeaderChecksum();
@@ -240,7 +240,7 @@ namespace HuaweiUpdateLibrary.Core
                 output.Write(header, 0, header.Length);
 
                 // Skip checksum table
-                output.Seek(checksumTableSize*Utilities.UshortSize, SeekOrigin.Current);
+                output.Seek(checksumTableSize * Utilities.UshortSize, SeekOrigin.Current);
 
                 // Set offset
                 entry.DataOffset = output.Position;
@@ -264,7 +264,7 @@ namespace HuaweiUpdateLibrary.Core
                 }
 
                 // Jump back 
-                output.Seek(-(stream.Length + (checksumTableSize*Utilities.UshortSize)), SeekOrigin.Current);
+                output.Seek(-(stream.Length + (checksumTableSize * Utilities.UshortSize)), SeekOrigin.Current);
 
                 // Write checksum table
                 var writer = new BinaryWriter(output);
@@ -381,7 +381,7 @@ namespace HuaweiUpdateLibrary.Core
             using (var reader = new StreamReader(keyfile))
             {
                 var pemReader = new PemReader(reader);
-                var key = (AsymmetricCipherKeyPair) pemReader.ReadObject();
+                var key = (AsymmetricCipherKeyPair)pemReader.ReadObject();
                 signer.Init(true, key.Private);
             }
 
@@ -401,7 +401,7 @@ namespace HuaweiUpdateLibrary.Core
             // Save offsets
             var readOffset = from;
             var writeOffset = to;
-            
+
             // Calculate distance
             var distance = (from + length) - readOffset;
 
@@ -458,7 +458,7 @@ namespace HuaweiUpdateLibrary.Core
 
             // Add remainder
             size += remainder;
-            
+
             // Start offset to write to
             var writeOffset = entry.DataOffset - entry.HeaderSize;
 
@@ -470,7 +470,7 @@ namespace HuaweiUpdateLibrary.Core
             {
                 // Move data
                 MoveData(stream, readOffset, writeOffset, stream.Length - writeOffset - size, blockSize);
-                
+
                 // Set new size
                 stream.SetLength(stream.Length - size);
             }

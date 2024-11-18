@@ -1,16 +1,14 @@
-﻿using Org.BouncyCastle.Crypto.Engines;
+﻿using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Parameters;
-using Org.BouncyCastle.Crypto;
-using System.Security.Cryptography;
-using System.Text;
-using System.Xml.Linq;
-using System.IO.Compression;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System;
-using SharpCompress.Common;
+using System.Security.Cryptography;
+using System.Text;
+using System.Xml.Linq;
 
 namespace UotanToolbox.Common.ROMHelper
 {
@@ -374,126 +372,128 @@ namespace UotanToolbox.Common.ROMHelper
             }
 
             return (wfilename, start, length, rlength, new string[] { sha256sum, md5sum }, decryptSize);
-        } } }
-        /*
-        public static void Extract(string[] args)
-        {
-            if (args.Length < 2)
-            {
-                Console.WriteLine("Oppo MTK QC decrypt Logic 1.1 (c) B.Kerler 2020-2022\n");
-                Environment.Exit(1);
-            }
-
-            string filename = args[0];
-            string outdir = args[1];
-            if (!Directory.Exists(outdir))
-            {
-                Directory.CreateDirectory(outdir);
-            }
-
-            bool pk = false;
-            using (FileStream rf = new FileStream(filename, FileMode.Open, FileAccess.Read))
-            {
-                byte[] buffer = new byte[2];
-                rf.Read(buffer, 0, 2);
-                if (buffer[0] == 'P' && buffer[1] == 'K')
-                {
-                    pk = true;
-                }
-            }
-
-            if (pk)
-            {
-                string zippw = "flash@realme$50E7F7D847732396F1582CD62DD385ED7ABB0897";
-                Console.WriteLine("Zip file detected, trying to decrypt files");
-
-                using (var archive = ZipArchive.Open(filename, new ReaderOptions { Password = zippw }))
-                {
-                    foreach (var entry in archive.Entries)
-                    {
-                        if (!entry.IsDirectory)
-                        {
-                            Console.WriteLine($"Extracting {entry.Key} to {outdir}");
-                            entry.WriteToDirectory(outdir, new ExtractionOptions
-                            {
-                                ExtractFullPath = true,
-                                Overwrite = true
-                            });
-                        }
-                    }
-                }
-
-                Console.WriteLine($"Files extracted to {outdir}");
-                Environment.Exit(0);
-            }
-            var (pageSize, key, iv, data) = GenerateKey2(filename);
-            if (pageSize == 0)
-            {
-                Console.WriteLine("Unknown key. Aborting");
-                Environment.Exit(0);
-            }
-            else
-            {
-                string xml = Encoding.UTF8.GetString(data, 0, data.ToList().LastIndexOf((byte)'>') + 1);
-                string path = Path.Combine(Path.GetDirectoryName(filename), outdir);
-
-                if (Directory.Exists(path))
-                {
-                    Directory.Delete(path, true);
-                    Directory.CreateDirectory(path);
-                }
-                else
-                {
-                    Directory.CreateDirectory(path);
-                }
-
-                Console.WriteLine("Saving ProFile.xml");
-                File.WriteAllText(Path.Combine(path, "ProFile.xml"), xml);
-
-                XElement root = XElement.Parse(xml);
-                foreach (XElement child in root.Elements())
-                {
-                    foreach (XElement item in child.Elements())
-                    {
-                        if (item.Attribute("Path") == null && item.Attribute("filename") == null)
-                        {
-                            foreach (XElement subitem in item.Elements())
-                            {
-                                var (wfilenamei, starti, lengthi, rlengthi, checksumsi, decryptSizei) = DecryptItem(subitem, pageSize);
-                                if (wfilenamei == "" || starti == -1)
-                                {
-                                    continue;
-                                }
-                                DecryptFile(key, iv, filename, path, wfilenamei, starti, lengthi, rlengthi, checksumsi, decryptSizei);
-                            }
-                        }
-                        var (wfilename, start, length, rlength, checksums, decryptSize) = DecryptItem(item, pageSize);
-                        if (wfilename == "" || start == -1)
-                        {
-                            continue;
-                        }
-                        if (child.Name.LocalName == "Sahara")
-                        {
-                            decryptSize = (int)rlength;
-                        }
-                        if (new[] { "Config", "Provision", "ChainedTableOfDigests", "DigestsToSign", "Firmware" }.Contains(child.Name.LocalName))
-                        {
-                            length = rlength;
-                        }
-                        if (new[] { "DigestsToSign", "ChainedTableOfDigests", "Firmware" }.Contains(child.Name.LocalName))
-                        {
-                            Copy(filename, wfilename, path, start, length, checksums);
-                        }
-                        else
-                        {
-                            DecryptFile(key, iv, filename, path, wfilename, start, length, rlength, checksums, decryptSize);
-                        }
-                    }
-                }
-                Console.WriteLine($"\nDone. Extracted files to {path}");
-                Environment.Exit(0);
-            }
         }
     }
 }
-        */
+/*
+public static void Extract(string[] args)
+{
+    if (args.Length < 2)
+    {
+        Console.WriteLine("Oppo MTK QC decrypt Logic 1.1 (c) B.Kerler 2020-2022\n");
+        Environment.Exit(1);
+    }
+
+    string filename = args[0];
+    string outdir = args[1];
+    if (!Directory.Exists(outdir))
+    {
+        Directory.CreateDirectory(outdir);
+    }
+
+    bool pk = false;
+    using (FileStream rf = new FileStream(filename, FileMode.Open, FileAccess.Read))
+    {
+        byte[] buffer = new byte[2];
+        rf.Read(buffer, 0, 2);
+        if (buffer[0] == 'P' && buffer[1] == 'K')
+        {
+            pk = true;
+        }
+    }
+
+    if (pk)
+    {
+        string zippw = "flash@realme$50E7F7D847732396F1582CD62DD385ED7ABB0897";
+        Console.WriteLine("Zip file detected, trying to decrypt files");
+
+        using (var archive = ZipArchive.Open(filename, new ReaderOptions { Password = zippw }))
+        {
+            foreach (var entry in archive.Entries)
+            {
+                if (!entry.IsDirectory)
+                {
+                    Console.WriteLine($"Extracting {entry.Key} to {outdir}");
+                    entry.WriteToDirectory(outdir, new ExtractionOptions
+                    {
+                        ExtractFullPath = true,
+                        Overwrite = true
+                    });
+                }
+            }
+        }
+
+        Console.WriteLine($"Files extracted to {outdir}");
+        Environment.Exit(0);
+    }
+    var (pageSize, key, iv, data) = GenerateKey2(filename);
+    if (pageSize == 0)
+    {
+        Console.WriteLine("Unknown key. Aborting");
+        Environment.Exit(0);
+    }
+    else
+    {
+        string xml = Encoding.UTF8.GetString(data, 0, data.ToList().LastIndexOf((byte)'>') + 1);
+        string path = Path.Combine(Path.GetDirectoryName(filename), outdir);
+
+        if (Directory.Exists(path))
+        {
+            Directory.Delete(path, true);
+            Directory.CreateDirectory(path);
+        }
+        else
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        Console.WriteLine("Saving ProFile.xml");
+        File.WriteAllText(Path.Combine(path, "ProFile.xml"), xml);
+
+        XElement root = XElement.Parse(xml);
+        foreach (XElement child in root.Elements())
+        {
+            foreach (XElement item in child.Elements())
+            {
+                if (item.Attribute("Path") == null && item.Attribute("filename") == null)
+                {
+                    foreach (XElement subitem in item.Elements())
+                    {
+                        var (wfilenamei, starti, lengthi, rlengthi, checksumsi, decryptSizei) = DecryptItem(subitem, pageSize);
+                        if (wfilenamei == "" || starti == -1)
+                        {
+                            continue;
+                        }
+                        DecryptFile(key, iv, filename, path, wfilenamei, starti, lengthi, rlengthi, checksumsi, decryptSizei);
+                    }
+                }
+                var (wfilename, start, length, rlength, checksums, decryptSize) = DecryptItem(item, pageSize);
+                if (wfilename == "" || start == -1)
+                {
+                    continue;
+                }
+                if (child.Name.LocalName == "Sahara")
+                {
+                    decryptSize = (int)rlength;
+                }
+                if (new[] { "Config", "Provision", "ChainedTableOfDigests", "DigestsToSign", "Firmware" }.Contains(child.Name.LocalName))
+                {
+                    length = rlength;
+                }
+                if (new[] { "DigestsToSign", "ChainedTableOfDigests", "Firmware" }.Contains(child.Name.LocalName))
+                {
+                    Copy(filename, wfilename, path, start, length, checksums);
+                }
+                else
+                {
+                    DecryptFile(key, iv, filename, path, wfilename, start, length, rlength, checksums, decryptSize);
+                }
+            }
+        }
+        Console.WriteLine($"\nDone. Extracted files to {path}");
+        Environment.Exit(0);
+    }
+}
+}
+}
+*/

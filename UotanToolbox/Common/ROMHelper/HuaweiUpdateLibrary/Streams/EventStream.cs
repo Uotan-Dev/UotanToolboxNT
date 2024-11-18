@@ -42,7 +42,7 @@ namespace HuaweiUpdateLibrary.Streams
             /// <summary>
             /// Read buffer
             /// </summary>
-            public byte []Buffer;
+            public byte[] Buffer;
         }
 
         /// <summary>

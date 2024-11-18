@@ -26,7 +26,7 @@ namespace HuaweiUpdateLibrary.Streams
         private readonly Stream _baseStream;
         private readonly long _basePosition;
         private readonly long _size;
-        
+
         /// <summary>
         /// Wrapper around <see cref="Stream"/> to work with a part of a stream
         /// </summary>
@@ -37,7 +37,7 @@ namespace HuaweiUpdateLibrary.Streams
         {
             _baseStream = baseStream;
             _basePosition = baseStream.Position;
-            
+
             if (_basePosition + _size > _baseStream.Length)
                 throw new ArgumentOutOfRangeException("size", _basePosition + _size, "Invalid size");
             _size = size;
@@ -109,7 +109,7 @@ namespace HuaweiUpdateLibrary.Streams
             if (currentPosition + count > _size)
             {
                 var rc = _size - currentPosition;
-                count = (rc > int.MaxValue) ? int.MaxValue : (int) rc;
+                count = (rc > int.MaxValue) ? int.MaxValue : (int)rc;
             }
 
             return _baseStream.Read(buffer, offset, count);

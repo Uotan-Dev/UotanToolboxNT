@@ -44,7 +44,6 @@
 		<PackageReference Include="SkiaSharp" Version="2.88.9" />
 		<PackageReference Include="SukiUI" Version="6.0.0-rc" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
-		<PackageReference Include="Zeroconf" Version="3.6.11" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -23,6 +23,7 @@
 						  Width="620"
 						  Height="565"
 						  FontSize="15"
+						  IsReadOnly="True"
 						  AutoGenerateColumns="True"
 						  CanUserResizeColumns="True">
 				</DataGrid>

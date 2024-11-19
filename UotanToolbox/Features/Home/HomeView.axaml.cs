@@ -92,7 +92,7 @@ public partial class HomeView : UserControl
             }
             else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
-                string drvpath = String.Format($"{Global.runpath}/Drive/adb/*.inf");
+                string drvpath = String.Format($"\"{Path.Combine(Global.runpath, "Drive", "adb", "*.inf")}\"");
                 string shell = String.Format("/add-driver {0} /subdirs /install", drvpath);
                 string drvlog = await CallExternalProgram.Pnputil(shell);
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);
@@ -122,7 +122,7 @@ public partial class HomeView : UserControl
             }
             else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
             {
-                string drvpath = String.Format($"{Global.runpath}/drive/9008/*.inf");
+                string drvpath = String.Format($"\"{Path.Combine(Global.runpath, "Drive", "9008", "*.inf")}\"");
                 string shell = String.Format("/add-driver {0} /subdirs /install", drvpath);
                 string drvlog = await CallExternalProgram.Pnputil(shell);
                 FileHelper.Write($"{Global.log_path}/drive.txt", drvlog);

@@ -9,6 +9,7 @@ using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -293,7 +294,7 @@ public partial class HomeViewModel : MainPageBase
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                 if (output.Contains("unknown command"))
                 {
-                    _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
+                    _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc \"{Path.Combine(Global.runpath, "Image", "misc.img")}\"");
                     _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
                 }
                 else

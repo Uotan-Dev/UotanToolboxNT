@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.IO;
 using System.Resources;
 using System.Threading.Tasks;
 
@@ -18,15 +19,15 @@ namespace UotanToolbox.Common
 
         public static async void PushMakefs(string device)
         {
-            _ = await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/mkfs.f2fs /tmp/");
+            _ = await CallExternalProgram.ADB($"-s {device} push \"{Path.Combine(Global.runpath, "Push", "mkfs.f2fs")}\" /tmp/");
             _ = await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/mkfs.f2fs");
-            _ = await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/mkntfs /tmp/");
+            _ = await CallExternalProgram.ADB($"-s {device} push \"{Path.Combine(Global.runpath, "Push", "mkntfs")}\" /tmp/");
             _ = await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/mkntfs");
         }
 
         public static async Task GetPartTable(string device)
         {
-            _ = await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/parted /tmp/");
+            _ = await CallExternalProgram.ADB($"-s {device} push \"{Path.Combine(Global.runpath, "Push", "parted")}\" /tmp/");
             _ = await CallExternalProgram.ADB($"-s {device} shell chmod +x /tmp/parted");
             Global.sdatable = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/sda print");
             Global.sdbtable = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/sdb print");
@@ -39,7 +40,7 @@ namespace UotanToolbox.Common
 
         public static async Task GetPartTableSystem(string device)
         {
-            _ = await CallExternalProgram.ADB($"-s {device} push {Global.runpath}/Push/parted /data/local/tmp/");
+            _ = await CallExternalProgram.ADB($"-s {device} push \"{Path.Combine(Global.runpath, "Push", "parted")}\" /data/local/tmp/");
             _ = await CallExternalProgram.ADB($"-s {device} shell su -c \"chmod +x /data/local/tmp/parted\"");
             Global.sdatable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sda print\"");
             Global.sdbtable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sdb print\"");

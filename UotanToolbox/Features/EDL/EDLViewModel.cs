@@ -21,7 +21,7 @@ namespace UotanToolbox.Features.EDL;
 public partial class EDLViewModel : MainPageBase
 {
     [ObservableProperty]
-    private string firehoseFile, currentDevice = "当前连接：COM6", memoryTepy = "存储类型：UFS", xMLFile, partNamr, eDLLog;
+    private string firehoseFile, currentDevice = "当前连接：COM6", memoryType = "存储类型：UFS", xMLFile, partNamr, eDLLog;
     [ObservableProperty]
     private bool auto = true, uFS = false, eMMC = false;
     [ObservableProperty]

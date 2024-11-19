@@ -60,14 +60,14 @@
 					<StackPanel Margin="5 10 0 0" Spacing="10">
 						<TextBlock Text="{Binding CurrentDevice}" />
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding MemoryTepy}"/>
+							<TextBlock Text="{Binding MemoryType}"/>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="0">
-							<RadioButton Content="自动" IsChecked="{Binding Auto}"/>
-							<RadioButton Margin="15 0 0 0" Content="EMMC" IsChecked="{Binding EMMC}"/>
+							<RadioButton Content="自动" IsChecked="{Binding Auto}" GroupName="Type"/>
+							<RadioButton Margin="15 0 0 0" Content="EMMC" IsChecked="{Binding EMMC}" GroupName="Type"/>
 						</StackPanel>
 						<StackPanel Margin="0 -5 0 0" Orientation="Horizontal" Spacing="0">
-							<RadioButton Content="UFS" IsCancel="{Binding UFS}"/>
+							<RadioButton Content="UFS" IsCancel="{Binding UFS}" GroupName="Type"/>
 							<ComboBox Width="88" Margin="15 0 0 0" SelectedIndex="{Binding SelectUFSLun}" ItemsSource="678" ToolTip.Tip="UFS的lun数"/>
 						</StackPanel>
 					</StackPanel>

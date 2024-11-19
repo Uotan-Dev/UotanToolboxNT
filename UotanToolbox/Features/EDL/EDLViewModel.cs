@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -27,13 +28,19 @@ public partial class EDLViewModel : MainPageBase
     [ObservableProperty]
     private AvaloniaList<string> builtInFile = ["common", "mi_auth", "mi_noauth_625", "mi_noauth_778g"], uFSLun = ["6", "7", "8"], bandList = ["commonl", "mi", "oppo", "oneplus", "meizu", "zte", "lg"];
     [ObservableProperty]
-    private PartModel partModel;
+    private AvaloniaList<EDLPartModel> eDLPartModel = [];
 
     private const int LogLevel = 0;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
     }
+
+    public EDLViewModel() : base("9008刷机", MaterialIconKind.CableData, -350)
+    {
+        eDLPartModel.AddRange(Enumerable.Range(1, 50).Select(x => new EDLPartModel()));
+    }
+
     private async Task qsahara(string port = null,int? verbose = null,string command = null,bool memdump = false,bool image = false,string sahara = null,string prefix = null,string where = null,string ramdumpimage = null,bool efssyncloop = false,int? rxtimeout = null,int? maxwrite = null,string addsearchpath = null,bool sendclearstate = false,int? portnumber = null,bool switchimagetx = false,bool nomodereset = false,string cmdrespfilepath = null,bool uart = false,bool ethernet = false,int? ethernet_port = null,bool noreset = false,bool resettxfail = false)
     {
         await Task.Run(() =>
@@ -99,9 +106,6 @@ public partial class EDLViewModel : MainPageBase
                 //EDLLog.CaretIndex = CustomizedflashLog.Text.Length;
             });
         }
-    }
-    public EDLViewModel() : base("9008刷机", MaterialIconKind.CableData, -350)
-    {
     }
 
     [RelayCommand]
@@ -181,4 +185,31 @@ public partial class EDLViewModel : MainPageBase
     {
 
     }
+}
+
+public partial class EDLPartModel : ObservableObject
+{
+    [ObservableProperty]
+    private bool selectPart;
+
+    [ObservableProperty]
+    private string lun;
+
+    [ObservableProperty]
+    private string name;
+
+    [ObservableProperty]
+    private string fileName;
+
+    [ObservableProperty]
+    private string isSparse;
+
+    [ObservableProperty]
+    private string offset;
+
+    [ObservableProperty]
+    private string start;
+
+    [ObservableProperty]
+    private string sector;
 }

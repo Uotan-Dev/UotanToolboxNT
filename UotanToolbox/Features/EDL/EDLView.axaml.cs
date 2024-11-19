@@ -148,6 +148,22 @@ public partial class EDLView : UserControl
         }
     }
 
+    private async void OpenImageFile(object sender, RoutedEventArgs args)
+    {
+        Button button = (Button)sender;
+        EDLPartModel eDLPartModel = ( EDLPartModel )button.DataContext;
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Open Image File",
+            AllowMultiple = false
+        });
+        if (files.Count >= 1)
+        {
+            eDLPartModel.FileName = Path.GetFileName(StringHelper.FilePath(files[0].Path.ToString()));
+        }
+    }
+
     private async void BatchWrite(object sender, RoutedEventArgs args)
     {
         string com = Global.thisdevice;

@@ -79,15 +79,42 @@
 			<suki:BusyArea>
 				<StackPanel>
 				<StackPanel>
-					<DataGrid ItemsSource="{Binding PartModel}"
+					<DataGrid ItemsSource="{Binding EDLPartModel}"
 							  Width="680"
-							  Height="455"
+							  Height="450"
 							  FontSize="15"
-							  AutoGenerateColumns="True"
+							  IsReadOnly="True"
 							  CanUserResizeColumns="True">
+						<DataGrid.Columns>
+							<DataGridCheckBoxColumn Binding="{Binding SelectPart}" Header="选择"/>
+							<DataGridTextColumn Binding="{Binding Lun}" Header="LUN"/>
+							<DataGridTextColumn Binding="{Binding Name}" Header="标签名"/>
+							<DataGridTemplateColumn Header="文件名">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<Button Name="ImageName"
+												Theme="{StaticResource ToolboxButtonFile}"
+												Content="{Binding FileName}"
+												Click="OpenImageFile"/>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTextColumn Binding="{Binding IsSparse}" Header="Sparse"/>
+							<DataGridTextColumn Binding="{Binding Offset}" Header="偏移量"/>
+							<DataGridTextColumn Binding="{Binding Start}" Header="起始扇区"/>
+							<DataGridTextColumn Binding="{Binding Sector}" Header="扇区数"/>
+						</DataGrid.Columns>
 					</DataGrid>
 				</StackPanel>
-				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="25">
+				<StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+					<Button Width="120"
+							HorizontalAlignment="Left"
+							Command="{Binding ReadPartTable}"
+							Padding="8">
+						<TextBlock>
+							<TextBlock Text="全选/取消全选" />
+						</TextBlock>
+					</Button>
 					<Button Width="120"
 							HorizontalAlignment="Left"
 							Command="{Binding ReadPartTable}"

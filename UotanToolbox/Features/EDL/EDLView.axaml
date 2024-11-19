@@ -94,7 +94,8 @@
 										<Button Name="ImageName"
 												Theme="{StaticResource ToolboxButtonFile}"
 												Content="{Binding FileName}"
-												Click="OpenImageFile"/>
+												Click="OpenImageFile"
+												ToolTip.Tip="点击更换镜像"/>
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>

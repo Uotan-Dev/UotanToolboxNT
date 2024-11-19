@@ -21,7 +21,7 @@ namespace UotanToolbox.Features.EDL;
 public partial class EDLViewModel : MainPageBase
 {
     [ObservableProperty]
-    private string firehoseFile, currentDevice = $"当前连接：{Global.thisdevice}", memoryTepy = "存储类型：UFS", xMLFile, partNamr, eDLLog;
+    private string firehoseFile, currentDevice = $"当前连接：{Global.thisdevice}", memoryType = "存储类型：UFS", xMLFile, partNamr, eDLLog;
     [ObservableProperty]
     private bool auto = true, uFS = false, eMMC = false;
     [ObservableProperty]
@@ -215,7 +215,7 @@ public partial class EDLPartModel : ObservableObject
     private string name;
 
     [ObservableProperty]
-    private string fileName;
+    private string fileName = "点击选择镜像";
 
     [ObservableProperty]
     private string isSparse;

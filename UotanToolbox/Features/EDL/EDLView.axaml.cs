@@ -1,7 +1,9 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using SukiUI.Dialogs;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -96,6 +98,19 @@ public partial class EDLView : UserControl
         AppleUniformTypeIdentifiers = new[] { "patch*.xml" }
     };
 
+    private async void OpenImageFolder(object sender, RoutedEventArgs args)
+    {
+        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+        {
+            Title = "Select Image Folder",
+            AllowMultiple = false
+        });
+        if (files.Count >= 1)
+        {
+            ImageFolder.Text = StringHelper.FilePath(files[0].Path.ToString());
+        }
+    }
 
     private async void OpenFirehoseFile(object sender, RoutedEventArgs args)
     {

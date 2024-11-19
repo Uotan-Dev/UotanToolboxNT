@@ -303,7 +303,7 @@ public partial class BasicflashView : UserControl
                                                         output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                                                         if (output.Contains("unknown command"))
                                                         {
-                                                            await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
+                                                            await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc \"{Path.Combine(Global.runpath, "Image", "misc.img")}\"");
                                                             await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
                                                         }
                                                     }, true)
@@ -692,7 +692,7 @@ public partial class BasicflashView : UserControl
                 {
                     if (sukiViewModel.Status == "Recovery")
                     {
-                        _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push {MagiskFile.Text} /tmp/magisk.apk");
+                        _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /tmp/magisk.apk");
                         _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/magisk.apk");
                     }
                     else
@@ -807,7 +807,7 @@ public partial class BasicflashView : UserControl
             {
                 if (sukiViewModel.Status == "Recovery")
                 {
-                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/DisableAutoRecovery.zip /tmp/");
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{Path.Combine(Global.runpath, "ZIP", "DisableAutoRecovery.zip")}\" /tmp/");
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/DisableAutoRecovery.zip");
                 }
                 else
@@ -877,7 +877,7 @@ public partial class BasicflashView : UserControl
             {
                 if (sukiViewModel.Status == "Recovery")
                 {
-                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/ZIP/copy-partitions.zip /tmp/");
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{Path.Combine(Global.runpath, "ZIP", "copy-partitions.zip")}\" /tmp/");
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/copy-partitions.zip");
                 }
                 else

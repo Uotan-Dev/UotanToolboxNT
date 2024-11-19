@@ -308,7 +308,7 @@ public partial class FormatExtractView : UserControl
                                         {
                                             BusyQCN.IsBusy = true;
                                             QCN.IsEnabled = false;
-                                            await CallExternalProgram.ADB($"-s {Global.thisdevice} push APK/mi_diag.apk /sdcard");
+                                            await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{Path.Combine(Global.runpath, "APK", "mi_diag.apk")}\" /sdcard");
                                             await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -a miui.intent.action.OPEN\"");
                                             Global.MainDialogManager.CreateDialog()
                                                                     .WithTitle(GetTranslation("Common_Error"))

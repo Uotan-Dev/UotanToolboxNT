@@ -630,7 +630,7 @@ public partial class CustomizedflashView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 CustomizedflashLog.Text = "";
-                string shell = string.Format($"-s {Global.thisdevice} --disable-verity --disable-verification flash vbmeta {Global.runpath}/Image/vbmeta.img");
+                string shell = string.Format($"-s {Global.thisdevice} --disable-verity --disable-verification flash vbmeta \"{Path.Combine(Global.runpath, "Image", "vbmeta.img")}\"");
                 await Fastboot(shell);
             }
             else

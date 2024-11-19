@@ -10,6 +10,7 @@ using SukiUI.Models;
 using SukiUI.Toasts;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -163,7 +164,7 @@ public partial class MainViewModel : ObservableObject
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                 if (output.Contains("unknown command"))
                 {
-                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc {Global.runpath}/Image/misc.img");
+                    await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash misc \"{Path.Combine(Global.runpath, "Image", "misc.img")}\"");
                     await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot");
                 }
                 else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))

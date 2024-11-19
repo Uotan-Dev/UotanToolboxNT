@@ -215,7 +215,7 @@
 							VerticalAlignment="Top">
 				<Grid>
 					<TextBox Name="EDLLog" Text="{Binding EDLLog}" Watermark="{x:Static assets:Resources.FormatExtract_Log}" Margin="0" Height="240" AcceptsReturn="True"
-							 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
+							 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" CaretIndex="{Binding LogIndex}" />
 				</Grid>
 			</suki:GlassCard>
 		</WrapPanel>

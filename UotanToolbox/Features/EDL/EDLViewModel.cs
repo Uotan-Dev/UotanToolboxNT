@@ -24,12 +24,14 @@ public partial class EDLViewModel : MainPageBase
     [ObservableProperty]
     private bool auto = true, uFS = false, eMMC = false;
     [ObservableProperty]
-    private int selectFlie = 0, selectUFSLun = 0, selectBand = 1;
+    private int selectFlie = 0, selectUFSLun = 0, selectBand = 1, logIndex = 0;
     [ObservableProperty]
     private AvaloniaList<string> builtInFile = ["common", "mi_auth", "mi_noauth_625", "mi_noauth_778g"], uFSLun = ["6", "7", "8"], bandList = ["commonl", "mi", "oppo", "oneplus", "meizu", "zte", "lg"];
     [ObservableProperty]
     private AvaloniaList<EDLPartModel> eDLPartModel = [];
 
+    private string output = "";
+    private readonly string edl_log_path = Path.Combine(Global.log_path, "edl.txt");
     private const int LogLevel = 0;
     private static string GetTranslation(string key)
     {
@@ -103,9 +105,9 @@ public partial class EDLViewModel : MainPageBase
             {
                 StringBuilder sb = new StringBuilder(EDLLog);
                 EDLLog = sb.AppendLine(outLine.Data).ToString();
-                //EDLLog.CaretIndex = CustomizedflashLog.Text.Length;
-                StringBuilder op = new StringBuilder(EDLLog);
-                EDLLog = op.AppendLine(outLine.Data).ToString();
+                LogIndex = EDLLog.Length;
+                StringBuilder op = new StringBuilder(output);
+                output = op.AppendLine(outLine.Data).ToString();
             });
         }
     }
@@ -121,7 +123,8 @@ public partial class EDLViewModel : MainPageBase
 
             }
             await qsahara(port: "\\\\.\\" + CurrentDevice.Replace("当前连接：", ""), sahara: "13:" + FirehoseFile);
-            if (EDLLog.Contains("All is well ** SUCCESS!!"))
+            FileHelper.Write(edl_log_path, output);
+            if (output.Contains("All is well ** SUCCESS!!"))
             {
                 Global.MainDialogManager.CreateDialog()
                             .WithTitle(GetTranslation("Common_Success"))
@@ -130,7 +133,7 @@ public partial class EDLViewModel : MainPageBase
                             .Dismiss().ByClickingBackground()
                             .TryShow();
             }
-            else if (EDLLog.Contains("Could not connect to"))
+            else if (output.Contains("Could not connect to"))
             {
                 Global.MainDialogManager.CreateDialog()
                             .WithTitle(GetTranslation("Common_Error"))

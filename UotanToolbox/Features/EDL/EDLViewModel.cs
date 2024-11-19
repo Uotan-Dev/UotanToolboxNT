@@ -109,7 +109,7 @@ public partial class EDLViewModel : MainPageBase
     {
         try
         {
-if (String.IsNullOrEmpty(FirehoseFile))
+            if (String.IsNullOrEmpty(FirehoseFile))
             {
                 throw new Exception("未选择Firehose文件");
 

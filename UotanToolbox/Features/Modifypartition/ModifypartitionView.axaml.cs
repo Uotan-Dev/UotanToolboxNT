@@ -4,6 +4,7 @@ using Avalonia.Interactivity;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using System;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -104,7 +105,7 @@ public partial class ModifypartitionView : UserControl
                 PartList.ItemsSource = null;
                 if (Global.sdatable == "" && sukiViewModel.Status == "Recovery")
                 {
-                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp unmount data");
+                    await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp unmount data");
                 }
                 if (sukiViewModel.Status == GetTranslation("Home_Android"))
                 {
@@ -116,6 +117,8 @@ public partial class ModifypartitionView : UserControl
                         {
                             await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
                             AddPartList();
+                            BusyPart.IsBusy = false;
+                            ReadPartBut.IsEnabled = true;
                         }, true)
                         .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ =>
                         {
@@ -129,9 +132,9 @@ public partial class ModifypartitionView : UserControl
                 {
                     await FeaturesHelper.GetPartTable(Global.thisdevice);
                     AddPartList();
+                    BusyPart.IsBusy = false;
+                    ReadPartBut.IsEnabled = true;
                 }
-                BusyPart.IsBusy = false;
-                ReadPartBut.IsEnabled = true;
             }
             else
             {
@@ -452,7 +455,7 @@ public partial class ModifypartitionView : UserControl
                                                 .OfType(NotificationType.Warning)
                                                 .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                                 {
-                                                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push {Global.runpath}/Push/sgdisk /tmp/");
+                                                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{Path.Combine(Global.runpath, "Push", "sgdisk")}\" /tmp/");
                                                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell chmod +x /tmp/sgdisk");
                                                     string shell = string.Format($"-s {Global.thisdevice} shell /tmp/sgdisk --resize-table=128 /dev/block/{choice}");
                                                     string limit = await CallExternalProgram.ADB(shell);

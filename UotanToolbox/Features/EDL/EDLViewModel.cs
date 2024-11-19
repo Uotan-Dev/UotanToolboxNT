@@ -20,7 +20,7 @@ namespace UotanToolbox.Features.EDL;
 public partial class EDLViewModel : MainPageBase
 {
     [ObservableProperty]
-    private string firehoseFile, currentDevice = "当前连接：COM5", memoryTepy = "存储类型：UFS", xMLFile, partNamr, eDLLog;
+    private string firehoseFile, currentDevice = "当前连接：COM6", memoryTepy = "存储类型：UFS", xMLFile, partNamr, eDLLog;
     [ObservableProperty]
     private bool auto = true, uFS = false, eMMC = false;
     [ObservableProperty]
@@ -43,9 +43,9 @@ public partial class EDLViewModel : MainPageBase
 
     private async Task qsahara(string port = null,int? verbose = null,string command = null,bool memdump = false,bool image = false,string sahara = null,string prefix = null,string where = null,string ramdumpimage = null,bool efssyncloop = false,int? rxtimeout = null,int? maxwrite = null,string addsearchpath = null,bool sendclearstate = false,int? portnumber = null,bool switchimagetx = false,bool nomodereset = false,string cmdrespfilepath = null,bool uart = false,bool ethernet = false,int? ethernet_port = null,bool noreset = false,bool resettxfail = false)
     {
-        await Task.Run(() =>
+        await Task.Run( () =>
         {
-            List<string> args = [];if (port != null) args.Add($"--port {port}");if (verbose.HasValue) args.Add($"--verbose {verbose}");if (command != null) args.Add($"--command \"{command}\"");if (memdump) args.Add("--memdump");if (image) args.Add("--image  ");if (sahara != null) args.Add($"--sahara \"{sahara}\"");if (prefix != null) args.Add($"--prefix \"{prefix}\"");if (where != null) args.Add($"--where \"{where}\"");if (ramdumpimage != null) args.Add($"--ramdumpimage \"{ramdumpimage}\"");if (efssyncloop) args.Add("--efssyncloop");if (rxtimeout.HasValue) args.Add($"--rxtimeout \"{rxtimeout}\"");if (maxwrite.HasValue) args.Add($"--maxwrite \"{maxwrite}\"");if (addsearchpath != null) args.Add($"--addsearchpath \"{addsearchpath}\"");if (sendclearstate) args.Add("--sendclearstate");if (portnumber.HasValue) args.Add($"--portnumber \"{portnumber}\"");if (switchimagetx) args.Add("--switchimagetx");if (nomodereset) args.Add("--nomodereset");if (cmdrespfilepath != null) args.Add($"--cmdrespfilepath \"{cmdrespfilepath}\"");if (uart) args.Add("--UART");if (ethernet) args.Add("--ethernet");if (ethernet_port.HasValue) args.Add($"--ethernet_port \"{ethernet_port}\"");if (noreset) args.Add("--noreset");if (resettxfail) args.Add("--resettxfail");
+            List<string> args = [];if (port != null) args.Add($"-p {port}");if (verbose.HasValue) args.Add($"-v {verbose}");if (command != null) args.Add($"-c \"{command}\"");if (memdump) args.Add("-m");if (image) args.Add("-i  ");if (sahara != null) args.Add($"-s \"{sahara}\"");if (prefix != null) args.Add($"-p \"{prefix}\"");if (where != null) args.Add($"-w \"{where}\"");if (ramdumpimage != null) args.Add($"-r \"{ramdumpimage}\"");if (efssyncloop) args.Add("-l");if (rxtimeout.HasValue) args.Add($"-t \"{rxtimeout}\"");if (maxwrite.HasValue) args.Add($"-j \"{maxwrite}\"");if (addsearchpath != null) args.Add($"-b \"{addsearchpath}\"");if (sendclearstate) args.Add("-k");if (portnumber.HasValue) args.Add($"-u \"{portnumber}\"");if (switchimagetx) args.Add("-x");if (nomodereset) args.Add("-o");if (cmdrespfilepath != null) args.Add($"-a \"{cmdrespfilepath}\"");if (uart) args.Add("-U");if (ethernet) args.Add("-e");if (ethernet_port.HasValue) args.Add($"-n \"{ethernet_port}\"");if (noreset) args.Add("--noreset");if (resettxfail) args.Add("--resettxfail");
             string cmd = Path.Combine(Global.bin_path, "QSaharaServer");
             ProcessStartInfo QSaharaServer = new ProcessStartInfo(cmd, string.Join(" ", args))
             {
@@ -104,6 +104,8 @@ public partial class EDLViewModel : MainPageBase
                 StringBuilder sb = new StringBuilder(EDLLog);
                 EDLLog = sb.AppendLine(outLine.Data).ToString();
                 //EDLLog.CaretIndex = CustomizedflashLog.Text.Length;
+                StringBuilder op = new StringBuilder(EDLLog);
+                EDLLog = op.AppendLine(outLine.Data).ToString();
             });
         }
     }
@@ -118,8 +120,26 @@ public partial class EDLViewModel : MainPageBase
                 throw new Exception("未选择Firehose文件");
 
             }
-            await qsahara(port: "\\\\\\\\.\\\\" + CurrentDevice.Replace("当前连接：", ""), sahara: FirehoseFile);
-            
+            await qsahara(port: "\\\\.\\" + CurrentDevice.Replace("当前连接：", ""), sahara: "13:" + FirehoseFile);
+            if (EDLLog.Contains("All is well ** SUCCESS!!"))
+            {
+                Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Success"))
+                            .OfType(NotificationType.Success)
+                            .WithContent("引导发送成功")
+                            .Dismiss().ByClickingBackground()
+                            .TryShow();
+            }
+            else if (EDLLog.Contains("Could not connect to"))
+            {
+                Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Error"))
+                            .OfType(NotificationType.Error)
+                            .WithContent("引导发送失败")
+                            .Dismiss().ByClickingBackground()
+                            .TryShow();
+
+            }
         }
         catch (Exception ex)
         {

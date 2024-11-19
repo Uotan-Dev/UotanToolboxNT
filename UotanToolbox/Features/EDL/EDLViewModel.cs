@@ -55,9 +55,7 @@ public partial class EDLViewModel : MainPageBase
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                StandardOutputEncoding = Encoding.UTF8,
-                StandardErrorEncoding = Encoding.UTF8
+                RedirectStandardError = true
             };
             using Process qss = new Process();
             qss.StartInfo = QSaharaServer;
@@ -82,9 +80,7 @@ public partial class EDLViewModel : MainPageBase
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                StandardOutputEncoding = Encoding.UTF8,
-                StandardErrorEncoding = Encoding.UTF8
+                RedirectStandardError = true
             };
             using Process qss = new Process();
             qss.StartInfo = QSaharaServer;

@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 
@@ -43,7 +44,7 @@ public partial class EDLViewModel : MainPageBase
         eDLPartModel.AddRange(Enumerable.Range(1, 50).Select(x => new EDLPartModel()));
     }
 
-    private async Task qsahara(string port = null,int? verbose = null,string command = null,bool memdump = false,bool image = false,string sahara = null,string prefix = null,string where = null,string ramdumpimage = null,bool efssyncloop = false,int? rxtimeout = null,int? maxwrite = null,string addsearchpath = null,bool sendclearstate = false,int? portnumber = null,bool switchimagetx = false,bool nomodereset = false,string cmdrespfilepath = null,bool uart = false,bool ethernet = false,int? ethernet_port = null,bool noreset = false,bool resettxfail = false)
+    private async Task QSahara(string port = null,int? verbose = null,string command = null,bool memdump = false,bool image = false,string sahara = null,string prefix = null,string where = null,string ramdumpimage = null,bool efssyncloop = false,int? rxtimeout = null,int? maxwrite = null,string addsearchpath = null,bool sendclearstate = false,int? portnumber = null,bool switchimagetx = false,bool nomodereset = false,string cmdrespfilepath = null,bool uart = false,bool ethernet = false,int? ethernet_port = null,bool noreset = false,bool resettxfail = false)
     {
         await Task.Run( () =>
         {
@@ -69,8 +70,8 @@ public partial class EDLViewModel : MainPageBase
             qss.Close();
         });
     }
-    private async Task fh_loader(bool benchmarkdigestperformance = false,bool benchmarkreads = false,bool benchmarkwrites = false,string createvipdigests = null,string chaineddigests = null,string contentsxml = null,bool convertprogram2read = false,string digestsperfilename = null,string erase = null,string files = null,bool firmwarewrite = false,string fixgpt = null,string flattenbuildto = null,string flavor = null,bool forcecontentsxmlpaths = false,string getstorageinfo = null,string json_in = null,string labels = null,string loglevel = null,string lun = null,string mainoutputdir = null,string maxpayloadsizeinbytes = null,string memoryname = null,string notfiles = null,string notlabels = null,bool nop = false,bool noprompt = false,string num_sectors = null,string port = null,string start_sector = null,bool verbose = false,bool verify_programming_getsha = false,bool verify_programming = false,string zlpawarehost = null,bool noautoconfigure = false,bool autoconfig = false
-            )
+
+    private async Task Fh_loader(bool benchmarkdigestperformance = false,bool benchmarkreads = false,bool benchmarkwrites = false,string createvipdigests = null,string chaineddigests = null,string contentsxml = null,bool convertprogram2read = false,string digestsperfilename = null,string erase = null,string files = null,bool firmwarewrite = false,string fixgpt = null,string flattenbuildto = null,string flavor = null,bool forcecontentsxmlpaths = false,string getstorageinfo = null,string json_in = null,string labels = null,string loglevel = null,string lun = null,string mainoutputdir = null,string maxpayloadsizeinbytes = null,string memoryname = null,string notfiles = null,string notlabels = null,bool nop = false,bool noprompt = false,string num_sectors = null,string port = null,string start_sector = null,bool verbose = false,bool verify_programming_getsha = false,bool verify_programming = false,string zlpawarehost = null,bool noautoconfigure = false,bool autoconfig = false)
     {
         await Task.Run(() =>
         {
@@ -101,14 +102,11 @@ public partial class EDLViewModel : MainPageBase
     {
         if (!string.IsNullOrEmpty(outLine.Data))
         {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                StringBuilder sb = new StringBuilder(EDLLog);
-                EDLLog = sb.AppendLine(outLine.Data).ToString();
-                LogIndex = EDLLog.Length;
-                StringBuilder op = new StringBuilder(output);
-                output = op.AppendLine(outLine.Data).ToString();
-            });
+            StringBuilder sb = new StringBuilder(EDLLog);
+            EDLLog = sb.AppendLine(outLine.Data).ToString();
+            LogIndex = EDLLog.Length;
+            StringBuilder op = new StringBuilder(output);
+            output = op.AppendLine(outLine.Data).ToString();
         }
     }
 
@@ -122,7 +120,7 @@ public partial class EDLViewModel : MainPageBase
                 throw new Exception("未选择Firehose文件");
 
             }
-            await qsahara(port: "\\\\.\\" + CurrentDevice.Replace("当前连接：", ""), sahara: "13:" + FirehoseFile);
+            await QSahara(port: "\\\\.\\" + CurrentDevice.Replace("当前连接：", ""), sahara: "13:" + FirehoseFile);
             FileHelper.Write(edl_log_path, output);
             if (output.Contains("All is well ** SUCCESS!!"))
             {

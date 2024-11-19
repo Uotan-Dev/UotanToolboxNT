@@ -21,7 +21,7 @@ namespace UotanToolbox.Features.EDL;
 public partial class EDLViewModel : MainPageBase
 {
     [ObservableProperty]
-    private string firehoseFile, currentDevice = "当前连接：COM6", memoryType = "存储类型：UFS", xMLFile, partNamr, eDLLog;
+    private string firehoseFile, currentDevice = $"当前连接：{Global.thisdevice}", memoryTepy = "存储类型：UFS", xMLFile, partNamr, eDLLog;
     [ObservableProperty]
     private bool auto = true, uFS = false, eMMC = false;
     [ObservableProperty]
@@ -114,9 +114,8 @@ public partial class EDLViewModel : MainPageBase
             if (String.IsNullOrEmpty(FirehoseFile))
             {
                 throw new Exception("未选择Firehose文件");
-
             }
-            await QSahara(port: "\\\\.\\" + CurrentDevice.Replace("当前连接：", ""), sahara: "13:" + FirehoseFile);
+            await QSahara(port: "\\\\.\\" + Global.thisdevice, sahara: "13:" + FirehoseFile);
             FileHelper.Write(edl_log_path, output);
             if (output.Contains("All is well ** SUCCESS!!"))
             {

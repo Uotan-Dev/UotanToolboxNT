@@ -18,7 +18,7 @@
 			   Orientation="Horizontal">
 
 			<!--    -->
-			<suki:GlassCard Height="200" Width="725" Margin="10 -15 10 10">
+			<suki:GlassCard Height="200" Width="725" Margin="10 5 10 10">
 			<suki:BusyArea BusyText="">
 				<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
@@ -51,32 +51,31 @@
 		</suki:GlassCard>
 
 			<!--    -->
-			<suki:GlassCard Height="235" Width="215" Margin="10 10 0 0">
-			<StackPanel Margin="0 15 0 0" Orientation="Vertical" Spacing="10">
+			<suki:GlassCard Height="200" Width="215" Margin="10 5 0 10">
+			<StackPanel Orientation="Vertical">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="设备信息" />
-					<StackPanel Margin="10 0 0 0" Spacing="15">
+					<StackPanel Margin="5 10 0 0" Spacing="10">
 						<TextBlock Text="{Binding CurrentDevice}" />
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="存储类型："/>
-							<RadioButton Content="自动" IsChecked="{Binding Auto}"/>
+							<TextBlock Text="{Binding MemoryTepy}"/>
 						</StackPanel>
-						<StackPanel Margin="0 -10 0 0" Orientation="Horizontal" Spacing="0">
-							<RadioButton Content="UFS" IsCancel="{Binding UFS}"/>
-							<ComboBox Width="88" Margin="15 0 0 0" SelectedIndex="{Binding SelectUFSLun}" ItemsSource="678" ToolTip.Tip="UFS的lun数"/>
+						<StackPanel Orientation="Horizontal" Spacing="0">
+							<RadioButton Content="自动" IsChecked="{Binding Auto}"/>
+							<RadioButton Margin="15 0 0 0" Content="EMMC" IsChecked="{Binding EMMC}"/>
 						</StackPanel>
 						<StackPanel Margin="0 -5 0 0" Orientation="Horizontal" Spacing="0">
-							<RadioButton Content="EMMC" IsChecked="{Binding EMMC}"/>
-							<RadioButton Margin="5 0 0 0" Content="Spinor" IsChecked="{Binding Spinor}"/>
+							<RadioButton Content="UFS" IsCancel="{Binding UFS}"/>
+							<ComboBox Width="88" Margin="15 0 0 0" SelectedIndex="{Binding SelectUFSLun}" ItemsSource="678" ToolTip.Tip="UFS的lun数"/>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
 		</suki:GlassCard>
 
 			<!--    -->
-		<suki:GlassCard Height="540" Width="725" Margin="10 -20 10 10">
+		<suki:GlassCard Height="540" Width="725" Margin="10 10 10 10">
 			<suki:BusyArea>
 				<StackPanel>
 				<StackPanel>
@@ -127,22 +126,36 @@
 		</suki:GlassCard>
 
 			<!--    -->
-			<suki:GlassCard Height="200" Width="215" Margin="10 -290 0 0">
+			<suki:GlassCard Height="260" Width="215" Margin="10 -280 0 0">
 				<suki:BusyArea BusyText="">
-					<StackPanel Margin="0 10 0 0" Orientation="Vertical" Spacing="15">
+					<StackPanel Orientation="Vertical" Spacing="15">
 						<TextBlock HorizontalAlignment="Left"
 									FontSize="15"
 									FontWeight="DemiBold"
-									Text="9008重启" />
-						<StackPanel Margin="0 5 0 0" Spacing="15">
+									Text="9008重启至" />
+						<StackPanel Margin="0 5 0 0" Spacing="5">
 							<Button Width="160" Command="{Binding RebootEDL}">
 								<TextBlock>
-									<TextBlock Text="重启到9008" />
+									<avalonia:MaterialIcon Kind="ProgressDownload" />
+									<TextBlock Text="9008" />
 								</TextBlock>
 							</Button>
 							<Button Width="160" Command="{Binding RebootSys}">
 								<TextBlock>
-									<TextBlock Text="重启到开机" />
+									<avalonia:MaterialIcon Kind="Android" />
+									<TextBlock Text="系统" />
+								</TextBlock>
+							</Button>
+							<Button Width="160" Command="{Binding RebootEDL}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="NetworkOutline" />
+									<TextBlock Text="Recovery" />
+								</TextBlock>
+							</Button>
+							<Button Width="160" Command="{Binding RebootEDL}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ProgressDownload" />
+									<TextBlock Text="Fastbootd" />
 								</TextBlock>
 							</Button>
 						</StackPanel>
@@ -151,17 +164,17 @@
 			</suki:GlassCard>
 
 			<!--    -->
-			<suki:GlassCard Height="280" Width="215" Margin="755 -290 10 10">
+			<suki:GlassCard Height="260" Width="215" Margin="755 -270 10 10">
 			<suki:BusyArea BusyText="">
 				<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="更多功能" />
-					<StackPanel Orientation="Vertical" Spacing="10" Margin="0 15 0 0">
+					<StackPanel Orientation="Vertical" Spacing="10" Margin="0 10 0 0">
 						<ComboBox Width="170" SelectedIndex="{Binding SelectBand}" ItemsSource="{Binding BandList}" />
 						<Button Margin="0 -5 0 0" Height="35" Width="160" Content="恢复出厂设置" Command="{Binding Restore}" />
-						<Button Margin="0 15 0 0" Height="35" Width="160" Content="开启OEM解锁" Command="{Binding OpenOEMLock}"/>
+						<Button Margin="0 10 0 0" Height="35" Width="160" Content="开启OEM解锁" Command="{Binding OpenOEMLock}"/>
 						<Button Height="35" Width="160" Content="配置UFS" Command="{Binding ReconfigureUFS}"/>
 					</StackPanel>
 				</StackPanel>

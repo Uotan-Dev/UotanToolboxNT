@@ -60,6 +60,7 @@ public partial class EDLViewModel : MainPageBase
             using Process qss = new Process();
             qss.StartInfo = QSaharaServer;
             _ = qss.Start();
+            EDLLog = "";
             qss.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
             qss.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
             qss.BeginOutputReadLine();
@@ -84,6 +85,7 @@ public partial class EDLViewModel : MainPageBase
             };
             using Process qss = new Process();
             qss.StartInfo = QSaharaServer;
+            EDLLog = "";
             _ = qss.Start();
             qss.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
             qss.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
@@ -117,7 +119,7 @@ public partial class EDLViewModel : MainPageBase
             }
             await QSahara(port: "\\\\.\\" + Global.thisdevice, sahara: "13:" + FirehoseFile);
             FileHelper.Write(edl_log_path, output);
-            if (output.Contains("All is well ** SUCCESS!!"))
+            if (EDLLog.Contains("All is well ** SUCCESS!!"))
             {
                 Global.MainDialogManager.CreateDialog()
                             .WithTitle(GetTranslation("Common_Success"))
@@ -126,7 +128,7 @@ public partial class EDLViewModel : MainPageBase
                             .Dismiss().ByClickingBackground()
                             .TryShow();
             }
-            else if (output.Contains("Could not connect to"))
+            else if (EDLLog.Contains("Could not connect to"))
             {
                 Global.MainDialogManager.CreateDialog()
                             .WithTitle(GetTranslation("Common_Error"))
@@ -135,6 +137,15 @@ public partial class EDLViewModel : MainPageBase
                             .Dismiss().ByClickingBackground()
                             .TryShow();
 
+            }
+            else
+            {
+                Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent("引导发送失败,原因未知")
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
             }
         }
         catch (Exception ex)

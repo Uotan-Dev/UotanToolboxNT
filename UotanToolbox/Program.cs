@@ -71,7 +71,8 @@ internal static class Program
         Global.serviceID = "uotan-" + StringHelper.RandomString(8);
         Global.password = StringHelper.RandomString(8);
         // No need to set default for Windows
-        AppBuilder app = AppBuilder.Configure<App>();
+        AppBuilder app = AppBuilder.Configure<App>().UsePlatformDetect().WithInterFont().UseXamlDisplay();
+        /*
         if (OperatingSystem.IsWindows())
         {
             if (RuntimeInformation.OSArchitecture == Architecture.X64)
@@ -101,7 +102,7 @@ internal static class Program
                                 .LogToTrace()
                                 #endif
                                 .UseXamlDisplay();
-        }
+        }*/
         return app;
     }
 }

@@ -7,6 +7,7 @@ using Avalonia.Platform;
 using SukiUI.Controls;
 using SukiUI.Models;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -123,6 +124,22 @@ public partial class MainView : SukiWindow
             SettingsViewModel settingsViewModel = new SettingsViewModel();
             Settings.Default.IsLightTheme = settingsViewModel.IsLightTheme;
             Settings.Default.Save();
+            KillProcess("adb");
+            KillProcess("hdc");
         };
+    }
+
+    private static void KillProcess(string processName)
+    {
+        foreach (var process in Process.GetProcessesByName(processName))
+        {
+            try
+            {
+                process.Kill();
+                process.WaitForExit();
+            }
+            catch (Win32Exception ex){}
+            catch (InvalidOperationException){}
+        }
     }
 }

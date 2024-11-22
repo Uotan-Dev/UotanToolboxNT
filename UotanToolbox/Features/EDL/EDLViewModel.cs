@@ -1,5 +1,8 @@
 ﻿using Avalonia.Collections;
+using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -106,6 +109,89 @@ public partial class EDLViewModel : MainPageBase
             StringBuilder op = new StringBuilder(output);
             output = op.AppendLine(outLine.Data).ToString();
         }
+    }
+
+    public static FilePickerFileType Firehose { get; } = new("Firehose File")
+    {
+        Patterns = new[] { "*.elf", "*.mbn", "*.melf", "*.bin" },
+        AppleUniformTypeIdentifiers = new[] { "*.elf", "*.mbn", "*.melf", "*.bin" }
+    };
+
+    public static FilePickerFileType RawProgramXML { get; } = new("XML Flie")
+    {
+        Patterns = new[] { "rawprogram*.xml" },
+        AppleUniformTypeIdentifiers = new[] { "rawprogram*.xml" }
+    };
+
+    public static FilePickerFileType PatchXML { get; } = new("XML Flie")
+    {
+        Patterns = new[] { "patch*.xml" },
+        AppleUniformTypeIdentifiers = new[] { "patch*.xml" }
+    };
+
+    public async Task OpenImageFolder()
+    {
+        //TopLevel topLevel = TopLevel.GetTopLevel(this);
+        //System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+        //{
+        //    Title = "Select Image Folder",
+        //    AllowMultiple = false
+        //});
+        //if (files.Count >= 1)
+        //{
+        //    ImageFolder.Text = StringHelper.FilePath(files[0].Path.ToString());
+        //}
+    }
+
+    public async Task OpenFirehoseFile()
+    {
+        //TopLevel topLevel = TopLevel.GetTopLevel(this);
+        //System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        //{
+        //    FileTypeFilter = new[] { Firehose },
+        //    Title = "Open File",
+        //    AllowMultiple = true
+        //});
+        //if (files.Count >= 1)
+        //{
+        //    FirehoseFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+        //}
+    }
+
+    public async Task OpenXMLFile()
+    {
+        //TopLevel topLevel = TopLevel.GetTopLevel(this);
+        //System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        //{
+        //    FileTypeFilter = new[] { RawProgramXML },
+        //    Title = "Open File",
+        //    AllowMultiple = true
+        //});
+        //if (files.Count >= 1)
+        //{
+        //    for (int i = 0; i < files.Count; i++)
+        //    {
+        //        if (i != files.Count - 1)
+        //        {
+        //            XMLFile.Text += String.Format("{0},", Path.GetFileName(StringHelper.FilePath(files[i].Path.ToString())));
+        //        }
+        //        else
+        //        {
+        //            XMLFile.Text += String.Format("{0}", Path.GetFileName(StringHelper.FilePath(files[i].Path.ToString())));
+        //        }
+        //    }
+        //}
+        //TopLevel topLevel2 = TopLevel.GetTopLevel(this);
+        //System.Collections.Generic.IReadOnlyList<IStorageFile> files2 = await topLevel2.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        //{
+        //    FileTypeFilter = new[] { PatchXML },
+        //    Title = "Open File",
+        //    AllowMultiple = true
+        //});
+        //for (int i = 0; i < files2.Count; i++)
+        //{
+        //    XMLFile.Text += String.Format(",{0}", Path.GetFileName(StringHelper.FilePath(files2[i].Path.ToString())));
+        //}
     }
 
     [RelayCommand]

@@ -29,7 +29,7 @@
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center" Text="选择目录:"></TextBlock>
 							<TextBox Name="ImageFolder" Width="500" Text="{Binding PartNamr}" />
-							<Button Height="35" Click="OpenImageFolder"
+							<Button Height="35" Command="{Binding OpenImageFolder}"
 									Content="{x:Static assets:Resources.Common_ChooseFile}">
 							</Button>
 						</StackPanel>
@@ -37,13 +37,13 @@
 							<TextBlock VerticalAlignment="Center" Text="引导文件:"></TextBlock>
 							<TextBox Name="FirehoseFile" Width="320" Text="{Binding FirehoseFile}"/>
 							<ComboBox Margin="-10 0 -5 0" Width="130" SelectedIndex="{Binding SelectFlie}" ItemsSource="{Binding BuiltInFile}" />
-							<Button Height="35" Padding="0" Width="80" Click="OpenFirehoseFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+							<Button Height="35" Padding="0" Width="80" Command="{Binding OpenFirehoseFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 							<Button Height="35" Padding="0" Width="80" Command="{Binding SendFirehose}" Content="发送引导"/>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center" Text="XML文件:"></TextBlock>
 							<TextBox Name="XMLFile" Width="500" Text="{Binding XMLFile}"/>
-							<Button Height="35" Click="OpenXMLFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+							<Button Height="35" Command="{Binding OpenXMLFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>

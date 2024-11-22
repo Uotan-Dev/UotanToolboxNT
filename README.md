@@ -20,7 +20,7 @@
 - 🚫 无广告
 - 🛠 更多功能开发中...
 
-## 截图
+## 📷 截图
 
 ![](https://i.ibb.co/9TLTYd5/2024-08-02-220430.webp)
 
@@ -28,7 +28,7 @@
 
 ![](https://i.ibb.co/NTSrQHH/2024-08-02-220542.webp)
 
-## 开始使用
+## ✈️ 开始使用
 
 - 在 [Github Release](https://github.com/Uotan-Dev/UotanToolboxNT/releases) 下载对应的最新版本。
 	- Windows版本的ZIP请使用第三方工具解压，带 Installer 的为安装程序。
@@ -50,6 +50,6 @@
 如果想要调试该项目，请将二进制文件放至`UotanToolboxNT\UotanToolbox\bin\Debug\net8.0\bin`目录下。
 
 
-### 收藏历史
+## Star 历史
 
 [![Uotan Toolbox NT](https://api.star-history.com/svg?repos=Uotan-Dev/UotanToolboxNT&type=Date)](https://star-history.com/#Uotan-Dev/UotanToolboxNT&Date)

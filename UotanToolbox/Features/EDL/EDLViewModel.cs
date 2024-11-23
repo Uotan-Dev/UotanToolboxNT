@@ -1,5 +1,8 @@
-﻿using Avalonia.Collections;
+﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Converters;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -7,15 +10,19 @@ using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
+using SharpCompress.Common;
+using Splat;
 using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using UotanToolbox.Common;
 
 
@@ -24,7 +31,7 @@ namespace UotanToolbox.Features.EDL;
 public partial class EDLViewModel : MainPageBase
 {
     [ObservableProperty]
-    private string firehoseFile, currentDevice = $"当前连接：{Global.thisdevice}", memoryType = "存储类型：UFS", xMLFile, partNamr, eDLLog;
+    private string firehoseFile, currentDevice = $"当前连接：{Global.thisdevice}", memoryType = "存储类型：", xMLFile, partNamr, eDLLog;
     [ObservableProperty]
     private bool auto = true, uFS = false, eMMC = false;
     [ObservableProperty]
@@ -33,10 +40,12 @@ public partial class EDLViewModel : MainPageBase
     private AvaloniaList<string> builtInFile = ["common", "mi_auth", "mi_noauth_625", "mi_noauth_778g"], uFSLun = ["6", "7", "8"], bandList = ["commonl", "mi", "oppo", "oneplus", "meizu", "zte", "lg"];
     [ObservableProperty]
     private AvaloniaList<EDLPartModel> eDLPartModel = [];
-
+    private string patch_xml_paths = "";
     private string output = "";
     private readonly string edl_log_path = Path.Combine(Global.log_path, "edl.txt");
     private const int LogLevel = 0;
+    private string xml_path = "";
+    private string work_path = Global.bin_path;
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
@@ -44,14 +53,14 @@ public partial class EDLViewModel : MainPageBase
 
     public EDLViewModel() : base("9008刷机", MaterialIconKind.CableData, -350)
     {
-        eDLPartModel.AddRange(Enumerable.Range(1, 50).Select(x => new EDLPartModel()));
+
     }
 
-    private async Task QSahara(string port = null,int? verbose = null,string command = null,bool memdump = false,bool image = false,string sahara = null,string prefix = null,string where = null,string ramdumpimage = null,bool efssyncloop = false,int? rxtimeout = null,int? maxwrite = null,string addsearchpath = null,bool sendclearstate = false,int? portnumber = null,bool switchimagetx = false,bool nomodereset = false,string cmdrespfilepath = null,bool uart = false,bool ethernet = false,int? ethernet_port = null,bool noreset = false,bool resettxfail = false)
+    private async Task QSahara(string port = null, int? verbose = null, string command = null, bool memdump = false, bool image = false, string sahara = null, string prefix = null, string where = null, string ramdumpimage = null, bool efssyncloop = false, int? rxtimeout = null, int? maxwrite = null, string addsearchpath = null, bool sendclearstate = false, int? portnumber = null, bool switchimagetx = false, bool nomodereset = false, string cmdrespfilepath = null, bool uart = false, bool ethernet = false, int? ethernet_port = null, bool noreset = false, bool resettxfail = false)
     {
-        await Task.Run( () =>
+        await Task.Run(() =>
         {
-            List<string> args = [];if (port != null) args.Add($"-p {port}");if (verbose.HasValue) args.Add($"-v {verbose}");if (command != null) args.Add($"-c \"{command}\"");if (memdump) args.Add("-m");if (image) args.Add("-i  ");if (sahara != null) args.Add($"-s \"{sahara}\"");if (prefix != null) args.Add($"-p \"{prefix}\"");if (where != null) args.Add($"-w \"{where}\"");if (ramdumpimage != null) args.Add($"-r \"{ramdumpimage}\"");if (efssyncloop) args.Add("-l");if (rxtimeout.HasValue) args.Add($"-t \"{rxtimeout}\"");if (maxwrite.HasValue) args.Add($"-j \"{maxwrite}\"");if (addsearchpath != null) args.Add($"-b \"{addsearchpath}\"");if (sendclearstate) args.Add("-k");if (portnumber.HasValue) args.Add($"-u \"{portnumber}\"");if (switchimagetx) args.Add("-x");if (nomodereset) args.Add("-o");if (cmdrespfilepath != null) args.Add($"-a \"{cmdrespfilepath}\"");if (uart) args.Add("-U");if (ethernet) args.Add("-e");if (ethernet_port.HasValue) args.Add($"-n \"{ethernet_port}\"");if (noreset) args.Add("--noreset");if (resettxfail) args.Add("--resettxfail");
+            List<string> args = []; if (port != null) args.Add($"-p {port}"); if (verbose.HasValue) args.Add($"-v {verbose}"); if (command != null) args.Add($"-c \"{command}\""); if (memdump) args.Add("-m"); if (image) args.Add("-i  "); if (sahara != null) args.Add($"-s \"{sahara}\""); if (prefix != null) args.Add($"-p \"{prefix}\""); if (where != null) args.Add($"-w \"{where}\""); if (ramdumpimage != null) args.Add($"-r \"{ramdumpimage}\""); if (efssyncloop) args.Add("-l"); if (rxtimeout.HasValue) args.Add($"-t \"{rxtimeout}\""); if (maxwrite.HasValue) args.Add($"-j \"{maxwrite}\""); if (addsearchpath != null) args.Add($"-b \"{addsearchpath}\""); if (sendclearstate) args.Add("-k"); if (portnumber.HasValue) args.Add($"-u \"{portnumber}\""); if (switchimagetx) args.Add("-x"); if (nomodereset) args.Add("-o"); if (cmdrespfilepath != null) args.Add($"-a \"{cmdrespfilepath}\""); if (uart) args.Add("-U"); if (ethernet) args.Add("-e"); if (ethernet_port.HasValue) args.Add($"-n \"{ethernet_port}\""); if (noreset) args.Add("--noreset"); if (resettxfail) args.Add("--resettxfail");
             string cmd = Path.Combine(Global.bin_path, "QSaharaServer");
             ProcessStartInfo QSaharaServer = new ProcessStartInfo(cmd, string.Join(" ", args))
             {
@@ -72,13 +81,102 @@ public partial class EDLViewModel : MainPageBase
             qss.Close();
         });
     }
-
-    private async Task Fh_loader(bool benchmarkdigestperformance = false,bool benchmarkreads = false,bool benchmarkwrites = false,string createvipdigests = null,string chaineddigests = null,string contentsxml = null,bool convertprogram2read = false,string digestsperfilename = null,string erase = null,string files = null,bool firmwarewrite = false,string fixgpt = null,string flattenbuildto = null,string flavor = null,bool forcecontentsxmlpaths = false,string getstorageinfo = null,string json_in = null,string labels = null,string loglevel = null,string lun = null,string mainoutputdir = null,string maxpayloadsizeinbytes = null,string memoryname = null,string notfiles = null,string notlabels = null,bool nop = false,bool noprompt = false,string num_sectors = null,string port = null,string start_sector = null,bool verbose = false,bool verify_programming_getsha = false,bool verify_programming = false,string zlpawarehost = null,bool noautoconfigure = false,bool autoconfig = false)
+    /// <summary>
+    /// 同步自动调用FH_Loader，默认不自动配置，日志自动同步到EDLLog
+    /// </summary>
+    /// <param name="workpath"></param>
+    /// <param name="benchmarkdigestperformance"></param>
+    /// <param name="benchmarkreads"></param>
+    /// <param name="benchmarkwrites"></param>
+    /// <param name="createvipdigests"></param>
+    /// <param name="chaineddigests"></param>
+    /// <param name="contentsxml"></param>
+    /// <param name="convertprogram2read"></param>
+    /// <param name="digestsperfilename"></param>
+    /// <param name="erase"></param>
+    /// <param name="files"></param>
+    /// <param name="firmwarewrite"></param>
+    /// <param name="fixgpt"></param>
+    /// <param name="flattenbuildto"></param>
+    /// <param name="flavor"></param>
+    /// <param name="forcecontentsxmlpaths"></param>
+    /// <param name="getstorageinfo"></param>
+    /// <param name="json_in"></param>
+    /// <param name="labels"></param>
+    /// <param name="loglevel"></param>
+    /// <param name="lun"></param>
+    /// <param name="mainoutputdir"></param>
+    /// <param name="maxpayloadsizeinbytes"></param>
+    /// <param name="memoryname"></param>
+    /// <param name="notfiles"></param>
+    /// <param name="notlabels"></param>
+    /// <param name="nop"></param>
+    /// <param name="noprompt"></param>
+    /// <param name="num_sectors"></param>
+    /// <param name="port"></param>
+    /// <param name="start_sector"></param>
+    /// <param name="verbose"></param>
+    /// <param name="verify_programming_getsha"></param>
+    /// <param name="verify_programming"></param>
+    /// <param name="zlpawarehost"></param>
+    /// <param name="noautoconfigure"></param>
+    /// <param name="autoconfig"></param>
+    /// <returns></returns>
+    private async Task Fh_loader(string workpath, bool benchmarkdigestperformance = false, bool benchmarkreads = false, bool benchmarkwrites = false, string createvipdigests = null, string chaineddigests = null, string contentsxml = null, bool convertprogram2read = false, string digestsperfilename = null, string erase = null, string files = null, bool firmwarewrite = false, string fixgpt = null, string flattenbuildto = null, string flavor = null, bool forcecontentsxmlpaths = false, string getstorageinfo = null, string json_in = null, string labels = null, string loglevel = null, string lun = null, string mainoutputdir = null, string maxpayloadsizeinbytes = null, string memoryname = null, string notfiles = null, string notlabels = null, bool nop = false, bool noprompt = false, string num_sectors = null, string port = null, string porttracename = null, string port_type = null, string power = null, string search_path = null, string sectorsizeinbytes = null, string sendimage = null, string sendxml = null, string setactivepartition = null, bool showpercentagecomplete = false, string signeddigests = null, string slot = null, string start_sector = null, bool verbose = false, bool verify_programming_getsha = false, bool verify_programming = false, string zlpawarehost = null, bool noautoconfigure = true, bool autoconfig = false)
     {
         await Task.Run(() =>
         {
-            List<string> args = [];
-            string cmd = Path.Combine(Global.bin_path, "fh_loader");if (benchmarkdigestperformance) args.Add("--benchmarkdigestperformance");if (benchmarkreads) args.Add("--benchmarkreads");if (benchmarkwrites) args.Add("--benchmarkwrites");if (createvipdigests != null) args.Add($"--createvipdigests=\"{createvipdigests}\"");if (chaineddigests != null) args.Add($"--chaineddigests=\"{chaineddigests}\"");if (contentsxml != null) args.Add($"--contentsxml=\"{contentsxml}\"");if (convertprogram2read) args.Add("--convertprogram2read");if (digestsperfilename != null) args.Add($"--digestsperfilename=\"{digestsperfilename}\"");if (erase != null) args.Add($"--erase=\"{erase}\"");if (files != null) args.Add($"--files=\"{files}\"");if (firmwarewrite) args.Add("--firmwarewrite");if (fixgpt != null) args.Add($"--fixgpt=\"{fixgpt}\"");if (flattenbuildto != null) args.Add($"--flattenbuildto=\"{flattenbuildto}\"");if (flavor != null) args.Add($"--flavor=\"{flavor}\"");if (forcecontentsxmlpaths) args.Add("--forcecontentsxmlpaths");if (getstorageinfo != null) args.Add($"--getstorageinfo=\"{getstorageinfo}\"");if (json_in != null) args.Add($"--json_in=\"{json_in}\"");if (labels != null) args.Add($"--labels=\"{labels}\"");if (loglevel != null) args.Add($"--loglevel=\"{loglevel}\"");if (lun != null) args.Add($"--lun=\"{lun}\"");if (mainoutputdir != null) args.Add($"--mainoutputdir=\"{mainoutputdir}\"");if (maxpayloadsizeinbytes != null) args.Add($"--maxpayloadsizeinbytes=\"{maxpayloadsizeinbytes}\"");if (memoryname != null) args.Add($"--memoryname=\"{memoryname}\"");if (notfiles != null) args.Add($"--notfiles=\"{notfiles}\"");if (notlabels != null) args.Add($"--notlabels=\"{notlabels}\"");if (nop) args.Add("--nop");if (noprompt) args.Add("--noprompt");if (num_sectors != null) args.Add($"--num_sectors=\"{num_sectors}\"");if (port != null) args.Add($"--port={port}");if (start_sector != null) args.Add($"--start_sector=\"{start_sector}\"");if (verbose) args.Add("--verbose");if (verify_programming_getsha) args.Add("--verify_programming_getsha");if (verify_programming) args.Add("--verify_programming");if (zlpawarehost != null) args.Add($"--zlpawarehost=\"{zlpawarehost}\"");if (noautoconfigure) args.Add("--noautoconfigure");if (autoconfig) args.Add("--autoconfig");
+            List<string> args = new List<string>();
+            string cmd = Path.Combine(Global.bin_path, "fh_loader");
+            if (search_path != null) args.Add($"--search_path=\"{search_path}\\\"");
+            if (benchmarkdigestperformance) args.Add("--benchmarkdigestperformance");
+            if (benchmarkreads) args.Add("--benchmarkreads");
+            if (benchmarkwrites) args.Add("--benchmarkwrites");
+            if (createvipdigests != null) args.Add($"--createvipdigests=\"{createvipdigests}\"");
+            if (chaineddigests != null) args.Add($"--chaineddigests=\"{chaineddigests}\"");
+            if (contentsxml != null) args.Add($"--contentsxml=\"{contentsxml}\"");
+            if (convertprogram2read) args.Add("--convertprogram2read");
+            if (digestsperfilename != null) args.Add($"--digestsperfilename=\"{digestsperfilename}\"");
+            if (erase != null) args.Add($"--erase=\"{erase}\"");
+            if (files != null) args.Add($"--files=\"{files}\"");
+            if (firmwarewrite) args.Add("--firmwarewrite");
+            if (fixgpt != null) args.Add($"--fixgpt=\"{fixgpt}\"");
+            if (flattenbuildto != null) args.Add($"--flattenbuildto=\"{flattenbuildto}\"");
+            if (flavor != null) args.Add($"--flavor=\"{flavor}\"");
+            if (forcecontentsxmlpaths) args.Add("--forcecontentsxmlpaths");
+            if (getstorageinfo != null) args.Add($"--getstorageinfo=\"{getstorageinfo}\"");
+            if (json_in != null) args.Add($"--json_in=\"{json_in}\"");
+            if (labels != null) args.Add($"--labels=\"{labels}\"");
+            if (loglevel != null) args.Add($"--loglevel=\"{loglevel}\"");
+            if (lun != null) args.Add($"--lun=\"{lun}\"");
+            if (mainoutputdir != null) args.Add($"--mainoutputdir=\"{mainoutputdir}\"");
+            if (maxpayloadsizeinbytes != null) args.Add($"--maxpayloadsizeinbytes=\"{maxpayloadsizeinbytes}\"");
+            if (memoryname != null) args.Add($"--memoryname=\"{memoryname}\"");
+            if (notfiles != null) args.Add($"--notfiles=\"{notfiles}\"");
+            if (notlabels != null) args.Add($"--notlabels=\"{notlabels}\"");
+            if (nop) args.Add("--nop");
+            if (noprompt) args.Add("--noprompt");
+            if (num_sectors != null) args.Add($"--num_sectors=\"{num_sectors}\"");
+            if (port != null) args.Add($"--port={port}");
+            if (porttracename != null) args.Add($"--porttracename=\"{porttracename}\"");
+            if (port_type != null) args.Add($"--port_type=\"{port_type}\"");
+            if (power != null) args.Add($"--power=\"{power}\"");
+            
+            if (sectorsizeinbytes != null) args.Add($"--sectorsizeinbytes=\"{sectorsizeinbytes}\"");
+            if (sendimage != null) args.Add($"--sendimage=\"{sendimage}\"");
+            if (sendxml != null) args.Add($"--sendxml=\"{sendxml}\"");
+            if (setactivepartition != null) args.Add($"--setactivepartition=\"{setactivepartition}\"");
+            if (showpercentagecomplete) args.Add("--showpercentagecomplete");
+            if (signeddigests != null) args.Add($"--signeddigests=\"{signeddigests}\"");
+            if (slot != null) args.Add($"--slot=\"{slot}\"");
+            if (start_sector != null) args.Add($"--start_sector=\"{start_sector}\"");
+            if (verbose) args.Add("--verbose");
+            if (verify_programming_getsha) args.Add("--verify_programming_getsha");
+            if (verify_programming) args.Add("--verify_programming");
+            if (zlpawarehost != null) args.Add($"--zlpawarehost=\"{zlpawarehost}\"");
+            if (noautoconfigure) args.Add("--noautoconfigure");
+            if (autoconfig) args.Add("--autoconfig");
+            Directory.SetCurrentDirectory(workpath);
             ProcessStartInfo QSaharaServer = new ProcessStartInfo(cmd, string.Join(" ", args))
             {
                 CreateNoWindow = true,
@@ -131,67 +229,79 @@ public partial class EDLViewModel : MainPageBase
 
     public async Task OpenImageFolder()
     {
-        //TopLevel topLevel = TopLevel.GetTopLevel(this);
-        //System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
-        //{
-        //    Title = "Select Image Folder",
-        //    AllowMultiple = false
-        //});
-        //if (files.Count >= 1)
-        //{
-        //    ImageFolder.Text = StringHelper.FilePath(files[0].Path.ToString());
-        //}
+        var topLevel = TopLevel.GetTopLevel(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
+        var folders = await topLevel?.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+        {
+            Title = "Select Image Folder",
+            AllowMultiple = false
+        });
+
+        if (folders != null && folders.Count > 0)
+        {
+            PartNamr = folders[0].Path.LocalPath;
+            var folderPath = folders[0].Path.LocalPath;
+            var rawprogramFiles = Directory.GetFiles(folderPath, "rawprogram*.xml");
+            var patchFiles = Directory.GetFiles(folderPath, "patch*.xml");
+            var firehoseFiles = Directory.GetFiles(folderPath, "*firehose*");
+            var rawprogramXmls = rawprogramFiles.Select(file => new FileInfo(file)).ToList();
+            var patchXmls = patchFiles.Select(file => new FileInfo(file)).ToList();
+            var xmlFiles = new List<string>();
+            xmlFiles.AddRange(rawprogramXmls.Select(file => file.FullName));
+            xmlFiles.AddRange(patchXmls.Select(file => file.FullName));
+            xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(8) + ".xml");
+            MergeXMLFiles(xmlFiles, xml_path);
+            AddIndexToProgramElements(xml_path);
+            EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(xml_path));
+            XMLFile = string.Join(", ", xmlFiles);
+            patch_xml_paths = string.Join(", ", patchXmls.Select(file => file.FullName));
+            if (firehoseFiles.Length > 0)
+            {
+                FirehoseFile = firehoseFiles[0];
+            }
+        }
     }
 
     public async Task OpenFirehoseFile()
     {
-        //TopLevel topLevel = TopLevel.GetTopLevel(this);
-        //System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-        //{
-        //    FileTypeFilter = new[] { Firehose },
-        //    Title = "Open File",
-        //    AllowMultiple = true
-        //});
-        //if (files.Count >= 1)
-        //{
-        //    FirehoseFile.Text = StringHelper.FilePath(files[0].Path.ToString());
-        //}
+        var topLevel = TopLevel.GetTopLevel(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
+        var files = await topLevel?.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
+        {
+            Title = "请选择Firehose文件",
+            FileTypeFilter = new List<FilePickerFileType> { Firehose },
+        });
+        FirehoseFile = files[0].Path.LocalPath;
     }
 
     public async Task OpenXMLFile()
     {
-        //TopLevel topLevel = TopLevel.GetTopLevel(this);
-        //System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-        //{
-        //    FileTypeFilter = new[] { RawProgramXML },
-        //    Title = "Open File",
-        //    AllowMultiple = true
-        //});
-        //if (files.Count >= 1)
-        //{
-        //    for (int i = 0; i < files.Count; i++)
-        //    {
-        //        if (i != files.Count - 1)
-        //        {
-        //            XMLFile.Text += String.Format("{0},", Path.GetFileName(StringHelper.FilePath(files[i].Path.ToString())));
-        //        }
-        //        else
-        //        {
-        //            XMLFile.Text += String.Format("{0}", Path.GetFileName(StringHelper.FilePath(files[i].Path.ToString())));
-        //        }
-        //    }
-        //}
-        //TopLevel topLevel2 = TopLevel.GetTopLevel(this);
-        //System.Collections.Generic.IReadOnlyList<IStorageFile> files2 = await topLevel2.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-        //{
-        //    FileTypeFilter = new[] { PatchXML },
-        //    Title = "Open File",
-        //    AllowMultiple = true
-        //});
-        //for (int i = 0; i < files2.Count; i++)
-        //{
-        //    XMLFile.Text += String.Format(",{0}", Path.GetFileName(StringHelper.FilePath(files2[i].Path.ToString())));
-        //}
+        var topLevel = TopLevel.GetTopLevel(((IClassicDesktopStyleApplicationLifetime)Application.Current.ApplicationLifetime).MainWindow);
+        var rawprogram_xmls = await topLevel?.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
+        {
+            Title = "请选择rawprogram.xml文件",
+            FileTypeFilter = new List<FilePickerFileType> { RawProgramXML },
+            AllowMultiple = true,
+        });
+        var patch_xmls = await topLevel?.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
+        {
+            Title = "请选择patch.xml文件",
+            FileTypeFilter = new List<FilePickerFileType> { PatchXML },
+            AllowMultiple = true,
+        });
+        var xmlFiles = new List<string>();
+        if (rawprogram_xmls != null)
+        {
+            xmlFiles.AddRange(rawprogram_xmls.Select(file => file.Path.LocalPath));
+        }
+        xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(8) + ".xml");
+        MergeXMLFiles(xmlFiles, xml_path);
+        AddIndexToProgramElements(xml_path);
+        EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(xml_path));
+        XMLFile = string.Join(", ", xmlFiles);
+        if (patch_xmls != null)
+        {
+            xmlFiles.AddRange(patch_xmls.Select(file => file.Path.LocalPath));
+        }
+        patch_xml_paths = string.Join(", ", xmlFiles);
     }
 
     [RelayCommand]
@@ -208,7 +318,7 @@ public partial class EDLViewModel : MainPageBase
             if (EDLLog.Contains("All is well ** SUCCESS!!"))
             {
                 Global.MainDialogManager.CreateDialog()
-                            .WithTitle(GetTranslation("Common_Success"))
+                            .WithTitle(GetTranslation("Common_Succ"))
                             .OfType(NotificationType.Success)
                             .WithContent("引导发送成功")
                             .Dismiss().ByClickingBackground()
@@ -248,37 +358,91 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task ReadPartTable()
     {
-
+        await DetectDeviceType();
     }
 
     [RelayCommand]
     public async Task WritePart()
     {
+        await DetectDeviceType();
+        if (MemoryType == "存储类型：")
+        {
+            Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .OfType(NotificationType.Error)
+                        .WithContent("未检测到存储类型")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+            return;
+        }
+        string tmp_xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(16)+".xml");
+        ExtractSelectedPartsToXml(tmp_xml_path);
+        RemoveIndexToProgramElements(tmp_xml_path);
+        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
 
+        FileHelper.Write(edl_log_path, output);
+        if (EDLLog.Contains("All Finished Successfully"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Succ"))
+                        .OfType(NotificationType.Success)
+                        .WithContent("文件发送成功")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+        }
+        if (EDLLog.Contains("ERROR: Please see log"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .OfType(NotificationType.Error)
+                        .WithContent("文件发送失败,详见日志")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+        }
     }
 
     [RelayCommand]
     public async Task ReadPart()
     {
-
+        await DetectDeviceType();
     }
 
     [RelayCommand]
     public async Task ErasePart()
     {
-
+        await DetectDeviceType();
     }
 
     [RelayCommand]
     public async Task RebootEDL()
     {
-
+        await Fh_loader(Global.bin_path, sendxml: Path.Join(Global.bin_path, "XML", "EDL.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice);
+        FileHelper.Write(edl_log_path, output);
+        if (EDLLog.Contains("All Finished Successfully"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Succ"))
+                        .OfType(NotificationType.Success)
+                        .WithContent("重启文件发送成功")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+        }
     }
 
     [RelayCommand]
     public async Task RebootSys()
     {
-
+        await Fh_loader(Global.bin_path, sendxml: Path.Join(Global.bin_path, "XML", "Continue.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice);
+        FileHelper.Write(edl_log_path, output);
+        if (EDLLog.Contains("All Finished Successfully"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Succ"))
+                        .OfType(NotificationType.Success)
+                        .WithContent("重启文件发送成功")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+        }
     }
 
     [RelayCommand]
@@ -298,7 +462,164 @@ public partial class EDLViewModel : MainPageBase
     {
 
     }
+    /// <summary>
+    /// 解析XML文件中的program元素，返回EDLPartModel列表
+    /// </summary>
+    /// <param name="xmlFilePath"></param>
+    /// <returns></returns>
+    private static List<EDLPartModel> ParseProgramElements(string xmlFilePath)
+    {
+        XDocument xdoc = XDocument.Load(xmlFilePath);
+        var programElements = xdoc.Descendants("program");
+        List<EDLPartModel> partModels = [];
+        foreach (var element in programElements)
+        {
+            EDLPartModel partModel = new EDLPartModel
+            {
+                Lun = element.Attribute("physical_partition_number")?.Value,
+                Name = element.Attribute("label")?.Value,
+                FileName = element.Attribute("filename")?.Value,
+                IsSparse = element.Attribute("sparse")?.Value,
+                Offset = element.Attribute("file_sector_offset")?.Value,
+                Start = element.Attribute("start_sector")?.Value,
+                Sector = element.Attribute("num_partition_sectors")?.Value,
+                Index = element.Attribute("Uotan-Index")?.Value
+            };
+            partModels.Add(partModel);
+        }
+        return partModels;
+    }
+    /// <summary>
+    /// 为XML文件中的program元素添加索引号
+    /// </summary>
+    /// <param name="xmlFilePath"></param>
+    private void AddIndexToProgramElements(string xmlFilePath)
+    {
+        XDocument xdoc = XDocument.Load(xmlFilePath);
+        var programElements = xdoc.Descendants("program");
+
+        int index = 1;
+        foreach (var element in programElements)
+        {
+            element.SetAttributeValue("Uotan-Index", index);
+            index++;
+        }
+        xdoc.Save(xmlFilePath);
+    }
+    /// <summary>
+    /// 移除XML文件中的索引号
+    /// </summary>
+    /// <param name="xmlFilePath"></param>
+    private void RemoveIndexToProgramElements(string xmlFilePath)
+    {
+        XDocument xdoc = XDocument.Load(xmlFilePath);
+        var programElements = xdoc.Descendants("program");
+        foreach (var element in programElements)
+        {
+            element.SetAttributeValue("Uotan-Index", null);
+        }
+        xdoc.Save(xmlFilePath);
+    }
+    /// <summary>
+    /// 合并用户选择的XML文件
+    /// </summary>
+    /// <param name="xmlFilePaths"></param>
+    /// <param name="outputFilePath"></param>
+    private void MergeXMLFiles(IEnumerable<string> xmlFilePaths, string outputFilePath)
+    {
+        XDocument mergedDoc = new XDocument(new XElement("data"));
+
+        foreach (var xmlFilePath in xmlFilePaths)
+        {
+            XDocument xdoc = XDocument.Load(xmlFilePath);
+            var programElements = xdoc.Descendants("program");
+
+            foreach (var element in programElements)
+            {
+                mergedDoc.Root.Add(new XElement(element));
+            }
+        }
+        mergedDoc.Save(outputFilePath);
+    }
+    private void ExtractSelectedPartsToXml(string outputFilePath)
+    {
+        XDocument extractedDoc = new XDocument(new XElement("data"));
+        XDocument tempDoc = XDocument.Load(xml_path);
+        foreach (var part in EDLPartModel)
+        {
+            if (part.SelectPart)
+            {
+                var element = tempDoc.Descendants("program")
+                                     .FirstOrDefault(e => e.Attribute("Uotan-Index")?.Value == part.Index);
+                if (element != null)
+                {
+                    extractedDoc.Root.Add(new XElement(element));
+                }
+            }
+        }
+        extractedDoc.Save(outputFilePath);
+    }
+    private async Task DetectDeviceType()
+    {
+        try
+        {
+            string tmpBinFilePath = Path.Combine(Global.tmp_path, "tmp.bin");
+
+            // 尝试检测 UFS 存储类型
+            bool isUfs = await TryDetectMemoryType("ufs", "UFS.xml", tmpBinFilePath);
+            if (isUfs)
+            {
+                MemoryType = "存储类型：UFS";
+                return;
+            }
+
+            // 尝试检测 EMMC 存储类型
+            bool isEmmc = await TryDetectMemoryType("emmc", "EMMC.xml", tmpBinFilePath);
+            if (isEmmc)
+            {
+                MemoryType = "存储类型：EMMC";
+                return;
+            }
+
+            // 如果都未检测到，设置为空
+            MemoryType = "存储类型：";
+        }
+        catch (Exception ex)
+        {
+            Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Error"))
+                                    .OfType(NotificationType.Error)
+                                    .WithContent(ex.Message)
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
+            MemoryType = "存储类型：";
+        }
+    }
+
+    private async Task<bool> TryDetectMemoryType(string memoryName, string xmlFileName, string tmpBinFilePath)
+    {
+        await Fh_loader(Global.tmp_path, memoryname: memoryName, sendxml: Path.Join(Global.bin_path, "XML", xmlFileName), convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice);
+        FileHelper.Write(edl_log_path, output);
+        int sector = 0;
+        if (memoryName == "ufs")
+        {
+            sector = 4096;
+        }
+        else if (memoryName == "emmc")
+        {
+            sector = 512;
+        }
+        if (EDLLog.Contains("All Finished Successfully") && File.Exists(tmpBinFilePath))
+        {
+            FileInfo fileInfo = new FileInfo(tmpBinFilePath);
+            return fileInfo.Length == sector;
+        }
+
+        return false;
+    }
 }
+
+
 
 public partial class EDLPartModel : ObservableObject
 {
@@ -325,4 +646,7 @@ public partial class EDLPartModel : ObservableObject
 
     [ObservableProperty]
     private string sector;
+
+    [ObservableProperty]
+    private string index;
 }

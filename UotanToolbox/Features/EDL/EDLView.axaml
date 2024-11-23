@@ -38,7 +38,7 @@
 							<TextBox Name="FirehoseFile" Width="320" Text="{Binding FirehoseFile}"/>
 							<ComboBox Margin="-10 0 -5 0" Width="130" SelectedIndex="{Binding SelectFlie}" ItemsSource="{Binding BuiltInFile}" />
 							<Button Height="35" Padding="0" Width="80" Command="{Binding OpenFirehoseFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
-							<Button Height="35" Padding="0" Width="80" Command="{Binding SendFirehose}" Content="发送引导"/>
+							<Button Height="35" Padding="0" Width="80" Command="{Binding SendFirehose}" Content="设备引导"/>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center" Text="XML文件:"></TextBlock>
@@ -86,6 +86,7 @@
 							  CanUserResizeColumns="True">
 						<DataGrid.Columns>
 							<DataGridCheckBoxColumn Binding="{Binding SelectPart}" Header="选择"/>
+							<DataGridTextColumn Binding="{Binding Index}" IsReadOnly="True" Header="序号"/>
 							<DataGridTextColumn Binding="{Binding Lun}" IsReadOnly="True" Header="LUN"/>
 							<DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" Header="标签名"/>
 							<DataGridTemplateColumn Header="文件名">
@@ -128,7 +129,7 @@
 							Command="{Binding ReadPart}"
 							Padding="8">
 						<TextBlock>
-							<TextBlock Text="读取分区" />
+							<TextBlock Text="回读分区" />
 						</TextBlock>
 					</Button>
 					<Button Width="120"

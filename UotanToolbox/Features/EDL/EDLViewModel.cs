@@ -359,16 +359,6 @@ public partial class EDLViewModel : MainPageBase
     public async Task ReadPartTable()
     {
         await DetectDeviceType();
-        if (MemoryType == "存储类型：")
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("未检测到存储类型")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-            return;
-        }
     }
 
     [RelayCommand]
@@ -415,79 +405,12 @@ public partial class EDLViewModel : MainPageBase
     public async Task ReadPart()
     {
         await DetectDeviceType();
-        if (MemoryType == "存储类型：")
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("未检测到存储类型")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-            return;
-        }
-        string tmp_xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(16) + ".xml");
-        ExtractSelectedPartsToXml(tmp_xml_path);
-        RemoveIndexToProgramElements(tmp_xml_path);
-        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, convertprogram2read:true,showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-        FileHelper.Write(edl_log_path, output);
-        if (EDLLog.Contains("All Finished Successfully"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Succ"))
-                        .OfType(NotificationType.Success)
-                        .WithContent("分区读取成功")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
-        if (EDLLog.Contains("ERROR: Please see log"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("文件读取失败,详见日志")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
     }
 
     [RelayCommand]
     public async Task ErasePart()
     {
         await DetectDeviceType();
-        if (MemoryType == "存储类型：")
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("未检测到存储类型")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-            return;
-        }
-        string tmp_xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(16) + ".xml");
-        ExtractSelectedPartsToXml(tmp_xml_path);
-        RemoveIndexToProgramElements(tmp_xml_path);
-        RenameProgramNodesToErase(tmp_xml_path);
-        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-        FileHelper.Write(edl_log_path, output);
-        if (EDLLog.Contains("All Finished Successfully"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Succ"))
-                        .OfType(NotificationType.Success)
-                        .WithContent("分区读取成功")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
-        if (EDLLog.Contains("ERROR: Please see log"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("文件读取失败,详见日志")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
     }
 
     [RelayCommand]
@@ -617,19 +540,6 @@ public partial class EDLViewModel : MainPageBase
             }
         }
         mergedDoc.Save(outputFilePath);
-    }
-    public void RenameProgramNodesToErase(string xmlFilePath)
-    {
-        XDocument xdoc = XDocument.Load(xmlFilePath);
-        var programElements = xdoc.Descendants("program");
-
-        foreach (var element in programElements)
-        {
-            XElement newElement = new XElement("erase", element.Attributes());
-            element.ReplaceWith(newElement);
-        }
-
-        xdoc.Save(xmlFilePath);
     }
     private void ExtractSelectedPartsToXml(string outputFilePath)
     {

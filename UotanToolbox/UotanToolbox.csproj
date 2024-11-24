@@ -44,6 +44,11 @@
 		<PackageReference Include="SkiaSharp" Version="2.88.9" />
 		<PackageReference Include="SukiUI" Version="6.0.0-rc" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+		<PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
+		<PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
+		<PackageReference Include="ZachWolfe.KaitaiStruct.Runtime.CSharp" Version="0.11.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -124,5 +129,9 @@
 		<EmbeddedResource Include="Assets\space.sksl" />
 		<EmbeddedResource Include="Assets\clouds.sksl" />
 		<EmbeddedResource Include="Assets\weird.sksl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Common\ParserHelper\" />
 	</ItemGroup>
 </Project>

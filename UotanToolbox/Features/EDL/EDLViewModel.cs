@@ -9,7 +9,9 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Kaitai;
 using Material.Icons;
+using Newtonsoft.Json.Linq;
 using SharpCompress.Common;
 using Splat;
 using SukiUI.Dialogs;
@@ -358,7 +360,56 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task ReadPartTable()
     {
+        string part_table_path = Path.Join(Global.tmp_path, "Partition_Table_"+StringHelper.RandomString(8));
+        string bin_xml_path = Path.Join(Global.bin_path, "XML");
         await DetectDeviceType();
+        if (MemoryType == "存储类型：")
+        {
+            Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .OfType(NotificationType.Error)
+                        .WithContent("未检测到存储类型")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+            return;
+        }
+        else if (MemoryType == "存储类型：EMMC")
+        {
+            await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
+            if (!EDLLog.Contains("All Finished Successfully"))
+            {
+                Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Error"))
+                            .OfType(NotificationType.Error)
+                            .WithContent("分区表读取失败")
+                            .Dismiss().ByClickingBackground()
+                            .TryShow();
+                return;
+            }
+        }
+        else
+        {
+            await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable6.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
+            if (!EDLLog.Contains("All Finished Successfully"))
+            {
+                Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Error"))
+                            .OfType(NotificationType.Error)
+                            .WithContent("分区表读取失败")
+                            .Dismiss().ByClickingBackground()
+                            .TryShow();
+                return;
+            }
+            await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable7.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
+            if (EDLLog.Contains("All Finished Successfully"))
+            {
+                await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable8.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
+            }
+        }
+        xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(8) + ".xml");
+        ReadGptFilesAndGenerateXml(part_table_path,xml_path);
+        AddIndexToProgramElements(xml_path);
+        EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(xml_path));
     }
 
     [RelayCommand]
@@ -411,6 +462,40 @@ public partial class EDLViewModel : MainPageBase
     public async Task ErasePart()
     {
         await DetectDeviceType();
+        if (MemoryType == "存储类型：")
+        {
+            Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .OfType(NotificationType.Error)
+                        .WithContent("未检测到存储类型")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+            return;
+        }
+        string tmp_xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(16) + ".xml");
+        ExtractSelectedPartsToXml(tmp_xml_path);
+        RemoveIndexToProgramElements(tmp_xml_path);
+        RenameProgramNodesToErase(tmp_xml_path);
+        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
+        FileHelper.Write(edl_log_path, output);
+        if (EDLLog.Contains("All Finished Successfully"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Succ"))
+                        .OfType(NotificationType.Success)
+                        .WithContent("分区读取成功")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+        }
+        if (EDLLog.Contains("ERROR: Please see log"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .OfType(NotificationType.Error)
+                        .WithContent("文件读取失败,详见日志")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+        }
     }
 
     [RelayCommand]
@@ -489,6 +574,19 @@ public partial class EDLViewModel : MainPageBase
         }
         return partModels;
     }
+    private void RenameProgramNodesToErase(string xmlFilePath)
+    {
+        XDocument xdoc = XDocument.Load(xmlFilePath);
+        var programElements = xdoc.Descendants("program");
+
+        foreach (var element in programElements)
+        {
+            XElement newElement = new XElement("erase", element.Attributes());
+            element.ReplaceWith(newElement);
+        }
+
+        xdoc.Save(xmlFilePath);
+    }
     /// <summary>
     /// 为XML文件中的program元素添加索引号
     /// </summary>
@@ -540,6 +638,39 @@ public partial class EDLViewModel : MainPageBase
             }
         }
         mergedDoc.Save(outputFilePath);
+    }
+    private void ReadGptFilesAndGenerateXml(string directoryPath, string outputXmlPath)
+    {
+        var gptFiles = Directory.GetFiles(directoryPath, "gpt_main*.bin");
+
+        XDocument xmlDoc = new XDocument(new XElement("data"));
+
+        foreach (var gptFile in gptFiles)
+        {
+            var gpt = GptPartitionTable.FromFile(gptFile);
+            var primaryHeader = gpt.Primary;
+            var partitionEntries = primaryHeader.Entries;
+            var fileName = Path.GetFileNameWithoutExtension(gptFile);
+            var match = System.Text.RegularExpressions.Regex.Match(fileName, @"\d+");
+            var fileNumber = match.Success ? match.Value : "0";
+            foreach (var entry in partitionEntries)
+            {
+                XElement programElement = new XElement("program",
+                new XAttribute("SECTOR_SIZE_IN_BYTES", gpt.SectorSize),
+                new XAttribute("file_sector_offset", 0),
+                new XAttribute("filename", entry.Name+".img"),
+                new XAttribute("label", entry.Name),
+                new XAttribute("num_partition_sectors", entry.LastLba-entry.FirstLba),
+                new XAttribute("physical_partition_number", fileNumber),
+                new XAttribute("size_in_KB", (primaryHeader.EntriesCount * gpt.SectorSize) / 1024.0),
+                new XAttribute("sparse", "false"),
+                new XAttribute("start_byte_hex", $"0x{((long)entry.FirstLba * gpt.SectorSize):x}"),
+                new XAttribute("start_sector", entry.FirstLba)
+            );
+                xmlDoc.Root.Add(programElement);
+            }
+        }
+        xmlDoc.Save(outputXmlPath);
     }
     private void ExtractSelectedPartsToXml(string outputFilePath)
     {

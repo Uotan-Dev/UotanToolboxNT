@@ -47,7 +47,9 @@
 
 [点击这里](https://github.com/Uotan-Dev/UotanToolboxNT.Binary)获取使用的全部二进制文件
 
-如果想要调试该项目，请将二进制文件放至`UotanToolboxNT\UotanToolbox\bin\Debug\net8.0\bin`目录下。
+如果想要调试该项目，请将二进制文件放至`UotanToolboxNT\UotanToolbox\bin\Debug\net9.0\bin`目录下。
+
+调试柚坛工具箱的准备工作[视频教程](https://www.bilibili.com/video/BV1pjBtYnETb/?share_source=copy_web&vd_source=f2588a5d09b72f42ea37673cd369bc14)
 
 
 ## Star 历史

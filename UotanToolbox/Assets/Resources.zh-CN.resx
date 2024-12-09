@@ -600,6 +600,15 @@
   <data name="Scrcpy_WindowTopping" xml:space="preserve">
     <value>窗口置顶</value>
   </data>
+  <data name="Scrcpy_VirtualDisplay" xml:space="preserve">
+    <value>虚拟屏幕</value>
+  </data>
+  <data name="Scrcpy_Enable_Virtual_Screen" xml:space="preserve">
+    <value>启用虚拟屏幕</value>
+  </data>
+  <data name="Scrcpy_Virtual_Screen_Package" xml:space="preserve">
+    <value>虚拟屏幕包名</value>
+  </data>
   <data name="Modifypartition_CreatePart" xml:space="preserve">
     <value>创建分区</value>
   </data>

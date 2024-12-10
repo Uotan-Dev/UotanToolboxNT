@@ -98,7 +98,7 @@ public partial class ScrcpyViewModel : MainPageBase
 
                         if (FullScreen)
                         {
-                            arg += "--fullscreen ";
+                            arg += "--fullscreen --no-vd-destroy-content ";
                         }
 
                         if (!ShowBorder)

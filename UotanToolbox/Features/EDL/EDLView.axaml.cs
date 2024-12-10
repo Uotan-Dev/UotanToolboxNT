@@ -9,7 +9,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using UotanToolbox.Common;
+using UotanToolbox.Features.EDL;
 
 namespace UotanToolbox.Features.EDL;
 
@@ -93,6 +95,24 @@ public partial class EDLView : UserControl
         if (files.Count >= 1)
         {
             eDLPartModel.FileName = Path.GetFileName(StringHelper.FilePath(files[0].Path.ToString()));
+            
+            XDocument xdoc = XDocument.Load(Global.xml_path);
+            var programElements = xdoc.Descendants("program");
+
+            foreach (var element in programElements)
+            {
+                var indexAttribute = element.Attribute("Uotan-Index");
+                if (indexAttribute != null && indexAttribute.Value == eDLPartModel.Index)
+                {
+                    var filenameAttribute = element.Attribute("filename");
+                    if (filenameAttribute != null)
+                    {
+                        filenameAttribute.Value = files[0].Path.ToString();
+                    }
+                }
+            }
+
+            xdoc.Save(Global.xml_path);
         }
     }
 

@@ -46,8 +46,7 @@ public partial class EDLViewModel : MainPageBase
     private string output = "";
     private readonly string edl_log_path = Path.Combine(Global.log_path, "edl.txt");
     private const int LogLevel = 0;
-    private string xml_path = "";
-    private string work_path = Global.bin_path;
+    public string work_path = Path.Join(Global.tmp_path, "EDL-"+StringHelper.RandomString(8));
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
@@ -124,11 +123,11 @@ public partial class EDLViewModel : MainPageBase
     /// <param name="noautoconfigure"></param>
     /// <param name="autoconfig"></param>
     /// <returns></returns>
-    private async Task Fh_loader(string workpath, bool benchmarkdigestperformance = false, bool benchmarkreads = false, bool benchmarkwrites = false, string createvipdigests = null, string chaineddigests = null, string contentsxml = null, bool convertprogram2read = false, string digestsperfilename = null, string erase = null, string files = null, bool firmwarewrite = false, string fixgpt = null, string flattenbuildto = null, string flavor = null, bool forcecontentsxmlpaths = false, string getstorageinfo = null, string json_in = null, string labels = null, string loglevel = null, string lun = null, string mainoutputdir = null, string maxpayloadsizeinbytes = null, string memoryname = null, string notfiles = null, string notlabels = null, bool nop = false, bool noprompt = false, string num_sectors = null, string port = null, string porttracename = null, string port_type = null, string power = null, string search_path = null, string sectorsizeinbytes = null, string sendimage = null, string sendxml = null, string setactivepartition = null, bool showpercentagecomplete = false, string signeddigests = null, string slot = null, string start_sector = null, bool verbose = false, bool verify_programming_getsha = false, bool verify_programming = false, string zlpawarehost = null, bool noautoconfigure = true, bool autoconfig = false)
+    private async Task Fh_loader(string workpath, bool benchmarkdigestperformance = false, bool benchmarkreads = false, bool benchmarkwrites = false, string createvipdigests = null, string chaineddigests = null, string contentsxml = null, bool convertprogram2read = false, string digestsperfilename = null, string erase = null, string files = null, bool firmwarewrite = false, string fixgpt = null, string flattenbuildto = null, string flavor = null, bool forcecontentsxmlpaths = false, string getstorageinfo = null, string json_in = null, string labels = null, string loglevel = null, string lun = null, string mainoutputdir = null, string maxpayloadsizeinbytes = null, string memoryname = null, string notfiles = null, string notlabels = null, bool nop = false, bool noprompt = false, string num_sectors = null, string port = null, string porttracename = null, string port_type = null, string power = null, string search_path = null, string sectorsizeinbytes = null, string sendimage = null, string sendxml = null, string setactivepartition = null, bool showpercentagecomplete = false, string signeddigests = null, string slot = null, string start_sector = null, bool verbose = false, bool verify_programming_getsha = false, bool verify_programming = false, string zlpawarehost = null)
     {
         await Task.Run(() =>
         {
-            List<string> args = new List<string>();
+            List<string> args = [];
             string cmd = Path.Combine(Global.bin_path, "fh_loader");
             if (search_path != null) args.Add($"--search_path=\"{search_path}\\\"");
             if (benchmarkdigestperformance) args.Add("--benchmarkdigestperformance");
@@ -163,7 +162,6 @@ public partial class EDLViewModel : MainPageBase
             if (porttracename != null) args.Add($"--porttracename=\"{porttracename}\"");
             if (port_type != null) args.Add($"--port_type=\"{port_type}\"");
             if (power != null) args.Add($"--power=\"{power}\"");
-            
             if (sectorsizeinbytes != null) args.Add($"--sectorsizeinbytes=\"{sectorsizeinbytes}\"");
             if (sendimage != null) args.Add($"--sendimage=\"{sendimage}\"");
             if (sendxml != null) args.Add($"--sendxml=\"{sendxml}\"");
@@ -176,8 +174,6 @@ public partial class EDLViewModel : MainPageBase
             if (verify_programming_getsha) args.Add("--verify_programming_getsha");
             if (verify_programming) args.Add("--verify_programming");
             if (zlpawarehost != null) args.Add($"--zlpawarehost=\"{zlpawarehost}\"");
-            if (noautoconfigure) args.Add("--noautoconfigure");
-            if (autoconfig) args.Add("--autoconfig");
             Directory.SetCurrentDirectory(workpath);
             ProcessStartInfo QSaharaServer = new ProcessStartInfo(cmd, string.Join(" ", args))
             {
@@ -248,12 +244,14 @@ public partial class EDLViewModel : MainPageBase
             var rawprogramXmls = rawprogramFiles.Select(file => new FileInfo(file)).ToList();
             var patchXmls = patchFiles.Select(file => new FileInfo(file)).ToList();
             var xmlFiles = new List<string>();
+            Directory.CreateDirectory(work_path);
             xmlFiles.AddRange(rawprogramXmls.Select(file => file.FullName));
             xmlFiles.AddRange(patchXmls.Select(file => file.FullName));
-            xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(8) + ".xml");
-            MergeXMLFiles(xmlFiles, xml_path);
-            AddIndexToProgramElements(xml_path);
-            EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(xml_path));
+            Global.xml_path = Path.Join(work_path, "Merged.xml");
+            MergeXMLFiles(xmlFiles, Global.xml_path);
+            AddIndexToProgramElements(Global.xml_path);
+            UpdateProgramElementsWithAbsolutePaths(Global.xml_path, PartNamr);
+            EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(Global.xml_path));
             XMLFile = string.Join(", ", xmlFiles);
             patch_xml_paths = string.Join(", ", patchXmls.Select(file => file.FullName));
             if (firehoseFiles.Length > 0)
@@ -294,10 +292,11 @@ public partial class EDLViewModel : MainPageBase
         {
             xmlFiles.AddRange(rawprogram_xmls.Select(file => file.Path.LocalPath));
         }
-        xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(8) + ".xml");
-        MergeXMLFiles(xmlFiles, xml_path);
-        AddIndexToProgramElements(xml_path);
-        EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(xml_path));
+        Global.xml_path = Path.Join(work_path, "Merged.xml");
+        MergeXMLFiles(xmlFiles, Global.xml_path);
+        AddIndexToProgramElements(Global.xml_path);
+        UpdateProgramElementsWithAbsolutePaths(Global.xml_path, Path.GetDirectoryName(xmlFiles[0]));
+        EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(Global.xml_path));
         XMLFile = string.Join(", ", xmlFiles);
         if (patch_xmls != null)
         {
@@ -317,7 +316,7 @@ public partial class EDLViewModel : MainPageBase
             }
             await QSahara(port: "\\\\.\\" + Global.thisdevice, sahara: "13:" + FirehoseFile);
             FileHelper.Write(edl_log_path, output);
-            if (EDLLog.Contains("All is well ** SUCCESS!!"))
+            if (EDLLog.Contains("File transferred successfully"))
             {
                 Global.MainDialogManager.CreateDialog()
                             .WithTitle(GetTranslation("Common_Succ"))
@@ -360,7 +359,7 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task ReadPartTable()
     {
-        string part_table_path = Path.Join(Global.tmp_path, "Partition_Table_"+StringHelper.RandomString(8));
+        string part_table_path = Path.Join(work_path, "Partition_Table");
         string bin_xml_path = Path.Join(Global.bin_path, "XML");
         await DetectDeviceType();
         if (MemoryType == "存储类型：")
@@ -406,10 +405,10 @@ public partial class EDLViewModel : MainPageBase
                 await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable8.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
             }
         }
-        xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(8) + ".xml");
-        ReadGptFilesAndGenerateXml(part_table_path,xml_path);
-        AddIndexToProgramElements(xml_path);
-        EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(xml_path));
+        Global.xml_path = Path.Join(work_path, "Merged.xml");
+        ReadGptFilesAndGenerateXml(part_table_path, Global.xml_path);
+        AddIndexToProgramElements(Global.xml_path);
+        EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(Global.xml_path));
     }
 
     [RelayCommand]
@@ -426,10 +425,10 @@ public partial class EDLViewModel : MainPageBase
                         .TryShow();
             return;
         }
-        string tmp_xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(16)+".xml");
+        string tmp_xml_path = Path.Join(work_path, "Temp.xml");
         ExtractSelectedPartsToXml(tmp_xml_path);
         RemoveIndexToProgramElements(tmp_xml_path);
-        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
+        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
 
         FileHelper.Write(edl_log_path, output);
         if (EDLLog.Contains("All Finished Successfully"))
@@ -466,11 +465,11 @@ public partial class EDLViewModel : MainPageBase
                         .TryShow();
             return;
         }
-        string tmp_xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(16) + ".xml");
+        string tmp_xml_path = Path.Join(work_path, "Temp.xml");
         ExtractSelectedPartsToXml(tmp_xml_path);
         RemoveIndexToProgramElements(tmp_xml_path);
         RenameProgramNodesToErase(tmp_xml_path);
-        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
+        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
         FileHelper.Write(edl_log_path, output);
         if (EDLLog.Contains("All Finished Successfully"))
         {
@@ -597,7 +596,7 @@ public partial class EDLViewModel : MainPageBase
             {
                 Lun = element.Attribute("physical_partition_number")?.Value,
                 Name = element.Attribute("label")?.Value,
-                FileName = element.Attribute("filename")?.Value,
+                FileName = Path.GetFileName(element.Attribute("filename")?.Value),//让文件名只显示文件名，不显示路径
                 IsSparse = element.Attribute("sparse")?.Value,
                 Offset = element.Attribute("file_sector_offset")?.Value,
                 Start = element.Attribute("start_sector")?.Value,
@@ -608,6 +607,10 @@ public partial class EDLViewModel : MainPageBase
         }
         return partModels;
     }
+    /// <summary>
+    /// 重命名XML文件中的program元素为erase，用于擦除分区功能
+    /// </summary>
+    /// <param name="xmlFilePath">需要重命名节点的xml文件路径</param>
     private void RenameProgramNodesToErase(string xmlFilePath)
     {
         XDocument xdoc = XDocument.Load(xmlFilePath);
@@ -622,9 +625,39 @@ public partial class EDLViewModel : MainPageBase
         xdoc.Save(xmlFilePath);
     }
     /// <summary>
-    /// 为XML文件中的program元素添加索引号
+    /// 为XML文件中的program元素中的filename添加绝对路径
     /// </summary>
     /// <param name="xmlFilePath"></param>
+    /// <param name="baseDirectory"></param>
+    private void UpdateProgramElementsWithAbsolutePaths(string xmlFilePath, string baseDirectory)
+    {
+        XDocument xdoc = XDocument.Load(xmlFilePath);
+        var programElements = xdoc.Descendants("program");
+        foreach (var element in programElements)
+        {
+            var filenameAttribute = element.Attribute("filename");
+            if (filenameAttribute != null)
+            {
+                string relativePath = filenameAttribute.Value;
+                string absolutePath = Path.Combine(baseDirectory, relativePath);
+
+                if (File.Exists(absolutePath))
+                {
+                    filenameAttribute.Value = absolutePath;
+                }
+                else
+                {
+                    filenameAttribute.Value = string.Empty;
+                }
+            }
+        }
+
+        xdoc.Save(xmlFilePath);
+    }
+    /// <summary>
+    /// 为XML文件中的program元素添加索引号
+    /// </summary>
+    /// <param name="xmlFilePath">需要添加索引号的xml文件路径</param>
     private void AddIndexToProgramElements(string xmlFilePath)
     {
         XDocument xdoc = XDocument.Load(xmlFilePath);
@@ -641,7 +674,7 @@ public partial class EDLViewModel : MainPageBase
     /// <summary>
     /// 移除XML文件中的索引号
     /// </summary>
-    /// <param name="xmlFilePath"></param>
+    /// <param name="xmlFilePath">需要移除索引号的xml文件路径</param>
     private void RemoveIndexToProgramElements(string xmlFilePath)
     {
         XDocument xdoc = XDocument.Load(xmlFilePath);
@@ -655,17 +688,15 @@ public partial class EDLViewModel : MainPageBase
     /// <summary>
     /// 合并用户选择的XML文件
     /// </summary>
-    /// <param name="xmlFilePaths"></param>
-    /// <param name="outputFilePath"></param>
+    /// <param name="xmlFilePaths">多个xml文件所在目录</param>
+    /// <param name="outputFilePath">输出的xml文件路径，具体到文件名</param>
     private void MergeXMLFiles(IEnumerable<string> xmlFilePaths, string outputFilePath)
     {
         XDocument mergedDoc = new XDocument(new XElement("data"));
-
         foreach (var xmlFilePath in xmlFilePaths)
         {
             XDocument xdoc = XDocument.Load(xmlFilePath);
             var programElements = xdoc.Descendants("program");
-
             foreach (var element in programElements)
             {
                 mergedDoc.Root.Add(new XElement(element));
@@ -673,6 +704,11 @@ public partial class EDLViewModel : MainPageBase
         }
         mergedDoc.Save(outputFilePath);
     }
+    /// <summary>
+    /// 解析GPTA分区表文件，生成XML文件，节点为标准xml，不包含厂商定义节点
+    /// </summary>
+    /// <param name="directoryPath">分区表文件所在文件夹</param>
+    /// <param name="outputXmlPath">输出的xml文件路径，具体到文件名</param>
     private void ReadGptFilesAndGenerateXml(string directoryPath, string outputXmlPath)
     {
         var gptFiles = Directory.GetFiles(directoryPath, "gpt_main*.bin");
@@ -706,10 +742,14 @@ public partial class EDLViewModel : MainPageBase
         }
         xmlDoc.Save(outputXmlPath);
     }
+    /// <summary>
+    /// 将图形化界面中选中的部分提取到新的XML文件中，按照Uotan-Index节点进行筛选
+    /// </summary>
+    /// <param name="outputFilePath">提取后的XML文件输出路径</param>
     private void ExtractSelectedPartsToXml(string outputFilePath)
     {
         XDocument extractedDoc = new XDocument(new XElement("data"));
-        XDocument tempDoc = XDocument.Load(xml_path);
+        XDocument tempDoc = XDocument.Load(Global.xml_path);
         foreach (var part in EDLPartModel)
         {
             if (part.SelectPart)
@@ -724,12 +764,16 @@ public partial class EDLViewModel : MainPageBase
         }
         extractedDoc.Save(outputFilePath);
     }
+    /// <summary>
+    /// 检测设备存储类型，若为自动，则尝试检测 UFS 和 EMMC。由于市面UFS设备更多，故先检测 UFS
+    /// </summary>
+    /// <returns></returns>
     private async Task DetectDeviceType()
     {
+
         try
         {
             string tmpBinFilePath = Path.Combine(Global.tmp_path, "tmp.bin");
-
             // 尝试检测 UFS 存储类型
             bool isUfs = await TryDetectMemoryType("ufs", "UFS.xml", tmpBinFilePath);
             if (isUfs)
@@ -737,7 +781,6 @@ public partial class EDLViewModel : MainPageBase
                 MemoryType = "存储类型：UFS";
                 return;
             }
-
             // 尝试检测 EMMC 存储类型
             bool isEmmc = await TryDetectMemoryType("emmc", "EMMC.xml", tmpBinFilePath);
             if (isEmmc)

@@ -574,10 +574,16 @@
     <value>等比缩放</value>
   </data>
   <data name="Scrcpy_RecordDictionary" xml:space="preserve">
-    <value> </value>
+    <value>录屏目录</value>
   </data>
   <data name="Scrcpy_RecordScreen" xml:space="preserve">
     <value>录制屏幕</value>
+  </data>
+  <data name="Scrcpy_Enable_Virtual_Screen" xml:space="preserve">
+    <value>启用虚拟屏幕</value>
+  </data>
+  <data name="Scrcpy_Virtual_Screen_Package" xml:space="preserve">
+    <value>虚拟屏幕包名</value>
   </data>
   <data name="Scrcpy_ScrcpyCastingTool" xml:space="preserve">
     <value>Scrcpy投屏工具</value>
@@ -599,6 +605,9 @@
   </data>
   <data name="Scrcpy_WindowTopping" xml:space="preserve">
     <value>窗口置顶</value>
+  </data>
+  <data name="Scrcpy_VirtualDisplay" xml:space="preserve">
+    <value>虚拟屏幕</value>
   </data>
   <data name="Modifypartition_CreatePart" xml:space="preserve">
     <value>创建分区</value>
@@ -1484,5 +1493,11 @@
   </data>
   <data name="Common_FBRoot" xml:space="preserve">
     <value>检测到Fastboot设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？</value>
+  </data>
+  <data name="Scrcpy_VS_DisplaySize" xml:space="preserve">
+    <value>虚拟屏幕大小</value>
+  </data>
+  <data name="Scrcpy_VS_DisplaySizeExample" xml:space="preserve">
+    <value>1920x1080/460 (高 × 宽)/dpi</value>
   </data>
 </root>

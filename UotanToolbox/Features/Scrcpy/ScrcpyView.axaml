@@ -315,6 +315,47 @@
 					</StackPanel>
 				</Grid>
 			</suki:GlassCard>
+			<!--  Virtual display  -->
+			<suki:GlassCard Width="475"
+							Height="215"
+                            Margin="10"
+                            VerticalAlignment="Top">
+				<Grid>
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="{x:Static assets:Resources.Scrcpy_VirtualDisplay}" />
+						<StackPanel Margin="0,15,0,0" Orientation="Horizontal">
+							<TextBlock Width="90"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Foreground="{DynamicResource SukiLowText}"
+									   Text="{x:Static assets:Resources.Scrcpy_Enable_Virtual_Screen}" />
+							<ToggleSwitch Margin="275,0,0,0" IsChecked="{Binding EnableVirtualScreen}" />
+						</StackPanel>
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="90"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Foreground="{DynamicResource SukiLowText}"
+									   Text="{x:Static assets:Resources.Scrcpy_Virtual_Screen_Package}" />
+							<TextBox Width="330" Name="VirtualScreenPackage" Watermark="{x:Static assets:Resources.Scrcpy_Virtual_Screen_Package}" Text="{Binding VirtualScreenPackage, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+						</StackPanel>
+						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+							<TextBlock Width="90"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   FontSize="13"
+									   Foreground="{DynamicResource SukiLowText}"
+									   Text="{x:Static assets:Resources.Scrcpy_VS_DisplaySize}" />
+							<TextBox Width="330" Name="VirtualScreenDisplaySize" Watermark="{x:Static assets:Resources.Scrcpy_VS_DisplaySizeExample}" Text="{Binding VirtualScreenDisplaySize, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
 		</WrapPanel>
 	</ScrollViewer>
 </UserControl>

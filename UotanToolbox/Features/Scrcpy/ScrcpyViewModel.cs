@@ -20,7 +20,7 @@ public partial class ScrcpyViewModel : MainPageBase
     private bool _recordScreen = false, _windowFixed = false, _computerControl = true, _fullScreen = false, _showBorder = true,
                         _showTouch = true, _closeScreen = false, _screenAwake = false, _screenAwakeStatus = true, _clipboardSync = true, _cameraMirror = false,_enableVirtualScreen = false;
     [ObservableProperty] private bool _IsConnecting;
-    [ObservableProperty] private string _windowTitle, _recordFolder, _virtualScreenPackage;
+    [ObservableProperty] private string _windowTitle, _recordFolder, _virtualScreenPackage, _virtualScreenDisplaySize;
 
     [ObservableProperty][Range(0d, 50d)] private double _bitRate = 8;
     [ObservableProperty][Range(0d, 144d)] private double _frameRate = 60;
@@ -80,12 +80,22 @@ public partial class ScrcpyViewModel : MainPageBase
                         
                         if (EnableVirtualScreen)
                         {
-                            arg += "--new-display ";
+                            if (VirtualScreenDisplaySize != "")
+                            {
+                                arg += $"--new-display={VirtualScreenDisplaySize} ";
+                            }
+                            else
+                            {
+                                arg += $"--new-display ";
+                            }
                         }
+
                         if (VirtualScreenPackage != "")
                         {
                             arg += $"--start-app={VirtualScreenPackage} ";
                         }
+
+                        
 
                         if (WindowTitle is not "" and not null)
                         {

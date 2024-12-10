@@ -3438,7 +3438,29 @@ namespace UotanToolbox.Assets {
                 return ResourceManager.GetString("Scrcpy_Virtual_Screen_Package", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   查找类似 Virtual Screen Display Size 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_VS_DisplaySize
+        {
+            get
+            {
+                return ResourceManager.GetString("Scrcpy_VS_DisplaySize", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Virtual Screen Display Size Example 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_VS_DisplaySizeExample
+        {
+            get
+            {
+                return ResourceManager.GetString("Scrcpy_VS_DisplaySizeExample", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   查找类似 Casting... 的本地化字符串。
         /// </summary>

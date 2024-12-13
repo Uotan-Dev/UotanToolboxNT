@@ -541,7 +541,7 @@
     <value>小米USB3.0补丁</value>
   </data>
   <data name="Common_ChooseFolder" xml:space="preserve">
-    <value>选择文件夹</value>
+    <value>选择目录</value>
   </data>
   <data name="Scrcpy_Bitrate" xml:space="preserve">
     <value>比特率</value>

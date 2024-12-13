@@ -25,60 +25,32 @@ public partial class EDLView : UserControl
     public EDLView()
     {
         InitializeComponent();
+        _ = SetEnabled();
     }
 
-    public async Task QSaharaServerAsync(string fb)//QSaharaServer实时输出
+    public async Task SetEnabled()
     {
-        await Task.Run(() =>
+        while (true)
         {
-            string cmd = Path.Combine(Global.bin_path, "edl", "QSaharaServer");
-            ProcessStartInfo fastboot = null;
-            fastboot = new ProcessStartInfo(cmd, fb);
-            fastboot.CreateNoWindow = true;
-            fastboot.UseShellExecute = false;
-            fastboot.RedirectStandardOutput = true;
-            fastboot.RedirectStandardError = true;
-            Process f = Process.Start(fastboot);
-            f.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
-            f.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
-            f.BeginOutputReadLine();
-            f.BeginErrorReadLine();
-            f.WaitForExit();
-            f.Close();
-        });
-    }
-
-    public async Task FhloaderAsync(string fb)//Fhloader实时输出
-    {
-        await Task.Run(() =>
-        {
-            string cmd = Path.Combine(Global.bin_path, "edl", "fh_loader");
-            ProcessStartInfo fastboot = null;
-            fastboot = new ProcessStartInfo(cmd, fb);
-            fastboot.CreateNoWindow = true;
-            fastboot.UseShellExecute = false;
-            fastboot.RedirectStandardOutput = true;
-            fastboot.RedirectStandardError = true;
-            Process f = Process.Start(fastboot);
-            f.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
-            f.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
-            f.BeginOutputReadLine();
-            f.BeginErrorReadLine();
-            f.WaitForExit();
-            f.Close();
-        });
-    }
-
-    public async void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
-    {
-        if (!String.IsNullOrEmpty(outLine.Data))
-        {
-            await Dispatcher.UIThread.InvokeAsync(() =>
+            if (await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                StringBuilder sb = new StringBuilder(EDLLog.Text);
-                EDLLog.Text = sb.AppendLine(outLine.Data).ToString();
-                EDLLog.CaretIndex = EDLLog.Text.Length;
-            });
+                MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+                if (sukiViewModel.Status != "9008")
+                {
+                    PartCard.IsEnabled = false;
+                    MoreCard.IsEnabled = false;
+                }
+                else
+                {
+                    PartCard.IsEnabled = true;
+                    MoreCard.IsEnabled = true;
+                }
+            }
+            else
+            {
+                PartCard.IsEnabled = false;
+                MoreCard.IsEnabled = false;
+            }
         }
     }
 
@@ -114,18 +86,5 @@ public partial class EDLView : UserControl
 
             xdoc.Save(Global.xml_path);
         }
-    }
-
-    private async void BatchWrite(object sender, RoutedEventArgs args)
-    {
-        string com = Global.thisdevice;
-        string elf = FirehoseFile.Text;
-        string imgdir = Path.GetDirectoryName(elf);
-        string xml = XMLFile.Text;
-        string storage = "UFS";
-        string shell = String.Format(@"-p \\.\{0} -s 13:{1}", com, elf);
-        QSaharaServerAsync(shell);
-        shell = String.Format(@"--port=\\.\{0} --search_path={1} --memoryname={2} --noprompt --sendxml={3} --zlpawarehost=1 --reset", com, imgdir, storage, xml);
-        FhloaderAsync(shell);
     }
 }

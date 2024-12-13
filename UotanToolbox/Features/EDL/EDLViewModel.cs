@@ -33,11 +33,11 @@ namespace UotanToolbox.Features.EDL;
 public partial class EDLViewModel : MainPageBase
 {
     [ObservableProperty]
-    private string firehoseFile, currentDevice = $"当前连接：{Global.thisdevice}", memoryType = "存储类型：", xMLFile, partNamr, eDLLog;
+    private string firehoseFile, currentDevice = $"目标端口：{Global.thisdevice}", memoryType = "存储类型：", xMLFile, partNamr, eDLLog;
     [ObservableProperty]
     private bool auto = true, uFS = false, eMMC = false;
     [ObservableProperty]
-    private int selectFlie = 0, selectUFSLun = 0, selectBand = 1, logIndex = 0;
+    private int selectFlie = 0, selectBand = 1, logIndex = 0;
     [ObservableProperty]
     private AvaloniaList<string> builtInFile = ["common", "mi_auth", "mi_noauth_625", "mi_noauth_778g"], uFSLun = ["6", "7", "8"], bandList = ["commonl", "mi", "oppo", "oneplus", "meizu", "zte", "lg"];
     [ObservableProperty]
@@ -54,7 +54,7 @@ public partial class EDLViewModel : MainPageBase
 
     public EDLViewModel() : base("9008刷机", MaterialIconKind.CableData, -350)
     {
-
+        
     }
 
     private async Task QSahara(string port = null, int? verbose = null, string command = null, bool memdump = false, bool image = false, string sahara = null, string prefix = null, string where = null, string ramdumpimage = null, bool efssyncloop = false, int? rxtimeout = null, int? maxwrite = null, string addsearchpath = null, bool sendclearstate = false, int? portnumber = null, bool switchimagetx = false, bool nomodereset = false, string cmdrespfilepath = null, bool uart = false, bool ethernet = false, int? ethernet_port = null, bool noreset = false, bool resettxfail = false)

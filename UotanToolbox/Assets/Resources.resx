@@ -619,7 +619,7 @@
     <value>End:</value>
   </data>
   <data name="Modifypartition_IdColon" xml:space="preserve">
-    <value>ID:</value>
+    <value>ID/Name:</value>
   </data>
   <data name="Modifypartition_Mark" xml:space="preserve">
     <value>ESP On</value>
@@ -1138,7 +1138,8 @@
     <value>Delete/ESP On</value>
   </data>
   <data name="Modifypartition_OnlyOenPart" xml:space="preserve">
-    <value>Only one Part ID for once!</value>
+    <value>Fill name in FASTBOOT,
+Fill ID in ADB, one at a time!</value>
   </data>
   <data name="Modifypartition_PartName" xml:space="preserve">
     <value>Name:</value>
@@ -1502,5 +1503,11 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   </data>
   <data name="Scrcpy_VS_DisplaySizeExample" xml:space="preserve">
     <value>1920x1080/460 (Height × Width)/dpi</value>
+  </data>
+  <data name="Common_EnterFastbootd" xml:space="preserve">
+    <value>Please enter Fastbootd mode!</value>
+  </data>
+  <data name="Modifypartition_EnterName" xml:space="preserve">
+    <value>Please enter the partition name!</value>
   </data>
 </root>

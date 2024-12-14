@@ -54,7 +54,7 @@ public partial class EDLViewModel : MainPageBase
 
     public EDLViewModel() : base("9008刷机", MaterialIconKind.CableData, -350)
     {
-
+        
     }
 
     private async Task QSahara(string port = null, int? verbose = null, string command = null, bool memdump = false, bool image = false, string sahara = null, string prefix = null, string where = null, string ramdumpimage = null, bool efssyncloop = false, int? rxtimeout = null, int? maxwrite = null, string addsearchpath = null, bool sendclearstate = false, int? portnumber = null, bool switchimagetx = false, bool nomodereset = false, string cmdrespfilepath = null, bool uart = false, bool ethernet = false, int? ethernet_port = null, bool noreset = false, bool resettxfail = false)

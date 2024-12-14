@@ -37,18 +37,27 @@ public partial class EDLView : UserControl
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 if (sukiViewModel.Status != "9008")
                 {
-                    PartCard.IsEnabled = false;
+                    ReadPartTableBut.IsEnabled = false;
+                    WritePartBut.IsEnabled = false;
+                    ReadPartBut.IsEnabled = false;
+                    ErasePartBut.IsEnabled = false;
                     MoreCard.IsEnabled = false;
                 }
                 else
                 {
-                    PartCard.IsEnabled = true;
+                    ReadPartTableBut.IsEnabled = true;
+                    WritePartBut.IsEnabled = true;
+                    ReadPartBut.IsEnabled = true;
+                    ErasePartBut.IsEnabled = true;
                     MoreCard.IsEnabled = true;
                 }
             }
             else
             {
-                PartCard.IsEnabled = false;
+                ReadPartTableBut.IsEnabled = false;
+                WritePartBut.IsEnabled = false;
+                ReadPartBut.IsEnabled = false;
+                ErasePartBut.IsEnabled = false;
                 MoreCard.IsEnabled = false;
             }
         }

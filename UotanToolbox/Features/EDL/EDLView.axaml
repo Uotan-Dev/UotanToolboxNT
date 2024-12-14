@@ -29,7 +29,7 @@
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center" Text="镜像目录:"></TextBlock>
 							<TextBox Name="ImageFolder" Width="500" Text="{Binding PartNamr}" />
-							<Button Height="35" Command="{Binding OpenImageFolder}"
+							<Button Height="35" Width="105" Padding="0" Command="{Binding OpenImageFolder}"
 									Content="{x:Static assets:Resources.Common_ChooseFolder}">
 							</Button>
 						</StackPanel>
@@ -43,7 +43,7 @@
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center" Text="XML文件:"></TextBlock>
 							<TextBox Name="XMLFile" Width="500" Text="{Binding XMLFile}"/>
-							<Button Height="35" Command="{Binding OpenXMLFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+							<Button Height="35" Width="105" Padding="0" Command="{Binding OpenXMLFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
@@ -74,7 +74,7 @@
 		</suki:GlassCard>
 
 			<!--    -->
-			<suki:GlassCard Name="PartCard" Height="540" Width="725" Margin="10 10 10 10">
+			<suki:GlassCard Height="540" Width="725" Margin="10 10 10 10">
 			<suki:BusyArea>
 				<StackPanel>
 				<StackPanel>
@@ -114,7 +114,8 @@
 							<TextBlock Text="全选/取消全选" />
 						</TextBlock>
 					</Button>
-					<Button Width="120"
+					<Button Name="ReadPartTableBut"
+							Width="120"
 							HorizontalAlignment="Left"
 							Command="{Binding ReadPartTable}"
 							Padding="8">
@@ -122,7 +123,8 @@
 							<TextBlock Text="读取分区表" />
 						</TextBlock>
 					</Button>
-					<Button Width="120"
+					<Button Name="WritePartBut"
+							Width="120"
 							HorizontalAlignment="Left"
 							Command="{Binding WritePart}"
 							Padding="8">
@@ -130,7 +132,8 @@
 							<TextBlock Text="写入" />
 						</TextBlock>
 					</Button>
-					<Button Width="120"
+					<Button Name="ReadPartBut"
+							Width="120"
 							HorizontalAlignment="Left"
 							Command="{Binding ReadPart}"
 							Padding="8">
@@ -138,7 +141,8 @@
 							<TextBlock Text="回读" />
 						</TextBlock>
 					</Button>
-					<Button Width="120"
+					<Button Name="ErasePartBut"
+							Width="120"
 							HorizontalAlignment="Left"
 							Command="{Binding ErasePart}"
 							Padding="8">

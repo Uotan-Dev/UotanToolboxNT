@@ -320,8 +320,8 @@ public partial class FormatExtractView : UserControl
                                                                         await CallExternalProgram.ADB($"-s {Global.thisdevice} shell \"am start -n com.longcheertel.midtest/com.longcheertel.midtest.Diag\"");
                                                                     }, true)
                                                                     .TryShow();
-                                            BusyQCN.IsBusy = true;
-                                            QCN.IsEnabled = false;
+                                            BusyQCN.IsBusy = false;
+                                            QCN.IsEnabled = true;
                                         }, true)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                         .TryShow();

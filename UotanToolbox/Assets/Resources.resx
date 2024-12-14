@@ -553,7 +553,7 @@
     <value>Close screenlock</value>
   </data>
   <data name="Scrcpy_CloseScreenWhenCasting" xml:space="preserve">
-    <value>Casting close screen</value>
+    <value>Close screen when casting</value>
   </data>
   <data name="Scrcpy_ComputerControl" xml:space="preserve">
     <value>Computer control</value>
@@ -580,10 +580,10 @@
     <value>Record Screen</value>
   </data>
   <data name="Scrcpy_Enable_Virtual_Screen" xml:space="preserve">
-    <value>Enable the virtual screen</value>
+    <value>Enable virtual screen</value>
   </data>
   <data name="Scrcpy_Virtual_Screen_Package" xml:space="preserve">
-    <value>Virtual Screen Package name</value>
+    <value>Package name</value>
   </data>
   <data name="Scrcpy_ScrcpyCastingTool" xml:space="preserve">
     <value>Scrcpy Casting Tool</value>
@@ -1505,7 +1505,7 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
     <value>Please enter the partition name!</value>
   </data>
   <data name="Scrcpy_VS_DisplaySize" xml:space="preserve">
-    <value>Virtual Screen Display Size</value>
+    <value>Display size</value>
   </data>
   <data name="Scrcpy_VS_DisplaySizeExample" xml:space="preserve">
     <value>1920x1080/460 (Height × Width)/dpi</value>

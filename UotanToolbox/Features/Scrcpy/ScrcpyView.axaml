@@ -42,7 +42,7 @@
 					</suki:BusyArea>
 				</suki:GlassCard>
 				<Button Name="ButtonSignIn"
-						Width="150"
+						MinWidth="150"
 						Height="40"
 						Margin="0,0,0,7"
 						HorizontalAlignment="Center"
@@ -136,99 +136,8 @@
 				</Grid>
 			</suki:GlassCard>
 
-			<!-- Analog Button -->
-			<suki:GlassCard Margin="10"
-							Height="295"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center">
-				<StackPanel>
-					<TextBlock HorizontalAlignment="Left"
-								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.Home_ButtonAnalog}" />
-					<StackPanel Margin="0 20" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding BackCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ArrowBack" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_BackButton}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding HomeCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="CircleOutline" />
-									<TextBlock Text="{x:Static assets:Resources.Home_HomeButton}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding MulCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="CardMultipleOutline" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_MultiTask}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding LockCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="LockOpenOutline" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_LockScreen}"/>
-								</TextBlock>
-							</Button>
-						</StackPanel>
-						<StackPanel Orientation="Vertical" HorizontalAlignment="Center" Spacing="15">
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding VolUCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumePlus" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeUp}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding VolDCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumeDecrease" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeDown}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding MuteCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumeOff" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeMute}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding SCCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="CameraOutline" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_Screenshot}"/>
-								</TextBlock>
-							</Button>
-						</StackPanel>
-					</StackPanel>
-				</StackPanel>
-			</suki:GlassCard>
-
-
 			<!--  More settings  -->
-			<suki:GlassCard Width="190"
+			<suki:GlassCard Width="460"
 							Height="295"
                             Margin="10 10 0 10"
                             VerticalAlignment="Top">
@@ -315,6 +224,7 @@
 					</StackPanel>
 				</Grid>
 			</suki:GlassCard>
+			
 			<!--  Virtual display  -->
 			<suki:GlassCard Width="475"
 							Height="215"
@@ -327,13 +237,13 @@
 								   FontWeight="DemiBold"
 								   Text="{x:Static assets:Resources.Scrcpy_VirtualDisplay}" />
 						<StackPanel Margin="0,15,0,0" Orientation="Horizontal">
-							<TextBlock Width="90"
+							<TextBlock Width="150"
 									   Margin="8,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Scrcpy_Enable_Virtual_Screen}" />
-							<ToggleSwitch Margin="275,0,0,0" IsChecked="{Binding EnableVirtualScreen}" />
+							<ToggleSwitch Margin="215,0,0,0" IsChecked="{Binding EnableVirtualScreen}" />
 						</StackPanel>
 						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 							<TextBlock Width="90"
@@ -342,7 +252,7 @@
 									   FontSize="13"
 									   Foreground="{DynamicResource SukiLowText}"
 									   Text="{x:Static assets:Resources.Scrcpy_Virtual_Screen_Package}" />
-							<TextBox Width="330" Name="VirtualScreenPackage" Watermark="{x:Static assets:Resources.Scrcpy_Virtual_Screen_Package}" Text="{Binding VirtualScreenPackage, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
+							<TextBox Width="330" Name="VirtualScreenPackage" Text="{Binding VirtualScreenPackage, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
 						</StackPanel>
 						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
 							<TextBlock Width="90"
@@ -356,6 +266,98 @@
 					</StackPanel>
 				</Grid>
 			</suki:GlassCard>
+
+			<!-- Analog Button -->
+			<suki:GlassCard Margin="10 10 0 10"
+							Height="215"
+							Width="460"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Center">
+				<StackPanel>
+					<TextBlock HorizontalAlignment="Left"
+								FontWeight="DemiBold"
+								Text="{x:Static assets:Resources.Home_ButtonAnalog}" />
+					<StackPanel Margin="0 30" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+							<Button Width="100"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Command="{Binding BackCommand}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ArrowBack" />
+									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_BackButton}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="100"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Command="{Binding HomeCommand}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="CircleOutline" />
+									<TextBlock Text="{x:Static assets:Resources.Home_HomeButton}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="100"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Command="{Binding MulCommand}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="CardMultipleOutline" />
+									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_MultiTask}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="100"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Command="{Binding LockCommand}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="LockOpenOutline" />
+									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_LockScreen}"/>
+								</TextBlock>
+							</Button>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+							<Button Width="100"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Command="{Binding VolUCommand}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="VolumePlus" />
+									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeUp}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="100"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Command="{Binding VolDCommand}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="VolumeDecrease" />
+									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeDown}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="100"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Command="{Binding MuteCommand}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="VolumeOff" />
+									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeMute}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="100"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Command="{Binding SCCommand}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="CameraOutline" />
+									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_Screenshot}"/>
+								</TextBlock>
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</suki:GlassCard>
+
 		</WrapPanel>
 	</ScrollViewer>
 </UserControl>

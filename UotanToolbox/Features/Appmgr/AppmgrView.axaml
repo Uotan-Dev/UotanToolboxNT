@@ -201,7 +201,7 @@
 												<RadioButton GroupName="ApplicationSelection" HorizontalAlignment="Right" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
 												<TextBlock FontSize="15" FontWeight="DemiBold" Text="{Binding DisplayName}" HorizontalAlignment="Left" />
 											</StackPanel>
-											<TextBlock FontSize="15" FontWeight="DemiBold" Text="{Binding Name}" HorizontalAlignment="Left" />
+											<Button Theme="{StaticResource ToolboxButtonFile}" FontSize="15" FontWeight="DemiBold" Content="{Binding Name}" HorizontalAlignment="Left" Click="CopyButton_OnClick"/>
 											<TextBlock FontSize="12" Text="{Binding OtherInfo}" />
 											<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="{x:Static assets:Resources.Appmgr_Uninstall}" Click="UninstallButton_Click" HorizontalAlignment="Right"/>
 										</StackPanel>

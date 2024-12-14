@@ -146,7 +146,7 @@ public partial class ScrcpyViewModel : MainPageBase
                             arg += "--video-source=camera ";
                         }
 
-                        _ = await CallExternalProgram.Scrcpy(arg);
+                        _ = CallExternalProgram.Scrcpy(arg);
                         IsConnecting = false;
                     });
                 }

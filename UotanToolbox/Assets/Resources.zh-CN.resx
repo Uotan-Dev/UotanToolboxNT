@@ -583,7 +583,7 @@
     <value>启用虚拟屏幕</value>
   </data>
   <data name="Scrcpy_Virtual_Screen_Package" xml:space="preserve">
-    <value>虚拟屏幕包名</value>
+    <value>应用包名</value>
   </data>
   <data name="Scrcpy_ScrcpyCastingTool" xml:space="preserve">
     <value>Scrcpy投屏工具</value>

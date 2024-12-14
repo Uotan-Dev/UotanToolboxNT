@@ -3468,7 +3468,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Casting close screen 的本地化字符串。
+        ///   查找类似 Close screen when casting 的本地化字符串。
         /// </summary>
         public static string Scrcpy_CloseScreenWhenCasting {
             get {
@@ -3486,7 +3486,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Enable the virtual screen 的本地化字符串。
+        ///   查找类似 Enable virtual screen 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Enable_Virtual_Screen {
             get {
@@ -3621,7 +3621,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Virtual Screen Package name 的本地化字符串。
+        ///   查找类似 Package name 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Virtual_Screen_Package {
             get {
@@ -3639,7 +3639,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Virtual Screen Display Size 的本地化字符串。
+        ///   查找类似 Display size 的本地化字符串。
         /// </summary>
         public static string Scrcpy_VS_DisplaySize {
             get {

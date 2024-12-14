@@ -20,7 +20,7 @@
 - 🚫 No ADs
 - 🛠 More features are in development ...
 
-## Screenshots
+## 📷 Screenshots
 
 ![](https://i.ibb.co/9TLTYd5/2024-08-02-220430.webp)
 
@@ -28,7 +28,7 @@
 
 ![](https://i.ibb.co/NTSrQHH/2024-08-02-220542.webp)
 
-## Setup
+## ✈️ Setup
 
 - Download latest version at [Github Release](https://github.com/Uotan-Dev/UotanToolboxNT/releases)
 	- Please use unzip tools like 7-zip on Windows if you download the portable version.
@@ -50,6 +50,6 @@ All binary files used can be found [here](https://github.com/Uotan-Dev/UotanTool
 To debug the project, you need to put the files above into `UotanToolboxNT\UotanToolbox\bin\Debug\net8.0\bin`.
 
 
-### Star History
+## Star History
 
 [![Uotan Toolbox NT](https://api.star-history.com/svg?repos=Uotan-Dev/UotanToolboxNT&type=Date)](https://star-history.com/#Uotan-Dev/UotanToolboxNT&Date)

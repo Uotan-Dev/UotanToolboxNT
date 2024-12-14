@@ -3508,7 +3508,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Casting close screen 的本地化字符串。
+        ///   查找类似 Close screen when casting 的本地化字符串。
         /// </summary>
         public static string Scrcpy_CloseScreenWhenCasting {
             get {
@@ -3522,6 +3522,15 @@ namespace UotanToolbox.Assets {
         public static string Scrcpy_ComputerControl {
             get {
                 return ResourceManager.GetString("Scrcpy_ComputerControl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enable virtual screen 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_Enable_Virtual_Screen {
+            get {
+                return ResourceManager.GetString("Scrcpy_Enable_Virtual_Screen", resourceCulture);
             }
         }
         
@@ -3648,6 +3657,42 @@ namespace UotanToolbox.Assets {
         public static string Scrcpy_TransmitAndRecord {
             get {
                 return ResourceManager.GetString("Scrcpy_TransmitAndRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Package name 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_Virtual_Screen_Package {
+            get {
+                return ResourceManager.GetString("Scrcpy_Virtual_Screen_Package", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Virtual display 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_VirtualDisplay {
+            get {
+                return ResourceManager.GetString("Scrcpy_VirtualDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Display size 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_VS_DisplaySize {
+            get {
+                return ResourceManager.GetString("Scrcpy_VS_DisplaySize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 1920x1080/460 (Height × Width)/dpi 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_VS_DisplaySizeExample {
+            get {
+                return ResourceManager.GetString("Scrcpy_VS_DisplaySizeExample", resourceCulture);
             }
         }
         

@@ -318,6 +318,7 @@ public partial class WiredflashView : UserControl
                             }
                         }
                         string slot = "";
+                        await Fastboot($"-s {Global.thisdevice} getvar snapshot-update-status");
                         string active = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar current-slot");
                         if (active.Contains("current-slot: a"))
                         {

@@ -16,11 +16,11 @@
 				   Margin="15"
 			       theme:WrapPanelExtensions.AnimatedScroll="True"
 			       Orientation="Horizontal">
-		<suki:GlassCard Classes="Card" Margin="10 15" Width="662">
+		<suki:GlassCard Classes="Card" Margin="10 10" Height="635" Width="668">
 			<suki:BusyArea  Name="BusyPart"
 							BusyText="载入中...">
 				<DataGrid Name="PartList"
-						  Width="620"
+						  Width="625"
 						  Height="565"
 						  FontSize="15"
 						  IsReadOnly="True"
@@ -30,25 +30,25 @@
 			</suki:BusyArea>
 		</suki:GlassCard>
 		<StackPanel Orientation="Vertical">
-			<suki:GlassCard Classes="Card" Margin="20 15 15 15" Width="265" Height="180">
+			<suki:GlassCard Classes="Card" Margin="15 10 15 10" Width="265" Height="210">
 				<StackPanel Orientation="Vertical" Spacing="5">
 					<TextBlock HorizontalAlignment="Left"
 							   VerticalAlignment="Top"
 							   FontWeight="DemiBold"
 							   Text="{x:Static assets:Resources.Modifypartition_DeletOrESP}" />
-					<TextBlock VerticalAlignment="Center"
+					<TextBlock TextAlignment="Center"
 							   FontSize="13"
-							   Margin="30,5,0,0"
-							   Height="15"
+							   Margin="5,5,0,0"
+							   Height="35"
 							   Text="{x:Static assets:Resources.Modifypartition_OnlyOenPart}" />
-					<StackPanel Margin="15,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-						<TextBlock Width="40"
+					<StackPanel Margin="0,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+						<TextBlock Width="70"
 								   VerticalAlignment="Center"
 								   FontSize="15"
 								   Text="{x:Static assets:Resources.Modifypartition_IdColon}" />
 						<TextBox Width="155" FontSize="15" Name="IdNumber" />
 					</StackPanel>
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+					<StackPanel Margin="0 5 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 						<Button Width="90"
 								Name="RMPartBut"
 								Click="RMPart"
@@ -66,7 +66,7 @@
 					</StackPanel>
 				</StackPanel>
 			</suki:GlassCard>
-			<suki:GlassCard Classes="Card" Margin="20 15 15 15" Width="265" Height="400">
+			<suki:GlassCard Classes="Card" Margin="15 15 10 10" Width="265" Height="400">
 				<StackPanel Orientation="Vertical" Spacing="20">
 					<TextBlock HorizontalAlignment="Left"
 							   VerticalAlignment="Top"
@@ -112,24 +112,24 @@
 				</StackPanel>
 			</suki:GlassCard>
 		</StackPanel>
-		<suki:GlassCard Classes="Card" Margin="10 15" Height="100" Width="662.5">
+		<suki:GlassCard Classes="Card" Margin="10 10" Height="100" Width="662.5">
 			<StackPanel Orientation="Horizontal" Spacing="0">
 				<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="10">
-					<StackPanel Orientation="Horizontal" Spacing="30">
-						<RadioButton Name="sda" Width="55" FontSize="15" Content="sda" GroupName="FormatContent" />
-						<RadioButton Name="sdb" Width="55" FontSize="15" Content="sdb" GroupName="FormatContent" />
-						<RadioButton Name="sdc" FontSize="15" Content="sdc" GroupName="FormatContent" />
+					<StackPanel Orientation="Horizontal" Spacing="20">
+						<RadioButton Name="sda" Width="60" FontSize="15" Content="sda" GroupName="FormatContent" />
+						<RadioButton Name="sdb" Width="60" FontSize="15" Content="sdb" GroupName="FormatContent" />
+						<RadioButton Name="sdc" Width="60" FontSize="15" Content="sdc" GroupName="FormatContent" />
+						<RadioButton Name="emmc" FontSize="15" Content="EMMC" GroupName="FormatContent" />
 					</StackPanel>
-					<StackPanel Orientation="Horizontal" Spacing="30">
-						<RadioButton Name="sdd" Width="55" FontSize="15" Content="sdd" GroupName="FormatContent" />
-						<RadioButton Name="sde" Width="55" FontSize="15" Content="sde" GroupName="FormatContent" />
-						<RadioButton Name="sdf" FontSize="15" Content="sdf" GroupName="FormatContent" />
+					<StackPanel Orientation="Horizontal" Spacing="20">
+						<RadioButton Name="sdd" Width="60" FontSize="15" Content="sdd" GroupName="FormatContent" />
+						<RadioButton Name="sde" Width="60" FontSize="15" Content="sde" GroupName="FormatContent" />
+						<RadioButton Name="sdf" Width="60" FontSize="15" Content="sdf" GroupName="FormatContent" />
+						<RadioButton Name="fastboot" FontSize="15" Content="FASTBOOT" GroupName="FormatContent" IsCheckedChanged="SetFastboot"/>
 					</StackPanel>
 				</StackPanel>
-				<StackPanel Orientation="Vertical" Margin="30,0,30,0" VerticalAlignment="Center">
-					<RadioButton Name="emmc" FontSize="15" Content="EMMC" GroupName="FormatContent" />
-				</StackPanel>
-				<TextBlock VerticalAlignment="Center"
+				<TextBlock Margin="20 0 0 0"
+						   VerticalAlignment="Center"
 						   FontSize="15"
 						   Width="80"
 						   Text="{x:Static assets:Resources.Modifypartition_TotalSize}" />

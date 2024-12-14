@@ -332,10 +332,10 @@ public partial class WiredflashView : UserControl
                             slot = null;
                         }
                         string cow = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
-                        string[] parts = { "odm", "system", "system_ext", "product", "vendor", "mi_ext" };
-                        for (int i = 0; i < parts.Length; i++)
+                        string[] cowparts = FeaturesHelper.GetVPartList(cow);
+                        for (int i = 0; i < cowparts.Length; i++)
                         {
-                            string cowpart = string.Format("{0}{1}-cow", parts[i], slot);
+                            string cowpart = string.Format("{0}{1}-cow", cowparts[i], slot);
                             if (cow.Contains(cowpart))
                             {
                                 string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {cowpart}");
@@ -360,9 +360,10 @@ public partial class WiredflashView : UserControl
                                 deleteslot = "_a";
                             }
                             string part = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
-                            for (int i = 0; i < parts.Length; i++)
+                            string[] vparts = FeaturesHelper.GetVPartList(cow);
+                            for (int i = 0; i < vparts.Length; i++)
                             {
-                                string deletepart = string.Format("{0}{1}", parts[i], deleteslot);
+                                string deletepart = string.Format("{0}{1}", vparts[i], deleteslot);
                                 string find = string.Format(":{0}:", deletepart);
                                 if (part.Contains(find))
                                 {

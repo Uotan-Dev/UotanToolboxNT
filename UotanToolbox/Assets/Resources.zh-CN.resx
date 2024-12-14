@@ -610,7 +610,7 @@
     <value>结束点:</value>
   </data>
   <data name="Modifypartition_IdColon" xml:space="preserve">
-    <value>序号：</value>
+    <value>序号/名称：</value>
   </data>
   <data name="Modifypartition_Mark" xml:space="preserve">
     <value>标记</value>
@@ -1126,7 +1126,8 @@
     <value>删除/标记分区</value>
   </data>
   <data name="Modifypartition_OnlyOenPart" xml:space="preserve">
-    <value>一次只能输入一个分区序号！</value>
+    <value>FASTBOOT下填写分区名，
+ADB下填写序号，一次一个！</value>
   </data>
   <data name="Modifypartition_PartName" xml:space="preserve">
     <value>分区名称</value>
@@ -1484,5 +1485,11 @@
   </data>
   <data name="Common_FBRoot" xml:space="preserve">
     <value>检测到Fastboot设备，但当前系统似乎存未写入相关USB规则，是否尝试以Root权限执行？</value>
+  </data>
+  <data name="Common_EnterFastbootd" xml:space="preserve">
+    <value>请进入Fastbootd模式！</value>
+  </data>
+  <data name="Modifypartition_EnterName" xml:space="preserve">
+    <value>请输入分区名称！</value>
   </data>
 </root>

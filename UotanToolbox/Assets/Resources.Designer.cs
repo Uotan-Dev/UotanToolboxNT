@@ -1159,6 +1159,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter Fastbootd mode! 的本地化字符串。
+        /// </summary>
+        public static string Common_EnterFastbootd {
+            get {
+                return ResourceManager.GetString("Common_EnterFastbootd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please enter Recovery mode or enable USB debugging in the Android system! 的本地化字符串。
         /// </summary>
         public static string Common_EnterRecOrOpenADB {
@@ -2764,6 +2773,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Please enter the partition name! 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_EnterName {
+            get {
+                return ResourceManager.GetString("Modifypartition_EnterName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please enter the partition number! 的本地化字符串。
         /// </summary>
         public static string Modifypartition_EnterNum {
@@ -2773,7 +2791,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 ID: 的本地化字符串。
+        ///   查找类似 ID/Name: 的本地化字符串。
         /// </summary>
         public static string Modifypartition_IdColon {
             get {
@@ -2791,7 +2809,8 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Only one Part ID for once! 的本地化字符串。
+        ///   查找类似 Fill name in FASTBOOT,
+        ///Fill ID in ADB, one at a time! 的本地化字符串。
         /// </summary>
         public static string Modifypartition_OnlyOenPart {
             get {

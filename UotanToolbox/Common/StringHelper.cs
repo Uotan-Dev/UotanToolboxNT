@@ -475,6 +475,21 @@ namespace UotanToolbox.Common
             int dpi = Onlynum(wh[0]) * 160 / Onlynum(dp);
             return dpi;
         }
+
+        public static string byte2AUnit(ulong size)
+        {
+            if (size > 1024 * 1024 * 1024)
+                return (int)((double)size / 1024 / 1024 / 1024 * 100) / 100.0 + " GB";
+
+            if (size > 1024 * 1024)
+                return (int)((double)size / 1024 / 1024 * 100) / 100.0 + " MB";
+
+            if (size > 1024)
+                return (int)((double)size / 1024 * 100) / 100.0 + " KB";
+
+            return size + " B";
+        }
+
         public static async Task<string> GetBinVersion()
         {
             string sevenzip_version, adb_info, fb_info, file_info;

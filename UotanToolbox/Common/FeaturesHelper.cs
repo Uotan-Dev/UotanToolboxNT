@@ -1,5 +1,8 @@
-﻿using System.Globalization;
+﻿using System.Dynamic;
+using System;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Resources;
 using System.Threading.Tasks;
 
@@ -49,6 +52,22 @@ namespace UotanToolbox.Common
             Global.sdetable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sde print\"");
             Global.sdftable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sdf print\"");
             Global.emmcrom = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/mmcblk0 print\"");
+        }
+
+        public static string[] GetVPartList(string allinfo)
+        {
+            string[] vparts = new string[1000];
+            string[] allinfos = allinfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < allinfos.Length; i++)
+            {
+                if (allinfos[i].Contains("is-logical") && allinfos[i].Contains("yes"))
+                {
+                    string[] vpartinfos = allinfos[i].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    vparts[i] = vpartinfos[2];
+                }
+            }
+            vparts = vparts.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            return vparts;
         }
 
         public static string FindDisk(string Partname)

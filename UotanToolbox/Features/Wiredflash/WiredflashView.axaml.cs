@@ -8,6 +8,7 @@ using SukiUI.Toasts;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -23,7 +24,7 @@ public partial class WiredflashView : UserControl
         return FeaturesHelper.GetTranslation(key);
     }
 
-    private readonly string adb_log_path = Path.Combine(Global.log_path, "adb.txt");
+    private readonly string fastboot_log_path = Path.Combine(Global.log_path, "fastboot.txt");
     private string output = "";
 
     public WiredflashView()
@@ -274,7 +275,7 @@ public partial class WiredflashView : UserControl
                                     await Fastboot(shell);
                                 }
                             }
-                            FileHelper.Write(adb_log_path, output);
+                            FileHelper.Write(fastboot_log_path, output);
                             if (output.Contains("FAILED") || output.Contains("error"))
                             {
                                 succ = false;
@@ -287,7 +288,7 @@ public partial class WiredflashView : UserControl
                         if (sukiViewModel.Status != "Fastbootd")
                         {
                             await Fastboot($"-s {Global.thisdevice} reboot fastboot");
-                            FileHelper.Write(adb_log_path, output);
+                            FileHelper.Write(fastboot_log_path, output);
                             if (output.Contains("FAILED") || output.Contains("error"))
                             {
                                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Wiredflash_FaildRestart")).Dismiss().ByClickingBackground().TryShow();
@@ -328,7 +329,7 @@ public partial class WiredflashView : UserControl
                         {
                             slot = "_b";
                         }
-                        else if (active.Contains("FAILED"))
+                        else
                         {
                             slot = null;
                         }
@@ -336,13 +337,12 @@ public partial class WiredflashView : UserControl
                         string[] cowparts = FeaturesHelper.GetVPartList(cow);
                         for (int i = 0; i < cowparts.Length; i++)
                         {
-                            string cowpart = string.Format("{0}{1}-cow", cowparts[i], slot);
-                            if (cow.Contains(cowpart))
+                            if (cowparts[i].Contains("-cow"))
                             {
-                                string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {cowpart}");
+                                string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {cowparts[i]}");
                                 await Fastboot(shell);
                             }
-                            FileHelper.Write(adb_log_path, output);
+                            FileHelper.Write(fastboot_log_path, output);
                             if (output.Contains("FAILED") || output.Contains("error"))
                             {
                                 succ = false;
@@ -361,17 +361,15 @@ public partial class WiredflashView : UserControl
                                 deleteslot = "_a";
                             }
                             string part = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
-                            string[] vparts = FeaturesHelper.GetVPartList(cow);
+                            string[] vparts = FeaturesHelper.GetVPartList(part);
                             for (int i = 0; i < vparts.Length; i++)
                             {
-                                string deletepart = string.Format("{0}{1}", vparts[i], deleteslot);
-                                string find = string.Format(":{0}:", deletepart);
-                                if (part.Contains(find))
+                                if (vparts[i].Contains(deleteslot))
                                 {
-                                    string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
+                                    string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {vparts[i]}");
                                     await Fastboot(shell);
                                 }
-                                FileHelper.Write(adb_log_path, output);
+                                FileHelper.Write(fastboot_log_path, output);
                                 if (output.Contains("FAILED") || output.Contains("error"))
                                 {
                                     succ = false;
@@ -396,7 +394,7 @@ public partial class WiredflashView : UserControl
                                     string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
                                     await Fastboot(shell);
                                 }
-                                FileHelper.Write(adb_log_path, output);
+                                FileHelper.Write(fastboot_log_path, output);
                                 if (output.Contains("FAILED") || output.Contains("error"))
                                 {
                                     succ = false;
@@ -421,7 +419,7 @@ public partial class WiredflashView : UserControl
                                     string shell = string.Format($"-s {Global.thisdevice} create-logical-partition {makepart} 00");
                                     await Fastboot(shell);
                                 }
-                                FileHelper.Write(adb_log_path, output);
+                                FileHelper.Write(fastboot_log_path, output);
                                 if (output.Contains("FAILED") || output.Contains("error"))
                                 {
                                     succ = false;
@@ -444,7 +442,7 @@ public partial class WiredflashView : UserControl
                                     string shell = string.Format($"-s {Global.thisdevice} flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
                                     await Fastboot(shell);
                                 }
-                                FileHelper.Write(adb_log_path, output);
+                                FileHelper.Write(fastboot_log_path, output);
                                 if (output.Contains("FAILED") || output.Contains("error"))
                                 {
                                     succ = false;

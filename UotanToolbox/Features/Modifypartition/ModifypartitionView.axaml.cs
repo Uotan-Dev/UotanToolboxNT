@@ -219,11 +219,14 @@ public partial class ModifypartitionView : UserControl
                     {
                         for (int j = 0; j < allinfos.Length; j++)
                         {
-                            if (allinfos[j].Contains(vparts[i]) && allinfos[j].Contains("partition-size"))
+                            if (allinfos[j].Contains("partition-size"))
                             {
                                 string[] partinfos = allinfos[j].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                                string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
-                                part[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
+                                if (partinfos[2] == vparts[i])
+                                {
+                                    string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
+                                    part[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
+                                }
                             }
                         }
                     }

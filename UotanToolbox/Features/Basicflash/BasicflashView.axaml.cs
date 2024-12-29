@@ -284,7 +284,7 @@ public partial class BasicflashView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 Global.checkdevice = false;
                 BusyFlash.IsBusy = true;
@@ -631,9 +631,8 @@ public partial class BasicflashView : UserControl
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 Global.checkdevice = false;
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash boot \"{boot}\"");

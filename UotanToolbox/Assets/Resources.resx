@@ -1378,7 +1378,7 @@ Fill ID in ADB, one at a time!</value>
     <value>Revoke USB 3.0 patch</value>
   </data>
   <data name="Basicflash_ExecuteReboot" xml:space="preserve">
-    <value>Execute restart command</value>
+    <value>Execute</value>
   </data>
   <data name="Basicflash_MoreReboot" xml:space="preserve">
     <value>More restart commands</value>

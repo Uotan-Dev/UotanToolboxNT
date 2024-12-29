@@ -547,7 +547,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Execute restart command 的本地化字符串。
+        ///   查找类似 Execute 的本地化字符串。
         /// </summary>
         public static string Basicflash_ExecuteReboot {
             get {
@@ -3441,46 +3441,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Enable Virtual Screen 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_Enable_Virtual_Screen {
-            get {
-                return ResourceManager.GetString("Scrcpy_Enable_Virtual_Screen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Virtual Screen Package 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_Virtual_Screen_Package {
-            get {
-                return ResourceManager.GetString("Scrcpy_Virtual_Screen_Package", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   查找类似 Virtual Screen Display Size 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_VS_DisplaySize
-        {
-            get
-            {
-                return ResourceManager.GetString("Scrcpy_VS_DisplaySize", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   查找类似 Virtual Screen Display Size Example 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_VS_DisplaySizeExample
-        {
-            get
-            {
-                return ResourceManager.GetString("Scrcpy_VS_DisplaySizeExample", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   查找类似 Casting... 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Casting {
@@ -3711,15 +3671,6 @@ namespace UotanToolbox.Assets {
         public static string Scrcpy_WindowTopping {
             get {
                 return ResourceManager.GetString("Scrcpy_WindowTopping", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Virtual display 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_VirtualDisplay {
-            get {
-                return ResourceManager.GetString("Scrcpy_VirtualDisplay", resourceCulture);
             }
         }
         

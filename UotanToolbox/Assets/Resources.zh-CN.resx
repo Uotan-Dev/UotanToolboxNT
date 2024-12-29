@@ -1507,4 +1507,7 @@ ADB下填写序号，一次一个！</value>
   <data name="Modifypartition_EnterName" xml:space="preserve">
     <value>请输入分区名称！</value>
   </data>
+  <data name="Home_ShutDownTip" xml:space="preserve">
+    <value>执行成功，拔出设备连接线即可关机！</value>
+  </data>
 </root>

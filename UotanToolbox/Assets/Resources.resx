@@ -1510,4 +1510,7 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="Modifypartition_EnterName" xml:space="preserve">
     <value>Please enter the partition name!</value>
   </data>
+  <data name="Home_ShutDownTip" xml:space="preserve">
+    <value>Execution successful, unplug the device connection cable to shut down!</value>
+  </data>
 </root>

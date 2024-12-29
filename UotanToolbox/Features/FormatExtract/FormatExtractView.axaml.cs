@@ -470,7 +470,7 @@ public partial class FormatExtractView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Fastboot"))
+            if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 if (!string.IsNullOrEmpty(FormatName.Text))
                 {

@@ -2305,6 +2305,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Execution successful, unplug the device connection cable to shut down! 的本地化字符串。
+        /// </summary>
+        public static string Home_ShutDownTip {
+            get {
+                return ResourceManager.GetString("Home_ShutDownTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Sideload 的本地化字符串。
         /// </summary>
         public static string Home_Sideload {

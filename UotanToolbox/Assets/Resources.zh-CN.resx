@@ -849,9 +849,6 @@
   <data name="Basicflash_PatchBoot" xml:space="preserve">
     <value>处理中...</value>
   </data>
-  <data name="Basicflash_UseUnlockCode" xml:space="preserve">
-    <value>使用解锁码解锁您可能需要自行添加“0x”</value>
-  </data>
   <data name="Basicflash_BasicUnlock" xml:space="preserve">
     <value>该功能仅支持部分品牌设备！执行后您的设备应当出现确认解锁提示，若未出现则为您的设备不支持该操作。</value>
   </data>
@@ -1509,5 +1506,26 @@ ADB下填写序号，一次一个！</value>
   </data>
   <data name="Home_ShutDownTip" xml:space="preserve">
     <value>执行成功，拔出设备连接线即可关机！</value>
+  </data>
+  <data name="Band_Common" xml:space="preserve">
+    <value>通用</value>
+  </data>
+  <data name="Band_Huawei" xml:space="preserve">
+    <value>华为</value>
+  </data>
+  <data name="Band_Sony" xml:space="preserve">
+    <value>索尼</value>
+  </data>
+  <data name="Basicflash_CdoeError" xml:space="preserve">
+    <value>解锁失败，解锁码错误</value>
+  </data>
+  <data name="Basicflash_CheckLog" xml:space="preserve">
+    <value>解锁失败，请查看日志！(工具箱目录下Log/unlock.txt)</value>
+  </data>
+  <data name="Basicflash_FindPhone" xml:space="preserve">
+    <value>解锁失败，请重新开关查找手机</value>
+  </data>
+  <data name="Basicflash_NotMatch" xml:space="preserve">
+    <value>解锁码不符合16位</value>
   </data>
 </root>

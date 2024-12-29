@@ -852,9 +852,6 @@
   <data name="Basicflash_PatchBoot" xml:space="preserve">
     <value>Processing...</value>
   </data>
-  <data name="Basicflash_UseUnlockCode" xml:space="preserve">
-    <value>To unlock with an unlock code, you may need to add '0x' yourself</value>
-  </data>
   <data name="Basicflash_BasicUnlock" xml:space="preserve">
     <value>This function is brand-specific! After execution, your device should display a confirmation unlock prompt. If it does not appear, it means that your device does not support this operation.</value>
   </data>
@@ -1512,5 +1509,26 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   </data>
   <data name="Home_ShutDownTip" xml:space="preserve">
     <value>Execution successful, unplug the device connection cable to shut down!</value>
+  </data>
+  <data name="Band_Common" xml:space="preserve">
+    <value>Common</value>
+  </data>
+  <data name="Band_Huawei" xml:space="preserve">
+    <value>Huawei</value>
+  </data>
+  <data name="Band_Sony" xml:space="preserve">
+    <value>Sony</value>
+  </data>
+  <data name="Basicflash_CdoeError" xml:space="preserve">
+    <value>Unlock failed, unlock code incorrect</value>
+  </data>
+  <data name="Basicflash_CheckLog" xml:space="preserve">
+    <value>Unlock failed, please check the log! (Log/unlock. txt in the toolbox directory)</value>
+  </data>
+  <data name="Basicflash_FindPhone" xml:space="preserve">
+    <value>Unlock failed, please switch on and off again to find your phone</value>
+  </data>
+  <data name="Basicflash_NotMatch" xml:space="preserve">
+    <value>The unlock code does not match 16 digits</value>
   </data>
 </root>

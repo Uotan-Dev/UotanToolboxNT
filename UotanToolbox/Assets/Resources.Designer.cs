@@ -349,6 +349,33 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Common 的本地化字符串。
+        /// </summary>
+        public static string Band_Common {
+            get {
+                return ResourceManager.GetString("Band_Common", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Huawei 的本地化字符串。
+        /// </summary>
+        public static string Band_Huawei {
+            get {
+                return ResourceManager.GetString("Band_Huawei", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Sony 的本地化字符串。
+        /// </summary>
+        public static string Band_Sony {
+            get {
+                return ResourceManager.GetString("Band_Sony", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Basic command unlock 的本地化字符串。
         /// </summary>
         public static string Basicflash_BasicCommandUnlock {
@@ -412,11 +439,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Unlock failed, unlock code incorrect 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_CdoeError {
+            get {
+                return ResourceManager.GetString("Basicflash_CdoeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Magiskboot verification error 的本地化字符串。
         /// </summary>
         public static string Basicflash_CheckError {
             get {
                 return ResourceManager.GetString("Basicflash_CheckError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlock failed, please check the log! (Log/unlock. txt in the toolbox directory) 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_CheckLog {
+            get {
+                return ResourceManager.GetString("Basicflash_CheckLog", resourceCulture);
             }
         }
         
@@ -592,6 +637,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Unlock failed, please switch on and off again to find your phone 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_FindPhone {
+            get {
+                return ResourceManager.GetString("Basicflash_FindPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Flash Boot 的本地化字符串。
         /// </summary>
         public static string Basicflash_FlashBoot {
@@ -750,6 +804,15 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_NormalUnlock {
             get {
                 return ResourceManager.GetString("Basicflash_NormalUnlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The unlock code does not match 16 digits 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_NotMatch {
+            get {
+                return ResourceManager.GetString("Basicflash_NotMatch", resourceCulture);
             }
         }
         
@@ -1074,15 +1137,6 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_UnsupportImage {
             get {
                 return ResourceManager.GetString("Basicflash_UnsupportImage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 To unlock with an unlock code, you may need to add &apos;0x&apos; yourself 的本地化字符串。
-        /// </summary>
-        public static string Basicflash_UseUnlockCode {
-            get {
-                return ResourceManager.GetString("Basicflash_UseUnlockCode", resourceCulture);
             }
         }
         

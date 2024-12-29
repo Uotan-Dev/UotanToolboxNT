@@ -38,7 +38,8 @@
 						<StackPanel Orientation="Vertical" Spacing="10">
 							<StackPanel Orientation="Horizontal" Spacing="20">
 								<TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_CodeUnlock}"></TextBlock>
-								<TextBox Name="UnlockCode" Watermark="{x:Static assets:Resources.Basicflash_UseUnlockCode}" Width="464" theme:TextBoxExtensions.AddDeleteButton="True"/>
+								<ComboBox Name="UnlockBand" Width="120"/>
+								<TextBox Margin="-20 0 0 0" Name="UnlockCode" Width="348" theme:TextBoxExtensions.AddDeleteButton="True"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="120">
 								<Button Click="Unlock" Content="{x:Static assets:Resources.Basicflash_UnlockNow}"></Button>

@@ -19,9 +19,12 @@ public partial class BasicflashView : UserControl
     {
         return FeaturesHelper.GetTranslation(key);
     }
+
+    private readonly string unlock_log_path = Path.Combine(Global.log_path, "unlock.txt");
     public AvaloniaList<string> SimpleUnlock = ["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"];
     public AvaloniaList<string> Command = ["shell twrp sideload", "reboot sideload", "reboot safe-mode", "reboot muc", "reboot factory", "reboot admin"];
     public AvaloniaList<string> Arch = ["aarch64", "armeabi", "X86-64", "X86"];
+    public AvaloniaList<string> Band = [GetTranslation("Band_Common"), GetTranslation("Band_Huawei"), GetTranslation("Band_Sony")];
 
     public BasicflashView()
     {
@@ -29,6 +32,8 @@ public partial class BasicflashView : UserControl
         SimpleContent.ItemsSource = SimpleUnlock;
         ArchList.ItemsSource = Arch;
         RebootComm.ItemsSource = Command;
+        UnlockBand.ItemsSource = Band;
+        UnlockBand.SelectedIndex = 0;
         SetDefaultMagisk();
     }
 
@@ -105,20 +110,100 @@ public partial class BasicflashView : UserControl
                 }
                 else if (string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
                 {
-                    string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {UnlockCode.Text}");
-                    _ = output.Contains("OKAY")
-                        ? Global.MainDialogManager.CreateDialog()
-                                                  .WithTitle(GetTranslation("Common_Succ"))
-                                                  .OfType(NotificationType.Success)
-                                                  .WithContent(GetTranslation("Basicflash_UnlockSucc"))
-                                                  .Dismiss().ByClickingBackground()
-                                                  .TryShow()
-                        : Global.MainDialogManager.CreateDialog()
-                                                  .WithTitle(GetTranslation("Common_Error"))
-                                                  .OfType(NotificationType.Error)
-                                                  .WithContent(GetTranslation("Basicflash_UnlockFailed"))
-                                                  .Dismiss().ByClickingBackground()
-                                                  .TryShow();
+                    if (UnlockBand.SelectedItem.ToString() == GetTranslation("Band_Common"))
+                    {
+                        string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {UnlockCode.Text}");
+                        FileHelper.Write(unlock_log_path, output);
+                        _ = output.Contains("OKAY")
+                            ? Global.MainDialogManager.CreateDialog()
+                                                      .WithTitle(GetTranslation("Common_Succ"))
+                                                      .OfType(NotificationType.Success)
+                                                      .WithContent(GetTranslation("Basicflash_UnlockSucc"))
+                                                      .Dismiss().ByClickingBackground()
+                                                      .TryShow()
+                            : Global.MainDialogManager.CreateDialog()
+                                                      .WithTitle(GetTranslation("Common_Error"))
+                                                      .OfType(NotificationType.Error)
+                                                      .WithContent(GetTranslation("Basicflash_UnlockFailed"))
+                                                      .Dismiss().ByClickingBackground()
+                                                      .TryShow();
+                    }
+                    else if (UnlockBand.SelectedItem.ToString() == GetTranslation("Band_Huawei"))
+                    {
+                        if (UnlockCode.Text.Length == 16)
+                        {
+                            string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {UnlockCode.Text}");
+                            FileHelper.Write(unlock_log_path, output);
+                            if (output.Contains("OKAY"))
+                            {
+                                Global.MainDialogManager.CreateDialog()
+                                                        .WithTitle(GetTranslation("Common_Succ"))
+                                                        .OfType(NotificationType.Success)
+                                                        .WithContent(GetTranslation("Basicflash_UnlockSucc"))
+                                                        .Dismiss().ByClickingBackground()
+                                                        .TryShow();
+                            }
+                            else if (output.Contains("Necessary to disable phone finder", StringComparison.OrdinalIgnoreCase) || output.Contains("Command not allowed", StringComparison.OrdinalIgnoreCase))
+                            {
+                                Global.MainDialogManager.CreateDialog()
+                                                    .WithTitle(GetTranslation("Common_Error"))
+                                                    .OfType(NotificationType.Error)
+                                                    .WithContent(GetTranslation("Basicflash_FindPhone"))
+                                                    .Dismiss().ByClickingBackground()
+                                                    .TryShow();
+                            }
+                            else if (output.Contains("password wrong", StringComparison.OrdinalIgnoreCase))
+                            {
+                                Global.MainDialogManager.CreateDialog()
+                                                    .WithTitle(GetTranslation("Common_Error"))
+                                                    .OfType(NotificationType.Error)
+                                                    .WithContent(GetTranslation("Basicflash_CdoeError"))
+                                                    .Dismiss().ByClickingBackground()
+                                                    .TryShow();
+                            }
+                            else
+                            {
+                                Global.MainDialogManager.CreateDialog()
+                                                    .WithTitle(GetTranslation("Common_Error"))
+                                                    .OfType(NotificationType.Error)
+                                                    .WithContent(GetTranslation("Basicflash_CheckLog"))
+                                                    .Dismiss().ByClickingBackground()
+                                                    .TryShow();
+                            }
+                        }
+                        else
+                        {
+                            Global.MainDialogManager.CreateDialog()
+                                                    .WithTitle(GetTranslation("Common_Error"))
+                                                    .OfType(NotificationType.Error)
+                                                    .WithContent(GetTranslation("Basicflash_NotMatch"))
+                                                    .Dismiss().ByClickingBackground()
+                                                    .TryShow();
+                        }
+                    }
+                    else if (UnlockBand.SelectedItem.ToString() == GetTranslation("Band_Sony"))
+                    {
+                        string unlockcode = UnlockCode.Text;
+                        if (!UnlockCode.Text.Substring(0, 2).Equals("0x", StringComparison.OrdinalIgnoreCase))
+                        {
+                            unlockcode = "0x" + UnlockCode.Text;
+                        }
+                        string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem unlock {unlockcode}");
+                        FileHelper.Write(unlock_log_path, output);
+                        _ = output.Contains("OKAY")
+                            ? Global.MainDialogManager.CreateDialog()
+                                                      .WithTitle(GetTranslation("Common_Succ"))
+                                                      .OfType(NotificationType.Success)
+                                                      .WithContent(GetTranslation("Basicflash_UnlockSucc"))
+                                                      .Dismiss().ByClickingBackground()
+                                                      .TryShow()
+                            : Global.MainDialogManager.CreateDialog()
+                                                      .WithTitle(GetTranslation("Common_Error"))
+                                                      .OfType(NotificationType.Error)
+                                                      .WithContent(GetTranslation("Basicflash_UnlockFailed"))
+                                                      .Dismiss().ByClickingBackground()
+                                                      .TryShow();
+                    }                    
                 }
                 else
                 {

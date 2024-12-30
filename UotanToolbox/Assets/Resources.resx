@@ -1531,4 +1531,7 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="Basicflash_NotMatch" xml:space="preserve">
     <value>The unlock code does not match 16 digits</value>
   </data>
+  <data name="Wiredflash_ZST" xml:space="preserve">
+    <value>Extracting zst file</value>
+  </data>
 </root>

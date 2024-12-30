@@ -1528,4 +1528,7 @@ ADB下填写序号，一次一个！</value>
   <data name="Basicflash_NotMatch" xml:space="preserve">
     <value>解锁码不符合16位</value>
   </data>
+  <data name="Wiredflash_ZST" xml:space="preserve">
+    <value>正在解压zst文件</value>
+  </data>
 </root>

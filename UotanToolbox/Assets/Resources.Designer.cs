@@ -4280,6 +4280,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Extracting zst file 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_ZST {
+            get {
+                return ResourceManager.GetString("Wiredflash_ZST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Connection successful! 的本地化字符串。
         /// </summary>
         public static string WirelessADB_Connect {

@@ -1547,6 +1547,6 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
     <value>Show all parts</value>
   </data>
   <data name="Wiredflash_RelockTip" xml:space="preserve">
-    <value>You have selected the script to flash all and relock the bootloader, are you sure you want to continue?</value>
+    <value>You have selected the script to relock the bootloader, are you sure you want to continue?</value>
   </data>
 </root>

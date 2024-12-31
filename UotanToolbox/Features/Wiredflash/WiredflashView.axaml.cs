@@ -591,7 +591,8 @@ public partial class WiredflashView : UserControl
             if (files.Count >= 1)
             {
                 BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
-                if (BatFile.Text.Contains("lock"))
+                string batfile = FileHelper.Readtxt(BatFile.Text);
+                if (batfile.Contains("oem lock"))
                 {
                     Global.MainDialogManager.CreateDialog()
                           .WithTitle(GetTranslation("Common_Warn"))
@@ -615,7 +616,8 @@ public partial class WiredflashView : UserControl
             if (files.Count >= 1)
             {
                 BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
-                if (BatFile.Text.Contains("lock"))
+                string batfile = FileHelper.Readtxt(BatFile.Text);
+                if (batfile.Contains("oem lock"))
                 {
                     Global.MainDialogManager.CreateDialog()
                           .WithTitle(GetTranslation("Common_Warn"))

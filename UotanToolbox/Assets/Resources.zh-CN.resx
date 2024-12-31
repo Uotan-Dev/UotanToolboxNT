@@ -1544,6 +1544,6 @@ ADB下填写序号，一次一个！</value>
     <value>显示物理分区</value>
   </data>
   <data name="Wiredflash_RelockTip" xml:space="preserve">
-    <value>您选择了全部刷入并回锁的脚本，确认继续吗？</value>
+    <value>您选择了会进行回锁操作的脚本，确认继续吗？</value>
   </data>
 </root>

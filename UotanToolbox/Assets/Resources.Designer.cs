@@ -4244,7 +4244,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 You have selected the script to flash all and relock the bootloader, are you sure you want to continue? 的本地化字符串。
+        ///   查找类似 You have selected the script to relock the bootloader, are you sure you want to continue? 的本地化字符串。
         /// </summary>
         public static string Wiredflash_RelockTip {
             get {

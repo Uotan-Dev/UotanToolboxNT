@@ -249,24 +249,37 @@ public partial class BasicflashView : UserControl
                 Global.checkdevice = false;
                 BusyUnlock.IsBusy = true;
                 UnlockPanel.IsEnabled = false;
-                _ = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
-                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
-                _ = output.Contains("OKAY")
-                    ? Global.MainDialogManager.CreateDialog()
-                                              .WithTitle(GetTranslation("Common_Succ"))
-                                              .OfType(NotificationType.Success)
-                                              .WithContent(GetTranslation("Basicflash_RelockSucc"))
-                                              .Dismiss().ByClickingBackground()
-                                              .TryShow()
-                    : Global.MainDialogManager.CreateDialog()
-                                              .WithTitle(GetTranslation("Common_Error"))
-                                              .OfType(NotificationType.Error)
-                                              .WithContent(GetTranslation("Basicflash_RelockFailed"))
-                                              .Dismiss().ByClickingBackground()
-                                              .TryShow();
-                BusyUnlock.IsBusy = false;
-                UnlockPanel.IsEnabled = true;
-                Global.checkdevice = true;
+                Global.MainDialogManager.CreateDialog()
+                      .WithTitle(GetTranslation("Common_Warn"))
+                      .WithContent(GetTranslation("Basicflash_RelockTip"))
+                      .OfType(NotificationType.Warning)
+                      .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => {
+                          await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
+                          string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
+                          if (output.Contains("OKAY"))
+                          {
+                              Global.MainDialogManager.CreateDialog()
+                                                      .WithTitle(GetTranslation("Common_Succ"))
+                                                      .OfType(NotificationType.Success)
+                                                      .WithContent(GetTranslation("Basicflash_LockSucc"))
+                                                      .Dismiss().ByClickingBackground()
+                                                      .TryShow();
+                          }
+                          else
+                          {
+                              Global.MainDialogManager.CreateDialog()
+                                                      .WithTitle(GetTranslation("Common_Error"))
+                                                      .OfType(NotificationType.Error)
+                                                      .WithContent(GetTranslation("Basicflash_LockFailed"))
+                                                      .Dismiss().ByClickingBackground()
+                                                      .TryShow();
+                          }
+                          BusyUnlock.IsBusy = false;
+                          UnlockPanel.IsEnabled = true;
+                          Global.checkdevice = true;
+                      }, true)
+                      .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                      .TryShow();
             }
             else
             {

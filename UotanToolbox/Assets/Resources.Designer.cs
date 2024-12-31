@@ -925,6 +925,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Are you sure you want to relock the bootloader? Before locking the bootloader, make sure it is an official system, otherwise it will not boot! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RelockTip {
+            get {
+                return ResourceManager.GetString("Basicflash_RelockTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Patch boot 的本地化字符串。
         /// </summary>
         public static string Basicflash_RepairBoot {
@@ -4231,6 +4240,15 @@ namespace UotanToolbox.Assets {
         public static string Wiredflash_OpenAPK {
             get {
                 return ResourceManager.GetString("Wiredflash_OpenAPK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 You have selected the script to flash all and relock the bootloader, are you sure you want to continue? 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_RelockTip {
+            get {
+                return ResourceManager.GetString("Wiredflash_RelockTip", resourceCulture);
             }
         }
         

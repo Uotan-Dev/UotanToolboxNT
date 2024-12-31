@@ -1534,6 +1534,9 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="Wiredflash_ZST" xml:space="preserve">
     <value>Extracting zst file</value>
   </data>
+  <data name="Basicflash_RelockTip" xml:space="preserve">
+    <value>Are you sure you want to relock the bootloader? Before locking the bootloader, make sure it is an official system, otherwise it will not boot!</value>
+  </data>
   <data name="Modifypartition_Loading" xml:space="preserve">
     <value>Loading...</value>
   </data>
@@ -1542,5 +1545,8 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   </data>
   <data name="Modifypartition_ShowAllPart" xml:space="preserve">
     <value>Show all parts</value>
+  </data>
+  <data name="Wiredflash_RelockTip" xml:space="preserve">
+    <value>You have selected the script to flash all and relock the bootloader, are you sure you want to continue?</value>
   </data>
 </root>

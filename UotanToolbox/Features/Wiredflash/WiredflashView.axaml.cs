@@ -220,7 +220,7 @@ public partial class WiredflashView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status is "Fastboot" or "Fastbootd")
             {
-                if (FastbootFile.Text != "" || FastbootdFile.Text != "")
+                if (!string.IsNullOrEmpty(FastbootFile.Text) || !string.IsNullOrEmpty(FastbootdFile.Text))
                 {
                     bool succ = true;
                     string fbtxt = FastbootFile.Text;
@@ -228,7 +228,7 @@ public partial class WiredflashView : UserControl
                     WiredflashLog.Text = "";
                     output = "";
                     string imgpath;
-                    if (fbtxt != "")
+                    if (!string.IsNullOrEmpty(fbtxt))
                     {
                         imgpath = fbtxt[..fbtxt.LastIndexOf('/')] + "/images";
                         string fbparts = FileHelper.Readtxt(fbtxt);
@@ -303,7 +303,7 @@ public partial class WiredflashView : UserControl
                             }
                         }
                     }
-                    if (fbdtxt != "" && succ)
+                    if (!string.IsNullOrEmpty(fbdtxt) && succ)
                     {
                         if (sukiViewModel.Status != "Fastbootd")
                         {
@@ -535,8 +535,14 @@ public partial class WiredflashView : UserControl
 
     public static FilePickerFileType Bat { get; } = new("Bat")
     {
-        Patterns = new[] { "flash*.bat", "flash*.sh" },
-        AppleUniformTypeIdentifiers = new[] { "flash*.bat", "flash*.sh" }
+        Patterns = new[] { "flash*.bat" },
+        AppleUniformTypeIdentifiers = new[] { "flash*.bat" }
+    };
+
+    public static FilePickerFileType Sh { get; } = new("Sh")
+    {
+        Patterns = new[] { "flash*.sh" },
+        AppleUniformTypeIdentifiers = new[] { "flash*.sh" }
     };
 
     private async void OpenSideloadFile(object sender, RoutedEventArgs args)
@@ -570,16 +576,53 @@ public partial class WiredflashView : UserControl
     }
     private async void OpenBatFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
-        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        if (Global.System == "Windows")
         {
-            FileTypeFilter = new[] { Bat },
-            Title = "Open Bat File",
-            AllowMultiple = false
-        });
-        if (files.Count >= 1)
+            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                FileTypeFilter = new[] { Bat },
+                Title = "Open Bat File",
+                AllowMultiple = false
+            });
+            if (files.Count >= 1)
+            {
+                BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+                if (BatFile.Text.Contains("lock"))
+                {
+                    Global.MainDialogManager.CreateDialog()
+                          .WithTitle(GetTranslation("Common_Warn"))
+                          .WithContent(GetTranslation("Wiredflash_RelockTip"))
+                          .OfType(NotificationType.Warning)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => { }, true)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => BatFile.Text = null, true)
+                          .TryShow();
+                }
+            }
+        }
+        else
         {
-            BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                FileTypeFilter = new[] { Sh },
+                Title = "Open Sh File",
+                AllowMultiple = false
+            });
+            if (files.Count >= 1)
+            {
+                BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+                if (BatFile.Text.Contains("lock"))
+                {
+                    Global.MainDialogManager.CreateDialog()
+                          .WithTitle(GetTranslation("Common_Warn"))
+                          .WithContent(GetTranslation("Wiredflash_RelockTip"))
+                          .OfType(NotificationType.Warning)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => { }, true)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => BatFile.Text = null, true)
+                          .TryShow();
+                }
+            }
         }
     }
 
@@ -644,7 +687,7 @@ public partial class WiredflashView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (AdbSideloadFile.Text != "" && FastbootUpdatedFile.Text == "" && BatFile.Text == "")
+            if (!string.IsNullOrEmpty(AdbSideloadFile.Text) && string.IsNullOrEmpty(FastbootUpdatedFile.Text) && string.IsNullOrEmpty(BatFile.Text))
             {
                 if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
                 {
@@ -671,7 +714,7 @@ public partial class WiredflashView : UserControl
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterSideload")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
-            else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text != "" && BatFile.Text == "")
+            else if (string.IsNullOrEmpty(AdbSideloadFile.Text) && !string.IsNullOrEmpty(FastbootUpdatedFile.Text) && string.IsNullOrEmpty(BatFile.Text))
             {
                 if (sukiViewModel.Status == "Fastboot")
                 {
@@ -688,7 +731,7 @@ public partial class WiredflashView : UserControl
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
-            else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text == "" && BatFile.Text != "")
+            else if (string.IsNullOrEmpty(AdbSideloadFile.Text) && string.IsNullOrEmpty(FastbootUpdatedFile.Text) && !string.IsNullOrEmpty(BatFile.Text))
             {
                 if (sukiViewModel.Status == "Fastboot")
                 {
@@ -713,7 +756,7 @@ public partial class WiredflashView : UserControl
             }
             else
             {
-                _ = AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text == "" && BatFile.Text == ""
+                _ = string.IsNullOrEmpty(AdbSideloadFile.Text) && string.IsNullOrEmpty(FastbootUpdatedFile.Text) && string.IsNullOrEmpty(BatFile.Text)
                     ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Wiredflash_SelectFlashFile")).Dismiss().ByClickingBackground().TryShow()
                     : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Wiredflash_NoMul")).Dismiss().ByClickingBackground().TryShow();
             }

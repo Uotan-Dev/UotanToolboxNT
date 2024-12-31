@@ -514,16 +514,19 @@ public partial class WiredflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Wiredflash_SelectFlashFile")).Dismiss().ByClickingBackground().TryShow();
+                    TXTFlashBusy(false);
                 }
             }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
+                TXTFlashBusy(false);
             }
         }
         else
         {
             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            TXTFlashBusy(false);
         }
     }
 

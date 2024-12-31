@@ -80,7 +80,7 @@ public partial class ScrcpyViewModel : MainPageBase
                         
                         if (EnableVirtualScreen)
                         {
-                            if (VirtualScreenDisplaySize != "")
+                            if (!string.IsNullOrEmpty(VirtualScreenDisplaySize))
                             {
                                 arg += $"--new-display={VirtualScreenDisplaySize} ";
                             }
@@ -90,14 +90,14 @@ public partial class ScrcpyViewModel : MainPageBase
                             }
                         }
 
-                        if (VirtualScreenPackage != "")
+                        if (!string.IsNullOrEmpty(VirtualScreenPackage))
                         {
                             arg += $"--start-app={VirtualScreenPackage} ";
                         }
 
                         
 
-                        if (WindowTitle is not "" and not null)
+                        if (!string.IsNullOrEmpty(WindowTitle))
                         {
                             arg += $"--window-title \"{WindowTitle.Replace("\"", "\\\"")}\" ";
                         }

@@ -337,7 +337,7 @@ public partial class AppmgrViewModel : MainPageBase
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
-                if (SelectedApplication() != "")
+                if (!string.IsNullOrEmpty(SelectedApplication()))
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell monkey -p {SelectedApplication()} 1");
                 }
@@ -382,7 +382,7 @@ public partial class AppmgrViewModel : MainPageBase
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
-                if (SelectedApplication() != "")
+                if (!string.IsNullOrEmpty(SelectedApplication()))
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm disable {SelectedApplication()}");
                 }

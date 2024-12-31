@@ -39,7 +39,7 @@
 												   Text="FASTBOOT" />
 										<TextBox Width="600" Name="FastbootFile"
 												 Text=""
-												 theme:TextBoxExtensions.AddDeleteButton="False"/>
+												 theme:TextBoxExtensions.AddDeleteButton="True"/>
 										<Button Height="35"
 												Padding="10,0,10,0"
 												Click="OpenFastbootFile"
@@ -54,7 +54,7 @@
 												   Text="FASTBOOTD" />
 										<TextBox Width="600" Name="FastbootdFile"
 												 Text=""
-												 theme:TextBoxExtensions.AddDeleteButton="False"/>
+												 theme:TextBoxExtensions.AddDeleteButton="True"/>
 										<Button Height="35"
 												Padding="10,0,10,0"
 												Click="OpenFastbootdFile"

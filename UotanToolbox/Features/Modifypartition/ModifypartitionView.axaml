@@ -17,17 +17,28 @@
 			       theme:WrapPanelExtensions.AnimatedScroll="True"
 			       Orientation="Horizontal">
 		<suki:GlassCard Classes="Card" Margin="10 10" Height="635" Width="668">
-			<suki:BusyArea  Name="BusyPart"
-							BusyText="载入中...">
-				<DataGrid Name="PartList"
-						  Width="625"
-						  Height="565"
-						  FontSize="15"
-						  IsReadOnly="True"
-						  AutoGenerateColumns="True"
-						  CanUserResizeColumns="True">
-				</DataGrid>
-			</suki:BusyArea>
+			<StackPanel Margin="0 -10 0 0">
+				<StackPanel Margin="200 0 0 0" Orientation="Horizontal">
+					<TextBox Name="SearchBox"
+							 Width="200"
+							 Height="30"
+							 FontSize="15"
+							 Watermark="{x:Static assets:Resources.Modifypartition_SearchPart}"/>
+					<TextBlock Margin="90 14 0 0" Text="{x:Static assets:Resources.Modifypartition_ShowAllPart}"/>
+					<ToggleSwitch Name="ShowAllPart" IsEnabled="False" />
+				</StackPanel>
+				<suki:BusyArea  Name="BusyPart"
+								BusyText="{x:Static assets:Resources.Modifypartition_Loading}">
+					<DataGrid Name="PartList"
+							  Width="625"
+							  Height="565"
+							  FontSize="15"
+							  IsReadOnly="True"
+							  AutoGenerateColumns="True"
+							  CanUserResizeColumns="True">
+					</DataGrid>
+				</suki:BusyArea>
+			</StackPanel>
 		</suki:GlassCard>
 		<StackPanel Orientation="Vertical">
 			<suki:GlassCard Classes="Card" Margin="15 10 15 10" Width="265" Height="210">

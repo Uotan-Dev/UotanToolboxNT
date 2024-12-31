@@ -2863,6 +2863,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Loading... 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Loading {
+            get {
+                return ResourceManager.GetString("Modifypartition_Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ESP On 的本地化字符串。
         /// </summary>
         public static string Modifypartition_Mark {
@@ -2927,6 +2936,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Search Part 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_SearchPart {
+            get {
+                return ResourceManager.GetString("Modifypartition_SearchPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please first select the disk to be read and read the partition table! 的本地化字符串。
         /// </summary>
         public static string Modifypartition_SelectAndRead {
@@ -2969,6 +2987,15 @@ namespace UotanToolbox.Assets {
         public static string Modifypartition_SetEFI {
             get {
                 return ResourceManager.GetString("Modifypartition_SetEFI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show all parts 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_ShowAllPart {
+            get {
+                return ResourceManager.GetString("Modifypartition_ShowAllPart", resourceCulture);
             }
         }
         

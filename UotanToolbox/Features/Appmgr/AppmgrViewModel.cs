@@ -48,7 +48,7 @@ public partial class AppmgrViewModel : MainPageBase
                     if (!string.IsNullOrEmpty(Search))
                     {
                         applicationInfos.Clear();
-                        applicationInfos.AddRange(allApplicationInfos.Where(app => app.DisplayName.Contains(Search) || app.Name.Contains(Search))
+                        applicationInfos.AddRange(allApplicationInfos.Where(app => app.DisplayName.Contains(Search, StringComparison.OrdinalIgnoreCase) || app.Name.Contains(Search, StringComparison.OrdinalIgnoreCase))
                                                                      .OrderByDescending(app => app.Size)
                                                                      .ThenBy(app => app.Name)
                                                                      .ToList());

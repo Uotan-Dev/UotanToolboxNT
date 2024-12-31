@@ -1534,4 +1534,13 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="Wiredflash_ZST" xml:space="preserve">
     <value>Extracting zst file</value>
   </data>
+  <data name="Modifypartition_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Modifypartition_SearchPart" xml:space="preserve">
+    <value>Search Part</value>
+  </data>
+  <data name="Modifypartition_ShowAllPart" xml:space="preserve">
+    <value>Show all parts</value>
+  </data>
 </root>

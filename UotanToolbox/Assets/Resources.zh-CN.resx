@@ -1531,4 +1531,13 @@ ADB下填写序号，一次一个！</value>
   <data name="Wiredflash_ZST" xml:space="preserve">
     <value>正在解压zst文件</value>
   </data>
+  <data name="Modifypartition_Loading" xml:space="preserve">
+    <value>载入中...</value>
+  </data>
+  <data name="Modifypartition_SearchPart" xml:space="preserve">
+    <value>搜索分区</value>
+  </data>
+  <data name="Modifypartition_ShowAllPart" xml:space="preserve">
+    <value>显示物理分区</value>
+  </data>
 </root>

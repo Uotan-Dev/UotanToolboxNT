@@ -196,6 +196,7 @@ public partial class ModifypartitionView : UserControl
                     BusyPart.IsBusy = true;
                     ReadPartBut.IsEnabled = false;
                     PartList.ItemsSource = null;
+                    PartSize.Text = "";
                     Global.checkdevice = false;
                     string allinfo = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                     string[] parts = new string[1000];
@@ -226,6 +227,7 @@ public partial class ModifypartitionView : UserControl
                     BusyPart.IsBusy = true;
                     ReadPartBut.IsEnabled = false;
                     PartList.ItemsSource = null;
+                    PartSize.Text = "";
                     Global.checkdevice = false;
                     string allinfo = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                     string[] parts = new string[1000];

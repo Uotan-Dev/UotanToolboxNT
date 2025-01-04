@@ -26,6 +26,7 @@ public partial class WiredflashView : UserControl
     }
 
     private readonly string fastboot_log_path = Path.Combine(Global.log_path, "fastboot.txt");
+    private readonly string update_status = Path.Combine(Global.log_path, "update.txt");
     private string output = "";
 
     public WiredflashView()
@@ -341,7 +342,7 @@ public partial class WiredflashView : UserControl
                             }
                         }
                         string slot = "";
-                        await Fastboot($"-s {Global.thisdevice} getvar snapshot-update-status");
+                        FileHelper.Write(update_status, await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar snapshot-update-status"));
                         string active = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar current-slot");
                         if (active.Contains("current-slot: a"))
                         {

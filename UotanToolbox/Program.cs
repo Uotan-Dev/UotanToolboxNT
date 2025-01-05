@@ -72,25 +72,22 @@ internal static class Program
         Global.password = StringHelper.RandomString(8);
         // No need to set default for Windows
         AppBuilder app = AppBuilder.Configure<App>();
-        if (OperatingSystem.IsWindows())
+        if (OperatingSystem.IsWindows() && RuntimeInformation.OSArchitecture == Architecture.X64)
         {
-            if (RuntimeInformation.OSArchitecture == Architecture.X64)
-            {
-                app = AppBuilder.Configure<App>()
-                                .UsePlatformDetect()
-                                .With(new Win32PlatformOptions
+            app = AppBuilder.Configure<App>()
+                            .UsePlatformDetect()
+                            .With(new Win32PlatformOptions
+                            {
+                                RenderingMode = new[]
                                 {
-                                    RenderingMode = new[]
-                                    {
                                         Win32RenderingMode.Vulkan
-                                    }
-                                })
-                                .WithInterFont()
-                                 #if DEBUG
-                                .LogToTrace()
-                                 #endif
-                                .UseXamlDisplay();
-            }
+                                }
+                            })
+                            .WithInterFont()
+                            #if DEBUG
+                            .LogToTrace()
+                            #endif
+                            .UseXamlDisplay();
         }
         else
         {

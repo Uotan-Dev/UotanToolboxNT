@@ -8,4 +8,4 @@ Essential: no
 Installed-Size: 268000
 Depends: usbutils, libbrotli-dev, liblz4-dev, libpcre2-dev, libprotobuf-dev, libzstd-dev
 Description: Advanced, Modern Toolbox for Geeks.
-Copyright: 2020-2024 UOTAN
+Copyright: 2020-2025 UOTAN

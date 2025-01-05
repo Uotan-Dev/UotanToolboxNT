@@ -536,7 +536,6 @@ namespace UotanToolbox.Common
 
         public static string Partno(string parttable, string findpart)//分区号
         {
-            char[] charSeparators = [' '];
             string[] parts = parttable.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 6; i < parts.Length; i++)
             {

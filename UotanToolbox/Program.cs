@@ -71,34 +71,10 @@ internal static class Program
         Global.serviceID = "uotan-" + StringHelper.RandomString(8);
         Global.password = StringHelper.RandomString(8);
         // No need to set default for Windows
-        AppBuilder app = AppBuilder.Configure<App>();
-        if (OperatingSystem.IsWindows() && RuntimeInformation.OSArchitecture == Architecture.X64)
-        {
-            app = AppBuilder.Configure<App>()
-                            .UsePlatformDetect()
-                            .With(new Win32PlatformOptions
-                            {
-                                RenderingMode = new[]
-                                {
-                                        Win32RenderingMode.Vulkan
-                                }
-                            })
-                            .WithInterFont()
-                            #if DEBUG
-                            .LogToTrace()
-                            #endif
-                            .UseXamlDisplay();
-        }
-        else
-        {
-                app = AppBuilder.Configure<App>()
-                                .UsePlatformDetect()
-                                .WithInterFont()
-                                #if DEBUG
-                                .LogToTrace()
-                                #endif
-                                .UseXamlDisplay();
-        }
-        return app;
+        return AppBuilder.Configure<App>()
+                         .UsePlatformDetect()
+                         .WithInterFont()
+                         .LogToTrace()
+                         .UseXamlDisplay();
     }
 }

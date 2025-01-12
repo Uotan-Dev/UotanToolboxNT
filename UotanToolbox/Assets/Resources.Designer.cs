@@ -1412,7 +1412,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Warming 的本地化字符串。
+        ///   查找类似 Warning 的本地化字符串。
         /// </summary>
         public static string Common_Warn {
             get {

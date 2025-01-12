@@ -1435,7 +1435,7 @@ Fill ID in ADB, one at a time!</value>
     <value>Success</value>
   </data>
   <data name="Common_Warn" xml:space="preserve">
-    <value>Warming</value>
+    <value>Warning</value>
   </data>
   <data name="Basicflash_Reboot" xml:space="preserve">
     <value>Reboot to</value>

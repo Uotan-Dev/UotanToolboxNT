@@ -126,4 +126,8 @@
 		<EmbeddedResource Include="Assets\clouds.sksl" />
 		<EmbeddedResource Include="Assets\weird.sksl" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Common\ParserHelper\" />
+	</ItemGroup>
 </Project>

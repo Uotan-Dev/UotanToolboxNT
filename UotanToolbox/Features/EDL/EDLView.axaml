@@ -1,0 +1,231 @@
+﻿<UserControl x:Class="UotanToolbox.Features.EDL.EDLView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:edl="clr-namespace:UotanToolbox.Features.EDL"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+             xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+             d:DesignHeight="1100"
+             d:DesignWidth="1024"
+             x:DataType="edl:EDLViewModel"
+             mc:Ignorable="d">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel Margin="15"
+			   theme:WrapPanelExtensions.AnimatedScroll="True"
+			   Orientation="Horizontal">
+
+			<!--    -->
+			<suki:GlassCard Height="250" Width="725" Margin="10 5 10 10">
+			<suki:BusyArea BusyText="">
+				<StackPanel>
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="9008刷机" />
+					<StackPanel Orientation="Vertical" Margin="5 5 0 0">
+						<StackPanel Orientation="Horizontal" Spacing="0">
+							<TextBlock Margin="0 0 5 0" VerticalAlignment="Center" Text="选择方案:"></TextBlock>
+							<ComboBox Width="150" SelectedIndex="{Binding SelectBand}" ItemsSource="{Binding BandList}" />
+							<ComboBox Width="150" SelectedIndex="{Binding SelectSeries}" ItemsSource="{Binding SeriesList}" />
+							<ComboBox Width="200" SelectedIndex="{Binding SelectModel}" ItemsSource="{Binding ModelList}" />
+							<Button Height="35" Margin="5 0 0 0" Padding="0" Width="105" Command="{Binding SendFirehose}" Content="发送引导"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="5">
+							<TextBlock VerticalAlignment="Center" Text="引导文件:"></TextBlock>
+							<TextBox Name="FirehoseFile" Width="500" Text="{Binding FirehoseFile}"/>
+							<Button Height="35" Padding="0" Width="105" Command="{Binding OpenFirehoseFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="5">
+							<TextBlock VerticalAlignment="Center" Text="镜像目录:"></TextBlock>
+							<TextBox Name="ImageFolder" Width="500" Text="{Binding PartNamr}" />
+							<Button Height="35" Width="105" Padding="0" Command="{Binding OpenImageFolder}"
+									Content="{x:Static assets:Resources.Common_ChooseFolder}">
+							</Button>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="5">
+							<TextBlock VerticalAlignment="Center" Text="XML文件:"></TextBlock>
+							<TextBox Name="XMLFile" Width="500" Text="{Binding XMLFile}"/>
+							<Button Height="35" Width="105" Padding="0" Command="{Binding OpenXMLFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+			<!--    -->
+			<suki:GlassCard Height="200" Width="215" Margin="10 -45 0 10">
+			<StackPanel Orientation="Vertical">
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="设备信息" />
+					<StackPanel Margin="5 10 0 0" Spacing="10">
+						<TextBlock Text="{Binding CurrentDevice}" />
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding MemoryType}"/>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="0">
+							<RadioButton Content="自动" IsChecked="{Binding Auto}" GroupName="Type"/>
+							<RadioButton Margin="15 0 0 0" Content="EMMC" IsChecked="{Binding EMMC}" GroupName="Type"/>
+						</StackPanel>
+						<StackPanel Margin="0 -5 0 0" Orientation="Horizontal" Spacing="0">
+							<RadioButton Margin="0 10 0 0" Content="UFS" IsCancel="{Binding UFS}" GroupName="Type"/>
+						</StackPanel>
+					</StackPanel>
+				</StackPanel>
+		</suki:GlassCard>
+
+			<!--    -->
+			<suki:GlassCard Height="490" Width="725" Margin="10 10 10 10">
+			<suki:BusyArea>
+				<StackPanel>
+				<StackPanel>
+					<DataGrid ItemsSource="{Binding EDLPartModel}"
+							  Width="680"
+							  Height="445"
+							  FontSize="15"
+							  CanUserResizeColumns="True">
+						<DataGrid.Columns>
+							<DataGridCheckBoxColumn Binding="{Binding SelectPart}" Header="选择"/>
+							<DataGridTextColumn Binding="{Binding Lun}" IsReadOnly="True" Header="LUN"/>
+							<DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" Header="标签名"/>
+							<DataGridTemplateColumn Header="文件名">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<Button Name="ImageName"
+												Theme="{StaticResource ToolboxButtonFile}"
+												Content="{Binding FileName}"
+												Click="OpenImageFile"
+												ToolTip.Tip="点击更换镜像"/>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+							<DataGridTextColumn Binding="{Binding IsSparse}" IsReadOnly="True" Header="Sparse"/>
+							<DataGridTextColumn Binding="{Binding Offset}" IsReadOnly="True" Header="文件偏移量"/>
+							<DataGridTextColumn Binding="{Binding Start}" IsReadOnly="True" Header="起始扇区"/>
+							<DataGridTextColumn Binding="{Binding Sector}" IsReadOnly="True" Header="扇区数"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</StackPanel>
+				<StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+					<Button Width="120"
+							HorizontalAlignment="Left"
+							Command="{Binding ReadPartTable}"
+							Padding="8">
+						<TextBlock>
+							<TextBlock Text="全选/取消全选" />
+						</TextBlock>
+					</Button>
+					<Button Name="ReadPartTableBut"
+							Width="120"
+							HorizontalAlignment="Left"
+							Command="{Binding ReadPartTable}"
+							Padding="8">
+						<TextBlock>
+							<TextBlock Text="读取分区表" />
+						</TextBlock>
+					</Button>
+					<Button Name="WritePartBut"
+							Width="120"
+							HorizontalAlignment="Left"
+							Command="{Binding WritePart}"
+							Padding="8">
+						<TextBlock>
+							<TextBlock Text="写入" />
+						</TextBlock>
+					</Button>
+					<Button Name="ReadPartBut"
+							Width="120"
+							HorizontalAlignment="Left"
+							Command="{Binding ReadPart}"
+							Padding="8">
+						<TextBlock>
+							<TextBlock Text="回读" />
+						</TextBlock>
+					</Button>
+					<Button Name="ErasePartBut"
+							Width="120"
+							HorizontalAlignment="Left"
+							Command="{Binding ErasePart}"
+							Padding="8">
+						<TextBlock>
+							<TextBlock Text="擦除" />
+						</TextBlock>
+					</Button>
+				</StackPanel>
+			</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+			<!--    -->
+			<suki:GlassCard Height="260" Width="215" Margin="10 -330 0 0">
+				<suki:BusyArea BusyText="">
+					<StackPanel Orientation="Vertical" Spacing="15">
+						<TextBlock HorizontalAlignment="Left"
+									FontSize="15"
+									FontWeight="DemiBold"
+									Text="9008重启至" />
+						<StackPanel Margin="0 5 0 0" Spacing="5">
+							<Button Width="160" Command="{Binding RebootEDL}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ProgressDownload" />
+									<TextBlock Text="9008" />
+								</TextBlock>
+							</Button>
+							<Button Width="160" Command="{Binding RebootSys}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="Android" />
+									<TextBlock Text="系统" />
+								</TextBlock>
+							</Button>
+							<Button Width="160" Command="{Binding RebootEDL}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="NetworkOutline" />
+									<TextBlock Text="Recovery" />
+								</TextBlock>
+							</Button>
+							<Button Width="160" Command="{Binding RebootEDL}">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ProgressDownload" />
+									<TextBlock Text="Fastbootd" />
+								</TextBlock>
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</suki:BusyArea>
+			</suki:GlassCard>
+
+			<!--    -->
+			<suki:GlassCard Name="MoreCard" Height="260" Width="215" Margin="755 -270 10 10">
+			<suki:BusyArea BusyText="">
+				<StackPanel>
+					<TextBlock HorizontalAlignment="Left"
+								FontSize="15"
+								FontWeight="DemiBold"
+								Text="更多功能" />
+					<StackPanel Orientation="Vertical" Spacing="10" Margin="0 20 0 0">
+						<Button Height="35" Width="160" Content="禁用vbmeta" Command="{Binding DisableVbmeta}" />
+						<Button Height="35" Width="160" Content="恢复出厂设置" Command="{Binding Restore}" />
+						<Button Height="35" Width="160" Content="开启OEM解锁" Command="{Binding OpenOEMLock}"/>
+						<Button Height="35" Width="160" Content="配置UFS" Command="{Binding ReconfigureUFS}"/>
+					</StackPanel>
+				</StackPanel>
+			</suki:BusyArea>
+		</suki:GlassCard>
+
+			<!-- Log -->
+			<suki:GlassCard Width="960"
+							Height="280"
+							Margin="10 10 0 0"
+							VerticalAlignment="Top">
+				<Grid>
+					<TextBox Name="EDLLog" Text="{Binding EDLLog}" Watermark="{x:Static assets:Resources.FormatExtract_Log}" Margin="0" Height="240" AcceptsReturn="True"
+							 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" CaretIndex="{Binding LogIndex}" />
+				</Grid>
+			</suki:GlassCard>
+		</WrapPanel>
+	</ScrollViewer>
+</UserControl>

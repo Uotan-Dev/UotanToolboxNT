@@ -22,7 +22,7 @@ public partial class OthersView : UserControl
     {
         InitializeComponent();
         SetUnit.ItemsSource = Unit;
-        GetDisplayInfo();
+        _ = GetDisplayInfo();
     }
 
     public void SetNull()

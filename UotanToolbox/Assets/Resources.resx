@@ -1495,6 +1495,12 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="Common_FBRoot" xml:space="preserve">
     <value>Fastboot device detected, but it seems that the current system has not written relevant USB rules. Should you try to execute with root privileges?</value>
   </data>
+  <data name="Common_EnterFastbootd" xml:space="preserve">
+    <value>Please enter Fastbootd mode!</value>
+  </data>
+  <data name="Modifypartition_EnterName" xml:space="preserve">
+    <value>Please enter the partition name!</value>
+  </data>
   <data name="Scrcpy_VS_DisplaySize" xml:space="preserve">
     <value>Display size</value>
   </data>

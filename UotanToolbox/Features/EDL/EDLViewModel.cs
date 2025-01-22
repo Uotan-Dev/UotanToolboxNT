@@ -400,9 +400,29 @@ public partial class EDLViewModel : MainPageBase
                 return;
             }
             await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable7.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
+            if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
+            {
+                Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent("需要重新进入EDL模式")
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
+                return;
+            }
             if (EDLLog.Contains("All Finished Successfully"))
             {
                 await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable8.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
+                if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
+                {
+                    Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent("需要重新进入EDL模式")
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
+                    return;
+                }
             }
         }
         Global.xml_path = Path.Join(work_path, "Merged.xml");
@@ -429,7 +449,16 @@ public partial class EDLViewModel : MainPageBase
         ExtractSelectedPartsToXml(tmp_xml_path);
         RemoveIndexToProgramElements(tmp_xml_path);
         await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-
+        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Error"))
+                                    .OfType(NotificationType.Error)
+                                    .WithContent("需要重新进入EDL模式")
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
+            return;
+        }
         FileHelper.Write(edl_log_path, output);
         if (EDLLog.Contains("All Finished Successfully"))
         {
@@ -471,6 +500,16 @@ public partial class EDLViewModel : MainPageBase
         RenameProgramNodesToErase(tmp_xml_path);
         await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
         FileHelper.Write(edl_log_path, output);
+        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Error"))
+                                    .OfType(NotificationType.Error)
+                                    .WithContent("需要重新进入EDL模式")
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
+            return;
+        }
         if (EDLLog.Contains("All Finished Successfully"))
         {
             Global.MainDialogManager.CreateDialog()
@@ -511,6 +550,16 @@ public partial class EDLViewModel : MainPageBase
         RenameProgramNodesToErase(tmp_xml_path);
         await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
         FileHelper.Write(edl_log_path, output);
+        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Error"))
+                                    .OfType(NotificationType.Error)
+                                    .WithContent("需要重新进入EDL模式")
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
+            return;
+        }
         if (EDLLog.Contains("All Finished Successfully"))
         {
             Global.MainDialogManager.CreateDialog()
@@ -545,6 +594,16 @@ public partial class EDLViewModel : MainPageBase
                         .Dismiss().ByClickingBackground()
                         .TryShow();
         }
+        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Error"))
+                                    .OfType(NotificationType.Error)
+                                    .WithContent("需要重新进入EDL模式")
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
+            return;
+        }
     }
 
     [RelayCommand]
@@ -552,6 +611,16 @@ public partial class EDLViewModel : MainPageBase
     {
         await Fh_loader(Global.bin_path, sendxml: Path.Join(Global.bin_path, "XML", "Continue.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice);
         FileHelper.Write(edl_log_path, output);
+        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Error"))
+                                    .OfType(NotificationType.Error)
+                                    .WithContent("需要重新进入EDL模式")
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
+            return;
+        }
         if (EDLLog.Contains("All Finished Successfully"))
         {
             Global.MainDialogManager.CreateDialog()
@@ -828,7 +897,16 @@ public partial class EDLViewModel : MainPageBase
             FileInfo fileInfo = new FileInfo(tmpBinFilePath);
             return fileInfo.Length == sector;
         }
-
+        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
+        {
+            Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Error"))
+                                    .OfType(NotificationType.Error)
+                                    .WithContent("需要重新进入EDL模式")
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
+            return false;
+        }
         return false;
     }
 }

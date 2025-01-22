@@ -88,7 +88,7 @@ public partial class EDLView : UserControl
                     var filenameAttribute = element.Attribute("filename");
                     if (filenameAttribute != null)
                     {
-                        filenameAttribute.Value = files[0].Path.ToString();
+                        filenameAttribute.Value = StringHelper.FilePath(files[0].Path.ToString());
                     }
                 }
             }

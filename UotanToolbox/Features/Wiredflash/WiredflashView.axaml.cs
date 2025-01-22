@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Common.PatchHelper;
+using ZstdSharp;
 
 
 namespace UotanToolbox.Features.Wiredflash;
@@ -25,6 +26,7 @@ public partial class WiredflashView : UserControl
     }
 
     private readonly string fastboot_log_path = Path.Combine(Global.log_path, "fastboot.txt");
+    private readonly string update_status = Path.Combine(Global.log_path, "update.txt");
     private string output = "";
 
     public WiredflashView()
@@ -213,21 +215,21 @@ public partial class WiredflashView : UserControl
 
     private async void StartTXTFlash(object sender, RoutedEventArgs args)
     {
+        TXTFlashBusy(true);
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status is "Fastboot" or "Fastbootd")
             {
-                if (FastbootFile.Text != "" || FastbootdFile.Text != "")
+                if (!string.IsNullOrEmpty(FastbootFile.Text) || !string.IsNullOrEmpty(FastbootdFile.Text))
                 {
-                    TXTFlashBusy(true);
                     bool succ = true;
                     string fbtxt = FastbootFile.Text;
                     string fbdtxt = FastbootdFile.Text;
                     WiredflashLog.Text = "";
                     output = "";
                     string imgpath;
-                    if (fbtxt != "")
+                    if (!string.IsNullOrEmpty(fbtxt))
                     {
                         imgpath = fbtxt[..fbtxt.LastIndexOf('/')] + "/images";
                         string fbparts = FileHelper.Readtxt(fbtxt);
@@ -255,7 +257,26 @@ public partial class WiredflashView : UserControl
                             if (fbflashparts[i].Contains(' '))
                             {
                                 string[] partandpath = fbflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                string shell = string.Format($"-s {Global.thisdevice} flash {partandpath[0]} \"{fbtxt[..fbtxt.LastIndexOf('/')]}{partandpath[1]}\"");
+                                string filepath = fbtxt[..fbtxt.LastIndexOf('/')] + partandpath[1];
+                                if (Path.GetExtension(filepath) == ".zst")
+                                {
+                                    WiredflashLog.Text += GetTranslation("Wiredflash_ZST");
+                                    var zstfile = File.OpenRead(filepath);
+                                    string zstname = Path.GetFileNameWithoutExtension(filepath);
+                                    if (!zstname.Contains(".img"))
+                                    {
+                                        zstname = zstname + ".img";
+                                    }
+                                    string outfile = Path.Combine(Path.GetDirectoryName(filepath), zstname);
+                                    var zstout = File.OpenWrite(outfile);
+                                    var decompress = new DecompressionStream(zstfile);
+                                    await decompress.CopyToAsync(zstout);
+                                    decompress.Close();
+                                    zstout.Close();
+                                    zstfile.Close();
+                                    filepath = outfile;
+                                }
+                                string shell = string.Format($"-s {Global.thisdevice} flash {partandpath[0]} \"{filepath}\"");
                                 await Fastboot(shell);
                             }
                             else
@@ -283,7 +304,7 @@ public partial class WiredflashView : UserControl
                             }
                         }
                     }
-                    if (fbdtxt != "" && succ)
+                    if (!string.IsNullOrEmpty(fbdtxt) && succ)
                     {
                         if (sukiViewModel.Status != "Fastbootd")
                         {
@@ -296,7 +317,9 @@ public partial class WiredflashView : UserControl
                                 TXTFlashBusy(false);
                                 return;
                             }
-                            _ = await GetDevicesInfo.SetDevicesInfoLittle();
+                            await GetDevicesInfo.SetDevicesInfoLittle();
+                            await Task.Delay(5000);
+                            await GetDevicesInfo.SetDevicesInfoLittle();
                         }
                         imgpath = fbdtxt[..fbdtxt.LastIndexOf('/')] + "/images";
                         string fbdparts = FileHelper.Readtxt(fbdtxt);
@@ -319,7 +342,7 @@ public partial class WiredflashView : UserControl
                             }
                         }
                         string slot = "";
-                        await Fastboot($"-s {Global.thisdevice} getvar snapshot-update-status");
+                        FileHelper.Write(update_status, await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar snapshot-update-status"));
                         string active = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar current-slot");
                         if (active.Contains("current-slot: a"))
                         {
@@ -361,69 +384,86 @@ public partial class WiredflashView : UserControl
                                 deleteslot = "_a";
                             }
                             string part = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
+                            string[] deleteslotparts = FeaturesHelper.GetVPartList(part);
+                            for (int i = 0; i < deleteslotparts.Length; i++)
+                            {
+                                if (deleteslotparts[i].EndsWith(deleteslot))
+                                {
+                                    string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deleteslotparts[i]}");
+                                    await Fastboot(shell);
+                                }
+                                FileHelper.Write(fastboot_log_path, output);
+                                if (output.Contains("FAILED") || output.Contains("error"))
+                                {
+                                    succ = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (succ)
+                        {
+                            string part = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                             string[] vparts = FeaturesHelper.GetVPartList(part);
-                            for (int i = 0; i < vparts.Length; i++)
+                            if (succ)
                             {
-                                if (vparts[i].Contains(deleteslot))
+                                for (int i = 0 + c; i < fbdflashparts.Length; i++)
                                 {
-                                    string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {vparts[i]}");
-                                    await Fastboot(shell);
-                                }
-                                FileHelper.Write(fastboot_log_path, output);
-                                if (output.Contains("FAILED") || output.Contains("error"))
-                                {
-                                    succ = false;
-                                    break;
+                                    if (fbdflashparts[i].Contains(' '))
+                                    {
+                                        string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                        string deletepart = string.Format("{0}{1}", partandpath[0], slot);
+                                        if (Array.Exists(vparts, element => element == deletepart))
+                                        {
+                                            string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
+                                            await Fastboot(shell);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        string deletepart = string.Format("{0}{1}", fbdflashparts[i], slot);
+                                        if (Array.Exists(vparts, element => element == deletepart))
+                                        {
+                                            string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
+                                            await Fastboot(shell);
+                                        }
+                                    }
+                                    FileHelper.Write(fastboot_log_path, output);
+                                    if (output.Contains("FAILED") || output.Contains("error"))
+                                    {
+                                        succ = false;
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        if (succ)
-                        {
-                            for (int i = 0 + c; i < fbdflashparts.Length; i++)
+                            if (succ)
                             {
-                                if (fbdflashparts[i].Contains(' '))
+                                for (int i = 0 + c; i < fbdflashparts.Length; i++)
                                 {
-                                    string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                    string deletepart = string.Format("{0}{1}", partandpath[0], slot);
-                                    string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
-                                    await Fastboot(shell);
-                                }
-                                else
-                                {
-                                    string deletepart = string.Format("{0}{1}", fbdflashparts[i], slot);
-                                    string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
-                                    await Fastboot(shell);
-                                }
-                                FileHelper.Write(fastboot_log_path, output);
-                                if (output.Contains("FAILED") || output.Contains("error"))
-                                {
-                                    succ = false;
-                                    break;
-                                }
-                            }
-                        }
-                        if (succ)
-                        {
-                            for (int i = 0 + c; i < fbdflashparts.Length; i++)
-                            {
-                                if (fbdflashparts[i].Contains(' '))
-                                {
-                                    string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                    string makepart = string.Format("{0}{1}", partandpath[0], slot);
-                                    string shell = string.Format($"-s {Global.thisdevice} create-logical-partition {makepart} 00");
-                                    await Fastboot(shell);
-                                }
-                                else
-                                {
-                                    string makepart = string.Format("{0}{1}", fbdflashparts[i], slot);
-                                    string shell = string.Format($"-s {Global.thisdevice} create-logical-partition {makepart} 00");
-                                    await Fastboot(shell);
-                                }
-                                FileHelper.Write(fastboot_log_path, output);
-                                if (output.Contains("FAILED") || output.Contains("error"))
-                                {
-                                    succ = false;
-                                    break;
+                                    if (fbdflashparts[i].Contains(' '))
+                                    {
+                                        string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                        string makepart = string.Format("{0}{1}", partandpath[0], slot);
+                                        if (Array.Exists(vparts, element => element == makepart))
+                                        {
+                                            string shell = string.Format($"-s {Global.thisdevice} create-logical-partition {makepart} 00");
+                                            await Fastboot(shell);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        string makepart = string.Format("{0}{1}", fbdflashparts[i], slot);
+                                        if (Array.Exists(vparts, element => element == makepart))
+                                        {
+                                            string shell = string.Format($"-s {Global.thisdevice} create-logical-partition {makepart} 00");
+                                            await Fastboot(shell);
+                                        }
+                                    }
+                                    FileHelper.Write(fastboot_log_path, output);
+                                    if (output.Contains("FAILED") || output.Contains("error"))
+                                    {
+                                        succ = false;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -475,16 +515,19 @@ public partial class WiredflashView : UserControl
                 else
                 {
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Wiredflash_SelectFlashFile")).Dismiss().ByClickingBackground().TryShow();
+                    TXTFlashBusy(false);
                 }
             }
             else
             {
                 Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
+                TXTFlashBusy(false);
             }
         }
         else
         {
             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_NotConnected")).Dismiss().ByClickingBackground().TryShow();
+            TXTFlashBusy(false);
         }
     }
 
@@ -496,8 +539,14 @@ public partial class WiredflashView : UserControl
 
     public static FilePickerFileType Bat { get; } = new("Bat")
     {
-        Patterns = new[] { "flash*.bat", "flash*.sh" },
-        AppleUniformTypeIdentifiers = new[] { "flash*.bat", "flash*.sh" }
+        Patterns = new[] { "flash*.bat" },
+        AppleUniformTypeIdentifiers = new[] { "flash*.bat" }
+    };
+
+    public static FilePickerFileType Sh { get; } = new("Sh")
+    {
+        Patterns = new[] { "flash*.sh" },
+        AppleUniformTypeIdentifiers = new[] { "flash*.sh" }
     };
 
     private async void OpenSideloadFile(object sender, RoutedEventArgs args)
@@ -531,16 +580,55 @@ public partial class WiredflashView : UserControl
     }
     private async void OpenBatFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
-        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        if (Global.System == "Windows")
         {
-            FileTypeFilter = new[] { Bat },
-            Title = "Open Bat File",
-            AllowMultiple = false
-        });
-        if (files.Count >= 1)
+            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                FileTypeFilter = new[] { Bat },
+                Title = "Open Bat File",
+                AllowMultiple = false
+            });
+            if (files.Count >= 1)
+            {
+                BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+                string batfile = FileHelper.Readtxt(BatFile.Text);
+                if (batfile.Contains("oem lock"))
+                {
+                    Global.MainDialogManager.CreateDialog()
+                          .WithTitle(GetTranslation("Common_Warn"))
+                          .WithContent(GetTranslation("Wiredflash_RelockTip"))
+                          .OfType(NotificationType.Warning)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => { }, true)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => BatFile.Text = null, true)
+                          .TryShow();
+                }
+            }
+        }
+        else
         {
-            BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            {
+                FileTypeFilter = new[] { Sh },
+                Title = "Open Sh File",
+                AllowMultiple = false
+            });
+            if (files.Count >= 1)
+            {
+                BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+                string batfile = FileHelper.Readtxt(BatFile.Text);
+                if (batfile.Contains("oem lock"))
+                {
+                    Global.MainDialogManager.CreateDialog()
+                          .WithTitle(GetTranslation("Common_Warn"))
+                          .WithContent(GetTranslation("Wiredflash_RelockTip"))
+                          .OfType(NotificationType.Warning)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => { }, true)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => BatFile.Text = null, true)
+                          .TryShow();
+                }
+            }
         }
     }
 
@@ -605,7 +693,7 @@ public partial class WiredflashView : UserControl
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (AdbSideloadFile.Text != "" && FastbootUpdatedFile.Text == "" && BatFile.Text == "")
+            if (!string.IsNullOrEmpty(AdbSideloadFile.Text) && string.IsNullOrEmpty(FastbootUpdatedFile.Text) && string.IsNullOrEmpty(BatFile.Text))
             {
                 if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
                 {
@@ -632,7 +720,7 @@ public partial class WiredflashView : UserControl
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterSideload")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
-            else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text != "" && BatFile.Text == "")
+            else if (string.IsNullOrEmpty(AdbSideloadFile.Text) && !string.IsNullOrEmpty(FastbootUpdatedFile.Text) && string.IsNullOrEmpty(BatFile.Text))
             {
                 if (sukiViewModel.Status == "Fastboot")
                 {
@@ -649,7 +737,7 @@ public partial class WiredflashView : UserControl
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterFastboot")).Dismiss().ByClickingBackground().TryShow();
                 }
             }
-            else if (AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text == "" && BatFile.Text != "")
+            else if (string.IsNullOrEmpty(AdbSideloadFile.Text) && string.IsNullOrEmpty(FastbootUpdatedFile.Text) && !string.IsNullOrEmpty(BatFile.Text))
             {
                 if (sukiViewModel.Status == "Fastboot")
                 {
@@ -674,7 +762,7 @@ public partial class WiredflashView : UserControl
             }
             else
             {
-                _ = AdbSideloadFile.Text == "" && FastbootUpdatedFile.Text == "" && BatFile.Text == ""
+                _ = string.IsNullOrEmpty(AdbSideloadFile.Text) && string.IsNullOrEmpty(FastbootUpdatedFile.Text) && string.IsNullOrEmpty(BatFile.Text)
                     ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Wiredflash_SelectFlashFile")).Dismiss().ByClickingBackground().TryShow()
                     : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Wiredflash_NoMul")).Dismiss().ByClickingBackground().TryShow();
             }

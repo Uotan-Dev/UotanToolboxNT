@@ -1,6 +1,6 @@
 Maintainer: mujianwu <lrh15563910083@163.com>
 Package: uotantoolbox
-Version: 3.2.1
+Version: 3.3.0
 Section: devel
 Priority: optional
 Architecture: amd64
@@ -8,4 +8,4 @@ Essential: no
 Installed-Size: 268000
 Depends: usbutils, android-tools-adb
 Description: Advanced, Modern Toolbox for Geeks.
-Copyright: 2020-2024 UOTAN
+Copyright: 2020-2025 UOTAN

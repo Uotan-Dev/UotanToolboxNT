@@ -11,9 +11,9 @@
 		<PublishAot>False</PublishAot>
 		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-		<AssemblyVersion>3.2.1.0</AssemblyVersion>
-		<FileVersion>3.2.1.0</FileVersion>
-		<Version>3.2.1</Version>
+		<AssemblyVersion>3.3.0.0</AssemblyVersion>
+		<FileVersion>3.3.0.0</FileVersion>
+		<Version>3.3.0</Version>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <Optimize>False</Optimize>
@@ -44,11 +44,7 @@
 		<PackageReference Include="SkiaSharp" Version="2.88.9" />
 		<PackageReference Include="SukiUI" Version="6.0.0-rc" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.1" />
-		<PackageReference Include="System.Net.Http" Version="4.3.4" />
-		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
-		<PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
-		<PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
-		<PackageReference Include="ZachWolfe.KaitaiStruct.Runtime.CSharp" Version="0.11.0" />
+		<PackageReference Include="ZstdSharp.Port" Version="0.8.4" />
 	</ItemGroup>
 
 	<ItemGroup>

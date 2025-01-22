@@ -849,9 +849,6 @@
   <data name="Basicflash_PatchBoot" xml:space="preserve">
     <value>处理中...</value>
   </data>
-  <data name="Basicflash_UseUnlockCode" xml:space="preserve">
-    <value>使用解锁码解锁您可能需要自行添加“0x”</value>
-  </data>
   <data name="Basicflash_BasicUnlock" xml:space="preserve">
     <value>该功能仅支持部分品牌设备！执行后您的设备应当出现确认解锁提示，若未出现则为您的设备不支持该操作。</value>
   </data>
@@ -1506,5 +1503,53 @@ ADB下填写序号，一次一个！</value>
   </data>
   <data name="Scrcpy_VS_DisplaySizeExample" xml:space="preserve">
     <value>1920x1080/460 (高 × 宽)/dpi</value>
+  </data>
+  <data name="Common_EnterFastbootd" xml:space="preserve">
+    <value>请进入Fastbootd模式！</value>
+  </data>
+  <data name="Modifypartition_EnterName" xml:space="preserve">
+    <value>请输入分区名称！</value>
+  </data>
+  <data name="Home_ShutDownTip" xml:space="preserve">
+    <value>执行成功，拔出设备连接线即可关机！</value>
+  </data>
+  <data name="Band_Common" xml:space="preserve">
+    <value>通用</value>
+  </data>
+  <data name="Band_Huawei" xml:space="preserve">
+    <value>华为</value>
+  </data>
+  <data name="Band_Sony" xml:space="preserve">
+    <value>索尼</value>
+  </data>
+  <data name="Basicflash_CdoeError" xml:space="preserve">
+    <value>解锁失败，解锁码错误</value>
+  </data>
+  <data name="Basicflash_CheckLog" xml:space="preserve">
+    <value>解锁失败，请查看日志！(工具箱目录下Log/unlock.txt)</value>
+  </data>
+  <data name="Basicflash_FindPhone" xml:space="preserve">
+    <value>解锁失败，请重新开关查找手机</value>
+  </data>
+  <data name="Basicflash_NotMatch" xml:space="preserve">
+    <value>解锁码不符合16位</value>
+  </data>
+  <data name="Wiredflash_ZST" xml:space="preserve">
+    <value>正在解压zst文件</value>
+  </data>
+  <data name="Basicflash_RelockTip" xml:space="preserve">
+    <value>您确认要进行回锁操作吗？回锁前请确保当前为官方系统，否则将无法开机！</value>
+  </data>
+  <data name="Modifypartition_Loading" xml:space="preserve">
+    <value>载入中...</value>
+  </data>
+  <data name="Modifypartition_SearchPart" xml:space="preserve">
+    <value>搜索分区</value>
+  </data>
+  <data name="Modifypartition_ShowAllPart" xml:space="preserve">
+    <value>显示物理分区</value>
+  </data>
+  <data name="Wiredflash_RelockTip" xml:space="preserve">
+    <value>您选择了会进行回锁操作的脚本，确认继续吗？</value>
   </data>
 </root>

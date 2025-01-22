@@ -48,7 +48,7 @@ public partial class AppmgrViewModel : MainPageBase
                     if (!string.IsNullOrEmpty(Search))
                     {
                         applicationInfos.Clear();
-                        applicationInfos.AddRange(allApplicationInfos.Where(app => app.DisplayName.Contains(Search) || app.Name.Contains(Search))
+                        applicationInfos.AddRange(allApplicationInfos.Where(app => app.DisplayName.Contains(Search, StringComparison.OrdinalIgnoreCase) || app.Name.Contains(Search, StringComparison.OrdinalIgnoreCase))
                                                                      .OrderByDescending(app => app.Size)
                                                                      .ThenBy(app => app.Name)
                                                                      .ToList());
@@ -337,7 +337,7 @@ public partial class AppmgrViewModel : MainPageBase
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
-                if (SelectedApplication() != "")
+                if (!string.IsNullOrEmpty(SelectedApplication()))
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell monkey -p {SelectedApplication()} 1");
                 }
@@ -382,7 +382,7 @@ public partial class AppmgrViewModel : MainPageBase
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (sukiViewModel.Status == GetTranslation("Home_Android"))
             {
-                if (SelectedApplication() != "")
+                if (!string.IsNullOrEmpty(SelectedApplication()))
                 {
                     _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell pm disable {SelectedApplication()}");
                 }

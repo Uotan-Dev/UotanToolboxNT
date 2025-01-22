@@ -852,9 +852,6 @@
   <data name="Basicflash_PatchBoot" xml:space="preserve">
     <value>Processing...</value>
   </data>
-  <data name="Basicflash_UseUnlockCode" xml:space="preserve">
-    <value>To unlock with an unlock code, you may need to add '0x' yourself</value>
-  </data>
   <data name="Basicflash_BasicUnlock" xml:space="preserve">
     <value>This function is brand-specific! After execution, your device should display a confirmation unlock prompt. If it does not appear, it means that your device does not support this operation.</value>
   </data>
@@ -1378,7 +1375,7 @@ Fill ID in ADB, one at a time!</value>
     <value>Revoke USB 3.0 patch</value>
   </data>
   <data name="Basicflash_ExecuteReboot" xml:space="preserve">
-    <value>Execute restart command</value>
+    <value>Execute</value>
   </data>
   <data name="Basicflash_MoreReboot" xml:space="preserve">
     <value>More restart commands</value>
@@ -1438,7 +1435,7 @@ Fill ID in ADB, one at a time!</value>
     <value>Success</value>
   </data>
   <data name="Common_Warn" xml:space="preserve">
-    <value>Warming</value>
+    <value>Warning</value>
   </data>
   <data name="Basicflash_Reboot" xml:space="preserve">
     <value>Reboot to</value>
@@ -1509,5 +1506,53 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   </data>
   <data name="Scrcpy_VS_DisplaySizeExample" xml:space="preserve">
     <value>1920x1080/460 (Height × Width)/dpi</value>
+  </data>
+  <data name="Common_EnterFastbootd" xml:space="preserve">
+    <value>Please enter Fastbootd mode!</value>
+  </data>
+  <data name="Modifypartition_EnterName" xml:space="preserve">
+    <value>Please enter the partition name!</value>
+  </data>
+  <data name="Home_ShutDownTip" xml:space="preserve">
+    <value>Execution successful, unplug the device connection cable to shut down!</value>
+  </data>
+  <data name="Band_Common" xml:space="preserve">
+    <value>Common</value>
+  </data>
+  <data name="Band_Huawei" xml:space="preserve">
+    <value>Huawei</value>
+  </data>
+  <data name="Band_Sony" xml:space="preserve">
+    <value>Sony</value>
+  </data>
+  <data name="Basicflash_CdoeError" xml:space="preserve">
+    <value>Unlock failed, unlock code incorrect</value>
+  </data>
+  <data name="Basicflash_CheckLog" xml:space="preserve">
+    <value>Unlock failed, please check the log! (Log/unlock. txt in the toolbox directory)</value>
+  </data>
+  <data name="Basicflash_FindPhone" xml:space="preserve">
+    <value>Unlock failed, please switch on and off again to find your phone</value>
+  </data>
+  <data name="Basicflash_NotMatch" xml:space="preserve">
+    <value>The unlock code does not match 16 digits</value>
+  </data>
+  <data name="Wiredflash_ZST" xml:space="preserve">
+    <value>Extracting zst file</value>
+  </data>
+  <data name="Basicflash_RelockTip" xml:space="preserve">
+    <value>Are you sure you want to relock the bootloader? Before locking the bootloader, make sure it is an official system, otherwise it will not boot!</value>
+  </data>
+  <data name="Modifypartition_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Modifypartition_SearchPart" xml:space="preserve">
+    <value>Search Part</value>
+  </data>
+  <data name="Modifypartition_ShowAllPart" xml:space="preserve">
+    <value>Show all parts</value>
+  </data>
+  <data name="Wiredflash_RelockTip" xml:space="preserve">
+    <value>You have selected the script to relock the bootloader, are you sure you want to continue?</value>
   </data>
 </root>

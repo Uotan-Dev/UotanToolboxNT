@@ -390,7 +390,7 @@ public partial class HomeViewModel : MainPageBase
                 string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem poweroff");
                 _ = output.Contains("unknown command")
                     ? Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Home_NotSupported")).Dismiss().ByClickingBackground().TryShow()
-                    : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("Home_Successful")).Dismiss().ByClickingBackground().TryShow();
+                    : Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("Home_ShutDownTip")).Dismiss().ByClickingBackground().TryShow();
             }
             else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
             {

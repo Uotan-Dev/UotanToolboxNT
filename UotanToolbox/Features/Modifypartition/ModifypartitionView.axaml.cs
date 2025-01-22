@@ -1,9 +1,11 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
+using ReactiveUI;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -20,10 +22,27 @@ public partial class ModifypartitionView : UserControl
         return FeaturesHelper.GetTranslation(key);
     }
 
+    public ObservableCollection<PartModel> Parts { get; set; } = new ObservableCollection<PartModel>();
+
     public ModifypartitionView()
     {
         InitializeComponent();
         _ = LoadMassage();
+        _ = this.WhenAnyValue(part => part.SearchBox.Text)
+            .Subscribe(option =>
+            {
+                if (PartList.ItemsSource != null)
+                {
+                    if (!string.IsNullOrEmpty(SearchBox.Text))
+                    {
+                        PartList.ItemsSource = Parts.Where(part => part.Name.Contains(SearchBox.Text, StringComparison.OrdinalIgnoreCase)).ToList();
+                    }
+                    else
+                    {
+                        PartList.ItemsSource = Parts.Where(info => info != null).ToList();
+                    }
+                }
+            });
     }
 
     public async Task LoadMassage()
@@ -44,12 +63,14 @@ public partial class ModifypartitionView : UserControl
             NewPartitionFormat.IsEnabled = false;
             NewPartitionStartpoint.IsEnabled = false;
             NewPartitionEndpoint.IsEnabled = false;
+            ShowAllPart.IsEnabled = true;
         }
         else
         {
             NewPartitionFormat.IsEnabled = true;
             NewPartitionStartpoint.IsEnabled = true;
             NewPartitionEndpoint.IsEnabled = true;
+            ShowAllPart.IsEnabled = false;
         }
     }
 
@@ -91,13 +112,14 @@ public partial class ModifypartitionView : UserControl
             {
                 string size = string.Format("{0}", StringHelper.DiskSize(choice));
                 PartSize.Text = size;
-                PartModel[] part = new PartModel[parts.Length - 5];
+                PartModel[] part = new PartModel[parts.Length - 6];
                 for (int i = 6; i < parts.Length; i++)
                 {
                     string[] items = StringHelper.Items(parts[i].ToCharArray());
                     part[i - 6] = new PartModel(items[0], items[1], items[2], items[3], items[4], items[5], items[6]);
                 }
-                PartList.ItemsSource = part;
+                Parts = new ObservableCollection<PartModel>(part);
+                PartList.ItemsSource = Parts;
             }
             else
             {
@@ -173,6 +195,8 @@ public partial class ModifypartitionView : UserControl
                 {
                     BusyPart.IsBusy = true;
                     ReadPartBut.IsEnabled = false;
+                    PartList.ItemsSource = null;
+                    PartSize.Text = "";
                     Global.checkdevice = false;
                     string allinfo = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                     string[] parts = new string[1000];
@@ -192,7 +216,8 @@ public partial class ModifypartitionView : UserControl
                         string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
                         part[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
                     }
-                    PartList.ItemsSource = part;
+                    Parts = new ObservableCollection<PartModel>(part);
+                    PartList.ItemsSource = Parts;
                     BusyPart.IsBusy = false;
                     ReadPartBut.IsEnabled = true;
                     Global.checkdevice = true;
@@ -201,36 +226,61 @@ public partial class ModifypartitionView : UserControl
                 {
                     BusyPart.IsBusy = true;
                     ReadPartBut.IsEnabled = false;
+                    PartList.ItemsSource = null;
+                    PartSize.Text = "";
                     Global.checkdevice = false;
                     string allinfo = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
-                    string[] vparts = new string[1000];
+                    string[] parts = new string[1000];
                     string[] allinfos = allinfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < allinfos.Length; i++)
+                    if ((bool)ShowAllPart.IsChecked)
                     {
-                        if (allinfos[i].Contains("is-logical") && allinfos[i].Contains("yes"))
+                        for (int i = 0; i < allinfos.Length; i++)
                         {
-                            string[] vpartinfos = allinfos[i].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                            vparts[i] = vpartinfos[2];
-                        }
-                    }
-                    vparts = vparts.Where(s => !string.IsNullOrEmpty(s)).ToArray();
-                    PartModel[] part = new PartModel[vparts.Length];
-                    for (int i = 0; i < vparts.Length; i++)
-                    {
-                        for (int j = 0; j < allinfos.Length; j++)
-                        {
-                            if (allinfos[j].Contains("partition-size"))
+                            if (allinfos[i].Contains("partition-size"))
                             {
-                                string[] partinfos = allinfos[j].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                                if (partinfos[2] == vparts[i])
+                                parts[i] = allinfos[i];
+                            }
+                        }
+                        parts = parts.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                        PartModel[] part = new PartModel[parts.Length];
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            string[] partinfos = parts[i].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
+                            part[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
+                        }
+                        Parts = new ObservableCollection<PartModel>(part);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < allinfos.Length; i++)
+                        {
+                            if (allinfos[i].Contains("is-logical") && allinfos[i].Contains("yes"))
+                            {
+                                string[] vpartinfos = allinfos[i].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                parts[i] = vpartinfos[2];
+                            }
+                        }
+                        parts = parts.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                        PartModel[] vpart = new PartModel[parts.Length];
+                        for (int i = 0; i < parts.Length; i++)
+                        {
+                            for (int j = 0; j < allinfos.Length; j++)
+                            {
+                                if (allinfos[j].Contains("partition-size"))
                                 {
-                                    string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
-                                    part[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
+                                    string[] partinfos = allinfos[j].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                    if (partinfos[2] == parts[i])
+                                    {
+                                        string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
+                                        vpart[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
+                                    }
                                 }
                             }
                         }
+                        Parts = new ObservableCollection<PartModel>(vpart);
                     }
-                    PartList.ItemsSource = part;
+                    PartList.ItemsSource = Parts;
                     BusyPart.IsBusy = false;
                     ReadPartBut.IsEnabled = true;
                     Global.checkdevice = true;

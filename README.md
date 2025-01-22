@@ -20,19 +20,24 @@
 - 🚫 无广告
 - 🛠 更多功能开发中...
 
+## 🚩 项目架构
+
+![项目架构](https://github.com/user-attachments/assets/f0a48cb9-3a02-4f15-8d23-aa28a580d4cf)
+
+
 ## 📷 截图
 
-![](https://i.ibb.co/9TLTYd5/2024-08-02-220430.webp)
+![主页](https://i.ibb.co/9TLTYd5/2024-08-02-220430.webp)
 
-![](https://i.ibb.co/Lh3fFHH/2024-08-02-220450.webp)
+![基本刷入](https://i.ibb.co/Lh3fFHH/2024-08-02-220450.webp)
 
-![](https://i.ibb.co/NTSrQHH/2024-08-02-220542.webp)
+![线刷](https://i.ibb.co/NTSrQHH/2024-08-02-220542.webp)
 
 ## ✈️ 开始使用
 
 - 在 [Github Release](https://github.com/Uotan-Dev/UotanToolboxNT/releases) 下载对应的最新版本。
 	- Windows版本的ZIP请使用第三方工具解压，带 Installer 的为安装程序。
-	- macOS运行须在终端执行命令：sudo xattr -r -d com.apple.quarantine UotanToolbox.app
+	- macOS运行须在终端执行命令：`sudo xattr -r -d com.apple.quarantine UotanToolbox.app`
 	- 龙芯版本推荐使用新世界，不确定旧世界是否能够正常使用。
 
 ## ⚙️ 开发环境

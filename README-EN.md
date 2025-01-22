@@ -20,19 +20,24 @@
 - 🚫 No ADs
 - 🛠 More features are in development ...
 
+## 🚩 Project Framework
+
+![Project Framework](https://github.com/user-attachments/assets/629e7a61-e7ef-4102-a13c-3264a20714a2)
+
+
 ## 📷 Screenshots
 
-![](https://i.ibb.co/9TLTYd5/2024-08-02-220430.webp)
+![Home](https://i.ibb.co/9TLTYd5/2024-08-02-220430.webp)
 
-![](https://i.ibb.co/Lh3fFHH/2024-08-02-220450.webp)
+![Basic Flash](https://i.ibb.co/Lh3fFHH/2024-08-02-220450.webp)
 
-![](https://i.ibb.co/NTSrQHH/2024-08-02-220542.webp)
+![Wired Flash](https://i.ibb.co/NTSrQHH/2024-08-02-220542.webp)
 
 ## ✈️ Setup
 
 - Download latest version at [Github Release](https://github.com/Uotan-Dev/UotanToolboxNT/releases)
 	- Please use unzip tools like 7-zip on Windows if you download the portable version.
-	- macOS users should execute this command in Bash Termnial：sudo xattr -r -d com.apple.quarantine UotanToolbox.app
+	- macOS users should execute this command in Bash Termnial：`sudo xattr -r -d com.apple.quarantine UotanToolbox.app`
 	- ABI2.0 is recommended on LoongArch devices.
 
 ## ⚙️ Environment

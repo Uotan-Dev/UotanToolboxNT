@@ -349,6 +349,33 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Common 的本地化字符串。
+        /// </summary>
+        public static string Band_Common {
+            get {
+                return ResourceManager.GetString("Band_Common", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Huawei 的本地化字符串。
+        /// </summary>
+        public static string Band_Huawei {
+            get {
+                return ResourceManager.GetString("Band_Huawei", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Sony 的本地化字符串。
+        /// </summary>
+        public static string Band_Sony {
+            get {
+                return ResourceManager.GetString("Band_Sony", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Basic command unlock 的本地化字符串。
         /// </summary>
         public static string Basicflash_BasicCommandUnlock {
@@ -412,11 +439,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Unlock failed, unlock code incorrect 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_CdoeError {
+            get {
+                return ResourceManager.GetString("Basicflash_CdoeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Magiskboot verification error 的本地化字符串。
         /// </summary>
         public static string Basicflash_CheckError {
             get {
                 return ResourceManager.GetString("Basicflash_CheckError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlock failed, please check the log! (Log/unlock. txt in the toolbox directory) 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_CheckLog {
+            get {
+                return ResourceManager.GetString("Basicflash_CheckLog", resourceCulture);
             }
         }
         
@@ -547,7 +592,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Execute restart command 的本地化字符串。
+        ///   查找类似 Execute 的本地化字符串。
         /// </summary>
         public static string Basicflash_ExecuteReboot {
             get {
@@ -588,6 +633,15 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_FileError {
             get {
                 return ResourceManager.GetString("Basicflash_FileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Unlock failed, please switch on and off again to find your phone 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_FindPhone {
+            get {
+                return ResourceManager.GetString("Basicflash_FindPhone", resourceCulture);
             }
         }
         
@@ -754,6 +808,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 The unlock code does not match 16 digits 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_NotMatch {
+            get {
+                return ResourceManager.GetString("Basicflash_NotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The current device does not require this operation! 的本地化字符串。
         /// </summary>
         public static string Basicflash_NotUsed {
@@ -858,6 +921,15 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_RelockSucc {
             get {
                 return ResourceManager.GetString("Basicflash_RelockSucc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Are you sure you want to relock the bootloader? Before locking the bootloader, make sure it is an official system, otherwise it will not boot! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RelockTip {
+            get {
+                return ResourceManager.GetString("Basicflash_RelockTip", resourceCulture);
             }
         }
         
@@ -1074,15 +1146,6 @@ namespace UotanToolbox.Assets {
         public static string Basicflash_UnsupportImage {
             get {
                 return ResourceManager.GetString("Basicflash_UnsupportImage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 To unlock with an unlock code, you may need to add &apos;0x&apos; yourself 的本地化字符串。
-        /// </summary>
-        public static string Basicflash_UseUnlockCode {
-            get {
-                return ResourceManager.GetString("Basicflash_UseUnlockCode", resourceCulture);
             }
         }
         
@@ -1349,7 +1412,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Warming 的本地化字符串。
+        ///   查找类似 Warning 的本地化字符串。
         /// </summary>
         public static string Common_Warn {
             get {
@@ -2305,6 +2368,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Execution successful, unplug the device connection cable to shut down! 的本地化字符串。
+        /// </summary>
+        public static string Home_ShutDownTip {
+            get {
+                return ResourceManager.GetString("Home_ShutDownTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Sideload 的本地化字符串。
         /// </summary>
         public static string Home_Sideload {
@@ -2800,6 +2872,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Loading... 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_Loading {
+            get {
+                return ResourceManager.GetString("Modifypartition_Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ESP On 的本地化字符串。
         /// </summary>
         public static string Modifypartition_Mark {
@@ -2864,6 +2945,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Search Part 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_SearchPart {
+            get {
+                return ResourceManager.GetString("Modifypartition_SearchPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please first select the disk to be read and read the partition table! 的本地化字符串。
         /// </summary>
         public static string Modifypartition_SelectAndRead {
@@ -2906,6 +2996,15 @@ namespace UotanToolbox.Assets {
         public static string Modifypartition_SetEFI {
             get {
                 return ResourceManager.GetString("Modifypartition_SetEFI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show all parts 的本地化字符串。
+        /// </summary>
+        public static string Modifypartition_ShowAllPart {
+            get {
+                return ResourceManager.GetString("Modifypartition_ShowAllPart", resourceCulture);
             }
         }
         
@@ -4145,6 +4244,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 You have selected the script to relock the bootloader, are you sure you want to continue? 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_RelockTip {
+            get {
+                return ResourceManager.GetString("Wiredflash_RelockTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Repairing Boot image...... 的本地化字符串。
         /// </summary>
         public static string Wiredflash_RepairBoot {
@@ -4213,6 +4321,15 @@ namespace UotanToolbox.Assets {
         public static string Wiredflash_XiaomiFlashScript {
             get {
                 return ResourceManager.GetString("Wiredflash_XiaomiFlashScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extracting zst file 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_ZST {
+            get {
+                return ResourceManager.GetString("Wiredflash_ZST", resourceCulture);
             }
         }
         

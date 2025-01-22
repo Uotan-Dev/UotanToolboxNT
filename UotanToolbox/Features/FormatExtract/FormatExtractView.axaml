@@ -161,8 +161,8 @@
 								   FontWeight="DemiBold"
 								   Text="{x:Static assets:Resources.FormatExtract_Format}" />
 						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-							<TextBlock Width="60"
-									   Margin="8,0,0,0"
+							<TextBlock Width="65"
+									   Margin="5,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
 									   Text="{x:Static assets:Resources.FormatExtract_PartName}" />
@@ -248,8 +248,8 @@
 								   FontWeight="DemiBold"
 								   Text="{x:Static assets:Resources.FormatExtract_Extract}" />
 						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-							<TextBlock Width="60"
-									   Margin="8,0,0,0"
+							<TextBlock Width="65"
+									   Margin="5,0,0,0"
 									   VerticalAlignment="Center"
 									   FontSize="13"
 									   Text="{x:Static assets:Resources.FormatExtract_PartName}" />

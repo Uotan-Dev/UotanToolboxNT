@@ -18,7 +18,7 @@
 			   Orientation="Horizontal">
 
 			<!--    -->
-			<suki:GlassCard Height="250" Width="725" Margin="10 5 10 10">
+			<suki:GlassCard Height="200" Width="725" Margin="10 5 10 10">
 			<suki:BusyArea BusyText="">
 				<StackPanel>
 					<TextBlock HorizontalAlignment="Left"
@@ -26,24 +26,19 @@
 								FontWeight="DemiBold"
 								Text="9008刷机" />
 					<StackPanel Orientation="Vertical" Margin="5 5 0 0">
-						<StackPanel Orientation="Horizontal" Spacing="0">
-							<TextBlock Margin="0 0 5 0" VerticalAlignment="Center" Text="选择方案:"></TextBlock>
-							<ComboBox Width="150" SelectedIndex="{Binding SelectBand}" ItemsSource="{Binding BandList}" />
-							<ComboBox Width="150" SelectedIndex="{Binding SelectSeries}" ItemsSource="{Binding SeriesList}" />
-							<ComboBox Width="200" SelectedIndex="{Binding SelectModel}" ItemsSource="{Binding ModelList}" />
-							<Button Height="35" Margin="5 0 0 0" Padding="0" Width="105" Command="{Binding SendFirehose}" Content="发送引导"/>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" Spacing="5">
-							<TextBlock VerticalAlignment="Center" Text="引导文件:"></TextBlock>
-							<TextBox Name="FirehoseFile" Width="500" Text="{Binding FirehoseFile}"/>
-							<Button Height="35" Padding="0" Width="105" Command="{Binding OpenFirehoseFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
-						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center" Text="镜像目录:"></TextBlock>
 							<TextBox Name="ImageFolder" Width="500" Text="{Binding PartNamr}" />
 							<Button Height="35" Width="105" Padding="0" Command="{Binding OpenImageFolder}"
 									Content="{x:Static assets:Resources.Common_ChooseFolder}">
 							</Button>
+						</StackPanel>
+						<StackPanel Orientation="Horizontal" Spacing="5">
+							<TextBlock VerticalAlignment="Center" Text="引导文件:"></TextBlock>
+							<TextBox Name="FirehoseFile" Width="320" Text="{Binding FirehoseFile}"/>
+							<ComboBox Margin="-10 0 -5 0" Width="130" SelectedIndex="{Binding SelectFlie}" ItemsSource="{Binding BuiltInFile}" />
+							<Button Height="35" Padding="0" Width="80" Command="{Binding OpenFirehoseFile}" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+							<Button Height="35" Padding="0" Width="80" Command="{Binding SendFirehose}" Content="发送引导"/>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" Spacing="5">
 							<TextBlock VerticalAlignment="Center" Text="XML文件:"></TextBlock>
@@ -56,7 +51,7 @@
 		</suki:GlassCard>
 
 			<!--    -->
-			<suki:GlassCard Height="200" Width="215" Margin="10 -45 0 10">
+			<suki:GlassCard Height="200" Width="215" Margin="10 5 0 10">
 			<StackPanel Orientation="Vertical">
 					<TextBlock HorizontalAlignment="Left"
 								FontSize="15"
@@ -79,7 +74,7 @@
 		</suki:GlassCard>
 
 			<!--    -->
-			<suki:GlassCard Height="490" Width="725" Margin="10 10 10 10">
+			<suki:GlassCard Height="540" Width="725" Margin="10 10 10 10">
 			<suki:BusyArea>
 				<StackPanel>
 				<StackPanel>
@@ -161,7 +156,7 @@
 		</suki:GlassCard>
 
 			<!--    -->
-			<suki:GlassCard Height="260" Width="215" Margin="10 -330 0 0">
+			<suki:GlassCard Height="260" Width="215" Margin="10 -280 0 0">
 				<suki:BusyArea BusyText="">
 					<StackPanel Orientation="Vertical" Spacing="15">
 						<TextBlock HorizontalAlignment="Left"
@@ -206,10 +201,10 @@
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="更多功能" />
-					<StackPanel Orientation="Vertical" Spacing="10" Margin="0 20 0 0">
-						<Button Height="35" Width="160" Content="禁用vbmeta" Command="{Binding DisableVbmeta}" />
-						<Button Height="35" Width="160" Content="恢复出厂设置" Command="{Binding Restore}" />
-						<Button Height="35" Width="160" Content="开启OEM解锁" Command="{Binding OpenOEMLock}"/>
+					<StackPanel Orientation="Vertical" Spacing="10" Margin="0 10 0 0">
+						<ComboBox Width="170" SelectedIndex="{Binding SelectBand}" ItemsSource="{Binding BandList}" />
+						<Button Margin="0 -5 0 0" Height="35" Width="160" Content="恢复出厂设置" Command="{Binding Restore}" />
+						<Button Margin="0 10 0 0" Height="35" Width="160" Content="开启OEM解锁" Command="{Binding OpenOEMLock}"/>
 						<Button Height="35" Width="160" Content="配置UFS" Command="{Binding ReconfigureUFS}"/>
 					</StackPanel>
 				</StackPanel>

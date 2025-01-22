@@ -37,9 +37,9 @@ public partial class EDLViewModel : MainPageBase
     [ObservableProperty]
     private bool auto = true, uFS = false, eMMC = false;
     [ObservableProperty]
-    private int selectBand = 0, selectSeries = 0, selectModel = 0, logIndex = 0;
+    private int selectFlie = 0, selectBand = 1, logIndex = 0;
     [ObservableProperty]
-    private AvaloniaList<string> bandList = ["通用", "小米", "OPPO", "一加", "魅族", "中兴", "LG"], seriesList = ["选择系列"], modelList = ["选择机型"];
+    private AvaloniaList<string> builtInFile = ["common", "mi_auth", "mi_noauth_625", "mi_noauth_778g"], uFSLun = ["6", "7", "8"], bandList = ["commonl", "mi", "oppo", "oneplus", "meizu", "zte", "lg"];
     [ObservableProperty]
     private AvaloniaList<EDLPartModel> eDLPartModel = [];
     private string patch_xml_paths = "";
@@ -630,12 +630,6 @@ public partial class EDLViewModel : MainPageBase
                         .Dismiss().ByClickingBackground()
                         .TryShow();
         }
-    }
-
-    [RelayCommand]
-    public async Task DisableVbmeta()
-    {
-
     }
 
     [RelayCommand]

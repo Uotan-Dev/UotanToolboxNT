@@ -85,7 +85,7 @@
 				<StackPanel>
 					<DataGrid ItemsSource="{Binding EDLPartModel}"
 							  Width="680"
-							  Height="400"
+							  Height="398"
 							  FontSize="15"
 							  CanUserResizeColumns="True">
 						<DataGrid.Columns>

@@ -16,6 +16,8 @@ namespace UotanToolbox.Features.Home;
 
 public partial class HomeView : UserControl
 {
+    private WirelessADB _wirelessADB;
+
     public static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
@@ -25,6 +27,7 @@ public partial class HomeView : UserControl
     {
         _ = CheckEnvironment();
         InitializeComponent();
+        Unloaded += CloseWirelessADB;
     }
 
     public async Task CheckEnvironment()
@@ -188,5 +191,15 @@ public partial class HomeView : UserControl
         }
     }
 
-    private void OpenWirelessADB(object sender, RoutedEventArgs args) => new WirelessADB().Show();
+    private void OpenWirelessADB(object sender, RoutedEventArgs args)
+    {
+        _wirelessADB = new WirelessADB();
+        _wirelessADB.Show();
+    }
+
+    private void CloseWirelessADB(object sender, RoutedEventArgs args)
+    {
+        _wirelessADB?.Close();
+    }
+
 }

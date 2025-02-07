@@ -615,14 +615,14 @@ public partial class FormatExtractView : UserControl
                             await ADB(shell);
                             shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img \"{Global.backup_path}\"");
                             await ADB(shell);
                             shell = string.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = string.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /{partname}.img \"{Global.backup_path}\"");
                             await ADB(shell);
                             shell = string.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
@@ -662,7 +662,7 @@ public partial class FormatExtractView : UserControl
                                                         string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
                                                         string shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
                                                         await ADB(shell);
-                                                        shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                                                        shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img \"{Global.backup_path}\"");
                                                         await ADB(shell);
                                                         shell = string.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                                                         await ADB(shell);
@@ -758,14 +758,14 @@ public partial class FormatExtractView : UserControl
                             await ADB(shell);
                             shell = string.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of=/sdcard/{partname}.img");
                             await ADB(shell);
-                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img \"{Global.backup_path}\"");
                             await ADB(shell);
                             shell = string.Format($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
                             await ADB(shell);
                         }
                         else
                         {
-                            shell = string.Format($"-s {Global.thisdevice} pull /{partname}.img {Global.backup_path}/");
+                            shell = string.Format($"-s {Global.thisdevice} pull /{partname}.img \"{Global.backup_path}\"");
                             await ADB(shell);
                             shell = string.Format($"-s {Global.thisdevice} shell rm /{partname}.img");
                             await ADB(shell);
@@ -807,7 +807,7 @@ public partial class FormatExtractView : UserControl
                                                         string devicepoint = line[^1];
                                                         shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
                                                         await ADB(shell);
-                                                        shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img {Global.backup_path}/");
+                                                        shell = string.Format($"-s {Global.thisdevice} pull /sdcard/{partname}.img \"{Global.backup_path}\"");
                                                         await ADB(shell);
                                                         shell = string.Format($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
                                                         await ADB(shell);

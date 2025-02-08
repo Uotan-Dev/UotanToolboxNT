@@ -919,7 +919,7 @@
     <value>刷入失败！</value>
   </data>
   <data name="Basicflash_RecoverySucc" xml:space="preserve">
-    <value>刷入成功！是否重启到Recovery？</value>
+    <value>刷入成功！是否重启到Recovery或Fastbootd？</value>
   </data>
   <data name="Basicflash_RelockFailed" xml:space="preserve">
     <value>回锁失败！</value>
@@ -1504,12 +1504,6 @@ ADB下填写序号，一次一个！</value>
   <data name="Scrcpy_VS_DisplaySizeExample" xml:space="preserve">
     <value>1920x1080/460 (高 × 宽)/dpi</value>
   </data>
-  <data name="Common_EnterFastbootd" xml:space="preserve">
-    <value>请进入Fastbootd模式！</value>
-  </data>
-  <data name="Modifypartition_EnterName" xml:space="preserve">
-    <value>请输入分区名称！</value>
-  </data>
   <data name="Home_ShutDownTip" xml:space="preserve">
     <value>执行成功，拔出设备连接线即可关机！</value>
   </data>
@@ -1551,5 +1545,11 @@ ADB下填写序号，一次一个！</value>
   </data>
   <data name="Wiredflash_RelockTip" xml:space="preserve">
     <value>您选择了会进行回锁操作的脚本，确认继续吗？</value>
+  </data>
+  <data name="Basicflash_RebootToFastbootd" xml:space="preserve">
+    <value>至Fastbootd</value>
+  </data>
+  <data name="Basicflash_RebootToRecovery" xml:space="preserve">
+    <value>至Recovery</value>
   </data>
 </root>

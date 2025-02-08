@@ -880,6 +880,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 To Fastbootd 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RebootToFastbootd {
+            get {
+                return ResourceManager.GetString("Basicflash_RebootToFastbootd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 To Recovery 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_RebootToRecovery {
+            get {
+                return ResourceManager.GetString("Basicflash_RebootToRecovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Flash failed! 的本地化字符串。
         /// </summary>
         public static string Basicflash_RecoveryFailed {
@@ -889,7 +907,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Done! Reboot to Recovery? 的本地化字符串。
+        ///   查找类似 Done! Reboot to Recovery or Fastbootd? 的本地化字符串。
         /// </summary>
         public static string Basicflash_RecoverySucc {
             get {

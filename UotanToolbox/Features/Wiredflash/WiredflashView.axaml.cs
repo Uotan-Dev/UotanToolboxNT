@@ -276,8 +276,14 @@ public partial class WiredflashView : UserControl
                                     zstfile.Close();
                                     filepath = outfile;
                                 }
-                                string shell = string.Format($"-s {Global.thisdevice} flash {partandpath[0]} \"{filepath}\"");
-                                await Fastboot(shell);
+                                if (partandpath[0].Contains("vbmeta"))
+                                {
+                                    await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {partandpath[0]} \"{filepath}\"");
+                                }
+                                else
+                                {
+                                    await Fastboot($"-s {Global.thisdevice} flash {partandpath[0]} \"{filepath}\"");
+                                }
                             }
                             else
                             {
@@ -287,13 +293,15 @@ public partial class WiredflashView : UserControl
                                     Global.Bootinfo = await BootDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");
                                     Global.Zipinfo = await ZipDetect.Zip_Detect(Path.Combine(Global.runpath, "APK", "Magisk.apk"));
                                     string newboot = await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
-                                    string shell = string.Format($"-s {Global.thisdevice} flash boot {newboot}");
-                                    await Fastboot(shell);
+                                    await Fastboot($"-s {Global.thisdevice} flash boot {newboot}");
+                                }
+                                else if (fbflashparts[i].Contains("vbmeta"))
+                                {
+                                    await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {fbflashparts[i]} \"{imgpath}/{fbflashparts[i]}.img\"");
                                 }
                                 else
                                 {
-                                    string shell = string.Format($"-s {Global.thisdevice} flash {fbflashparts[i]} \"{imgpath}/{fbflashparts[i]}.img\"");
-                                    await Fastboot(shell);
+                                    await Fastboot($"-s {Global.thisdevice} flash {fbflashparts[i]} \"{imgpath}/{fbflashparts[i]}.img\"");
                                 }
                             }
                             FileHelper.Write(fastboot_log_path, output);
@@ -362,8 +370,7 @@ public partial class WiredflashView : UserControl
                         {
                             if (cowparts[i].Contains("-cow"))
                             {
-                                string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {cowparts[i]}");
-                                await Fastboot(shell);
+                                await Fastboot($"-s {Global.thisdevice} delete-logical-partition {cowparts[i]}");
                             }
                             FileHelper.Write(fastboot_log_path, output);
                             if (output.Contains("FAILED") || output.Contains("error"))
@@ -389,8 +396,7 @@ public partial class WiredflashView : UserControl
                             {
                                 if (deleteslotparts[i].EndsWith(deleteslot))
                                 {
-                                    string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deleteslotparts[i]}");
-                                    await Fastboot(shell);
+                                    await Fastboot($"-s {Global.thisdevice} delete-logical-partition {deleteslotparts[i]}");
                                 }
                                 FileHelper.Write(fastboot_log_path, output);
                                 if (output.Contains("FAILED") || output.Contains("error"))
@@ -404,66 +410,35 @@ public partial class WiredflashView : UserControl
                         {
                             string part = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                             string[] vparts = FeaturesHelper.GetVPartList(part);
-                            if (succ)
+                            for (int i = 0 + c; i < fbdflashparts.Length; i++)
                             {
-                                for (int i = 0 + c; i < fbdflashparts.Length; i++)
+                                if (fbdflashparts[i].Contains(' '))
                                 {
-                                    if (fbdflashparts[i].Contains(' '))
+                                    string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                    string dmpart = string.Format("{0}{1}", partandpath[0], slot);
+                                    if (Array.Exists(vparts, element => element == dmpart) && (!partandpath[1].Contains("create")))
                                     {
-                                        string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                        string deletepart = string.Format("{0}{1}", partandpath[0], slot);
-                                        if (Array.Exists(vparts, element => element == deletepart))
-                                        {
-                                            string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
-                                            await Fastboot(shell);
-                                        }
+                                        await Fastboot($"-s {Global.thisdevice} delete-logical-partition {dmpart}");
                                     }
-                                    else
+                                    if ((Array.Exists(vparts, element => element == dmpart) && (!partandpath[1].Contains("delete")) && (!partandpath[1].Contains("create"))) || (!Array.Exists(vparts, element => element == dmpart) && partandpath[1].Contains("create") && (!partandpath[1].StartsWith('/'))))
                                     {
-                                        string deletepart = string.Format("{0}{1}", fbdflashparts[i], slot);
-                                        if (Array.Exists(vparts, element => element == deletepart))
-                                        {
-                                            string shell = string.Format($"-s {Global.thisdevice} delete-logical-partition {deletepart}");
-                                            await Fastboot(shell);
-                                        }
-                                    }
-                                    FileHelper.Write(fastboot_log_path, output);
-                                    if (output.Contains("FAILED") || output.Contains("error"))
-                                    {
-                                        succ = false;
-                                        break;
+                                        await Fastboot($"-s {Global.thisdevice} create-logical-partition {dmpart} 00");
                                     }
                                 }
-                            }
-                            if (succ)
-                            {
-                                for (int i = 0 + c; i < fbdflashparts.Length; i++)
+                                else
                                 {
-                                    if (fbdflashparts[i].Contains(' '))
+                                    string dmpart = string.Format("{0}{1}", fbdflashparts[i], slot);
+                                    if (Array.Exists(vparts, element => element == part))
                                     {
-                                        string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                        string makepart = string.Format("{0}{1}", partandpath[0], slot);
-                                        if (Array.Exists(vparts, element => element == makepart))
-                                        {
-                                            string shell = string.Format($"-s {Global.thisdevice} create-logical-partition {makepart} 00");
-                                            await Fastboot(shell);
-                                        }
+                                        await Fastboot($"-s {Global.thisdevice} delete-logical-partition {dmpart}");
+                                        await Fastboot($"-s {Global.thisdevice} create-logical-partition {dmpart} 00");
                                     }
-                                    else
-                                    {
-                                        string makepart = string.Format("{0}{1}", fbdflashparts[i], slot);
-                                        if (Array.Exists(vparts, element => element == makepart))
-                                        {
-                                            string shell = string.Format($"-s {Global.thisdevice} create-logical-partition {makepart} 00");
-                                            await Fastboot(shell);
-                                        }
-                                    }
-                                    FileHelper.Write(fastboot_log_path, output);
-                                    if (output.Contains("FAILED") || output.Contains("error"))
-                                    {
-                                        succ = false;
-                                        break;
-                                    }
+                                }
+                                FileHelper.Write(fastboot_log_path, output);
+                                if (output.Contains("FAILED") || output.Contains("error"))
+                                {
+                                    succ = false;
+                                    break;
                                 }
                             }
                         }
@@ -474,13 +449,28 @@ public partial class WiredflashView : UserControl
                                 if (fbdflashparts[i].Contains(' '))
                                 {
                                     string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                                    string shell = string.Format($"-s {Global.thisdevice} flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
-                                    await Fastboot(shell);
+                                    if ((!partandpath[1].Contains("delete")) && (!partandpath[1].Contains("create")))
+                                    {
+                                        if (partandpath[0].Contains("vbmeta"))
+                                        {
+                                            await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
+                                        }
+                                        else
+                                        {
+                                            await Fastboot($"-s {Global.thisdevice} flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
+                                        }
+                                    }
                                 }
                                 else
                                 {
-                                    string shell = string.Format($"-s {Global.thisdevice} flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
-                                    await Fastboot(shell);
+                                    if (fbdflashparts[i].Contains("vbmeta"))
+                                    {
+                                        await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
+                                    }
+                                    else
+                                    {
+                                        await Fastboot($"-s {Global.thisdevice} flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
+                                    }
                                 }
                                 FileHelper.Write(fastboot_log_path, output);
                                 if (output.Contains("FAILED") || output.Contains("error"))

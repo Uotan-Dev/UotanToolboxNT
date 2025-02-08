@@ -396,7 +396,11 @@ public partial class BasicflashView : UserControl
                                                     .WithTitle(GetTranslation("Common_Succ"))
                                                     .WithContent(GetTranslation("Basicflash_RecoverySucc"))
                                                     .OfType(NotificationType.Success)
-                                                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                                    .WithActionButton(GetTranslation("Basicflash_RebootToFastbootd"), async _ =>
+                                                    {
+                                                        await CallExternalProgram.Fastboot($"-s {Global.thisdevice} reboot-fastboot");
+                                                    }, true)
+                                                    .WithActionButton(GetTranslation("Basicflash_RebootToRecovery"), async _ =>
                                                     {
                                                         output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem reboot-recovery");
                                                         if (output.Contains("unknown command"))

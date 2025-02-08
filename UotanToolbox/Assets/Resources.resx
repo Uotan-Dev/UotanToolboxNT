@@ -922,7 +922,7 @@
     <value>Flash failed!</value>
   </data>
   <data name="Basicflash_RecoverySucc" xml:space="preserve">
-    <value>Done! Reboot to Recovery?</value>
+    <value>Done! Reboot to Recovery or Fastbootd?</value>
   </data>
   <data name="Basicflash_RelockFailed" xml:space="preserve">
     <value>Relock failed!</value>
@@ -1501,12 +1501,6 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="Scrcpy_VS_DisplaySizeExample" xml:space="preserve">
     <value>1920x1080/460 (Height × Width)/dpi</value>
   </data>
-  <data name="Common_EnterFastbootd" xml:space="preserve">
-    <value>Please enter Fastbootd mode!</value>
-  </data>
-  <data name="Modifypartition_EnterName" xml:space="preserve">
-    <value>Please enter the partition name!</value>
-  </data>
   <data name="Home_ShutDownTip" xml:space="preserve">
     <value>Execution successful, unplug the device connection cable to shut down!</value>
   </data>
@@ -1548,5 +1542,11 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   </data>
   <data name="Wiredflash_RelockTip" xml:space="preserve">
     <value>You have selected the script to relock the bootloader, are you sure you want to continue?</value>
+  </data>
+  <data name="Basicflash_RebootToFastbootd" xml:space="preserve">
+    <value>To Fastbootd</value>
+  </data>
+  <data name="Basicflash_RebootToRecovery" xml:space="preserve">
+    <value>To Recovery</value>
   </data>
 </root>

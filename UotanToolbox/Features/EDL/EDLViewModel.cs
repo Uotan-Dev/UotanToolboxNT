@@ -9,7 +9,6 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Kaitai;
 using Material.Icons;
 using Newtonsoft.Json.Linq;
 using SharpCompress.Common;
@@ -786,18 +785,7 @@ public partial class EDLViewModel : MainPageBase
     /// <param name="outputXmlPath">输出的xml文件路径，具体到文件名</param>
     private void ReadGptFilesAndGenerateXml(string directoryPath, string outputXmlPath)
     {
-        var gptFiles = Directory.GetFiles(directoryPath, "gpt_main*.bin");
-
-        XDocument xmlDoc = new XDocument(new XElement("data"));
-
-        foreach (var gptFile in gptFiles)
-        {
-            var gpt = GptPartitionTable.FromFile(gptFile);
-            var primaryHeader = gpt.Primary;
-            var partitionEntries = primaryHeader.Entries;
-            var fileName = Path.GetFileNameWithoutExtension(gptFile);
-            var match = System.Text.RegularExpressions.Regex.Match(fileName, @"\d+");
-            var fileNumber = match.Success ? match.Value : "0";
+       /*
             foreach (var entry in partitionEntries)
             {
                 XElement programElement = new XElement("program",
@@ -815,7 +803,7 @@ public partial class EDLViewModel : MainPageBase
                 xmlDoc.Root.Add(programElement);
             }
         }
-        xmlDoc.Save(outputXmlPath);
+        xmlDoc.Save(outputXmlPath);*/
     }
     /// <summary>
     /// 将图形化界面中选中的部分提取到新的XML文件中，按照Uotan-Index节点进行筛选

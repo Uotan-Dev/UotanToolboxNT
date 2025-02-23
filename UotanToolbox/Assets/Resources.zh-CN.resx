@@ -1561,4 +1561,7 @@ ADB下填写序号，一次一个！</value>
   <data name="Scrcpy_CustomRotation" xml:space="preserve">
     <value>自定义角度</value>
   </data>
+  <data name="Scrcpy_ForwardAudio" xml:space="preserve">
+    <value>转发音频</value>
+  </data>
 </root>

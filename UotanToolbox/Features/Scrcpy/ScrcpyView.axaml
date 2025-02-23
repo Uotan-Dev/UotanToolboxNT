@@ -1,411 +1,440 @@
 ﻿<UserControl x:Class="UotanToolbox.Features.Scrcpy.ScrcpyView"
              xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:scrcpy="clr-namespace:UotanToolbox.Features.Scrcpy"
-			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
-			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
-			 d:DesignWidth="1024"
+             xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+             d:DesignWidth="1024"
              x:DataType="scrcpy:ScrcpyViewModel"
              mc:Ignorable="d">
-	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <WrapPanel Margin="15"
                    theme:WrapPanelExtensions.AnimatedScroll="True"
                    Orientation="Horizontal">
-			<Grid Margin="10">
-				<suki:GlassCard Width="960" Margin="0,0,0,25">
-					<suki:BusyArea Name="BusyConnection"
-								   BusyText="{x:Static assets:Resources.Scrcpy_Casting}"
-								   IsBusy="{Binding IsConnecting}">
-						<StackPanel>
-							<avalonia:MaterialIcon Width="30"
-												   Height="30"
-												   Margin="10"
-												   HorizontalAlignment="Center"
-												   Foreground="{DynamicResource SukiPrimaryColor}"
-												   Kind="CellphoneLink" />
-							<TextBlock Margin="0,5,0,27"
-									   HorizontalAlignment="Center"
-									   FontSize="18"
-									   FontWeight="DemiBold"
-									   Text="{x:Static assets:Resources.Scrcpy_ScrcpyCastingTool}" />
-							<TextBlock Margin="6,0,0,3"
-									   FontWeight="DemiBold"
-									   Text="{x:Static assets:Resources.Scrcpy_WindowTitle}" />
-							<TextBox Margin="0,0,0,25" theme:TextBoxExtensions.Prefix=""
-									 Text="{Binding WindowTitle}"
-									 Watermark="{x:Static assets:Resources.Scrcpy_FillInWantedTitle}" />
-						</StackPanel>
-					</suki:BusyArea>
-				</suki:GlassCard>
-				<Button Name="ButtonSignIn"
-						MinWidth="150"
-						Height="40"
-						Margin="0,0,0,7"
-						HorizontalAlignment="Center"
-						VerticalAlignment="Bottom"
-						theme:ButtonExtensions.ShowProgress="{Binding IsConnecting}"
-						Classes="Flat Rounded"
-						Command="{Binding ConnectCommand}"
-						FontWeight="DemiBold"
-						Content="{x:Static assets:Resources.Scrcpy_StartCasting}">
-				</Button>
-			</Grid>
+            <Grid Margin="10">
+                <suki:GlassCard Width="960" Margin="0,0,0,25">
+                    <suki:BusyArea Name="BusyConnection"
+                                   BusyText="{x:Static assets:Resources.Scrcpy_Casting}"
+                                   IsBusy="{Binding IsConnecting}">
+                        <StackPanel>
+                            <avalonia:MaterialIcon Width="30"
+                                                   Height="30"
+                                                   Margin="10"
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="{DynamicResource SukiPrimaryColor}"
+                                                   Kind="CellphoneLink" />
+                            <TextBlock Margin="0,5,0,27"
+                                       HorizontalAlignment="Center"
+                                       FontSize="18"
+                                       FontWeight="DemiBold"
+                                       Text="{x:Static assets:Resources.Scrcpy_ScrcpyCastingTool}" />
+                            <TextBlock Margin="6,0,0,3"
+                                       FontWeight="DemiBold"
+                                       Text="{x:Static assets:Resources.Scrcpy_WindowTitle}" />
+                            <TextBox Margin="0,0,0,25" theme:TextBoxExtensions.Prefix=""
+                                     Text="{Binding WindowTitle}"
+                                     Watermark="{x:Static assets:Resources.Scrcpy_FillInWantedTitle}" />
+                        </StackPanel>
+                    </suki:BusyArea>
+                </suki:GlassCard>
+                <Button Name="ButtonSignIn"
+                        MinWidth="150"
+                        Height="40"
+                        Margin="0,0,0,7"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        theme:ButtonExtensions.ShowProgress="{Binding IsConnecting}"
+                        Classes="Flat Rounded"
+                        Command="{Binding ConnectCommand}"
+                        FontWeight="DemiBold"
+                        Content="{x:Static assets:Resources.Scrcpy_StartCasting}">
+                </Button>
+            </Grid>
 
-			<!--  Transmit and record  -->
-			<suki:GlassCard Width="475"
-							Height="295"
+            <!--  Transmit and record  -->
+            <suki:GlassCard Width="475"
+                            Height="295"
                             Margin="10"
                             VerticalAlignment="Top">
-				<Grid>
-					<StackPanel>
-						<TextBlock HorizontalAlignment="Left"
-								   VerticalAlignment="Top"
-								   FontWeight="DemiBold"
-								   Text="{x:Static assets:Resources.Scrcpy_TransmitAndRecord}" />
-						<StackPanel Margin="0,15,0,0" Orientation="Horizontal">
-							<TextBlock Width="90"
-									   Margin="8,0,0,0"
-									   VerticalAlignment="Center"
-									   FontSize="13"
-									   Foreground="{DynamicResource SukiLowText}"
-									   Text="{x:Static assets:Resources.Scrcpy_RecordScreen}" />
-							<ToggleSwitch Margin="275,0,0,0" IsChecked="{Binding RecordScreen}" />
-						</StackPanel>
-						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-							<TextBlock Width="60"
-									   Margin="8,0,0,0"
-									   VerticalAlignment="Center"
-									   FontSize="13"
-									   Foreground="{DynamicResource SukiLowText}"
-									   Text="{x:Static assets:Resources.Scrcpy_Folder}" />
-							<TextBox Width="250" Name="RecordFolder" Watermark="{x:Static assets:Resources.Scrcpy_RecordDictionary}" Text="{Binding RecordFolder, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-							<Button Height="35"
-									Margin="5 0 0 0"
-									Padding="10,0,10,0"
-									Click="OpenFolderButton_Clicked"
-									Content="{x:Static assets:Resources.Common_ChooseFolder}">
-							</Button>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="60"
-									   Margin="8,0,0,0"
-									   VerticalAlignment="Center"
-									   FontSize="13"
-									   Foreground="{DynamicResource SukiLowText}"
-									   Text="{x:Static assets:Resources.Scrcpy_Bitrate}" />
-							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="50" Minimum="0" TickFrequency="1" Value="{Binding BitRate}" VerticalAlignment="Center"></Slider>
-							<TextBox Width="60"
-									 TextAlignment="Center"
-							   VerticalAlignment="Center"
-							   FontWeight="DemiBold"
-							   Text="{Binding BitRate}" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="60"
-									   Margin="8,0,0,0"
-									   VerticalAlignment="Center"
-									   FontSize="13"
-									   Foreground="{DynamicResource SukiLowText}"
-									   Text="{x:Static assets:Resources.Scrcpy_MaxFps}" />
-							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="144" Minimum="0" TickFrequency="1" Value="{Binding FrameRate}" VerticalAlignment="Center"></Slider>
-							<TextBox Width="60"
-									 TextAlignment="Center"
-							   VerticalAlignment="Center"
-							   FontWeight="DemiBold"
-							   Text="{Binding FrameRate}" />
-						</StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Width="60"
-									   Margin="8,0,0,0"
-									   VerticalAlignment="Center"
-									   FontSize="13"
-									   Foreground="{DynamicResource SukiLowText}"
-									   Text="{x:Static assets:Resources.Scrcpy_ProportionalScaling}" />
-							<Slider Width="300" IsSnapToTickEnabled="True" Maximum="2048" Minimum="0" TickFrequency="1" Value="{Binding SizeResolution}" VerticalAlignment="Center"></Slider>
-							<TextBox Width="60"
-									 TextAlignment="Center"
-									 VerticalAlignment="Center"
-									 FontWeight="DemiBold"
-									 Text="{Binding SizeResolution}" />
-						</StackPanel>
-					</StackPanel>
-				</Grid>
-			</suki:GlassCard>
+                <Grid>
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   FontWeight="DemiBold"
+                                   Text="{x:Static assets:Resources.Scrcpy_TransmitAndRecord}" />
+                        <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
+                            <TextBlock Width="90"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SukiLowText}"
+                                       Text="{x:Static assets:Resources.Scrcpy_RecordScreen}" />
+                            <ToggleSwitch Margin="275,0,0,0" IsChecked="{Binding RecordScreen}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                            <TextBlock Width="60"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SukiLowText}"
+                                       Text="{x:Static assets:Resources.Scrcpy_Folder}" />
+                            <TextBox Width="250" Name="RecordFolder"
+                                     Watermark="{x:Static assets:Resources.Scrcpy_RecordDictionary}"
+                                     Text="{Binding RecordFolder, Mode=TwoWay}"
+                                     theme:TextBoxExtensions.AddDeleteButton="False" />
+                            <Button Height="35"
+                                    Margin="5 0 0 0"
+                                    Padding="10,0,10,0"
+                                    Click="OpenFolderButton_Clicked"
+                                    Content="{x:Static assets:Resources.Common_ChooseFolder}">
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="60"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SukiLowText}"
+                                       Text="{x:Static assets:Resources.Scrcpy_Bitrate}" />
+                            <Slider Width="300" IsSnapToTickEnabled="True" Maximum="50" Minimum="0" TickFrequency="1"
+                                    Value="{Binding BitRate}" VerticalAlignment="Center">
+                            </Slider>
+                            <TextBox Width="60"
+                                     TextAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     FontWeight="DemiBold"
+                                     Text="{Binding BitRate}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="60"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SukiLowText}"
+                                       Text="{x:Static assets:Resources.Scrcpy_MaxFps}" />
+                            <Slider Width="300" IsSnapToTickEnabled="True" Maximum="144" Minimum="0" TickFrequency="1"
+                                    Value="{Binding FrameRate}" VerticalAlignment="Center">
+                            </Slider>
+                            <TextBox Width="60"
+                                     TextAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     FontWeight="DemiBold"
+                                     Text="{Binding FrameRate}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="60"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SukiLowText}"
+                                       Text="{x:Static assets:Resources.Scrcpy_ProportionalScaling}" />
+                            <Slider Width="300" IsSnapToTickEnabled="True" Maximum="2048" Minimum="0" TickFrequency="1"
+                                    Value="{Binding SizeResolution}" VerticalAlignment="Center">
+                            </Slider>
+                            <TextBox Width="60"
+                                     TextAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     FontWeight="DemiBold"
+                                     Text="{Binding SizeResolution}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </suki:GlassCard>
 
-			<!--  Screen Rotation  -->
-			<suki:GlassCard Width="220"
-							Height="295"
+            <!--  Screen Rotation  -->
+            <suki:GlassCard Width="170"
+                            Height="295"
                             Margin="10 10 10 10"
                             VerticalAlignment="Top">
-				<Grid>
-					<StackPanel>
-						<TextBlock HorizontalAlignment="Left"
-								   VerticalAlignment="Top"
-								   FontWeight="DemiBold"
-								   Text="{x:Static assets:Resources.Scrcpy_ScreenRotation}" />
-						<StackPanel Margin="0,8,0,0">
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding MirrorRotation}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_MirrorRotation}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding LockAngle}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_LockAngle}" />
-							</StackPanel>
-							<StackPanel Spacing="10" Margin="0,15,0,0">
-								<RadioButton Name="Rotation0" FontSize="13" Content="{x:Static assets:Resources.Scrcpy_NormalRotation}" GroupName="RotationContent" 
-								             IsChecked="{Binding Rotation0}"/>
-								<RadioButton Name="Rotation1" FontSize="13" Content="90°" GroupName="RotationContent"
-								             IsChecked="{Binding Rotation1}"/>
-								<RadioButton Name="Rotation2" FontSize="13" Content="180°" GroupName="RotationContent"
-								             IsChecked="{Binding Rotation2}"/>
-								<RadioButton Name="Rotation3" FontSize="13" Content="270°" GroupName="RotationContent"
-								             IsChecked="{Binding Rotation3}"/>
-								<StackPanel Margin="0,0,0,0" Orientation="Horizontal">
-									<RadioButton Name="Rotation4" FontSize="13" GroupName="RotationContent"
-									             IsChecked="{Binding Rotation4}"/>
-									<NumericUpDown theme:NumericUpDownExtensions.Unit="°" Value="{Binding Angle}" />
-								</StackPanel>
-							</StackPanel>
-						</StackPanel>
-					</StackPanel>
-				</Grid>
-			</suki:GlassCard>
-			
-			<!--  More settings  -->
-			<suki:GlassCard Width="220"
-							Height="295"
+                <Grid>
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   FontWeight="DemiBold"
+                                   Text="{x:Static assets:Resources.Scrcpy_ScreenRotation}" />
+                        <StackPanel Margin="0,8,0,0">
+                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding MirrorRotation}" />
+                                <TextBlock Margin="8,0,0,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource SukiLowText}"
+                                           Text="{x:Static assets:Resources.Scrcpy_MirrorRotation}" />
+                            </StackPanel>
+                            <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding LockAngle}" />
+                                <TextBlock Margin="8,0,0,0"
+                                           VerticalAlignment="Center"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource SukiLowText}"
+                                           Text="{x:Static assets:Resources.Scrcpy_LockAngle}" />
+                            </StackPanel>
+                            <StackPanel Spacing="10" Margin="0,15,0,0">
+                                <RadioButton Name="Rotation0" FontSize="13"
+                                             Content="{x:Static assets:Resources.Scrcpy_NormalRotation}"
+                                             GroupName="RotationContent"
+                                             IsChecked="{Binding Rotation0}" />
+                                <RadioButton Name="Rotation1" FontSize="13" Content="90°" GroupName="RotationContent"
+                                             IsChecked="{Binding Rotation1}" />
+                                <RadioButton Name="Rotation2" FontSize="13" Content="180°" GroupName="RotationContent"
+                                             IsChecked="{Binding Rotation2}" />
+                                <RadioButton Name="Rotation3" FontSize="13" Content="270°" GroupName="RotationContent"
+                                             IsChecked="{Binding Rotation3}" />
+                                <StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+                                    <RadioButton Name="Rotation4" FontSize="13" GroupName="RotationContent"
+                                                 IsChecked="{Binding Rotation4}" />
+                                    <NumericUpDown theme:NumericUpDownExtensions.Unit="°" Value="{Binding Angle}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </suki:GlassCard>
+
+            <!--  More settings  -->
+            <suki:GlassCard Width="270"
+                            Height="295"
                             Margin="10 10 10 10"
                             VerticalAlignment="Top">
-				<Grid>
-					<StackPanel>
-						<TextBlock HorizontalAlignment="Left"
-								   VerticalAlignment="Top"
-								   FontWeight="DemiBold"
-								   Text="{x:Static assets:Resources.Scrcpy_MoreSettings}" />
-						<StackPanel Margin="0,8,0,0">
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding WindowFixed}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_WindowTopping}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding ComputerControl}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_ComputerControl}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding FullScreen}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_Fullscreen}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding ShowBorder}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_ShowBorder}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding ShowTouch}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_ShowTouch}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding CloseScreen}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_CloseScreenWhenCasting}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding ScreenAwake}" IsEnabled="{Binding ScreenAwakeStatus}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_CloseScreenlock}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding ClipboardSync}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_ClipboardSync}" />
-							</StackPanel>
-							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding CameraMirror}" />
-								<TextBlock Margin="8,0,0,0"
-										   VerticalAlignment="Center"
-										   FontSize="13"
-										   Foreground="{DynamicResource SukiLowText}"
-										   Text="{x:Static assets:Resources.Scrcpy_CameraMirror}" />
-							</StackPanel>
-						</StackPanel>
-					</StackPanel>
-				</Grid>
-			</suki:GlassCard>
-			
-			<!--  Virtual display  -->
-			<suki:GlassCard Width="475"
-							Height="215"
+                <Grid>
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   FontWeight="DemiBold"
+                                   Text="{x:Static assets:Resources.Scrcpy_MoreSettings}" />
+                        <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                            <StackPanel Margin="0,8,0,0">
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding WindowFixed}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_WindowTopping}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding ComputerControl}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_ComputerControl}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding FullScreen}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_Fullscreen}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding ShowBorder}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_ShowBorder}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding ShowTouch}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_ShowTouch}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding CloseScreen}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_CloseScreenWhenCasting}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding ScreenAwake}" IsEnabled="{Binding ScreenAwakeStatus}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_CloseScreenlock}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding ClipboardSync}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_ClipboardSync}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding CameraMirror}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_CameraMirror}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Margin="0,8,0,0">
+                                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding ForwardAudio}" />
+                                    <TextBlock Margin="8,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="13"
+                                               Foreground="{DynamicResource SukiLowText}"
+                                               Text="{x:Static assets:Resources.Scrcpy_ForwardAudio}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </suki:GlassCard>
+
+            <!--  Virtual display  -->
+            <suki:GlassCard Width="475"
+                            Height="215"
                             Margin="10"
                             VerticalAlignment="Top">
-				<Grid>
-					<StackPanel>
-						<TextBlock HorizontalAlignment="Left"
-								   VerticalAlignment="Top"
-								   FontWeight="DemiBold"
-								   Text="{x:Static assets:Resources.Scrcpy_VirtualDisplay}" />
-						<StackPanel Margin="0,15,0,0" Orientation="Horizontal">
-							<TextBlock Width="150"
-									   Margin="8,0,0,0"
-									   VerticalAlignment="Center"
-									   FontSize="13"
-									   Foreground="{DynamicResource SukiLowText}"
-									   Text="{x:Static assets:Resources.Scrcpy_Enable_Virtual_Screen}" />
-							<ToggleSwitch Margin="215,0,0,0" IsChecked="{Binding EnableVirtualScreen}" />
-						</StackPanel>
-						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-							<TextBlock Width="90"
-									   Margin="8,0,0,0"
-									   VerticalAlignment="Center"
-									   FontSize="13"
-									   Foreground="{DynamicResource SukiLowText}"
-									   Text="{x:Static assets:Resources.Scrcpy_Virtual_Screen_Package}" />
-							<TextBox Width="330" Name="VirtualScreenPackage" Text="{Binding VirtualScreenPackage, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						</StackPanel>
-						<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
-							<TextBlock Width="90"
-									   Margin="8,0,0,0"
-									   VerticalAlignment="Center"
-									   FontSize="13"
-									   Foreground="{DynamicResource SukiLowText}"
-									   Text="{x:Static assets:Resources.Scrcpy_VS_DisplaySize}" />
-							<TextBox Width="330" Name="VirtualScreenDisplaySize" Watermark="{x:Static assets:Resources.Scrcpy_VS_DisplaySizeExample}" Text="{Binding VirtualScreenDisplaySize, Mode=TwoWay}" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						</StackPanel>
-					</StackPanel>
-				</Grid>
-			</suki:GlassCard>
+                <Grid>
+                    <StackPanel>
+                        <TextBlock HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   FontWeight="DemiBold"
+                                   Text="{x:Static assets:Resources.Scrcpy_VirtualDisplay}" />
+                        <StackPanel Margin="0,15,0,0" Orientation="Horizontal">
+                            <TextBlock Width="150"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SukiLowText}"
+                                       Text="{x:Static assets:Resources.Scrcpy_Enable_Virtual_Screen}" />
+                            <ToggleSwitch Margin="215,0,0,0" IsChecked="{Binding EnableVirtualScreen}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                            <TextBlock Width="90"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SukiLowText}"
+                                       Text="{x:Static assets:Resources.Scrcpy_Virtual_Screen_Package}" />
+                            <TextBox Width="330" Name="VirtualScreenPackage"
+                                     Text="{Binding VirtualScreenPackage, Mode=TwoWay}"
+                                     theme:TextBoxExtensions.AddDeleteButton="False" />
+                        </StackPanel>
+                        <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                            <TextBlock Width="90"
+                                       Margin="8,0,0,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SukiLowText}"
+                                       Text="{x:Static assets:Resources.Scrcpy_VS_DisplaySize}" />
+                            <TextBox Width="330" Name="VirtualScreenDisplaySize"
+                                     Watermark="{x:Static assets:Resources.Scrcpy_VS_DisplaySizeExample}"
+                                     Text="{Binding VirtualScreenDisplaySize, Mode=TwoWay}"
+                                     theme:TextBoxExtensions.AddDeleteButton="False" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </suki:GlassCard>
 
-			<!-- Analog Button -->
-			<suki:GlassCard Margin="10 10 0 10"
-							Height="215"
-							Width="460"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center">
-				<StackPanel>
-					<TextBlock HorizontalAlignment="Left"
-								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.Home_ButtonAnalog}" />
-					<StackPanel Margin="0 30" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding BackCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ArrowBack" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_BackButton}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding HomeCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="CircleOutline" />
-									<TextBlock Text="{x:Static assets:Resources.Home_HomeButton}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding MulCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="CardMultipleOutline" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_MultiTask}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding LockCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="LockOpenOutline" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_LockScreen}"/>
-								</TextBlock>
-							</Button>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding VolUCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumePlus" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeUp}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding VolDCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumeDecrease" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeDown}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding MuteCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="VolumeOff" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeMute}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="100"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding SCCommand}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="CameraOutline" />
-									<TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_Screenshot}"/>
-								</TextBlock>
-							</Button>
-						</StackPanel>
-					</StackPanel>
-				</StackPanel>
-			</suki:GlassCard>
+            <!-- Analog Button -->
+            <suki:GlassCard Margin="10 10 0 10"
+                            Height="215"
+                            Width="460"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Left"
+                               FontWeight="DemiBold"
+                               Text="{x:Static assets:Resources.Home_ButtonAnalog}" />
+                    <StackPanel Margin="0 30" Orientation="Vertical" HorizontalAlignment="Center"
+                                VerticalAlignment="Center" Spacing="20">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+                            <Button Width="100"
+                                    HorizontalAlignment="Left"
+                                    Padding="8"
+                                    Command="{Binding BackCommand}">
+                                <TextBlock>
+                                    <avalonia:MaterialIcon Kind="ArrowBack" />
+                                    <TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_BackButton}" />
+                                </TextBlock>
+                            </Button>
+                            <Button Width="100"
+                                    HorizontalAlignment="Left"
+                                    Padding="8"
+                                    Command="{Binding HomeCommand}">
+                                <TextBlock>
+                                    <avalonia:MaterialIcon Kind="CircleOutline" />
+                                    <TextBlock Text="{x:Static assets:Resources.Home_HomeButton}" />
+                                </TextBlock>
+                            </Button>
+                            <Button Width="100"
+                                    HorizontalAlignment="Left"
+                                    Padding="8"
+                                    Command="{Binding MulCommand}">
+                                <TextBlock>
+                                    <avalonia:MaterialIcon Kind="CardMultipleOutline" />
+                                    <TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_MultiTask}" />
+                                </TextBlock>
+                            </Button>
+                            <Button Width="100"
+                                    HorizontalAlignment="Left"
+                                    Padding="8"
+                                    Command="{Binding LockCommand}">
+                                <TextBlock>
+                                    <avalonia:MaterialIcon Kind="LockOpenOutline" />
+                                    <TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_LockScreen}" />
+                                </TextBlock>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="5">
+                            <Button Width="100"
+                                    HorizontalAlignment="Left"
+                                    Padding="8"
+                                    Command="{Binding VolUCommand}">
+                                <TextBlock>
+                                    <avalonia:MaterialIcon Kind="VolumePlus" />
+                                    <TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeUp}" />
+                                </TextBlock>
+                            </Button>
+                            <Button Width="100"
+                                    HorizontalAlignment="Left"
+                                    Padding="8"
+                                    Command="{Binding VolDCommand}">
+                                <TextBlock>
+                                    <avalonia:MaterialIcon Kind="VolumeDecrease" />
+                                    <TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeDown}" />
+                                </TextBlock>
+                            </Button>
+                            <Button Width="100"
+                                    HorizontalAlignment="Left"
+                                    Padding="8"
+                                    Command="{Binding MuteCommand}">
+                                <TextBlock>
+                                    <avalonia:MaterialIcon Kind="VolumeOff" />
+                                    <TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_VolumeMute}" />
+                                </TextBlock>
+                            </Button>
+                            <Button Width="100"
+                                    HorizontalAlignment="Left"
+                                    Padding="8"
+                                    Command="{Binding SCCommand}">
+                                <TextBlock>
+                                    <avalonia:MaterialIcon Kind="CameraOutline" />
+                                    <TextBlock FontSize="13" Text="{x:Static assets:Resources.Home_Screenshot}" />
+                                </TextBlock>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </suki:GlassCard>
 
-		</WrapPanel>
-	</ScrollViewer>
+        </WrapPanel>
+    </ScrollViewer>
 </UserControl>

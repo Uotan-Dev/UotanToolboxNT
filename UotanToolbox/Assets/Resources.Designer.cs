@@ -4404,5 +4404,14 @@ namespace UotanToolbox.Assets {
                 return ResourceManager.GetString("Scrcpy_CustomRotation", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Forward Audio 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ForwardAudio {
+            get {
+                return ResourceManager.GetString("Scrcpy_ForwardAudio", resourceCulture);
+            }
+        }
     }
 }

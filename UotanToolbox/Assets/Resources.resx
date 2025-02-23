@@ -1564,4 +1564,7 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="Basicflash_RebootToRecovery" xml:space="preserve">
     <value>To Recovery</value>
   </data>
+  <data name="Scrcpy_ForwardAudio" xml:space="preserve">
+    <value>Forward Audio</value>
+  </data>
 </root>

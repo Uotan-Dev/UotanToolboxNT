@@ -4359,5 +4359,50 @@ namespace UotanToolbox.Assets {
                 return ResourceManager.GetString("WirelessADB_Connect", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Screen Rotation 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ScreenRotation {
+            get {
+                return ResourceManager.GetString("Scrcpy_ScreenRotation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Mirror Rotation 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_MirrorRotation {
+            get {
+                return ResourceManager.GetString("Scrcpy_MirrorRotation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Lock Angle 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_LockAngle {
+            get {
+                return ResourceManager.GetString("Scrcpy_LockAngle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Normal Rotation 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_NormalRotation {
+            get {
+                return ResourceManager.GetString("Scrcpy_NormalRotation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Custom Rotation 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_CustomRotation {
+            get {
+                return ResourceManager.GetString("Scrcpy_CustomRotation", resourceCulture);
+            }
+        }
     }
 }

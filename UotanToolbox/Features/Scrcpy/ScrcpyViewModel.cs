@@ -9,6 +9,7 @@ using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 
@@ -18,7 +19,10 @@ public partial class ScrcpyViewModel : MainPageBase
 {
     [ObservableProperty]
     private bool _recordScreen = false, _windowFixed = false, _computerControl = true, _fullScreen = false, _showBorder = true,
-                        _showTouch = true, _closeScreen = false, _screenAwake = false, _screenAwakeStatus = true, _clipboardSync = true, _cameraMirror = false,_enableVirtualScreen = false;
+                        _showTouch = true, _closeScreen = false, _screenAwake = false, _screenAwakeStatus = true, _clipboardSync = true,
+                        _cameraMirror = false,_enableVirtualScreen = false, _mirrorRotation = false, _lockAngle = false,
+                        _rotation0 = true, _rotation1 = false, _rotation2 = false, _rotation3 = false, _rotation4 = false;
+    [ObservableProperty] private int _angle = 0;
     [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private string _windowTitle, _recordFolder, _virtualScreenPackage, _virtualScreenDisplaySize;
 
@@ -146,6 +150,16 @@ public partial class ScrcpyViewModel : MainPageBase
                             arg += "--video-source=camera ";
                         }
 
+                        arg += "--capture-orientation=";
+                        var rotationOptions = new (bool IsChecked, string Value)[]
+                        {
+                            (Rotation0, "0"),
+                            (Rotation1, "90"),
+                            (Rotation2, "180"),
+                            (Rotation3, "270"),
+                            (Rotation4, $"0 --angle={Angle}") // 自定义角度
+                        };
+                        arg += (LockAngle ? "@" : "") + (MirrorRotation ? "flip" : "") + rotationOptions.FirstOrDefault(r => r.IsChecked).Value;
                         _ = CallExternalProgram.Scrcpy(arg);
                         IsConnecting = false;
                     });

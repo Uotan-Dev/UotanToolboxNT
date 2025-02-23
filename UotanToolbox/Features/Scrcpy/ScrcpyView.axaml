@@ -136,10 +136,58 @@
 				</Grid>
 			</suki:GlassCard>
 
-			<!--  More settings  -->
-			<suki:GlassCard Width="460"
+			<!--  Screen Rotation  -->
+			<suki:GlassCard Width="220"
 							Height="295"
-                            Margin="10 10 0 10"
+                            Margin="10 10 10 10"
+                            VerticalAlignment="Top">
+				<Grid>
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="{x:Static assets:Resources.Scrcpy_ScreenRotation}" />
+						<StackPanel Margin="0,8,0,0">
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding MirrorRotation}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="{x:Static assets:Resources.Scrcpy_MirrorRotation}" />
+							</StackPanel>
+							<StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding LockAngle}" />
+								<TextBlock Margin="8,0,0,0"
+										   VerticalAlignment="Center"
+										   FontSize="13"
+										   Foreground="{DynamicResource SukiLowText}"
+										   Text="{x:Static assets:Resources.Scrcpy_LockAngle}" />
+							</StackPanel>
+							<StackPanel Spacing="10" Margin="0,15,0,0">
+								<RadioButton Name="Rotation0" FontSize="13" Content="{x:Static assets:Resources.Scrcpy_NormalRotation}" GroupName="RotationContent" 
+								             IsChecked="{Binding Rotation0}"/>
+								<RadioButton Name="Rotation1" FontSize="13" Content="90°" GroupName="RotationContent"
+								             IsChecked="{Binding Rotation1}"/>
+								<RadioButton Name="Rotation2" FontSize="13" Content="180°" GroupName="RotationContent"
+								             IsChecked="{Binding Rotation2}"/>
+								<RadioButton Name="Rotation3" FontSize="13" Content="270°" GroupName="RotationContent"
+								             IsChecked="{Binding Rotation3}"/>
+								<StackPanel Margin="0,0,0,0" Orientation="Horizontal">
+									<RadioButton Name="Rotation4" FontSize="13" GroupName="RotationContent"
+									             IsChecked="{Binding Rotation4}"/>
+									<NumericUpDown theme:NumericUpDownExtensions.Unit="°" Value="{Binding Angle}" />
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+			
+			<!--  More settings  -->
+			<suki:GlassCard Width="220"
+							Height="295"
+                            Margin="10 10 10 10"
                             VerticalAlignment="Top">
 				<Grid>
 					<StackPanel>

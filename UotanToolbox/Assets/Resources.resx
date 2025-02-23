@@ -570,6 +570,21 @@
   <data name="Scrcpy_MoreSettings" xml:space="preserve">
     <value>More Settings</value>
   </data>
+  <data name="Scrcpy_ScreenRotation" xml:space="preserve">
+    <value>Screen Rotation</value>
+  </data>
+  <data name="Scrcpy_MirrorRotation" xml:space="preserve">
+    <value>Mirror Rotation</value>
+  </data>
+  <data name="Scrcpy_LockAngle" xml:space="preserve">
+    <value>Lock Angle</value>
+  </data>
+  <data name="Scrcpy_NormalRotation" xml:space="preserve">
+    <value>Normal Rotation</value>
+  </data>
+  <data name="Scrcpy_CustomRotation" xml:space="preserve">
+    <value>Custom Rotation</value>
+  </data>
   <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
     <value>Zoom</value>
   </data>

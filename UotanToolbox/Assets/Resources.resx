@@ -570,6 +570,21 @@
   <data name="Scrcpy_MoreSettings" xml:space="preserve">
     <value>More Settings</value>
   </data>
+  <data name="Scrcpy_ScreenRotation" xml:space="preserve">
+    <value>Screen Rotation</value>
+  </data>
+  <data name="Scrcpy_MirrorRotation" xml:space="preserve">
+    <value>Mirror Rotation</value>
+  </data>
+  <data name="Scrcpy_LockAngle" xml:space="preserve">
+    <value>Lock Angle</value>
+  </data>
+  <data name="Scrcpy_NormalRotation" xml:space="preserve">
+    <value>Normal Rotation</value>
+  </data>
+  <data name="Scrcpy_CustomRotation" xml:space="preserve">
+    <value>Custom Rotation</value>
+  </data>
   <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
     <value>Zoom</value>
   </data>
@@ -1554,5 +1569,8 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   </data>
   <data name="Basicflash_RebootToRecovery" xml:space="preserve">
     <value>To Recovery</value>
+  </data>
+  <data name="Scrcpy_ForwardAudio" xml:space="preserve">
+    <value>Forward Audio</value>
   </data>
 </root>

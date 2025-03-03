@@ -428,7 +428,7 @@ public partial class WiredflashView : UserControl
                                 else
                                 {
                                     string dmpart = string.Format("{0}{1}", fbdflashparts[i], slot);
-                                    if (Array.Exists(vparts, element => element == part))
+                                    if (Array.Exists(vparts, element => element == dmpart))
                                     {
                                         await Fastboot($"-s {Global.thisdevice} delete-logical-partition {dmpart}");
                                         await Fastboot($"-s {Global.thisdevice} create-logical-partition {dmpart} 00");

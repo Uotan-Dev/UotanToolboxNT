@@ -55,7 +55,7 @@ jobs:
         7z a -tzip UotanToolbox_Windows_arm64_${{ inputs.VERSION }}.zip -mx=9 -m0=lzma -md=64m -mfb=64 ./publish-arm64
 
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Windows-Package
         path: ./UotanToolbox_Windows*

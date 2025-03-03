@@ -127,7 +127,7 @@ public partial class FormatExtractView : UserControl
         });
         if (files.Count >= 1)
         {
-            QcnFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            QcnFile.Text = files[0].TryGetLocalPath();
         }
     }
 
@@ -235,9 +235,9 @@ public partial class FormatExtractView : UserControl
                                             });
                                             if (files.Count >= 1)
                                             {
-                                                if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                                                if (FileHelper.TestPermission(files[0].TryGetLocalPath()))
                                                 {
-                                                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                                                    Global.backup_path = files[0].TryGetLocalPath();
                                                 }
                                                 else
                                                 {
@@ -347,7 +347,7 @@ public partial class FormatExtractView : UserControl
         });
         if (files.Count >= 1)
         {
-            SuperEmptyFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            SuperEmptyFile.Text = files[0].TryGetLocalPath();
         }
     }
 
@@ -570,9 +570,9 @@ public partial class FormatExtractView : UserControl
                                             });
                                             if (files.Count >= 1)
                                             {
-                                                if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                                                if (FileHelper.TestPermission(files[0].TryGetLocalPath()))
                                                 {
-                                                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                                                    Global.backup_path = files[0].TryGetLocalPath();
                                                 }
                                                 else
                                                 {
@@ -711,9 +711,9 @@ public partial class FormatExtractView : UserControl
                                             });
                                             if (files.Count >= 1)
                                             {
-                                                if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                                                if (FileHelper.TestPermission(files[0].TryGetLocalPath()))
                                                 {
-                                                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                                                    Global.backup_path = files[0].TryGetLocalPath();
                                                 }
                                                 else
                                                 {
@@ -856,9 +856,9 @@ public partial class FormatExtractView : UserControl
                                             });
                                             if (files.Count >= 1)
                                             {
-                                                if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+                                                if (FileHelper.TestPermission(files[0].TryGetLocalPath()))
                                                 {
-                                                    Global.backup_path = StringHelper.FilePath(files[0].Path.ToString());
+                                                    Global.backup_path = files[0].TryGetLocalPath();
                                                 }
                                                 else
                                                 {

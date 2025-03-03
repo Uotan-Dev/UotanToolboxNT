@@ -586,7 +586,7 @@ public partial class WiredflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            AdbSideloadFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            AdbSideloadFile.Text = files[0].TryGetLocalPath();
         }
     }
 
@@ -601,7 +601,7 @@ public partial class WiredflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            FastbootUpdatedFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            FastbootUpdatedFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void OpenBatFile(object sender, RoutedEventArgs args)
@@ -617,7 +617,7 @@ public partial class WiredflashView : UserControl
             });
             if (files.Count >= 1)
             {
-                BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+                BatFile.Text = files[0].TryGetLocalPath();
                 string batfile = FileHelper.Readtxt(BatFile.Text);
                 if (batfile.Contains("oem lock"))
                 {
@@ -642,7 +642,7 @@ public partial class WiredflashView : UserControl
             });
             if (files.Count >= 1)
             {
-                BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+                BatFile.Text = files[0].TryGetLocalPath();
                 string batfile = FileHelper.Readtxt(BatFile.Text);
                 if (batfile.Contains("oem lock"))
                 {

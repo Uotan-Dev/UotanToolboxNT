@@ -67,7 +67,7 @@ public partial class BasicflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            UnlockFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            UnlockFile.Text = files[0].TryGetLocalPath();
         }
     }
 
@@ -373,7 +373,7 @@ public partial class BasicflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            RecFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            RecFile.Text = files[0].TryGetLocalPath();
         }
     }
 
@@ -608,7 +608,7 @@ public partial class BasicflashView : UserControl
                 patch_busy(false);
                 return;
             }
-            MagiskFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            MagiskFile.Text = files[0].TryGetLocalPath();
             Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
             Global.MainDialogManager.CreateDialog()
                                         .OfType(NotificationType.Information)
@@ -651,7 +651,7 @@ public partial class BasicflashView : UserControl
                 patch_busy(false);
                 return;
             }
-            BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            BootFile.Text = files[0].TryGetLocalPath();
             Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
             ArchList.SelectedItem = Global.Bootinfo.Arch;
             Global.MainDialogManager.CreateDialog()

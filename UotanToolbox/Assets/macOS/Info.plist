@@ -21,9 +21,9 @@
 		<string>MacOSX</string>
 	</array>
 	<key>CFBundleShortVersionString</key>
-	<string>3.3.0</string>
+	<string>3.3.5</string>
 	<key>CFBundleVersion</key>
-	<string>3.3.0</string>
+	<string>3.3.5</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2020-2025 UOTAN All rights reserved.</string>
 </dict>

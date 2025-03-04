@@ -349,6 +349,36 @@ public partial class WiredflashView : UserControl
                                 return;
                             }
                         }
+                        if (succ)
+                        {
+                            for (int i = 0 + c; i < fbdflashparts.Length; i++)
+                            {
+                                if (fbdflashparts[i].Contains(' '))
+                                {
+                                    string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                                    if ((!partandpath[1].Contains("delete")) && (!partandpath[1].Contains("create")))
+                                    {
+                                        if (partandpath[0].Contains("super_empty"))
+                                        {
+                                            await Fastboot($"-s {Global.thisdevice} wipe-super \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (fbdflashparts[i].Contains("super_empty"))
+                                    {
+                                        await Fastboot($"-s {Global.thisdevice} wipe-super \"{imgpath}/{fbdflashparts[i]}.img\"");
+                                    }
+                                }
+                                FileHelper.Write(fastboot_log_path, output);
+                                if (output.Contains("FAILED") || output.Contains("error"))
+                                {
+                                    succ = false;
+                                    break;
+                                }
+                            }
+                        }
                         string slot = "";
                         FileHelper.Write(update_status, await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar snapshot-update-status"));
                         string active = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar current-slot");
@@ -428,7 +458,7 @@ public partial class WiredflashView : UserControl
                                 else
                                 {
                                     string dmpart = string.Format("{0}{1}", fbdflashparts[i], slot);
-                                    if (Array.Exists(vparts, element => element == part))
+                                    if (Array.Exists(vparts, element => element == dmpart))
                                     {
                                         await Fastboot($"-s {Global.thisdevice} delete-logical-partition {dmpart}");
                                         await Fastboot($"-s {Global.thisdevice} create-logical-partition {dmpart} 00");
@@ -451,25 +481,31 @@ public partial class WiredflashView : UserControl
                                     string[] partandpath = fbdflashparts[i].Split(' ', StringSplitOptions.RemoveEmptyEntries);
                                     if ((!partandpath[1].Contains("delete")) && (!partandpath[1].Contains("create")))
                                     {
-                                        if (partandpath[0].Contains("vbmeta"))
+                                        if (!partandpath[0].Contains("super_empty"))
                                         {
-                                            await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
-                                        }
-                                        else
-                                        {
-                                            await Fastboot($"-s {Global.thisdevice} flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
+                                            if (partandpath[0].Contains("vbmeta"))
+                                            {
+                                                await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
+                                            }
+                                            else
+                                            {
+                                                await Fastboot($"-s {Global.thisdevice} flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
+                                            }
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    if (fbdflashparts[i].Contains("vbmeta"))
+                                    if (!fbdflashparts[i].Contains("super_empty"))
                                     {
-                                        await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
-                                    }
-                                    else
-                                    {
-                                        await Fastboot($"-s {Global.thisdevice} flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
+                                        if (fbdflashparts[i].Contains("vbmeta"))
+                                        {
+                                            await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
+                                        }
+                                        else
+                                        {
+                                            await Fastboot($"-s {Global.thisdevice} flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
+                                        }
                                     }
                                 }
                                 FileHelper.Write(fastboot_log_path, output);
@@ -550,7 +586,7 @@ public partial class WiredflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            AdbSideloadFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            AdbSideloadFile.Text = files[0].TryGetLocalPath();
         }
     }
 
@@ -565,7 +601,7 @@ public partial class WiredflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            FastbootUpdatedFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            FastbootUpdatedFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void OpenBatFile(object sender, RoutedEventArgs args)
@@ -581,7 +617,7 @@ public partial class WiredflashView : UserControl
             });
             if (files.Count >= 1)
             {
-                BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+                BatFile.Text = files[0].TryGetLocalPath();
                 string batfile = FileHelper.Readtxt(BatFile.Text);
                 if (batfile.Contains("oem lock"))
                 {
@@ -606,7 +642,7 @@ public partial class WiredflashView : UserControl
             });
             if (files.Count >= 1)
             {
-                BatFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+                BatFile.Text = files[0].TryGetLocalPath();
                 string batfile = FileHelper.Readtxt(BatFile.Text);
                 if (batfile.Contains("oem lock"))
                 {

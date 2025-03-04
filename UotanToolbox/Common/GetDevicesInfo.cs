@@ -19,6 +19,7 @@ namespace UotanToolbox.Common
         public static async Task<string[]> DevicesList()
         {
             string devcon = Global.System == "Windows" ? await CallExternalProgram.Devcon("find usb*") : await CallExternalProgram.LsUSB();
+            string adbdevice = await CallExternalProgram.ADB("devices");
             string[] adbdevices = StringHelper.ADBDevices(await CallExternalProgram.ADB("devices"));
             string fbdevice = await CallExternalProgram.Fastboot("devices");
             string[] fbdevices = StringHelper.FastbootDevices(fbdevice);
@@ -26,7 +27,7 @@ namespace UotanToolbox.Common
             string[] comdevices = StringHelper.COMDevices(devcon);
             if (Global.System.Contains("Linux") && Global.root)
             {
-                if (devcon.Contains("Google Inc. Nexus/Pixel Device") && adbdevices.Length == 0)
+                if (adbdevice.Contains("failed to check server version: cannot connect to daemon"))
                 {
                     Global.MainDialogManager.CreateDialog()
                             .WithTitle(GetTranslation("Common_Warn"))

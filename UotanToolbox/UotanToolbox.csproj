@@ -11,9 +11,9 @@
 		<PublishAot>False</PublishAot>
 		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
-		<AssemblyVersion>3.3.0.0</AssemblyVersion>
-		<FileVersion>3.3.0.0</FileVersion>
-		<Version>3.3.0</Version>
+		<AssemblyVersion>3.3.5.0</AssemblyVersion>
+		<FileVersion>3.3.5.0</FileVersion>
+		<Version>3.3.5</Version>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <Optimize>False</Optimize>
@@ -26,14 +26,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.2.5" />
-		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.5" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.2.5" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.5" />
+		<PackageReference Include="Avalonia" Version="11.2.3" />
+		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.3" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.2.3" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.3" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.5" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.3" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="LibUsbDotNet" Version="2.2.29" />
 		<PackageReference Include="Material.Icons.Avalonia" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

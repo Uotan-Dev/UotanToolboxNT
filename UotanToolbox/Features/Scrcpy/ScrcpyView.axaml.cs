@@ -30,9 +30,9 @@ public partial class ScrcpyView : UserControl
         });
         if (files.Count >= 1)
         {
-            if (FileHelper.TestPermission(StringHelper.FilePath(files[0].Path.ToString())))
+            if (FileHelper.TestPermission(files[0].TryGetLocalPath()))
             {
-                RecordFolder.Text = StringHelper.FilePath(files[0].Path.ToString());
+                RecordFolder.Text = files[0].TryGetLocalPath();
             }
             else
             {

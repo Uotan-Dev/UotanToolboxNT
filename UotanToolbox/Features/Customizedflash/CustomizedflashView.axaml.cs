@@ -72,7 +72,7 @@ public partial class CustomizedflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            SystemFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            SystemFile.Text = files[0].TryGetLocalPath();
         }
     }
 
@@ -136,7 +136,7 @@ public partial class CustomizedflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            ProductFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            ProductFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void FlashProductFile(object sender, RoutedEventArgs args)
@@ -198,7 +198,7 @@ public partial class CustomizedflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            VenderFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            VenderFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void FlashVenderFile(object sender, RoutedEventArgs args)
@@ -260,7 +260,7 @@ public partial class CustomizedflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            BootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            BootFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void FlashBootFile(object sender, RoutedEventArgs args)
@@ -322,7 +322,7 @@ public partial class CustomizedflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            SystemextFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            SystemextFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void FlashSystemextFile(object sender, RoutedEventArgs args)
@@ -384,7 +384,7 @@ public partial class CustomizedflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            OdmFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            OdmFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void FlashOdmFile(object sender, RoutedEventArgs args)
@@ -446,7 +446,7 @@ public partial class CustomizedflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            VenderbootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            VenderbootFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void FlashVenderbootFile(object sender, RoutedEventArgs args)
@@ -508,7 +508,7 @@ public partial class CustomizedflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            InitbootFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            InitbootFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void FlashInitbootFile(object sender, RoutedEventArgs args)
@@ -570,7 +570,7 @@ public partial class CustomizedflashView : UserControl
         });
         if (files.Count >= 1)
         {
-            ImageFile.Text = StringHelper.FilePath(files[0].Path.ToString());
+            ImageFile.Text = files[0].TryGetLocalPath();
         }
     }
     private async void FlashImageFile(object sender, RoutedEventArgs args)

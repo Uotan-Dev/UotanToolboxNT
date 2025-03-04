@@ -117,7 +117,7 @@ public partial class AppmgrView : UserControl
         {
             for (int i = 0; i < files.Count; i++)
             {
-                ApkFile.Text = ApkFile.Text + StringHelper.FilePath(files[i].Path.ToString()) + "|||";
+                ApkFile.Text = ApkFile.Text + files[i].TryGetLocalPath() + "|||";
             }
         }
     }

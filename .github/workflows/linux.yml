@@ -88,7 +88,7 @@ jobs:
         rm -rf ./staging_folder/*
 
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Linux-Package
         path: ./UotanToolbox_Linux*

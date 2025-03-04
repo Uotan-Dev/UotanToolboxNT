@@ -66,7 +66,7 @@ jobs:
         rm -rf ./UotanToolbox.app/Contents/MacOS/*
 
     - name: Upload
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: macOS-Package
         path: ./UotanToolbox_macOS*

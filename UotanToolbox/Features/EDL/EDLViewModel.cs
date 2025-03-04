@@ -122,7 +122,7 @@ public partial class EDLViewModel : MainPageBase
     /// <param name="noautoconfigure"></param>
     /// <param name="autoconfig"></param>
     /// <returns></returns>
-    private async Task Fh_loader(string workpath, bool benchmarkdigestperformance = false, bool benchmarkreads = false, bool benchmarkwrites = false, string createvipdigests = null, string chaineddigests = null, string contentsxml = null, bool convertprogram2read = false, string digestsperfilename = null, string erase = null, string files = null, bool firmwarewrite = false, string fixgpt = null, string flattenbuildto = null, string flavor = null, bool forcecontentsxmlpaths = false, string getstorageinfo = null, string json_in = null, string labels = null, string loglevel = null, string lun = null, string mainoutputdir = null, string maxpayloadsizeinbytes = null, string memoryname = null, string notfiles = null, string notlabels = null, bool nop = false, bool noprompt = false, string num_sectors = null, string port = null, string porttracename = null, string port_type = null, string power = null, string search_path = null, string sectorsizeinbytes = null, string sendimage = null, string sendxml = null, string setactivepartition = null, bool showpercentagecomplete = false, string signeddigests = null, string slot = null, string start_sector = null, bool verbose = false, bool verify_programming_getsha = false, bool verify_programming = false, string zlpawarehost = null)
+    private async Task Fh_loader(string workpath, bool benchmarkdigestperformance = false, bool benchmarkreads = false, bool benchmarkwrites = false, string createvipdigests = null, string chaineddigests = null, string contentsxml = null, bool convertprogram2read = false, string digestsperfilename = null, string erase = null, string files = null, bool firmwarewrite = false, string fixgpt = null, string flattenbuildto = null, string flavor = null, bool forcecontentsxmlpaths = false, string getstorageinfo = null, string json_in = null, string labels = null, string loglevel = null, string lun = null, string mainoutputdir = null, string maxpayloadsizeinbytes = null, string memoryname = null, string notfiles = null, string notlabels = null, bool nop = false, bool noprompt = false, string num_sectors = null, string port = null, string porttracename = null, string port_type = null, string power = null, string search_path = null, string sectorsizeinbytes = null, string sendimage = null, string sendxml = null, string setactivepartition = null, bool showpercentagecomplete = false, string signeddigests = null,bool skip_config = false, string slot = null, string start_sector = null, bool verbose = false, bool verify_programming_getsha = false, bool verify_programming = false, string zlpawarehost = null)
     {
         await Task.Run(() =>
         {
@@ -168,6 +168,7 @@ public partial class EDLViewModel : MainPageBase
             if (showpercentagecomplete) args.Add("--showpercentagecomplete");
             if (signeddigests != null) args.Add($"--signeddigests=\"{signeddigests}\"");
             if (slot != null) args.Add($"--slot=\"{slot}\"");
+            if (skip_config) args.Add("--skip_config");
             if (start_sector != null) args.Add($"--start_sector=\"{start_sector}\"");
             if (verbose) args.Add("--verbose");
             if (verify_programming_getsha) args.Add("--verify_programming_getsha");
@@ -779,7 +780,7 @@ public partial class EDLViewModel : MainPageBase
         mergedDoc.Save(outputFilePath);
     }
     /// <summary>
-    /// 解析GPTA分区表文件，生成XML文件，节点为标准xml，不包含厂商定义节点
+    /// 解析GPT分区表文件，生成XML文件，节点为标准xml，不包含厂商定义节点
     /// </summary>
     /// <param name="directoryPath">分区表文件所在文件夹</param>
     /// <param name="outputXmlPath">输出的xml文件路径，具体到文件名</param>

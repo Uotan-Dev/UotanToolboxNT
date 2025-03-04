@@ -5,23 +5,6 @@ namespace DiskPartitionInfo.FluentApi
 {
     public interface IGptReader
     {
-#if Windows
-        /// <summary>
-        /// Reads the GPT from the physical drive given its number.
-        /// </summary>
-        /// <param name="driveNumber">Drive number, e.g. 0 or 3.</param>
-        /// <returns>The GUID Partition Table information.</returns>
-        GuidPartitionTable FromPhysicalDriveNumber(int driveNumber);
-
-        /// <summary>
-        /// Reads the GPT record from the physical drive given a volume letter.
-        /// GPT will be read from the corresponding physical drive if it exists.
-        /// </summary>
-        /// <param name="volumeLetter">Volume letter, e.g. C: or F:.</param>
-        /// <returns>The GUID Partition Table information.</returns>
-        GuidPartitionTable FromVolumeLetter(string volumeLetter);
-#endif
-
         /// <summary>
         /// Reads the GPT from the given path.
         /// It can be a path to a file or to a physical drive.

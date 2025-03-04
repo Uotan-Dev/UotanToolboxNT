@@ -9,7 +9,7 @@ namespace DiskPartitionInfo.FluentApi
 {
     internal partial class GptReader : IGptReader, IGptReaderLocation
     {
-        private const int SectorSize = 512;
+        private const int SectorSize = 4096;
 
         private bool _usePrimary = true;
 
@@ -55,7 +55,7 @@ namespace DiskPartitionInfo.FluentApi
         private static GptStruct ReadGpt(Stream stream)
         {
             var gptData = new byte[SectorSize];
-            stream.Read(buffer: gptData, offset: 0, count: SectorSize);
+            stream.ReadExactly(buffer: gptData, offset: 0, count: SectorSize);
 
             return gptData.ToStruct<GptStruct>();
         }
@@ -68,11 +68,16 @@ namespace DiskPartitionInfo.FluentApi
             {
                 var partition = new byte[gpt.PartitionEntryLength];
 
-                stream.Read(buffer: partition, offset: 0, count: (int) gpt.PartitionEntryLength);
+                stream.ReadExactly(buffer: partition, offset: 0, count: (int) gpt.PartitionEntryLength);
                 partitions.Add(partition.ToStruct<GptPartitionStruct>());
             }
 
             return partitions;
+        }
+        private static GptStruct FixCRC(GptStruct source)
+        {
+            GptStruct a = source;
+            return source;
         }
     }
 }

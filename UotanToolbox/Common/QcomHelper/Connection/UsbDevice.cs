@@ -1,4 +1,5 @@
-﻿using Avalonia.Logging;
+﻿/*
+using Avalonia.Logging;
 using Avalonia.OpenGL;
 using LibUsbDotNet;
 using LibUsbDotNet.Info;
@@ -756,4 +757,4 @@ namespace EdlClient.Library.Connection
             Interface = interfaceNum;
         }
     }
-}
+}*/

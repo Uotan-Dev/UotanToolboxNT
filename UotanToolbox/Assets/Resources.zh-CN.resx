@@ -570,6 +570,21 @@
   <data name="Scrcpy_MoreSettings" xml:space="preserve">
     <value>更多设置</value>
   </data>
+  <data name="Scrcpy_ScreenRotation" xml:space="preserve">
+    <value>屏幕旋转</value>
+  </data>
+  <data name="Scrcpy_MirrorRotation" xml:space="preserve">
+    <value>镜像旋转</value>
+  </data>
+  <data name="Scrcpy_LockAngle" xml:space="preserve">
+    <value>锁定角度</value>
+  </data>
+  <data name="Scrcpy_NormalRotation" xml:space="preserve">
+    <value>默认角度</value>
+  </data>
+  <data name="Scrcpy_CustomRotation" xml:space="preserve">
+    <value>自定义角度</value>
+  </data>
   <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
     <value>等比缩放</value>
   </data>
@@ -770,6 +785,9 @@
   </data>
   <data name="FormatExtract_WriteQCN" xml:space="preserve">
     <value>写入QCN</value>
+  </data>
+  <data name="Sidebar_Advanced" xml:space="preserve">
+    <value>高级</value>
   </data>
   <data name="Sidebar_Appmgr" xml:space="preserve">
     <value>应用管理</value>
@@ -1498,12 +1516,6 @@ ADB下填写序号，一次一个！</value>
   <data name="Scrcpy_VS_DisplaySizeExample" xml:space="preserve">
     <value>1920x1080/460 (高 × 宽)/dpi</value>
   </data>
-  <data name="Common_EnterFastbootd" xml:space="preserve">
-    <value>请进入Fastbootd模式！</value>
-  </data>
-  <data name="Modifypartition_EnterName" xml:space="preserve">
-    <value>请输入分区名称！</value>
-  </data>
   <data name="Home_ShutDownTip" xml:space="preserve">
     <value>执行成功，拔出设备连接线即可关机！</value>
   </data>
@@ -1546,28 +1558,22 @@ ADB下填写序号，一次一个！</value>
   <data name="Wiredflash_RelockTip" xml:space="preserve">
     <value>您选择了会进行回锁操作的脚本，确认继续吗？</value>
   </data>
-  <data name="Scrcpy_ScreenRotation" xml:space="preserve">
-    <value>屏幕旋转</value>
-  </data>
-  <data name="Scrcpy_MirrorRotation" xml:space="preserve">
-    <value>镜像旋转</value>
-  </data>
-  <data name="Scrcpy_LockAngle" xml:space="preserve">
-    <value>锁定角度</value>
-  </data>
-  <data name="Scrcpy_NormalRotation" xml:space="preserve">
-    <value>默认角度</value>
-  </data>
-  <data name="Scrcpy_CustomRotation" xml:space="preserve">
-    <value>自定义角度</value>
-  </data>
-  <data name="Scrcpy_ForwardAudio" xml:space="preserve">
-    <value>转发音频</value>
-  </data>
   <data name="Basicflash_RebootToFastbootd" xml:space="preserve">
     <value>至 Fastbootd</value>
   </data>
   <data name="Basicflash_RebootToRecovery" xml:space="preserve">
     <value>至 Recovery</value>
+  </data>
+  <data name="Scrcpy_ForwardAudio" xml:space="preserve">
+    <value>转发音频</value>
+  </data>
+  <data name="Common_EnterFastbootd" xml:space="preserve">
+    <value>请进入Fastbootd模式！</value>
+  </data>
+  <data name="Modifypartition_EnterName" xml:space="preserve">
+    <value>请输入分区名称！</value>
+  </data>
+  <data name="Sidebar_About" xml:space="preserve">
+    <value>关于</value>
   </data>
 </root>

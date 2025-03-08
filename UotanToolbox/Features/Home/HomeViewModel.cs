@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
+using UotanToolbox.Features.About;
 using UotanToolbox.Features.Settings;
 using UotanToolbox.Utilities;
 
@@ -70,10 +71,8 @@ public partial class HomeViewModel : MainPageBase
             string responseBody = await response.Content.ReadAsStringAsync();
 
             dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
-            SettingsViewModel vm = new SettingsViewModel();
+            AboutViewModel vm = new AboutViewModel();
             string version = convertedBody.release_version;
-
-
 
             if (version.Contains("beta"))
             {

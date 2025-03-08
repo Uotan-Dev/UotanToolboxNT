@@ -1,0 +1,347 @@
+<UserControl x:Class="UotanToolbox.Features.About.AboutView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:SukiUI.Models;assembly=SukiUI"
+             xmlns:objectModel="clr-namespace:System.Collections.ObjectModel;assembly=System.ObjectModel"
+             xmlns:settings="clr-namespace:UotanToolbox.Features.About"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+			 xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+             d:DesignHeight="2950"
+             d:DesignWidth="1024"
+             x:DataType="settings:AboutViewModel"
+             mc:Ignorable="d">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<WrapPanel HorizontalAlignment="Center"
+				   Margin="15"
+				   theme:WrapPanelExtensions.AnimatedScroll="True"
+				   Orientation="Horizontal">
+			<!--
+			<suki:GlassCard Width="750"
+							Margin="10"
+							VerticalAlignment="Top">
+				<Grid>
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontSize="25"
+								   Margin="0 0 0 10"
+								   FontWeight="DemiBold"
+								   Text="{x:Static assets:Resources.Settings_BaseTheme}" />
+						<StackPanel HorizontalAlignment="Center"
+								Orientation="Horizontal"
+								Spacing="20">
+							<RadioButton Width="180"
+										 Height="160"
+										 Padding="0"
+										 Classes="GigaChips"
+										 GroupName="RadioBaseTheme"
+										 IsChecked="{Binding IsLightTheme}">
+								<Border Margin="-50"
+										Background="#fafafa"
+										CornerRadius="{DynamicResource MediumCornerRadius}">
+									<Grid>
+										<TextBlock Margin="42"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Bottom"
+												   FontWeight="DemiBold"
+												   Foreground="#555555"
+												   Text="{x:Static assets:Resources.Settings_LightMode}" />
+									</Grid>
+								</Border>
+							</RadioButton>
+
+							<RadioButton Width="180"
+										 Height="160"
+										 Classes="GigaChips"
+										 GroupName="RadioBaseTheme"
+										 IsChecked="{Binding !IsLightTheme}">
+								<Border Margin="-50"
+										Background="#222222"
+										CornerRadius="{DynamicResource MediumCornerRadius}">
+									<Grid>
+										<TextBlock Margin="42"
+												   HorizontalAlignment="Center"
+												   VerticalAlignment="Bottom"
+												   FontWeight="DemiBold"
+												   Foreground="#fafafa"
+												   Text="{x:Static assets:Resources.Settings_DarkMode}" />
+									</Grid>
+								</Border>
+							</RadioButton>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+			<suki:GlassCard Width="750"
+							Margin="10"
+							VerticalAlignment="Top">
+				<Grid>
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontSize="25"
+								   Margin="0 0 0 10"
+								   FontWeight="DemiBold"
+								   Text="{x:Static assets:Resources.Settings_Other}" />
+						<StackPanel Spacing="25">
+							<DockPanel>
+								<ComboBox DockPanel.Dock="Right"
+										  ItemsSource="{Binding LanguageList}"
+										  SelectedItem="{Binding SelectedLanguageList}" />
+								<StackPanel HorizontalAlignment="Left">
+									<TextBlock FontSize="16"
+											   FontWeight="DemiBold"
+											   Text="{x:Static assets:Resources.Settings_Language}" />
+									<TextBlock Margin="0,12,70,0"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="{x:Static assets:Resources.Settings_ChooseLanguage}"
+											   TextWrapping="Wrap" />
+								</StackPanel>
+							</DockPanel>
+							<DockPanel>
+								<ToggleButton VerticalAlignment="Top"
+											  Classes="Switch"
+											  DockPanel.Dock="Right"
+											  IsChecked="{Binding BackgroundAnimations}" />
+								<StackPanel HorizontalAlignment="Left">
+									<TextBlock FontSize="16"
+											   FontWeight="DemiBold"
+											   Text="{x:Static assets:Resources.Settings_AnimatedBackground}" />
+									<TextBlock Margin="0,12,70,0"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="{x:Static assets:Resources.Settings_EnableAnimationsForBackground}"
+											   TextWrapping="Wrap" />
+								</StackPanel>
+							</DockPanel>
+							<DockPanel>
+								<ToggleButton VerticalAlignment="Top"
+											  Classes="Switch"
+											  DockPanel.Dock="Right"
+											  IsChecked="{Binding BackgroundTransitions}" />
+								<StackPanel HorizontalAlignment="Left">
+									<TextBlock FontSize="16"
+											   FontWeight="DemiBold"
+											   Text="{x:Static assets:Resources.Settings_BackgroundTransitions}" />
+									<TextBlock Margin="0,12,70,0"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="{x:Static assets:Resources.Settings_EnableBackgroundTransitions}"
+											   TextWrapping="Wrap" />
+								</StackPanel>
+							</DockPanel>
+							<DockPanel>
+								<ComboBox DockPanel.Dock="Right"
+										  ItemsSource="{Binding AvailableBackgroundStyles}"
+										  SelectedItem="{Binding BackgroundStyle}" />
+								<StackPanel HorizontalAlignment="Left">
+									<TextBlock FontSize="16"
+											   FontWeight="DemiBold"
+											   Text="{x:Static assets:Resources.Settings_BackgroundStyle}" />
+									<TextBlock Margin="0,12,70,0"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="{x:Static assets:Resources.Settings_SelectFromIncludedBackgroundStyles}"
+											   TextWrapping="Wrap" />
+								</StackPanel>
+							</DockPanel>
+							<DockPanel>
+								<StackPanel HorizontalAlignment="Left" DockPanel.Dock="Top">
+									<TextBlock FontSize="16"
+											   FontWeight="DemiBold"
+											   Text="{x:Static assets:Resources.Settings_CustomShaders}" />
+									<TextBlock Margin="0,12,70,0"
+											   Foreground="{DynamicResource SukiLowText}"
+											   Text="{x:Static assets:Resources.Settings_EnableBackgroundShader}"
+											   TextWrapping="Wrap" />
+								</StackPanel>
+								<ItemsControl ItemsSource="{Binding CustomShaders}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<Button Margin="10"
+													Classes="Flat"
+													Command="{Binding $parent[settings:SettingsView].((settings:SettingsViewModel)DataContext).TryCustomShaderCommand}"
+													CommandParameter="{Binding}"
+													Content="{Binding}" />
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<UniformGrid Rows="1" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+								</ItemsControl>
+							</DockPanel>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>-->
+
+			<suki:GlassCard Width="750"
+							Margin="10"
+							VerticalAlignment="Top">
+				<Grid>
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   FontSize="25"
+								   Margin="0 0 0 10"
+								   Text="{x:Static assets:Resources.Settings_About}" />
+						<DockPanel>
+							<StackPanel HorizontalAlignment="Left">
+								<TextBlock FontSize="16"
+										   FontWeight="DemiBold"
+										   Text="{x:Static assets:Resources.Settings_AboutToolbox}" />
+								<StackPanel Margin="15">
+									<TextBlock Text="{x:Static assets:Resources.Settings_AboutToolboxContent}" TextWrapping="Wrap"/>
+								</StackPanel>
+								<Grid Margin="15,0,0,15" VerticalAlignment="Center">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="Auto"/>
+									</Grid.ColumnDefinitions>
+
+									<StackPanel Grid.Column="0">
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="{x:Static assets:Resources.Settings_CurrentVersion}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+											<TextBlock Text="{Binding CurrentVersion}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+										</StackPanel>
+										<TextBlock FontSize="12">© 2020-2025 UOTAN</TextBlock>
+									</StackPanel>
+
+									<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
+										<Button Classes="Classic"
+												MinWidth="110"
+												Content="{x:Static assets:Resources.Settings_CheckUpdate}"
+												Command="{Binding GetUpdateCommand}"
+												HorizontalAlignment="Right"/>
+										<Button Classes="Classic"
+												MinWidth="110"
+												Content="{x:Static assets:Resources.Settings_UotanCommunity}"
+												Command="{Binding OpenURLCommand}"
+												CommandParameter="https://www.uotan.cn"
+												HorizontalAlignment="Right"/>
+										<Button Classes="Classic"
+												MinWidth="110"
+												Content="Bilibili"
+												Command="{Binding OpenURLCommand}"
+												CommandParameter="https://space.bilibili.com/522676659"
+												HorizontalAlignment="Right"/>
+									</StackPanel>
+								</Grid>
+
+								<TextBlock FontSize="16"
+										   FontWeight="DemiBold"
+										   Text="{x:Static assets:Resources.Settings_Developers}" />
+								<StackPanel Orientation="Horizontal">
+									<suki:GlassCard Margin="15" IsInteractive="True">
+										<suki:GroupBox>
+											<suki:GroupBox.Header>
+												<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@暮间雾" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/mujianwu"/>
+											</suki:GroupBox.Header>
+											<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
+												<Rectangle.Fill>
+													<ImageBrush Source="avares://UotanToolbox/Assets/mujianwu.jpg"/>
+												</Rectangle.Fill>
+											</Rectangle>
+										</suki:GroupBox>
+									</suki:GlassCard>
+									<suki:GlassCard Margin="15" IsInteractive="True">
+										<suki:GroupBox>
+											<suki:GroupBox.Header>
+												<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@yuzh" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/yuzh0816"/>
+											</suki:GroupBox.Header>
+											<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
+												<Rectangle.Fill>
+													<ImageBrush Source="avares://UotanToolbox/Assets/yuzh.png"/>
+												</Rectangle.Fill>
+											</Rectangle>
+										</suki:GroupBox>
+									</suki:GlassCard>
+									<suki:GlassCard Margin="15" IsInteractive="True">
+										<suki:GroupBox>
+											<suki:GroupBox.Header>
+												<Button Classes="Hyperlink" Foreground="White" FontSize="12" Content="@赵紫菜" Command="{Binding OpenURLCommand}" CommandParameter="https://github.com/13584452567"/>
+											</suki:GroupBox.Header>
+											<Rectangle Width="150" Height="150" RadiusX="10" RadiusY="10">
+												<Rectangle.Fill>
+													<ImageBrush Source="avares://UotanToolbox/Assets/zicai.jpeg"/>
+												</Rectangle.Fill>
+											</Rectangle>
+										</suki:GroupBox>
+									</suki:GlassCard>
+								</StackPanel>
+								<TextBlock FontSize="16"
+										   FontWeight="DemiBold"
+										   Text="{x:Static assets:Resources.Settings_SpecialThanks}" />
+								<StackPanel Orientation="Horizontal">
+									<suki:GlassCard Margin="15" IsInteractive="True">
+										<suki:GroupBox Header="{Binding KCN}">
+											<Rectangle Width="100" Height="100" RadiusX="10" RadiusY="10">
+												<Rectangle.Fill>
+													<ImageBrush Source="avares://UotanToolbox/Assets/kcn.jpg"/>
+												</Rectangle.Fill>
+											</Rectangle>
+										</suki:GroupBox>
+									</suki:GlassCard>
+									<suki:GlassCard Margin="15" IsInteractive="True">
+										<suki:GroupBox Header="{Binding MouZei}">
+											<Rectangle Width="100" Height="100" RadiusX="10" RadiusY="10">
+												<Rectangle.Fill>
+													<ImageBrush Source="avares://UotanToolbox/Assets/mouzei.jpg"/>
+												</Rectangle.Fill>
+											</Rectangle>
+										</suki:GroupBox>
+									</suki:GlassCard>
+									<suki:GlassCard Margin="15" IsInteractive="True">
+										<suki:GroupBox Header="{Binding ACA}">
+											<Rectangle Width="100" Height="100" RadiusX="10" RadiusY="10">
+												<Rectangle.Fill>
+													<ImageBrush Source="avares://UotanToolbox/Assets/aca.jpg"/>
+												</Rectangle.Fill>
+											</Rectangle>
+										</suki:GroupBox>
+									</suki:GlassCard>
+								</StackPanel>
+							</StackPanel>
+						</DockPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+
+			<suki:GlassCard Width="750"
+							Margin="10"
+							VerticalAlignment="Top">
+				<Grid>
+					<StackPanel>
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   FontSize="25"
+								   Margin="0 0 0 10"
+								   Text="{x:Static assets:Resources.Settings_OpenSource}" />
+						<DockPanel>
+							<StackPanel Orientation="Vertical">
+								<TextBlock Text="{x:Static assets:Resources.Settings_DisplayedProjects}" />
+								<TextBlock>7-Zip (download from https://www.7-zip.org/download.html)</TextBlock>
+								<TextBlock>Android-Platform-Tools (from AOSP)</TextBlock>
+								<TextBlock>Avalonia (Avalonia™ is a registered trademark of AvaloniaUI OÜ.)</TextBlock>
+								<TextBlock>File (cross compiled from Github repo https://github.com/file/file)</TextBlock>
+								<TextBlock>MagiskBoot of unix (from Github repo https://github.com/ookiineko/magiskboot_build)</TextBlock>
+								<TextBlock>MiSans (from )https://hyperos.mi.com/font</TextBlock>
+								<TextBlock>MagiskBoot of win (from Github repo https://github.com/affggh/Magisk_patcher)</TextBlock>
+								<TextBlock>QCNTool (from Github repo https://github.com/MindowsToolBox/QCNTool)</TextBlock>
+								<TextBlock>QMSL_MSVC10R.dll (from QPST)</TextBlock>
+								<TextBlock>Suki UI (from Github repo https://github.com/kikipoulet/SukiUI)</TextBlock>
+								<TextBlock TextWrapping="Wrap" Text="{Binding BinVersion}" />
+							</StackPanel>
+						</DockPanel>
+					</StackPanel>
+				</Grid>
+			</suki:GlassCard>
+			
+		</WrapPanel>
+	</ScrollViewer>
+</UserControl>

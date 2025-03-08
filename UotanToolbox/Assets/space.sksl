@@ -13,13 +13,6 @@ const float darkmatter =0.300;
 const float distfading =0.730;
 const float saturation =0.850;
 
-float mod(float x, float y) {
-    return x - y * floor(x / y);
-}
-
-vec3 mod(vec3 x, vec3 y) {
-    return vec3(mod(x.x,y.x), mod(x.y,y.y), mod(x.z,y.z));
-}
 
 half4 main( vec2 fragCoord )
 {

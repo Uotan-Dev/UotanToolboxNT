@@ -122,7 +122,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="Assets\glow.sksl" />
 		<EmbeddedResource Include="Assets\space.sksl" />
 		<EmbeddedResource Include="Assets\clouds.sksl" />
 		<EmbeddedResource Include="Assets\weird.sksl" />

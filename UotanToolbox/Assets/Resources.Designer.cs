@@ -61,6 +61,159 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 About Toolbox 的本地化字符串。
+        /// </summary>
+        public static string About_AboutToolbox {
+            get {
+                return ResourceManager.GetString("About_AboutToolbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 UotanToolboxNT is developed based on &quot;UotanToolBox&quot; and is a brand-new modern advanced developing tool for phones designed specifically for mobile phone enthusiasts. 的本地化字符串。
+        /// </summary>
+        public static string About_AboutToolboxContent {
+            get {
+                return ResourceManager.GetString("About_AboutToolboxContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Basic Infomation 的本地化字符串。
+        /// </summary>
+        public static string About_BasicInfo {
+            get {
+                return ResourceManager.GetString("About_BasicInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Check Update 的本地化字符串。
+        /// </summary>
+        public static string About_CheckUpdate {
+            get {
+                return ResourceManager.GetString("About_CheckUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Computer Model 的本地化字符串。
+        /// </summary>
+        public static string About_ComputerModel {
+            get {
+                return ResourceManager.GetString("About_ComputerModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Current Version:  的本地化字符串。
+        /// </summary>
+        public static string About_CurrentVersion {
+            get {
+                return ResourceManager.GetString("About_CurrentVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Developers 的本地化字符串。
+        /// </summary>
+        public static string About_Developers {
+            get {
+                return ResourceManager.GetString("About_Developers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The open source projects below are presented in alphabetical order 的本地化字符串。
+        /// </summary>
+        public static string About_DisplayedProjects {
+            get {
+                return ResourceManager.GetString("About_DisplayedProjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hardware 的本地化字符串。
+        /// </summary>
+        public static string About_Hardware {
+            get {
+                return ResourceManager.GetString("About_Hardware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 More Infomation 的本地化字符串。
+        /// </summary>
+        public static string About_MoreInfo {
+            get {
+                return ResourceManager.GetString("About_MoreInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open source project 的本地化字符串。
+        /// </summary>
+        public static string About_OpenSource {
+            get {
+                return ResourceManager.GetString("About_OpenSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Our Team 的本地化字符串。
+        /// </summary>
+        public static string About_OurTeam {
+            get {
+                return ResourceManager.GetString("About_OurTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Runtime 的本地化字符串。
+        /// </summary>
+        public static string About_Runtime {
+            get {
+                return ResourceManager.GetString("About_Runtime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Special Thanks 的本地化字符串。
+        /// </summary>
+        public static string About_SpecialThanks {
+            get {
+                return ResourceManager.GetString("About_SpecialThanks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 System Version 的本地化字符串。
+        /// </summary>
+        public static string About_SystemVersion {
+            get {
+                return ResourceManager.GetString("About_SystemVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uotan Community 的本地化字符串。
+        /// </summary>
+        public static string About_UotanCommunity {
+            get {
+                return ResourceManager.GetString("About_UotanCommunity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uotan Toolbox NT 的本地化字符串。
+        /// </summary>
+        public static string About_UotanToolboxNT {
+            get {
+                return ResourceManager.GetString("About_UotanToolboxNT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Activate App 的本地化字符串。
         /// </summary>
         public static string Appmgr_ActivateSwitch {
@@ -3828,33 +3981,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 About 的本地化字符串。
-        /// </summary>
-        public static string Settings_About {
-            get {
-                return ResourceManager.GetString("Settings_About", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 About Toolbox 的本地化字符串。
-        /// </summary>
-        public static string Settings_AboutToolbox {
-            get {
-                return ResourceManager.GetString("Settings_AboutToolbox", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 UotanToolboxNT is developed based on &quot;UotanToolBox&quot; and is a brand-new modern advanced developing tool for phones designed specifically for mobile phone enthusiasts. 的本地化字符串。
-        /// </summary>
-        public static string Settings_AboutToolboxContent {
-            get {
-                return ResourceManager.GetString("Settings_AboutToolboxContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Animated Background 的本地化字符串。
         /// </summary>
         public static string Settings_AnimatedBackground {
@@ -3891,15 +4017,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Check Update 的本地化字符串。
-        /// </summary>
-        public static string Settings_CheckUpdate {
-            get {
-                return ResourceManager.GetString("Settings_CheckUpdate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Select your language on the right, and the selected language will be displayed after restarting the toolbox. 的本地化字符串。
         /// </summary>
         public static string Settings_ChooseLanguage {
@@ -3914,15 +4031,6 @@ namespace UotanToolbox.Assets {
         public static string Settings_ColorTheme {
             get {
                 return ResourceManager.GetString("Settings_ColorTheme", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Current Version:  的本地化字符串。
-        /// </summary>
-        public static string Settings_CurrentVersion {
-            get {
-                return ResourceManager.GetString("Settings_CurrentVersion", resourceCulture);
             }
         }
         
@@ -3950,24 +4058,6 @@ namespace UotanToolbox.Assets {
         public static string Settings_Default {
             get {
                 return ResourceManager.GetString("Settings_Default", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Developers 的本地化字符串。
-        /// </summary>
-        public static string Settings_Developers {
-            get {
-                return ResourceManager.GetString("Settings_Developers", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 The open source projects below are presented in alphabetical order 的本地化字符串。
-        /// </summary>
-        public static string Settings_DisplayedProjects {
-            get {
-                return ResourceManager.GetString("Settings_DisplayedProjects", resourceCulture);
             }
         }
         
@@ -4035,15 +4125,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Open source project 的本地化字符串。
-        /// </summary>
-        public static string Settings_OpenSource {
-            get {
-                return ResourceManager.GetString("Settings_OpenSource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Other 的本地化字符串。
         /// </summary>
         public static string Settings_Other {
@@ -4076,24 +4157,6 @@ namespace UotanToolbox.Assets {
         public static string Settings_Settings {
             get {
                 return ResourceManager.GetString("Settings_Settings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Special Thanks 的本地化字符串。
-        /// </summary>
-        public static string Settings_SpecialThanks {
-            get {
-                return ResourceManager.GetString("Settings_SpecialThanks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Uotan Community 的本地化字符串。
-        /// </summary>
-        public static string Settings_UotanCommunity {
-            get {
-                return ResourceManager.GetString("Settings_UotanCommunity", resourceCulture);
             }
         }
         

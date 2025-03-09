@@ -8,7 +8,6 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
-using UotanToolbox.Features.Settings;
 using UotanToolbox.Utilities;
 
 namespace UotanToolbox.Features.About;
@@ -16,6 +15,7 @@ namespace UotanToolbox.Features.About;
 public partial class AboutViewModel : MainPageBase
 {
     [ObservableProperty] private string _currentVersion = Global.currentVersion;
+    [ObservableProperty] private string _hardwareInfo = null;
     [ObservableProperty] private string _binVersion = null;
     [ObservableProperty] private string _mouZei = "@某贼\r\n提供开发思路";
     [ObservableProperty] private string _kCN = "@剧毒的KCN\r\n安装器开发";
@@ -32,7 +32,7 @@ public partial class AboutViewModel : MainPageBase
     }
 
     [RelayCommand]
-    private void OpenURL(string url)
+    private static void OpenURL(string url)
     {
         UrlUtilities.OpenURL(url);
     }
@@ -43,7 +43,7 @@ public partial class AboutViewModel : MainPageBase
     }
 
     [RelayCommand]
-    private async Task GetUpdate()
+    private static async Task GetUpdate()
     {
         try
         {

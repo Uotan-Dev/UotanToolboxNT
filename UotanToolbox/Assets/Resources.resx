@@ -423,19 +423,19 @@
   <data name="Wiredflash_XiaomiFlashScript" xml:space="preserve">
     <value>Xiaomi Script</value>
   </data>
-  <data name="Settings_About" xml:space="preserve">
-    <value>About</value>
+  <data name="About_UotanToolboxNT" xml:space="preserve">
+    <value>Uotan Toolbox NT</value>
   </data>
-  <data name="Settings_Developers" xml:space="preserve">
+  <data name="About_Developers" xml:space="preserve">
     <value>Developers</value>
   </data>
-  <data name="Settings_AboutToolbox" xml:space="preserve">
+  <data name="About_AboutToolbox" xml:space="preserve">
     <value>About Toolbox</value>
   </data>
-  <data name="Settings_AboutToolboxContent" xml:space="preserve">
+  <data name="About_AboutToolboxContent" xml:space="preserve">
     <value>UotanToolboxNT is developed based on "UotanToolBox" and is a brand-new modern advanced developing tool for phones designed specifically for mobile phone enthusiasts.</value>
   </data>
-  <data name="Settings_SpecialThanks" xml:space="preserve">
+  <data name="About_SpecialThanks" xml:space="preserve">
     <value>Special Thanks</value>
   </data>
   <data name="Basicflash_BasicCommandUnlock" xml:space="preserve">
@@ -810,13 +810,13 @@
   <data name="Settings_BackgroundTransitions" xml:space="preserve">
     <value>Background Transitions</value>
   </data>
-  <data name="Settings_CurrentVersion" xml:space="preserve">
+  <data name="About_CurrentVersion" xml:space="preserve">
     <value>Current Version: </value>
   </data>
   <data name="Settings_CustomShaders" xml:space="preserve">
     <value>Custom Shaders</value>
   </data>
-  <data name="Settings_DisplayedProjects" xml:space="preserve">
+  <data name="About_DisplayedProjects" xml:space="preserve">
     <value>The open source projects below are presented in alphabetical order</value>
   </data>
   <data name="Settings_EnableBackgroundShader" xml:space="preserve">
@@ -825,13 +825,13 @@
   <data name="Settings_EnableBackgroundTransitions" xml:space="preserve">
     <value>Enable/disable the transitions for the background, these will fade between the active effects when changed.</value>
   </data>
-  <data name="Settings_CheckUpdate" xml:space="preserve">
+  <data name="About_CheckUpdate" xml:space="preserve">
     <value>Check Update</value>
   </data>
   <data name="Settings_SelectFromIncludedBackgroundStyles" xml:space="preserve">
     <value>Select from the included background styles.</value>
   </data>
-  <data name="Settings_UotanCommunity" xml:space="preserve">
+  <data name="About_UotanCommunity" xml:space="preserve">
     <value>Uotan Community</value>
   </data>
   <data name="Scrcpy_CameraMirror" xml:space="preserve">
@@ -1490,7 +1490,7 @@ Fill ID in ADB, one at a time!</value>
 If in Android or HarmonyOS system, please ensure that the device has enabled USB debugging. 
 If in other modes, please ensure that the driver is installed correctly.</value>
   </data>
-  <data name="Settings_OpenSource" xml:space="preserve">
+  <data name="About_OpenSource" xml:space="preserve">
     <value>Open source project</value>
   </data>
   <data name="Wiredflash_AddMagisk" xml:space="preserve">
@@ -1569,5 +1569,26 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   </data>
   <data name="Sidebar_About" xml:space="preserve">
     <value>About</value>
+  </data>
+  <data name="About_Hardware" xml:space="preserve">
+    <value>Hardware</value>
+  </data>
+  <data name="About_BasicInfo" xml:space="preserve">
+    <value>Basic Infomation</value>
+  </data>
+  <data name="About_MoreInfo" xml:space="preserve">
+    <value>More Infomation</value>
+  </data>
+  <data name="About_OurTeam" xml:space="preserve">
+    <value>Our Team</value>
+  </data>
+  <data name="About_Runtime" xml:space="preserve">
+    <value>Runtime</value>
+  </data>
+  <data name="About_ComputerModel" xml:space="preserve">
+    <value>Computer Model</value>
+  </data>
+  <data name="About_SystemVersion" xml:space="preserve">
+    <value>System Version</value>
   </data>
 </root>

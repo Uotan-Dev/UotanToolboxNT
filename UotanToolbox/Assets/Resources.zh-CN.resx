@@ -423,19 +423,19 @@
   <data name="Wiredflash_XiaomiFlashScript" xml:space="preserve">
     <value>小米线刷脚本</value>
   </data>
-  <data name="Settings_About" xml:space="preserve">
-    <value>关于</value>
+  <data name="About_UotanToolboxNT" xml:space="preserve">
+    <value>Uotan Toolbox NT</value>
   </data>
-  <data name="Settings_Developers" xml:space="preserve">
+  <data name="About_Developers" xml:space="preserve">
     <value>开发成员</value>
   </data>
-  <data name="Settings_AboutToolbox" xml:space="preserve">
+  <data name="About_AboutToolbox" xml:space="preserve">
     <value>关于工具箱</value>
   </data>
-  <data name="Settings_AboutToolboxContent" xml:space="preserve">
+  <data name="About_AboutToolboxContent" xml:space="preserve">
     <value>UotanToolboxNT 是基于”柚坛搞机工具箱“开发，专为玩机发烧友设计的全新现代化玩机工具</value>
   </data>
-  <data name="Settings_SpecialThanks" xml:space="preserve">
+  <data name="About_SpecialThanks" xml:space="preserve">
     <value>特别感谢</value>
   </data>
   <data name="Basicflash_BasicCommandUnlock" xml:space="preserve">
@@ -810,13 +810,13 @@
   <data name="Settings_BackgroundTransitions" xml:space="preserve">
     <value>背景过渡</value>
   </data>
-  <data name="Settings_CurrentVersion" xml:space="preserve">
+  <data name="About_CurrentVersion" xml:space="preserve">
     <value>当前版本: </value>
   </data>
   <data name="Settings_CustomShaders" xml:space="preserve">
     <value>自定义着色器</value>
   </data>
-  <data name="Settings_DisplayedProjects" xml:space="preserve">
+  <data name="About_DisplayedProjects" xml:space="preserve">
     <value>下方开源项目以字母顺序展示</value>
   </data>
   <data name="Settings_EnableBackgroundShader" xml:space="preserve">
@@ -825,13 +825,13 @@
   <data name="Settings_EnableBackgroundTransitions" xml:space="preserve">
     <value>启用/禁用背景过渡，以在改变背景效果时拥有渐变效果。</value>
   </data>
-  <data name="Settings_CheckUpdate" xml:space="preserve">
+  <data name="About_CheckUpdate" xml:space="preserve">
     <value>检查更新</value>
   </data>
   <data name="Settings_SelectFromIncludedBackgroundStyles" xml:space="preserve">
     <value>从包含的背景样式中选择。</value>
   </data>
-  <data name="Settings_UotanCommunity" xml:space="preserve">
+  <data name="About_UotanCommunity" xml:space="preserve">
     <value>柚坛社区</value>
   </data>
   <data name="Scrcpy_CameraMirror" xml:space="preserve">
@@ -1490,7 +1490,7 @@ ADB下填写序号，一次一个！</value>
 如在安卓或鸿蒙系统下请确保设备已开启USB调试，
 如在其他模式请确保驱动正确安装。</value>
   </data>
-  <data name="Settings_OpenSource" xml:space="preserve">
+  <data name="About_OpenSource" xml:space="preserve">
     <value>开源项目</value>
   </data>
   <data name="Wiredflash_AddMagisk" xml:space="preserve">
@@ -1567,13 +1567,34 @@ ADB下填写序号，一次一个！</value>
   <data name="Scrcpy_ForwardAudio" xml:space="preserve">
     <value>转发音频</value>
   </data>
+  <data name="Sidebar_About" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="About_Hardware" xml:space="preserve">
+    <value>硬件信息</value>
+  </data>
   <data name="Common_EnterFastbootd" xml:space="preserve">
     <value>请进入Fastbootd模式！</value>
   </data>
   <data name="Modifypartition_EnterName" xml:space="preserve">
     <value>请输入分区名称！</value>
   </data>
-  <data name="Sidebar_About" xml:space="preserve">
-    <value>关于</value>
+  <data name="About_BasicInfo" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="About_MoreInfo" xml:space="preserve">
+    <value>更多信息</value>
+  </data>
+  <data name="About_OurTeam" xml:space="preserve">
+    <value>我们的团队</value>
+  </data>
+  <data name="About_Runtime" xml:space="preserve">
+    <value>运行库</value>
+  </data>
+  <data name="About_ComputerModel" xml:space="preserve">
+    <value>电脑型号</value>
+  </data>
+  <data name="About_SystemVersion" xml:space="preserve">
+    <value>系统信息</value>
   </data>
 </root>

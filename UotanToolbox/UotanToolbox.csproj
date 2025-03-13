@@ -3,6 +3,7 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>disable</Nullable>
+		<CETCompat>false</CETCompat>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
@@ -125,9 +126,5 @@
 		<EmbeddedResource Include="Assets\space.sksl" />
 		<EmbeddedResource Include="Assets\clouds.sksl" />
 		<EmbeddedResource Include="Assets\weird.sksl" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Common\QcomHelper\Models\" />
 	</ItemGroup>
 </Project>

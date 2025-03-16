@@ -46,6 +46,7 @@
 		<PackageReference Include="SkiaSharp" Version="3.118.0-preview.2.3" />
 		<PackageReference Include="SukiUI" Version="6.0.1" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.2" />
+		<PackageReference Include="System.IO.Ports" Version="9.0.3" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.5" />
 	</ItemGroup>
 

@@ -5,7 +5,6 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace UotanToolbox.Common.QcomHelper.Connection
 {
@@ -15,21 +14,18 @@ namespace UotanToolbox.Common.QcomHelper.Connection
     /// </summary>
     public class SerialClass : DeviceClass
     {
-        private SerialPort device;
-        private bool xmlread = true;
-        private bool is_serial = false;
+        private new SerialPort device;
+        private new readonly bool xmlread = true;
+        private readonly bool isSerial = true;
 
         /// <summary>
         /// 创建串行通信类实例
         /// </summary>
-        /// <param name="logLevel">日志级别</param>
         /// <param name="portConfig">端口配置参数</param>
         /// <param name="devClass">设备类型标识符</param>
-        public SerialClass(int logLevel = 20, List<UsbDeviceIdentifier> portConfig = null, int devClass = -1)
-            : base(logLevel, portConfig, devClass)
+        public SerialClass(List<UsbDeviceIdentifier> portConfig = null, int devClass = -1)
+            : base(portConfig, devClass)
         {
-            // 标记为串行设备
-            this.is_serial = true;
         }
 
         /// <summary>
@@ -45,43 +41,48 @@ namespace UotanToolbox.Common.QcomHelper.Connection
 
             if (string.IsNullOrEmpty(portname))
             {
-                List<string> devices = DetectDevices().Select(d => d.PortName).ToList();
-                if (devices.Count > 0)
+                // 无法读取VID/PID，简单获取可用端口
+                string[] availablePorts = SerialPort.GetPortNames();
+                if (availablePorts.Length > 0)
                 {
-                    portname = devices[0];
+                    portname = availablePorts[0];
                 }
             }
 
             if (!string.IsNullOrEmpty(portname))
             {
+                device = new SerialPort
+                {
+                    PortName = portname,
+                    BaudRate = 115200,
+                    DataBits = 8,
+                    Parity = Parity.None,
+                    StopBits = StopBits.One,
+                    ReadTimeout = 50000,         // 50秒
+                    WriteTimeout = 50000,
+                    Handshake = Handshake.RequestToSend,  // rtscts=True
+                    DtrEnable = true             // dsrdtr=True
+                };
+
                 try
                 {
-                    device = new SerialPort(
-                        portname,
-                        115200,                          // baudrate
-                        Parity.None,                     // parity
-                        8,                               // databits
-                        StopBits.One)                    // stopbits
-                    {
-                        ReadTimeout = 50000,                  // 50秒超时
-                        Handshake = Handshake.RequestToSend,  // 启用RTS/CTS流控制     
-                        DtrEnable = true                      // 启用DTR
-                    };
-
+                    // 重置输入缓冲区处理
                     device.Open();
-                    connected = device.IsOpen;
-                    if (connected)
-                    {
+
+                    // 清空输入缓冲区（等同于Python的tcflush）
+                    if (device.IsOpen)
                         device.DiscardInBuffer();
+
+                    connected = device.IsOpen;
+
+                    if (connected)
                         return true;
-                    }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Console.WriteLine($"Error connecting: {ex.Message}");
+                    // 已删除日志输出
                 }
             }
-
             return false;
         }
 
@@ -104,35 +105,21 @@ namespace UotanToolbox.Common.QcomHelper.Connection
         /// </summary>
         public override List<DeviceInfo> DetectDevices()
         {
-            List<SerialDeviceInfo> ids = [];
+            List<DeviceInfo> ids = new List<DeviceInfo>();
 
-            foreach (string port in SerialPort.GetPortNames())
-            {
-                try
-                {
-                    // 在C#中，我们无法直接获取串行端口的VID/PID，需要使用第三方库或WMI查询
-                    // 这里简化实现，假设我们能够获取到设备PID/VID
-                    foreach (UsbDeviceIdentifier usbid in portConfig)
-                    {
-                        // 这里需要使用WMI或其他方法来获取端口的VID/PID
-                        // 由于这种检测在C#中比较复杂，这里只是框架示例
-                        // 实际生产代码需要实现正确的设备检测
+            // C#无法直接获取串行端口VID/PID，返回一个空列表
+            // 实际上，可以使用WMI查询或第三方库获取相关信息，但超出了本示例范围
 
-                        // 假设我们能通过某种方式获取到这些信息
-                        int vid = usbid.Vid;
-                        int pid = usbid.Pid;
+            return ids;
+        }
 
-                        Console.WriteLine($"Detected {vid:X}:{pid:X} device at: {port}");
-                        ids.Add(new SerialDeviceInfo(vid, pid, port));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error detecting device on port {port}: {ex.Message}");
-                }
-            }
-
-            return ids.OrderBy(d => d.PortName).Cast<DeviceInfo>().ToList();
+        /// <summary>
+        /// 获取设备接口数量
+        /// </summary>
+        public override int GetInterfaceCount()
+        {
+            // 串行设备不需要此功能
+            return 1;
         }
 
         /// <summary>
@@ -144,15 +131,15 @@ namespace UotanToolbox.Common.QcomHelper.Connection
                 device.BaudRate = baudrate.Value;
 
             device.Parity = (Parity)parity;
-
             device.DataBits = databits;
 
-            device.StopBits = stopbits == 1 ? StopBits.One :
-                             stopbits == 1.5 ? StopBits.OnePointFive :
-                             StopBits.Two;
-
-            // 这里原本会记录日志
-            Console.WriteLine("Linecoding set");
+            // 转换停止位
+            if (stopbits == 1)
+                device.StopBits = StopBits.One;
+            else if (stopbits == 1.5)
+                device.StopBits = StopBits.OnePointFive;
+            else if (stopbits == 2)
+                device.StopBits = StopBits.Two;
         }
 
         /// <summary>
@@ -161,11 +148,8 @@ namespace UotanToolbox.Common.QcomHelper.Connection
         public override void SetBreak()
         {
             device.BreakState = true;
-            Thread.Sleep(100);  // 稍等一下以确保中断被发送
+            Thread.Sleep(100); // 确保中断被发送
             device.BreakState = false;
-
-            // 这里原本会记录日志
-            Console.WriteLine("Break set");
         }
 
         /// <summary>
@@ -178,9 +162,6 @@ namespace UotanToolbox.Common.QcomHelper.Connection
 
             if (dtr == true)
                 device.DtrEnable = true;
-
-            // 这里原本会记录日志
-            Console.WriteLine("Linecoding set");
         }
 
         /// <summary>
@@ -206,10 +187,8 @@ namespace UotanToolbox.Common.QcomHelper.Connection
                         {
                             device.Write(new byte[0], 0, 0);
                         }
-                        catch (Exception err)
+                        catch
                         {
-                            // 这里原本会记录日志
-                            Console.WriteLine($"Error: {err.Message}");
                             return false;
                         }
                     }
@@ -227,13 +206,10 @@ namespace UotanToolbox.Common.QcomHelper.Connection
                     {
                         int writeLen = Math.Min(command.Length - pos, pktsize.Value);
                         device.Write(command, pos, writeLen);
-                        pos += writeLen;
+                        pos += pktsize.Value;
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        // 这里原本会记录日志
-                        Console.WriteLine($"Error: {ex.Message}");
-
                         retries++;
                         if (retries == 3)
                             return false;
@@ -241,19 +217,17 @@ namespace UotanToolbox.Common.QcomHelper.Connection
                 }
             }
 
-            // 验证数据（在没有日志系统的情况下，只是形式上保留）
+            // 验证数据（无日志功能）
             VerifyData(command, "TX:");
 
             device.BaseStream.Flush();
-
-            // 短暂等待以确保数据已发送
-            Thread.Sleep(5);
+            Thread.Sleep(5); // 等同于Python的sleep(0.005)
 
             return true;
         }
 
         /// <summary>
-        /// 读取指定长度的数据
+        /// 读取数据方法
         /// </summary>
         public override byte[] Read(int? length = null, int timeout = -1)
         {
@@ -277,7 +251,7 @@ namespace UotanToolbox.Common.QcomHelper.Connection
         }
 
         /// <summary>
-        /// 清空设备缓冲区
+        /// 刷新设备缓冲区
         /// </summary>
         public override void Flush()
         {
@@ -285,7 +259,7 @@ namespace UotanToolbox.Common.QcomHelper.Connection
         }
 
         /// <summary>
-        /// 读取USB数据
+        /// USB读取操作
         /// </summary>
         public override byte[] UsbRead(int? resplen = null, int timeout = 0)
         {
@@ -294,70 +268,66 @@ namespace UotanToolbox.Common.QcomHelper.Connection
 
             if (resplen <= 0)
             {
-                Console.WriteLine("Warning!");
+                // 无日志输出
+                return new byte[0];
             }
 
             List<byte> result = new List<byte>();
             int originalTimeout = device.ReadTimeout;
-            device.ReadTimeout = timeout * 1000;  // 转换为毫秒
 
             try
             {
+                device.ReadTimeout = timeout * 1000; // 转换为毫秒
+
                 if (xmlread)
                 {
                     // 读取前6个字节来检查是否有XML标头
-                    byte[] info = new byte[6];
-                    int read = device.Read(info, 0, 6);
-                    result.AddRange(info.Take(read));
+                    byte[] headerInfo = new byte[6]; // 改名为headerInfo避免冲突
+                    int read = device.Read(headerInfo, 0, 6);
+                    result.AddRange(headerInfo.Take(read));
 
-                    // 如果是XML数据，读取直到结束标记
+                    // 检查是否是XML数据
                     bool isXml = result.Count >= 6 &&
-                                Encoding.ASCII.GetString(result.ToArray(), 0, 6) == "<?xml ";
+                               Encoding.ASCII.GetString([.. result], 0, Math.Min(6, result.Count)).Contains("<?xml ");
 
                     if (isXml)
                     {
-                        byte[] buffer = new byte[1];
-                        while (true)
-                        {
-                            device.Read(buffer, 0, 1);
-                            result.Add(buffer[0]);
+                        byte[] tempByte = new byte[1]; // 改名为tempByte避免冲突
 
-                            // 检查是否到达结束标记 "</data>"
-                            if (result.Count >= 7)
-                            {
-                                byte[] endTag = result.Skip(result.Count - 7).ToArray();
-                                if (Encoding.ASCII.GetString(endTag) == "</data>")
-                                    break;
-                            }
+                        // 读取直到找到XML结束标记
+                        while (!result.Contains((byte)'<') ||
+                               !(result.Count >= 7 && Encoding.ASCII.GetString(
+                                   result.Skip(result.Count - 7).ToArray()) == "</data>"))
+                        {
+                            device.Read(tempByte, 0, 1);
+                            result.Add(tempByte[0]);
                         }
+
                         return result.ToArray();
                     }
                 }
 
-                // 读取指定长度的数据
+                // 常规读取
                 int bytesToRead = resplen.Value;
-                byte[] buffer = new byte[bytesToRead];
+                byte[] readBuffer = new byte[bytesToRead]; // 改名为readBuffer避免冲突
                 int totalBytesRead = 0;
 
                 while (totalBytesRead < bytesToRead)
                 {
                     try
                     {
-                        byte[] tempBuffer = new byte[bytesToRead - totalBytesRead];
-                        int bytesRead = device.Read(tempBuffer, 0, tempBuffer.Length);
+                        int bytesRead = device.Read(readBuffer, 0, bytesToRead - totalBytesRead);
 
                         if (bytesRead == 0)
                             break;
 
-                        result.AddRange(tempBuffer.Take(bytesRead));
+                        result.AddRange(readBuffer.Take(bytesRead));
                         totalBytesRead += bytesRead;
                     }
                     catch (TimeoutException)
                     {
-                        if (timeout == null)
+                        if (timeout == 0)
                             return new byte[0];
-
-                        Console.WriteLine("Timed out");
 
                         if (timeout == 10)
                             return new byte[0];
@@ -366,12 +336,10 @@ namespace UotanToolbox.Common.QcomHelper.Connection
                     }
                     catch (IOException ex) when (ex.Message.Contains("Overflow"))
                     {
-                        Console.WriteLine("USB Overflow");
                         return new byte[0];
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        Console.WriteLine($"Error: {ex}");
                         return new byte[0];
                     }
                 }
@@ -382,18 +350,17 @@ namespace UotanToolbox.Common.QcomHelper.Connection
                 device.ReadTimeout = originalTimeout;
             }
 
-            byte[] finalResult = result.ToArray();
-
-
-            return finalResult.Take(Math.Min(resplen.Value, finalResult.Length)).ToArray();
+            // 无日志输出
+            return [.. result.ToArray().Take(Math.Min(resplen.Value, result.Count))];
         }
 
         /// <summary>
-        /// USB控制传输（串行端口不实现）
+        /// USB控制传输
         /// </summary>
         public override int ControlTransfer(byte bmRequestType, byte bRequest, short wValue, short wIndex, byte[] data, int length)
         {
-            throw new NotImplementedException("Control transfers are not supported on serial connections");
+            // 串行设备不支持控制传输
+            throw new NotImplementedException("ControlTransfer not supported on serial devices");
         }
 
         /// <summary>
@@ -417,24 +384,6 @@ namespace UotanToolbox.Common.QcomHelper.Connection
             UsbWrite(data);
             device.BaseStream.Flush();
             return UsbRead(resplen);
-        }
-
-        public override int GetInterfaceCount()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    /// <summary>
-    /// 串行设备信息类
-    /// </summary>
-    public class SerialDeviceInfo : DeviceInfo
-    {
-        public string PortName { get; }
-
-        public SerialDeviceInfo(int vid, int pid, string portName) : base(vid, pid)
-        {
-            PortName = portName;
         }
     }
 }

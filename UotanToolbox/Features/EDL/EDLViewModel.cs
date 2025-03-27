@@ -175,7 +175,9 @@ public partial class EDLViewModel : MainPageBase
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
             };
             using Process qss = new Process();
             qss.StartInfo = QSaharaServer;
@@ -401,7 +403,7 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task ReadPartTable()
     {
-        string part_table_path = Path.Join(work_path, "Partition_Table");
+        string part_table_path = Path.Join(Global.tmp_path, "Partition_Table");
         string bin_xml_path = Path.Join(Global.bin_path, "XML");
         await DetectDeviceType();
         if (MemoryType == "存储类型：")
@@ -428,7 +430,7 @@ public partial class EDLViewModel : MainPageBase
                 return;
             }
         }
-        else
+        else if (MemoryType == "存储类型：UFS")
         {
             await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable6.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
             if (!EDLLog.Contains("All Finished Successfully"))

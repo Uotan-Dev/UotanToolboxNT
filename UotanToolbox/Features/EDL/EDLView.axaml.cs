@@ -1,17 +1,10 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
-using SukiUI.Dialogs;
-using System;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UotanToolbox.Common;
-using UotanToolbox.Features.EDL;
 
 namespace UotanToolbox.Features.EDL;
 
@@ -66,7 +59,7 @@ public partial class EDLView : UserControl
     private async void OpenImageFile(object sender, RoutedEventArgs args)
     {
         Button button = (Button)sender;
-        EDLPartModel eDLPartModel = ( EDLPartModel )button.DataContext;
+        EDLPartModel eDLPartModel = (EDLPartModel)button.DataContext;
         TopLevel topLevel = TopLevel.GetTopLevel(this);
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
@@ -76,7 +69,7 @@ public partial class EDLView : UserControl
         if (files.Count >= 1)
         {
             eDLPartModel.FileName = Path.GetFileName(StringHelper.FilePath(files[0].Path.ToString()));
-            
+
             XDocument xdoc = XDocument.Load(Global.xml_path);
             var programElements = xdoc.Descendants("program");
 

@@ -2,26 +2,21 @@
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Converters;
 using Avalonia.Controls.Notifications;
-using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DiskPartitionInfo.FluentApi;
+using DiskPartitionInfo.Gpt;
 using Material.Icons;
-using Newtonsoft.Json.Linq;
-using SharpCompress.Common;
-using Splat;
 using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UotanToolbox.Common;
@@ -45,7 +40,7 @@ public partial class EDLViewModel : MainPageBase
     private string output = "";
     private readonly string edl_log_path = Path.Combine(Global.log_path, "edl.txt");
     private const int LogLevel = 0;
-    public string work_path = Path.Join(Global.tmp_path, "EDL-"+StringHelper.RandomString(8));
+    public string work_path = Path.Join(Global.tmp_path, "EDL-" + StringHelper.RandomString(8));
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
@@ -53,7 +48,7 @@ public partial class EDLViewModel : MainPageBase
 
     public EDLViewModel() : base("9008刷机", MaterialIconKind.CableData, -350)
     {
-        
+
     }
 
     private async Task QSahara(string port = null, int? verbose = null, string command = null, bool memdump = false, bool image = false, string sahara = null, string prefix = null, string where = null, string ramdumpimage = null, bool efssyncloop = false, int? rxtimeout = null, int? maxwrite = null, string addsearchpath = null, bool sendclearstate = false, int? portnumber = null, bool switchimagetx = false, bool nomodereset = false, string cmdrespfilepath = null, bool uart = false, bool ethernet = false, int? ethernet_port = null, bool noreset = false, bool resettxfail = false)
@@ -122,7 +117,7 @@ public partial class EDLViewModel : MainPageBase
     /// <param name="noautoconfigure"></param>
     /// <param name="autoconfig"></param>
     /// <returns></returns>
-    private async Task Fh_loader(string workpath, bool benchmarkdigestperformance = false, bool benchmarkreads = false, bool benchmarkwrites = false, string createvipdigests = null, string chaineddigests = null, string contentsxml = null, bool convertprogram2read = false, string digestsperfilename = null, string erase = null, string files = null, bool firmwarewrite = false, string fixgpt = null, string flattenbuildto = null, string flavor = null, bool forcecontentsxmlpaths = false, string getstorageinfo = null, string json_in = null, string labels = null, string loglevel = null, string lun = null, string mainoutputdir = null, string maxpayloadsizeinbytes = null, string memoryname = null, string notfiles = null, string notlabels = null, bool nop = false, bool noprompt = false, string num_sectors = null, string port = null, string porttracename = null, string port_type = null, string power = null, string search_path = null, string sectorsizeinbytes = null, string sendimage = null, string sendxml = null, string setactivepartition = null, bool showpercentagecomplete = false, string signeddigests = null,bool skip_config = false, string slot = null, string start_sector = null, bool verbose = false, bool verify_programming_getsha = false, bool verify_programming = false, string zlpawarehost = null)
+    private async Task Fh_loader(string workpath, bool benchmarkdigestperformance = false, bool benchmarkreads = false, bool benchmarkwrites = false, string createvipdigests = null, string chaineddigests = null, string contentsxml = null, bool convertprogram2read = false, string digestsperfilename = null, string erase = null, string files = null, bool firmwarewrite = false, string fixgpt = null, string flattenbuildto = null, string flavor = null, bool forcecontentsxmlpaths = false, string getstorageinfo = null, string json_in = null, string labels = null, string loglevel = null, string lun = null, string mainoutputdir = null, string maxpayloadsizeinbytes = null, string memoryname = null, string notfiles = null, string notlabels = null, bool nop = false, bool noprompt = false, string num_sectors = null, string port = null, string porttracename = null, string port_type = null, string power = null, string search_path = null, string sectorsizeinbytes = null, string sendimage = null, string sendxml = null, string setactivepartition = null, bool showpercentagecomplete = false, string signeddigests = null, bool skip_config = false, string slot = null, string start_sector = null, bool verbose = false, bool verify_programming_getsha = false, bool verify_programming = false, string zlpawarehost = null)
     {
         await Task.Run(() =>
         {
@@ -240,7 +235,7 @@ public partial class EDLViewModel : MainPageBase
             var folderPath = folders[0].Path.LocalPath;
             var rawprogramFiles = Directory.GetFiles(folderPath, "rawprogram*.xml");
             var patchFiles = Directory.GetFiles(folderPath, "patch*.xml");
-            var firehoseFiles = Directory.GetFiles(folderPath, "*firehose*");
+            var firehoseFiles = Directory.GetFiles(folderPath, "*elf");
             var rawprogramXmls = rawprogramFiles.Select(file => new FileInfo(file)).ToList();
             var patchXmls = patchFiles.Select(file => new FileInfo(file)).ToList();
             var xmlFiles = new List<string>();
@@ -251,13 +246,56 @@ public partial class EDLViewModel : MainPageBase
             MergeXMLFiles(xmlFiles, Global.xml_path);
             AddIndexToProgramElements(Global.xml_path);
             UpdateProgramElementsWithAbsolutePaths(Global.xml_path, PartNamr);
-            EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(Global.xml_path));
+            DiskTypePrase(Global.xml_path);
+            EDLPartModel = [.. ParseProgramElements(Global.xml_path)];
             XMLFile = string.Join(", ", xmlFiles);
             patch_xml_paths = string.Join(", ", patchXmls.Select(file => file.FullName));
             if (firehoseFiles.Length > 0)
             {
                 FirehoseFile = firehoseFiles[0];
             }
+        }
+    }
+
+    private void DiskTypePrase(string xml_path)
+    {
+        try
+        {
+            XDocument xdoc = XDocument.Load(xml_path);
+            var sectorSizeElement = xdoc.Descendants("program")
+                                        .FirstOrDefault()
+                                        ?.Attribute("SECTOR_SIZE_IN_BYTES");
+
+            if (sectorSizeElement != null)
+            {
+                int sectorSize = int.Parse(sectorSizeElement.Value);
+                if (sectorSize == 4096)
+                {
+                    MemoryType = "存储类型：UFS";
+                }
+                else if (sectorSize == 512)
+                {
+                    MemoryType = "存储类型：EMMC";
+                }
+            }
+            else
+            {
+                Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Warn"))
+                                    .OfType(NotificationType.Warning)
+                                    .WithContent("该xml文件疑似不可用")
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
+            }
+        }
+        catch (Exception ex)
+        {
+            Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Warn"))
+                                    .OfType(NotificationType.Warning)
+                                    .WithContent(ex.Message)
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
         }
     }
 
@@ -296,7 +334,7 @@ public partial class EDLViewModel : MainPageBase
         MergeXMLFiles(xmlFiles, Global.xml_path);
         AddIndexToProgramElements(Global.xml_path);
         UpdateProgramElementsWithAbsolutePaths(Global.xml_path, Path.GetDirectoryName(xmlFiles[0]));
-        EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(Global.xml_path));
+        EDLPartModel = [.. ParseProgramElements(Global.xml_path)];
         XMLFile = string.Join(", ", xmlFiles);
         if (patch_xmls != null)
         {
@@ -312,7 +350,7 @@ public partial class EDLViewModel : MainPageBase
         {
             if (String.IsNullOrEmpty(FirehoseFile))
             {
-                throw new Exception("未选择Firehose文件");
+                throw new Exception("未选择引导文件");
             }
             await QSahara(port: "\\\\.\\" + Global.thisdevice, sahara: "13:" + FirehoseFile);
             FileHelper.Write(edl_log_path, output);
@@ -356,6 +394,10 @@ public partial class EDLViewModel : MainPageBase
         }
     }
 
+    /// <summary>
+    /// 读取分区表文件，并生成xml文件然后加载进可视化编辑器
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     public async Task ReadPartTable()
     {
@@ -428,7 +470,7 @@ public partial class EDLViewModel : MainPageBase
         Global.xml_path = Path.Join(work_path, "Merged.xml");
         ReadGptFilesAndGenerateXml(part_table_path, Global.xml_path);
         AddIndexToProgramElements(Global.xml_path);
-        EDLPartModel = new AvaloniaList<EDLPartModel>(ParseProgramElements(Global.xml_path));
+        EDLPartModel = [.. ParseProgramElements(Global.xml_path)];
     }
 
     [RelayCommand]
@@ -786,25 +828,54 @@ public partial class EDLViewModel : MainPageBase
     /// <param name="outputXmlPath">输出的xml文件路径，具体到文件名</param>
     private void ReadGptFilesAndGenerateXml(string directoryPath, string outputXmlPath)
     {
-       /*
-            foreach (var entry in partitionEntries)
-            {
-                XElement programElement = new XElement("program",
-                new XAttribute("SECTOR_SIZE_IN_BYTES", gpt.SectorSize),
-                new XAttribute("file_sector_offset", 0),
-                new XAttribute("filename", entry.Name+".img"),
-                new XAttribute("label", entry.Name),
-                new XAttribute("num_partition_sectors", entry.LastLba-entry.FirstLba),
-                new XAttribute("physical_partition_number", fileNumber),
-                new XAttribute("size_in_KB", (primaryHeader.EntriesCount * gpt.SectorSize) / 1024.0),
-                new XAttribute("sparse", "false"),
-                new XAttribute("start_byte_hex", $"0x{((long)entry.FirstLba * gpt.SectorSize):x}"),
-                new XAttribute("start_sector", entry.FirstLba)
-            );
-                xmlDoc.Root.Add(programElement);
-            }
+        if (MemoryType == "存储类型：EMMC")
+        {
+            Global.SectorSize = 512;
         }
-        xmlDoc.Save(outputXmlPath);*/
+        else if (MemoryType == "存储类型：UFS")
+        {
+            Global.SectorSize = 4096;
+        }
+        XDocument xmlDoc = new XDocument(new XElement("data"));
+        string pattern = @"gpt_main(\d+)\.bin";
+        // 获取目录下所有gpt_main*.bin文件
+        var gptFiles = Directory.GetFiles(directoryPath, "gpt_main*.bin");
+
+        foreach (var gptFile in gptFiles)
+        {
+            Match match = Regex.Match(Path.GetFileName(gptFile), pattern);
+            string number = "";
+            if (match.Success)
+            {
+                number = match.Groups[1].Value;
+            }
+            IGptReader gptReader = DiskPartitionInfo.DiskPartitionInfo.ReadGpt().Primary();
+            GuidPartitionTable gpt = gptReader.FromPath(gptFile);
+            XElement root = new("data");
+            foreach (var partition in gpt.Partitions)
+            {
+                if (partition.Guid.ToString() == "00000000-0000-0000-0000-000000000000")
+                {
+                    continue;
+                }
+                XElement partitionElement = new XElement("Partition",
+                                            new XAttribute("SECTOR_SIZE_IN_BYTES", Global.SectorSize),
+                                            new XAttribute("file_sector_offset", "0"),
+                                            new XAttribute("filename", ""),
+                                            new XAttribute("label", partition.Name),
+                                            new XAttribute("num_partition_sectors", (partition.LastLba - partition.FirstLba + 1).ToString()),
+                                            new XAttribute("physical_partition_number", number),
+                                            new XAttribute("size_in_KB", ((partition.LastLba - partition.FirstLba + 1) * (ulong)Global.SectorSize / 1024.0).ToString("F1")),
+                                            new XAttribute("sparse", "false"),
+                                            new XAttribute("start_byte_hex", $"{partition.FirstLba * (ulong)Global.SectorSize}"),
+                                            new XAttribute("start_sector", $"{partition.FirstLba}")
+                                            );
+                root.Add(partitionElement);
+            }
+            XDocument doc = new(new XDeclaration("1.0", "utf-8", "yes"), root);
+            doc.Save("Partitions.xml");
+        }
+        xmlDoc.Save(outputXmlPath);
     }
     /// <summary>
     /// 将图形化界面中选中的部分提取到新的XML文件中，按照Uotan-Index节点进行筛选

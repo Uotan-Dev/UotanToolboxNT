@@ -4,17 +4,13 @@ using Avalonia.Styling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Material.Icons;
-using Newtonsoft.Json;
 using SukiUI;
 using SukiUI.Dialogs;
 using SukiUI.Enums;
 using SukiUI.Models;
 using SukiUI.Toasts;
 using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using UotanToolbox.Common;
-using UotanToolbox.Utilities;
 
 namespace UotanToolbox.Features.Settings;
 
@@ -38,7 +34,7 @@ public partial class SettingsViewModel : MainPageBase
     [ObservableProperty] private SukiBackgroundStyle _backgroundStyle;
     [ObservableProperty] private bool _backgroundAnimations;
     [ObservableProperty] private bool _backgroundTransitions;
-    
+
     private string _customShader = null;
 
     private static string GetTranslation(string key)

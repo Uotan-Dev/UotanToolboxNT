@@ -1,5 +1,5 @@
-using System.IO;
 using DiskPartitionInfo.Gpt;
+using System.IO;
 
 namespace DiskPartitionInfo.FluentApi
 {

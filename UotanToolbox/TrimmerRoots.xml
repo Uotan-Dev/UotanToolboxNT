@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<linker>
+	<assembly fullname="ReactiveUI" />
+	<assembly fullname="SukiUI" />
+	<assembly fullname="System.Linq.Dynamic.Core" />
+	<assembly fullname="Avalonia.Controls.DataGrid" />
+	<assembly fullname="System.Configuration.ConfigurationManager" />
+	<assembly fullname="Avalonia.Markup.Xaml.Loader" />
+</linker>

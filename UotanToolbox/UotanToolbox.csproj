@@ -9,7 +9,7 @@
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 		<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-		<PublishAot>False</PublishAot>
+		<PublishAot>True</PublishAot>
 		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 		<AssemblyVersion>3.3.5.0</AssemblyVersion>
@@ -30,12 +30,10 @@
 		<PackageReference Include="Avalonia" Version="11.2.5" />
 		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.5" />
 		<PackageReference Include="Avalonia.Desktop" Version="11.2.5" />
-		<PackageReference Include="Avalonia.Direct2D1" Version="11.2.5" />
 		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.5" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.5" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="LibUsbDotNet" Version="3.0.102-alpha" />
 		<PackageReference Include="Material.Icons.Avalonia" Version="2.3.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.3" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -112,7 +110,9 @@
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
-
+	<ItemGroup>
+		<TrimmerRootDescriptor Include="TrimmerRoots.xml" />
+	</ItemGroup>
 	<ItemGroup>
 	  <None Update="Assets\OIG.N5o-removebg-preview.png">
 	    <Pack>True</Pack>
@@ -128,5 +128,9 @@
 		<EmbeddedResource Include="Assets\space.sksl" />
 		<EmbeddedResource Include="Assets\clouds.sksl" />
 		<EmbeddedResource Include="Assets\weird.sksl" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Common\QcomHelper\Fh_Loader\" />
 	</ItemGroup>
 </Project>

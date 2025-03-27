@@ -20,7 +20,7 @@ public partial class ScrcpyViewModel : MainPageBase
     [ObservableProperty]
     private bool _recordScreen = false, _windowFixed = false, _computerControl = true, _fullScreen = false, _showBorder = true,
                         _showTouch = true, _closeScreen = false, _screenAwake = false, _screenAwakeStatus = true, _clipboardSync = true,
-                        _cameraMirror = false,_enableVirtualScreen = false, _mirrorRotation = false, _lockAngle = false,
+                        _cameraMirror = false, _enableVirtualScreen = false, _mirrorRotation = false, _lockAngle = false,
                         _rotation0 = true, _rotation1 = false, _rotation2 = false, _rotation3 = false, _rotation4 = false,
                         _forwardAudio = true;
     [ObservableProperty] private int _angle = 0;
@@ -82,7 +82,7 @@ public partial class ScrcpyViewModel : MainPageBase
                         {
                             arg += $"--max-size {SizeResolution} ";
                         }
-                        
+
                         if (EnableVirtualScreen)
                         {
                             if (!string.IsNullOrEmpty(VirtualScreenDisplaySize))
@@ -100,7 +100,7 @@ public partial class ScrcpyViewModel : MainPageBase
                             arg += $"--start-app={VirtualScreenPackage} ";
                         }
 
-                        
+
 
                         if (!string.IsNullOrEmpty(WindowTitle))
                         {

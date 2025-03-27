@@ -203,7 +203,7 @@ public partial class BasicflashView : UserControl
                                                       .WithContent(GetTranslation("Basicflash_UnlockFailed"))
                                                       .Dismiss().ByClickingBackground()
                                                       .TryShow();
-                    }                    
+                    }
                 }
                 else
                 {
@@ -253,7 +253,8 @@ public partial class BasicflashView : UserControl
                       .WithTitle(GetTranslation("Common_Warn"))
                       .WithContent(GetTranslation("Basicflash_RelockTip"))
                       .OfType(NotificationType.Warning)
-                      .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => {
+                      .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                      {
                           await CallExternalProgram.Fastboot($"-s {Global.thisdevice} oem lock-go");
                           string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flashing lock");
                           if (output.Contains("OKAY"))

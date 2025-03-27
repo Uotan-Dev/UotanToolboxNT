@@ -12,7 +12,7 @@ namespace DiskPartitionInfo.Extensions
 
             try
             {
-                result = (T) Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T))!;
+                result = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T))!;
             }
             finally
             {

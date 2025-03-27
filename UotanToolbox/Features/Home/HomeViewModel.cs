@@ -15,7 +15,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
 using UotanToolbox.Features.About;
-using UotanToolbox.Features.Settings;
 using UotanToolbox.Utilities;
 
 namespace UotanToolbox.Features.Home;

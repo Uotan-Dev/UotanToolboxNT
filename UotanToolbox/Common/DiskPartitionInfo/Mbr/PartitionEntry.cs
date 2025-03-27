@@ -1,6 +1,6 @@
+using DiskPartitionInfo.Models;
 using System;
 using System.Collections.Generic;
-using DiskPartitionInfo.Models;
 
 namespace DiskPartitionInfo.Mbr
 {

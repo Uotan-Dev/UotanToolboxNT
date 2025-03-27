@@ -1,7 +1,8 @@
-using System.Collections.Generic;
-using System.IO;
 using DiskPartitionInfo.Extensions;
 using DiskPartitionInfo.Gpt;
+using System.Collections.Generic;
+using System.IO;
+using UotanToolbox.Common;
 using GptPartitionStruct = DiskPartitionInfo.Models.GptPartitionEntry;
 using GptStruct = DiskPartitionInfo.Models.GuidPartitionTable;
 
@@ -9,7 +10,7 @@ namespace DiskPartitionInfo.FluentApi
 {
     internal partial class GptReader : IGptReader, IGptReaderLocation
     {
-        private const int SectorSize = 4096;
+        private int SectorSize = Global.SectorSize;
 
         private bool _usePrimary = true;
 
@@ -45,7 +46,7 @@ namespace DiskPartitionInfo.FluentApi
 
             var gpt = ReadGpt(stream);
 
-            stream.Seek((long) gpt.PartitionsArrayLba * SectorSize, SeekOrigin.Begin);
+            stream.Seek((long)gpt.PartitionsArrayLba * SectorSize, SeekOrigin.Begin);
 
             var partitions = ReadPartitions(stream, gpt);
 
@@ -54,9 +55,17 @@ namespace DiskPartitionInfo.FluentApi
 
         private static GptStruct ReadGpt(Stream stream)
         {
-            var gptData = new byte[SectorSize];
-            stream.ReadExactly(buffer: gptData, offset: 0, count: SectorSize);
-
+            byte[] gptData = null;
+            if (Global.SectorSize == 4096)
+            {
+                gptData = new byte[4096];
+                stream.ReadExactly(buffer: gptData, offset: 0, count: 4096);
+            }
+            else if (Global.SectorSize == 512)
+            {
+                gptData = new byte[512];
+                stream.ReadExactly(buffer: gptData, offset: 0, count: 512);
+            }
             return gptData.ToStruct<GptStruct>();
         }
 
@@ -68,7 +77,7 @@ namespace DiskPartitionInfo.FluentApi
             {
                 var partition = new byte[gpt.PartitionEntryLength];
 
-                stream.ReadExactly(buffer: partition, offset: 0, count: (int) gpt.PartitionEntryLength);
+                stream.ReadExactly(buffer: partition, offset: 0, count: (int)gpt.PartitionEntryLength);
                 partitions.Add(partition.ToStruct<GptPartitionStruct>());
             }
 

@@ -1,7 +1,7 @@
-using System.IO;
 using DiskPartitionInfo.Extensions;
 using DiskPartitionInfo.Mbr;
 using DiskPartitionInfo.Models;
+using System.IO;
 
 namespace DiskPartitionInfo.FluentApi
 {

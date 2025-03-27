@@ -21,6 +21,7 @@ namespace UotanToolbox.Common
         public static ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
         public static BootInfo Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
         public static int mb_exitcode, cpio_exitcode, load_times;
+        public static int SectorSize = 4096;
         public static string xml_path;
         //分区表储存
         public static string sdatable = "";

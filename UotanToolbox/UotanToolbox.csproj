@@ -9,7 +9,7 @@
 		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 		<ApplicationIcon>Assets\icon.ico</ApplicationIcon>
 		<RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
-		<PublishAot>True</PublishAot>
+		<PublishAot>False</PublishAot>
 		<PackageIcon>OIG.N5o-removebg-preview.png</PackageIcon>
 		<ProduceReferenceAssembly>False</ProduceReferenceAssembly>
 		<AssemblyVersion>3.3.5.0</AssemblyVersion>

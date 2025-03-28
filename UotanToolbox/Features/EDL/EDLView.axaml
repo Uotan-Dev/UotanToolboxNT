@@ -103,10 +103,10 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTextColumn Binding="{Binding IsSparse}" IsReadOnly="True" Header="Sparse"/>
-							<DataGridTextColumn Binding="{Binding Offset}" IsReadOnly="True" Header="文件偏移量"/>
 							<DataGridTextColumn Binding="{Binding Start}" IsReadOnly="True" Header="起始扇区"/>
 							<DataGridTextColumn Binding="{Binding Sector}" IsReadOnly="True" Header="扇区数"/>
+							<DataGridTextColumn Binding="{Binding IsSparse}" IsReadOnly="True" Header="Sparse"/>
+							<DataGridTextColumn Binding="{Binding Offset}" IsReadOnly="True" Header="文件偏移量"/>
 						</DataGrid.Columns>
 					</DataGrid>
 				</StackPanel>
@@ -206,8 +206,7 @@
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="更多功能" />
-					<StackPanel Orientation="Vertical" Spacing="10" Margin="0 20 0 0">
-						<Button Height="35" Width="160" Content="禁用vbmeta" Command="{Binding DisableVbmeta}" />
+					<StackPanel Orientation="Vertical" Spacing="20" Margin="0 30 0 0">
 						<Button Height="35" Width="160" Content="恢复出厂设置" Command="{Binding Restore}" />
 						<Button Height="35" Width="160" Content="开启OEM解锁" Command="{Binding OpenOEMLock}"/>
 						<Button Height="35" Width="160" Content="配置UFS" Command="{Binding ReconfigureUFS}"/>

@@ -8,7 +8,7 @@
              xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
 			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
              xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
-             d:DesignHeight="1100"
+             d:DesignHeight="1600"
              d:DesignWidth="1024"
              x:DataType="edl:EDLViewModel"
              mc:Ignorable="d">
@@ -92,7 +92,7 @@
 							<DataGridCheckBoxColumn Binding="{Binding SelectPart}" Header="选择"/>
 							<DataGridTextColumn Binding="{Binding Lun}" IsReadOnly="True" Header="LUN"/>
 							<DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" Header="标签名"/>
-							<DataGridTemplateColumn Header="文件名">
+							<DataGridTemplateColumn Header="文件">
 								<DataGridTemplateColumn.CellTemplate>
 									<DataTemplate>
 										<Button Name="ImageName"
@@ -217,11 +217,11 @@
 
 			<!-- Log -->
 			<suki:GlassCard Width="960"
-							Height="280"
+							Height="770"
 							Margin="10 10 0 0"
 							VerticalAlignment="Top">
 				<Grid>
-					<TextBox Name="EDLLog" Text="{Binding EDLLog}" Watermark="{x:Static assets:Resources.FormatExtract_Log}" Margin="0" Height="240" AcceptsReturn="True"
+					<TextBox Name="EDLLog" Text="{Binding EDLLog}" Watermark="{x:Static assets:Resources.FormatExtract_Log}" Margin="0" Height="730" AcceptsReturn="True"
 							 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" CaretIndex="{Binding LogIndex}" />
 				</Grid>
 			</suki:GlassCard>

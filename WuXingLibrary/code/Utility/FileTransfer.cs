@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
-using System.Text;
 using WuXingLibrary.code.data;
-
-using static WuXingLibrary.Flash;
 using WuXingLibrary.code.module;
-using System.Threading;
-using WuXingLibrary.code.Utility;
+using static WuXingLibrary.Flash;
 
 namespace WuXingLibrary.code.Utility;
 
@@ -484,7 +479,7 @@ public class FileTransfer : IDisposable
         return array;
     }
 
-  
+
 
 
     /// <summary>

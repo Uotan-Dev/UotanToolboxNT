@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Windows.Forms;
 using System.Xml;
 
 namespace WuXingLibrary.code.Utility;
@@ -25,7 +24,7 @@ public class Comm
 
     private readonly bool _keepReading;
 
-   
+
 
     public byte[] recData;
     public int MAX_SECTOR_STR_LEN = 20;

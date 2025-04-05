@@ -8,7 +8,7 @@ namespace WuXingLibrary.code.Utility
     public static class Log
     {
         private static readonly object _lock = new();
-        private static readonly string BaseLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"tool", "log");
+        private static readonly string BaseLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tool", "log");
 
         // Gets the line number where this method is called.
         public static int GetLineNum()

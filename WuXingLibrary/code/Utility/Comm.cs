@@ -468,7 +468,7 @@ public class Comm
             if (bytesReadTotal < totalBytesToRead)
             {
                 CleanBuffer();
-                MessageBox.Show("Operation completed but not all data was read from the port.");
+                //MessageBox.Show("Operation completed but not all data was read from the port.");
             }
             else
             {
@@ -481,7 +481,7 @@ public class Comm
         {
             CleanBuffer();
             Log.W("Error: " + ex.Message, serialPort.PortName, null);
-            MessageBox.Show($"Error: {ex.Message}");
+            //MessageBox.Show($"Error: {ex.Message}");
         }
     }
 

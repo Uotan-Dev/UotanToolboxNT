@@ -15,7 +15,7 @@ namespace UotanToolbox.Common
         public uint TotalBlks { get; set; }
         public uint TotalChunks { get; set; }
         public uint ImageChecksum { get; set; }
-        public List<ChunkInfo> Chunks { get; set; } = new List<ChunkInfo>();
+        public List<ChunkInfo> Chunks { get; set; } = [];
     }
 
     internal class ChunkInfo

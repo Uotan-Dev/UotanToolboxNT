@@ -5,20 +5,13 @@
 	  <LangVersion>latest</LangVersion>
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <PackageIcon></PackageIcon>
-	  <PackageReadmeFile>readme.md</PackageReadmeFile>
 	  <Platforms>AnyCPU;x86</Platforms>
+	  <GenerateDocumentationFile>False</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="9.0.0" />
     <PackageReference Include="System.Linq" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="readme.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>

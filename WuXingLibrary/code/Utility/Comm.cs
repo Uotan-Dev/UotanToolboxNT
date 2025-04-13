@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Xml;
+
+using WuXingLibrary.code.module;
 
 namespace WuXingLibrary.code.Utility;
 
@@ -24,8 +27,6 @@ public class Comm
 
     private readonly bool _keepReading;
 
-
-
     public byte[] recData;
     public int MAX_SECTOR_STR_LEN = 20;
 
@@ -36,7 +37,6 @@ public class Comm
     public int m_dwBufferSectors;
 
     public int intSectorSize;
-
 
     public string edlAuthErr = "error: only nop and sig tag can be recevied before authentication";
 
@@ -53,6 +53,7 @@ public class Comm
     public bool isGetChipNum;
 
     public string chipNum = "";
+    public ResponseErrorType LastErrorType;
 
     public bool IsOpen
     {
@@ -72,8 +73,6 @@ public class Comm
     {
         _keepReading = false;
     }
-
-
 
     public byte[] ReadPortData()
     {
@@ -124,7 +123,6 @@ public class Comm
             Log.W(serialPort.PortName, text);
         }
     }
-
 
     public void Close()
     {
@@ -282,7 +280,9 @@ public class Comm
 
     public byte[] GetRecData()
     {
-        byte[] array = ReadDataFromPort() ?? throw new Exception("can not read from port " + serialPort.PortName);
+        byte[] array =
+            ReadDataFromPort()
+            ?? throw new Exception("can not read from port " + serialPort.PortName);
         if (array.Length != 0 && isReadDump)
         {
             Log.W(serialPort.PortName, "read from port:");
@@ -321,50 +321,101 @@ public class Comm
     public bool GetResponse(bool waiteACK)
     {
         bool flag = false;
+        LastErrorType = ResponseErrorType.None; // 重置错误类型
+
         Log.W(serialPort.PortName, "get response from target");
+
+        // 如果不需要等待ACK，直接尝试读取端口数据并返回结果
         if (!waiteACK)
         {
             return ReadDataFromPort() != null;
         }
-        int num = 2;
-        if (waiteACK)
-        {
-            num = 3;
-        }
-        while (num-- > 0 && !flag)
+
+        // 设置尝试次数
+        int maxAttempts = waiteACK ? 3 : 2;
+
+        // 在尝试次数范围内循环，直到成功获取响应或达到最大尝试次数
+        for (int attempt = 0; attempt < maxAttempts && !flag; attempt++)
         {
             List<XmlDocument> responseXml = GetResponseXml(waiteACK);
-            _ = responseXml.Count;
+
             foreach (XmlDocument item in responseXml)
             {
-                foreach (XmlNode childNode in item.SelectSingleNode("data").ChildNodes)
+                // 添加空引用检查
+                XmlNode dataNode = item.SelectSingleNode("data");
+                if (dataNode == null)
+                    continue;
+
+                foreach (XmlNode childNode in dataNode.ChildNodes)
                 {
+                    // 检查节点是否为错误节点
+                    if (childNode.Name.ToLower() == "error")
+                    {
+                        // 检查节点内容是否包含认证错误信息
+                        string nodeText = childNode.InnerText;
+                        if (
+                            !string.IsNullOrEmpty(nodeText)
+                            && nodeText.IndexOf(
+                                "only nop and sig tag",
+                                StringComparison.OrdinalIgnoreCase
+                            ) >= 0
+                            && nodeText.IndexOf(
+                                "authentication",
+                                StringComparison.OrdinalIgnoreCase
+                            ) >= 0
+                        )
+                        {
+                            LastErrorType = ResponseErrorType.AuthenticationError;
+                            Log.W(serialPort.PortName, "认证错误: 需要先进行认证");
+                            return false;
+                        }
+                    }
 
                     foreach (XmlAttribute attribute in childNode.Attributes)
                     {
-                        if (childNode.Name.ToLower() == "ERROR: Only nop and sig tag can be recevied before authentication.")
+                        string attrValue = attribute.Value;
+                        if (
+                            !string.IsNullOrEmpty(attrValue)
+                            && attrValue.IndexOf(
+                                "only nop and sig tag",
+                                StringComparison.OrdinalIgnoreCase
+                            ) >= 0
+                            && attrValue.IndexOf(
+                                "authentication",
+                                StringComparison.OrdinalIgnoreCase
+                            ) >= 0
+                        )
                         {
+                            LastErrorType = ResponseErrorType.AuthenticationError;
+                            Log.W(serialPort.PortName, "认证错误: 需要先进行认证");
                             return false;
                         }
+
                         if (attribute.Name.ToLower() == "maxpayloadsizetotargetinbytes")
                         {
                             m_dwBufferSectors = Convert.ToInt32(attribute.Value) / intSectorSize;
                             flag = true;
-
                         }
+
                         if (attribute.Value.ToLower() == "ack")
                         {
                             flag = true;
                         }
-                        if (attribute.Value == "WARN: NAK: MaxPayloadSizeToTargetInBytes sent by host 1048576 larger than supported 16384")
+
+                        if (
+                            attribute.Value
+                            == "WARN: NAK: MaxPayloadSizeToTargetInBytes sent by host 1048576 larger than supported 16384"
+                        )
                         {
                             flag = true;
                         }
+
                         if (attribute.Value.Contains("UFS Inquiry Command Output"))
                         {
                             Log.W(serialPort.PortName, "StorageInfo: " + attribute.Value);
                             storageInfo = attribute.Value;
                         }
+
                         if (attribute.Value.Contains("INFO: quick_reset") && !isSupportPartialReset)
                         {
                             Log.W(serialPort.PortName, "quick_reset: " + attribute.Value);
@@ -373,163 +424,19 @@ public class Comm
                     }
                 }
             }
+
             if (waiteACK)
             {
                 Thread.Sleep(50);
             }
         }
+        if (!flag)
+        {
+            LastErrorType = ResponseErrorType.OtherError;
+            Log.W(serialPort.PortName, "未收到有效响应");
+        }
+
         return flag;
-    }
-
-
-    /// <summary>
-    /// 读取数据并写入文件方法，可用于较大数据的读取与持久化
-    /// </summary>
-    public void ReadAndWriteToFile(string outputFilePath, long totalBytesToRead)
-    {
-        long bytesReadTotal = 0; // 已读取总字节数
-        List<byte> initialBuffer = [];
-        const int readTimeout = 5000; // 读取超时时间（毫秒）
-        DateTime lastReadTime = DateTime.Now;
-
-        try
-        {
-            string directoryPath = Path.GetDirectoryName(outputFilePath);
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);  // 如果目录不存在则创建
-            }
-
-            Console.WriteLine("Waiting for ACK response...");
-
-            // 等待 ACK 响应
-            if (!WaitForAckResponse(TimeSpan.FromSeconds(5), initialBuffer)) // 超时时间设置为 5 秒
-            {
-                Console.WriteLine("ACK response not received within timeout. Operation aborted.");
-                return;
-            }
-
-            Console.WriteLine("ACK response received. Starting file write operation...");
-
-            using (FileStream fileStream = new(outputFilePath, FileMode.Create, FileAccess.Write))
-            {
-                // 先将初始缓冲区数据写入文件
-                if (initialBuffer.Count > 0)
-                {
-                    int bytesToWrite = (int)Math.Min(initialBuffer.Count, totalBytesToRead - bytesReadTotal);
-                    fileStream.Write([.. initialBuffer], 0, bytesToWrite);
-                    bytesReadTotal += bytesToWrite;
-                    lastReadTime = DateTime.Now; // 更新最后读取时间
-                }
-
-                // 循环读取数据到文件
-                while (bytesReadTotal < totalBytesToRead)
-                {
-                    int availableBytes = serialPort.BytesToRead;
-
-                    // 如果没有数据则等待超时检测
-                    if (availableBytes == 0)
-                    {
-                        if ((DateTime.Now - lastReadTime).TotalMilliseconds > readTimeout)
-                        {
-                            Console.WriteLine("Read operation timed out.");
-                            break;
-                        }
-                        continue;
-                    }
-
-                    // 计算此次可读取的字节数量（避免超过预期总量）
-                    int bytesToRead = (int)Math.Min(availableBytes, totalBytesToRead - bytesReadTotal);
-
-                    // 分配读取缓冲
-                    byte[] buffer = new byte[bytesToRead];
-
-                    // 从串口中读取数据
-                    int bytesRead = serialPort.Read(buffer, 0, bytesToRead);
-
-                    // 将读取到的数据写入文件
-                    fileStream.Write(buffer, 0, bytesRead);
-
-                    // 更新已读取总量
-                    bytesReadTotal += bytesRead;
-                    lastReadTime = DateTime.Now;
-
-                    // 计算进度并更新日志
-                    float progress = (float)Math.Round((double)bytesReadTotal / totalBytesToRead, 4);
-                    if (bytesReadTotal % 1024000 == 0) // 每读取 1024 字节记录一次日志
-                    {
-                        Log.W("read: " + bytesReadTotal + "/" + totalBytesToRead + " bytes read.", serialPort.PortName, null);
-                    }
-                    Flash.UpdateDeviceStatus(progress, bytesReadTotal, totalBytesToRead, "reading");
-                }
-            }
-
-            // 如果未读取到足够的字节数，提示可能未全部完成
-            if (bytesReadTotal < totalBytesToRead)
-            {
-                CleanBuffer();
-                //MessageBox.Show("Operation completed but not all data was read from the port.");
-            }
-            else
-            {
-                CleanBuffer();
-                Log.W("File read and written successfully.", serialPort.PortName, null);
-                Console.WriteLine("File read and written successfully.");
-            }
-        }
-        catch (Exception ex)
-        {
-            CleanBuffer();
-            Log.W("Error: " + ex.Message, serialPort.PortName, null);
-            //MessageBox.Show($"Error: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// 等待 ACK 响应的辅助方法
-    /// </summary>
-    private bool WaitForAckResponse(TimeSpan timeout, List<byte> initialBuffer)
-    {
-        DateTime startTime = DateTime.Now;
-        List<byte> dataBuffer = [];
-
-        while (DateTime.Now - startTime < timeout)
-        {
-            int availableBytes = serialPort.BytesToRead;
-            if (availableBytes == 0)
-            {
-                continue;
-            }
-
-            int bytesToRead = Math.Min(availableBytes, serialPort.ReadBufferSize);
-            byte[] buffer = new byte[bytesToRead];
-            _ = serialPort.Read(buffer, 0, bytesToRead);
-            dataBuffer.AddRange(buffer);
-
-            string response = Encoding.UTF8.GetString([.. dataBuffer]);
-            if (response.Contains("<response value=\"ACK\" rawmode=\"true\" />"))
-            {
-                Console.WriteLine("ACK response received.");
-
-                // 移除ACK响应
-                int ackIndex = response.IndexOf("<response value=\"ACK\" rawmode=\"true\" />");
-                dataBuffer.RemoveRange(0, ackIndex + "<response value=\"ACK\" rawmode=\"true\" />".Length);
-
-                // 移除XML结束标签
-                string remaining = Encoding.UTF8.GetString([.. dataBuffer]);
-                int endIndex = remaining.IndexOf("</data>");
-                if (endIndex >= 0)
-                {
-                    dataBuffer.RemoveRange(0, endIndex + "</data>".Length);
-                }
-
-                initialBuffer.AddRange(dataBuffer);
-                return true;
-            }
-        }
-
-        Console.WriteLine("Timeout reached, ACK not received.");
-        return false;
     }
 
     /// <summary>
@@ -567,15 +474,12 @@ public class Comm
             }
             catch (Exception ex)
             {
-                // 处理读取过程中的异常
-                Console.WriteLine($"读取设备时发生异常：{ex.Message}");
+                Log.W($"读取设备时发生异常：{ex.Message}");
             }
 
-            // 如果读取为空，等待一段时间后重试
             Thread.Sleep(delayMilliseconds);
         }
 
-        // 如果仍然为空，返回空字符串
         if (recData == null)
         {
             return string.Empty;
@@ -583,7 +487,6 @@ public class Comm
         CleanBuffer();
         return Encoding.Default.GetString(recData);
     }
-
 
     public List<XmlDocument> GetResponseXml(bool waiteACK)
     {
@@ -638,12 +541,12 @@ public class Comm
         }
         if (waitACK)
         {
-            Log.W(serialPort.PortName, "response:" + stringBuilder2.ToString() + "\r\n\r\n", throwEx: false);
+            Log.W(
+                serialPort.PortName,
+                "response:" + stringBuilder2.ToString() + "\r\n\r\n",
+                throwEx: false
+            );
         }
-        return
-        [
-            stringBuilder.ToString(),
-            stringBuilder2.ToString()
-        ];
+        return [stringBuilder.ToString(), stringBuilder2.ToString()];
     }
 }

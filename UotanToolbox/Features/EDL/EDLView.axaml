@@ -113,7 +113,7 @@
 				<StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
 					<Button Width="120"
 							HorizontalAlignment="Left"
-							Command="{Binding ReadPartTable}"
+							Command="{Binding Remark}"
 							Padding="8">
 						<TextBlock>
 							<TextBlock Text="全选/取消全选" />

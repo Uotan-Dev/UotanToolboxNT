@@ -8,7 +8,7 @@ namespace WuXingLibrary.code.Utility
     public static class Log
     {
         private static readonly object _lock = new();
-        private static readonly string BaseLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tool", "log");
+        private static readonly string BaseLogPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tool", "logs");
 
         // Gets the line number where this method is called.
         public static int GetLineNum()
@@ -64,32 +64,6 @@ namespace WuXingLibrary.code.Utility
             WriteLogToFile($"[{GetCurrentTimestamp()}]: {msg}", throwEx);
         }
 
-        public static void WFlashStatus(string msg)
-        {
-            WriteFlashLog(msg, "Result");
-        }
-
-        public static void WFlashDebug(string msg)
-        {
-            WriteFlashLog(msg, "mesdebug");
-        }
-
-        private static void WriteFlashLog(string msg, string logType)
-        {
-            try
-            {
-                string fileName = $"{logType}@{DateTime.Now:yyyyMd}.txt";
-                string path = Path.Combine(BaseLogPath, fileName);
-                EnsureDirectoryExists(path);
-                using var writer = new StreamWriter(new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.ReadWrite), Encoding.Default);
-                writer.WriteLine($"[{DateTime.Now.ToLongTimeString()}]: {msg}");
-            }
-            catch (Exception ex)
-            {
-                W($"{logType} {msg} {ex.Message} {ex.StackTrace}", false);
-            }
-        }
-
         public static void WriteFile(string log, string path)
         {
             lock (_lock)
@@ -119,12 +93,12 @@ namespace WuXingLibrary.code.Utility
 
         private static string GetLogFileName()
         {
-            return $"wuxing@{DateTime.Now:yyyyMd}.txt";
+            return $"wuxing-Edl-{DateTime.Now:yyyyMd}.log";
         }
 
         private static string GetCurrentTimestamp()
         {
-            return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff:ffffff");
+            return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         private static void EnsureDirectoryExists(string path)

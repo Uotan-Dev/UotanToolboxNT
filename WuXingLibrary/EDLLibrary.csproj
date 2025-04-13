@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	  <LangVersion>latest</LangVersion>
-	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <PackageIcon></PackageIcon>
 	  <Platforms>AnyCPU;x86</Platforms>
 	  <GenerateDocumentationFile>False</GenerateDocumentationFile>

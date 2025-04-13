@@ -396,6 +396,12 @@ public partial class EDLViewModel : MainPageBase
         }
     }
 
+    [RelayCommand]
+    public async Task Remark()
+    {
+
+    }
+
     /// <summary>
     /// 读取分区表文件，并生成xml文件然后加载进可视化编辑器
     /// </summary>

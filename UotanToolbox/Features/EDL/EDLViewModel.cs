@@ -6,6 +6,7 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DiskPartitionInfo;
 using DiskPartitionInfo.FluentApi;
 using DiskPartitionInfo.Gpt;
 using Material.Icons;
@@ -49,147 +50,6 @@ public partial class EDLViewModel : MainPageBase
     public EDLViewModel() : base("9008刷机", MaterialIconKind.CableData, -350)
     {
 
-    }
-
-    private async Task QSahara(string port = null, int? verbose = null, string command = null, bool memdump = false, bool image = false, string sahara = null, string prefix = null, string where = null, string ramdumpimage = null, bool efssyncloop = false, int? rxtimeout = null, int? maxwrite = null, string addsearchpath = null, bool sendclearstate = false, int? portnumber = null, bool switchimagetx = false, bool nomodereset = false, string cmdrespfilepath = null, bool uart = false, bool ethernet = false, int? ethernet_port = null, bool noreset = false, bool resettxfail = false)
-    {
-        await Task.Run(() =>
-        {
-            List<string> args = []; if (port != null) args.Add($"-p {port}"); if (verbose.HasValue) args.Add($"-v {verbose}"); if (command != null) args.Add($"-c \"{command}\""); if (memdump) args.Add("-m"); if (image) args.Add("-i  "); if (sahara != null) args.Add($"-s \"{sahara}\""); if (prefix != null) args.Add($"-p \"{prefix}\""); if (where != null) args.Add($"-w \"{where}\""); if (ramdumpimage != null) args.Add($"-r \"{ramdumpimage}\""); if (efssyncloop) args.Add("-l"); if (rxtimeout.HasValue) args.Add($"-t \"{rxtimeout}\""); if (maxwrite.HasValue) args.Add($"-j \"{maxwrite}\""); if (addsearchpath != null) args.Add($"-b \"{addsearchpath}\""); if (sendclearstate) args.Add("-k"); if (portnumber.HasValue) args.Add($"-u \"{portnumber}\""); if (switchimagetx) args.Add("-x"); if (nomodereset) args.Add("-o"); if (cmdrespfilepath != null) args.Add($"-a \"{cmdrespfilepath}\""); if (uart) args.Add("-U"); if (ethernet) args.Add("-e"); if (ethernet_port.HasValue) args.Add($"-n \"{ethernet_port}\""); if (noreset) args.Add("--noreset"); if (resettxfail) args.Add("--resettxfail");
-            string cmd = Path.Combine(Global.bin_path, "QSaharaServer");
-            ProcessStartInfo QSaharaServer = new ProcessStartInfo(cmd, string.Join(" ", args))
-            {
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            using Process qss = new Process();
-            qss.StartInfo = QSaharaServer;
-            _ = qss.Start();
-            EDLLog = "";
-            qss.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
-            qss.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
-            qss.BeginOutputReadLine();
-            qss.BeginErrorReadLine();
-            qss.WaitForExit();
-            qss.Close();
-        });
-    }
-    /// <summary>
-    /// 同步自动调用FH_Loader，默认不自动配置，日志自动同步到EDLLog
-    /// </summary>
-    /// <param name="workpath"></param>
-    /// <param name="benchmarkdigestperformance"></param>
-    /// <param name="benchmarkreads"></param>
-    /// <param name="benchmarkwrites"></param>
-    /// <param name="createvipdigests"></param>
-    /// <param name="chaineddigests"></param>
-    /// <param name="contentsxml"></param>
-    /// <param name="convertprogram2read"></param>
-    /// <param name="digestsperfilename"></param>
-    /// <param name="erase"></param>
-    /// <param name="files"></param>
-    /// <param name="firmwarewrite"></param>
-    /// <param name="fixgpt"></param>
-    /// <param name="flattenbuildto"></param>
-    /// <param name="flavor"></param>
-    /// <param name="forcecontentsxmlpaths"></param>
-    /// <param name="getstorageinfo"></param>
-    /// <param name="json_in"></param>
-    /// <param name="labels"></param>
-    /// <param name="loglevel"></param>
-    /// <param name="lun"></param>
-    /// <param name="mainoutputdir"></param>
-    /// <param name="maxpayloadsizeinbytes"></param>
-    /// <param name="memoryname"></param>
-    /// <param name="notfiles"></param>
-    /// <param name="notlabels"></param>
-    /// <param name="nop"></param>
-    /// <param name="noprompt"></param>
-    /// <param name="num_sectors"></param>
-    /// <param name="port"></param>
-    /// <param name="start_sector"></param>
-    /// <param name="verbose"></param>
-    /// <param name="verify_programming_getsha"></param>
-    /// <param name="verify_programming"></param>
-    /// <param name="zlpawarehost"></param>
-    /// <param name="noautoconfigure"></param>
-    /// <param name="autoconfig"></param>
-    /// <returns></returns>
-    private async Task Fh_loader(string workpath, bool benchmarkdigestperformance = false, bool benchmarkreads = false, bool benchmarkwrites = false, string createvipdigests = null, string chaineddigests = null, string contentsxml = null, bool convertprogram2read = false, string digestsperfilename = null, string erase = null, string files = null, bool firmwarewrite = false, string fixgpt = null, string flattenbuildto = null, string flavor = null, bool forcecontentsxmlpaths = false, string getstorageinfo = null, string json_in = null, string labels = null, string loglevel = null, string lun = null, string mainoutputdir = null, string maxpayloadsizeinbytes = null, string memoryname = null, string notfiles = null, string notlabels = null, bool nop = false, bool noprompt = false, string num_sectors = null, string port = null, string porttracename = null, string port_type = null, string power = null, string search_path = null, string sectorsizeinbytes = null, string sendimage = null, string sendxml = null, string setactivepartition = null, bool showpercentagecomplete = false, string signeddigests = null, bool skip_config = false, string slot = null, string start_sector = null, bool verbose = false, bool verify_programming_getsha = false, bool verify_programming = false, string zlpawarehost = null)
-    {
-        await Task.Run(() =>
-        {
-            List<string> args = [];
-            string cmd = Path.Combine(Global.bin_path, "fh_loader");
-            if (search_path != null) args.Add($"--search_path=\"{search_path}\\\"");
-            if (benchmarkdigestperformance) args.Add("--benchmarkdigestperformance");
-            if (benchmarkreads) args.Add("--benchmarkreads");
-            if (benchmarkwrites) args.Add("--benchmarkwrites");
-            if (createvipdigests != null) args.Add($"--createvipdigests=\"{createvipdigests}\"");
-            if (chaineddigests != null) args.Add($"--chaineddigests=\"{chaineddigests}\"");
-            if (contentsxml != null) args.Add($"--contentsxml=\"{contentsxml}\"");
-            if (convertprogram2read) args.Add("--convertprogram2read");
-            if (digestsperfilename != null) args.Add($"--digestsperfilename=\"{digestsperfilename}\"");
-            if (erase != null) args.Add($"--erase=\"{erase}\"");
-            if (files != null) args.Add($"--files=\"{files}\"");
-            if (firmwarewrite) args.Add("--firmwarewrite");
-            if (fixgpt != null) args.Add($"--fixgpt=\"{fixgpt}\"");
-            if (flattenbuildto != null) args.Add($"--flattenbuildto=\"{flattenbuildto}\"");
-            if (flavor != null) args.Add($"--flavor=\"{flavor}\"");
-            if (forcecontentsxmlpaths) args.Add("--forcecontentsxmlpaths");
-            if (getstorageinfo != null) args.Add($"--getstorageinfo=\"{getstorageinfo}\"");
-            if (json_in != null) args.Add($"--json_in=\"{json_in}\"");
-            if (labels != null) args.Add($"--labels=\"{labels}\"");
-            if (loglevel != null) args.Add($"--loglevel=\"{loglevel}\"");
-            if (lun != null) args.Add($"--lun=\"{lun}\"");
-            if (mainoutputdir != null) args.Add($"--mainoutputdir=\"{mainoutputdir}\"");
-            if (maxpayloadsizeinbytes != null) args.Add($"--maxpayloadsizeinbytes=\"{maxpayloadsizeinbytes}\"");
-            if (memoryname != null) args.Add($"--memoryname=\"{memoryname}\"");
-            if (notfiles != null) args.Add($"--notfiles=\"{notfiles}\"");
-            if (notlabels != null) args.Add($"--notlabels=\"{notlabels}\"");
-            if (nop) args.Add("--nop");
-            if (noprompt) args.Add("--noprompt");
-            if (num_sectors != null) args.Add($"--num_sectors=\"{num_sectors}\"");
-            if (port != null) args.Add($"--port={port}");
-            if (porttracename != null) args.Add($"--porttracename=\"{porttracename}\"");
-            if (port_type != null) args.Add($"--port_type=\"{port_type}\"");
-            if (power != null) args.Add($"--power=\"{power}\"");
-            if (sectorsizeinbytes != null) args.Add($"--sectorsizeinbytes=\"{sectorsizeinbytes}\"");
-            if (sendimage != null) args.Add($"--sendimage=\"{sendimage}\"");
-            if (sendxml != null) args.Add($"--sendxml=\"{sendxml}\"");
-            if (setactivepartition != null) args.Add($"--setactivepartition=\"{setactivepartition}\"");
-            if (showpercentagecomplete) args.Add("--showpercentagecomplete");
-            if (signeddigests != null) args.Add($"--signeddigests=\"{signeddigests}\"");
-            if (slot != null) args.Add($"--slot=\"{slot}\"");
-            if (skip_config) args.Add("--skip_config");
-            if (start_sector != null) args.Add($"--start_sector=\"{start_sector}\"");
-            if (verbose) args.Add("--verbose");
-            if (verify_programming_getsha) args.Add("--verify_programming_getsha");
-            if (verify_programming) args.Add("--verify_programming");
-            if (zlpawarehost != null) args.Add($"--zlpawarehost=\"{zlpawarehost}\"");
-            Directory.SetCurrentDirectory(workpath);
-            ProcessStartInfo QSaharaServer = new ProcessStartInfo(cmd, string.Join(" ", args))
-            {
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                StandardOutputEncoding = System.Text.Encoding.UTF8,
-                StandardErrorEncoding = System.Text.Encoding.UTF8
-            };
-            using Process qss = new Process();
-            qss.StartInfo = QSaharaServer;
-            EDLLog = "";
-            _ = qss.Start();
-            qss.ErrorDataReceived += new DataReceivedEventHandler(OutputHandler);
-            qss.OutputDataReceived += new DataReceivedEventHandler(OutputHandler);
-            qss.BeginOutputReadLine();
-            qss.BeginErrorReadLine();
-            qss.WaitForExit();
-            qss.Close();
-        });
     }
 
     private async void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
@@ -348,52 +208,7 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task SendFirehose()
     {
-        try
-        {
-            if (String.IsNullOrEmpty(FirehoseFile))
-            {
-                throw new Exception("未选择引导文件");
-            }
-            await QSahara(port: "\\\\.\\" + Global.thisdevice, sahara: "13:" + FirehoseFile);
-            FileHelper.Write(edl_log_path, output);
-            if (EDLLog.Contains("File transferred successfully"))
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .WithTitle(GetTranslation("Common_Succ"))
-                            .OfType(NotificationType.Success)
-                            .WithContent("引导发送成功")
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            }
-            else if (EDLLog.Contains("Could not connect to"))
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .OfType(NotificationType.Error)
-                            .WithContent("引导发送失败")
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
 
-            }
-            else
-            {
-                Global.MainDialogManager.CreateDialog()
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .OfType(NotificationType.Error)
-                                        .WithContent("引导发送失败,原因未知")
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
-            }
-        }
-        catch (Exception ex)
-        {
-            Global.MainDialogManager.CreateDialog()
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .OfType(NotificationType.Error)
-                                        .WithContent(ex.Message)
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
-        }
     }
 
     [RelayCommand]
@@ -409,277 +224,37 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task ReadPartTable()
     {
-        string part_table_path = Path.Join(Global.tmp_path, "Partition_Table");
-        string bin_xml_path = Path.Join(Global.bin_path, "XML");
-        await DetectDeviceType();
-        if (MemoryType == "存储类型：")
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("未检测到存储类型")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-            return;
-        }
-        else if (MemoryType == "存储类型：EMMC")
-        {
-            await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-            if (!EDLLog.Contains("All Finished Successfully"))
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .OfType(NotificationType.Error)
-                            .WithContent("分区表读取失败")
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-                return;
-            }
-        }
-        else if (MemoryType == "存储类型：UFS")
-        {
-            await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable6.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-            if (!EDLLog.Contains("All Finished Successfully"))
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .OfType(NotificationType.Error)
-                            .WithContent("分区表读取失败")
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-                return;
-            }
-            await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable7.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-            if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
-            {
-                Global.MainDialogManager.CreateDialog()
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .OfType(NotificationType.Error)
-                                        .WithContent("需要重新进入EDL模式")
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
-                return;
-            }
-            if (EDLLog.Contains("All Finished Successfully"))
-            {
-                await Fh_loader(part_table_path, sendxml: Path.Join(bin_xml_path, "ReadPartitionTable8.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-                if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                            .WithTitle(GetTranslation("Common_Error"))
-                                            .OfType(NotificationType.Error)
-                                            .WithContent("需要重新进入EDL模式")
-                                            .Dismiss().ByClickingBackground()
-                                            .TryShow();
-                    return;
-                }
-            }
-        }
-        Global.xml_path = Path.Join(work_path, "Merged.xml");
-        ReadGptFilesAndGenerateXml(part_table_path, Global.xml_path);
-        AddIndexToProgramElements(Global.xml_path);
-        EDLPartModel = [.. ParseProgramElements(Global.xml_path)];
+
     }
 
     [RelayCommand]
     public async Task WritePart()
     {
-        await DetectDeviceType();
-        if (MemoryType == "存储类型：")
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("未检测到存储类型")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-            return;
-        }
-        string tmp_xml_path = Path.Join(work_path, "Temp.xml");
-        ExtractSelectedPartsToXml(tmp_xml_path);
-        RemoveIndexToProgramElements(tmp_xml_path);
-        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                                    .WithTitle(GetTranslation("Common_Error"))
-                                    .OfType(NotificationType.Error)
-                                    .WithContent("需要重新进入EDL模式")
-                                    .Dismiss().ByClickingBackground()
-                                    .TryShow();
-            return;
-        }
-        FileHelper.Write(edl_log_path, output);
-        if (EDLLog.Contains("All Finished Successfully"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Succ"))
-                        .OfType(NotificationType.Success)
-                        .WithContent("文件发送成功")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
-        if (EDLLog.Contains("ERROR: Please see log"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("文件发送失败,详见日志")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
+
     }
 
     [RelayCommand]
     public async Task ReadPart()
     {
-        await DetectDeviceType();
-        if (MemoryType == "存储类型：")
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("未检测到存储类型")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-            return;
-        }
-        string tmp_xml_path = Path.Join(work_path, "Temp.xml");
-        ExtractSelectedPartsToXml(tmp_xml_path);
-        RemoveIndexToProgramElements(tmp_xml_path);
-        RenameProgramNodesToErase(tmp_xml_path);
-        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-        FileHelper.Write(edl_log_path, output);
-        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                                    .WithTitle(GetTranslation("Common_Error"))
-                                    .OfType(NotificationType.Error)
-                                    .WithContent("需要重新进入EDL模式")
-                                    .Dismiss().ByClickingBackground()
-                                    .TryShow();
-            return;
-        }
-        if (EDLLog.Contains("All Finished Successfully"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Succ"))
-                        .OfType(NotificationType.Success)
-                        .WithContent("分区读取成功")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
-        if (EDLLog.Contains("ERROR: Please see log"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("文件读取失败,详见日志")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
+
     }
 
     [RelayCommand]
     public async Task ErasePart()
     {
-        await DetectDeviceType();
-        if (MemoryType == "存储类型：")
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("未检测到存储类型")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-            return;
-        }
-        string tmp_xml_path = Path.Join(Global.tmp_path, StringHelper.RandomString(16) + ".xml");
-        ExtractSelectedPartsToXml(tmp_xml_path);
-        RemoveIndexToProgramElements(tmp_xml_path);
-        RenameProgramNodesToErase(tmp_xml_path);
-        await Fh_loader(Global.bin_path, sendxml: tmp_xml_path, convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice, search_path: PartNamr, memoryname: MemoryType.Replace("存储类型：", "").Trim().ToLower());
-        FileHelper.Write(edl_log_path, output);
-        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                                    .WithTitle(GetTranslation("Common_Error"))
-                                    .OfType(NotificationType.Error)
-                                    .WithContent("需要重新进入EDL模式")
-                                    .Dismiss().ByClickingBackground()
-                                    .TryShow();
-            return;
-        }
-        if (EDLLog.Contains("All Finished Successfully"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Succ"))
-                        .OfType(NotificationType.Success)
-                        .WithContent("分区读取成功")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
-        if (EDLLog.Contains("ERROR: Please see log"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Error"))
-                        .OfType(NotificationType.Error)
-                        .WithContent("文件读取失败,详见日志")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
+
     }
 
     [RelayCommand]
     public async Task RebootEDL()
     {
-        await Fh_loader(Global.bin_path, sendxml: Path.Join(Global.bin_path, "XML", "EDL.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice);
-        FileHelper.Write(edl_log_path, output);
-        if (EDLLog.Contains("All Finished Successfully"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Succ"))
-                        .OfType(NotificationType.Success)
-                        .WithContent("重启文件发送成功")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
-        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                                    .WithTitle(GetTranslation("Common_Error"))
-                                    .OfType(NotificationType.Error)
-                                    .WithContent("需要重新进入EDL模式")
-                                    .Dismiss().ByClickingBackground()
-                                    .TryShow();
-            return;
-        }
+
     }
 
     [RelayCommand]
     public async Task RebootSys()
     {
-        await Fh_loader(Global.bin_path, sendxml: Path.Join(Global.bin_path, "XML", "Continue.xml"), showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice);
-        FileHelper.Write(edl_log_path, output);
-        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                                    .WithTitle(GetTranslation("Common_Error"))
-                                    .OfType(NotificationType.Error)
-                                    .WithContent("需要重新进入EDL模式")
-                                    .Dismiss().ByClickingBackground()
-                                    .TryShow();
-            return;
-        }
-        if (EDLLog.Contains("All Finished Successfully"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                        .WithTitle(GetTranslation("Common_Succ"))
-                        .OfType(NotificationType.Success)
-                        .WithContent("重启文件发送成功")
-                        .Dismiss().ByClickingBackground()
-                        .TryShow();
-        }
+
     }
 
     [RelayCommand]
@@ -857,7 +432,7 @@ public partial class EDLViewModel : MainPageBase
             {
                 number = match.Groups[1].Value;
             }
-            IGptReader gptReader = DiskPartitionInfo.DiskPartitionInfo.ReadGpt().Primary();
+            IGptReader gptReader = DiskPartition.ReadGpt().Primary();
             GuidPartitionTable gpt = gptReader.FromPath(gptFile);
             XElement root = new("data");
             foreach (var partition in gpt.Partitions)
@@ -907,76 +482,7 @@ public partial class EDLViewModel : MainPageBase
         }
         extractedDoc.Save(outputFilePath);
     }
-    /// <summary>
-    /// 检测设备存储类型，若为自动，则尝试检测 UFS 和 EMMC。由于市面UFS设备更多，故先检测 UFS
-    /// </summary>
-    /// <returns></returns>
-    private async Task DetectDeviceType()
-    {
 
-        try
-        {
-            string tmpBinFilePath = Path.Combine(Global.tmp_path, "tmp.bin");
-            // 尝试检测 UFS 存储类型
-            bool isUfs = await TryDetectMemoryType("ufs", "UFS.xml", tmpBinFilePath);
-            if (isUfs)
-            {
-                MemoryType = "存储类型：UFS";
-                return;
-            }
-            // 尝试检测 EMMC 存储类型
-            bool isEmmc = await TryDetectMemoryType("emmc", "EMMC.xml", tmpBinFilePath);
-            if (isEmmc)
-            {
-                MemoryType = "存储类型：EMMC";
-                return;
-            }
-
-            // 如果都未检测到，设置为空
-            MemoryType = "存储类型：";
-        }
-        catch (Exception ex)
-        {
-            Global.MainDialogManager.CreateDialog()
-                                    .WithTitle(GetTranslation("Common_Error"))
-                                    .OfType(NotificationType.Error)
-                                    .WithContent(ex.Message)
-                                    .Dismiss().ByClickingBackground()
-                                    .TryShow();
-            MemoryType = "存储类型：";
-        }
-    }
-
-    private async Task<bool> TryDetectMemoryType(string memoryName, string xmlFileName, string tmpBinFilePath)
-    {
-        await Fh_loader(Global.tmp_path, memoryname: memoryName, sendxml: Path.Join(Global.bin_path, "XML", xmlFileName), convertprogram2read: true, showpercentagecomplete: true, noprompt: true, port: "\\\\.\\" + Global.thisdevice);
-        FileHelper.Write(edl_log_path, output);
-        int sector = 0;
-        if (memoryName == "ufs")
-        {
-            sector = 4096;
-        }
-        else if (memoryName == "emmc")
-        {
-            sector = 512;
-        }
-        if (EDLLog.Contains("All Finished Successfully") && File.Exists(tmpBinFilePath))
-        {
-            FileInfo fileInfo = new FileInfo(tmpBinFilePath);
-            return fileInfo.Length == sector;
-        }
-        if (EDLLog.Contains("There is a chance your target is in SAHARA mode"))
-        {
-            Global.MainDialogManager.CreateDialog()
-                                    .WithTitle(GetTranslation("Common_Error"))
-                                    .OfType(NotificationType.Error)
-                                    .WithContent("需要重新进入EDL模式")
-                                    .Dismiss().ByClickingBackground()
-                                    .TryShow();
-            return false;
-        }
-        return false;
-    }
 }
 
 

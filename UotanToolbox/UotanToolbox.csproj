@@ -133,4 +133,9 @@
 	<ItemGroup>
 	  <Folder Include="Common\QcomHelper\Fh_Loader\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\DiskPartitionInfo\DiskPartition.csproj" />
+	  <ProjectReference Include="..\WuXingLibrary\EDLLibrary.csproj" />
+	</ItemGroup>
 </Project>

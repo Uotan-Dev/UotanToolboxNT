@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 
 using WuXingLibrary.code.data;
 using WuXingLibrary.code.module;
-using WuXingLibrary.code.Utility;
-
-using static WuXingLibrary.Flash;
 
 namespace WuXingLibrary.code.Utility;
 

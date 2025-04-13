@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WuXingLibrary.code.module
+﻿namespace WuXingLibrary.code.module
 {
     public enum ResponseErrorType
     {

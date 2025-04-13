@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace WuXingLibrary.code.Utility
@@ -143,7 +141,7 @@ namespace WuXingLibrary.code.Utility
         /// <summary>
         /// 重置进度信息
         /// </summary>
-        public  static void Reset()
+        public static void Reset()
         {
             lock (lockObject)
             {

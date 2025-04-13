@@ -92,7 +92,7 @@ namespace DiskPartitionInfo.FluentApi
         private static GptStruct ReadGpt(Stream stream, int sectorSize)
         {
             var gptData = new byte[sectorSize];
-            stream.Read(buffer: gptData, offset: 0, count: sectorSize);
+            stream.ReadExactly(buffer: gptData, offset: 0, count: sectorSize);
 
             return gptData.ToStruct<GptStruct>();
         }
@@ -105,7 +105,7 @@ namespace DiskPartitionInfo.FluentApi
             {
                 var partition = new byte[gpt.PartitionEntryLength];
 
-                stream.Read(buffer: partition, offset: 0, count: (int)gpt.PartitionEntryLength);
+                stream.ReadExactly(buffer: partition, offset: 0, count: (int)gpt.PartitionEntryLength);
                 partitions.Add(partition.ToStruct<GptPartitionStruct>());
             }
 

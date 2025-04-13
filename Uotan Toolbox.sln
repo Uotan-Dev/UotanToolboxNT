@@ -16,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Settings.XamlStyler = Settings.XamlStyler
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WuXingLibrary", "WuXingLibrary\WuXingLibrary.csproj", "{13C5D186-8016-CFE3-3873-B0E439631FDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDLLibrary", "WuXingLibrary\EDLLibrary.csproj", "{13C5D186-8016-CFE3-3873-B0E439631FDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskPartition", "DiskPartitionInfo\DiskPartition.csproj", "{0735C29B-E2D2-1018-1EB0-650BD1144BC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,14 @@ Global
 		{13C5D186-8016-CFE3-3873-B0E439631FDB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{13C5D186-8016-CFE3-3873-B0E439631FDB}.Release|x86.ActiveCfg = Release|x86
 		{13C5D186-8016-CFE3-3873-B0E439631FDB}.Release|x86.Build.0 = Release|x86
+		{0735C29B-E2D2-1018-1EB0-650BD1144BC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0735C29B-E2D2-1018-1EB0-650BD1144BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0735C29B-E2D2-1018-1EB0-650BD1144BC2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0735C29B-E2D2-1018-1EB0-650BD1144BC2}.Debug|x86.Build.0 = Debug|Any CPU
+		{0735C29B-E2D2-1018-1EB0-650BD1144BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0735C29B-E2D2-1018-1EB0-650BD1144BC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0735C29B-E2D2-1018-1EB0-650BD1144BC2}.Release|x86.ActiveCfg = Release|Any CPU
+		{0735C29B-E2D2-1018-1EB0-650BD1144BC2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

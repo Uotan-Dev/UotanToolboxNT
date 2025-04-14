@@ -108,7 +108,6 @@ public partial class EDLViewModel : MainPageBase
             MergeXMLFiles(xmlFiles, Global.xml_path);
             AddIndexToProgramElements(Global.xml_path);
             UpdateProgramElementsWithAbsolutePaths(Global.xml_path, PartNamr);
-            DiskTypePrase(Global.xml_path);
             EDLPartModel = [.. ParseProgramElements(Global.xml_path)];
             XMLFile = string.Join(", ", xmlFiles);
             patch_xml_paths = string.Join(", ", patchXmls.Select(file => file.FullName));
@@ -116,48 +115,6 @@ public partial class EDLViewModel : MainPageBase
             {
                 FirehoseFile = firehoseFiles[0];
             }
-        }
-    }
-
-    private void DiskTypePrase(string xml_path)
-    {
-        try
-        {
-            XDocument xdoc = XDocument.Load(xml_path);
-            var sectorSizeElement = xdoc.Descendants("program")
-                                        .FirstOrDefault()
-                                        ?.Attribute("SECTOR_SIZE_IN_BYTES");
-
-            if (sectorSizeElement != null)
-            {
-                int sectorSize = int.Parse(sectorSizeElement.Value);
-                if (sectorSize == 4096)
-                {
-                    MemoryType = "存储类型：UFS";
-                }
-                else if (sectorSize == 512)
-                {
-                    MemoryType = "存储类型：EMMC";
-                }
-            }
-            else
-            {
-                Global.MainDialogManager.CreateDialog()
-                                    .WithTitle(GetTranslation("Common_Warn"))
-                                    .OfType(NotificationType.Warning)
-                                    .WithContent("该xml文件疑似不可用")
-                                    .Dismiss().ByClickingBackground()
-                                    .TryShow();
-            }
-        }
-        catch (Exception ex)
-        {
-            Global.MainDialogManager.CreateDialog()
-                                    .WithTitle(GetTranslation("Common_Warn"))
-                                    .OfType(NotificationType.Warning)
-                                    .WithContent(ex.Message)
-                                    .Dismiss().ByClickingBackground()
-                                    .TryShow();
         }
     }
 

@@ -1591,4 +1591,7 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="About_SystemVersion" xml:space="preserve">
     <value>System Version</value>
   </data>
+  <data name="Common_EnterFastbootd" xml:space="preserve">
+    <value>Please enter Fastbootd mode!</value>
+  </data>
 </root>

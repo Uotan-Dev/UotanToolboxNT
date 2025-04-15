@@ -2,6 +2,7 @@
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Controls.Notifications;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,6 +10,7 @@ using DiskPartitionInfo;
 using DiskPartitionInfo.FluentApi;
 using DiskPartitionInfo.Gpt;
 using Material.Icons;
+using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UotanToolbox.Common;
+using WuXingLibrary;
 
 
 namespace UotanToolbox.Features.EDL;
@@ -35,6 +38,8 @@ public partial class EDLViewModel : MainPageBase
     private AvaloniaList<string> bandList = ["通用", "小米", "OPPO", "一加", "魅族", "中兴", "LG"], seriesList = ["选择系列"], modelList = ["选择机型"];
     [ObservableProperty]
     private AvaloniaList<EDLPartModel> eDLPartModel = [];
+    private string SelectedStorageType = "";
+    private Flash _flash; //获取flash对象单例实例
     private string patch_xml_paths = "";
     private string output = "";
     private readonly string edl_log_path = Path.Combine(Global.log_path, "edl.txt");
@@ -94,6 +99,7 @@ public partial class EDLViewModel : MainPageBase
         {
             PartNamr = folders[0].Path.LocalPath;
             var folderPath = folders[0].Path.LocalPath;
+            //自动匹配目录下的所有rawprogram.xml与patch.xml文件
             var rawprogramFiles = Directory.GetFiles(folderPath, "rawprogram*.xml");
             var patchFiles = Directory.GetFiles(folderPath, "patch*.xml");
             // 本来打算索引elf文件的，但是elf文件不一定只有一个且不一定就是设备的elf文件
@@ -104,11 +110,28 @@ public partial class EDLViewModel : MainPageBase
             //}
             var rawprogramXmls = rawprogramFiles.Select(file => new FileInfo(file)).ToList();
             var patchXmls = patchFiles.Select(file => new FileInfo(file)).ToList();
-            XmlPreprocess(rawprogramXmls, patchXmls); // XML文件预处理，主要为工作目录创建，xml文件合并，节点解析并可视化处理
+            // 创建工作目录
+            if (!Directory.Exists(work_path))
+            {
+                Directory.CreateDirectory(work_path);
+            }
+            //批量删除工作目录下的xml文件
+            var exitxmlFiles = Directory.GetFiles(work_path, "*.xml");
+            foreach (var xmlFile in exitxmlFiles)
+            {
+                File.Delete(xmlFile);
+            }
+            //合并用户选择的xml文件
+            MergeProgramXMLFiles(rawprogramXmls.Select(file => file.FullName), Path.Join(work_path, "rawprogram.xml"));
+            MergePatchXMLFiles(rawprogramXmls.Select(file => file.FullName), Path.Join(work_path, "patch.xml"));
+            //为合并后的xml文件添加索引号
+            AddIndexToProgramElements(Path.Join(work_path, "rawprogram.xml"));
+            //将绝对地址添加到rawprogram.xml文件中
+            UpdateProgramElementsWithAbsolutePaths(Path.Join(work_path, "rawprogram.xml"), PartNamr);
             var xmlFiles = new List<string>();
             xmlFiles.AddRange(rawprogramXmls.Select(file => file.FullName));
             xmlFiles.AddRange(patchXmls.Select(file => file.FullName));
-            EDLPartModel = [.. ParseProgramElements(Path.Join(work_path, "Merged.xml"))];
+            EDLPartModel = [.. ParseProgramElements(Path.Join(work_path, "rawprogram.xml"))];
             XMLFile = string.Join(", ", xmlFiles);
         }
     }
@@ -177,7 +200,48 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task SendFirehose()
     {
-
+        if (string.IsNullOrEmpty(FirehoseFile))
+        {
+            Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Error"))
+                            .OfType(NotificationType.Error)
+                            .WithContent("未选择引导文件")
+                            .Dismiss().ByClickingBackground()
+                            .TryShow();
+            return;
+        }
+        _flash = Flash.Instance;
+        if (uFS == true){
+            SelectedStorageType = "ufs";
+        }
+        if (eMMC == true)
+        {
+            SelectedStorageType = "emmc";
+        }
+        _flash.Initialize(Global.thisdevice, SelectedStorageType);
+        _flash.RegisterPort();
+        if (!_flash.Sahara(FirehoseFile))
+        {
+            Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Error"))
+                            .OfType(NotificationType.Error)
+                            .WithContent("引导发送失败")
+                            .Dismiss().ByClickingBackground()
+                            .TryShow();
+        }
+        string result = _flash.ConfigureDDR();
+        if (result == "success")
+        {
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle(GetTranslation("Common_Error"))
+                .OfType(NotificationType.Error)
+                .WithContent("引导发送成功")
+                .Dismiss().ByClickingBackground()
+                .TryShow();
+        }else if (result == "needsig")
+        {
+            
+        }
     }
 
     [RelayCommand]
@@ -257,27 +321,6 @@ public partial class EDLViewModel : MainPageBase
 
     }
 
-    private void XmlPreprocess(List<FileInfo> rawprogramXmls, List<FileInfo> patchXmls)
-    {
-        // 创建工作目录
-        if (!Directory.Exists(work_path))
-        {
-            Directory.CreateDirectory(work_path);
-        }
-        //批量删除工作目录下的xml文件
-        var exitxmlFiles = Directory.GetFiles(work_path, "*.xml");
-        foreach (var xmlFile in exitxmlFiles)
-        {
-            File.Delete(xmlFile);
-        }
-        //合并用户选择的xml文件
-        MergeProgramXMLFiles(rawprogramXmls.Select(file => file.FullName), Path.Join(work_path, "Merged.xml"));
-        MergePatchXMLFiles(rawprogramXmls.Select(file => file.FullName), Path.Join(work_path, "Merged_Patch.xml"));
-        //为合并后的xml文件添加索引号
-        AddIndexToProgramElements(Path.Join(work_path, "Merged.xml"));
-        //将绝对地址添加到xml文件中
-        UpdateProgramElementsWithAbsolutePaths(Path.Join(work_path, "Merged.xml"), PartNamr);
-    }
 
 
 

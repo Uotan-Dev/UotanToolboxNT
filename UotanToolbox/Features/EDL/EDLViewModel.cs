@@ -2,7 +2,6 @@
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Controls.Notifications;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -10,7 +9,6 @@ using DiskPartitionInfo;
 using DiskPartitionInfo.FluentApi;
 using DiskPartitionInfo.Gpt;
 using Material.Icons;
-using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -41,7 +39,8 @@ public partial class EDLViewModel : MainPageBase
     private string output = "";
     private readonly string edl_log_path = Path.Combine(Global.log_path, "edl.txt");
     private const int LogLevel = 0;
-    public string work_path = Path.Join(Global.tmp_path, "EDL-" + StringHelper.RandomString(8));
+    //工作目录路径，可多次复用
+    public string work_path = Path.Join(Global.tmp_path, "UotanToolboxNT-EDL");
     private static string GetTranslation(string key)
     {
         return FeaturesHelper.GetTranslation(key);
@@ -97,24 +96,20 @@ public partial class EDLViewModel : MainPageBase
             var folderPath = folders[0].Path.LocalPath;
             var rawprogramFiles = Directory.GetFiles(folderPath, "rawprogram*.xml");
             var patchFiles = Directory.GetFiles(folderPath, "patch*.xml");
-            var firehoseFiles = Directory.GetFiles(folderPath, "*elf");
+            // 本来打算索引elf文件的，但是elf文件不一定只有一个且不一定就是设备的elf文件
+            //var firehoseFiles = Directory.GetFiles(folderPath, "*elf");
+            //if (firehoseFiles.Length > 0)
+            //{
+            //    FirehoseFile = firehoseFiles[0];
+            //}
             var rawprogramXmls = rawprogramFiles.Select(file => new FileInfo(file)).ToList();
             var patchXmls = patchFiles.Select(file => new FileInfo(file)).ToList();
+            XmlPreprocess(rawprogramXmls, patchXmls); // XML文件预处理，主要为工作目录创建，xml文件合并，节点解析并可视化处理
             var xmlFiles = new List<string>();
-            Directory.CreateDirectory(work_path);
             xmlFiles.AddRange(rawprogramXmls.Select(file => file.FullName));
             xmlFiles.AddRange(patchXmls.Select(file => file.FullName));
-            Global.xml_path = Path.Join(work_path, "Merged.xml");
-            MergeXMLFiles(xmlFiles, Global.xml_path);
-            AddIndexToProgramElements(Global.xml_path);
-            UpdateProgramElementsWithAbsolutePaths(Global.xml_path, PartNamr);
-            EDLPartModel = [.. ParseProgramElements(Global.xml_path)];
+            EDLPartModel = [.. ParseProgramElements(Path.Join(work_path, "Merged.xml"))];
             XMLFile = string.Join(", ", xmlFiles);
-            patch_xml_paths = string.Join(", ", patchXmls.Select(file => file.FullName));
-            if (firehoseFiles.Length > 0)
-            {
-                FirehoseFile = firehoseFiles[0];
-            }
         }
     }
 
@@ -144,22 +139,39 @@ public partial class EDLViewModel : MainPageBase
             FileTypeFilter = new List<FilePickerFileType> { PatchXML },
             AllowMultiple = true,
         });
+        if (String.IsNullOrEmpty(PartNamr))
+        {
+            PartNamr = Path.GetDirectoryName(rawprogram_xmls[0].Path.LocalPath);
+        }
         var xmlFiles = new List<string>();
         if (rawprogram_xmls != null)
         {
             xmlFiles.AddRange(rawprogram_xmls.Select(file => file.Path.LocalPath));
         }
-        Global.xml_path = Path.Join(work_path, "Merged.xml");
-        MergeXMLFiles(xmlFiles, Global.xml_path);
-        AddIndexToProgramElements(Global.xml_path);
-        UpdateProgramElementsWithAbsolutePaths(Global.xml_path, Path.GetDirectoryName(xmlFiles[0]));
-        EDLPartModel = [.. ParseProgramElements(Global.xml_path)];
-        XMLFile = string.Join(", ", xmlFiles);
         if (patch_xmls != null)
         {
             xmlFiles.AddRange(patch_xmls.Select(file => file.Path.LocalPath));
         }
-        patch_xml_paths = string.Join(", ", xmlFiles);
+        // 创建工作目录
+        if (!Directory.Exists(work_path))
+        {
+            Directory.CreateDirectory(work_path);
+        }
+        //批量删除工作目录下的xml文件
+        var exitxmlFiles = Directory.GetFiles(work_path, "*.xml");
+        foreach (var xmlFile in exitxmlFiles)
+        {
+            File.Delete(xmlFile);
+        }
+        //合并用户选择的xml文件
+        MergeProgramXMLFiles(rawprogram_xmls.Select(file => file.Path.LocalPath), Path.Join(work_path, "Merged.xml"));
+        MergePatchXMLFiles(patch_xmls.Select(file => file.Path.LocalPath), Path.Join(work_path, "Merged_Patch.xml"));
+        //为合并后的xml文件添加索引号
+        AddIndexToProgramElements(Path.Join(work_path, "Merged.xml"));
+        //将绝对地址添加到xml文件中
+        UpdateProgramElementsWithAbsolutePaths(Path.Join(work_path, "Merged.xml"), PartNamr);
+        EDLPartModel = [.. ParseProgramElements(Path.Join(work_path, "Merged.xml"))];
+        XMLFile = string.Join(", ", xmlFiles);
     }
 
     [RelayCommand]
@@ -171,7 +183,14 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task Remark()
     {
+        // 检查是否所有项的 SelectPart 都为 true
+        bool allSelected = EDLPartModel.All(part => part.SelectPart);
 
+        // 如果全为 true，则全部设置为 false；否则全部设置为 true
+        foreach (var part in EDLPartModel)
+        {
+            part.SelectPart = !allSelected;
+        }
     }
 
     /// <summary>
@@ -237,6 +256,31 @@ public partial class EDLViewModel : MainPageBase
     {
 
     }
+
+    private void XmlPreprocess(List<FileInfo> rawprogramXmls, List<FileInfo> patchXmls)
+    {
+        // 创建工作目录
+        if (!Directory.Exists(work_path))
+        {
+            Directory.CreateDirectory(work_path);
+        }
+        //批量删除工作目录下的xml文件
+        var exitxmlFiles = Directory.GetFiles(work_path, "*.xml");
+        foreach (var xmlFile in exitxmlFiles)
+        {
+            File.Delete(xmlFile);
+        }
+        //合并用户选择的xml文件
+        MergeProgramXMLFiles(rawprogramXmls.Select(file => file.FullName), Path.Join(work_path, "Merged.xml"));
+        MergePatchXMLFiles(rawprogramXmls.Select(file => file.FullName), Path.Join(work_path, "Merged_Patch.xml"));
+        //为合并后的xml文件添加索引号
+        AddIndexToProgramElements(Path.Join(work_path, "Merged.xml"));
+        //将绝对地址添加到xml文件中
+        UpdateProgramElementsWithAbsolutePaths(Path.Join(work_path, "Merged.xml"), PartNamr);
+    }
+
+
+
     /// <summary>
     /// 解析XML文件中的program元素，返回EDLPartModel列表
     /// </summary>
@@ -343,11 +387,11 @@ public partial class EDLViewModel : MainPageBase
         xdoc.Save(xmlFilePath);
     }
     /// <summary>
-    /// 合并用户选择的XML文件
+    /// 合并用户选择的rawprogram.xml文件
     /// </summary>
     /// <param name="xmlFilePaths">多个xml文件所在目录</param>
     /// <param name="outputFilePath">输出的xml文件路径，具体到文件名</param>
-    private void MergeXMLFiles(IEnumerable<string> xmlFilePaths, string outputFilePath)
+    private void MergeProgramXMLFiles(IEnumerable<string> xmlFilePaths, string outputFilePath)
     {
         XDocument mergedDoc = new XDocument(new XElement("data"));
         foreach (var xmlFilePath in xmlFilePaths)
@@ -361,6 +405,27 @@ public partial class EDLViewModel : MainPageBase
         }
         mergedDoc.Save(outputFilePath);
     }
+
+    /// <summary>
+    /// 合并用户选择的patch.xml文件
+    /// </summary>
+    /// <param name="xmlFilePaths">多个xml文件所在目录</param>
+    /// <param name="outputFilePath">输出的xml文件路径，具体到文件名</param>
+    private void MergePatchXMLFiles(IEnumerable<string> xmlFilePaths, string outputFilePath)
+    {
+        XDocument mergedDoc = new XDocument(new XElement("patches"));
+        foreach (var xmlFilePath in xmlFilePaths)
+        {
+            XDocument xdoc = XDocument.Load(xmlFilePath);
+            var programElements = xdoc.Descendants("patch");
+            foreach (var element in programElements)
+            {
+                mergedDoc.Root.Add(new XElement(element));
+            }
+        }
+        mergedDoc.Save(outputFilePath);
+    }
+
     /// <summary>
     /// 解析GPT分区表文件，生成XML文件，节点为标准xml，不包含厂商定义节点
     /// </summary>
@@ -368,14 +433,6 @@ public partial class EDLViewModel : MainPageBase
     /// <param name="outputXmlPath">输出的xml文件路径，具体到文件名</param>
     private void ReadGptFilesAndGenerateXml(string directoryPath, string outputXmlPath)
     {
-        if (MemoryType == "存储类型：EMMC")
-        {
-            Global.SectorSize = 512;
-        }
-        else if (MemoryType == "存储类型：UFS")
-        {
-            Global.SectorSize = 4096;
-        }
         XDocument xmlDoc = new XDocument(new XElement("data"));
         string pattern = @"gpt_main(\d+)\.bin";
         // 获取目录下所有gpt_main*.bin文件
@@ -424,7 +481,7 @@ public partial class EDLViewModel : MainPageBase
     private void ExtractSelectedPartsToXml(string outputFilePath)
     {
         XDocument extractedDoc = new XDocument(new XElement("data"));
-        XDocument tempDoc = XDocument.Load(Global.xml_path);
+        XDocument tempDoc = XDocument.Load(Path.Join(work_path, "Merged.xml"));
         foreach (var part in EDLPartModel)
         {
             if (part.SelectPart)

@@ -61,16 +61,16 @@ public partial class EDLView : UserControl
         Button button = (Button)sender;
         EDLPartModel eDLPartModel = (EDLPartModel)button.DataContext;
         TopLevel topLevel = TopLevel.GetTopLevel(this);
-        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        System.Collections.Generic.IReadOnlyList<IStorageFile> file = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
             AllowMultiple = false
         });
-        if (files.Count >= 1)
+        if (file.Count >= 1)
         {
-            eDLPartModel.FileName = Path.GetFileName(StringHelper.FilePath(files[0].Path.ToString()));
+            eDLPartModel.FileName = Path.GetFileName(StringHelper.FilePath(file[0].Path.ToString()));
 
-            XDocument xdoc = XDocument.Load(Global.xml_path);
+            XDocument xdoc = XDocument.Load(Path.Join(Global.tmp_path, "UotanToolboxNT-EDL", "Merged.xml"));
             var programElements = xdoc.Descendants("program");
 
             foreach (var element in programElements)
@@ -81,12 +81,11 @@ public partial class EDLView : UserControl
                     var filenameAttribute = element.Attribute("filename");
                     if (filenameAttribute != null)
                     {
-                        filenameAttribute.Value = StringHelper.FilePath(files[0].Path.ToString());
+                        filenameAttribute.Value = StringHelper.FilePath(file[0].Path.ToString());
                     }
                 }
             }
-
-            xdoc.Save(Global.xml_path);
+            xdoc.Save(Path.Join(Global.tmp_path, "UotanToolboxNT-EDL", "Merged.xml"));
         }
     }
 }

@@ -12,21 +12,16 @@ namespace UotanToolbox.Common.QcomHelper.Connection
     /// 串行通信类，处理串行端口的连接和数据传输
     /// 原始Python实现 © B.Kerler 2018-2024 under GPLv3 license
     /// </summary>
-    public class SerialClass : DeviceClass
+    /// <remarks>
+    /// 创建串行通信类实例
+    /// </remarks>
+    /// <param name="portConfig">端口配置参数</param>
+    /// <param name="devClass">设备类型标识符</param>
+    public class SerialClass(List<UsbDeviceIdentifier> portConfig = null, int devClass = -1) : DeviceClass(portConfig, devClass)
     {
         private new SerialPort device;
         private new readonly bool xmlread = true;
         private readonly bool isSerial = true;
-
-        /// <summary>
-        /// 创建串行通信类实例
-        /// </summary>
-        /// <param name="portConfig">端口配置参数</param>
-        /// <param name="devClass">设备类型标识符</param>
-        public SerialClass(List<UsbDeviceIdentifier> portConfig = null, int devClass = -1)
-            : base(portConfig, devClass)
-        {
-        }
 
         /// <summary>
         /// 连接到串行设备

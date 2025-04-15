@@ -7,7 +7,12 @@ namespace UotanToolbox.Common.QcomHelper.Connection
     /// 设备通信抽象基类
     /// 原始Python实现 © B.Kerler 2018-2024 under GPLv3 license
     /// </summary>
-    public abstract class DeviceClass
+    /// <remarks>
+    /// 初始化设备通信类
+    /// </remarks>
+    /// <param name="portConfig">端口配置</param>
+    /// <param name="devClass">设备类型标识符</param>
+    public abstract class DeviceClass(List<UsbDeviceIdentifier> portConfig = null, int devClass = -1)
     {
         // 设备通信基本属性
         protected bool connected = false;
@@ -17,7 +22,7 @@ namespace UotanToolbox.Common.QcomHelper.Connection
         // 设备标识和配置
         protected uint? vid = null;
         protected uint? pid = null;
-        protected int devclass = -1;
+        protected int devclass = devClass;
 
         // 串行通信参数
         protected int baudrate;
@@ -30,7 +35,7 @@ namespace UotanToolbox.Common.QcomHelper.Connection
         protected object configuration = null;
 
         // 其他通信参数
-        protected List<UsbDeviceIdentifier> portConfig;
+        protected List<UsbDeviceIdentifier> portConfig = portConfig ?? new List<UsbDeviceIdentifier>();
         protected bool xmlread = true;
 
         /// <summary>
@@ -55,17 +60,6 @@ namespace UotanToolbox.Common.QcomHelper.Connection
         {
             get => devclass;
             protected set => devclass = value;
-        }
-
-        /// <summary>
-        /// 初始化设备通信类
-        /// </summary>
-        /// <param name="portConfig">端口配置</param>
-        /// <param name="devClass">设备类型标识符</param>
-        public DeviceClass(List<UsbDeviceIdentifier> portConfig = null, int devClass = -1)
-        {
-            this.portConfig = portConfig ?? new List<UsbDeviceIdentifier>();
-            this.devclass = devClass;
         }
 
         #region 抽象方法 - 必须由子类实现
@@ -235,33 +229,20 @@ namespace UotanToolbox.Common.QcomHelper.Connection
     /// <summary>
     /// USB设备标识符
     /// </summary>
-    public class UsbDeviceIdentifier
+    public class UsbDeviceIdentifier(int vid, int pid, int interfaceNum)
     {
-        public int Vid { get; }
-        public int Pid { get; }
-        public int Interface { get; }
-
-        public UsbDeviceIdentifier(int vid, int pid, int interfaceNum)
-        {
-            Vid = vid;
-            Pid = pid;
-            Interface = interfaceNum;
-        }
+        public int Vid { get; } = vid;
+        public int Pid { get; } = pid;
+        public int Interface { get; } = interfaceNum;
     }
 
     /// <summary>
     /// 设备信息类
     /// </summary>
-    public class DeviceInfo
+    public class DeviceInfo(int vid, int pid)
     {
-        public int Vid { get; }
-        public int Pid { get; }
-
-        public DeviceInfo(int vid, int pid)
-        {
-            Vid = vid;
-            Pid = pid;
-        }
+        public int Vid { get; } = vid;
+        public int Pid { get; } = pid;
     }
 
 }

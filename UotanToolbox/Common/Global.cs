@@ -22,7 +22,6 @@ namespace UotanToolbox.Common
         public static BootInfo Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
         public static int mb_exitcode, cpio_exitcode, load_times;
         public static int SectorSize = 4096;
-        public static string xml_path;
         //分区表储存
         public static string sdatable = "";
         public static string sdbtable = "";
@@ -38,64 +37,34 @@ namespace UotanToolbox.Common
         public static ISukiDialogManager MainDialogManager;
         public static ISukiToastManager MainToastManager;
     }
-    public class BootInfo
+    public class BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2, string version, string kmi, string osversion, string patchlevel, bool haveramdisk, bool havekernel, bool havedtb, string dtbname, string arch, string compress)
     {
-        public string SHA1 { get; set; }
-        public string Path { get; set; }
-        public string TempPath { get; set; }
-        public bool IsUseful { get; set; }
-        public bool GKI2 { get; set; }
-        public string Version { get; set; }
-        public string KMI { get; set; }
-        public string OSVersion { get; set; }
-        public string PatchLevel { get; set; }
-        public bool HaveRamdisk { get; set; }
-        public bool HaveKernel { get; set; }
-        public bool HaveDTB { get; set; }
-        public string DTBName { get; set; }
-        public string Arch { get; set; }
-        public string Compress { get; set; }
-        public BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2, string version, string kmi, string osversion, string patchlevel, bool haveramdisk, bool havekernel, bool havedtb, string dtbname, string arch, string compress)
-        {
-            SHA1 = sha1;
-            Path = path;
-            TempPath = tempPath;
-            IsUseful = isUseful;
-            GKI2 = gki2;
-            Version = version;
-            KMI = kmi;
-            OSVersion = osversion;
-            PatchLevel = patchlevel;
-            HaveRamdisk = haveramdisk;
-            HaveKernel = havekernel;
-            HaveDTB = havedtb;
-            DTBName = dtbname;
-            Arch = arch;
-            Compress = compress;
-        }
+        public string SHA1 { get; set; } = sha1;
+        public string Path { get; set; } = path;
+        public string TempPath { get; set; } = tempPath;
+        public bool IsUseful { get; set; } = isUseful;
+        public bool GKI2 { get; set; } = gki2;
+        public string Version { get; set; } = version;
+        public string KMI { get; set; } = kmi;
+        public string OSVersion { get; set; } = osversion;
+        public string PatchLevel { get; set; } = patchlevel;
+        public bool HaveRamdisk { get; set; } = haveramdisk;
+        public bool HaveKernel { get; set; } = havekernel;
+        public bool HaveDTB { get; set; } = havedtb;
+        public string DTBName { get; set; } = dtbname;
+        public string Arch { get; set; } = arch;
+        public string Compress { get; set; } = compress;
     }
-    public class ZipInfo
+    public class ZipInfo(string path, string sha1, string version, string kmi, string tempPath, bool isUseful, PatchMode mode, string subSHA1)
     {
-        public string Path { get; set; }
-        public string SHA1 { get; set; }
-        public string Version { get; set; }
-        public string KMI { get; set; }
-        public string TempPath { get; set; }
-        public bool IsUseful { get; set; }
-        public PatchMode Mode { get; set; }
-        public string SubSHA1 { get; set; }
-
-        public ZipInfo(string path, string sha1, string version, string kmi, string tempPath, bool isUseful, PatchMode mode, string subSHA1)
-        {
-            Path = path;
-            SHA1 = sha1;
-            Version = version;
-            KMI = kmi;
-            TempPath = tempPath;
-            IsUseful = isUseful;
-            Mode = mode;
-            SubSHA1 = subSHA1;
-        }
+        public string Path { get; set; } = path;
+        public string SHA1 { get; set; } = sha1;
+        public string Version { get; set; } = version;
+        public string KMI { get; set; } = kmi;
+        public string TempPath { get; set; } = tempPath;
+        public bool IsUseful { get; set; } = isUseful;
+        public PatchMode Mode { get; set; } = mode;
+        public string SubSHA1 { get; set; } = subSHA1;
     }
     public class EnvironmentVariable
     {

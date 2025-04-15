@@ -12,28 +12,16 @@ namespace UotanToolbox.Common.QcomHelper.modules
         public string Cm { get; set; }
         public int ParamMode { get; set; }
     }
-    internal class OnePlusDevice
+    internal class OnePlusDevice(string fh, string projid, int version, int serial, int atoBuild, int flashMode, int cf, string[] supported_functions)
     {
-        public string Fh { get; set; }
-        public string Projid { get; set; }
-        public int Version { get; set; }
-        public int Serial { get; set; }
-        public int ATOBuild { get; set; }
-        public int FlashMode { get; set; }
-        public int Cf { get; set; }
-        public string[] Supported_functions { get; set; }
-
-        public OnePlusDevice(string fh, string projid, int version, int serial, int atoBuild, int flashMode, int cf, string[] supported_functions)
-        {
-            Fh = fh;
-            Version = version;
-            Projid = projid;
-            Serial = serial;
-            ATOBuild = atoBuild;
-            FlashMode = flashMode;
-            Cf = cf;
-            Supported_functions = supported_functions;
-        }
+        public string Fh { get; set; } = fh;
+        public string Projid { get; set; } = projid;
+        public int Version { get; set; } = version;
+        public int Serial { get; set; } = serial;
+        public int ATOBuild { get; set; } = atoBuild;
+        public int FlashMode { get; set; } = flashMode;
+        public int Cf { get; set; } = cf;
+        public string[] Supported_functions { get; set; } = supported_functions;
         public static Dictionary<string, DeviceConfig> DeviceConfig { get; } = new Dictionary<string, DeviceConfig>
         {
             { "16859", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },

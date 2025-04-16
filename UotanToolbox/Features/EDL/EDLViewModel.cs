@@ -35,15 +35,13 @@ public partial class EDLViewModel : MainPageBase
     [ObservableProperty]
     private int selectBand = 0, selectSeries = 0, selectModel = 0, logIndex = 0;
     [ObservableProperty]
-    private AvaloniaList<string> bandList = ["通用", "小米", "OPPO", "一加", "魅族", "中兴", "LG"], seriesList = ["选择系列"], modelList = ["选择机型"];
+    private AvaloniaList<string> bandList = ["通用"], seriesList = ["通用"], modelList = ["通用"];
     [ObservableProperty]
     private AvaloniaList<EDLPartModel> eDLPartModel = [];
     private string SelectedStorageType = "";
     private Flash _flash; //获取flash对象单例实例
     private string patch_xml_paths = "";
     private string output = "";
-    private readonly string edl_log_path = Path.Combine(Global.log_path, "edl.txt");
-    private const int LogLevel = 0;
     //工作目录路径，可多次复用
     public string work_path = Path.Join(Global.tmp_path, "UotanToolboxNT-EDL");
     private static string GetTranslation(string key)
@@ -340,7 +338,9 @@ public partial class EDLViewModel : MainPageBase
             {
                 Lun = element.Attribute("physical_partition_number")?.Value,
                 Name = element.Attribute("label")?.Value,
-                FileName = Path.GetFileName(element.Attribute("filename")?.Value),//让文件名只显示文件名，不显示路径
+                FileName = string.IsNullOrEmpty(element.Attribute("filename")?.Value)
+                        ? "请选择文件" // 如果为空，赋值为“请选择文件”
+                        : Path.GetFileName(element.Attribute("filename")?.Value), //让文件名只显示文件名，不显示路径
                 IsSparse = element.Attribute("sparse")?.Value,
                 Offset = element.Attribute("file_sector_offset")?.Value,
                 Start = element.Attribute("start_sector")?.Value,

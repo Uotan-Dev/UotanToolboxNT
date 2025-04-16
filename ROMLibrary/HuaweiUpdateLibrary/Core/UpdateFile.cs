@@ -16,6 +16,7 @@
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
+using ROMLibrary.HuaweiUpdateLibrary.Streams;
 using System.Collections;
 
 namespace ROMLibrary.HuaweiUpdateLibrary.Core

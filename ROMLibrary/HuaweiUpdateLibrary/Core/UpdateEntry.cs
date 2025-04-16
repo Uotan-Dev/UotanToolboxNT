@@ -13,6 +13,8 @@
  *  
  */
 
+using ROMLibrary.HuaweiUpdateLibrary.Streams;
+
 namespace ROMLibrary.HuaweiUpdateLibrary.Core
 {
     /// <summary>

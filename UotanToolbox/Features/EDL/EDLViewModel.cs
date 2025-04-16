@@ -207,6 +207,7 @@ public partial class EDLViewModel : MainPageBase
                             .TryShow();
             return;
         }
+        EDLLog += $"索引引导文件...{Environment.NewLine}";
         _flash = Flash.Instance;
         if (uFS == true)
         {
@@ -216,8 +217,13 @@ public partial class EDLViewModel : MainPageBase
         {
             SelectedStorageType = "emmc";
         }
+        EDLLog += $"存储类型：{SelectedStorageType}{Environment.NewLine}";
         _flash.Initialize(Global.thisdevice, SelectedStorageType);
+        EDLLog += $"目标端口：{Global.thisdevice}{Environment.NewLine}";
+        EDLLog += $"引导文件：{FirehoseFile}{Environment.NewLine}";
+        EDLLog += $"设备初始化...{Environment.NewLine}";
         _flash.RegisterPort();
+        EDLLog += $"端口注册...{Environment.NewLine}";
         if (!_flash.Sahara(FirehoseFile))
         {
             Global.MainDialogManager.CreateDialog()
@@ -228,6 +234,7 @@ public partial class EDLViewModel : MainPageBase
                             .TryShow();
         }
         string result = _flash.ConfigureDDR();
+        EDLLog += $"设备配置DDR...{Environment.NewLine}";
         if (result == "success")
         {
             Global.MainDialogManager.CreateDialog()
@@ -236,9 +243,11 @@ public partial class EDLViewModel : MainPageBase
                 .WithContent("引导发送成功")
                 .Dismiss().ByClickingBackground()
                 .TryShow();
+            EDLLog += $"引导发送成功{Environment.NewLine}";
         }
         else if (result == "needsig")
         {
+            EDLLog += $"需要签名{Environment.NewLine}";
 
         }
     }
@@ -263,18 +272,59 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task ReadPartTable()
     {
-        if (UFS)
+        try
         {
-            for (int i = 0; i <= 5; i++)
+            _flash = Flash.Instance;
+
+            // 确保工作目录存在
+            if (!Directory.Exists(work_path))
             {
-                string outputFile = Path.Combine(work_path, $"gpt_main{i}.bin");
-                _flash.Read("0", 6, i, outputFile);
+                Directory.CreateDirectory(work_path);
             }
+
+            // 根据存储类型读取分区表
+            if (UFS)
+            {
+                // UFS设备需要读取多个LUN
+                for (int i = 0; i <= 5; i++)
+                {
+                    string outputFile = Path.Combine(work_path, $"gpt_main{i}.bin");
+                    _flash.Read("0", 6, i, outputFile);
+                }
+            }
+            else
+            {
+                // eMMC设备只需要读取LUN 0
+                string outputFile = Path.Combine(work_path, $"gpt_main0.bin");
+                _flash.Read("0", 34, 0, outputFile);
+            }
+
+            // 解析分区表文件并生成XML
+            string outputXmlPath = Path.Combine(work_path, "rawprogram.xml");
+            ReadGptFilesAndGenerateXml(work_path, outputXmlPath);
+
+            // 加载生成的XML到可视化编辑器
+            EDLPartModel = [.. ParseProgramElements(outputXmlPath)];
+            XMLFile = outputXmlPath;
+
+            // 显示成功通知
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle("操作成功")
+                .OfType(NotificationType.Success)
+                .WithContent("分区表读取并解析完成")
+                .Dismiss().ByClickingBackground()
+                .TryShow();
         }
-        else
+        catch (Exception ex)
         {
-            string outputFile = Path.Combine(work_path, $"gpt_main0.bin");
-            _flash.Read("0", 34, 0, outputFile);
+            EDLLog += $"读取分区表失败: {ex.Message}{Environment.NewLine}";
+            // 显示错误消息
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle(GetTranslation("Common_Error"))
+                .OfType(NotificationType.Error)
+                .WithContent($"分区表解析失败: {ex.Message}")
+                .Dismiss().ByClickingBackground()
+                .TryShow();
         }
 
     }
@@ -449,6 +499,7 @@ public partial class EDLViewModel : MainPageBase
     /// <param name="outputFilePath">输出的xml文件路径，具体到文件名</param>
     private void MergeProgramXMLFiles(IEnumerable<string> xmlFilePaths, string outputFilePath)
     {
+        EDLLog += "正在合并rawprogram文件...\n";
         XDocument mergedDoc = new XDocument(new XElement("data"));
         foreach (var xmlFilePath in xmlFilePaths)
         {
@@ -460,6 +511,7 @@ public partial class EDLViewModel : MainPageBase
             }
         }
         mergedDoc.Save(outputFilePath);
+        EDLLog += "rawprogram文件合并完成\n";
     }
 
     /// <summary>
@@ -469,6 +521,7 @@ public partial class EDLViewModel : MainPageBase
     /// <param name="outputFilePath">输出的xml文件路径，具体到文件名</param>
     private void MergePatchXMLFiles(IEnumerable<string> xmlFilePaths, string outputFilePath)
     {
+        EDLLog += "正在合并patch文件...\n";
         XDocument mergedDoc = new XDocument(new XElement("patches"));
         foreach (var xmlFilePath in xmlFilePaths)
         {
@@ -480,53 +533,82 @@ public partial class EDLViewModel : MainPageBase
             }
         }
         mergedDoc.Save(outputFilePath);
+        EDLLog += "patch文件合并完成\n";
     }
 
     /// <summary>
-    /// 解析GPT分区表文件，生成XML文件，节点为标准xml，不包含厂商定义节点
+    /// 解析GPT分区表文件，生成符合标准的XML文件，用于加载到EDLPartModel
     /// </summary>
     /// <param name="directoryPath">分区表文件所在文件夹</param>
-    /// <param name="outputXmlPath">输出的xml文件路径，具体到文件名</param>
+    /// <param name="outputXmlPath">输出的xml文件路径</param>
     private void ReadGptFilesAndGenerateXml(string directoryPath, string outputXmlPath)
     {
+        // 创建根XML元素
         XDocument xmlDoc = new XDocument(new XElement("data"));
+
+        // 查找所有gpt_main*.bin文件
         string pattern = @"gpt_main(\d+)\.bin";
-        // 获取目录下所有gpt_main*.bin文件
         var gptFiles = Directory.GetFiles(directoryPath, "gpt_main*.bin");
+
         foreach (var gptFile in gptFiles)
         {
+            // 提取LUN号
             Match match = Regex.Match(Path.GetFileName(gptFile), pattern);
-            string number = "";
+            string lun = "0";
             if (match.Success)
             {
-                number = match.Groups[1].Value;
+                lun = match.Groups[1].Value;
             }
-            IGptReader gptReader = DiskPartition.DiskPartition.ReadGpt().Primary();
-            GuidPartitionTable gpt = gptReader.FromPath(gptFile);
-            XElement root = new("data");
-            foreach (var partition in gpt.Partitions)
+            try
             {
-                if (partition.Guid.ToString() == "00000000-0000-0000-0000-000000000000")
+                // 使用DiskPartition库读取GPT分区表
+                IGptReader gptReader = DiskPartition.DiskPartition.ReadGpt().Primary();
+                GuidPartitionTable gpt = gptReader.FromPath(gptFile);
+
+                // 为每个分区创建program元素
+                foreach (var partition in gpt.Partitions)
                 {
-                    continue;
+                    // 跳过空分区
+                    if (partition.Guid.ToString() == "00000000-0000-0000-0000-000000000000")
+                    {
+                        continue;
+                    }
+                    // 创建标准程序元素
+                    XElement programElement = new XElement("program",
+                        new XAttribute("SECTOR_SIZE_IN_BYTES", gpt.SectorSize),
+                        new XAttribute("file_sector_offset", "0"),
+                        new XAttribute("filename", ""), // 默认为空，用户可以后续选择文件
+                        new XAttribute("label", partition.Name),
+                        new XAttribute("num_partition_sectors", (partition.LastLba - partition.FirstLba + 1).ToString()),
+                        new XAttribute("physical_partition_number", lun),
+                        new XAttribute("size_in_KB", ((partition.LastLba - partition.FirstLba + 1) * (ulong)gpt.SectorSize / 1024.0).ToString("F1")),
+                        new XAttribute("sparse", "false"),
+                        new XAttribute("start_byte_hex", $"0x{(partition.FirstLba * (ulong)gpt.SectorSize):X}"),
+                        new XAttribute("start_sector", $"{partition.FirstLba}")
+                    );
+                    xmlDoc.Root.Add(programElement);
                 }
-                XElement partitionElement = new XElement("Partition",
-                                            new XAttribute("SECTOR_SIZE_IN_BYTES", gpt.SectorSize),
-                                            new XAttribute("file_sector_offset", "0"),
-                                            new XAttribute("filename", ""),
-                                            new XAttribute("label", partition.Name),
-                                            new XAttribute("num_partition_sectors", (partition.LastLba - partition.FirstLba + 1).ToString()),
-                                            new XAttribute("physical_partition_number", number),
-                                            new XAttribute("size_in_KB", ((partition.LastLba - partition.FirstLba + 1) * (ulong)Global.SectorSize / 1024.0).ToString("F1")),
-                                            new XAttribute("sparse", "false"),
-                                            new XAttribute("start_byte_hex", $"{partition.FirstLba * (ulong)Global.SectorSize}"),
-                                            new XAttribute("start_sector", $"{partition.FirstLba}")
-                                            );
-                root.Add(partitionElement);
             }
-            XDocument doc = new(new XDeclaration("1.0", "utf-8", "yes"), root);
-            doc.Save("Partitions.xml");
+            catch (Exception ex)
+            {
+                // 记录错误但继续处理其他文件
+                EDLLog += $"解析文件 {gptFile} 时出错: {ex.Message}{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                                        .WithTitle(GetTranslation("Common_Error"))
+                                        .OfType(NotificationType.Error)
+                                        .WithContent($"分区表解析出错: {ex.Message}")
+                                        .Dismiss().ByClickingBackground()
+                                        .TryShow();
+            }
         }
+
+        // 为XML元素添加索引属性
+        int index = 1;
+        foreach (var element in xmlDoc.Root.Elements("program"))
+        {
+            element.SetAttributeValue("Uotan-Index", index++);
+        }
+        // 保存XML文档
         xmlDoc.Save(outputXmlPath);
     }
     /// <summary>

@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace DiskPartitionInfo.Models
+namespace DiskPartition.Models
 {
     [StructLayout(LayoutKind.Sequential, Size = 16, Pack = 1)]
     internal readonly struct MbrPartitionEntry

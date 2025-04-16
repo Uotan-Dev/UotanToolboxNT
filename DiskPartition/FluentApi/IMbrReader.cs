@@ -1,7 +1,7 @@
-using DiskPartitionInfo.Mbr;
+using DiskPartition.Mbr;
 using System.IO;
 
-namespace DiskPartitionInfo.FluentApi
+namespace DiskPartition.FluentApi
 {
     public interface IMbrReader
     {

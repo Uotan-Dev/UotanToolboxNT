@@ -1,6 +1,6 @@
-using DiskPartitionInfo.FluentApi;
+using DiskPartition.FluentApi;
 
-namespace DiskPartitionInfo
+namespace DiskPartition
 {
     public static class DiskPartition
     {

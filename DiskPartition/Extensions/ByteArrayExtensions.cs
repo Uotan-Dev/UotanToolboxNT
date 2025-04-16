@@ -1,7 +1,6 @@
-using System;
 using System.Runtime.InteropServices;
 
-namespace DiskPartitionInfo.Extensions
+namespace DiskPartition.Extensions
 {
     internal static class ByteArrayExtensions
     {
@@ -28,7 +27,7 @@ namespace DiskPartitionInfo.Extensions
         {
             int size = Marshal.SizeOf(typeof(T));
             byte[] buffer = new byte[size];
-            IntPtr ptr = Marshal.AllocHGlobal(size);
+            nint ptr = Marshal.AllocHGlobal(size);
 
             try
             {

@@ -1,11 +1,11 @@
-using DiskPartitionInfo.Extensions;
-using DiskPartitionInfo.Models;
+using DiskPartition.Extensions;
+using DiskPartition.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using GuidPartitionTable = DiskPartitionInfo.Gpt.GuidPartitionTable;
+using GuidPartitionTable = DiskPartition.Gpt.GuidPartitionTable;
 
-namespace DiskPartitionInfo.FluentApi
+namespace DiskPartition.FluentApi
 {
     internal class GptWriter : IGptWriter, IGptWriterLocation
     {
@@ -14,7 +14,7 @@ namespace DiskPartitionInfo.FluentApi
         private const int AdvancedSectorSize = 4096;
 
         private bool _usePrimary = true;
-        private int _sectorSize = StandardSectorSize; // 默认使用标准扇区大小
+        private int _sectorSize = AdvancedSectorSize; // 默认使用4K扇区大小
 
         /// <inheritdoc/>
         public IGptWriter Primary()
@@ -79,7 +79,7 @@ namespace DiskPartitionInfo.FluentApi
                     // 设置EFI PART签名
                     Signature = "EFI PART".ToCharArray(),
                     // 版本通常为1.0（00 00 01 00）
-                    Revision = new byte[] { 0, 0, 1, 0 },
+                    Revision = [0, 0, 1, 0],
                     HeaderSize = 92, // GPT头部的标准大小为92字节
                     // HeaderCrc32会在后面计算
                     HeaderCrc32 = 0,
@@ -104,6 +104,10 @@ namespace DiskPartitionInfo.FluentApi
                 // 确定写入的位置
                 long headerPosition;
                 long partitionsPosition;
+
+                //设定扇区大小，数据来源于读取的分区表文件
+                _sectorSize = gpt.SectorSize;
+
                 if (_usePrimary)
                 {
                     // 主GPT位于LBA1（即第二个扇区）
@@ -113,7 +117,7 @@ namespace DiskPartitionInfo.FluentApi
                     // 计算备份GPT位置
                     stream.Seek(0, SeekOrigin.End);
                     long endPosition = stream.Position;
-                    writableGpt.SecondaryHeaderLocation = (ulong)((endPosition / _sectorSize) - 1);
+                    writableGpt.SecondaryHeaderLocation = (ulong)(endPosition / _sectorSize - 1);
 
                     // 主GPT的分区表通常在LBA2
                     partitionsPosition = 2 * _sectorSize;
@@ -132,7 +136,7 @@ namespace DiskPartitionInfo.FluentApi
 
                     // 备份GPT的分区表通常在末尾前
                     // 标准是33个LBA位置（即32个分区表扇区 + 1个GPT头扇区）
-                    partitionsPosition = headerPosition - (32 * _sectorSize);
+                    partitionsPosition = headerPosition - 32 * _sectorSize;
                     writableGpt.PartitionsArrayLba = (ulong)(partitionsPosition / _sectorSize);
                 }
 

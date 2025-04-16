@@ -1,9 +1,9 @@
-using DiskPartitionInfo.Models;
+using DiskPartition.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DiskPartitionInfo.Mbr
+namespace DiskPartition.Mbr
 {
     public class MasterBootRecord
     {

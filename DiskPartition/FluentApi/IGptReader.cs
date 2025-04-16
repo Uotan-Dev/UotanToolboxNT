@@ -1,7 +1,7 @@
-using DiskPartitionInfo.Gpt;
+using DiskPartition.Gpt;
 using System.IO;
 
-namespace DiskPartitionInfo.FluentApi
+namespace DiskPartition.FluentApi
 {
     public interface IGptReader
     {

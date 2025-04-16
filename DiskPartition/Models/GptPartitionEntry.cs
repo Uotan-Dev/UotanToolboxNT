@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace DiskPartitionInfo.Models
+namespace DiskPartition.Models
 {
     [StructLayout(LayoutKind.Sequential, Size = 128, Pack = 1, CharSet = CharSet.Unicode)]
     internal readonly struct GptPartitionEntry

@@ -1,10 +1,10 @@
-using DiskPartitionInfo.Extensions;
-using DiskPartitionInfo.Util;
+using DiskPartition.Extensions;
+using DiskPartition.Util;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace DiskPartitionInfo.Models
+namespace DiskPartition.Models
 {
     [StructLayout(LayoutKind.Sequential, Size = 512, Pack = 1)]
     internal struct WritableGuidPartitionTable
@@ -121,7 +121,7 @@ namespace DiskPartitionInfo.Models
         public byte[] ToBytes(uint partitionsArrayCrc32)
         {
             // 设置分区表CRC32
-            this.PartitionsArrayCrc32 = partitionsArrayCrc32;
+            PartitionsArrayCrc32 = partitionsArrayCrc32;
 
             // 先将结构体转换为字节数组
             byte[] gptBytes = this.StructToBytes();

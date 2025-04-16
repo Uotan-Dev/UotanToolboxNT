@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using GptPartitionStruct = DiskPartitionInfo.Models.GptPartitionEntry;
+using GptPartitionStruct = DiskPartition.Models.GptPartitionEntry;
 
-namespace DiskPartitionInfo.Gpt
+namespace DiskPartition.Gpt
 {
     public class PartitionEntry
     {

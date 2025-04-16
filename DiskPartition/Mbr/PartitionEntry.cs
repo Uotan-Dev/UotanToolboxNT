@@ -1,8 +1,8 @@
-using DiskPartitionInfo.Models;
+using DiskPartition.Models;
 using System;
 using System.Collections.Generic;
 
-namespace DiskPartitionInfo.Mbr
+namespace DiskPartition.Mbr
 {
     /// <summary>
     /// Represents the MBR partition entry.

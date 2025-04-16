@@ -1,12 +1,14 @@
-using DiskPartitionInfo.Extensions;
-using DiskPartitionInfo.Gpt;
+using DiskPartition.Extensions;
+using DiskPartition.Gpt;
+using DiskPartition.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using GptPartitionStruct = DiskPartitionInfo.Models.GptPartitionEntry;
-using GptStruct = DiskPartitionInfo.Models.GuidPartitionTable;
+using GptPartitionStruct = DiskPartition.Models.GptPartitionEntry;
+using GptStruct = DiskPartition.Models.GuidPartitionTable;
+using GuidPartitionTable = DiskPartition.Gpt.GuidPartitionTable;
 
-namespace DiskPartitionInfo.FluentApi
+namespace DiskPartition.FluentApi
 {
     internal partial class GptReader : IGptReader, IGptReaderLocation
     {
@@ -73,7 +75,7 @@ namespace DiskPartitionInfo.FluentApi
                     var partitions = ReadPartitions(stream, gpt);
 
                     // 成功读取到有效的GPT
-                    return new GuidPartitionTable(gpt, partitions);
+                    return new GuidPartitionTable(sectorSize, gpt, partitions);
                 }
                 catch (Exception ex)
                 {

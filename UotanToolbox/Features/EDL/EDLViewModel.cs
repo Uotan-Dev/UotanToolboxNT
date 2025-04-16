@@ -6,9 +6,8 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DiskPartitionInfo;
-using DiskPartitionInfo.FluentApi;
-using DiskPartitionInfo.Gpt;
+using DiskPartition.FluentApi;
+using DiskPartition.Gpt;
 using Material.Icons;
 using SukiUI.Dialogs;
 using System;
@@ -209,7 +208,8 @@ public partial class EDLViewModel : MainPageBase
             return;
         }
         _flash = Flash.Instance;
-        if (uFS == true){
+        if (uFS == true)
+        {
             SelectedStorageType = "ufs";
         }
         if (eMMC == true)
@@ -236,9 +236,10 @@ public partial class EDLViewModel : MainPageBase
                 .WithContent("引导发送成功")
                 .Dismiss().ByClickingBackground()
                 .TryShow();
-        }else if (result == "needsig")
+        }
+        else if (result == "needsig")
         {
-            
+
         }
     }
 
@@ -262,6 +263,19 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task ReadPartTable()
     {
+        if (UFS)
+        {
+            for (int i = 0; i <= 5; i++)
+            {
+                string outputFile = Path.Combine(work_path, $"gpt_main{i}.bin");
+                _flash.Read("0", 6, i, outputFile);
+            }
+        }
+        else
+        {
+            string outputFile = Path.Combine(work_path, $"gpt_main0.bin");
+            _flash.Read("0", 34, 0, outputFile);
+        }
 
     }
 
@@ -345,7 +359,6 @@ public partial class EDLViewModel : MainPageBase
                 Offset = element.Attribute("file_sector_offset")?.Value,
                 Start = element.Attribute("start_sector")?.Value,
                 Sector = element.Attribute("num_partition_sectors")?.Value,
-                Index = element.Attribute("Uotan-Index")?.Value
             };
             partModels.Add(partModel);
         }
@@ -480,7 +493,6 @@ public partial class EDLViewModel : MainPageBase
         string pattern = @"gpt_main(\d+)\.bin";
         // 获取目录下所有gpt_main*.bin文件
         var gptFiles = Directory.GetFiles(directoryPath, "gpt_main*.bin");
-
         foreach (var gptFile in gptFiles)
         {
             Match match = Regex.Match(Path.GetFileName(gptFile), pattern);
@@ -489,7 +501,7 @@ public partial class EDLViewModel : MainPageBase
             {
                 number = match.Groups[1].Value;
             }
-            IGptReader gptReader = DiskPartition.ReadGpt().Primary();
+            IGptReader gptReader = DiskPartition.DiskPartition.ReadGpt().Primary();
             GuidPartitionTable gpt = gptReader.FromPath(gptFile);
             XElement root = new("data");
             foreach (var partition in gpt.Partitions)
@@ -499,7 +511,7 @@ public partial class EDLViewModel : MainPageBase
                     continue;
                 }
                 XElement partitionElement = new XElement("Partition",
-                                            new XAttribute("SECTOR_SIZE_IN_BYTES", Global.SectorSize),
+                                            new XAttribute("SECTOR_SIZE_IN_BYTES", gpt.SectorSize),
                                             new XAttribute("file_sector_offset", "0"),
                                             new XAttribute("filename", ""),
                                             new XAttribute("label", partition.Name),

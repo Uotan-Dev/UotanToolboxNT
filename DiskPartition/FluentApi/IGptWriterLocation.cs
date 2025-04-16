@@ -1,4 +1,4 @@
-namespace DiskPartitionInfo.FluentApi
+namespace DiskPartition.FluentApi
 {
     public interface IGptWriterLocation
     {

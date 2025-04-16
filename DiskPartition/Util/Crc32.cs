@@ -1,6 +1,6 @@
 using System;
 
-namespace DiskPartitionInfo.Util
+namespace DiskPartition.Util
 {
     /// <summary>
     /// 用于计算CRC32校验和的工具类
@@ -19,7 +19,7 @@ namespace DiskPartitionInfo.Util
                 for (int j = 0; j < 8; j++)
                 {
                     if ((crc & 1) == 1)
-                        crc = (crc >> 1) ^ Polynomial;
+                        crc = crc >> 1 ^ Polynomial;
                     else
                         crc >>= 1;
                 }
@@ -36,14 +36,13 @@ namespace DiskPartitionInfo.Util
         /// <returns>CRC32校验和</returns>
         public static uint Compute(byte[] bytes, int offset, int count)
         {
-            if (bytes == null)
-                throw new ArgumentNullException(nameof(bytes));
+            ArgumentNullException.ThrowIfNull(bytes);
 
             uint crc = 0xFFFFFFFF;
             for (int i = offset; i < offset + count; i++)
             {
-                byte index = (byte)((crc & 0xFF) ^ bytes[i]);
-                crc = (crc >> 8) ^ Table[index];
+                byte index = (byte)(crc & 0xFF ^ bytes[i]);
+                crc = crc >> 8 ^ Table[index];
             }
             return ~crc;
         }
@@ -67,8 +66,7 @@ namespace DiskPartitionInfo.Util
         /// <returns>CRC32校验和</returns>
         public static uint ComputeWithExclusion(byte[] bytes, int excludeOffset, int excludeSize)
         {
-            if (bytes == null)
-                throw new ArgumentNullException(nameof(bytes));
+            ArgumentNullException.ThrowIfNull(bytes);
 
             // 如果排除区域无效或超出范围，则计算整个数组
             if (excludeOffset < 0 || excludeOffset >= bytes.Length ||
@@ -81,15 +79,15 @@ namespace DiskPartitionInfo.Util
             uint crc = 0xFFFFFFFF;
             for (int i = 0; i < excludeOffset; i++)
             {
-                byte index = (byte)((crc & 0xFF) ^ bytes[i]);
-                crc = (crc >> 8) ^ Table[index];
+                byte index = (byte)(crc & 0xFF ^ bytes[i]);
+                crc = crc >> 8 ^ Table[index];
             }
 
             // 跳过排除区域
             for (int i = excludeOffset + excludeSize; i < bytes.Length; i++)
             {
-                byte index = (byte)((crc & 0xFF) ^ bytes[i]);
-                crc = (crc >> 8) ^ Table[index];
+                byte index = (byte)(crc & 0xFF ^ bytes[i]);
+                crc = crc >> 8 ^ Table[index];
             }
 
             return ~crc;

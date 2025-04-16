@@ -135,7 +135,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\DiskPartitionInfo\DiskPartition.csproj" />
+	  <ProjectReference Include="..\DiskPartition\DiskPartition.csproj" />
 	  <ProjectReference Include="..\WuXingLibrary\EDLLibrary.csproj" />
 	</ItemGroup>
 </Project>

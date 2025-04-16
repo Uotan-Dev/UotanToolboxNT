@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace UotanToolbox.Common.ROMHelper.SpraseHelper
+﻿namespace ROMLibrary.SpraseHelper
 {
     internal class SimgInfo
     {

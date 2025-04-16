@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace UotanToolbox.Common.ROMHelper.SpraseHelper.Utilities.Conversion
+﻿namespace ROMLibrary.SpraseHelper.Utilities.Conversion
 {
     internal class LittleEndianConverter
     {

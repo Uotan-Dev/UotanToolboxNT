@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace UotanToolbox.Common.ROMHelper.SpraseHelper.Utilities.Strings
+﻿namespace ROMLibrary.SpraseHelper.Utilities.Strings
 {
     internal class QuotedStringUtils
     {

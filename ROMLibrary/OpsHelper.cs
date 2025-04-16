@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
 
 
-namespace UotanToolbox.Common.ROMHelper
+namespace ROMLibrary
 {
     internal class OpsHelper
     {
@@ -130,10 +126,10 @@ namespace UotanToolbox.Common.ROMHelper
             uint a = iv1[1] ^ asbox[1];
             uint b = iv1[2] ^ asbox[2];
             uint c = iv1[3] ^ asbox[3];
-            uint e = Gsbox(((b >> 16) & 0xff) * 8 + 2) ^ Gsbox(((a >> 8) & 0xff) * 8 + 3) ^ Gsbox((c >> 24) * 8 + 1) ^ Gsbox((d & 0xff) * 8) ^ asbox[4];
-            uint h = Gsbox(((c >> 16) & 0xff) * 8 + 2) ^ Gsbox(((b >> 8) & 0xff) * 8 + 3) ^ Gsbox((d >> 24) * 8 + 1) ^ Gsbox((a & 0xff) * 8) ^ asbox[5];
-            uint i = Gsbox(((d >> 16) & 0xff) * 8 + 2) ^ Gsbox(((c >> 8) & 0xff) * 8 + 3) ^ Gsbox((a >> 24) * 8 + 1) ^ Gsbox((b & 0xff) * 8) ^ asbox[6];
-            a = Gsbox(((d >> 8) & 0xff) * 8 + 3) ^ Gsbox(((a >> 16) & 0xff) * 8 + 2) ^ Gsbox((b >> 24) * 8 + 1) ^ Gsbox((c & 0xff) * 8) ^ asbox[7];
+            uint e = Gsbox((b >> 16 & 0xff) * 8 + 2) ^ Gsbox((a >> 8 & 0xff) * 8 + 3) ^ Gsbox((c >> 24) * 8 + 1) ^ Gsbox((d & 0xff) * 8) ^ asbox[4];
+            uint h = Gsbox((c >> 16 & 0xff) * 8 + 2) ^ Gsbox((b >> 8 & 0xff) * 8 + 3) ^ Gsbox((d >> 24) * 8 + 1) ^ Gsbox((a & 0xff) * 8) ^ asbox[5];
+            uint i = Gsbox((d >> 16 & 0xff) * 8 + 2) ^ Gsbox((c >> 8 & 0xff) * 8 + 3) ^ Gsbox((a >> 24) * 8 + 1) ^ Gsbox((b & 0xff) * 8) ^ asbox[6];
+            a = Gsbox((d >> 8 & 0xff) * 8 + 3) ^ Gsbox((a >> 16 & 0xff) * 8 + 2) ^ Gsbox((b >> 24) * 8 + 1) ^ Gsbox((c & 0xff) * 8) ^ asbox[7];
 
             int g = 8;
 
@@ -145,19 +141,19 @@ namespace UotanToolbox.Common.ROMHelper
                 uint z = e >> 16;
                 uint l = i >> 24;
                 uint t = e >> 8;
-                e = Gsbox(((i >> 16) & 0xff) * 8 + 2) ^ Gsbox(((h >> 8) & 0xff) * 8 + 3) ^ Gsbox((a >> 24) * 8 + 1) ^ Gsbox((e & 0xff) * 8) ^ asbox[g];
-                h = Gsbox(((a >> 16) & 0xff) * 8 + 2) ^ Gsbox(((i >> 8) & 0xff) * 8 + 3) ^ Gsbox(d * 8 + 1) ^ Gsbox((h & 0xff) * 8) ^ asbox[g + 1];
-                i = Gsbox((z & 0xff) * 8 + 2) ^ Gsbox(((a >> 8) & 0xff) * 8 + 3) ^ Gsbox(s * 8 + 1) ^ Gsbox((i & 0xff) * 8) ^ asbox[g + 2];
+                e = Gsbox((i >> 16 & 0xff) * 8 + 2) ^ Gsbox((h >> 8 & 0xff) * 8 + 3) ^ Gsbox((a >> 24) * 8 + 1) ^ Gsbox((e & 0xff) * 8) ^ asbox[g];
+                h = Gsbox((a >> 16 & 0xff) * 8 + 2) ^ Gsbox((i >> 8 & 0xff) * 8 + 3) ^ Gsbox(d * 8 + 1) ^ Gsbox((h & 0xff) * 8) ^ asbox[g + 1];
+                i = Gsbox((z & 0xff) * 8 + 2) ^ Gsbox((a >> 8 & 0xff) * 8 + 3) ^ Gsbox(s * 8 + 1) ^ Gsbox((i & 0xff) * 8) ^ asbox[g + 2];
                 a = Gsbox((t & 0xff) * 8 + 3) ^ Gsbox((m & 0xff) * 8 + 2) ^ Gsbox(l * 8 + 1) ^ Gsbox((a & 0xff) * 8) ^ asbox[g + 3];
                 g += 4;
             }
 
             return
             [
-                (Gsbox(((i >> 16) & 0xff) * 8) & 0xff0000) ^ (Gsbox(((h >> 8) & 0xff) * 8 + 1) & 0xff00) ^ (Gsbox((a >> 24) * 8 + 3) & 0xff000000) ^ Gsbox((e & 0xff) * 8 + 2) & 0xFF ^ asbox[g],
-            (Gsbox(((a >> 16) & 0xff) * 8) & 0xff0000) ^ (Gsbox(((i >> 8) & 0xff) * 8 + 1) & 0xff00) ^ (Gsbox((e >> 24) * 8 + 3) & 0xff000000) ^ (Gsbox((h & 0xff) * 8 + 2) & 0xFF) ^ asbox[g + 3],
-            (Gsbox(((e >> 16) & 0xff) * 8) & 0xff0000) ^ (Gsbox(((a >> 8) & 0xff) * 8 + 1) & 0xff00) ^ (Gsbox((h >> 24) * 8 + 3) & 0xff000000) ^ (Gsbox((i & 0xff) * 8 + 2) & 0xFF) ^ asbox[g + 2],
-            (Gsbox(((h >> 16) & 0xff) * 8) & 0xff0000) ^ (Gsbox(((e >> 8) & 0xff) * 8 + 1) & 0xff00) ^ (Gsbox((i >> 24) * 8 + 3) & 0xff000000) ^ (Gsbox((a & 0xff) * 8 + 2) & 0xFF) ^ asbox[g + 1]
+                Gsbox((i >> 16 & 0xff) * 8) & 0xff0000 ^ Gsbox((h >> 8 & 0xff) * 8 + 1) & 0xff00 ^ Gsbox((a >> 24) * 8 + 3) & 0xff000000 ^ Gsbox((e & 0xff) * 8 + 2) & 0xFF ^ asbox[g],
+            Gsbox((a >> 16 & 0xff) * 8) & 0xff0000 ^ Gsbox((i >> 8 & 0xff) * 8 + 1) & 0xff00 ^ Gsbox((e >> 24) * 8 + 3) & 0xff000000 ^ Gsbox((h & 0xff) * 8 + 2) & 0xFF ^ asbox[g + 3],
+            Gsbox((e >> 16 & 0xff) * 8) & 0xff0000 ^ Gsbox((a >> 8 & 0xff) * 8 + 1) & 0xff00 ^ Gsbox((h >> 24) * 8 + 3) & 0xff000000 ^ Gsbox((i & 0xff) * 8 + 2) & 0xFF ^ asbox[g + 2],
+            Gsbox((h >> 16 & 0xff) * 8) & 0xff0000 ^ Gsbox((e >> 8 & 0xff) * 8 + 1) & 0xff00 ^ Gsbox((i >> 24) * 8 + 3) & 0xff000000 ^ Gsbox((a & 0xff) * 8 + 2) & 0xFF ^ asbox[g + 1]
             ];
         }
         private static uint[] KeyUpdate(uint[] iv1, byte[] asbox)
@@ -166,10 +162,10 @@ namespace UotanToolbox.Common.ROMHelper
             uint a = iv1[1] ^ asbox[1];
             uint b = iv1[2] ^ asbox[2];
             uint c = iv1[3] ^ asbox[3];
-            uint e = Gsbox(((b >> 16) & 0xff) * 8 + 2) ^ Gsbox(((a >> 8) & 0xff) * 8 + 3) ^ Gsbox((c >> 24) * 8 + 1) ^ Gsbox((d & 0xff) * 8) ^ asbox[4];
-            uint h = Gsbox(((c >> 16) & 0xff) * 8 + 2) ^ Gsbox(((b >> 8) & 0xff) * 8 + 3) ^ Gsbox((d >> 24) * 8 + 1) ^ Gsbox((a & 0xff) * 8) ^ asbox[5];
-            uint i = Gsbox(((d >> 16) & 0xff) * 8 + 2) ^ Gsbox(((c >> 8) & 0xff) * 8 + 3) ^ Gsbox((a >> 24) * 8 + 1) ^ Gsbox((b & 0xff) * 8) ^ asbox[6];
-            a = Gsbox(((d >> 8) & 0xff) * 8 + 3) ^ Gsbox(((a >> 16) & 0xff) * 8 + 2) ^ Gsbox((b >> 24) * 8 + 1) ^ Gsbox((c & 0xff) * 8) ^ asbox[7];
+            uint e = Gsbox((b >> 16 & 0xff) * 8 + 2) ^ Gsbox((a >> 8 & 0xff) * 8 + 3) ^ Gsbox((c >> 24) * 8 + 1) ^ Gsbox((d & 0xff) * 8) ^ asbox[4];
+            uint h = Gsbox((c >> 16 & 0xff) * 8 + 2) ^ Gsbox((b >> 8 & 0xff) * 8 + 3) ^ Gsbox((d >> 24) * 8 + 1) ^ Gsbox((a & 0xff) * 8) ^ asbox[5];
+            uint i = Gsbox((d >> 16 & 0xff) * 8 + 2) ^ Gsbox((c >> 8 & 0xff) * 8 + 3) ^ Gsbox((a >> 24) * 8 + 1) ^ Gsbox((b & 0xff) * 8) ^ asbox[6];
+            a = Gsbox((d >> 8 & 0xff) * 8 + 3) ^ Gsbox((a >> 16 & 0xff) * 8 + 2) ^ Gsbox((b >> 24) * 8 + 1) ^ Gsbox((c & 0xff) * 8) ^ asbox[7];
             int g = 8;
             for (int f = 0; f < asbox[0x3c] - 2; f++)
             {
@@ -179,18 +175,18 @@ namespace UotanToolbox.Common.ROMHelper
                 uint z = e >> 16;
                 uint l = i >> 24;
                 uint t = e >> 8;
-                e = Gsbox(((i >> 16) & 0xff) * 8 + 2) ^ Gsbox(((h >> 8) & 0xff) * 8 + 3) ^ Gsbox((a >> 24) * 8 + 1) ^ Gsbox((e & 0xff) * 8) ^ asbox[g];
-                h = Gsbox(((a >> 16) & 0xff) * 8 + 2) ^ Gsbox(((i >> 8) & 0xff) * 8 + 3) ^ Gsbox(d * 8 + 1) ^ Gsbox((h & 0xff) * 8) ^ asbox[g + 1];
-                i = Gsbox((z & 0xff) * 8 + 2) ^ Gsbox(((a >> 8) & 0xff) * 8 + 3) ^ Gsbox(s * 8 + 1) ^ Gsbox((i & 0xff) * 8) ^ asbox[g + 2];
+                e = Gsbox((i >> 16 & 0xff) * 8 + 2) ^ Gsbox((h >> 8 & 0xff) * 8 + 3) ^ Gsbox((a >> 24) * 8 + 1) ^ Gsbox((e & 0xff) * 8) ^ asbox[g];
+                h = Gsbox((a >> 16 & 0xff) * 8 + 2) ^ Gsbox((i >> 8 & 0xff) * 8 + 3) ^ Gsbox(d * 8 + 1) ^ Gsbox((h & 0xff) * 8) ^ asbox[g + 1];
+                i = Gsbox((z & 0xff) * 8 + 2) ^ Gsbox((a >> 8 & 0xff) * 8 + 3) ^ Gsbox(s * 8 + 1) ^ Gsbox((i & 0xff) * 8) ^ asbox[g + 2];
                 a = Gsbox((t & 0xff) * 8 + 3) ^ Gsbox((m & 0xff) * 8 + 2) ^ Gsbox(l * 8 + 1) ^ Gsbox((a & 0xff) * 8) ^ asbox[g + 3];
                 g += 4;
             }
             return
             [
-            (Gsbox(((i >> 16) & 0xff) * 8) & 0xff0000) ^ (Gsbox(((h >> 8) & 0xff) * 8 + 1) & 0xff00) ^ (Gsbox((a >> 24) * 8 + 3) & 0xff000000) ^ Gsbox((e & 0xff) * 8 + 2) & 0xFF ^ asbox[g],
-        (Gsbox(((a >> 16) & 0xff) * 8) & 0xff0000) ^ (Gsbox(((i >> 8) & 0xff) * 8 + 1) & 0xff00) ^ (Gsbox((e >> 24) * 8 + 3) & 0xff000000) ^ (Gsbox((h & 0xff) * 8 + 2) & 0xFF) ^ asbox[g + 3],
-        (Gsbox(((e >> 16) & 0xff) * 8) & 0xff0000) ^ (Gsbox(((a >> 8) & 0xff) * 8 + 1) & 0xff00) ^ (Gsbox((h >> 24) * 8 + 3) & 0xff000000) ^ (Gsbox((i & 0xff) * 8 + 2) & 0xFF) ^ asbox[g + 2],
-        (Gsbox(((h >> 16) & 0xff) * 8) & 0xff0000) ^ (Gsbox(((e >> 8) & 0xff) * 8 + 1) & 0xff00) ^ (Gsbox((i >> 24) * 8 + 3) & 0xff000000) ^ (Gsbox((a & 0xff) * 8 + 2) & 0xFF) ^ asbox[g + 1]
+            Gsbox((i >> 16 & 0xff) * 8) & 0xff0000 ^ Gsbox((h >> 8 & 0xff) * 8 + 1) & 0xff00 ^ Gsbox((a >> 24) * 8 + 3) & 0xff000000 ^ Gsbox((e & 0xff) * 8 + 2) & 0xFF ^ asbox[g],
+        Gsbox((a >> 16 & 0xff) * 8) & 0xff0000 ^ Gsbox((i >> 8 & 0xff) * 8 + 1) & 0xff00 ^ Gsbox((e >> 24) * 8 + 3) & 0xff000000 ^ Gsbox((h & 0xff) * 8 + 2) & 0xFF ^ asbox[g + 3],
+        Gsbox((e >> 16 & 0xff) * 8) & 0xff0000 ^ Gsbox((a >> 8 & 0xff) * 8 + 1) & 0xff00 ^ Gsbox((h >> 24) * 8 + 3) & 0xff000000 ^ Gsbox((i & 0xff) * 8 + 2) & 0xFF ^ asbox[g + 2],
+        Gsbox((h >> 16 & 0xff) * 8) & 0xff0000 ^ Gsbox((e >> 8 & 0xff) * 8 + 1) & 0xff00 ^ Gsbox((i >> 24) * 8 + 3) & 0xff000000 ^ Gsbox((a & 0xff) * 8 + 2) & 0xFF ^ asbox[g + 1]
             ];
         }
         private static byte[] KeyCustom(byte[] inp, uint[] rkey, int outlength = 0, bool encrypt = false)
@@ -224,17 +220,17 @@ namespace UotanToolbox.Common.ROMHelper
 
                     if (pos < 0x10)
                     {
-                        int slen = ((0xF - pos) >> 2) + 1;
+                        int slen = (0xF - pos >> 2) + 1;
                         uint[] tmp = new uint[slen];
                         for (int i = 0; i < slen; i++)
                         {
-                            if (pos + (i * 4) + ptr + 4 <= inp.Length)
+                            if (pos + i * 4 + ptr + 4 <= inp.Length)
                             {
-                                tmp[i] = rkey[i] ^ BitConverter.ToUInt32(inp, pos + (i * 4) + ptr);
+                                tmp[i] = rkey[i] ^ BitConverter.ToUInt32(inp, pos + i * 4 + ptr);
                             }
                             else
                             {
-                                tmp[i] = rkey[i] ^ BitConverter.ToUInt32(inp.Skip(pos + (i * 4) + ptr).ToArray().Concat(new byte[4]).ToArray(), 0);
+                                tmp[i] = rkey[i] ^ BitConverter.ToUInt32(inp.Skip(pos + i * 4 + ptr).ToArray().Concat(new byte[4]).ToArray(), 0);
                             }
                         }
                         foreach (uint t in tmp)
@@ -250,7 +246,7 @@ namespace UotanToolbox.Common.ROMHelper
                         {
                             for (int i = 0; i < slen; i++)
                             {
-                                int startIndex = pos + (i * 4) + ptr;
+                                int startIndex = pos + i * 4 + ptr;
                                 if (startIndex >= 0 && startIndex + 4 <= inp.Length)
                                 {
                                     rkey[i] = BitConverter.ToUInt32(inp, startIndex);
@@ -313,12 +309,12 @@ namespace UotanToolbox.Common.ROMHelper
                 byte[] hdr = new byte[0x200];
                 rf.ReadExactly(hdr, 0, 0x200);
                 int xmllength = BitConverter.ToInt32(hdr, 0x18);
-                int xmlpad = 0x200 - (xmllength % 0x200);
+                int xmlpad = 0x200 - xmllength % 0x200;
                 rf.Seek(filesize - 0x200 - (xmllength + xmlpad), SeekOrigin.Begin);
                 byte[] inp = new byte[xmllength + xmlpad];
                 rf.ReadExactly(inp, 0, xmllength + xmlpad);
                 byte[] outp = KeyCustom(inp, key, 0);
-                if (!System.Text.Encoding.UTF8.GetString(outp).Contains("xml ", StringComparison.CurrentCulture))
+                if (!Encoding.UTF8.GetString(outp).Contains("xml ", StringComparison.CurrentCulture))
                 {
                     return null;
                 }
@@ -350,7 +346,7 @@ namespace UotanToolbox.Common.ROMHelper
 
                     if (length % 4 != 0)
                     {
-                        int padding = 4 - (length % 4);
+                        int padding = 4 - length % 4;
                         Array.Resize(ref data, length + padding);
                     }
 
@@ -366,7 +362,7 @@ namespace UotanToolbox.Common.ROMHelper
 
                 if (length % 0x1000 > 0)
                 {
-                    byte[] padding = new byte[0x1000 - (length % 0x1000)];
+                    byte[] padding = new byte[0x1000 - length % 0x1000];
                     sha256.TransformBlock(padding, 0, padding.Length, padding, 0);
                 }
 
@@ -379,7 +375,7 @@ namespace UotanToolbox.Common.ROMHelper
             int length = data.Length;
             if (length % 4 != 0)
             {
-                int padding = 4 - (length % 4);
+                int padding = 4 - length % 4;
                 Array.Resize(ref data, length + padding);
             }
             byte[] outp = KeyCustom(data, rkey, 0, true);
@@ -420,7 +416,7 @@ namespace UotanToolbox.Common.ROMHelper
 
                     if (rf.Length % 0x1000 > 0)
                     {
-                        byte[] padding = new byte[0x1000 - (rf.Length % 0x1000)];
+                        byte[] padding = new byte[0x1000 - rf.Length % 0x1000];
                         sha256.TransformBlock(padding, 0, padding.Length, padding, 0);
                     }
 
@@ -513,7 +509,7 @@ namespace UotanToolbox.Common.ROMHelper
                 pos += rlen;
                 if (rlen % 0x200 != 0)
                 {
-                    int sublen = 0x200 - (rlen % 0x200);
+                    int sublen = 0x200 - rlen % 0x200;
                     wf.Write(new byte[sublen], 0, sublen);
                     pos += sublen;
                 }
@@ -571,7 +567,7 @@ namespace UotanToolbox.Common.ROMHelper
                 pos += rlen;
                 if (rlen % 0x200 != 0)
                 {
-                    int sublen = 0x200 - (rlen % 0x200);
+                    int sublen = 0x200 - rlen % 0x200;
                     wf.Write(new byte[sublen], 0, sublen);
                     pos += sublen;
                 }

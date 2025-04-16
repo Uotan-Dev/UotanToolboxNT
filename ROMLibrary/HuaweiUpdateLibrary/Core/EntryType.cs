@@ -13,9 +13,7 @@
  *  
  */
 
-using System;
-
-namespace HuaweiUpdateLibrary.Core
+namespace ROMLibrary.HuaweiUpdateLibrary.Core
 {
     /// <summary>
     /// Identifies an entry

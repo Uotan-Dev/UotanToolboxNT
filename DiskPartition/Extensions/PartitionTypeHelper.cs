@@ -64,28 +64,28 @@ namespace DiskPartition.Extensions
             var types = PartitionType.SearchByName(searchString);
             StringBuilder sb = new StringBuilder();
             int colWidth = 40;
-            
+
             // 创建两列格式的输出
             IEnumerable<PartitionTypeInfo> typesList = types.ToList();
             for (int i = 0; i < typesList.Count(); i += 2)
             {
                 sb.Append($"{typesList.ElementAt(i).MbrType:X4} {typesList.ElementAt(i).Name}");
-                
+
                 // 填充空格，使得第一列对齐
                 int padding = colWidth - typesList.ElementAt(i).Name.Length - 5;
                 sb.Append(new string(' ', padding > 0 ? padding : 1));
-                
+
                 // 如果还有第二列内容
                 if (i + 1 < typesList.Count())
                 {
-                    sb.AppendLine($"{typesList.ElementAt(i+1).MbrType:X4} {typesList.ElementAt(i+1).Name}");
+                    sb.AppendLine($"{typesList.ElementAt(i + 1).MbrType:X4} {typesList.ElementAt(i + 1).Name}");
                 }
                 else
                 {
                     sb.AppendLine();
                 }
             }
-            
+
             return sb.ToString();
         }
 
@@ -106,7 +106,7 @@ namespace DiskPartition.Extensions
                 0x8e00, // Linux LVM
                 0xaf0a  // Apple APFS
             };
-            
+
             return commonTypes.Contains(mbrType);
         }
 
@@ -120,7 +120,7 @@ namespace DiskPartition.Extensions
             var typeInfo = PartitionType.GetByGuid(guid);
             if (typeInfo == null)
                 return "未知分区类型";
-                
+
             switch (typeInfo.MbrType)
             {
                 case 0x0700:

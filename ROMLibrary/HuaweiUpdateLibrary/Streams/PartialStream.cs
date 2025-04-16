@@ -13,10 +13,7 @@
  *  
  */
 
-using System;
-using System.IO;
-
-namespace HuaweiUpdateLibrary.Streams
+namespace ROMLibrary.HuaweiUpdateLibrary.Streams
 {
     /// <summary>
     /// Stream to a part of another stream
@@ -109,7 +106,7 @@ namespace HuaweiUpdateLibrary.Streams
             if (currentPosition + count > _size)
             {
                 var rc = _size - currentPosition;
-                count = (rc > int.MaxValue) ? int.MaxValue : (int)rc;
+                count = rc > int.MaxValue ? int.MaxValue : (int)rc;
             }
 
             return _baseStream.Read(buffer, offset, count);

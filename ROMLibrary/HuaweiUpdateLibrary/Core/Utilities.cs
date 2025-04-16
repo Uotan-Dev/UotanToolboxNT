@@ -13,18 +13,16 @@
  *  
  */
 
-using HuaweiUpdateLibrary.Algorithms;
-using System;
-using System.IO;
+using ROMLibrary.HuaweiUpdateLibrary.Algorithms;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace HuaweiUpdateLibrary.Core
+namespace ROMLibrary.HuaweiUpdateLibrary.Core
 {
     internal static class Utilities
     {
-        public const Int32 UintSize = sizeof(UInt32);
-        public const Int32 UshortSize = sizeof(ushort);
+        public const int UintSize = sizeof(uint);
+        public const int UshortSize = sizeof(ushort);
         public static readonly UpdateCrc16 Crc = new UpdateCrc16();
 
         public static bool ByteToType<T>(BinaryReader reader, out T result)
@@ -33,7 +31,7 @@ namespace HuaweiUpdateLibrary.Core
             var bytes = reader.ReadBytes(objSize);
             if (bytes.Length == 0 || bytes.Length != objSize)
             {
-                result = default(T);
+                result = default;
                 return false;
             }
 
@@ -98,7 +96,7 @@ namespace HuaweiUpdateLibrary.Core
 
         public static uint Remainder(UpdateEntry entry)
         {
-            return UintSize - ((entry.HeaderSize + entry.FileSize) % UintSize);
+            return UintSize - (entry.HeaderSize + entry.FileSize) % UintSize;
         }
     }
 }

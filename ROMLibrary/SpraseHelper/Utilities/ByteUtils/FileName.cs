@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace UotanToolbox.Common.ROMHelper.SpraseHelper.Utilities.ByteUtils
+﻿namespace ROMLibrary.SpraseHelper.Utilities.ByteUtils
 {
     internal class FileName
     {

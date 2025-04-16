@@ -1,8 +1,7 @@
-﻿using System.IO;
-using UotanToolbox.Common.ROMHelper.SpraseHelper.Utilities.ByteUtils;
-using UotanToolbox.Common.ROMHelper.SpraseHelper.Utilities.Conversion;
+﻿using ROMLibrary.SpraseHelper.Utilities.ByteUtils;
+using ROMLibrary.SpraseHelper.Utilities.Conversion;
 
-namespace UotanToolbox.Common.ROMHelper.SpraseHelper
+namespace ROMLibrary.SpraseHelper
 {
     internal class SparseHeader
     {

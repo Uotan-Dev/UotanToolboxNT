@@ -13,16 +13,12 @@
  *  
  */
 
-using HuaweiUpdateLibrary.Streams;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 
-namespace HuaweiUpdateLibrary.Core
+namespace ROMLibrary.HuaweiUpdateLibrary.Core
 {
     /// <summary>
     /// Class to work with Huawei update.app files
@@ -219,14 +215,14 @@ namespace HuaweiUpdateLibrary.Core
 
             // Calculate checksum table size
             var checksumTableSize = entry.FileSize / entry.BlockSize;
-            if ((entry.FileSize % entry.BlockSize) != 0)
+            if (entry.FileSize % entry.BlockSize != 0)
                 checksumTableSize++;
 
             // Allocate checksum table
             entry.CheckSumTable = new ushort[checksumTableSize];
 
             // Set headersize
-            entry.HeaderSize = (uint)(FileHeader.Size + (checksumTableSize * Utilities.UshortSize));
+            entry.HeaderSize = (uint)(FileHeader.Size + checksumTableSize * Utilities.UshortSize);
 
             // Compute header checksum
             entry.ComputeHeaderChecksum();
@@ -264,7 +260,7 @@ namespace HuaweiUpdateLibrary.Core
                 }
 
                 // Jump back 
-                output.Seek(-(stream.Length + (checksumTableSize * Utilities.UshortSize)), SeekOrigin.Current);
+                output.Seek(-(stream.Length + checksumTableSize * Utilities.UshortSize), SeekOrigin.Current);
 
                 // Write checksum table
                 var writer = new BinaryWriter(output);
@@ -403,7 +399,7 @@ namespace HuaweiUpdateLibrary.Core
             var writeOffset = to;
 
             // Calculate distance
-            var distance = (from + length) - readOffset;
+            var distance = from + length - readOffset;
 
             // Calculate next block size
             var currBlockSize = Convert.ToInt32(Math.Min(blockSize, distance));
@@ -434,7 +430,7 @@ namespace HuaweiUpdateLibrary.Core
                 writeOffset += bytesRead;
 
                 // Calculate distance
-                distance = (from + length) - readOffset;
+                distance = from + length - readOffset;
 
                 // Calculate block size
                 currBlockSize = Convert.ToInt32(Math.Min(blockSize, distance));

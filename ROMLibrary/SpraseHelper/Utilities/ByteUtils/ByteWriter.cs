@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.Text;
 
-namespace UotanToolbox.Common.ROMHelper.SpraseHelper.Utilities.ByteUtils
+namespace ROMLibrary.SpraseHelper.Utilities.ByteUtils
 {
     internal class ByteWriter
     {

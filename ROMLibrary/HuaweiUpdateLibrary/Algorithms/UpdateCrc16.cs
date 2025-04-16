@@ -13,10 +13,9 @@
  *  
  */
 
-using System;
 using System.Security.Cryptography;
 
-namespace HuaweiUpdateLibrary.Algorithms
+namespace ROMLibrary.HuaweiUpdateLibrary.Algorithms
 {
     /// <summary>
     /// Crc algorithm
@@ -38,7 +37,7 @@ namespace HuaweiUpdateLibrary.Algorithms
                 {
                     if (((value ^ temp) & 0x0001) != 0)
                     {
-                        value = (ushort)((value >> 1) ^ _polynomial);
+                        value = (ushort)(value >> 1 ^ _polynomial);
                     }
                     else
                     {
@@ -90,7 +89,7 @@ namespace HuaweiUpdateLibrary.Algorithms
             while (size >= 8)
             {
                 var v = array[i++];
-                sum = (ushort)((_table[(v ^ sum) & 0xFF] ^ (sum >> 8)) & 0xFFFF);
+                sum = (ushort)((_table[(v ^ sum) & 0xFF] ^ sum >> 8) & 0xFFFF);
                 size -= 8;
             }
 
@@ -131,7 +130,7 @@ namespace HuaweiUpdateLibrary.Algorithms
         /// </summary>
         /// <param name="buffer"></param>
         /// <returns></returns>
-        public UInt16 ComputeSum(byte[] buffer)
+        public ushort ComputeSum(byte[] buffer)
         {
             return ComputeSum(buffer, 0, buffer.Length);
         }
@@ -143,7 +142,7 @@ namespace HuaweiUpdateLibrary.Algorithms
         /// <param name="offset"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public UInt16 ComputeSum(byte[] buffer, int offset, int count)
+        public ushort ComputeSum(byte[] buffer, int offset, int count)
         {
             return BitConverter.ToUInt16(ComputeHash(buffer, offset, count), 0);
         }

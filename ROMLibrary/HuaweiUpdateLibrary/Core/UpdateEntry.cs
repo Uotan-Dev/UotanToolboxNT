@@ -13,11 +13,7 @@
  *  
  */
 
-using HuaweiUpdateLibrary.Streams;
-using System;
-using System.IO;
-
-namespace HuaweiUpdateLibrary.Core
+namespace ROMLibrary.HuaweiUpdateLibrary.Core
 {
     /// <summary>
     /// Class to work with entries inside an <see cref="UpdateFile"/>
@@ -28,7 +24,7 @@ namespace HuaweiUpdateLibrary.Core
         /// Default block size for an <see cref="UpdateEntry"/>
         /// </summary>
         public const ushort DefaultBlockSize = 4096;
-        private const UInt32 FileMagic = 0xA55AAA55;
+        private const uint FileMagic = 0xA55AAA55;
         private FileHeader _fileHeader;
 
         // Can be set by UpdateFile
@@ -43,7 +39,7 @@ namespace HuaweiUpdateLibrary.Core
         /// <summary>
         /// Header Id
         /// </summary>
-        public UInt32 HeaderId
+        public uint HeaderId
         {
             get { return _fileHeader.HeaderId; }
             private set { _fileHeader.HeaderId = value; }
@@ -52,7 +48,7 @@ namespace HuaweiUpdateLibrary.Core
         /// <summary>
         /// Header size
         /// </summary>
-        public UInt32 HeaderSize
+        public uint HeaderSize
         {
             get { return _fileHeader.HeaderSize; }
             internal set { _fileHeader.HeaderSize = value; }
@@ -70,7 +66,7 @@ namespace HuaweiUpdateLibrary.Core
         /// <summary>
         /// File sequence
         /// </summary>
-        public UInt32 FileSequence
+        public uint FileSequence
         {
             get { return _fileHeader.FileSequence; }
             set { _fileHeader.FileSequence = value; }
@@ -79,7 +75,7 @@ namespace HuaweiUpdateLibrary.Core
         /// <summary>
         /// File size
         /// </summary>
-        public UInt32 FileSize
+        public uint FileSize
         {
             get { return _fileHeader.FileSize; }
             internal set { _fileHeader.FileSize = value; }
@@ -115,7 +111,7 @@ namespace HuaweiUpdateLibrary.Core
         /// <summary>
         /// Header checksum
         /// </summary>
-        public UInt16 HeaderChecksum
+        public ushort HeaderChecksum
         {
             get { return _fileHeader.HeaderChecksum; }
             private set { _fileHeader.HeaderChecksum = value; }
@@ -124,7 +120,7 @@ namespace HuaweiUpdateLibrary.Core
         /// <summary>
         /// Block size
         /// </summary>
-        public UInt16 BlockSize
+        public ushort BlockSize
         {
             get { return _fileHeader.BlockSize; }
             private set { _fileHeader.BlockSize = value; }
@@ -295,7 +291,7 @@ namespace HuaweiUpdateLibrary.Core
                     // Verify
                     if (crc != CheckSumTable[blockNumber])
                     {
-                        throw new Exception(string.Format("Checksum error in block {0}@{1:X08}: {2:X04}<>{3:X04}", blockNumber, (reader.Position - size),
+                        throw new Exception(string.Format("Checksum error in block {0}@{1:X08}: {2:X04}<>{3:X04}", blockNumber, reader.Position - size,
                             CheckSumTable[blockNumber], crc));
                     }
                 }

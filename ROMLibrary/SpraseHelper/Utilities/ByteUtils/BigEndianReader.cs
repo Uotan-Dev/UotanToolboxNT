@@ -1,7 +1,6 @@
-﻿using System;
-using UotanToolbox.Common.ROMHelper.SpraseHelper.Utilities.Conversion;
+﻿using ROMLibrary.SpraseHelper.Utilities.Conversion;
 
-namespace UotanToolbox.Common.ROMHelper.SpraseHelper.Utilities.ByteUtils
+namespace ROMLibrary.SpraseHelper.Utilities.ByteUtils
 {
     internal class BigEndianReader
     {

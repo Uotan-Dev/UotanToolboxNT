@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DiskPartition.Extensions
 {
@@ -189,7 +187,7 @@ namespace DiskPartition.Extensions
             AddType(0xa00c, "AC6D7924-EB71-4DF8-B48D-E267B27148FF", "Android OEM", true);
             AddType(0xa00d, "C5A0AEEC-13EA-11E5-A1B1-001E67CA0C3C", "Android vendor", true);
             AddType(0xa00e, "BD59408B-4514-490D-BF12-9878D963F378", "Android config", true);
-            
+
             // FreeBSD 分区类型
             AddType(0xa500, "516E7CB4-6ECF-11D6-8FF8-00022D09712B", "FreeBSD disklabel", true);
             AddType(0xa501, "83BD6B9D-7F41-11DC-BE0B-001560B84F0F", "FreeBSD boot", true);
@@ -214,16 +212,16 @@ namespace DiskPartition.Extensions
 
             // U-Boot 引导加载程序
             AddType(0xb000, "3DE21764-95BD-54BD-A5C3-4ABE786F38A8", "U-Boot boot loader", true);
-            
+
             // QNX
             AddType(0xb300, "CEF5A9AD-73BC-4601-89F3-CDEEEEE321A1", "QNX6 Power-Safe", true);
-            
+
             // Barebox 引导加载程序
             AddType(0xbb00, "4778ED65-BF42-45FA-9C5B-287A1DC4AAB1", "Barebox boot loader", true);
-            
+
             // Acronis 安全区
             AddType(0xbc00, "0311FC50-01CA-4725-AD77-9ADBB20ACE98", "Acronis Secure Zone", true);
-            
+
             // Solaris 分区类型
             AddType(0xbe00, "6A82CB45-1DD2-11B2-99A6-080020736631", "Solaris boot", true);
             AddType(0xbf00, "6A85CF4D-1DD2-11B2-99A6-080020736631", "Solaris root", true);
@@ -237,7 +235,7 @@ namespace DiskPartition.Extensions
 
             // Veracrypt 加密分区
             AddType(0xe900, "8C8F8EFF-AC95-4770-814A-21994F2DBC8F", "Veracrypt data", true);
-            
+
             // 其他常用类型
             AddType(0xfd00, "A19D880F-05FC-4D3B-A006-743F0F84911E", "Linux RAID", true);
         }

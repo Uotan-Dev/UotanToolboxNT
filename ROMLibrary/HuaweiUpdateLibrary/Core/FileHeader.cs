@@ -13,10 +13,9 @@
  *  
  */
 
-using System;
 using System.Runtime.InteropServices;
 
-namespace HuaweiUpdateLibrary.Core
+namespace ROMLibrary.HuaweiUpdateLibrary.Core
 {
     // Credits: ZeBadger (zebadger@hotmail.com)
     // For some stuff ripped from split_updata.pl
@@ -24,13 +23,13 @@ namespace HuaweiUpdateLibrary.Core
     [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
     internal struct FileHeader
     {
-        public UInt32 HeaderId;
-        public UInt32 HeaderSize;
-        public UInt32 Unknown1;
+        public uint HeaderId;
+        public uint HeaderSize;
+        public uint Unknown1;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
         public byte[] HardwareId;
-        public UInt32 FileSequence;
-        public UInt32 FileSize;
+        public uint FileSequence;
+        public uint FileSize;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
         public byte[] FileDate;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
@@ -39,9 +38,9 @@ namespace HuaweiUpdateLibrary.Core
         public byte[] FileType;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
         public byte[] Blank1;
-        public UInt16 HeaderChecksum;
-        public UInt16 BlockSize;
-        public UInt16 Blank2;
+        public ushort HeaderChecksum;
+        public ushort BlockSize;
+        public ushort Blank2;
 
         /// <summary>
         /// Return size of this struct

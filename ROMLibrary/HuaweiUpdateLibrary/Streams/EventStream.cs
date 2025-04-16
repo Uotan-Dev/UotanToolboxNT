@@ -13,10 +13,7 @@
  *  
  */
 
-using System;
-using System.IO;
-
-namespace HuaweiUpdateLibrary.Streams
+namespace ROMLibrary.HuaweiUpdateLibrary.Streams
 {
     /// <summary>
     /// Stream wrapper that triggers event on read and write

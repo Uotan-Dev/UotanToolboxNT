@@ -1,14 +1,9 @@
 ﻿using ChromeosUpdateEngine;
 using SharpCompress.Compressors.BZip2;
 using SharpCompress.Compressors.Xz;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace UotanToolbox.Common.ROMHelper
+namespace ROMLibrary
 {
     internal class PayloadParser
     {

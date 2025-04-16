@@ -1,6 +1,4 @@
 using DiskPartition.Extensions;
-using DiskPartition.Gpt;
-using DiskPartition.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;

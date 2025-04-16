@@ -2,15 +2,11 @@
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Parameters;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
 
-namespace UotanToolbox.Common.ROMHelper
+namespace ROMLibrary
 {
     internal class Ofp_QC_Helper
     {
@@ -200,7 +196,7 @@ namespace UotanToolbox.Common.ROMHelper
             if (rlength == length)
             {
                 long tlen = length;
-                length = (length / 0x4 * 0x4);
+                length = length / 0x4 * 0x4;
                 if (tlen % 0x4 != 0)
                 {
                     length += 0x4;
@@ -222,7 +218,7 @@ namespace UotanToolbox.Common.ROMHelper
                 rf.Read(data, 0, size);
                 if (size % 4 != 0)
                 {
-                    Array.Resize(ref data, size + (4 - (size % 4)));
+                    Array.Resize(ref data, size + (4 - size % 4));
                 }
                 byte[] outp = AesCfbDecrypt(data, key, iv);
                 wf.Write(outp, 0, size);
@@ -234,7 +230,7 @@ namespace UotanToolbox.Common.ROMHelper
 
                 if (rlength % 0x1000 != 0)
                 {
-                    byte[] fill = new byte[0x1000 - (rlength % 0x1000)];
+                    byte[] fill = new byte[0x1000 - rlength % 0x1000];
                     // wf.Write(fill, 0, fill.Length);
                 }
             }
@@ -310,7 +306,7 @@ namespace UotanToolbox.Common.ROMHelper
                 }
             }
 
-            if ((sha256bad && md5bad) || (sha256bad && string.IsNullOrEmpty(md5sum)) || (md5bad && string.IsNullOrEmpty(sha256sum)))
+            if (sha256bad && md5bad || sha256bad && string.IsNullOrEmpty(md5sum) || md5bad && string.IsNullOrEmpty(sha256sum))
             {
                 Console.WriteLine($"{prefix}error on hashes. File might be broken!");
             }

@@ -136,6 +136,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\DiskPartition\DiskPartition.csproj" />
+	  <ProjectReference Include="..\ROMLibrary\ROMLibrary.csproj" />
 	  <ProjectReference Include="..\WuXingLibrary\EDLLibrary.csproj" />
 	</ItemGroup>
 </Project>

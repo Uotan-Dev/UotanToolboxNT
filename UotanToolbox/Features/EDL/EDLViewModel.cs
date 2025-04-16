@@ -209,11 +209,11 @@ public partial class EDLViewModel : MainPageBase
         }
         EDLLog += $"索引引导文件...{Environment.NewLine}";
         _flash = Flash.Instance;
-        if (uFS == true)
+        if (UFS == true)
         {
             SelectedStorageType = "ufs";
         }
-        if (eMMC == true)
+        if (EMMC == true)
         {
             SelectedStorageType = "emmc";
         }

@@ -62,55 +62,73 @@
 								FontSize="15"
 								FontWeight="DemiBold"
 								Text="设备信息" />
-					<StackPanel Margin="5 10 0 0" Spacing="10">
+					<StackPanel Margin="5 25 0 0" Spacing="20">
 						<TextBlock Text="{Binding CurrentDevice}" />
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding MemoryType}"/>
-						</StackPanel>
+						<TextBlock Text="{Binding MemoryType}"/>
 						<StackPanel Orientation="Horizontal" Spacing="0">
-							<RadioButton Content="自动" IsChecked="{Binding Auto}" GroupName="Type"/>
+							<RadioButton Content="UFS" IsCancel="{Binding UFS}" GroupName="Type"/>
 							<RadioButton Margin="15 0 0 0" Content="EMMC" IsChecked="{Binding EMMC}" GroupName="Type"/>
-						</StackPanel>
-						<StackPanel Margin="0 -5 0 0" Orientation="Horizontal" Spacing="0">
-							<RadioButton Margin="0 10 0 0" Content="UFS" IsCancel="{Binding UFS}" GroupName="Type"/>
 						</StackPanel>
 					</StackPanel>
 				</StackPanel>
 		</suki:GlassCard>
 
 			<!--    -->
-			<suki:GlassCard Height="490" Width="725" Margin="10 10 10 10">
+		<suki:GlassCard Height="490" Width="725" Margin="10 10 10 10">
 			<suki:BusyArea>
 				<StackPanel>
-				<StackPanel>
-					<DataGrid ItemsSource="{Binding EDLPartModel}"
-							  Width="680"
-							  Height="398"
-							  FontSize="15"
-							  CanUserResizeColumns="True">
-						<DataGrid.Columns>
-							<DataGridCheckBoxColumn Binding="{Binding SelectPart}" Header="选择"/>
-							<DataGridTextColumn Binding="{Binding Lun}" IsReadOnly="True" Header="LUN"/>
-							<DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" Header="标签名"/>
-							<DataGridTemplateColumn Header="文件">
-								<DataGridTemplateColumn.CellTemplate>
-									<DataTemplate>
-										<Button Name="ImageName"
-												Theme="{StaticResource ToolboxButtonFile}"
-												Content="{Binding FileName}"
-												Click="OpenImageFile"
-												ToolTip.Tip="点击更换镜像"/>
-									</DataTemplate>
-								</DataGridTemplateColumn.CellTemplate>
-							</DataGridTemplateColumn>
-							<DataGridTextColumn Binding="{Binding Start}" IsReadOnly="True" Header="起始扇区"/>
-							<DataGridTextColumn Binding="{Binding Sector}" IsReadOnly="True" Header="扇区数"/>
-							<DataGridTextColumn Binding="{Binding IsSparse}" IsReadOnly="True" Header="Sparse"/>
-							<DataGridTextColumn Binding="{Binding Offset}" IsReadOnly="True" Header="文件偏移量"/>
-						</DataGrid.Columns>
-					</DataGrid>
-				</StackPanel>
-				<StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+					<StackPanel Orientation="Horizontal" Margin="7 0 0 10">
+						<TextBlock Margin="10 0 5 0" FontSize="13" Text="选择" />
+						<TextBlock Margin="0 0 5 0" FontSize="13" Text="LUN" />
+						<TextBlock Margin="0 0 60 0" FontSize="13" Text="标签名" />
+						<TextBlock Margin="0 0 83 0" FontSize="13" Text="文件" />
+						<TextBlock Margin="0 0 75 0" FontSize="13" Text="起始扇区" />
+						<TextBlock Margin="0 0 60 0" FontSize="13" Text="扇区数" />
+						<TextBlock Margin="0 0 10 0" FontSize="13" Text="Sparse" />
+						<TextBlock Margin="0 0 0 0" FontSize="13" Text="文件偏移量" />
+					</StackPanel>
+					<suki:GlassCard Height="370">
+						<ScrollViewer>
+								<ItemsControl Name="ImageList" ItemsSource="{Binding EDLPartModel}">
+									<ItemsControl.ItemsPanel>
+										<ItemsPanelTemplate>
+											<WrapPanel Orientation="Vertical" />
+										</ItemsPanelTemplate>
+									</ItemsControl.ItemsPanel>
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+												<StackPanel Orientation="Horizontal" Margin="0 5 0 0">
+													<CheckBox HorizontalAlignment="Right" Margin="0 -4 8 0" IsChecked="{Binding SelectPart}">
+														<CheckBox.RenderTransform>
+															<ScaleTransform ScaleX="0.8" ScaleY="0.8" />
+														</CheckBox.RenderTransform>
+													</CheckBox>
+													<TextBlock Width="30" FontSize="11" Text="{Binding Lun}" HorizontalAlignment="Left" />
+													<TextBlock Width="100" FontSize="11" Text="{Binding Name}" HorizontalAlignment="Left" />
+													<Button
+														Width="110"
+														Name="ImageName"
+														Theme="{StaticResource ToolboxButtonFile}"
+														Click="OpenImageFile"
+														ToolTip.Tip="点击更换镜像">
+														<TextBlock FontSize="11" Text="{Binding FileName}"/>
+													</Button>
+													<TextBlock Width="130" FontSize="11" Text="{Binding Start}" HorizontalAlignment="Left" />
+													<TextBlock Width="105" FontSize="11" Text="{Binding Sector}" HorizontalAlignment="Left" />
+													<TextBlock Width="45" FontSize="11" Text="{Binding IsSparse}" HorizontalAlignment="Left" />
+													<TextBlock Width="100" FontSize="11" Text="{Binding Offset}" HorizontalAlignment="Left" />
+												</StackPanel>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+									<ItemsControl.Styles>
+										<Style Selector="ContentPresenter">
+											
+										</Style>
+									</ItemsControl.Styles>
+								</ItemsControl>
+							</ScrollViewer>
+					</suki:GlassCard>
+					<StackPanel Margin="0 10 0 0" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
 					<Button Width="120"
 							HorizontalAlignment="Left"
 							Command="{Binding Remark}"
@@ -156,7 +174,7 @@
 						</TextBlock>
 					</Button>
 				</StackPanel>
-			</StackPanel>
+				</StackPanel>
 			</suki:BusyArea>
 		</suki:GlassCard>
 

@@ -138,6 +138,6 @@
 	  <ProjectReference Include="..\DeviceTreeBlob\DeviceTreeNode.csproj" />
 	  <ProjectReference Include="..\DiskPartition\DiskPartition.csproj" />
 	  <ProjectReference Include="..\ROMLibrary\ROMLibrary.csproj" />
-	  <ProjectReference Include="..\WuXingLibrary\EDLLibrary.csproj" />
+	  <ProjectReference Include="..\EDLLibrary\EDLLibrary.csproj" />
 	</ItemGroup>
 </Project>

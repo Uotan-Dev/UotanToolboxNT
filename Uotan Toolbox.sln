@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Settings.XamlStyler = Settings.XamlStyler
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDLLibrary", "WuXingLibrary\EDLLibrary.csproj", "{13C5D186-8016-CFE3-3873-B0E439631FDB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDLLibrary", "EDLLibrary\EDLLibrary.csproj", "{13C5D186-8016-CFE3-3873-B0E439631FDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskPartition", "DiskPartition\DiskPartition.csproj", "{85236FD4-F569-79EA-6A76-FA6BB94329A3}"
 EndProject

@@ -20,7 +20,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UotanToolbox.Common;
-using WuXingLibrary;
+using EDLLibrary;
 
 
 namespace UotanToolbox.Features.EDL;

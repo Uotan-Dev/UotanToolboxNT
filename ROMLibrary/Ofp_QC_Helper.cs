@@ -104,7 +104,7 @@ namespace ROMLibrary
             {
                 rf.Seek(filesize - x + 0x10, SeekOrigin.Begin);
                 byte[] buffer = new byte[4];
-                rf.Read(buffer, 0, 4);
+                rf.ReadExactly(buffer, 0, 4);
                 if (BitConverter.ToUInt32(buffer, 0) == 0x7CEF)
                 {
                     pagesize = x;
@@ -119,12 +119,12 @@ namespace ROMLibrary
             long xmloffset = filesize - pagesize;
             rf.Seek(xmloffset + 0x14, SeekOrigin.Begin);
             byte[] offsetBuffer = new byte[4];
-            rf.Read(offsetBuffer, 0, 4);
+            rf.ReadExactly(offsetBuffer, 0, 4);
             long temp = BitConverter.ToInt32(offsetBuffer, 0);
             long offset = temp * pagesize;
             rf.Seek(xmloffset + 0x18, SeekOrigin.Begin);
             byte[] lengthBuffer = new byte[4];
-            rf.Read(lengthBuffer, 0, 4);
+            rf.ReadExactly(lengthBuffer, 0, 4);
             int length = BitConverter.ToInt32([.. lengthBuffer], 0);
             if (length < 200) // A57 hack
             {
@@ -132,7 +132,7 @@ namespace ROMLibrary
             }
             rf.Seek(offset, SeekOrigin.Begin);
             byte[] data = new byte[length];
-            rf.Read(data, 0, length);
+            rf.ReadExactly(data, 0, length);
             //Console.WriteLine("data: "+Convert.ToHexString(data).ToLower());
             byte[] dec = AesCfbDecrypt(data, key, iv);
             Console.WriteLine("dec: " + Convert.ToHexString(dec).ToLower());
@@ -184,7 +184,7 @@ namespace ROMLibrary
                 using FileStream wf = new(outputPath, FileMode.Create, FileAccess.Write);
                 rf.Seek(start, SeekOrigin.Begin);
                 byte[] data = new byte[length];
-                rf.Read(data, 0, (int)length);
+                rf.ReadExactly(data, 0, (int)length);
                 wf.Write(data, 0, data.Length);
             }
 
@@ -215,7 +215,7 @@ namespace ROMLibrary
                     size = (int)rlength;
                 }
                 byte[] data = new byte[size];
-                rf.Read(data, 0, size);
+                rf.ReadExactly(data, 0, size);
                 if (size % 4 != 0)
                 {
                     Array.Resize(ref data, size + (4 - size % 4));
@@ -247,7 +247,7 @@ namespace ROMLibrary
             long size = new FileInfo(wfilename).Length;
             rf.Seek(0, SeekOrigin.Begin);
             byte[] buffer = new byte[0x40000];
-            rf.Read(buffer, 0, buffer.Length);
+            rf.ReadExactly(buffer);
             byte[] md5Hash = MD5.HashData(buffer);
             string md5Hex = BitConverter.ToString(md5Hash).Replace("-", "").ToLower();
 

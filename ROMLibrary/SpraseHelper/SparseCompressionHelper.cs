@@ -31,7 +31,7 @@ namespace ROMLibrary.SpraseHelper
                    input.Position < input.Length)
             {
                 byte[] block = new byte[BlockSize];
-                input.Read(block, 0, BlockSize);
+                input.ReadExactly(block, 0, BlockSize);
                 byte[] currentFill = TryToCompressBlock(block);
 
                 if (fill != null)
@@ -157,7 +157,7 @@ namespace ROMLibrary.SpraseHelper
             for (long blockIndex = 0; blockIndex < blockCount; blockIndex++)
             {
                 byte[] block = new byte[BlockSize];
-                rawChunk.Read(block, 0, BlockSize);
+                rawChunk.ReadExactly(block, 0, BlockSize);
                 ByteWriter.WriteBytes(output, block);
             }
         }

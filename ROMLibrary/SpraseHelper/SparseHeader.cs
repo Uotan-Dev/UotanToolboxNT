@@ -73,7 +73,7 @@ namespace ROMLibrary.SpraseHelper
         public static SparseHeader Read(Stream stream)
         {
             byte[] buffer = new byte[Length];
-            stream.Read(buffer, 0, Length);
+            stream.ReadExactly(buffer, 0, Length);
             return Read(buffer, 0);
         }
     }

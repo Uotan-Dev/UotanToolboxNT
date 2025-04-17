@@ -39,7 +39,6 @@ public partial class EDLViewModel : MainPageBase
     private AvaloniaList<EDLPartModel> eDLPartModel = [];
     private string SelectedStorageType = "";
     private Flash _flash; //获取flash对象单例实例
-    private string patch_xml_paths = "";
     private string output = "";
     //工作目录路径，可多次复用
     public string work_path = Path.Join(Global.tmp_path, "UotanToolboxNT-EDL");

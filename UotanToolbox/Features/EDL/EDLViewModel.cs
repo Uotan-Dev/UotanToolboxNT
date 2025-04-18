@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using UotanToolbox.Common;
 using EDLLibrary;
+using ReactiveUI;
 
 
 namespace UotanToolbox.Features.EDL;
@@ -49,7 +50,16 @@ public partial class EDLViewModel : MainPageBase
 
     public EDLViewModel() : base("9008刷机", MaterialIconKind.CableData, -350)
     {
+        this.WhenAnyValue(x => x.SelectBand)
+            .Subscribe(option =>
+            {
+                
+            });
+        this.WhenAnyValue(x => x.SelectSeries)
+            .Subscribe(option =>
+            {
 
+            });
     }
 
     private async void OutputHandler(object sendingProcess, DataReceivedEventArgs outLine)
@@ -404,6 +414,12 @@ public partial class EDLViewModel : MainPageBase
 
     [RelayCommand]
     public async Task ErasePart()
+    {
+
+    }
+
+    [RelayCommand]
+    public async Task Cancel()
     {
 
     }

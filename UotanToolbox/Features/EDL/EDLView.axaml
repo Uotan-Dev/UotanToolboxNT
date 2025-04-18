@@ -147,7 +147,7 @@
 						</TextBlock>
 					</Button>
 					<Button Name="WritePartBut"
-							Width="120"
+							Width="90"
 							HorizontalAlignment="Left"
 							Command="{Binding WritePart}"
 							Padding="8">
@@ -156,7 +156,7 @@
 						</TextBlock>
 					</Button>
 					<Button Name="ReadPartBut"
-							Width="120"
+							Width="90"
 							HorizontalAlignment="Left"
 							Command="{Binding ReadPart}"
 							Padding="8">
@@ -165,7 +165,7 @@
 						</TextBlock>
 					</Button>
 					<Button Name="ErasePartBut"
-							Width="120"
+							Width="90"
 							HorizontalAlignment="Left"
 							Command="{Binding ErasePart}"
 							Padding="8">
@@ -173,6 +173,15 @@
 							<TextBlock Text="擦除" />
 						</TextBlock>
 					</Button>
+						<Button Name="Cancel"
+								Width="90"
+								HorizontalAlignment="Left"
+								Command="{Binding Cancel}"
+								Padding="8">
+							<TextBlock>
+								<TextBlock Text="取消" />
+							</TextBlock>
+						</Button>
 				</StackPanel>
 				</StackPanel>
 			</suki:BusyArea>

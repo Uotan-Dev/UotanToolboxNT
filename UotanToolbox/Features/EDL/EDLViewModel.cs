@@ -672,13 +672,7 @@ public partial class EDLViewModel : MainPageBase
         // 保存XML文档
         xmlDoc.Save(outputXmlPath);
     }
-    /// <summary>
-    /// 将图形化界面中选中的部分提取到新的XML文件中，按照Uotan-Index节点进行筛选
-    /// </summary>
-    /// <param name="outputFilePath">提取后的XML文件输出路径</param>
-
-
-
+}
 
 public partial class EDLPartModel : ObservableObject
 {
@@ -705,7 +699,7 @@ public partial class EDLPartModel : ObservableObject
 
     [ObservableProperty]
     private string sector;
-
+    
     [ObservableProperty]
     private string index;
 }

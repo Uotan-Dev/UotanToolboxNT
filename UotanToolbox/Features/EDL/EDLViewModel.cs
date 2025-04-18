@@ -34,7 +34,7 @@ public partial class EDLViewModel : MainPageBase
     [ObservableProperty]
     private int selectBand = 0, selectSeries = 0, selectModel = 0, logIndex = 0;
     [ObservableProperty]
-    private AvaloniaList<string> bandList = ["通用"], seriesList = ["通用"], modelList = ["通用"];
+    private AvaloniaList<string> bandList = ["通用"], seriesList = ["Qualcomm","bypassSig"], modelList = ["配置","跳过配置","部分配置"];
     [ObservableProperty]
     private AvaloniaList<EDLPartModel> eDLPartModel = [];
     private string SelectedStorageType = "";
@@ -318,7 +318,7 @@ public partial class EDLViewModel : MainPageBase
     {
         // 检查是否所有项的 SelectPart 都为 true
         bool allSelected = EDLPartModel.All(part => part.SelectPart);
-
+        EDLLog += $"{selectSeries} {selectBand} {selectModel}";
         // 如果全为 true，则全部设置为 false；否则全部设置为 true
         foreach (var part in EDLPartModel)
         {

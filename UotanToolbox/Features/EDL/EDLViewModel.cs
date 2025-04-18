@@ -207,7 +207,7 @@ public partial class EDLViewModel : MainPageBase
             return;
         }
         EDLLog += $"索引引导文件...{Environment.NewLine}";
-        _flash = Flash.Instance;
+        _flash = Flash.Instance;  //首次使用，获取flash对象单例实例
         if (UFS == true)
         {
             SelectedStorageType = "ufs";
@@ -237,17 +237,79 @@ public partial class EDLViewModel : MainPageBase
         if (result == "success")
         {
             Global.MainDialogManager.CreateDialog()
-                .WithTitle(GetTranslation("Common_Error"))
-                .OfType(NotificationType.Error)
+                .WithTitle(GetTranslation("Common_Succ"))
+                .OfType(NotificationType.Success)
                 .WithContent("引导发送成功")
                 .Dismiss().ByClickingBackground()
                 .TryShow();
             EDLLog += $"引导发送成功{Environment.NewLine}";
+            return;
         }
         else if (result == "needsig")
         {
+            string? blob;
+            bool sig_result = false;
             EDLLog += $"需要签名{Environment.NewLine}";
+            if (selectModel == 0)   //用户选择Qualcomm选项，问用户拿取sig
+            {
+                blob = _flash.GetBlob();
+                if (String.IsNullOrEmpty(blob))
+                {
+                    EDLLog += $"获取签名文件失败{Environment.NewLine}";
+                    Global.MainDialogManager.CreateDialog()
+                                            .WithTitle(GetTranslation("Common_Error"))
+                                            .OfType(NotificationType.Error)
+                                            .WithContent("获取签名文件失败")
+                                            .Dismiss().ByClickingBackground()
+                                            .TryShow();
+                    return;
+                }
+                EDLLog += $"获取签名文件成功:{blob}{Environment.NewLine}";
 
+                string sig = "";   //给出弹窗获取sig
+                EDLLog += $"Sig:{sig}{Environment.NewLine}";
+                sig_result = _flash.SendSignature(sig);
+            }
+            else if (selectModel == 1)
+            {
+                sig_result = _flash.BypassSendSig();
+            }
+            if (sig_result)
+            {
+                EDLLog += $"签名发送成功{Environment.NewLine}";
+            }
+            else
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("签名发送失败")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                EDLLog += $"签名发送失败{Environment.NewLine}";
+                return;
+            }
+            EDLLog += $"设备重新配置DDR...{Environment.NewLine}";
+            if (_flash.ConfigureDDR() == "success")
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Succ"))
+                    .OfType(NotificationType.Success)
+                    .WithContent("引导发送成功")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                EDLLog += $"引导发送成功{Environment.NewLine}";
+            }
+            else
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("引导发送失败")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                EDLLog += $"引导发送失败{Environment.NewLine}";
+            }
         }
     }
 
@@ -614,26 +676,7 @@ public partial class EDLViewModel : MainPageBase
     /// 将图形化界面中选中的部分提取到新的XML文件中，按照Uotan-Index节点进行筛选
     /// </summary>
     /// <param name="outputFilePath">提取后的XML文件输出路径</param>
-    private void ExtractSelectedPartsToXml(string outputFilePath)
-    {
-        XDocument extractedDoc = new XDocument(new XElement("data"));
-        XDocument tempDoc = XDocument.Load(Path.Join(work_path, "Merged.xml"));
-        foreach (var part in EDLPartModel)
-        {
-            if (part.SelectPart)
-            {
-                var element = tempDoc.Descendants("program")
-                                     .FirstOrDefault(e => e.Attribute("Uotan-Index")?.Value == part.Index);
-                if (element != null)
-                {
-                    extractedDoc.Root.Add(new XElement(element));
-                }
-            }
-        }
-        extractedDoc.Save(outputFilePath);
-    }
 
-}
 
 
 

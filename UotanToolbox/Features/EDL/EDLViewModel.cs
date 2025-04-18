@@ -318,7 +318,7 @@ public partial class EDLViewModel : MainPageBase
     {
         // 检查是否所有项的 SelectPart 都为 true
         bool allSelected = EDLPartModel.All(part => part.SelectPart);
-        EDLLog += $"{selectSeries} {selectBand} {selectModel}";
+        EDLLog += $"{selectBand} {selectSeries} {selectModel}";
         // 如果全为 true，则全部设置为 false；否则全部设置为 true
         foreach (var part in EDLPartModel)
         {

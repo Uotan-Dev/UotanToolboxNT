@@ -27,14 +27,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.2.7" />
-		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.7" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.2.7" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.7" />
+		<PackageReference Include="Avalonia" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.8" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.4" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.8" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Material.Icons.Avalonia" Version="2.3.1" />
+		<PackageReference Include="Material.Icons.Avalonia" Version="2.4.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="QRCoder" Version="1.6.0" />

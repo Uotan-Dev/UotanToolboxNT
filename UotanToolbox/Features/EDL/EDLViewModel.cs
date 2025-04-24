@@ -206,101 +206,47 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task SendFirehose()
     {
-        if (string.IsNullOrEmpty(FirehoseFile))
+        try
         {
-            Global.MainDialogManager.CreateDialog()
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .OfType(NotificationType.Error)
-                            .WithContent("未选择引导文件")
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            return;
-        }
-        EDLLog += $"索引引导文件...{Environment.NewLine}";
-        _flash = Flash.Instance;  //首次使用，获取flash对象单例实例
-        if (UFS == true)
-        {
-            SelectedStorageType = "ufs";
-        }
-        if (EMMC == true)
-        {
-            SelectedStorageType = "emmc";
-        }
-        EDLLog += $"存储类型：{SelectedStorageType}{Environment.NewLine}";
-        _flash.Initialize(Global.thisdevice, SelectedStorageType);
-        EDLLog += $"目标端口：{Global.thisdevice}{Environment.NewLine}";
-        EDLLog += $"引导文件：{FirehoseFile}{Environment.NewLine}";
-        EDLLog += $"设备初始化...{Environment.NewLine}";
-        _flash.RegisterPort();
-        EDLLog += $"端口注册...{Environment.NewLine}";
-        if (!_flash.Sahara(FirehoseFile))
-        {
-            Global.MainDialogManager.CreateDialog()
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .OfType(NotificationType.Error)
-                            .WithContent("引导发送失败")
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-        }
-        string result = _flash.ConfigureDDR();
-        EDLLog += $"设备配置DDR...{Environment.NewLine}";
-        if (result == "success")
-        {
-            Global.MainDialogManager.CreateDialog()
-                .WithTitle(GetTranslation("Common_Succ"))
-                .OfType(NotificationType.Success)
-                .WithContent("引导发送成功")
-                .Dismiss().ByClickingBackground()
-                .TryShow();
-            EDLLog += $"引导发送成功{Environment.NewLine}";
-            return;
-        }
-        else if (result == "needsig")
-        {
-            string? blob;
-            bool sig_result = false;
-            EDLLog += $"需要签名{Environment.NewLine}";
-            if (selectModel == 0)   //用户选择Qualcomm选项，问用户拿取sig
-            {
-                blob = _flash.GetBlob();
-                if (String.IsNullOrEmpty(blob))
-                {
-                    EDLLog += $"获取签名文件失败{Environment.NewLine}";
-                    Global.MainDialogManager.CreateDialog()
-                                            .WithTitle(GetTranslation("Common_Error"))
-                                            .OfType(NotificationType.Error)
-                                            .WithContent("获取签名文件失败")
-                                            .Dismiss().ByClickingBackground()
-                                            .TryShow();
-                    return;
-                }
-                EDLLog += $"获取签名文件成功:{blob}{Environment.NewLine}";
-
-                string sig = "";   //给出弹窗获取sig
-                EDLLog += $"Sig:{sig}{Environment.NewLine}";
-                sig_result = _flash.SendSignature(sig);
-            }
-            else if (selectModel == 1)
-            {
-                sig_result = _flash.BypassSendSig();
-            }
-            if (sig_result)
-            {
-                EDLLog += $"签名发送成功{Environment.NewLine}";
-            }
-            else
+            if (string.IsNullOrEmpty(FirehoseFile))
             {
                 Global.MainDialogManager.CreateDialog()
-                    .WithTitle(GetTranslation("Common_Error"))
-                    .OfType(NotificationType.Error)
-                    .WithContent("签名发送失败")
-                    .Dismiss().ByClickingBackground()
-                    .TryShow();
-                EDLLog += $"签名发送失败{Environment.NewLine}";
+                                .WithTitle(GetTranslation("Common_Error"))
+                                .OfType(NotificationType.Error)
+                                .WithContent("未选择引导文件")
+                                .Dismiss().ByClickingBackground()
+                                .TryShow();
                 return;
             }
-            EDLLog += $"设备重新配置DDR...{Environment.NewLine}";
-            if (_flash.ConfigureDDR() == "success")
+            EDLLog += $"索引引导文件...{Environment.NewLine}";
+            _flash = Flash.Instance;  //首次使用，获取flash对象单例实例
+            if (UFS == true)
+            {
+                SelectedStorageType = "ufs";
+            }
+            if (EMMC == true)
+            {
+                SelectedStorageType = "emmc";
+            }
+            EDLLog += $"存储类型：{SelectedStorageType}{Environment.NewLine}";
+            _flash.Initialize(Global.thisdevice, SelectedStorageType);
+            EDLLog += $"目标端口：{Global.thisdevice}{Environment.NewLine}";
+            EDLLog += $"引导文件：{FirehoseFile}{Environment.NewLine}";
+            EDLLog += $"设备初始化...{Environment.NewLine}";
+            _flash.RegisterPort();
+            EDLLog += $"端口注册...{Environment.NewLine}";
+            if (!_flash.Sahara(FirehoseFile))
+            {
+                Global.MainDialogManager.CreateDialog()
+                                .WithTitle(GetTranslation("Common_Error"))
+                                .OfType(NotificationType.Error)
+                                .WithContent("引导发送失败")
+                                .Dismiss().ByClickingBackground()
+                                .TryShow();
+            }
+            string result = _flash.ConfigureDDR();
+            EDLLog += $"设备配置DDR...{Environment.NewLine}";
+            if (result == "success")
             {
                 Global.MainDialogManager.CreateDialog()
                     .WithTitle(GetTranslation("Common_Succ"))
@@ -309,18 +255,87 @@ public partial class EDLViewModel : MainPageBase
                     .Dismiss().ByClickingBackground()
                     .TryShow();
                 EDLLog += $"引导发送成功{Environment.NewLine}";
+                return;
             }
-            else
+            else if (result == "needsig")
             {
-                Global.MainDialogManager.CreateDialog()
-                    .WithTitle(GetTranslation("Common_Error"))
-                    .OfType(NotificationType.Error)
-                    .WithContent("引导发送失败")
-                    .Dismiss().ByClickingBackground()
-                    .TryShow();
-                EDLLog += $"引导发送失败{Environment.NewLine}";
+                string? blob;
+                bool sig_result = false;
+                EDLLog += $"需要签名{Environment.NewLine}";
+                if (selectModel == 0)   //用户选择Qualcomm选项，问用户拿取sig
+                {
+                    blob = _flash.GetBlob();
+                    if (String.IsNullOrEmpty(blob))
+                    {
+                        EDLLog += $"获取签名文件失败{Environment.NewLine}";
+                        Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent("获取签名文件失败")
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
+                        return;
+                    }
+                    EDLLog += $"获取签名文件成功:{blob}{Environment.NewLine}";
+
+                    string sig = "";   //给出弹窗获取sig
+                    EDLLog += $"Sig:{sig}{Environment.NewLine}";
+                    sig_result = _flash.SendSignature(sig);
+                }
+                else if (selectModel == 1)
+                {
+                    sig_result = _flash.BypassSendSig();
+                }
+                if (sig_result)
+                {
+                    EDLLog += $"签名发送成功{Environment.NewLine}";
+                }
+                else
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .OfType(NotificationType.Error)
+                        .WithContent("签名发送失败")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                    EDLLog += $"签名发送失败{Environment.NewLine}";
+                    return;
+                }
+                EDLLog += $"设备重新配置DDR...{Environment.NewLine}";
+                if (_flash.ConfigureDDR() == "success")
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Succ"))
+                        .OfType(NotificationType.Success)
+                        .WithContent("引导发送成功")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                    EDLLog += $"引导发送成功{Environment.NewLine}";
+                }
+                else
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .OfType(NotificationType.Error)
+                        .WithContent("引导发送失败")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                    EDLLog += $"引导发送失败{Environment.NewLine}";
+                }
             }
         }
+        catch (Exception ex) 
+        {
+            Global.MainDialogManager.CreateDialog()
+                                    .WithTitle(GetTranslation("Common_Error"))
+                                    .OfType(NotificationType.Error)
+                                    .WithContent($"引导发送失败 {ex.Message}")
+                                    .Dismiss().ByClickingBackground()
+                                    .TryShow();
+            EDLLog += $"引导发送失败 {ex.Message} {Environment.NewLine}";
+
+        }
+        
     }
 
     [RelayCommand]

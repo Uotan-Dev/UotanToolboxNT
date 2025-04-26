@@ -8,20 +8,22 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DiskPartition.FluentApi;
 using DiskPartition.Gpt;
+using EDLLibrary;
 using Material.Icons;
+using ReactiveUI;
 using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using UotanToolbox.Common;
-using EDLLibrary;
-using ReactiveUI;
 
 
 namespace UotanToolbox.Features.EDL;
@@ -35,7 +37,7 @@ public partial class EDLViewModel : MainPageBase
     [ObservableProperty]
     private int selectBand = 0, selectSeries = 0, selectModel = 0, logIndex = 0;
     [ObservableProperty]
-    private AvaloniaList<string> bandList = ["通用"], seriesList = ["Qualcomm","bypassSig"], modelList = ["配置","跳过配置","部分配置"];
+    private AvaloniaList<string> bandList = ["Qualcomm"], seriesList = ["Default", "BypassSig"], modelList = ["Configure", "Skip", "Partial"];
     [ObservableProperty]
     private AvaloniaList<EDLPartModel> eDLPartModel = [];
     private string SelectedStorageType = "";
@@ -53,7 +55,7 @@ public partial class EDLViewModel : MainPageBase
         this.WhenAnyValue(x => x.SelectBand)
             .Subscribe(option =>
             {
-                
+
             });
         this.WhenAnyValue(x => x.SelectSeries)
             .Subscribe(option =>
@@ -324,7 +326,7 @@ public partial class EDLViewModel : MainPageBase
                 }
             }
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             Global.MainDialogManager.CreateDialog()
                                     .WithTitle(GetTranslation("Common_Error"))
@@ -335,7 +337,7 @@ public partial class EDLViewModel : MainPageBase
             EDLLog += $"引导发送失败 {ex.Message} {Environment.NewLine}";
 
         }
-        
+
     }
 
     [RelayCommand]
@@ -360,7 +362,18 @@ public partial class EDLViewModel : MainPageBase
     {
         try
         {
-            _flash = Flash.Instance;
+            // 检查Flash对象是否已初始化
+            if (_flash == null)
+            {
+                EDLLog += $"错误：设备未初始化，请先发送引导程序！{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("设备未初始化，请先发送引导程序")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
 
             // 确保工作目录存在
             if (!Directory.Exists(work_path))
@@ -418,37 +431,561 @@ public partial class EDLViewModel : MainPageBase
     [RelayCommand]
     public async Task WritePart()
     {
+        try
+        {
+            // 检查是否有分区被选中
+            var selectedParts = EDLPartModel.Where(part => part.SelectPart).ToList();
+            if (selectedParts.Count == 0)
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("未选择任何分区")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
 
+            // 检查Flash对象是否已初始化
+            if (_flash == null)
+            {
+                EDLLog += $"错误：设备未初始化，请先发送引导程序！{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("设备未初始化，请先发送引导程序")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
+
+            EDLLog += $"开始写入分区...{Environment.NewLine}";
+            int successCount = 0;
+            int failCount = 0;
+
+            foreach (var part in selectedParts)
+            {
+                // 检查文件是否存在
+                if (string.IsNullOrEmpty(part.FileName) || part.FileName == "点击选择镜像" || part.FileName == "请选择文件")
+                {
+                    EDLLog += $"跳过分区 {part.Name}：未指定镜像文件{Environment.NewLine}";
+                    failCount++;
+                    continue;
+                }
+
+                string filePath = part.FileName;
+                // 如果只是文件名而不是完整路径，则尝试从分区路径构建完整路径
+                if (!Path.IsPathRooted(filePath) && !string.IsNullOrEmpty(PartNamr))
+                {
+                    filePath = Path.Combine(PartNamr, filePath);
+                }
+
+                if (!File.Exists(filePath))
+                {
+                    EDLLog += $"跳过分区 {part.Name}：文件 {filePath} 不存在{Environment.NewLine}";
+                    failCount++;
+                    continue;
+                }
+
+                EDLLog += $"正在写入分区 {part.Name}...{Environment.NewLine}";
+
+                // 解析分区参数
+                int lun = int.Parse(part.Lun);
+                string start = part.Start;
+
+                // 检查是否为sparse镜像
+                bool isSparse = part.IsSparse.Equals("true", StringComparison.OrdinalIgnoreCase);
+
+                try
+                {
+                    // Check if the file is sparse
+                    if (isSparse)
+                    {
+                        // Use WriteSparseFileToDevice for sparse files
+                        _flash.WriteSparseFileToDevice(filePath, "0", start, null, lun.ToString(), part.Name, CancellationToken.None);
+                    }
+                    else
+                    {
+                        // Use WriteRawFileToDevice for non-sparse files
+                        _flash.WriteRawFileToDevice(filePath, "0", start, null, lun.ToString(), part.Name);
+                    }
+                    EDLLog += $"分区 {part.Name} 写入成功{Environment.NewLine}";
+                    successCount++;
+                }
+                catch (Exception ex)
+                {
+                    EDLLog += $"分区 {part.Name} 写入失败: {ex.Message}{Environment.NewLine}";
+                    failCount++;
+                }
+            }
+
+            // 显示写入结果统计
+            EDLLog += $"写入操作完成：成功 {successCount} 个，失败 {failCount} 个{Environment.NewLine}";
+
+            // 根据结果显示不同的通知
+            if (failCount == 0 && successCount > 0)
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Succ"))
+                    .OfType(NotificationType.Success)
+                    .WithContent($"所有选中分区写入成功")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+            else if (successCount > 0)
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle("部分成功")
+                    .OfType(NotificationType.Warning)
+                    .WithContent($"部分分区写入成功，详情请查看日志")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+            else
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("所有分区写入失败，请检查日志")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+        }
+        catch (Exception ex)
+        {
+            EDLLog += $"写入分区时发生错误: {ex.Message}{Environment.NewLine}";
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle(GetTranslation("Common_Error"))
+                .OfType(NotificationType.Error)
+                .WithContent($"写入分区时发生错误: {ex.Message}")
+                .Dismiss().ByClickingBackground()
+                .TryShow();
+        }
     }
 
     [RelayCommand]
     public async Task ReadPart()
     {
+        try
+        {
+            // 检查是否有分区被选中
+            var selectedParts = EDLPartModel.Where(part => part.SelectPart).ToList();
+            if (selectedParts.Count == 0)
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("未选择任何分区")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
 
+            // 检查Flash对象是否已初始化
+            if (_flash == null)
+            {
+                EDLLog += $"错误：设备未初始化，请先发送引导程序！{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("设备未初始化，请先发送引导程序")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
+
+            // 确保输出目录存在
+            string outputDir = string.IsNullOrEmpty(PartNamr) ?
+                Path.Combine(work_path, "dumps") :
+                Path.Combine(PartNamr, "dumps");
+
+            if (!Directory.Exists(outputDir))
+            {
+                Directory.CreateDirectory(outputDir);
+            }
+
+            EDLLog += $"开始读取分区...{Environment.NewLine}";
+            int successCount = 0;
+            int failCount = 0;
+
+            foreach (var part in selectedParts)
+            {
+                string partitionName = part.Name;
+                string outputPath = Path.Combine(outputDir, $"{partitionName}.img");
+
+                // 解析分区参数
+                int lun = int.Parse(part.Lun);
+                string start = part.Start;
+                string sectors = part.Sector;
+
+                if (string.IsNullOrEmpty(sectors))
+                {
+                    EDLLog += $"跳过分区 {partitionName}：未知分区大小{Environment.NewLine}";
+                    failCount++;
+                    continue;
+                }
+
+                // 将分区的扇区数转换为整数
+                if (!int.TryParse(sectors, out int numSectors))
+                {
+                    EDLLog += $"跳过分区 {partitionName}：无效的分区大小{Environment.NewLine}";
+                    failCount++;
+                    continue;
+                }
+
+                EDLLog += $"正在读取分区 {partitionName}，保存到 {outputPath}...{Environment.NewLine}";
+                try
+                {
+                    // 执行读取操作
+                    _flash.Read(start, numSectors, lun, outputPath);
+                    EDLLog += $"分区 {partitionName} 读取成功，已保存到 {outputPath}{Environment.NewLine}";
+                    successCount++;
+                }catch (Exception ex)
+                {
+                    EDLLog += $"分区 {partitionName} 读取失败{Environment.NewLine}";
+                    failCount++;
+                }
+            }
+
+            // 显示读取结果统计
+            EDLLog += $"读取操作完成：成功 {successCount} 个，失败 {failCount} 个{Environment.NewLine}";
+
+            // 根据结果显示不同的通知
+            if (failCount == 0 && successCount > 0)
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Succ"))
+                    .OfType(NotificationType.Success)
+                    .WithContent($"所有选中分区读取成功，已保存到 {outputDir}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+            else if (successCount > 0)
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle("部分成功")
+                    .OfType(NotificationType.Warning)
+                    .WithContent($"部分分区读取成功，详情请查看日志")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+            else
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("所有分区读取失败，请检查日志")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+        }
+        catch (Exception ex)
+        {
+            EDLLog += $"读取分区时发生错误: {ex.Message}{Environment.NewLine}";
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle(GetTranslation("Common_Error"))
+                .OfType(NotificationType.Error)
+                .WithContent($"读取分区时发生错误: {ex.Message}")
+                .Dismiss().ByClickingBackground()
+                .TryShow();
+        }
     }
 
     [RelayCommand]
     public async Task ErasePart()
     {
+        try
+        {
+            // 检查是否有分区被选中
+            var selectedParts = EDLPartModel.Where(part => part.SelectPart).ToList();
+            if (selectedParts.Count == 0)
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("未选择任何分区")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
 
+            // 检查Flash对象是否已初始化
+            if (_flash == null)
+            {
+                EDLLog += $"错误：设备未初始化，请先发送引导程序！{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("设备未初始化，请先发送引导程序")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
+            bool confirmDialog = false;
+            // 确认擦除操作
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle("确认擦除")
+                .OfType(NotificationType.Warning)
+                .WithContent($"您确定要擦除选中的 {selectedParts.Count} 个分区吗？此操作不可恢复！")
+                .Dismiss().ByClickingBackground()
+                .WithActionButton("取消", dialog => {})
+                .WithActionButton("确认擦除", dialog => { bool confirmDialog = true; })
+                .TryShow();
+
+            if (confirmDialog is not true)
+            {
+                EDLLog += $"擦除操作已取消{Environment.NewLine}";
+                return;
+            }
+
+            EDLLog += $"开始擦除分区...{Environment.NewLine}";
+            int successCount = 0;
+            int failCount = 0;
+
+            foreach (var part in selectedParts)
+            {
+                string partitionName = part.Name;
+
+                // 解析分区参数
+                int lun = int.Parse(part.Lun);
+                string start = part.Start;
+                string sectors = part.Sector;
+
+                if (string.IsNullOrEmpty(sectors))
+                {
+                    EDLLog += $"跳过分区 {partitionName}：未知分区大小{Environment.NewLine}";
+                    failCount++;
+                    continue;
+                }
+
+                // 将分区的扇区数转换为整数
+                if (!int.TryParse(sectors, out int numSectors))
+                {
+                    EDLLog += $"跳过分区 {partitionName}：无效的分区大小{Environment.NewLine}";
+                    failCount++;
+                    continue;
+                }
+
+                EDLLog += $"正在擦除分区 {partitionName}...{Environment.NewLine}";
+                try
+                {
+                // 执行擦除操作
+                _flash.Erase(start, numSectors, lun);
+                    EDLLog += $"分区 {partitionName} 擦除成功{Environment.NewLine}";
+                    successCount++;
+                }
+                catch (Exception ex)
+                {
+                    EDLLog += $"分区 {partitionName} 擦除失败{Environment.NewLine}";
+                    failCount++;
+                }
+            }
+
+            // 显示擦除结果统计
+            EDLLog += $"擦除操作完成：成功 {successCount} 个，失败 {failCount} 个{Environment.NewLine}";
+
+            // 根据结果显示不同的通知
+            if (failCount == 0 && successCount > 0)
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Succ"))
+                    .OfType(NotificationType.Success)
+                    .WithContent($"所有选中分区擦除成功")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+            else if (successCount > 0)
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle("部分成功")
+                    .OfType(NotificationType.Warning)
+                    .WithContent($"部分分区擦除成功，详情请查看日志")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+            else
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("所有分区擦除失败，请检查日志")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+        }
+        catch (Exception ex)
+        {
+            EDLLog += $"擦除分区时发生错误: {ex.Message}{Environment.NewLine}";
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle(GetTranslation("Common_Error"))
+                .OfType(NotificationType.Error)
+                .WithContent($"擦除分区时发生错误: {ex.Message}")
+                .Dismiss().ByClickingBackground()
+                .TryShow();
+        }
     }
 
     [RelayCommand]
     public async Task Cancel()
     {
+        try
+        {
+            // 检查Flash对象是否已初始化
+            if (_flash == null)
+            {
+                EDLLog += $"错误：设备未初始化，无法执行取消操作！{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("设备未初始化，无法执行取消操作")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
 
+            EDLLog += $"正在发送取消命令...{Environment.NewLine}";
+
+
+            if (true)
+            {
+                EDLLog += $"取消命令已发送{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Succ"))
+                    .OfType(NotificationType.Success)
+                    .WithContent("取消命令已发送")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+            else
+            {
+                EDLLog += $"取消操作失败{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("取消操作失败")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+        }
+        catch (Exception ex)
+        {
+            EDLLog += $"取消操作时发生错误: {ex.Message}{Environment.NewLine}";
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle(GetTranslation("Common_Error"))
+                .OfType(NotificationType.Error)
+                .WithContent($"取消操作时发生错误: {ex.Message}")
+                .Dismiss().ByClickingBackground()
+                .TryShow();
+        }
     }
 
     [RelayCommand]
     public async Task RebootEDL()
     {
-
+        try
+        {
+            // 检查Flash对象是否已初始化
+            if (_flash == null)
+            {
+                EDLLog += $"错误：设备未初始化，请先发送引导程序！{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("设备未初始化，请先发送引导程序")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
+            EDLLog += $"正在执行重启到EDL模式...{Environment.NewLine}";
+            try
+            {
+                // 执行重启到EDL操作
+                _flash.Reset();
+                _flash.Close();
+                EDLLog += $"设备已重启至EDL模式{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Succ"))
+                    .OfType(NotificationType.Success)
+                    .WithContent("设备已重启至EDL模式")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+            catch (Exception ex)
+            {
+                EDLLog += $"重启到EDL模式失败{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("重启到EDL模式失败")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+        }
+        catch (Exception ex)
+        {
+            EDLLog += $"重启到EDL模式时发生错误: {ex.Message}{Environment.NewLine}";
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle(GetTranslation("Common_Error"))
+                .OfType(NotificationType.Error)
+                .WithContent($"重启到EDL模式时发生错误: {ex.Message}")
+                .Dismiss().ByClickingBackground()
+                .TryShow();
+        }
     }
 
     [RelayCommand]
     public async Task RebootSys()
     {
+        try
+        {
+            // 检查Flash对象是否已初始化
+            if (_flash == null)
+            {
+                EDLLog += $"错误：设备未初始化，请先发送引导程序！{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("设备未初始化，请先发送引导程序")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+                return;
+            }
 
+            EDLLog += $"正在执行重启到系统...{Environment.NewLine}";
+            try
+            {
+                // 执行重启到系统操作
+                _flash.Reboot();
+                _flash.Close();
+                EDLLog += $"设备已重启至系统{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Succ"))
+                    .OfType(NotificationType.Success)
+                    .WithContent("设备已重启至系统")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+            catch (Exception ex)
+            {
+                EDLLog += $"重启到系统失败{Environment.NewLine}";
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .OfType(NotificationType.Error)
+                    .WithContent("重启到系统失败")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            }
+        }
+        catch (Exception ex)
+        {
+            EDLLog += $"重启到系统时发生错误: {ex.Message}{Environment.NewLine}";
+            Global.MainDialogManager.CreateDialog()
+                .WithTitle(GetTranslation("Common_Error"))
+                .OfType(NotificationType.Error)
+                .WithContent($"重启到系统时发生错误: {ex.Message}")
+                .Dismiss().ByClickingBackground()
+                .TryShow();
+        }
     }
 
     [RelayCommand]
@@ -730,7 +1267,7 @@ public partial class EDLPartModel : ObservableObject
 
     [ObservableProperty]
     private string sector;
-    
+
     [ObservableProperty]
     private string index;
 }

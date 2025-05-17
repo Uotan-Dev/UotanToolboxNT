@@ -70,7 +70,7 @@ namespace UotanToolbox.Common
                 string[] Lines = COMInfo.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < Lines.Length; i++)
                 {
-                    if (Lines[i].Contains("QDLoader") || Lines[i].Contains("900E (") || Lines[i].Contains("901D (") || Lines[i].Contains("9091 ("))
+                    if (Lines[i].Contains("QDLoader") || Lines[i].Contains("900E (") || Lines[i].Contains("901D (") || Lines[i].Contains("9091 (") || Lines[i].Contains("SPRD U2S Diag ("))
                     {
                         string[] deviceParts = Lines[i].Split(new[] { '(', ')' }, StringSplitOptions.RemoveEmptyEntries);
                         if (deviceParts.Length > 1)
@@ -94,7 +94,7 @@ namespace UotanToolbox.Common
                         devices[i] = $"/dev/ttyUSB{j}";
                         j++;
                     }
-                    else if (Lines[i].Contains(":900e") || Lines[i].Contains(":901d") || Lines[i].Contains(":9091"))
+                    else if (Lines[i].Contains(":900e") || Lines[i].Contains(":901d") || Lines[i].Contains(":9091") || Lines[i].Contains("Sprd Gadget Serial"))
                     {
                         devices[i] = "Unknown device";
                     }
@@ -559,9 +559,8 @@ namespace UotanToolbox.Common
             return null;
         }
 
-        public static string DiskSize(string PartTable)
+        public static string DiskSize(string[] Lines)
         {
-            string[] Lines = PartTable.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             string[] NeedLine = Lines[1].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             string size = NeedLine[^1];
             return size;

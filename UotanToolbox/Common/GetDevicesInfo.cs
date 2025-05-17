@@ -442,6 +442,10 @@ namespace UotanToolbox.Common
                     {
                         status = "9091";
                     }
+                    else if (thisdevice.Contains("SPRD U2S Diag ("))
+                    {
+                        status = "U2S Diag";
+                    }
                 }
             }
             if (devicename.Contains("ttyUSB"))
@@ -450,10 +454,17 @@ namespace UotanToolbox.Common
             }
             if (devicename == "Unknown device")
             {
-                string statusPattern = deviceLines.FirstOrDefault(line => line.EndsWith(":900e") || line.EndsWith(":901d") || line.EndsWith(":9091"));
+                string statusPattern = deviceLines.FirstOrDefault(line => line.EndsWith(":900e") || line.EndsWith(":901d") || line.EndsWith(":9091") || line.EndsWith("Sprd Gadget Serial "));
                 if (statusPattern != null)
                 {
-                    status = statusPattern[(statusPattern.LastIndexOf(':') + 1)..];
+                    if (statusPattern.Contains("90"))
+                    {
+                        status = statusPattern[(statusPattern.LastIndexOf(':') + 1)..];
+                    }
+                    else if (statusPattern.Contains("Sprd Gadget Serial "))
+                    {
+                        status = "U2S Diag";
+                    }
                 }
             }
             devices.Add("Status", status);

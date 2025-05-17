@@ -107,10 +107,10 @@ public partial class ModifypartitionView : UserControl
         }
         if (choice != "")
         {
-            string[] parts = choice.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = choice.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
             if (parts.Length > 6)
             {
-                string size = string.Format("{0}", StringHelper.DiskSize(choice));
+                string size = string.Format("{0}", StringHelper.DiskSize(parts));
                 PartSize.Text = size;
                 PartModel[] part = new PartModel[parts.Length - 6];
                 for (int i = 6; i < parts.Length; i++)

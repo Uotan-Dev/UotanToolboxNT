@@ -22,7 +22,7 @@ public partial class BasicflashView : UserControl
 
     private readonly string unlock_log_path = Path.Combine(Global.log_path, "unlock.txt");
     public AvaloniaList<string> SimpleUnlock = ["oem unlock", "oem unlock-go", "flashing unlock", "flashing unlock_critical"];
-    public AvaloniaList<string> Command = ["shell twrp sideload", "reboot sideload", "reboot safe-mode", "reboot muc", "reboot factory", "reboot admin"];
+    public AvaloniaList<string> Command = ["shell twrp sideload", "reboot sideload", "reboot autodloader", "shell su -c \"setprop ctl.restart zygote\"", "reboot safe-mode", "reboot muc", "reboot factory", "reboot admin"];
     public AvaloniaList<string> Arch = ["aarch64", "armeabi", "X86-64", "X86"];
     public AvaloniaList<string> Band = [GetTranslation("Band_Common"), GetTranslation("Band_Huawei"), GetTranslation("Band_Sony")];
 

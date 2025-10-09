@@ -26,24 +26,24 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.2.3" />
-		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.3" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.2.3" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.3" />
+		<PackageReference Include="Avalonia" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.8" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.3" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.8" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="Material.Icons.Avalonia" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
+		<PackageReference Include="Material.Icons.Avalonia" Version="2.4.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="QRCoder" Version="1.6.0" />
-		<PackageReference Include="ReactiveUI" Version="20.1.63" />
-		<PackageReference Include="SharpCompress" Version="0.38.0" />
+		<PackageReference Include="ReactiveUI" Version="20.2.45" />
+		<PackageReference Include="SharpCompress" Version="0.39.0" />
 		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.5.1" />
 		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.5.1" />
-		<PackageReference Include="SkiaSharp" Version="2.88.9" />
-		<PackageReference Include="SukiUI" Version="6.0.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.2" />
+		<PackageReference Include="SkiaSharp" Version="3.118.0-preview.2.3" />
+		<PackageReference Include="SukiUI" Version="6.0.1" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.4" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.5" />
 	</ItemGroup>
 

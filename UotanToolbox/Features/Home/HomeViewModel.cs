@@ -85,7 +85,7 @@ public partial class HomeViewModel : MainPageBase
                           .OfType(NotificationType.Information)
                           .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                           .WithContent(GetTranslation("ConnectionDialog_Updates"))
-                          .WithActionButtonNormal(GetTranslation("ConnectionDialog_ViewUpdates"), _ =>
+                          .WithActionButton(GetTranslation("ConnectionDialog_ViewUpdates"), _ =>
                               Global.MainDialogManager.CreateDialog()
                                     .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                                     .WithContent(serializedContent)
@@ -93,7 +93,7 @@ public partial class HomeViewModel : MainPageBase
                                     .WithActionButton(GetTranslation("ConnectionDialog_GetUpdate"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
                                     .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                     .TryShow(), true)
-                          .WithActionButtonNormal(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                           .Queue();
                 }
             }
@@ -107,7 +107,7 @@ public partial class HomeViewModel : MainPageBase
                           .OfType(NotificationType.Information)
                           .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                           .WithContent(GetTranslation("ConnectionDialog_Updates"))
-                          .WithActionButtonNormal(GetTranslation("ConnectionDialog_ViewUpdates"), _ =>
+                          .WithActionButton(GetTranslation("ConnectionDialog_ViewUpdates"), _ =>
                               Global.MainDialogManager.CreateDialog()
                                     .WithTitle(GetTranslation("Settings_NewVersionAvailable"))
                                     .WithContent(serializedContent)
@@ -115,7 +115,7 @@ public partial class HomeViewModel : MainPageBase
                                     .WithActionButton(GetTranslation("ConnectionDialog_GetUpdate"), _ => UrlUtilities.OpenURL("https://toolbox.uotan.cn"), true)
                                     .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                     .TryShow(), true)
-                          .WithActionButtonNormal(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                          .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                           .Queue();
                 }
             }

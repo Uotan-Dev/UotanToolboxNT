@@ -186,30 +186,37 @@
 					<TextBlock HorizontalAlignment="Center" FontSize="12" Text="{x:Static assets:Resources.Basicflash_MagiskOrKSU}"/>
 					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 -5 0 0">
 						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"></TextBlock>
-						<TextBox Width="385" Name="MagiskFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35" Click ="OpenMagiskFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+						<TextBox Width="385" Name="MagiskFile" theme:TextBoxExtensions.AddDeleteButton="True"/>
+						<Button Width="110" Height="35" Click ="OpenMagiskFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 					</StackPanel>
 					<StackPanel Orientation="Horizontal" Spacing="5" Margin="15 0 0 0">
 						<TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"></TextBlock>
-						<TextBox Width="385" Name="BootFile" theme:TextBoxExtensions.AddDeleteButton="False"/>
-						<Button Height="35" Click ="OpenBootFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
+						<TextBox Width="385" Name="BootFile" theme:TextBoxExtensions.AddDeleteButton="True"/>
+						<Button Width="110" Height="35" Click ="OpenBootFile" Content="{x:Static assets:Resources.Common_ChooseFile}"></Button>
 					</StackPanel>
-					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0">
-						<StackPanel Orientation="Horizontal" Spacing="0">
-							<CheckBox Width="230" Name="KEEPVERITY" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepAVBOrDM}" IsChecked="True"/>
-							<CheckBox Width="180" Name="KEEPFORCEENCRYPT" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepStrongEncryption}" IsChecked="True"/>
-							<CheckBox Width="160" Name="PATCHVBMETAFLAG" FontSize="13" Content="{x:Static assets:Resources.Basicflash_RepairVbmeta}"/>
+					<StackPanel Orientation="Horizontal">
+						<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0" Spacing="10">
+							<StackPanel Orientation="Horizontal" Spacing="4" Margin="0 -15 0 0">
+								<TextBox Width="225" Name="PREINITDEVICE" Margin="-5 0 0 0" Watermark="指定预启动设备" theme:TextBoxExtensions.AddDeleteButton="True"/>
+								<ComboBox Width="225" Name="ArchList"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Spacing="0" Margin="0 -5 0 0">
+								<CheckBox Width="140" Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
+								<CheckBox Width="170" Name="KEEPFORCEENCRYPT" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepStrongEncryption}" IsChecked="True"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" Spacing="0">
+								<CheckBox Width="140" Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_InstallToRecovery}"/>
+								<CheckBox Width="170" Name="KEEPVERITY" FontSize="13" Content="{x:Static assets:Resources.Basicflash_KeepAVBOrDM}" IsChecked="True"/>
+							</StackPanel>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal" Spacing="0" Margin="0,0,0,0">
-							<CheckBox Width="230" Name="RECOVERYMODE" FontSize="13" Content="{x:Static assets:Resources.Basicflash_InstallToRecovery}"/>
-							<CheckBox Width="180" Name="LEGACYSAR" FontSize="13" Content="{x:Static assets:Resources.Basicflash_ForceRootfs}" IsChecked="True"/>
-							<ComboBox Width="160" Name="ArchList" Margin="-5 0 0 0"/>
+						<StackPanel>
+							<CheckBox Margin="-135 65 0 0" Width="140" Name="PATCHVBMETAFLAG" FontSize="13" Content="{x:Static assets:Resources.Basicflash_RepairVbmeta}"/>
 						</StackPanel>
-					</StackPanel>
-					<StackPanel>
-						<Button Width="210" Margin="0,10,0,0" Click="StartPatch">
-							<TextBlock Text="{x:Static assets:Resources.Basicflash_Start}"/>
-						</Button>
+						<StackPanel>
+							<Button Width="110" Height="100" Margin="0,5,0,0" Click="StartPatch">
+								<TextBlock Text="{x:Static assets:Resources.Basicflash_Start}"/>
+							</Button>
+						</StackPanel>
 					</StackPanel>
 				</StackPanel>
 			</suki:BusyArea>

@@ -102,6 +102,17 @@
 								</StackPanel>
 							</DockPanel>
 							<DockPanel>
+								<StackPanel HorizontalAlignment="Left">
+									<TextBlock FontSize="16"
+											   FontWeight="DemiBold"
+											   Text="Boot修补配置文件" />
+									<StackPanel Orientation="Horizontal" Margin="-5 0 0 0" Spacing="4">
+										<TextBox Width="560" Text="{Binding BootPatchPath}" />
+										<Button Width="145" Height="35" Content="选择文件" Command="{Binding SetBootPatchPathCommand}"/>
+									</StackPanel>
+								</StackPanel>
+							</DockPanel>
+							<DockPanel>
 								<ToggleButton VerticalAlignment="Top"
 											  Classes="Switch"
 											  DockPanel.Dock="Right"

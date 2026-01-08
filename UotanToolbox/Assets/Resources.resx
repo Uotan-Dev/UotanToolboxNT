@@ -283,10 +283,10 @@
     <value>to mobile phone storage</value>
   </data>
   <data name="Info_AOnly" xml:space="preserve">
-    <value>A-Only device</value>
+    <value>A_Only</value>
   </data>
   <data name="Info_ASlot" xml:space="preserve">
-    <value>A Slot</value>
+    <value>A_Slot</value>
   </data>
   <data name="Info_BLstatusLocked" xml:space="preserve">
     <value>Locked</value>
@@ -295,7 +295,7 @@
     <value>Unlocked</value>
   </data>
   <data name="Info_BSlot" xml:space="preserve">
-    <value>B Slot</value>
+    <value>B_Slot</value>
   </data>
   <data name="Info_Day" xml:space="preserve">
     <value>D</value>
@@ -1187,7 +1187,7 @@ Fill ID in ADB, one at a time!</value>
     <value>Please select the flashing file!</value>
   </data>
   <data name="Common_NeedRoot" xml:space="preserve">
-    <value>This operation requires ROOT permission. Please ensure that your phone has ROOT and grant Shell ROOT permission in the following pop-up window!</value>
+    <value>This operation requires ROOT permission. Please ensure your phone is rooted and grant Shell ROOT permission in the following pop-up window! For ADB ROOT, please select Debug mode!</value>
   </data>
   <data name="Common_OpenADB" xml:space="preserve">
     <value>Please enter the Android system and enable USB debugging!
@@ -1221,7 +1221,7 @@ Fill ID in ADB, one at a time!</value>
     <value>Formatting...</value>
   </data>
   <data name="FormatExtract_NotFound" xml:space="preserve">
-    <value>The partition was not found!</value>
+    <value>The partition was not found，or it could be due to lack of ROOT permission</value>
   </data>
   <data name="FormatExtract_OnlyXiaomi" xml:space="preserve">
     <value>This feature is only available on Xiaomi devices! Other devices will not be able to use!</value>
@@ -1302,7 +1302,7 @@ Fill ID in ADB, one at a time!</value>
     <value>Please enter the partition number!</value>
   </data>
   <data name="Modifypartition_PartFailed" xml:space="preserve">
-    <value>Partition table retrieval failed!</value>
+    <value>Partition table retrieval failed! It may also be that the current device does not have this disk.</value>
   </data>
   <data name="Modifypartition_SelectAndRead" xml:space="preserve">
     <value>Please first select the disk to be read and read the partition table!</value>
@@ -1566,5 +1566,53 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   </data>
   <data name="Scrcpy_ForwardAudio" xml:space="preserve">
     <value>Forward Audio</value>
+  </data>
+  <data name="Sidebar_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="About_Hardware" xml:space="preserve">
+    <value>Hardware</value>
+  </data>
+  <data name="About_BasicInfo" xml:space="preserve">
+    <value>Basic Infomation</value>
+  </data>
+  <data name="About_MoreInfo" xml:space="preserve">
+    <value>More Infomation</value>
+  </data>
+  <data name="About_OurTeam" xml:space="preserve">
+    <value>Our Team</value>
+  </data>
+  <data name="About_Runtime" xml:space="preserve">
+    <value>Runtime</value>
+  </data>
+  <data name="About_ComputerModel" xml:space="preserve">
+    <value>Computer Model</value>
+  </data>
+  <data name="About_SystemVersion" xml:space="preserve">
+    <value>System Version</value>
+  </data>
+  <data name="Common_EnterFastbootd" xml:space="preserve">
+    <value>Please enter Fastbootd mode!</value>
+  </data>
+  <data name="Common_DebugMode" xml:space="preserve">
+    <value>Debug Mode</value>
+  </data>
+  <data name="FormatExtract_FullBackup" xml:space="preserve">
+    <value>One-click full backup</value>
+  </data>
+  <data name="Modifypartition_EnterName" xml:space="preserve">
+    <value>Please enter the partition name!</value>
+  </data>
+  <data name="Basicflash_PreinitDevice" xml:space="preserve">
+    <value>Specify pre-init device</value>
+  </data>
+  <data name="FormatExtract_NoSpace" xml:space="preserve">
+    <value>Insufficient device space to complete extraction!</value>
+  </data>
+  <data name="FormatExtract_NoPart" xml:space="preserve">
+    <value>No partition was found, or it could be due to lack of ROOT permission</value>
+  </data>
+  <data name="FormatExtract_FullBackupDone" xml:space="preserve">
+    <value>Full backup completed, it is not recommended to flash all partitions in fastboot mode as some partitions may not be able to be flashed!</value>
   </data>
 </root>

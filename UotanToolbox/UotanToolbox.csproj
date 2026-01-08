@@ -125,4 +125,11 @@
 		<EmbeddedResource Include="Assets\clouds.sksl" />
 		<EmbeddedResource Include="Assets\weird.sksl" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <AvaloniaResource Update="Assets\Resources.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </AvaloniaResource>
+	</ItemGroup>
 </Project>

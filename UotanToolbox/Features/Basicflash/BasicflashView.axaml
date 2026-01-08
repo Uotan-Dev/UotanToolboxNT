@@ -197,7 +197,7 @@
 					<StackPanel Orientation="Horizontal">
 						<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="15,10,0,0" Spacing="10">
 							<StackPanel Orientation="Horizontal" Spacing="4" Margin="0 -15 0 0">
-								<TextBox Width="225" Name="PREINITDEVICE" Margin="-5 0 0 0" Watermark="指定预启动设备" theme:TextBoxExtensions.AddDeleteButton="True"/>
+								<TextBox Width="225" Name="PREINITDEVICE" Margin="-5 0 0 0" Watermark="{x:Static assets:Resources.Basicflash_PreinitDevice}" theme:TextBoxExtensions.AddDeleteButton="True"/>
 								<ComboBox Width="225" Name="ArchList"/>
 							</StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="0" Margin="0 -5 0 0">

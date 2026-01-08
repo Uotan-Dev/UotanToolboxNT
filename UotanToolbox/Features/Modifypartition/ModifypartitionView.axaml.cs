@@ -101,6 +101,14 @@ public partial class ModifypartitionView : UserControl
         {
             choice = Global.sdftable;
         }
+        if (sdg.IsChecked != null && (bool)sdg.IsChecked)
+        {
+            choice = Global.sdgtable;
+        }
+        if (sdh.IsChecked != null && (bool)sdh.IsChecked)
+        {
+            choice = Global.sdhtable;
+        }
         if (emmc.IsChecked != null && (bool)emmc.IsChecked)
         {
             choice = Global.emmcrom;
@@ -142,6 +150,8 @@ public partial class ModifypartitionView : UserControl
                 (sdd.IsChecked != null && (bool)sdd.IsChecked) ||
                 (sde.IsChecked != null && (bool)sde.IsChecked) ||
                 (sdf.IsChecked != null && (bool)sdf.IsChecked) ||
+                (sdg.IsChecked != null && (bool)sdg.IsChecked) ||
+                (sdh.IsChecked != null && (bool)sdh.IsChecked) ||
                 (emmc.IsChecked != null && (bool)emmc.IsChecked))
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
@@ -160,6 +170,13 @@ public partial class ModifypartitionView : UserControl
                             .WithTitle(GetTranslation("Common_Warn"))
                             .WithContent(GetTranslation("Common_NeedRoot"))
                             .OfType(NotificationType.Warning)
+                            .WithActionButton(GetTranslation("Common_DebugMode"), async _ =>
+                            {
+                                await FeaturesHelper.GetPartTableSystemDebug(Global.thisdevice);
+                                AddPartList();
+                                BusyPart.IsBusy = false;
+                                ReadPartBut.IsEnabled = true;
+                            }, true)
                             .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                             {
                                 await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
@@ -330,6 +347,14 @@ public partial class ModifypartitionView : UserControl
             {
                 choice = "sdf";
             }
+            if (sdg.IsChecked != null && (bool)sdg.IsChecked)
+            {
+                choice = "sdg";
+            }
+            if (sdh.IsChecked != null && (bool)sdh.IsChecked)
+            {
+                choice = "sdh";
+            }
             if (emmc.IsChecked != null && (bool)emmc.IsChecked)
             {
                 choice = "mmcblk0";
@@ -434,6 +459,14 @@ public partial class ModifypartitionView : UserControl
             {
                 choice = "sdf";
             }
+            if (sdg.IsChecked != null && (bool)sdg.IsChecked)
+            {
+                choice = "sdg";
+            }
+            if (sdh.IsChecked != null && (bool)sdh.IsChecked)
+            {
+                choice = "sdh";
+            }
             if (emmc.IsChecked != null && (bool)emmc.IsChecked)
             {
                 choice = "mmcblk0";
@@ -521,6 +554,14 @@ public partial class ModifypartitionView : UserControl
             if (sdf.IsChecked != null && (bool)sdf.IsChecked)
             {
                 choice = "sdf";
+            }
+            if (sdg.IsChecked != null && (bool)sdg.IsChecked)
+            {
+                choice = "sdg";
+            }
+            if (sdh.IsChecked != null && (bool)sdh.IsChecked)
+            {
+                choice = "sdh";
             }
             if (emmc.IsChecked != null && (bool)emmc.IsChecked)
             {
@@ -616,6 +657,14 @@ public partial class ModifypartitionView : UserControl
                 if (sdf.IsChecked != null && (bool)sdf.IsChecked)
                 {
                     choice = "sdf";
+                }
+                if (sdg.IsChecked != null && (bool)sdg.IsChecked)
+                {
+                    choice = "sdg";
+                }
+                if (sdh.IsChecked != null && (bool)sdh.IsChecked)
+                {
+                    choice = "sdh";
                 }
                 if (emmc.IsChecked != null && (bool)emmc.IsChecked)
                 {

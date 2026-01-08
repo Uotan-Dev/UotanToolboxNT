@@ -38,6 +38,8 @@ namespace UotanToolbox.Common
             Global.sddtable = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/sdd print");
             Global.sdetable = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/sde print");
             Global.sdftable = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/sdf print");
+            Global.sdgtable = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/sdg print");
+            Global.sdhtable = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/sdh print");
             Global.emmcrom = await CallExternalProgram.ADB($"-s {device} shell /tmp/parted /dev/block/mmcblk0 print");
         }
 
@@ -51,7 +53,25 @@ namespace UotanToolbox.Common
             Global.sddtable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sdd print\"");
             Global.sdetable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sde print\"");
             Global.sdftable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sdf print\"");
+            Global.sdgtable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sdg print\"");
+            Global.sdhtable = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/sdh print\"");
             Global.emmcrom = await CallExternalProgram.ADB($"-s {device} shell su -c \"/data/local/tmp/parted /dev/block/mmcblk0 print\"");
+        }
+
+        public static async Task GetPartTableSystemDebug(string device)
+        {
+            _ = await CallExternalProgram.ADB($"-s {device} root");
+            _ = await CallExternalProgram.ADB($"-s {device} push \"{Path.Combine(Global.runpath, "Push", "parted")}\" /data/local/tmp/");
+            _ = await CallExternalProgram.ADB($"-s {device} shell chmod +x /data/local/tmp/parted");
+            Global.sdatable = await CallExternalProgram.ADB($"-s {device} shell /data/local/tmp/parted /dev/block/sda print");
+            Global.sdbtable = await CallExternalProgram.ADB($"-s {device} shell /data/local/tmp/parted /dev/block/sdb print");
+            Global.sdctable = await CallExternalProgram.ADB($"-s {device} shell /data/local/tmp/parted /dev/block/sdc print");
+            Global.sddtable = await CallExternalProgram.ADB($"-s {device} shell /data/local/tmp/parted /dev/block/sdd print");
+            Global.sdetable = await CallExternalProgram.ADB($"-s {device} shell /data/local/tmp/parted /dev/block/sde print");
+            Global.sdftable = await CallExternalProgram.ADB($"-s {device} shell /data/local/tmp/parted /dev/block/sdf print");
+            Global.sdgtable = await CallExternalProgram.ADB($"-s {device} shell /data/local/tmp/parted /dev/block/sdg print");
+            Global.sdhtable = await CallExternalProgram.ADB($"-s {device} shell /data/local/tmp/parted /dev/block/sdh print");
+            Global.emmcrom = await CallExternalProgram.ADB($"-s {device} shell /data/local/tmp/parted /dev/block/mmcblk0 print");
         }
 
         public static string[] GetVPartList(string allinfo)
@@ -73,8 +93,8 @@ namespace UotanToolbox.Common
         public static string FindDisk(string Partname)
         {
             string sdxdisk = "";
-            string[] diskTables = { Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.emmcrom };
-            string[] diskNames = { "sda", "sde", "sdb", "sdc", "sdd", "sdf", "mmcblk0p" };
+            string[] diskTables = { Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom };
+            string[] diskNames = { "sda", "sde", "sdb", "sdc", "sdd", "sdf", "sdg", "sdh", "mmcblk0p" };
             for (int i = 0; i < diskTables.Length; i++)
             {
                 if (diskTables[i].Contains(Partname))
@@ -92,7 +112,7 @@ namespace UotanToolbox.Common
         public static string FindPart(string Partname)
         {
             string sdxdisk = "";
-            string[] diskTables = { Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.emmcrom };
+            string[] diskTables = { Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom };
             foreach (string diskTable in diskTables)
             {
                 if (diskTable.IndexOf(Partname) != -1)

@@ -283,10 +283,10 @@
     <value>至手机储存</value>
   </data>
   <data name="Info_AOnly" xml:space="preserve">
-    <value>A-Only设备</value>
+    <value>A_Only</value>
   </data>
   <data name="Info_ASlot" xml:space="preserve">
-    <value>A槽位</value>
+    <value>A_Slot</value>
   </data>
   <data name="Info_BLstatusLocked" xml:space="preserve">
     <value>未解锁</value>
@@ -295,7 +295,7 @@
     <value>已解锁</value>
   </data>
   <data name="Info_BSlot" xml:space="preserve">
-    <value>B槽位</value>
+    <value>B_Slot</value>
   </data>
   <data name="Info_Day" xml:space="preserve">
     <value>天</value>
@@ -570,6 +570,21 @@
   <data name="Scrcpy_MoreSettings" xml:space="preserve">
     <value>更多设置</value>
   </data>
+  <data name="Scrcpy_ScreenRotation" xml:space="preserve">
+    <value>屏幕旋转</value>
+  </data>
+  <data name="Scrcpy_MirrorRotation" xml:space="preserve">
+    <value>镜像旋转</value>
+  </data>
+  <data name="Scrcpy_LockAngle" xml:space="preserve">
+    <value>锁定角度</value>
+  </data>
+  <data name="Scrcpy_NormalRotation" xml:space="preserve">
+    <value>默认角度</value>
+  </data>
+  <data name="Scrcpy_CustomRotation" xml:space="preserve">
+    <value>自定义角度</value>
+  </data>
   <data name="Scrcpy_ProportionalScaling" xml:space="preserve">
     <value>等比缩放</value>
   </data>
@@ -770,6 +785,9 @@
   </data>
   <data name="FormatExtract_WriteQCN" xml:space="preserve">
     <value>写入QCN</value>
+  </data>
+  <data name="Sidebar_Advanced" xml:space="preserve">
+    <value>格式化&amp;提取</value>
   </data>
   <data name="Sidebar_Appmgr" xml:space="preserve">
     <value>应用管理</value>
@@ -1169,7 +1187,7 @@ ADB下填写序号，一次一个！</value>
     <value>请选择刷机文件！</value>
   </data>
   <data name="Common_NeedRoot" xml:space="preserve">
-    <value>该操作需要ROOT权限，请确保手机已ROOT，并在接下来的弹窗中授予 Shell ROOT权限！</value>
+    <value>该操作需要ROOT权限，请确保手机已ROOT，并在接下来的弹窗中授予 Shell ROOT权限！ADB ROOT请选择调试模式！</value>
   </data>
   <data name="Common_OpenADB" xml:space="preserve">
     <value>请进入安卓系统并开启USB调试！
@@ -1203,7 +1221,7 @@ ADB下填写序号，一次一个！</value>
     <value>正在格式化...</value>
   </data>
   <data name="FormatExtract_NotFound" xml:space="preserve">
-    <value>未找到该分区！</value>
+    <value>未找到该分区，也可能是没有ROOT权限</value>
   </data>
   <data name="FormatExtract_OnlyXiaomi" xml:space="preserve">
     <value>该功能仅限小米设备！其它设备将无法使用！</value>
@@ -1284,7 +1302,7 @@ ADB下填写序号，一次一个！</value>
     <value>请输入分区序号！</value>
   </data>
   <data name="Modifypartition_PartFailed" xml:space="preserve">
-    <value>分区表获取失败！</value>
+    <value>分区表获取失败！也可能是当前设备不存在该磁盘。</value>
   </data>
   <data name="Modifypartition_SelectAndRead" xml:space="preserve">
     <value>请先选择需要读取的磁盘并读取分区表！</value>
@@ -1498,12 +1516,6 @@ ADB下填写序号，一次一个！</value>
   <data name="Scrcpy_VS_DisplaySizeExample" xml:space="preserve">
     <value>1920x1080/460 (高 × 宽)/dpi</value>
   </data>
-  <data name="Common_EnterFastbootd" xml:space="preserve">
-    <value>请进入Fastbootd模式！</value>
-  </data>
-  <data name="Modifypartition_EnterName" xml:space="preserve">
-    <value>请输入分区名称！</value>
-  </data>
   <data name="Home_ShutDownTip" xml:space="preserve">
     <value>执行成功，拔出设备连接线即可关机！</value>
   </data>
@@ -1546,28 +1558,61 @@ ADB下填写序号，一次一个！</value>
   <data name="Wiredflash_RelockTip" xml:space="preserve">
     <value>您选择了会进行回锁操作的脚本，确认继续吗？</value>
   </data>
-  <data name="Scrcpy_ScreenRotation" xml:space="preserve">
-    <value>屏幕旋转</value>
-  </data>
-  <data name="Scrcpy_MirrorRotation" xml:space="preserve">
-    <value>镜像旋转</value>
-  </data>
-  <data name="Scrcpy_LockAngle" xml:space="preserve">
-    <value>锁定角度</value>
-  </data>
-  <data name="Scrcpy_NormalRotation" xml:space="preserve">
-    <value>默认角度</value>
-  </data>
-  <data name="Scrcpy_CustomRotation" xml:space="preserve">
-    <value>自定义角度</value>
-  </data>
-  <data name="Scrcpy_ForwardAudio" xml:space="preserve">
-    <value>转发音频</value>
-  </data>
   <data name="Basicflash_RebootToFastbootd" xml:space="preserve">
     <value>至 Fastbootd</value>
   </data>
   <data name="Basicflash_RebootToRecovery" xml:space="preserve">
     <value>至 Recovery</value>
+  </data>
+  <data name="Scrcpy_ForwardAudio" xml:space="preserve">
+    <value>转发音频</value>
+  </data>
+  <data name="Sidebar_About" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="About_Hardware" xml:space="preserve">
+    <value>硬件信息</value>
+  </data>
+  <data name="About_BasicInfo" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="About_MoreInfo" xml:space="preserve">
+    <value>更多信息</value>
+  </data>
+  <data name="About_OurTeam" xml:space="preserve">
+    <value>我们的团队</value>
+  </data>
+  <data name="About_Runtime" xml:space="preserve">
+    <value>运行库</value>
+  </data>
+  <data name="About_ComputerModel" xml:space="preserve">
+    <value>电脑型号</value>
+  </data>
+  <data name="About_SystemVersion" xml:space="preserve">
+    <value>系统信息</value>
+  </data>
+  <data name="Common_EnterFastbootd" xml:space="preserve">
+    <value>请进入Fastbootd模式！</value>
+  </data>
+  <data name="Common_DebugMode" xml:space="preserve">
+    <value>调试模式</value>
+  </data>
+  <data name="FormatExtract_FullBackup" xml:space="preserve">
+    <value>一键全盘备份</value>
+  </data>
+  <data name="Modifypartition_EnterName" xml:space="preserve">
+    <value>请输入分区名称！</value>
+  </data>
+  <data name="Basicflash_PreinitDevice" xml:space="preserve">
+    <value>指定预启动设备</value>
+  </data>
+  <data name="FormatExtract_NoSpace" xml:space="preserve">
+    <value>设备空间不足，无法完成提取！</value>
+  </data>
+  <data name="FormatExtract_NoPart" xml:space="preserve">
+    <value>没有找到任何分区，也可能是没有ROOT权限</value>
+  </data>
+  <data name="FormatExtract_FullBackupDone" xml:space="preserve">
+    <value>全盘备份完成，不建议在fastboot模式下全部刷入，部分分区可能无法刷入！</value>
   </data>
 </root>

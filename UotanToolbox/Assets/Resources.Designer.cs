@@ -19,7 +19,7 @@ namespace UotanToolbox.Assets {
     // 类通过类似于 ResGen 或 Visual Studio 的工具自动生成的。
     // 若要添加或移除成员，请编辑 .ResX 文件，然后重新运行 ResGen
     // (以 /str 作为命令选项)，或重新生成 VS 项目。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -57,6 +57,69 @@ namespace UotanToolbox.Assets {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Basic Infomation 的本地化字符串。
+        /// </summary>
+        public static string About_BasicInfo {
+            get {
+                return ResourceManager.GetString("About_BasicInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Computer Model 的本地化字符串。
+        /// </summary>
+        public static string About_ComputerModel {
+            get {
+                return ResourceManager.GetString("About_ComputerModel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hardware 的本地化字符串。
+        /// </summary>
+        public static string About_Hardware {
+            get {
+                return ResourceManager.GetString("About_Hardware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 More Infomation 的本地化字符串。
+        /// </summary>
+        public static string About_MoreInfo {
+            get {
+                return ResourceManager.GetString("About_MoreInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Our Team 的本地化字符串。
+        /// </summary>
+        public static string About_OurTeam {
+            get {
+                return ResourceManager.GetString("About_OurTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Runtime 的本地化字符串。
+        /// </summary>
+        public static string About_Runtime {
+            get {
+                return ResourceManager.GetString("About_Runtime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 System Version 的本地化字符串。
+        /// </summary>
+        public static string About_SystemVersion {
+            get {
+                return ResourceManager.GetString("About_SystemVersion", resourceCulture);
             }
         }
         
@@ -844,6 +907,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Specify pre-init device 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_PreinitDevice {
+            get {
+                return ResourceManager.GetString("Basicflash_PreinitDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 During pre-processing of Magisk components 的本地化字符串。
         /// </summary>
         public static string Basicflash_PreMagisk {
@@ -1213,6 +1285,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Debug Mode 的本地化字符串。
+        /// </summary>
+        public static string Common_DebugMode {
+            get {
+                return ResourceManager.GetString("Common_DebugMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Device is failed to connect 的本地化字符串。
         /// </summary>
         public static string Common_DeviceFailedToConnect {
@@ -1375,7 +1456,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 This operation requires ROOT permission. Please ensure that your phone has ROOT and grant Shell ROOT permission in the following pop-up window! 的本地化字符串。
+        ///   查找类似 This operation requires ROOT permission. Please ensure your phone is rooted and grant Shell ROOT permission in the following pop-up window! For ADB ROOT, please select Debug mode! 的本地化字符串。
         /// </summary>
         public static string Common_NeedRoot {
             get {
@@ -1777,6 +1858,15 @@ namespace UotanToolbox.Assets {
         public static string FormatExtract_FormatTo {
             get {
                 return ResourceManager.GetString("FormatExtract_FormatTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 One-click full backup 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_FullBackup {
+            get {
+                return ResourceManager.GetString("FormatExtract_FullBackup", resourceCulture);
             }
         }
         
@@ -2918,7 +3008,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Partition table retrieval failed! 的本地化字符串。
+        ///   查找类似 Partition table retrieval failed! It may also be that the current device does not have this disk. 的本地化字符串。
         /// </summary>
         public static string Modifypartition_PartFailed {
             get {
@@ -3603,6 +3693,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Custom Rotation 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_CustomRotation {
+            get {
+                return ResourceManager.GetString("Scrcpy_CustomRotation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Enable virtual screen 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Enable_Virtual_Screen {
@@ -3630,11 +3729,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Forward Audio 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ForwardAudio {
+            get {
+                return ResourceManager.GetString("Scrcpy_ForwardAudio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Fullscreen 的本地化字符串。
         /// </summary>
         public static string Scrcpy_Fullscreen {
             get {
                 return ResourceManager.GetString("Scrcpy_Fullscreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Lock Angle 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_LockAngle {
+            get {
+                return ResourceManager.GetString("Scrcpy_LockAngle", resourceCulture);
             }
         }
         
@@ -3648,11 +3765,29 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Mirror Rotation 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_MirrorRotation {
+            get {
+                return ResourceManager.GetString("Scrcpy_MirrorRotation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 More Settings 的本地化字符串。
         /// </summary>
         public static string Scrcpy_MoreSettings {
             get {
                 return ResourceManager.GetString("Scrcpy_MoreSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Normal Rotation 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_NormalRotation {
+            get {
+                return ResourceManager.GetString("Scrcpy_NormalRotation", resourceCulture);
             }
         }
         
@@ -3698,6 +3833,15 @@ namespace UotanToolbox.Assets {
         public static string Scrcpy_ScrcpyCastingTool {
             get {
                 return ResourceManager.GetString("Scrcpy_ScrcpyCastingTool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Screen Rotation 的本地化字符串。
+        /// </summary>
+        public static string Scrcpy_ScreenRotation {
+            get {
+                return ResourceManager.GetString("Scrcpy_ScreenRotation", resourceCulture);
             }
         }
         
@@ -4071,6 +4215,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 About 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_About {
+            get {
+                return ResourceManager.GetString("Sidebar_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Format&amp;Extract 的本地化字符串。
         /// </summary>
         public static string Sidebar_Advanced {
@@ -4357,60 +4510,6 @@ namespace UotanToolbox.Assets {
         public static string WirelessADB_Connect {
             get {
                 return ResourceManager.GetString("WirelessADB_Connect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Screen Rotation 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_ScreenRotation {
-            get {
-                return ResourceManager.GetString("Scrcpy_ScreenRotation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Mirror Rotation 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_MirrorRotation {
-            get {
-                return ResourceManager.GetString("Scrcpy_MirrorRotation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Lock Angle 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_LockAngle {
-            get {
-                return ResourceManager.GetString("Scrcpy_LockAngle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Normal Rotation 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_NormalRotation {
-            get {
-                return ResourceManager.GetString("Scrcpy_NormalRotation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Custom Rotation 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_CustomRotation {
-            get {
-                return ResourceManager.GetString("Scrcpy_CustomRotation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Forward Audio 的本地化字符串。
-        /// </summary>
-        public static string Scrcpy_ForwardAudio {
-            get {
-                return ResourceManager.GetString("Scrcpy_ForwardAudio", resourceCulture);
             }
         }
     }

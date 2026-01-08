@@ -126,20 +126,22 @@
 		<suki:GlassCard Classes="Card" Margin="10 10" Height="100" Width="668">
 			<StackPanel Orientation="Horizontal" Spacing="0">
 				<StackPanel Orientation="Vertical" VerticalAlignment="Center" Spacing="10">
-					<StackPanel Orientation="Horizontal" Spacing="20">
+					<StackPanel Orientation="Horizontal" Spacing="5">
 						<RadioButton Name="sda" Width="60" FontSize="15" Content="sda" GroupName="FormatContent" />
 						<RadioButton Name="sdb" Width="60" FontSize="15" Content="sdb" GroupName="FormatContent" />
 						<RadioButton Name="sdc" Width="60" FontSize="15" Content="sdc" GroupName="FormatContent" />
+						<RadioButton Name="sdd" Width="60" FontSize="15" Content="sdd" GroupName="FormatContent" />
 						<RadioButton Name="emmc" FontSize="15" Content="EMMC" GroupName="FormatContent" />
 					</StackPanel>
-					<StackPanel Orientation="Horizontal" Spacing="20">
-						<RadioButton Name="sdd" Width="60" FontSize="15" Content="sdd" GroupName="FormatContent" />
+					<StackPanel Orientation="Horizontal" Spacing="5">
 						<RadioButton Name="sde" Width="60" FontSize="15" Content="sde" GroupName="FormatContent" />
 						<RadioButton Name="sdf" Width="60" FontSize="15" Content="sdf" GroupName="FormatContent" />
+						<RadioButton Name="sdg" Width="60" FontSize="15" Content="sdg" GroupName="FormatContent" />
+						<RadioButton Name="sdh" Width="60" FontSize="15" Content="sdh" GroupName="FormatContent" />
 						<RadioButton Name="fastboot" FontSize="15" Content="FASTBOOT" GroupName="FormatContent" IsCheckedChanged="SetFastboot"/>
 					</StackPanel>
 				</StackPanel>
-				<TextBlock Margin="20 0 0 0"
+				<TextBlock Margin="10 0 0 0"
 						   VerticalAlignment="Center"
 						   FontSize="15"
 						   Width="80"

@@ -258,8 +258,8 @@
 						</StackPanel>
 					</StackPanel>
 					<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="60">
-							<Button Width="125"
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+							<Button Width="140"
 									HorizontalAlignment="Left"
 									Padding="8"
 									Click="ExtractPart">
@@ -268,7 +268,7 @@
 									<TextBlock Text="{x:Static assets:Resources.FormatExtract_PhysicalPart}"/>
 								</TextBlock>
 							</Button>
-							<Button Width="125"
+							<Button Width="140"
 									HorizontalAlignment="Left"
 									Padding="8"
 									Click="ExtractVPart">
@@ -279,7 +279,16 @@
 							</Button>
 						</StackPanel>
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
-							<Button Width="170"
+							<Button Width="140"
+									HorizontalAlignment="Left"
+									Padding="8"
+									Click="FullBackup">
+								<TextBlock>
+									<avalonia:MaterialIcon Kind="ContentSaveAllOutline" />
+									<TextBlock Text="{x:Static assets:Resources.FormatExtract_FullBackup}"/>
+								</TextBlock>
+							</Button>
+							<Button Width="140"
 									HorizontalAlignment="Left"
 									Padding="8"
 									Click="OpenExtractFile">

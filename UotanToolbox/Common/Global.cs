@@ -28,6 +28,8 @@ namespace UotanToolbox.Common
         public static string sddtable = "";
         public static string sdetable = "";
         public static string sdftable = "";
+        public static string sdgtable = "";
+        public static string sdhtable = "";
         public static string emmcrom = "";
         //工具箱版本
         public static string currentVersion = "3.3.5";

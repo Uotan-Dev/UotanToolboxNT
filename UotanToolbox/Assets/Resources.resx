@@ -1615,4 +1615,7 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="FormatExtract_FullBackupDone" xml:space="preserve">
     <value>Full backup completed, it is not recommended to flash all partitions in fastboot mode as some partitions may not be able to be flashed!</value>
   </data>
+  <data name="FormatExtract_DeviceDiscon" xml:space="preserve">
+    <value>Backup error! Device disconnected or encountered other issues, please check the logs</value>
+  </data>
 </root>

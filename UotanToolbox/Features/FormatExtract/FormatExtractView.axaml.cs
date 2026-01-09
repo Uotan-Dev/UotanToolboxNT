@@ -1004,7 +1004,7 @@ public partial class FormatExtractView : UserControl
                                 if (items[5] == "userdata")
                                     continue;
                                 string partname = "";
-                                if (partlist.Contains($"{items[5]}\r\n"))
+                                if (partlist.Contains($"\r\n{items[5]}\r\n"))
                                 {
                                     partname = $"{items[5]}_{diskNames[i]}";
                                 }
@@ -1014,11 +1014,25 @@ public partial class FormatExtractView : UserControl
                                 }
                                 await ADB($"-s {Global.thisdevice} shell dd if=/dev/block/{diskNames[i]}{items[0]} of=/sdcard/{partname}.img");
                                 FileHelper.Write(adb_log_path, output);
-                                if (!output.Contains("No space left on device"))
+                                if (output.Contains("No space left on device"))
+                                {
+                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
+                                    BusyExtract.IsBusy = false;
+                                    Extract.IsEnabled = true;
+                                    return;
+                                }
+                                else if (output.Contains("not found") || output.Contains("unknown command"))
+                                {
+                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DeviceDiscon")).Dismiss().ByClickingBackground().TryShow();
+                                    BusyExtract.IsBusy = false;
+                                    Extract.IsEnabled = true;
+                                    return;
+                                }
+                                else
                                 {
                                     await ADB($"-s {Global.thisdevice} pull /sdcard/{partname}.img \"{backup_images_folder}\"");
                                     await ADB($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
-                                    if (partlist.Contains($"{items[5]}\r\n"))
+                                    if (partlist.Contains($"\r\n{items[5]}\r\n"))
                                     {
                                         partlist += $"{items[5]}       /images/{partname}.img\r\n";
                                     }
@@ -1026,13 +1040,6 @@ public partial class FormatExtractView : UserControl
                                     {
                                         partlist += $"{items[5]}\r\n";
                                     }
-                                }
-                                else
-                                {
-                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
-                                    BusyExtract.IsBusy = false;
-                                    Extract.IsEnabled = true;
-                                    return;
                                 }
                             }
                         }
@@ -1061,19 +1068,25 @@ public partial class FormatExtractView : UserControl
                         shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/by-name/{otherpart[i]} of=/sdcard/{otherpart[i]}.img");
                         await ADB(shell);
                         FileHelper.Write(adb_log_path, output);
-                        if (!output.Contains("No space left on device"))
-                        {
-                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
-                            await ADB($"-s {Global.thisdevice} shell rm /sdcard/{otherpart[i]}.img");
-                            partlist += $"{otherpart[i]}\r\n";
-
-                        }
-                        else
+                        if (output.Contains("No space left on device"))
                         {
                             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
                             BusyExtract.IsBusy = false;
                             Extract.IsEnabled = true;
                             return;
+                        }
+                        else if (output.Contains("not found") || output.Contains("unknown command"))
+                        {
+                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DeviceDiscon")).Dismiss().ByClickingBackground().TryShow();
+                            BusyExtract.IsBusy = false;
+                            Extract.IsEnabled = true;
+                            return;
+                        }
+                        else
+                        {
+                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
+                            await ADB($"-s {Global.thisdevice} shell rm /sdcard/{otherpart[i]}.img");
+                            partlist += $"{otherpart[i]}\r\n";
                         }
                     }
                     else if (!path2.Contains("No such file or directory"))
@@ -1081,18 +1094,25 @@ public partial class FormatExtractView : UserControl
                         shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/bootdevice/by-name/{otherpart[i]} of=/sdcard/{otherpart[i]}.img");
                         await ADB(shell);
                         FileHelper.Write(adb_log_path, output);
-                        if (!output.Contains("No space left on device"))
-                        {
-                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
-                            await ADB($"-s {Global.thisdevice} shell rm /sdcard/{otherpart[i]}.img");
-                            partlist += $"{otherpart[i]}\r\n";
-                        }
-                        else
+                        if (output.Contains("No space left on device"))
                         {
                             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
                             BusyExtract.IsBusy = false;
                             Extract.IsEnabled = true;
                             return;
+                        }
+                        else if (output.Contains("not found") || output.Contains("unknown command"))
+                        {
+                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DeviceDiscon")).Dismiss().ByClickingBackground().TryShow();
+                            BusyExtract.IsBusy = false;
+                            Extract.IsEnabled = true;
+                            return;
+                        }
+                        else
+                        {
+                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
+                            await ADB($"-s {Global.thisdevice} shell rm /sdcard/{otherpart[i]}.img");
+                            partlist += $"{otherpart[i]}\r\n";
                         }
                     }
                 }
@@ -1142,7 +1162,7 @@ public partial class FormatExtractView : UserControl
                                                                 if (items[5] == "userdata")
                                                                     continue;
                                                                 string partname = "";
-                                                                if (partlist.Contains($"{items[5]}\r\n"))
+                                                                if (partlist.Contains($"\r\n{items[5]}\r\n"))
                                                                 {
                                                                     partname = $"{items[5]}_{diskNames[i]}";
                                                                 }
@@ -1152,11 +1172,25 @@ public partial class FormatExtractView : UserControl
                                                                 }
                                                                 await ADB($"-s {Global.thisdevice} shell dd if=/dev/block/{diskNames[i]}{items[0]} of=/sdcard/{partname}.img");
                                                                 FileHelper.Write(adb_log_path, output);
-                                                                if (!output.Contains("No space left on device"))
+                                                                if (output.Contains("No space left on device"))
+                                                                {
+                                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
+                                                                    BusyExtract.IsBusy = false;
+                                                                    Extract.IsEnabled = true;
+                                                                    return;
+                                                                }
+                                                                else if (output.Contains("not found") || output.Contains("unknown command"))
+                                                                {
+                                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DeviceDiscon")).Dismiss().ByClickingBackground().TryShow();
+                                                                    BusyExtract.IsBusy = false;
+                                                                    Extract.IsEnabled = true;
+                                                                    return;
+                                                                }
+                                                                else
                                                                 {
                                                                     await ADB($"-s {Global.thisdevice} pull /sdcard/{partname}.img \"{backup_images_folder}\"");
                                                                     await ADB($"-s {Global.thisdevice} shell rm /sdcard/{partname}.img");
-                                                                    if (partlist.Contains($"{items[5]}\r\n"))
+                                                                    if (partlist.Contains($"\r\n{items[5]}\r\n"))
                                                                     {
                                                                         partlist += $"{items[5]}       /images/{partname}.img\r\n";
                                                                     }
@@ -1164,13 +1198,6 @@ public partial class FormatExtractView : UserControl
                                                                     {
                                                                         partlist += $"{items[5]}\r\n";
                                                                     }
-                                                                }
-                                                                else
-                                                                {
-                                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
-                                                                    BusyExtract.IsBusy = false;
-                                                                    Extract.IsEnabled = true;
-                                                                    return;
                                                                 }
                                                             }
                                                         }
@@ -1199,18 +1226,25 @@ public partial class FormatExtractView : UserControl
                                                         shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/by-name/{otherpart[i]} of=/sdcard/{otherpart[i]}.img");
                                                         await ADB(shell);
                                                         FileHelper.Write(adb_log_path, output);
-                                                        if (!output.Contains("No space left on device"))
-                                                        {
-                                                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
-                                                            await ADB($"-s {Global.thisdevice} shell rm /sdcard/{otherpart[i]}.img");
-                                                            partlist += $"{otherpart[i]}\r\n";
-                                                        }
-                                                        else
+                                                        if (output.Contains("No space left on device"))
                                                         {
                                                             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
                                                             BusyExtract.IsBusy = false;
                                                             Extract.IsEnabled = true;
                                                             return;
+                                                        }
+                                                        else if (output.Contains("not found") || output.Contains("unknown command"))
+                                                        {
+                                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DeviceDiscon")).Dismiss().ByClickingBackground().TryShow();
+                                                            BusyExtract.IsBusy = false;
+                                                            Extract.IsEnabled = true;
+                                                            return;
+                                                        }
+                                                        else
+                                                        {
+                                                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
+                                                            await ADB($"-s {Global.thisdevice} shell rm /sdcard/{otherpart[i]}.img");
+                                                            partlist += $"{otherpart[i]}\r\n";
                                                         }
                                                     }
                                                     else if (!path2.Contains("No such file or directory"))
@@ -1218,18 +1252,25 @@ public partial class FormatExtractView : UserControl
                                                         shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/bootdevice/by-name/{otherpart[i]} of=/sdcard/{otherpart[i]}.img");
                                                         await ADB(shell);
                                                         FileHelper.Write(adb_log_path, output);
-                                                        if (!output.Contains("No space left on device"))
-                                                        {
-                                                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
-                                                            await ADB($"-s {Global.thisdevice} shell rm /sdcard/{otherpart[i]}.img");
-                                                            partlist += $"{otherpart[i]}\r\n";
-                                                        }
-                                                        else
+                                                        if (output.Contains("No space left on device"))
                                                         {
                                                             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
                                                             BusyExtract.IsBusy = false;
                                                             Extract.IsEnabled = true;
                                                             return;
+                                                        }
+                                                        else if (output.Contains("not found") || output.Contains("unknown command"))
+                                                        {
+                                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DeviceDiscon")).Dismiss().ByClickingBackground().TryShow();
+                                                            BusyExtract.IsBusy = false;
+                                                            Extract.IsEnabled = true;
+                                                            return;
+                                                        }
+                                                        else
+                                                        {
+                                                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
+                                                            await ADB($"-s {Global.thisdevice} shell rm /sdcard/{otherpart[i]}.img");
+                                                            partlist += $"{otherpart[i]}\r\n";
                                                         }
                                                     }
                                                 }
@@ -1273,7 +1314,7 @@ public partial class FormatExtractView : UserControl
                                                                 if (items[5] == "userdata")
                                                                     continue;
                                                                 string partname = "";
-                                                                if (partlist.Contains($"{items[5]}\r\n"))
+                                                                if (partlist.Contains($"\r\n{items[5]}\r\n"))
                                                                 {
                                                                     partname = $"{items[5]}_{diskNames[i]}";
                                                                 }
@@ -1283,11 +1324,25 @@ public partial class FormatExtractView : UserControl
                                                                 }
                                                                 await ADB($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{diskNames[i]}{items[0]} of=/sdcard/{partname}.img\"");
                                                                 FileHelper.Write(adb_log_path, output);
-                                                                if (!output.Contains("No space left on device"))
+                                                                if (output.Contains("No space left on device"))
+                                                                {
+                                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
+                                                                    BusyExtract.IsBusy = false;
+                                                                    Extract.IsEnabled = true;
+                                                                    return;
+                                                                }
+                                                                else if (output.Contains("not found") || output.Contains("unknown command"))
+                                                                {
+                                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DeviceDiscon")).Dismiss().ByClickingBackground().TryShow();
+                                                                    BusyExtract.IsBusy = false;
+                                                                    Extract.IsEnabled = true;
+                                                                    return;
+                                                                }
+                                                                else
                                                                 {
                                                                     await ADB($"-s {Global.thisdevice} pull /sdcard/{partname}.img \"{backup_images_folder}\"");
                                                                     await ADB($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{partname}.img\"");
-                                                                    if (partlist.Contains($"{items[5]}\r\n"))
+                                                                    if (partlist.Contains($"\r\n{items[5]}\r\n"))
                                                                     {
                                                                         partlist += $"{items[5]}       /images/{partname}.img\r\n";
                                                                     }
@@ -1295,13 +1350,6 @@ public partial class FormatExtractView : UserControl
                                                                     {
                                                                         partlist += $"{items[5]}\r\n";
                                                                     }
-                                                                }
-                                                                else
-                                                                {
-                                                                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
-                                                                    BusyExtract.IsBusy = false;
-                                                                    Extract.IsEnabled = true;
-                                                                    return;
                                                                 }
                                                             }
                                                         }
@@ -1330,18 +1378,25 @@ public partial class FormatExtractView : UserControl
                                                         shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/by-name/{otherpart[i]} of=/sdcard/{otherpart[i]}.img\"");
                                                         await ADB(shell);
                                                         FileHelper.Write(adb_log_path, output);
-                                                        if (!output.Contains("No space left on device"))
-                                                        {
-                                                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
-                                                            await ADB($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{otherpart[i]}.img\"");
-                                                            partlist += $"{otherpart[i]}\r\n";
-                                                        }
-                                                        else
+                                                        if (output.Contains("No space left on device"))
                                                         {
                                                             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
                                                             BusyExtract.IsBusy = false;
                                                             Extract.IsEnabled = true;
                                                             return;
+                                                        }
+                                                        else if (output.Contains("not found") || output.Contains("unknown command"))
+                                                        {
+                                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DeviceDiscon")).Dismiss().ByClickingBackground().TryShow();
+                                                            BusyExtract.IsBusy = false;
+                                                            Extract.IsEnabled = true;
+                                                            return;
+                                                        }
+                                                        else
+                                                        {
+                                                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
+                                                            await ADB($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{otherpart[i]}.img\"");
+                                                            partlist += $"{otherpart[i]}\r\n";
                                                         }
                                                     }
                                                     else if (!path2.Contains("No such file or directory"))
@@ -1349,18 +1404,25 @@ public partial class FormatExtractView : UserControl
                                                         shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/bootdevice/by-name/{otherpart[i]} of=/sdcard/{otherpart[i]}.img\"");
                                                         await ADB(shell);
                                                         FileHelper.Write(adb_log_path, output);
-                                                        if (!output.Contains("No space left on device"))
-                                                        {
-                                                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
-                                                            await ADB($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{otherpart[i]}.img\"");
-                                                            partlist += $"{otherpart[i]}\r\n";
-                                                        }
-                                                        else
+                                                        if (output.Contains("No space left on device"))
                                                         {
                                                             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_NoSpace")).Dismiss().ByClickingBackground().TryShow();
                                                             BusyExtract.IsBusy = false;
                                                             Extract.IsEnabled = true;
                                                             return;
+                                                        }
+                                                        else if (output.Contains("not found") || output.Contains("unknown command"))
+                                                        {
+                                                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("FormatExtract_DeviceDiscon")).Dismiss().ByClickingBackground().TryShow();
+                                                            BusyExtract.IsBusy = false;
+                                                            Extract.IsEnabled = true;
+                                                            return;
+                                                        }
+                                                        else
+                                                        {
+                                                            await ADB($"-s {Global.thisdevice} pull /sdcard/{otherpart[i]}.img \"{backup_images_folder}\"");
+                                                            await ADB($"-s {Global.thisdevice} shell su -c \"rm /sdcard/{otherpart[i]}.img\"");
+                                                            partlist += $"{otherpart[i]}\r\n";
                                                         }
                                                     }
                                                 }

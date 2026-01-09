@@ -1727,6 +1727,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Backup error! Device disconnected or encountered other issues, please check the logs 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_DeviceDiscon {
+            get {
+                return ResourceManager.GetString("FormatExtract_DeviceDiscon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The file named &apos;mi_iag. apk&apos; has been pushed to the root directory of the device. Please click OK after installation is complete! 的本地化字符串。
         /// </summary>
         public static string FormatExtract_DiagApk {
@@ -1871,6 +1880,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Full backup completed, it is not recommended to flash all partitions in fastboot mode as some partitions may not be able to be flashed! 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_FullBackupDone {
+            get {
+                return ResourceManager.GetString("FormatExtract_FullBackupDone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Log 的本地化字符串。
         /// </summary>
         public static string FormatExtract_Log {
@@ -1880,7 +1898,25 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 The partition was not found! 的本地化字符串。
+        ///   查找类似 No partition was found, or it could be due to lack of ROOT permission 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_NoPart {
+            get {
+                return ResourceManager.GetString("FormatExtract_NoPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Insufficient device space to complete extraction! 的本地化字符串。
+        /// </summary>
+        public static string FormatExtract_NoSpace {
+            get {
+                return ResourceManager.GetString("FormatExtract_NoSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The partition was not found，or it could be due to lack of ROOT permission 的本地化字符串。
         /// </summary>
         public static string FormatExtract_NotFound {
             get {
@@ -2602,7 +2638,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 A-Only device 的本地化字符串。
+        ///   查找类似 A_Only 的本地化字符串。
         /// </summary>
         public static string Info_AOnly {
             get {
@@ -2611,7 +2647,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 A Slot 的本地化字符串。
+        ///   查找类似 A_Slot 的本地化字符串。
         /// </summary>
         public static string Info_ASlot {
             get {
@@ -2638,7 +2674,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 B Slot 的本地化字符串。
+        ///   查找类似 B_Slot 的本地化字符串。
         /// </summary>
         public static string Info_BSlot {
             get {

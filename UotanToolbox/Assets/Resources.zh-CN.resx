@@ -1615,4 +1615,7 @@ ADB下填写序号，一次一个！</value>
   <data name="FormatExtract_FullBackupDone" xml:space="preserve">
     <value>全盘备份完成，不建议在fastboot模式下全部刷入，部分分区可能无法刷入！</value>
   </data>
+  <data name="FormatExtract_DeviceDiscon" xml:space="preserve">
+    <value>备份出错！设备断开链接或出现其他问题，请查看日志</value>
+  </data>
 </root>

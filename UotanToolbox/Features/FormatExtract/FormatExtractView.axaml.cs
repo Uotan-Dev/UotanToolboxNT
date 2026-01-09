@@ -6,7 +6,6 @@ using Avalonia.Threading;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -1056,7 +1055,7 @@ public partial class FormatExtractView : UserControl
                         }
                     }
                 }
-                string[] otherpart = { "spl", "spl_a", "spl_b", "preloader_raw", "perloader_raw_a", "preloader_raw_b"};
+                string[] otherpart = { "spl", "spl_a", "spl_b", "preloader_raw", "perloader_raw_a", "preloader_raw_b" };
                 for (int i = 0; i < otherpart.Length; i++)
                 {
                     string shell = string.Format($"-s {Global.thisdevice} shell ls -l /dev/block/by-name/{otherpart[i]}");

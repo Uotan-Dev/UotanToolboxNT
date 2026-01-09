@@ -138,8 +138,8 @@ public partial class MainView : SukiWindow
                 process.Kill();
                 process.WaitForExit();
             }
-            catch (Win32Exception ex){}
-            catch (InvalidOperationException){}
+            catch (Win32Exception ex) { }
+            catch (InvalidOperationException) { }
         }
     }
 }

@@ -139,7 +139,7 @@ public partial class SettingsViewModel : MainPageBase
     [RelayCommand]
     private void SetBootPatchPath(string url)
     {
-        
+
     }
 
     [RelayCommand]

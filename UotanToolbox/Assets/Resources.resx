@@ -1417,7 +1417,7 @@ Fill ID in ADB, one at a time!</value>
     <value>Wireless Connection</value>
   </data>
   <data name="Main_CanResize" xml:space="preserve">
-    <value>Unlock the window height lock</value>
+    <value>Unlock the window lock</value>
   </data>
   <data name="Main_QuickReboot" xml:space="preserve">
     <value>Quick reboot to</value>

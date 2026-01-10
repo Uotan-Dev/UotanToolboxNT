@@ -12,10 +12,8 @@
              x:DataType="wiredflash:WiredflashViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
-			   theme:WrapPanelExtensions.AnimatedScroll="True"
-			   Orientation="Horizontal">
-		<!-- Fastboot -->
+		<StackPanel Margin="15">
+			<!-- Fastboot -->
 		<suki:GlassCard Width="960"
 						Height="160"
 						Margin="10"
@@ -193,6 +191,6 @@
 						 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 			</Grid>
 		</suki:GlassCard>
-	</WrapPanel>
+		</StackPanel>
 	</ScrollViewer>
 </UserControl>

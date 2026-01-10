@@ -12,478 +12,483 @@
 			 d:DesignWidth="1024"
              x:DataType="home:HomeViewModel"
              mc:Ignorable="d">
-	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
-			   theme:WrapPanelExtensions.AnimatedScroll="True"
-			   Orientation="Horizontal">
-
-		<!--  Device info  -->
+		<ScrollViewer VerticalScrollBarVisibility="Hidden">
+			<StackPanel Margin="15">
+				<StackPanel Orientation="Horizontal">
+					<!--  Device info  -->
 		<suki:GlassCard Width="520"
 						Height="410"
-						Margin="10"
-						Classes="Card">
-			<suki:BusyArea Name="BusyConnection"
-							BusyText="{x:Static assets:Resources.Home_Fetching}"
-							IsBusy="{Binding IsConnecting}">
-				<StackPanel>
-					<TextBlock HorizontalAlignment="Left"
-									FontSize="16"
-									FontWeight="DemiBold"
-									Text="{x:Static assets:Resources.Home_DeviceInfo}" />
+									Margin="10"
+									Classes="Card">
+						<suki:BusyArea Name="BusyConnection"
+										BusyText="{x:Static assets:Resources.Home_Fetching}"
+										IsBusy="{Binding IsConnecting}">
+							<StackPanel>
+								<TextBlock HorizontalAlignment="Left"
+												FontSize="16"
+												FontWeight="DemiBold"
+												Text="{x:Static assets:Resources.Home_DeviceInfo}" />
 					<StackPanel Orientation="Horizontal" Spacing="18">
 						<StackPanel Orientation="Vertical"  Width="230">
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_DeviceBrand}"/>
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding DeviceBrand, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_DeviceBrand}"/>
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding DeviceBrand, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_DeviceModel}" />
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding DeviceModel, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_DeviceModel}" />
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding DeviceModel, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_CodeName}" />
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding CodeName, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_CodeName}" />
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding CodeName, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_System}" />
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding SystemSDK, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_System}" />
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding SystemSDK, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_CPUABI}" />
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding CPUABI, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_CPUABI}" />
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding CPUABI, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_Resolution}" />
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding DisplayHW, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_Resolution}" />
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding DisplayHW, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_DisplayDensity}" />
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding Density, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
-						</StackPanel>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_DisplayDensity}" />
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding Density, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
+									</StackPanel>
 						<StackPanel Orientation="Vertical"  Width="230">
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_ConnectionStatus}"/>
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding Status, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_ConnectionStatus}"/>
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding Status, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_BootloaderLock}"/>
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding BLStatus, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_BootloaderLock}"/>
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding BLStatus, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_VabStadus}"/>
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding VABStatus, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_VabStadus}"/>
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding VABStatus, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_VNDKVersion}"/>
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding VNDKVersion, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_VNDKVersion}"/>
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding VNDKVersion, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_CPUCode}"/>
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding CPUCode, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_CPUCode}"/>
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding CPUCode, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_PowerOnTime}"/>
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding PowerOnTime, Mode=TwoWay}"/>
-								</StackPanel>
-							</Grid>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_PowerOnTime}"/>
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding PowerOnTime, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
 							<Grid Margin="0,12,0,0">
-								<TextBlock HorizontalAlignment="Left"
-											FontSize="13"
-											FontWeight="DemiBold"
-											Foreground="{DynamicResource SukiLowText}"
-											Text="{x:Static assets:Resources.Home_FlashType}"/>
-								<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-									<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-											Content="{Binding DiskType, Mode=TwoWay}"/>
+											<TextBlock HorizontalAlignment="Left"
+														FontSize="13"
+														FontWeight="DemiBold"
+														Foreground="{DynamicResource SukiLowText}"
+														Text="{x:Static assets:Resources.Home_FlashType}"/>
+											<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+												<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+														Content="{Binding DiskType, Mode=TwoWay}"/>
+											</StackPanel>
+										</Grid>
+									</StackPanel>
 								</StackPanel>
-							</Grid>
-						</StackPanel>
-					</StackPanel>
 					<StackPanel HorizontalAlignment="Center" Width="480">
 						<Grid Margin="0,12,0,0">
-							<TextBlock HorizontalAlignment="Left"
-										FontSize="13"
-										FontWeight="DemiBold"
-										Foreground="{DynamicResource SukiLowText}"
-										Text="{x:Static assets:Resources.Home_MotherboardID}" />
-							<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-								<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-										Content="{Binding BoardID, Mode=TwoWay}"/>
-							</StackPanel>
-						</Grid>
+										<TextBlock HorizontalAlignment="Left"
+													FontSize="13"
+													FontWeight="DemiBold"
+													Foreground="{DynamicResource SukiLowText}"
+													Text="{x:Static assets:Resources.Home_MotherboardID}" />
+										<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+											<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+													Content="{Binding BoardID, Mode=TwoWay}"/>
+										</StackPanel>
+									</Grid>
 						<Grid Margin="0,12,0,0">
-							<TextBlock HorizontalAlignment="Left"
-										FontSize="13"
-										FontWeight="DemiBold"
-										Foreground="{DynamicResource SukiLowText}"
-										Text="{x:Static assets:Resources.Home_Platform}" />
-							<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-								<Button Theme="{StaticResource ToolboxButton}"
-											Foreground="White"
-											FontSize="13"
-											Click="CopyButton_OnClick"
-										Content="{Binding Platform, Mode=TwoWay}"/>
-							</StackPanel>
-						</Grid>
+										<TextBlock HorizontalAlignment="Left"
+													FontSize="13"
+													FontWeight="DemiBold"
+													Foreground="{DynamicResource SukiLowText}"
+													Text="{x:Static assets:Resources.Home_Platform}" />
+										<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+											<Button Theme="{StaticResource ToolboxButton}"
+														Foreground="White"
+														FontSize="13"
+														Click="CopyButton_OnClick"
+													Content="{Binding Platform, Mode=TwoWay}"/>
+										</StackPanel>
+									</Grid>
 						<Grid Margin="0,12,0,0">
-							<TextBlock HorizontalAlignment="Left"
-										FontSize="13"
-										FontWeight="DemiBold"
-										Foreground="{DynamicResource SukiLowText}"
-										Text="{x:Static assets:Resources.Home_CompiledVersion}" />
-							<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-								<Button Theme="{StaticResource ToolboxButton}"
-										Foreground="White"
-										FontSize="13"
-										Click="CopyButton_OnClick"
-										Content="{Binding Compile, Mode=TwoWay}"/>
-							</StackPanel>
-						</Grid>
+										<TextBlock HorizontalAlignment="Left"
+													FontSize="13"
+													FontWeight="DemiBold"
+													Foreground="{DynamicResource SukiLowText}"
+													Text="{x:Static assets:Resources.Home_CompiledVersion}" />
+										<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+											<Button Theme="{StaticResource ToolboxButton}"
+													Foreground="White"
+													FontSize="13"
+													Click="CopyButton_OnClick"
+													Content="{Binding Compile, Mode=TwoWay}"/>
+										</StackPanel>
+									</Grid>
 						<Grid Margin="0,12,0,0">
-							<TextBlock HorizontalAlignment="Left"
-										FontSize="13"
-										FontWeight="DemiBold"
-										Foreground="{DynamicResource SukiLowText}"
-										Text="{x:Static assets:Resources.Home_KernalVersion}" />
-							<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-								<Button Theme="{StaticResource ToolboxButton}"
-										Foreground="White"
-										FontSize="13"
-										Click="CopyButton_OnClick"
-										Content="{Binding Kernel, Mode=TwoWay}"/>
+										<TextBlock HorizontalAlignment="Left"
+													FontSize="13"
+													FontWeight="DemiBold"
+													Foreground="{DynamicResource SukiLowText}"
+													Text="{x:Static assets:Resources.Home_KernalVersion}" />
+										<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+											<Button Theme="{StaticResource ToolboxButton}"
+													Foreground="White"
+													FontSize="13"
+													Click="CopyButton_OnClick"
+													Content="{Binding Kernel, Mode=TwoWay}"/>
+										</StackPanel>
+									</Grid>
+								</StackPanel>
 							</StackPanel>
-						</Grid>
-					</StackPanel>
-				</StackPanel>
-			</suki:BusyArea>
+						</suki:BusyArea>
+					</suki:GlassCard>
 
-		</suki:GlassCard>
-
-		<!--  Battery  -->
-		<suki:GlassCard Width="200"
+					<!--  Battery  -->
+					<suki:GlassCard Width="200"
 						Height="410"
-						Margin="10"
-						VerticalAlignment="Top">
-			<Grid>
-				<TextBlock FontSize="16"
-						   FontWeight="DemiBold"
-						   Text="{x:Static assets:Resources.Home_Battery}" />
+									Margin="10"
+									VerticalAlignment="Top">
+						<Grid>
+							<TextBlock FontSize="16"
+									   FontWeight="DemiBold"
+									   Text="{x:Static assets:Resources.Home_Battery}" />
 				<Viewbox Width="175"
 						 Height="175"
-						 Margin="0,0,0,5"
-						 HorizontalAlignment="Center"
-						 VerticalAlignment="Center">
-					<suki:WaveProgress Value="{Binding BatteryLevel, Mode=TwoWay}" />
-				</Viewbox>
-				<TextBlock  HorizontalAlignment="Center"
-							VerticalAlignment="Bottom"
-							Padding="0 30"
-							FontSize="20"
-							Text="{Binding BatteryInfo, Mode=TwoWay}" />
-			</Grid>
-		</suki:GlassCard>
+									 Margin="0,0,0,5"
+									 HorizontalAlignment="Center"
+									 VerticalAlignment="Center">
+								<suki:WaveProgress Value="{Binding BatteryLevel, Mode=TwoWay}" />
+							</Viewbox>
+							<TextBlock  HorizontalAlignment="Center"
+										VerticalAlignment="Bottom"
+										Padding="0 30"
+										FontSize="20"
+										Text="{Binding BatteryInfo, Mode=TwoWay}" />
+						</Grid>
+					</suki:GlassCard>
 
-		<!-- Disk and Memory -->
+					<!-- Disk and Memory -->
 		<suki:GlassCard Height="410"
-						Margin="10"
-						Width="200">
-			<StackPanel Spacing="10">
-				<TextBlock FontSize="16"
-						   FontWeight="DemiBold"
-						   Text="{x:Static assets:Resources.Home_StorageAndMemory}" />
-				<controls:CircleProgressBar Width="130"
-											Height="130"
-											StrokeWidth="11"
-											Margin="0 10 0 0"
-											Value="{Binding ProgressDisk}">
-					<TextBlock Margin="0,2,0,0"
-							   Classes="h2"
-							   Text="{Binding ProgressDisk, StringFormat={}{0:#0}%}" />
-				</controls:CircleProgressBar>
+									Margin="10"
+									Width="200">
+						<StackPanel Spacing="10">
+							<TextBlock FontSize="16"
+									   FontWeight="DemiBold"
+									   Text="{x:Static assets:Resources.Home_StorageAndMemory}" />
+							<StackPanel Orientation="Vertical" Margin="0 20 0 0" Spacing="10">
+								<StackPanel Orientation="Vertical">
+									<controls:CircleProgressBar Width="130"
+															Height="130"
+															StrokeWidth="11"
+															Margin="0 10 0 0"
+															Value="{Binding ProgressDisk}">
+										<TextBlock Margin="0,2,0,0"
+												   Classes="h2"
+												   Text="{Binding ProgressDisk, StringFormat={}{0:#0}%}" />
+									</controls:CircleProgressBar>
 				<TextBlock  HorizontalAlignment="Center"
-							FontSize="15"
-							Text="{Binding DiskInfo, Mode=TwoWay}" />
-				<controls:CircleProgressBar Width="130"
-											Height="130"
-											Classes="Accent"
-											StrokeWidth="11"
-											Value="{Binding MemLevel}">
-					<TextBlock Margin="0,2,0,0"
-							   Classes="h2"
-							   Text="{Binding MemLevel, StringFormat={}{0:#0}%}" />
-				</controls:CircleProgressBar>
+												FontSize="15"
+												Text="{Binding DiskInfo, Mode=TwoWay}" />
+								</StackPanel>
+								<StackPanel Orientation="Vertical">
+									<controls:CircleProgressBar Width="130"
+															Height="130"
+															Classes="Accent"
+															StrokeWidth="11"
+															Value="{Binding MemLevel}">
+										<TextBlock Margin="0,2,0,0"
+												   Classes="h2"
+												   Text="{Binding MemLevel, StringFormat={}{0:#0}%}" />
+									</controls:CircleProgressBar>
 				<TextBlock  HorizontalAlignment="Center"
-							FontSize="15"
-							Text="{Binding UseMem, Mode=TwoWay}" />
-			</StackPanel>
-		</suki:GlassCard>
-
-		<!--    -->
-		<suki:GlassCard Width="320" Height="320" Margin="10">
-			<StackPanel Orientation="Vertical" Spacing="10">
-				<TextBlock HorizontalAlignment="Left"
-							FontSize="15"
-							FontWeight="DemiBold"
-							Text="{x:Static assets:Resources.Basicflash_DriverPatch}" />
-				<StackPanel Margin="0 20 0 0" Spacing="15">
-					<Button Width="220" Click="OpenAFDI" Content="{x:Static assets:Resources.Basicflash_InstallADBAndFastbootDriver}"></Button>
-					<Button Width="220" Click="Open9008DI" Content="{x:Static assets:Resources.Basicflash_Install9008Driver}"></Button>
-					<Button Width="220" Click="OpenUSBP" Content="{x:Static assets:Resources.Basicflash_XiaomiUSB}"></Button>
-					<Button Width="220" Click="OpenReUSBP" Content="{x:Static assets:Resources.Basicflash_ReXiaomiUSB}"></Button>
+												FontSize="15"
+												Text="{Binding UseMem, Mode=TwoWay}" />
+								</StackPanel>
+							</StackPanel>
+						</StackPanel>
+					</suki:GlassCard>
 				</StackPanel>
-			</StackPanel>
-		</suki:GlassCard>
+				<StackPanel Orientation="Horizontal">
+					<!--    -->
+		<suki:GlassCard Width="320" Height="320" Margin="10">
+						<StackPanel Orientation="Vertical" Spacing="10">
+							<TextBlock HorizontalAlignment="Left"
+										FontSize="15"
+										FontWeight="DemiBold"
+										Text="{x:Static assets:Resources.Basicflash_DriverPatch}" />
+				<StackPanel Margin="0 20 0 0" Spacing="15">
+								<Button Width="220" Click="OpenAFDI" Content="{x:Static assets:Resources.Basicflash_InstallADBAndFastbootDriver}"></Button>
+								<Button Width="220" Click="Open9008DI" Content="{x:Static assets:Resources.Basicflash_Install9008Driver}"></Button>
+								<Button Width="220" Click="OpenUSBP" Content="{x:Static assets:Resources.Basicflash_XiaomiUSB}"></Button>
+								<Button Width="220" Click="OpenReUSBP" Content="{x:Static assets:Resources.Basicflash_ReXiaomiUSB}"></Button>
+							</StackPanel>
+						</StackPanel>
+					</suki:GlassCard>
 
-		<!--  Reboot  -->
+					<!--  Reboot  -->
 		<suki:GlassCard Width="320"
 						Height="320"
-						Margin="10"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Center">
-				<StackPanel Spacing="10">
-					<TextBlock HorizontalAlignment="Left"
-								FontSize="15"
-								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.Basicflash_Reboot}" />
-					<StackPanel Margin="0 40 0 0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-							<Button Width="125"
+									Margin="10"
 									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding RebootSys}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="Android" />
-									<TextBlock Text="{x:Static assets:Resources.Home_System}"/>
-								</TextBlock>
-							</Button>
+									VerticalAlignment="Center">
+						<StackPanel Spacing="10">
+							<TextBlock HorizontalAlignment="Left"
+										FontSize="15"
+										FontWeight="DemiBold"
+										Text="{x:Static assets:Resources.Basicflash_Reboot}" />
+							<StackPanel Margin="0 40 0 0" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
 							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding RebootRec}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="NetworkOutline" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
-								</TextBlock>
-							</Button>
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding RebootSys}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="Android" />
+											<TextBlock Text="{x:Static assets:Resources.Home_System}"/>
+										</TextBlock>
+									</Button>
+							<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding RebootRec}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="NetworkOutline" />
+											<TextBlock Text="{x:Static assets:Resources.Home_Recovery}"/>
+										</TextBlock>
+									</Button>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal"
+											HorizontalAlignment="Center"
+											Spacing="10">
+							<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding RebootBL}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="ProgressDownload" />
+											<TextBlock Text="{x:Static assets:Resources.Home_Bootloader}"/>
+										</TextBlock>
+									</Button>
+							<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding RebootFB}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="ProgressDownload" />
+											<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>
+										</TextBlock>
+									</Button>
+								</StackPanel>
+								<StackPanel Orientation="Horizontal"
+											HorizontalAlignment="Center"
+											Spacing="10">
+							<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding PowerOff}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="Power" />
+											<TextBlock Text="{x:Static assets:Resources.Home_Shutdown}"/>
+										</TextBlock>
+									</Button>
+							<Button Width="125"
+											HorizontalAlignment="Left"
+											Padding="8"
+											Command="{Binding RebootEDL}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="ProgressDownload" />
+											<TextBlock Text="{x:Static assets:Resources.Home_Boot9008}"/>
+										</TextBlock>
+									</Button>
+								</StackPanel>
+							</StackPanel>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal"
-									HorizontalAlignment="Center"
-									Spacing="10">
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding RebootBL}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Bootloader}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding RebootFB}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Fastbootd}"/>
-								</TextBlock>
-							</Button>
-						</StackPanel>
-						<StackPanel Orientation="Horizontal"
-									HorizontalAlignment="Center"
-									Spacing="10">
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding PowerOff}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="Power" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Shutdown}"/>
-								</TextBlock>
-							</Button>
-							<Button Width="125"
-									HorizontalAlignment="Left"
-									Padding="8"
-									Command="{Binding RebootEDL}">
-								<TextBlock>
-									<avalonia:MaterialIcon Kind="ProgressDownload" />
-									<TextBlock Text="{x:Static assets:Resources.Home_Boot9008}"/>
-								</TextBlock>
-							</Button>
-						</StackPanel>
-					</StackPanel>
-				</StackPanel>
-			</suki:GlassCard>
+					</suki:GlassCard>
 
-		<!-- Virtual panel -->
-		<suki:GlassCard Margin="10"
+					<!-- Virtual panel -->
+					<suki:GlassCard Margin="10"
 							Height="320"
-							Width="280"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Center">
-			<suki:BusyArea Name="BusyDevicesList"
-						   BusyText="{x:Static assets:Resources.Home_Fetching}"
-						   IsBusy="{Binding CommonDevicesList}">
-				<StackPanel Orientation="Vertical" Spacing="10">
-					<TextBlock HorizontalAlignment="Left"
-								FontSize="15"
-								FontWeight="DemiBold"
-								Text="{x:Static assets:Resources.Home_ChooseDevice}" />
-					<StackPanel Margin="0 15 0 50">
-						<ComboBox Width="210" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
-					</StackPanel>
-					<StackPanel Spacing="20">
-						<Button Width="200" Command="{Binding FreshDeviceListCommand}">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="Reload" />
-								<TextBlock Text="{x:Static assets:Resources.Home_Refresh}"/>
-							</TextBlock>
-						</Button>
-						<Button Width="200" Click="OpenWirelessADB">
-							<TextBlock>
-								<avalonia:MaterialIcon Kind="NetworkOutline" />
-								<TextBlock Text="{x:Static assets:Resources.Home_WirelessADB}"/>
-							</TextBlock>
-						</Button>
-					</StackPanel>
+										Width="280"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Center">
+						<suki:BusyArea Name="BusyDevicesList"
+									   BusyText="{x:Static assets:Resources.Home_Fetching}"
+									   IsBusy="{Binding CommonDevicesList}">
+							<StackPanel Orientation="Vertical" Spacing="10">
+								<TextBlock HorizontalAlignment="Left"
+											FontSize="15"
+											FontWeight="DemiBold"
+											Text="{x:Static assets:Resources.Home_ChooseDevice}" />
+								<StackPanel Margin="0 15 0 50">
+									<ComboBox Width="210" ItemsSource="{Binding SimpleContent}" SelectedItem="{Binding SelectedSimpleContent}" />
+								</StackPanel>
+								<StackPanel Spacing="20">
+									<Button Width="200" Command="{Binding FreshDeviceListCommand}">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="Reload" />
+											<TextBlock Text="{x:Static assets:Resources.Home_Refresh}"/>
+										</TextBlock>
+									</Button>
+									<Button Width="200" Click="OpenWirelessADB">
+										<TextBlock>
+											<avalonia:MaterialIcon Kind="NetworkOutline" />
+											<TextBlock Text="{x:Static assets:Resources.Home_WirelessADB}"/>
+										</TextBlock>
+									</Button>
+								</StackPanel>
+							</StackPanel>
+						</suki:BusyArea>
+					</suki:GlassCard>
 				</StackPanel>
-			</suki:BusyArea>
-		</suki:GlassCard>
-	</WrapPanel>
-	</ScrollViewer>
+			</StackPanel>
+		</ScrollViewer>
 </UserControl>

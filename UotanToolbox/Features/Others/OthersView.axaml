@@ -12,9 +12,9 @@
              x:DataType="others:OthersViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
-			   theme:WrapPanelExtensions.AnimatedScroll="True"
-			   Orientation="Horizontal">
+		<StackPanel Margin="15">
+			<StackPanel Orientation="Horizontal">
+				<!-- Display -->
 		<suki:GlassCard Width="320"
 						Height="310"
 						Margin="10 10 15 10"
@@ -190,8 +190,8 @@
 				</Grid>
 			</suki:BusyArea>
 		</suki:GlassCard>
-
-		<suki:GlassCard Width="960"
+			</StackPanel>
+			<suki:GlassCard Width="960"
 						Height="90"
 						Margin="10"
 						VerticalAlignment="Top">
@@ -496,6 +496,6 @@
 				</StackPanel>
 			</Grid>
 		</suki:GlassCard>
-	</WrapPanel>
+		</StackPanel>
 	</ScrollViewer>
 </UserControl>

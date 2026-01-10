@@ -17,10 +17,9 @@
 		<appmgr:AppmgrViewModel />
 	</UserControl.DataContext>
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
-               theme:WrapPanelExtensions.AnimatedScroll="True"
-               Orientation="Horizontal">
-		<suki:GlassCard Height="205" Width="464.25" HorizontalAlignment="Left" Margin="10 15" VerticalAlignment="Top">
+		<StackPanel Margin="15">
+			<StackPanel Orientation="Horizontal">
+				<suki:GlassCard Height="205" Width="464.25" HorizontalAlignment="Left" Margin="10 15" VerticalAlignment="Top">
 			<StackPanel Spacing="10">
 				<TextBlock HorizontalAlignment="Left"
 						   FontSize="15"
@@ -161,8 +160,9 @@
 				</Grid>
 			</suki:GlassCard>
 		</Grid>
-
-		<suki:GlassCard Classes="Card"
+			</StackPanel>
+			<StackPanel>
+				<suki:GlassCard Classes="Card"
 						Margin="10 15"
 						Width="960"
 						Height="510">
@@ -213,6 +213,7 @@
 				</ScrollViewer>
 			</suki:BusyArea>
 		</suki:GlassCard>
-	</WrapPanel>
+			</StackPanel>
+		</StackPanel>
 	</ScrollViewer>
 </UserControl>

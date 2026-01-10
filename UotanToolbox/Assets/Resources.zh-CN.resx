@@ -1417,7 +1417,7 @@ ADB下填写序号，一次一个！</value>
     <value>无线连接</value>
   </data>
   <data name="Main_CanResize" xml:space="preserve">
-    <value>解除窗口高度锁定</value>
+    <value>解除窗口锁定</value>
   </data>
   <data name="Main_QuickReboot" xml:space="preserve">
     <value>快捷重启至</value>

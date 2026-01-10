@@ -13,11 +13,9 @@
              x:DataType="basicflash:BasicflashViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
-			   theme:WrapPanelExtensions.AnimatedScroll="True"
-			   Orientation="Horizontal">
-
-		<!--  Unlock  -->
+		<StackPanel Margin="15">
+			<StackPanel Orientation="Horizontal">
+				<!--  Unlock  -->
 		<suki:GlassCard Width="630" Margin="10">
 			<suki:BusyArea Name="BusyUnlock"
 							BusyText="{x:Static assets:Resources.Basicflash_Executing}">
@@ -73,8 +71,9 @@
 				</StackPanel>
 			</suki:BusyArea>
 		</suki:GlassCard>
-
-		<!--  Flash recovery  -->
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<!--  Flash recovery  -->
 		<suki:GlassCard Width="630" Margin="10">
 			<suki:BusyArea Name="BusyFlash"
 							BusyText="{x:Static assets:Resources.Basicflash_Executing}">
@@ -173,8 +172,9 @@
 					</StackPanel>
 				</suki:BusyArea>
 			</suki:GlassCard>
-
-		<!--  Patch Boot Image  -->
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<!--  Patch Boot Image  -->
 		<suki:GlassCard Width="630" Margin="10">
 			<suki:BusyArea Name="BusyPatch"
 							BusyText="{x:Static assets:Resources.Basicflash_PatchBoot}">
@@ -243,6 +243,7 @@
 				</StackPanel>
 			</suki:BusyArea>
 		</suki:GlassCard>
-	</WrapPanel>
+			</StackPanel>
+		</StackPanel>
 	</ScrollViewer>
 </UserControl>

@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -18,12 +19,39 @@ namespace UotanToolbox;
 
 public partial class MainView : SukiWindow
 {
+    private const double AspectRatio = 1235.0 / 840.0; // 设定目标宽高比（如16:9）
+    private Size _lastSize = new Size(1235, 840);
+
     public MainView()
     {
         InitializeComponent();
         Bitmap bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
         Icon = new WindowIcon(bitmap);
-        SetSystemDecorationsBasedOnPlatform();
+        //SetSystemDecorationsBasedOnPlatform();
+        this.GetObservable(ClientSizeProperty).Subscribe(OnClientSizeChanged);
+    }
+    // 窗口尺寸变化时触发
+    private void OnClientSizeChanged(Size newSize)
+    {
+        double deltaWidth = Math.Abs(newSize.Width - _lastSize.Width);
+        double deltaHeight = Math.Abs(newSize.Height - _lastSize.Height);
+
+        if (deltaWidth > deltaHeight)
+        {
+            // 用户主要在拖动宽度
+            double expectedHeight = newSize.Width / AspectRatio;
+            if (Math.Abs(newSize.Height - expectedHeight) > 1)
+                this.Height = expectedHeight;
+        }
+        else
+        {
+            // 用户主要在拖动高度
+            double expectedWidth = newSize.Height * AspectRatio;
+            if (Math.Abs(newSize.Width - expectedWidth) > 1)
+                this.Width = expectedWidth;
+        }
+
+        _lastSize = new Size(this.Width, this.Height);
     }
 
     private void SetSystemDecorationsBasedOnPlatform()

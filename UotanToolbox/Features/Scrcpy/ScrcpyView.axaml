@@ -12,9 +12,7 @@
              x:DataType="scrcpy:ScrcpyViewModel"
              mc:Ignorable="d">
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
-        <WrapPanel Margin="15"
-                   theme:WrapPanelExtensions.AnimatedScroll="True"
-                   Orientation="Horizontal">
+        <StackPanel Margin="15">
             <Grid Margin="10">
                 <suki:GlassCard Width="960" Margin="0,0,0,25">
                     <suki:BusyArea Name="BusyConnection"
@@ -54,8 +52,8 @@
                         Content="{x:Static assets:Resources.Scrcpy_StartCasting}">
                 </Button>
             </Grid>
-
-            <!--  Transmit and record  -->
+            <StackPanel Orientation="Horizontal">
+                <!--  Transmit and record  -->
             <suki:GlassCard Width="475"
                             Height="295"
                             Margin="10"
@@ -278,8 +276,9 @@
                     </StackPanel>
                 </Grid>
             </suki:GlassCard>
-
-            <!--  Virtual display  -->
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <!--  Virtual display  -->
             <suki:GlassCard Width="475"
                             Height="215"
                             Margin="10"
@@ -417,7 +416,7 @@
                     </StackPanel>
                 </StackPanel>
             </suki:GlassCard>
-
-        </WrapPanel>
+            </StackPanel>
+        </StackPanel>
     </ScrollViewer>
 </UserControl>

@@ -12,9 +12,7 @@
              x:DataType="customizedflash:CustomizedflashViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
-                   theme:WrapPanelExtensions.AnimatedScroll="True"
-                   Orientation="Horizontal">
+		<StackPanel Margin="15">
 			<!-- Fastboot -->
 			<suki:GlassCard Width="960"
 							Height="240"
@@ -197,9 +195,8 @@
 						</StackPanel>
 					</Grid>
 			</suki:GlassCard>
-
-
-			<suki:GlassCard Width="750"
+			<StackPanel Orientation="Horizontal">
+				<suki:GlassCard Width="750"
 							Height="120"
 			                Margin="10"
 			                VerticalAlignment="Top">
@@ -248,7 +245,7 @@
 					</StackPanel>
 				</StackPanel>
 			</suki:GlassCard>
-
+			</StackPanel>
 			<!-- Log -->
 			<suki:GlassCard Width="960"
 							Height="340"
@@ -259,6 +256,6 @@
 							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 				</Grid>
 			</suki:GlassCard>
-		</WrapPanel>
+		</StackPanel>
 	</ScrollViewer>
 </UserControl>

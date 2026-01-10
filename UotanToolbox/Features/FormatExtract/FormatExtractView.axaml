@@ -12,11 +12,9 @@
              x:DataType="formatExtract:FormatExtractViewModel"
              mc:Ignorable="d">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<WrapPanel Margin="15"
-			   theme:WrapPanelExtensions.AnimatedScroll="True"
-			   Orientation="Horizontal">
-
-		<!--  QCN  -->
+		<StackPanel Margin="15">
+			<StackPanel Orientation="Horizontal">
+				<!--  QCN  -->
 		<suki:GlassCard Width="470"
 						Height="210"
 						Margin="10"
@@ -146,8 +144,9 @@
 				</StackPanel>
 			</suki:BusyArea>
 		</suki:GlassCard>
-
-		<!-- Format -->
+			</StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<!-- Format -->
 		<suki:GlassCard Width="470"
 						Height="250"
 						Margin="10"
@@ -302,8 +301,8 @@
 				</StackPanel>
 			</suki:BusyArea>
 		</suki:GlassCard>
-
-		<!-- Log -->
+			</StackPanel>
+			<!-- Log -->
 		<suki:GlassCard Width="960"
 						Height="250"
 						Margin="10"
@@ -313,6 +312,6 @@
 						 IsReadOnly="True" VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />
 			</Grid>
 		</suki:GlassCard>
-	</WrapPanel>
+		</StackPanel>
 	</ScrollViewer>
 </UserControl>

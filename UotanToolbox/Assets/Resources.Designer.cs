@@ -4406,6 +4406,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Disable vbmeta 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_DisVbmeta {
+            get {
+                return ResourceManager.GetString("Wiredflash_DisVbmeta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Executing ... 的本地化字符串。
         /// </summary>
         public static string Wiredflash_Executing {

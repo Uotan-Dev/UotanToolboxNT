@@ -276,7 +276,7 @@ public partial class WiredflashView : UserControl
                                     zstfile.Close();
                                     filepath = outfile;
                                 }
-                                if (partandpath[0].Contains("vbmeta"))
+                                if (partandpath[0].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)
                                 {
                                     await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {partandpath[0]} \"{filepath}\"");
                                 }
@@ -295,7 +295,7 @@ public partial class WiredflashView : UserControl
                                     string newboot = await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
                                     await Fastboot($"-s {Global.thisdevice} flash boot {newboot}");
                                 }
-                                else if (fbflashparts[i].Contains("vbmeta"))
+                                else if (fbflashparts[i].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)
                                 {
                                     await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {fbflashparts[i]} \"{imgpath}/{fbflashparts[i]}.img\"");
                                 }
@@ -483,7 +483,7 @@ public partial class WiredflashView : UserControl
                                     {
                                         if (!partandpath[0].Contains("super_empty"))
                                         {
-                                            if (partandpath[0].Contains("vbmeta"))
+                                            if (partandpath[0].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)
                                             {
                                                 await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
                                             }
@@ -498,7 +498,7 @@ public partial class WiredflashView : UserControl
                                 {
                                     if (!fbdflashparts[i].Contains("super_empty"))
                                     {
-                                        if (fbdflashparts[i].Contains("vbmeta"))
+                                        if (fbdflashparts[i].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)
                                         {
                                             await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
                                         }

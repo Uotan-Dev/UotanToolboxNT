@@ -1627,4 +1627,7 @@ ADB下填写序号，一次一个！</value>
   <data name="Customizedflash_SelectVbmeta" xml:space="preserve">
     <value>选择vbmeta</value>
   </data>
+  <data name="Wiredflash_DisVbmeta" xml:space="preserve">
+    <value>禁用  vbmeta</value>
+  </data>
 </root>

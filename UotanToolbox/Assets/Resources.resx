@@ -1627,4 +1627,7 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="Customizedflash_SelectVbmeta" xml:space="preserve">
     <value>Select vbmeta</value>
   </data>
+  <data name="Wiredflash_DisVbmeta" xml:space="preserve">
+    <value>Disable vbmeta</value>
+  </data>
 </root>

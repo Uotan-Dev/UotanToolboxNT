@@ -1538,6 +1538,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Continue 的本地化字符串。
+        /// </summary>
+        public static string ConnectionDialog_Continue {
+            get {
+                return ResourceManager.GetString("ConnectionDialog_Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Get Update 的本地化字符串。
         /// </summary>
         public static string ConnectionDialog_GetUpdate {
@@ -1570,6 +1579,15 @@ namespace UotanToolbox.Assets {
         public static string ConnectionDialog_ViewUpdates {
             get {
                 return ResourceManager.GetString("ConnectionDialog_ViewUpdates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Devices manufactured for Android 13 and later require the use of multiple images from the original package for disabling verification. Please click &quot;Select vbmeta&quot; to select the original package image (which can include multiple images)! Click &quot;Continue&quot; to handle devices below Android 13. 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_ChoiceVbmeta {
+            get {
+                return ResourceManager.GetString("Customizedflash_ChoiceVbmeta", resourceCulture);
             }
         }
         
@@ -1651,6 +1669,15 @@ namespace UotanToolbox.Assets {
         public static string Customizedflash_SelectFile {
             get {
                 return ResourceManager.GetString("Customizedflash_SelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select vbmeta 的本地化字符串。
+        /// </summary>
+        public static string Customizedflash_SelectVbmeta {
+            get {
+                return ResourceManager.GetString("Customizedflash_SelectVbmeta", resourceCulture);
             }
         }
         

@@ -1618,4 +1618,13 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   <data name="FormatExtract_DeviceDiscon" xml:space="preserve">
     <value>Backup error! Device disconnected or encountered other issues, please check the logs</value>
   </data>
+  <data name="Customizedflash_ChoiceVbmeta" xml:space="preserve">
+    <value>Devices manufactured for Android 13 and later require the use of multiple images from the original package for disabling verification. Please click "Select vbmeta" to select the original package image (which can include multiple images)! Click "Continue" to handle devices below Android 13.</value>
+  </data>
+  <data name="ConnectionDialog_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="Customizedflash_SelectVbmeta" xml:space="preserve">
+    <value>Select vbmeta</value>
+  </data>
 </root>

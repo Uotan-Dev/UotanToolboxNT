@@ -1618,4 +1618,13 @@ ADB下填写序号，一次一个！</value>
   <data name="FormatExtract_DeviceDiscon" xml:space="preserve">
     <value>备份出错！设备断开链接或出现其他问题，请查看日志</value>
   </data>
+  <data name="Customizedflash_ChoiceVbmeta" xml:space="preserve">
+    <value>出厂为 Android13 及以后的设备需要使用原包的多个镜像进行禁用验证，请点击“选择vbmeta”以选择原包镜像（可包含多个）！点击“继续”则按 Android13 以下设备处理。</value>
+  </data>
+  <data name="ConnectionDialog_Continue" xml:space="preserve">
+    <value>继续</value>
+  </data>
+  <data name="Customizedflash_SelectVbmeta" xml:space="preserve">
+    <value>选择vbmeta</value>
+  </data>
 </root>

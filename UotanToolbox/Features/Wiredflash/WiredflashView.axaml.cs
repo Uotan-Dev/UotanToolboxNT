@@ -765,7 +765,7 @@ public partial class WiredflashView : UserControl
             }
             else if (string.IsNullOrEmpty(AdbSideloadFile.Text) && string.IsNullOrEmpty(FastbootUpdatedFile.Text) && !string.IsNullOrEmpty(BatFile.Text))
             {
-                if (sukiViewModel.Status == "Fastboot")
+                if (sukiViewModel.Status == "Fastboot" || sukiViewModel.Status == "Fastbootd")
                 {
                     MoreFlashBusy(true);
                     output = "";

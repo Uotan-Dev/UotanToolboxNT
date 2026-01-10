@@ -661,6 +661,8 @@ public partial class CustomizedflashView : UserControl
                                         {
                                             CustomizedflashLog.Text = "";
                                             await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash vbmeta \"{Path.Combine(Global.runpath, "Image", "vbmeta.img")}\"");
+                                            await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash vbmeta_system \"{Path.Combine(Global.runpath, "Image", "vbmeta.img")}\"");
+                                            await Fastboot($"-s {Global.thisdevice} --disable-verity --disable-verification flash vbmeta_vendor \"{Path.Combine(Global.runpath, "Image", "vbmeta.img")}\"");
                                         }, true)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                         .TryShow();

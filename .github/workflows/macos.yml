@@ -79,39 +79,8 @@ jobs:
         codesign --force --deep --options runtime --timestamp --entitlements ./entitlements.plist --sign "$CERT_NAME" ./UotanToolbox.app
         zip -rq ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
         codesign --force --timestamp --sign "$CERT_NAME" ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
-        set +e
-        NOTARY_OUTPUT=$(xcrun notarytool submit ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait --output-format json)
-        NOTARY_STATUS=$?
-        set -e
-        if [ "$NOTARY_STATUS" -ne 0 ]; then
-          echo "$NOTARY_OUTPUT"
-          SUBMISSION_ID=$(python3 - <<'PY'
-import json, sys
-try:
-    data = json.loads(sys.stdin.read())
-    print(data.get("id", ""))
-except Exception:
-    print("")
-PY
-          <<<"$NOTARY_OUTPUT")
-          if [ -n "$SUBMISSION_ID" ]; then
-            xcrun notarytool log "$SUBMISSION_ID" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD"
-          fi
-          exit "$NOTARY_STATUS"
-        fi
-        SUBMISSION_ID=$(python3 - <<'PY'
-import json, sys
-try:
-    data = json.loads(sys.stdin.read())
-    print(data.get("id", ""))
-except Exception:
-    print("")
-PY
-        <<<"$NOTARY_OUTPUT")
-        if [ -n "$SUBMISSION_ID" ]; then
-          xcrun notarytool log "$SUBMISSION_ID" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD"
-        fi
-        xcrun stapler staple -v ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
+        xcrun notarytool submit ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
+        xcrun stapler staple -v ./UotanToolbox.app
         rm -rf ./UotanToolbox.app/Contents/MacOS/*
         
 
@@ -122,39 +91,8 @@ PY
         codesign --force --deep --options runtime --timestamp --entitlements ./entitlements.plist --sign "$CERT_NAME" ./UotanToolbox.app
         zip -rq ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
         codesign --force --timestamp --sign "$CERT_NAME" ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
-        set +e
-        NOTARY_OUTPUT=$(xcrun notarytool submit ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait --output-format json)
-        NOTARY_STATUS=$?
-        set -e
-        if [ "$NOTARY_STATUS" -ne 0 ]; then
-          echo "$NOTARY_OUTPUT"
-          SUBMISSION_ID=$(python3 - <<'PY'
-import json, sys
-try:
-    data = json.loads(sys.stdin.read())
-    print(data.get("id", ""))
-except Exception:
-    print("")
-PY
-          <<<"$NOTARY_OUTPUT")
-          if [ -n "$SUBMISSION_ID" ]; then
-            xcrun notarytool log "$SUBMISSION_ID" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD"
-          fi
-          exit "$NOTARY_STATUS"
-        fi
-        SUBMISSION_ID=$(python3 - <<'PY'
-import json, sys
-try:
-    data = json.loads(sys.stdin.read())
-    print(data.get("id", ""))
-except Exception:
-    print("")
-PY
-        <<<"$NOTARY_OUTPUT")
-        if [ -n "$SUBMISSION_ID" ]; then
-          xcrun notarytool log "$SUBMISSION_ID" --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD"
-        fi
-        xcrun stapler staple -v ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
+        xcrun notarytool submit ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
+        xcrun stapler staple -v ./UotanToolbox.app
         rm -rf ./UotanToolbox.app/Contents/MacOS/*
 
     - name: Upload

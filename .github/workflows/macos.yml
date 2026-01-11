@@ -1,3 +1,6 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
 name: Build macOS
 
 on:
@@ -9,155 +12,93 @@ on:
       BINARY_BRANCH:
         description: 'Binary branch'
         required: true
+      NEED_NUPKG:
+        description: 'Use self nupkg'
+        type: boolean
+        required: true
+        default: false
 
-jobs:
-  macos-app:
-    runs-on: macos-latest
-
-    env:
+ env:
       CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
       KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
       APPLE_ID: ${{ secrets.APPLE_ID }}
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
       APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
 
+jobs:
+  macos-app:
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v4
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
 
+    - name: Download NuGet package
+      if: ${{ inputs.NEED_NUPKG }}
+      run: | 
+        wget https://github.com/Uotan-Dev/SukiUI-Uotan/releases/download/v6.0.0/SukiUI.6.0.0.nupkg
+        dotnet nuget add source "/Users/runner/work/UotanToolboxNT/UotanToolboxNT"
+        nuget add SukiUI.6.0.0.nupkg -Source /Users/runner/work/UotanToolboxNT/UotanToolboxNT
+
     - name: Clone Binary
-      run: |
-        git clone https://github.com/Uotan-Dev/UotanToolboxNT.Binary.git -b ${{ inputs.BINARY_BRANCH }}
+      run: git clone https://github.com/Uotan-Dev/UotanToolboxNT.Binary.git -b ${{ inputs.BINARY_BRANCH }}
 
     - name: Import macOS signing certificate
       run: |
-        set -e
+        set -euo pipefail
+        if [ ! -f ./entitlements.plist ]; then
+          echo "entitlements.plist not found in repo root."
+          exit 1
+        fi
         echo "${{ secrets.MACOS_CERTIFICATE_BASE64 }}" | base64 --decode > /tmp/cert.p12
-
         security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
         security set-keychain-settings -lut 21600 build.keychain
         security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
-
-        security import /tmp/cert.p12 \
-          -k build.keychain \
-          -P "${{ secrets.MACOS_CERTIFICATE_PASSWORD }}" \
-          -T /usr/bin/codesign
-
+        security import /tmp/cert.p12 -k build.keychain -P "${{ secrets.MACOS_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign -T /usr/bin/security -T /usr/bin/productbuild
         security list-keychain -d user -s build.keychain
-        security set-key-partition-list -S apple-tool:,apple:,codesign: \
-          -s -k "$KEYCHAIN_PASSWORD" build.keychain
-
+        security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
         rm -f /tmp/cert.p12
 
-    # ========================
-    # x64
-    # ========================
-    - name: Build x64
+    - name: Build
       run: |
-        dotnet publish -r osx-x64 --self-contained true \
-          -p:PublishSingleFile=true \
-          -p:IncludeNativeLibrariesForSelfExtract=true \
-          -o publish-x64
+        dotnet publish -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-x64
+        dotnet publish -r osx-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-arm64
 
-    - name: Make & Sign app (x64)
+    - name: Make app-x64
       run: |
-        APP=UotanToolbox-x64.app
+        mkdir UotanToolbox.app
+        mkdir UotanToolbox.app/Contents
+        mkdir UotanToolbox.app/Contents/MacOS
+        mkdir UotanToolbox.app/Contents/Resources
+        cp /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/Info.plist ./UotanToolbox.app/Contents/Info.plist
+        cp /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/PkgInfo ./UotanToolbox.app/Contents/PkgInfo
+        cp /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/Icon.icns ./UotanToolbox.app/Contents/Resources/Icon.icns
+        cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
+        cp -r ./publish-x64/* ./UotanToolbox.app/Contents/MacOS/
+        codesign --force --options runtime --entitlements ./entitlements.plist --timestamp --deep --sign "${{ secrets.MACOS_CERTIFICATE_NAME }}" ./UotanToolbox.app
+        zip -rq ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        xcrun notarytool submit ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
+        xcrun stapler staple -v ./UotanToolbox.app
+        rm -rf ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
+        zip -rq ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        rm -rf ./UotanToolbox.app/Contents/MacOS/*
+        
 
-        mkdir -p $APP/Contents/{MacOS,Resources}
-
-        cp UotanToolbox/Assets/macOS/Info.plist $APP/Contents/Info.plist
-        cp UotanToolbox/Assets/macOS/PkgInfo $APP/Contents/PkgInfo
-        cp UotanToolbox/Assets/macOS/Icon.icns $APP/Contents/Resources/Icon.icns
-
-        cp publish-x64/* $APP/Contents/MacOS/
-
-        # ① 签 Mach-O
-        codesign --force \
-          --options runtime \
-          --timestamp \
-          --entitlements entitlements.plist \
-          --sign "$CERT_NAME" \
-          $APP/Contents/MacOS/UotanToolbox
-
-        # ② 签 .app
-        codesign --force \
-          --options runtime \
-          --timestamp \
-          --entitlements entitlements.plist \
-          --sign "$CERT_NAME" \
-          $APP
-
-        # 校验
-        codesign --verify --strict --verbose=4 $APP
-        spctl -a -vv $APP
-
-        zip -r UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip $APP
-
-        xcrun notarytool submit UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip \
-          --apple-id "$APPLE_ID" \
-          --team-id "$APPLE_TEAM_ID" \
-          --password "$APPLE_APP_SPECIFIC_PASSWORD" \
-          --wait
-
-        xcrun stapler staple $APP
-
-    # ========================
-    # arm64
-    # ========================
-    - name: Build arm64
+    - name: Make app-arm64
       run: |
-        dotnet publish -r osx-arm64 --self-contained true \
-          -p:PublishSingleFile=true \
-          -p:IncludeNativeLibrariesForSelfExtract=true \
-          -o publish-arm64
+        cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
+        cp -r ./publish-arm64/* ./UotanToolbox.app/Contents/MacOS/
+        zip -rq ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        xcrun notarytool submit ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
+        xcrun stapler staple -v ./UotanToolbox.app
+        rm -rf ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
+        zip -rq ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        rm -rf ./UotanToolbox.app/Contents/MacOS/*
 
-    - name: Make & Sign app (arm64)
-      run: |
-        APP=UotanToolbox-arm64.app
-
-        mkdir -p $APP/Contents/{MacOS,Resources}
-
-        cp UotanToolbox/Assets/macOS/Info.plist $APP/Contents/Info.plist
-        cp UotanToolbox/Assets/macOS/PkgInfo $APP/Contents/PkgInfo
-        cp UotanToolbox/Assets/macOS/Icon.icns $APP/Contents/Resources/Icon.icns
-
-        cp publish-arm64/* $APP/Contents/MacOS/
-
-        codesign --force \
-          --options runtime \
-          --timestamp \
-          --entitlements entitlements.plist \
-          --sign "$CERT_NAME" \
-          $APP/Contents/MacOS/UotanToolbox
-
-        codesign --force \
-          --options runtime \
-          --timestamp \
-          --entitlements entitlements.plist \
-          --sign "$CERT_NAME" \
-          $APP
-
-        codesign --verify --strict --verbose=4 $APP
-        spctl -a -vv $APP
-
-        zip -r UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip $APP
-
-        xcrun notarytool submit UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip \
-          --apple-id "$APPLE_ID" \
-          --team-id "$APPLE_TEAM_ID" \
-          --password "$APPLE_APP_SPECIFIC_PASSWORD" \
-          --wait
-
-        xcrun stapler staple $APP
-
-    - name: Upload Artifacts
+    - name: Upload
       uses: actions/upload-artifact@v4
       with:
-        name: macOS-Packages
-        path: |
-          UotanToolbox_macOS_x64_*.zip
-          UotanToolbox_macOS_arm64_*.zip
+        name: macOS-Package
+        path: ./UotanToolbox_macOS*

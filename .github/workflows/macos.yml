@@ -21,6 +21,12 @@ on:
 jobs:
   macos-app:
     runs-on: macos-latest
+    env:
+      CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
+      KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -38,6 +44,22 @@ jobs:
     - name: Clone Binary
       run: git clone https://github.com/Uotan-Dev/UotanToolboxNT.Binary.git -b ${{ inputs.BINARY_BRANCH }}
 
+    - name: Import macOS signing certificate
+      run: |
+        set -euo pipefail
+        if [ ! -f ./entitlements.plist ]; then
+          echo "entitlements.plist not found in repo root."
+          exit 1
+        fi
+        echo "${{ secrets.MACOS_CERTIFICATE_BASE64 }}" | base64 --decode > /tmp/cert.p12
+        security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+        security set-keychain-settings -lut 21600 build.keychain
+        security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+        security import /tmp/cert.p12 -k build.keychain -P "${{ secrets.MACOS_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign -T /usr/bin/security -T /usr/bin/productbuild
+        security list-keychain -d user -s build.keychain
+        security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+        rm -f /tmp/cert.p12
+
     - name: Build
       run: |
         dotnet publish -r osx-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-x64
@@ -54,7 +76,11 @@ jobs:
         cp /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/Icon.icns ./UotanToolbox.app/Contents/Resources/Icon.icns
         cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
         cp -r ./publish-x64/* ./UotanToolbox.app/Contents/MacOS/
+        codesign --force --deep --options runtime --timestamp --entitlements ./entitlements.plist --sign "$CERT_NAME" ./UotanToolbox.app
         zip -rq ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        codesign --force --timestamp --sign "$CERT_NAME" ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
+        xcrun notarytool submit ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
+        xcrun stapler staple -v ./UotanToolbox.app
         rm -rf ./UotanToolbox.app/Contents/MacOS/*
         
 
@@ -62,7 +88,11 @@ jobs:
       run: |
         cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
         cp -r ./publish-arm64/* ./UotanToolbox.app/Contents/MacOS/
+        codesign --force --deep --options runtime --timestamp --entitlements ./entitlements.plist --sign "$CERT_NAME" ./UotanToolbox.app
         zip -rq ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        codesign --force --timestamp --sign "$CERT_NAME" ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
+        xcrun notarytool submit ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
+        xcrun stapler staple -v ./UotanToolbox.app
         rm -rf ./UotanToolbox.app/Contents/MacOS/*
 
     - name: Upload

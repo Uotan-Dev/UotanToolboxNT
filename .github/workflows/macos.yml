@@ -15,16 +15,17 @@ on:
         required: true
         default: false
 
-      env:
-        CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
-        KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
-        APPLE_ID: ${{ secrets.APPLE_ID }}
-        APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+
 
 jobs:
   macos-app:
     runs-on: macos-latest
+    env:
+      CERT_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
+      KEYCHAIN_PASSWORD: ${{ secrets.MACOS_KEYCHAIN_PASSWORD }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}steps:
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET

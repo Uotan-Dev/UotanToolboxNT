@@ -76,11 +76,11 @@ jobs:
         cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
         cp -r ./publish-x64/* ./UotanToolbox.app/Contents/MacOS/
         codesign --force --options runtime --entitlements ./entitlements.plist --timestamp --deep --sign "${{ secrets.MACOS_CERTIFICATE_NAME }}" ./UotanToolbox.app
-        zip -rq ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        ditto -c -k --keepParent ./UotanToolbox.app ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
         xcrun notarytool submit ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
         xcrun stapler staple -v ./UotanToolbox.app
         rm -rf ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
-        zip -rq ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        ditto -c -k --keepParent ./UotanToolbox.app ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
         rm -rf ./UotanToolbox.app/Contents/MacOS/*
         
 
@@ -88,11 +88,12 @@ jobs:
       run: |
         cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
         cp -r ./publish-arm64/* ./UotanToolbox.app/Contents/MacOS/
-        zip -rq ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        codesign --force --options runtime --entitlements ./entitlements.plist --timestamp --deep --sign "${{ secrets.MACOS_CERTIFICATE_NAME }}" ./UotanToolbox.app
+        ditto -c -k --keepParent ./UotanToolbox.app ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
         xcrun notarytool submit ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
         xcrun stapler staple -v ./UotanToolbox.app
         rm -rf ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
-        zip -rq ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip ./UotanToolbox.app
+        ditto -c -k --keepParent ./UotanToolbox.app ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
         rm -rf ./UotanToolbox.app/Contents/MacOS/*
 
     - name: Upload

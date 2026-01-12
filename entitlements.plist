@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+ "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+    <!-- ========== Hardened Runtime 核心例外 ========== -->
+
+    <!-- 允许 JIT / 动态代码生成 -->
+    <key>com.apple.security.cs.allow-jit</key>
+    <true/>
+
+    <!-- 允许可写 + 可执行内存（JIT / VM / 自解压） -->
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <true/>
+
+    <!-- 允许动态链接未签名 dylib -->
+    <key>com.apple.security.cs.disable-library-validation</key>
+    <true/>
+
+    <!-- 允许调试 / ptrace / task_for_pid -->
+    <key>com.apple.security.cs.debugger</key>
+    <true/>
+
+    <!-- 允许 fork / exec / system / adb -->
+    <key>com.apple.security.cs.allow-executable-memory</key>
+    <true/>
+
+    <!-- 允许运行未签名的子进程 -->
+    <key>com.apple.security.cs.allow-unsigned-executable</key>
+    <true/>
+
+    <!-- ========== 网络（Hardened Runtime 默认允许，但显式写） ========== -->
+
+    <key>com.apple.security.network.client</key>
+    <true/>
+
+    <key>com.apple.security.network.server</key>
+    <true/>
+
+    <!-- ========== 文件系统（非沙盒下其实不限制，但写了更明确） ========== -->
+
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+
+    <!-- ========== USB / 外设（adb 场景） ========== -->
+
+    <key>com.apple.security.device.usb</key>
+    <true/>
+
+</dict>
+</plist>

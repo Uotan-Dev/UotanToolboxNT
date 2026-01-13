@@ -19,7 +19,7 @@ namespace UotanToolbox;
 
 public partial class MainView : SukiWindow
 {
-    private const double AspectRatio = 1235.0 / 840.0; // Éè¶¨Ä¿±ê¿í¸ß±È£¨Èç16:9£©
+    private const double AspectRatio = 1235.0 / 840.0; // ï¿½è¶¨Ä¿ï¿½ï¿½ï¿½ï¿½ß±È£ï¿½ï¿½ï¿½16:9ï¿½ï¿½
     private Size _lastSize = new Size(1235, 840);
 
     public MainView()
@@ -27,10 +27,10 @@ public partial class MainView : SukiWindow
         InitializeComponent();
         Bitmap bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
         Icon = new WindowIcon(bitmap);
-        //SetSystemDecorationsBasedOnPlatform();
+        SetSystemDecorationsBasedOnPlatform();
         this.GetObservable(ClientSizeProperty).Subscribe(OnClientSizeChanged);
     }
-    // ´°¿Ú³ß´ç±ä»¯Ê±´¥·¢
+    // ï¿½ï¿½ï¿½Ú³ß´ï¿½ä»¯Ê±ï¿½ï¿½ï¿½ï¿½
     private void OnClientSizeChanged(Size newSize)
     {
         double deltaWidth = Math.Abs(newSize.Width - _lastSize.Width);
@@ -38,14 +38,14 @@ public partial class MainView : SukiWindow
 
         if (deltaWidth > deltaHeight)
         {
-            // ÓÃ»§Ö÷ÒªÔÚÍÏ¶¯¿í¶È
+            // ï¿½Ã»ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½ï¿½
             double expectedHeight = newSize.Width / AspectRatio;
             if (Math.Abs(newSize.Height - expectedHeight) > 1)
                 this.Height = expectedHeight;
         }
         else
         {
-            // ÓÃ»§Ö÷ÒªÔÚÍÏ¶¯¸ß¶È
+            // ï¿½Ã»ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ß¶ï¿½
             double expectedWidth = newSize.Height * AspectRatio;
             if (Math.Abs(newSize.Width - expectedWidth) > 1)
                 this.Width = expectedWidth;

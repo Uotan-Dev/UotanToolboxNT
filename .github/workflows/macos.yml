@@ -43,6 +43,9 @@ jobs:
     - name: Clone Binary
       run: git clone https://github.com/Uotan-Dev/UotanToolboxNT.Binary.git -b ${{ inputs.BINARY_BRANCH }}
 
+    - name: Install create-dmg
+      run: brew install create-dmg
+
     - name: Import macOS signing certificate
       run: |
         set -euo pipefail

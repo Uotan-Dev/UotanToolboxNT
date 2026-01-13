@@ -46,8 +46,8 @@ jobs:
     - name: Import macOS signing certificate
       run: |
         set -euo pipefail
-        if [ ! -f ./entitlements.plist ]; then
-          echo "entitlements.plist not found in repo root."
+        if [ ! -f /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/MacOS/entitlements.plist ]; then
+          echo "entitlements.plist not found in repo designated folder."
           exit 1
         fi
         echo "${{ secrets.MACOS_CERTIFICATE_BASE64 }}" | base64 --decode > /tmp/cert.p12

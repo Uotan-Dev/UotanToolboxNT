@@ -75,12 +75,16 @@ jobs:
         cp /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/Icon.icns ./UotanToolbox.app/Contents/Resources/Icon.icns
         cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
         cp -r ./publish-x64/* ./UotanToolbox.app/Contents/MacOS/
-        codesign --force --options runtime --entitlements ./entitlements.plist --timestamp --deep --sign "${{ secrets.MACOS_CERTIFICATE_NAME }}" ./UotanToolbox.app
+        codesign --force --options runtime --entitlements /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/MacOS/entitlements.plist --timestamp --deep --sign "${{ secrets.MACOS_CERTIFICATE_NAME }}" ./UotanToolbox.app
         ditto -c -k --keepParent ./UotanToolbox.app ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
         xcrun notarytool submit ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
         xcrun stapler staple -v ./UotanToolbox.app
         rm -rf ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
-        ditto -c -k --keepParent ./UotanToolbox.app ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.zip
+        mkdir -p dmg-root
+        cp -R "./UotanToolbox.app" "dmg-root/"
+        ln -s /Applications "dmg-root/Applications"
+        ls -la dmg-root
+        create-dmg --volname "UotanToolbox" --background "/Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/dmgbackground.tiff" --window-size 600 410 --icon-size 96 --icon "UotanToolbox.app" 160 220 --icon "Applications" 440 220 --hide-extension "UotanToolbox.app" --filesystem APFS ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.dmg dmg-root/
         rm -rf ./UotanToolbox.app/Contents/MacOS/*
         
 
@@ -88,13 +92,17 @@ jobs:
       run: |
         cp -r ./UotanToolboxNT.Binary/macOS/* ./UotanToolbox.app/Contents/MacOS/
         cp -r ./publish-arm64/* ./UotanToolbox.app/Contents/MacOS/
-        codesign --force --options runtime --entitlements ./entitlements.plist --timestamp --deep --sign "${{ secrets.MACOS_CERTIFICATE_NAME }}" ./UotanToolbox.app
+        codesign --force --options runtime --entitlements /Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/MacOS/entitlements.plist --timestamp --deep --sign "${{ secrets.MACOS_CERTIFICATE_NAME }}" ./UotanToolbox.app
         ditto -c -k --keepParent ./UotanToolbox.app ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
         xcrun notarytool submit ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip --apple-id "$APPLE_ID" --team-id "$APPLE_TEAM_ID" --password "$APPLE_APP_SPECIFIC_PASSWORD" --wait
         xcrun stapler staple -v ./UotanToolbox.app
         rm -rf ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
-        ditto -c -k --keepParent ./UotanToolbox.app ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.zip
-        rm -rf ./UotanToolbox.app/Contents/MacOS/*
+        rm -rf dmg-root
+        mkdir -p dmg-root
+        cp -R "./UotanToolbox.app" "dmg-root/"
+        ln -s /Applications "dmg-root/Applications"
+        ls -la dmg-root
+        create-dmg --volname "UotanToolbox" --background "/Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/dmgbackground.tiff" --window-size 600 410 --icon-size 96 --icon "UotanToolbox.app" 160 220 --icon "Applications" 440 220 --hide-extension "UotanToolbox.app" --filesystem APFS ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.dmg dmg-root/        rm -rf ./UotanToolbox.app/Contents/MacOS/*
 
     - name: Upload
       uses: actions/upload-artifact@v4

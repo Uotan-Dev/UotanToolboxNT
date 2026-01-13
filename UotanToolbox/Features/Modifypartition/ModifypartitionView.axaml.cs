@@ -115,7 +115,7 @@ public partial class ModifypartitionView : UserControl
         }
         if (choice != "")
         {
-            string[] parts = choice.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
+            string[] parts = [.. choice.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line))];
             if (parts.Length > 6)
             {
                 string size = string.Format("{0}", StringHelper.DiskSize(parts));
@@ -217,7 +217,7 @@ public partial class ModifypartitionView : UserControl
                     Global.checkdevice = false;
                     string allinfo = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                     string[] parts = new string[1000];
-                    string[] allinfos = allinfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] allinfos = allinfo.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
                     for (int i = 0; i < allinfos.Length; i++)
                     {
                         if (allinfos[i].Contains("partition-size"))
@@ -225,11 +225,11 @@ public partial class ModifypartitionView : UserControl
                             parts[i] = allinfos[i];
                         }
                     }
-                    parts = parts.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                    parts = [.. parts.Where(s => !string.IsNullOrEmpty(s))];
                     PartModel[] part = new PartModel[parts.Length];
                     for (int i = 0; i < parts.Length; i++)
                     {
-                        string[] partinfos = parts[i].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] partinfos = parts[i].Split([':', ' '], StringSplitOptions.RemoveEmptyEntries);
                         string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
                         part[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
                     }
@@ -248,7 +248,7 @@ public partial class ModifypartitionView : UserControl
                     Global.checkdevice = false;
                     string allinfo = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
                     string[] parts = new string[1000];
-                    string[] allinfos = allinfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] allinfos = allinfo.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
                     if ((bool)ShowAllPart.IsChecked)
                     {
                         for (int i = 0; i < allinfos.Length; i++)
@@ -258,11 +258,11 @@ public partial class ModifypartitionView : UserControl
                                 parts[i] = allinfos[i];
                             }
                         }
-                        parts = parts.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                        parts = [.. parts.Where(s => !string.IsNullOrEmpty(s))];
                         PartModel[] part = new PartModel[parts.Length];
                         for (int i = 0; i < parts.Length; i++)
                         {
-                            string[] partinfos = parts[i].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            string[] partinfos = parts[i].Split([':', ' '], StringSplitOptions.RemoveEmptyEntries);
                             string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
                             part[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
                         }
@@ -274,11 +274,11 @@ public partial class ModifypartitionView : UserControl
                         {
                             if (allinfos[i].Contains("is-logical") && allinfos[i].Contains("yes"))
                             {
-                                string[] vpartinfos = allinfos[i].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                string[] vpartinfos = allinfos[i].Split([':', ' '], StringSplitOptions.RemoveEmptyEntries);
                                 parts[i] = vpartinfos[2];
                             }
                         }
-                        parts = parts.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                        parts = [.. parts.Where(s => !string.IsNullOrEmpty(s))];
                         PartModel[] vpart = new PartModel[parts.Length];
                         for (int i = 0; i < parts.Length; i++)
                         {
@@ -286,7 +286,7 @@ public partial class ModifypartitionView : UserControl
                             {
                                 if (allinfos[j].Contains("partition-size"))
                                 {
-                                    string[] partinfos = allinfos[j].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                                    string[] partinfos = allinfos[j].Split([':', ' '], StringSplitOptions.RemoveEmptyEntries);
                                     if (partinfos[2] == parts[i])
                                     {
                                         string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));

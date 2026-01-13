@@ -798,7 +798,7 @@ public partial class FormatExtractView : UserControl
                     string vmpart = await CallExternalProgram.ADB(shell);
                     if (!vmpart.Contains("No such file or directory"))
                     {
-                        char[] charSeparators = { ' ', '\r', '\n' };
+                        char[] charSeparators = [' ', '\r', '\n'];
                         string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                         string devicepoint = line[^1];
                         shell = string.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of={partname}.img");
@@ -856,7 +856,7 @@ public partial class FormatExtractView : UserControl
                                                     string vmpart = await CallExternalProgram.ADB(shell);
                                                     if (!vmpart.Contains("No such file or directory"))
                                                     {
-                                                        char[] charSeparators = { ' ', '\r', '\n' };
+                                                        char[] charSeparators = [' ', '\r', '\n'];
                                                         string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                                                         string devicepoint = line[^1];
                                                         shell = string.Format($"-s {Global.thisdevice} shell dd if={devicepoint} of=/sdcard/{partname}.img");
@@ -892,7 +892,7 @@ public partial class FormatExtractView : UserControl
                                                     string vmpart = await CallExternalProgram.ADB(shell);
                                                     if (!vmpart.Contains("No such file or directory"))
                                                     {
-                                                        char[] charSeparators = { ' ', '\r', '\n' };
+                                                        char[] charSeparators = [' ', '\r', '\n'];
                                                         string[] line = vmpart.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                                                         string devicepoint = line[^1];
                                                         shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if={devicepoint} of=/sdcard/{partname}.img\"");
@@ -986,14 +986,14 @@ public partial class FormatExtractView : UserControl
                 string partlist = "";
                 FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
                 await FeaturesHelper.GetPartTable(Global.thisdevice);
-                string[] diskTables = { Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom };
-                string[] diskNames = { "sda", "sde", "sdb", "sdc", "sdd", "sdf", "sdg", "sdh", "mmcblk0p" };
+                string[] diskTables = [Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom];
+                string[] diskNames = ["sda", "sde", "sdb", "sdc", "sdd", "sdf", "sdg", "sdh", "mmcblk0p"];
                 int desk = 0;
                 for (int i = 0; i < diskTables.Length; i++)
                 {
                     if (!string.IsNullOrEmpty(diskTables[i]))
                     {
-                        string[] parts = diskTables[i].Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
+                        string[] parts = [.. diskTables[i].Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line))];
                         if (parts.Length > 6)
                         {
                             PartModel[] part = new PartModel[parts.Length - 6];
@@ -1055,7 +1055,7 @@ public partial class FormatExtractView : UserControl
                         }
                     }
                 }
-                string[] otherpart = { "spl", "spl_a", "spl_b", "preloader_raw", "perloader_raw_a", "preloader_raw_b" };
+                string[] otherpart = ["spl", "spl_a", "spl_b", "preloader_raw", "perloader_raw_a", "preloader_raw_b"];
                 for (int i = 0; i < otherpart.Length; i++)
                 {
                     string shell = string.Format($"-s {Global.thisdevice} shell ls -l /dev/block/by-name/{otherpart[i]}");
@@ -1116,7 +1116,7 @@ public partial class FormatExtractView : UserControl
                     }
                 }
                 var sortedParts = partlist
-                    .Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
+                    .Split(["\r\n"], StringSplitOptions.RemoveEmptyEntries)
                     .Select(s => s.Trim())
                     .Where(s => !string.IsNullOrEmpty(s))
                     .OrderBy(s => s, StringComparer.OrdinalIgnoreCase)
@@ -1144,14 +1144,14 @@ public partial class FormatExtractView : UserControl
                                                 string partlist = "";
                                                 FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
                                                 await FeaturesHelper.GetPartTableSystemDebug(Global.thisdevice);
-                                                string[] diskTables = { Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom };
-                                                string[] diskNames = { "sda", "sde", "sdb", "sdc", "sdd", "sdf", "sdg", "sdh", "mmcblk0p" };
+                                                string[] diskTables = [Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom];
+                                                string[] diskNames = ["sda", "sde", "sdb", "sdc", "sdd", "sdf", "sdg", "sdh", "mmcblk0p"];
                                                 int desk = 0;
                                                 for (int i = 0; i < diskTables.Length; i++)
                                                 {
                                                     if (!string.IsNullOrEmpty(diskTables[i]))
                                                     {
-                                                        string[] parts = diskTables[i].Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
+                                                        string[] parts = [.. diskTables[i].Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line))];
                                                         if (parts.Length > 6)
                                                         {
                                                             PartModel[] part = new PartModel[parts.Length - 6];
@@ -1213,7 +1213,7 @@ public partial class FormatExtractView : UserControl
                                                         }
                                                     }
                                                 }
-                                                string[] otherpart = { "spl", "spl_a", "spl_b", "preloader_raw", "perloader_raw_a", "preloader_raw_b" };
+                                                string[] otherpart = ["spl", "spl_a", "spl_b", "preloader_raw", "perloader_raw_a", "preloader_raw_b"];
                                                 for (int i = 0; i < otherpart.Length; i++)
                                                 {
                                                     string shell = string.Format($"-s {Global.thisdevice} shell ls -l /dev/block/by-name/{otherpart[i]}");
@@ -1274,7 +1274,7 @@ public partial class FormatExtractView : UserControl
                                                     }
                                                 }
                                                 var sortedParts = partlist
-                                                    .Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
+                                                    .Split(["\r\n"], StringSplitOptions.RemoveEmptyEntries)
                                                     .Select(s => s.Trim())
                                                     .Where(s => !string.IsNullOrEmpty(s))
                                                     .OrderBy(s => s, StringComparer.OrdinalIgnoreCase)
@@ -1296,14 +1296,14 @@ public partial class FormatExtractView : UserControl
                                                 string partlist = "";
                                                 FormatExtractLog.Text = GetTranslation("FormatExtract_Extracting") + "\n";
                                                 await FeaturesHelper.GetPartTableSystem(Global.thisdevice);
-                                                string[] diskTables = { Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom };
-                                                string[] diskNames = { "sda", "sde", "sdb", "sdc", "sdd", "sdf", "sdg", "sdh", "mmcblk0p" };
+                                                string[] diskTables = [Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom];
+                                                string[] diskNames = ["sda", "sde", "sdb", "sdc", "sdd", "sdf", "sdg", "sdh", "mmcblk0p"];
                                                 int desk = 0;
                                                 for (int i = 0; i < diskTables.Length; i++)
                                                 {
                                                     if (!string.IsNullOrEmpty(diskTables[i]))
                                                     {
-                                                        string[] parts = diskTables[i].Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
+                                                        string[] parts = [.. diskTables[i].Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries).Where(line => !string.IsNullOrWhiteSpace(line))];
                                                         if (parts.Length > 6)
                                                         {
                                                             PartModel[] part = new PartModel[parts.Length - 6];
@@ -1365,7 +1365,7 @@ public partial class FormatExtractView : UserControl
                                                         }
                                                     }
                                                 }
-                                                string[] otherpart = { "spl", "spl_a", "spl_b", "preloader_raw", "preloader_raw_a", "preloader_raw_b" };
+                                                string[] otherpart = ["spl", "spl_a", "spl_b", "preloader_raw", "preloader_raw_a", "preloader_raw_b"];
                                                 for (int i = 0; i < otherpart.Length; i++)
                                                 {
                                                     string shell = string.Format($"-s {Global.thisdevice} shell su -c \"ls -l /dev/block/by-name/{otherpart[i]}\"");
@@ -1426,7 +1426,7 @@ public partial class FormatExtractView : UserControl
                                                     }
                                                 }
                                                 var sortedParts = partlist
-                                                    .Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries)
+                                                    .Split(["\r\n"], StringSplitOptions.RemoveEmptyEntries)
                                                     .Select(s => s.Trim())
                                                     .Where(s => !string.IsNullOrEmpty(s))
                                                     .OrderBy(s => s, StringComparer.OrdinalIgnoreCase)

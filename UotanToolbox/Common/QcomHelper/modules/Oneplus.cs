@@ -119,22 +119,22 @@ namespace UotanToolbox.Common.QcomHelper.modules
                 byte[] aesIv;
                 if (demacia)
                 {
-                    aesKey = CryptoHelper.Combine(new byte[] { 0x01, 0x63, 0xA0, 0xD1, 0xFD, 0xE2, 0x67, 0x11 }, Encoding.UTF8.GetBytes(pk), new byte[] { 0x48, 0x27, 0xC2, 0x08, 0xFB, 0xB0, 0xE6, 0xF0 });
-                    aesIv = new byte[] { 0x96, 0xE0, 0x79, 0x0C, 0xAE, 0x2B, 0xB4, 0xAF, 0x68, 0x4C, 0x36, 0xCB, 0x0B, 0xEC, 0x49, 0xCE };
+                    aesKey = CryptoHelper.Combine([0x01, 0x63, 0xA0, 0xD1, 0xFD, 0xE2, 0x67, 0x11], Encoding.UTF8.GetBytes(pk), [0x48, 0x27, 0xC2, 0x08, 0xFB, 0xB0, 0xE6, 0xF0]);
+                    aesIv = [0x96, 0xE0, 0x79, 0x0C, 0xAE, 0x2B, 0xB4, 0xAF, 0x68, 0x4C, 0x36, 0xCB, 0x0B, 0xEC, 0x49, 0xCE];
                 }
                 else
                 {
-                    aesKey = CryptoHelper.Combine(new byte[] { 0x10, 0x45, 0x63, 0x87, 0xE3, 0x7E, 0x23, 0x71 }, Encoding.UTF8.GetBytes(pk), new byte[] { 0xA2, 0xD4, 0xA0, 0x74, 0x0F, 0xD3, 0x28, 0x96 });
-                    aesIv = new byte[] { 0x9D, 0x61, 0x4A, 0x1E, 0xAC, 0x81, 0xC9, 0xB2, 0xD3, 0x76, 0xD7, 0x49, 0x31, 0x03, 0x63, 0x79 };
+                    aesKey = CryptoHelper.Combine([0x10, 0x45, 0x63, 0x87, 0xE3, 0x7E, 0x23, 0x71], Encoding.UTF8.GetBytes(pk), [0xA2, 0xD4, 0xA0, 0x74, 0x0F, 0xD3, 0x28, 0x96]);
+                    aesIv = [0x9D, 0x61, 0x4A, 0x1E, 0xAC, 0x81, 0xC9, 0xB2, 0xD3, 0x76, 0xD7, 0x49, 0x31, 0x03, 0x63, 0x79];
                 }
 
                 if (decrypt)
                 {
                     byte[] cdata = CryptoHelper.HexStringToByteArray(BitConverter.ToString(data).Replace("-", "").ToUpper());
                     byte[] result = CryptoHelper.AesCbcDecrypt(aesKey, aesIv, cdata);
-                    result = result.TakeWhile(b => b != 0).ToArray();
+                    result = [.. result.TakeWhile(b => b != 0)];
 
-                    if (Encoding.UTF8.GetString(result.Take(16).ToArray()) == "907heavyworkload")
+                    if (Encoding.UTF8.GetString([.. result.Take(16)]) == "907heavyworkload")
                     {
                         return BitConverter.ToString(result).Replace("-", "").ToUpper();
                     }
@@ -159,7 +159,7 @@ namespace UotanToolbox.Common.QcomHelper.modules
                         {
                             dataList.Add(0x00);
                         }
-                        data = dataList.ToArray();
+                        data = [.. dataList];
                     }
 
                 }
@@ -176,22 +176,22 @@ namespace UotanToolbox.Common.QcomHelper.modules
                 byte[] aesIv;
                 if (demacia)
                 {
-                    aesKey = CryptoHelper.Combine(new byte[] { 0x01, 0x63, 0xA0, 0xD1, 0xFD, 0xE2, 0x67, 0x11 }, Encoding.UTF8.GetBytes(pk), new byte[] { 0x48, 0x27, 0xC2, 0x08, 0xFB, 0xB0, 0xE6, 0xF0 });
-                    aesIv = new byte[] { 0x96, 0xE0, 0x79, 0x0C, 0xAE, 0x2B, 0xB4, 0xAF, 0x68, 0x4C, 0x36, 0xCB, 0x0B, 0xEC, 0x49, 0xCE };
+                    aesKey = CryptoHelper.Combine([0x01, 0x63, 0xA0, 0xD1, 0xFD, 0xE2, 0x67, 0x11], Encoding.UTF8.GetBytes(pk), [0x48, 0x27, 0xC2, 0x08, 0xFB, 0xB0, 0xE6, 0xF0]);
+                    aesIv = [0x96, 0xE0, 0x79, 0x0C, 0xAE, 0x2B, 0xB4, 0xAF, 0x68, 0x4C, 0x36, 0xCB, 0x0B, 0xEC, 0x49, 0xCE];
                 }
                 else
                 {
-                    aesKey = CryptoHelper.Combine(new byte[] { 0x10, 0x45, 0x63, 0x87, 0xE3, 0x7E, 0x23, 0x71 }, Encoding.UTF8.GetBytes(pk), new byte[] { 0xA2, 0xD4, 0xA0, 0x74, 0x0F, 0xD3, 0x28, 0x96 });
-                    aesIv = new byte[] { 0x9D, 0x61, 0x4A, 0x1E, 0xAC, 0x81, 0xC9, 0xB2, 0xD3, 0x76, 0xD7, 0x49, 0x31, 0x03, 0x63, 0x79 };
+                    aesKey = CryptoHelper.Combine([0x10, 0x45, 0x63, 0x87, 0xE3, 0x7E, 0x23, 0x71], Encoding.UTF8.GetBytes(pk), [0xA2, 0xD4, 0xA0, 0x74, 0x0F, 0xD3, 0x28, 0x96]);
+                    aesIv = [0x9D, 0x61, 0x4A, 0x1E, 0xAC, 0x81, 0xC9, 0xB2, 0xD3, 0x76, 0xD7, 0x49, 0x31, 0x03, 0x63, 0x79];
                 }
 
                 if (decrypt)
                 {
                     byte[] cdata = CryptoHelper.HexStringToByteArray(BitConverter.ToString(data).Replace("-", "").ToUpper());
                     byte[] result = CryptoHelper.AesCbcDecrypt(aesKey, aesIv, cdata);
-                    result = result.TakeWhile(b => b != 0).ToArray();
+                    result = [.. result.TakeWhile(b => b != 0)];
 
-                    if (Encoding.UTF8.GetString(result.Take(16).ToArray()) == "907heavyworkload")
+                    if (Encoding.UTF8.GetString([.. result.Take(16)]) == "907heavyworkload")
                     {
                         return BitConverter.ToString(result).Replace("-", "").ToUpper();
                     }
@@ -216,7 +216,7 @@ namespace UotanToolbox.Common.QcomHelper.modules
                         {
                             dataList.Add(0x00);
                         }
-                        data = dataList.ToArray();
+                        data = [.. dataList];
                     }
 
                 }
@@ -233,14 +233,14 @@ namespace UotanToolbox.Common.QcomHelper.modules
             string secret = CryptoHelper.ComputeSha256Hash(h2).ToUpper();
             if (program)
             {
-                string[] items = { timestamp, secret };
+                string[] items = [timestamp, secret];
                 string data = string.Join(",", items);
                 string token = CryptToken1(Encoding.UTF8.GetBytes(data), pk);
                 return token;
             }
             else
             {
-                string[] items = { ModelVerifyPrjName, random_postfix, ModelVerifyHashToken, Version, cf.ToString(), soc_sn, timestamp, secret };
+                string[] items = [ModelVerifyPrjName, random_postfix, ModelVerifyHashToken, Version, cf.ToString(), soc_sn, timestamp, secret];
                 string data = string.Join(",", items);
                 string token = CryptToken1(Encoding.UTF8.GetBytes(data), pk);
                 return token;

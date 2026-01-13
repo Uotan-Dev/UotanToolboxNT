@@ -140,10 +140,9 @@ public partial class AppmgrViewModel : MainPageBase
                         return new ApplicationInfo { Name = packageName, DisplayName = StringHelper.RemoveLineFeed(displayName), OtherInfo = otherInfo };
                     });
                     allApplicationInfos = await Task.WhenAll(applicationInfosTasks);
-                    applicationInfos = allApplicationInfos.Where(info => info != null)
+                    applicationInfos = [.. allApplicationInfos.Where(info => info != null)
                                                              .OrderByDescending(app => app.Size)
-                                                             .ThenBy(app => app.Name)
-                                                             .ToList();
+                                                             .ThenBy(app => app.Name)];
                     Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
                     await CallExternalProgram.ADB($"-s {Global.thisdevice} shell rm /data/local/tmp/list_apps");
                 }
@@ -161,16 +160,15 @@ public partial class AppmgrViewModel : MainPageBase
                         if (i == applicationInfo.Length % 10)
                         {
                             OHApplicationInfos = applicationInfo;
-                            OHApplicationList = OHApplicationInfos.Where(info => info != null)
+                            OHApplicationList = [.. OHApplicationInfos.Where(info => info != null)
                                                               .OrderByDescending(app => app.Size)
-                                                              .ThenBy(app => app.Name)
-                                                              .ToList();
+                                                              .ThenBy(app => app.Name)];
                             Applications = new ObservableCollection<ApplicationInfo>(OHApplicationList);
                             IsBusy = false;
                         }
                         if (i % (applicationInfo.Length % 10) == 0 && i != applicationInfo.Length % 10)
                         {
-                            OHApplicationInfos = applicationInfo.Skip(i - (applicationInfo.Length % 10)).Take(i).ToArray();
+                            OHApplicationInfos = [.. applicationInfo.Skip(i - (applicationInfo.Length % 10)).Take(i)];
                             OHApplicationList.AddRange(OHApplicationInfos.Where(info => info != null)
                                                               .OrderByDescending(app => app.Size)
                                                               .ThenBy(app => app.Name)
@@ -179,10 +177,9 @@ public partial class AppmgrViewModel : MainPageBase
                         }
                     }
                     allApplicationInfos = applicationInfo;
-                    applicationInfos = allApplicationInfos.Where(info => info != null)
+                    applicationInfos = [.. allApplicationInfos.Where(info => info != null)
                                                       .OrderByDescending(app => app.Size)
-                                                      .ThenBy(app => app.Name)
-                                                      .ToList();
+                                                      .ThenBy(app => app.Name)];
                 }
                 else
                 {

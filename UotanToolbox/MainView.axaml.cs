@@ -104,8 +104,8 @@ public partial class MainView : SukiWindow
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            string[] terminalCommands = new string[]
-            {
+            string[] terminalCommands =
+            [
             "x-terminal-emulator",  // Generic terminal emulator
             "gnome-terminal",       // GNOME terminal
             "deepin-terminal",      // deepin terminal
@@ -118,7 +118,7 @@ public partial class MainView : SukiWindow
             "xterm",                 // Xterm as fallback
             "kitty",                // Kitty terminal
             "wezterm"              // Wezterm terminal
-            };
+            ];
 
             foreach (string terminal in terminalCommands)
             {

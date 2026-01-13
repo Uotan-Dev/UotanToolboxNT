@@ -233,7 +233,7 @@ public partial class WiredflashView : UserControl
                     {
                         imgpath = fbtxt[..fbtxt.LastIndexOf('/')] + "/images";
                         string fbparts = FileHelper.Readtxt(fbtxt);
-                        char[] charSeparators = new char[] { '\r', '\n' };
+                        char[] charSeparators = ['\r', '\n'];
                         string[] fbflashparts = fbparts.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                         //机型识别
                         int c = 0;
@@ -331,7 +331,7 @@ public partial class WiredflashView : UserControl
                         }
                         imgpath = fbdtxt[..fbdtxt.LastIndexOf('/')] + "/images";
                         string fbdparts = FileHelper.Readtxt(fbdtxt);
-                        char[] charSeparators = new char[] { '\r', '\n' };
+                        char[] charSeparators = ['\r', '\n'];
                         string[] fbdflashparts = fbdparts.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
                         int c = 0;
                         if (fbdflashparts[c].Contains("codename"))

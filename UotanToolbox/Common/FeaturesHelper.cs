@@ -76,24 +76,24 @@ namespace UotanToolbox.Common
         public static string[] GetVPartList(string allinfo)
         {
             string[] vparts = new string[1000];
-            string[] allinfos = allinfo.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] allinfos = allinfo.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < allinfos.Length; i++)
             {
                 if (allinfos[i].Contains("is-logical") && allinfos[i].Contains("yes"))
                 {
-                    string[] vpartinfos = allinfos[i].Split(new char[] { ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] vpartinfos = allinfos[i].Split([':', ' '], StringSplitOptions.RemoveEmptyEntries);
                     vparts[i] = vpartinfos[2];
                 }
             }
-            vparts = vparts.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+            vparts = [.. vparts.Where(s => !string.IsNullOrEmpty(s))];
             return vparts;
         }
 
         public static string FindDisk(string Partname)
         {
             string sdxdisk = "";
-            string[] diskTables = { Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom };
-            string[] diskNames = { "sda", "sde", "sdb", "sdc", "sdd", "sdf", "sdg", "sdh", "mmcblk0p" };
+            string[] diskTables = [Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom];
+            string[] diskNames = ["sda", "sde", "sdb", "sdc", "sdd", "sdf", "sdg", "sdh", "mmcblk0p"];
             for (int i = 0; i < diskTables.Length; i++)
             {
                 if (diskTables[i].Contains(Partname))
@@ -111,7 +111,7 @@ namespace UotanToolbox.Common
         public static string FindPart(string Partname)
         {
             string sdxdisk = "";
-            string[] diskTables = { Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom };
+            string[] diskTables = [Global.sdatable, Global.sdetable, Global.sdbtable, Global.sdctable, Global.sddtable, Global.sdftable, Global.sdgtable, Global.sdhtable, Global.emmcrom];
             foreach (string diskTable in diskTables)
             {
                 if (diskTable.IndexOf(Partname) != -1)

@@ -29,27 +29,8 @@ namespace UotanToolbox.Common.PatchHelper
             {
                 throw new Exception(GetTranslation("Basicflash_FatalError"));
             }
-            Dictionary<string, string> lkm_dict = new Dictionary<string, string>
-            {
-                {"01d17cd7027c752add00f10e65952f9ba766050d" , "1.0.0"},
-                {"fc071efd0b0d89b589f60c0819104d8a3ad6683f" , "1.0.0"},
-                {"575b9baf2ecc7dc94fbccfef2a381962b40efdbd" , "1.0.0"},
-                {"0fc7d297139587c0b4a3bea6384f9a23e24b89da" , "1.0.0"},
-                {"0cf6d72ef11db286dcb719f67e9cb3335ed1a397" , "1.0.0"},
-                {"c271a5c2dfdbb0070c49c8276d691ce13a3e5938" , "1.0.1"},
-                {"4a816aadf741dbfeb84d31c09cefa4f19b748e2f" , "1.0.1"},
-                {"0022acdfd7e827ca2828c4803f9fc38efc05446e" , "1.0.1"},
-                {"4f8542a4c3fc76613b75b13d34c8baa6a3954bdf" , "1.0.1"},
-                {"2c2c51cb82d80d022687c287f1539aecdd93e8f4" , "1.0.1"}
-            };
-            if (lkm_dict.TryGetValue(Zipinfo.SHA1, out string lkm_version))
-            {
                 File.Copy(Zipinfo.Path, Path.Combine(Zipinfo.TempPath, "kernelsu.ko"), true);
                 Zipinfo.Mode = PatchMode.LKM;
-
-            }
-            else
-            {
                 await Task.Run(() =>
                 {
                     using IArchive archive = ArchiveFactory.Open(path);
@@ -67,14 +48,11 @@ namespace UotanToolbox.Common.PatchHelper
                     : File.Exists(Path.Combine(Zipinfo.TempPath, "Image"))
                         ? PatchMode.GKI
                         : throw new Exception(GetTranslation("Basicflash_ZipError"));
-            }
+            
             switch (Zipinfo.Mode)
             {
                 case PatchMode.Magisk:
                     Zipinfo.SubSHA1 = await FileHelper.SHA1HashAsync(Path.Combine(Zipinfo.TempPath, "assets", "util_functions.sh"));
-                    Zipinfo.Version = Magisk_Ver(Zipinfo.SHA1);
-                    await Magisk_Pre(Zipinfo.TempPath);
-                    await Magisk_Compress(Zipinfo.TempPath);
                     Zipinfo.IsUseful = true;
                     break;
                 case PatchMode.GKI:
@@ -102,96 +80,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             return Zipinfo;
         }
-        private static string Magisk_Ver(string SHA1)
-        {
-            Dictionary<string, string> version_dict = new Dictionary<string, string>
-            {
-                //{"84c3cdea6f4b10d0e2abeb24bdfead502a348a63" , "28000"},
-                {"872199f3781706f51b84d8a89c1d148d26bcdbad" , "27000"},
-                {"dc7db76b5fb895d34b7274abb6ca59b56590a784" , "26400"},
-                {"d052b0e1c1a83cb25739eb87471ba6d8791f4b5a" , "26300"}
-             //其他的支持还没写，你要是看到这段文字可以考虑一下帮我写写然后PR到仓库。 -zicai
-            };
-            return version_dict.TryGetValue(SHA1, out string magisk_ver) ? magisk_ver : throw new Exception(GetTranslation("Basicflash_MagsikError"));
-        }
-        private static async Task Magisk_Pre(string temp_path)
-        {
-            List<(string SourcePath, string DestinationPath)> filesToCopy;
-            if (File.Exists(Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk32.so")))
-            {
-
-                filesToCopy =
-                [
-                    (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(temp_path, "lib", "armeabi-v7a", "magisk32")),
-                (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "armeabi-v7a", "init")),
-                (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk32.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "magisk32")),
-                (Path.Combine(temp_path, "lib", "arm64-v8a", "libmagisk64.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "magisk64")),
-                (Path.Combine(temp_path, "lib", "arm64-v8a", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "init")),
-                (Path.Combine(temp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(temp_path, "lib", "x86", "magisk32")),
-                (Path.Combine(temp_path, "lib", "x86", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "x86", "init")),
-                (Path.Combine(temp_path, "lib", "x86", "libmagisk32.so"), Path.Combine(temp_path, "lib", "x86_64", "magisk32")),
-                (Path.Combine(temp_path, "lib", "x86_64", "libmagisk64.so"), Path.Combine(temp_path, "lib", "x86_64", "magisk64")),
-                (Path.Combine(temp_path, "lib", "x86_64", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "x86_64", "init"))
-                ];
-            }
-            else
-            {
-                filesToCopy =
-                [
-                (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk.so"), Path.Combine(temp_path, "lib", "armeabi-v7a", "magisk32")),
-                (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "armeabi-v7a", "init")),
-                (Path.Combine(temp_path, "lib", "armeabi-v7a", "libmagisk.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "magisk32")),
-                (Path.Combine(temp_path, "lib", "arm64-v8a", "libmagisk.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "magisk64")),
-                (Path.Combine(temp_path, "lib", "arm64-v8a", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "arm64-v8a", "init")),
-                (Path.Combine(temp_path, "lib", "x86", "libmagisk.so"), Path.Combine(temp_path, "lib", "x86", "magisk32")),
-                (Path.Combine(temp_path, "lib", "x86", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "x86", "init")),
-                (Path.Combine(temp_path, "lib", "x86", "libmagisk.so"), Path.Combine(temp_path, "lib", "x86_64", "magisk32")),
-                (Path.Combine(temp_path, "lib", "x86_64", "libmagisk.so"), Path.Combine(temp_path, "lib", "x86_64", "magisk64")),
-                (Path.Combine(temp_path, "lib", "x86_64", "libmagiskinit.so"), Path.Combine(temp_path, "lib", "x86_64", "init"))
-                ];
-            }
-            await Task.WhenAll(filesToCopy.Select(async file =>
-            {
-                try
-                {
-                    using FileStream sourceStream = new FileStream(file.SourcePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                    using FileStream destStream = new FileStream(file.DestinationPath, FileMode.Create, FileAccess.Write, FileShare.None);
-                    int bufferSize = Math.Min(4096, (int)(sourceStream.Length / 1024));
-                    byte[] buffer = new byte[bufferSize];
-                    int bytesRead;
-                    while ((bytesRead = await sourceStream.ReadAsync(buffer, 0, bufferSize)) > 0)
-                    {
-                        await destStream.WriteAsync(buffer, 0, bytesRead);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"Error copying file from {file.SourcePath} to {file.DestinationPath}: {ex.Message}");
-                }
-            }));
-        }
-        private static async Task Magisk_Compress(string temp_path)
-        {
-            List<Task<(string Output, int ExitCode)>> tasks =
-            [
-                CallExternalProgram.MagiskBoot($"compress=xz magisk32 magisk32.xz", Path.Combine(temp_path, "lib", "armeabi-v7a")),
-                CallExternalProgram.MagiskBoot($"compress=xz magisk32 magisk32.xz", Path.Combine(temp_path, "lib", "arm64-v8a")),
-                CallExternalProgram.MagiskBoot($"compress=xz magisk32 magisk32.xz", Path.Combine(temp_path, "lib", "x86")),
-                CallExternalProgram.MagiskBoot($"compress=xz magisk32 magisk32.xz", Path.Combine(temp_path, "lib", "x86_64")),
-                CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", Path.Combine(temp_path, "lib", "arm64-v8a")),
-                CallExternalProgram.MagiskBoot($"compress=xz magisk64 magisk64.xz", Path.Combine(temp_path, "lib", "x86_64")),
-                CallExternalProgram.MagiskBoot($"compress=xz stub.apk stub.xz", Path.Combine(temp_path, "assets")),
-            ];
-            _ = await Task.WhenAll(tasks);
-            foreach (Task<(string Output, int ExitCode)> task in tasks)
-            {
-                (string result, int exitcode) = await task;
-                if (exitcode != 0)
-                {
-                    throw new Exception("magiskboot error " + result);
-                }
-            }
-        }
+        
         private static async Task<(string, bool, string, string)> GKI_Valid(string temp_path)
         {
             string SubSHA1 = await FileHelper.SHA1HashAsync(Path.Combine(temp_path, "Image"));

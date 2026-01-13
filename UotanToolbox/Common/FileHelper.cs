@@ -269,7 +269,7 @@ namespace UotanToolbox.Common
                 FileInfo fileInfo = new FileInfo(path);
                 return fileInfo.Length is >= (10 * 1024) and <= (200 * 1024);
             });
-            string[] fileNames = filteredFiles.Select(Path.GetFileName).ToArray();
+            string[] fileNames = [.. filteredFiles.Select(Path.GetFileName)];
             return fileNames;
         }
         /*
@@ -324,7 +324,7 @@ namespace UotanToolbox.Common
             string tempFileName = Path.Combine(directoryPath, Guid.NewGuid().ToString() + ".tmp");
             try
             {
-                byte[] content = { 0x48, 0x65, 0x6C, 0x6C, 0x6F };//Hello
+                byte[] content = [0x48, 0x65, 0x6C, 0x6C, 0x6F];//Hello
                 using (FileStream fs = File.Create(tempFileName))
                 {
                     fs.Write(content, 0, content.Length);
@@ -349,7 +349,7 @@ namespace UotanToolbox.Common
         /// <returns>内核编译签名信息</returns>
         public static string ReadKernelVersion(string filePath)
         {
-            byte[] Signature = new byte[] { 0x69, 0x6e, 0x69, 0x74, 0x63, 0x61, 0x6c, 0x6c, 0x5f, 0x64, 0x65, 0x62, 0x75, 0x67, 0x00 };
+            byte[] Signature = [0x69, 0x6e, 0x69, 0x74, 0x63, 0x61, 0x6c, 0x6c, 0x5f, 0x64, 0x65, 0x62, 0x75, 0x67, 0x00];
             using FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             using BinaryReader br = new BinaryReader(fs);
             long signaturePosition = FindSignaturePosition(br, Signature);

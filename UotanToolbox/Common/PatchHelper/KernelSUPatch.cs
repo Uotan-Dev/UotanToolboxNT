@@ -31,8 +31,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             string allowedChars = "abcdef0123456789";
             Random random = new Random();
-            string randomStr = new string(Enumerable.Repeat(allowedChars, 16)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+            string randomStr = new string([.. Enumerable.Repeat(allowedChars, 16).Select(s => s[random.Next(s.Length)])]);
             string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "lkm_patched_" + randomStr + ".img");
             File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
             return newboot;
@@ -75,8 +74,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             string allowedChars = "abcdef0123456789";
             Random random = new Random();
-            string randomStr = new string(Enumerable.Repeat(allowedChars, 16)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+            string randomStr = new string([.. Enumerable.Repeat(allowedChars, 16).Select(s => s[random.Next(s.Length)])]);
             string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "lkm_patched_" + randomStr + ".img");
             File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
             return newboot;
@@ -84,7 +82,7 @@ namespace UotanToolbox.Common.PatchHelper
         private static void CleanBoot(string path)
         {
             string[] filesToDelete =
-                {
+                [
                 "magisk64.xz",
                 "magisk32.xz",
                 "magiskinit",
@@ -97,7 +95,7 @@ namespace UotanToolbox.Common.PatchHelper
                 "init.xz",
                 ".magisk",
                 ".rmlist"
-                };
+                ];
             try
             {
                 foreach (string file in filesToDelete)

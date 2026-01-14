@@ -87,7 +87,7 @@ jobs:
         cp -R "./UotanToolbox.app" "dmg-root/"
         ln -s /Applications "dmg-root/Applications"
         ls -la dmg-root
-        create-dmg --volname "UotanToolbox" --background "/Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/dmgbackground.tiff" --window-size 600 410 --icon-size 96 --icon "UotanToolbox.app" 160 200 --icon "Applications" 440 200 --hide-extension "UotanToolbox.app" --filesystem APFS ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.dmg dmg-root/
+        create-dmg --volname "UotanToolbox" --background "/Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/dmgbackground.tiff" --window-size 600 410 --icon-size 96 --icon "UotanToolbox.app" 160 175 --icon "Applications" 440 175 --hide-extension "UotanToolbox.app" --filesystem APFS ./UotanToolbox_macOS_x64_${{ inputs.VERSION }}.dmg dmg-root/
         rm -rf ./UotanToolbox.app/Contents/MacOS/*
         
 
@@ -105,7 +105,7 @@ jobs:
         cp -R "./UotanToolbox.app" "dmg-root/"
         ln -s /Applications "dmg-root/Applications"
         ls -la dmg-root
-        create-dmg --volname "UotanToolbox" --background "/Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/dmgbackground.tiff" --window-size 600 410 --icon-size 96 --icon "UotanToolbox.app" 160 200 --icon "Applications" 440 200 --hide-extension "UotanToolbox.app" --filesystem APFS ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.dmg dmg-root/        rm -rf ./UotanToolbox.app/Contents/MacOS/*
+        create-dmg --volname "UotanToolbox" --background "/Users/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/macOS/dmgbackground.tiff" --window-size 600 410 --icon-size 96 --icon "UotanToolbox.app" 160 175 --icon "Applications" 440 175 --hide-extension "UotanToolbox.app" --filesystem APFS ./UotanToolbox_macOS_arm64_${{ inputs.VERSION }}.dmg dmg-root/        rm -rf ./UotanToolbox.app/Contents/MacOS/*
 
     - name: Upload
       uses: actions/upload-artifact@v4

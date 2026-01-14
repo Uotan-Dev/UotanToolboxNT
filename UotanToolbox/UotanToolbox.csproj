@@ -26,12 +26,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.3.11" />
-		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.3.11" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.3.11" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.11" />
+		<PackageReference Include="Avalonia" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Controls.ColorPicker" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.2.8" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.8" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.11" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.8" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Material.Icons.Avalonia" Version="2.4.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
@@ -42,7 +42,7 @@
 		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.5.2" />
 		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.5.2" />
 		<PackageReference Include="SkiaSharp" Version="3.119.1" />
-		<PackageReference Include="SukiUI" Version="6.0.3" />
+		<PackageReference Include="SukiUI" Version="6.0.1" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.2" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.7" />
 	</ItemGroup>

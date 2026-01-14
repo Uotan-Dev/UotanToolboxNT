@@ -718,13 +718,14 @@ public partial class BasicflashView : UserControl
                                         .WithContent(GetTranslation("Basicflash_PatchDone"))
                                         .OfType(NotificationType.Success)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await FlashBoot(newboot), true)
-                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path)), true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => FileHelper.OpenFolder(Path.GetFullPath(Global.Bootinfo.Path)), true)
                                         .TryShow();
             Global.Zipinfo = new PatchInfo("", "", false, PatchMode.None);
             Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
             SetDefaultMagisk();
             BootFile.Text = null;
             ArchList.SelectedItem = null;
+            PREINITDEVICE.Text = null;
         }
         catch (Exception ex)
         {

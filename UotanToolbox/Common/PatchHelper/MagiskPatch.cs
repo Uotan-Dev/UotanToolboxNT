@@ -90,7 +90,7 @@ namespace UotanToolbox.Common.PatchHelper
                 throw new Exception(message);
             }
 
-            return patchResult.Details?.NewFilePath;
+            return patchResult.Details.NewFilePath;
         }
 
 

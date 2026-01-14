@@ -18,7 +18,7 @@ namespace UotanToolbox.Common
         public static bool root = true;
         public static AvaloniaList<string> deviceslist;
         public static string thisdevice = null;
-        public static ZipInfo Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
+        public static PatchInfo Zipinfo = new PatchInfo("", "", false, PatchMode.None);
         public static BootInfo Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
         public static int mb_exitcode, cpio_exitcode, load_times;
         //分区表储存
@@ -37,65 +37,33 @@ namespace UotanToolbox.Common
         //主页的Dialog
         public static ISukiDialogManager MainDialogManager;
         public static ISukiToastManager MainToastManager;
-    }
-    public class BootInfo
-    {
-        public string SHA1 { get; set; }
-        public string Path { get; set; }
-        public string TempPath { get; set; }
-        public bool IsUseful { get; set; }
-        public bool GKI2 { get; set; }
-        public string Version { get; set; }
-        public string KMI { get; set; }
-        public string OSVersion { get; set; }
-        public string PatchLevel { get; set; }
-        public bool HaveRamdisk { get; set; }
-        public bool HaveKernel { get; set; }
-        public bool HaveDTB { get; set; }
-        public string DTBName { get; set; }
-        public string Arch { get; set; }
-        public string Compress { get; set; }
-        public BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2, string version, string kmi, string osversion, string patchlevel, bool haveramdisk, bool havekernel, bool havedtb, string dtbname, string arch, string compress)
-        {
-            SHA1 = sha1;
-            Path = path;
-            TempPath = tempPath;
-            IsUseful = isUseful;
-            GKI2 = gki2;
-            Version = version;
-            KMI = kmi;
-            OSVersion = osversion;
-            PatchLevel = patchlevel;
-            HaveRamdisk = haveramdisk;
-            HaveKernel = havekernel;
-            HaveDTB = havedtb;
-            DTBName = dtbname;
-            Arch = arch;
-            Compress = compress;
-        }
-    }
-    public class ZipInfo
-    {
-        public string Path { get; set; }
-        public string SHA1 { get; set; }
-        public string Version { get; set; }
-        public string KMI { get; set; }
-        public string TempPath { get; set; }
-        public bool IsUseful { get; set; }
-        public PatchMode Mode { get; set; }
-        public string SubSHA1 { get; set; }
 
-        public ZipInfo(string path, string sha1, string version, string kmi, string tempPath, bool isUseful, PatchMode mode, string subSHA1)
-        {
-            Path = path;
-            SHA1 = sha1;
-            Version = version;
-            KMI = kmi;
-            TempPath = tempPath;
-            IsUseful = isUseful;
-            Mode = mode;
-            SubSHA1 = subSHA1;
-        }
+        public static string BootPatchPath { get; internal set; }
+    }
+    public class BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2, string version, string kmi, string osversion, string patchlevel, bool haveramdisk, bool havekernel, bool havedtb, string dtbname, string arch, string compress)
+    {
+        public string SHA1 { get; set; } = sha1;
+        public string Path { get; set; } = path;
+        public string TempPath { get; set; } = tempPath;
+        public bool IsUseful { get; set; } = isUseful;
+        public bool GKI2 { get; set; } = gki2;
+        public string Version { get; set; } = version;
+        public string KMI { get; set; } = kmi;
+        public string OSVersion { get; set; } = osversion;
+        public string PatchLevel { get; set; } = patchlevel;
+        public bool HaveRamdisk { get; set; } = haveramdisk;
+        public bool HaveKernel { get; set; } = havekernel;
+        public bool HaveDTB { get; set; } = havedtb;
+        public string DTBName { get; set; } = dtbname;
+        public string Arch { get; set; } = arch;
+        public string Compress { get; set; } = compress;
+    }
+    public class PatchInfo(string path, string tempPath, bool isUseful, PatchMode mode)
+    {
+        public string Path { get; set; } = path;
+        public string TempPath { get; set; } = tempPath;
+        public bool IsUseful { get; set; } = isUseful;
+        public PatchMode Mode { get; set; } = mode;
     }
     public class EnvironmentVariable
     {
@@ -104,6 +72,7 @@ namespace UotanToolbox.Common
         public static bool PATCHVBMETAFLAG = false;
         public static bool RECOVERYMODE = false;
         public static bool LEGACYSAR = true;
+        public static string PREINITDEVICE = "";
     }
 
     public static class GlobalData

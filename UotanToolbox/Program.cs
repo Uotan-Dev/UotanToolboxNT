@@ -70,6 +70,7 @@ internal static class Program
         Global.bin_path = Path.Combine(Global.runpath, "Bin");
         Global.serviceID = "uotan-" + StringHelper.RandomString(8);
         Global.password = StringHelper.RandomString(8);
+        Global.BootPatchPath = Path.Combine(Global.bin_path, "MagiskPatcher.csv");
         // No need to set default for Windows
         return AppBuilder.Configure<App>()
                          .UsePlatformDetect()

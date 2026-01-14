@@ -12,28 +12,16 @@ namespace UotanToolbox.Common.QcomHelper.modules
         public string Cm { get; set; }
         public int ParamMode { get; set; }
     }
-    internal class Oneplus
+    internal class Oneplus(string fh, string projid, int version, int serial, int atoBuild, int flashMode, int cf, string[] supported_functions)
     {
-        public string Fh { get; set; }
-        public string Projid { get; set; }
-        public int Version { get; set; }
-        public int Serial { get; set; }
-        public int ATOBuild { get; set; }
-        public int FlashMode { get; set; }
-        public int Cf { get; set; }
-        public string[] Supported_functions { get; set; }
-
-        public Oneplus(string fh, string projid, int version, int serial, int atoBuild, int flashMode, int cf, string[] supported_functions)
-        {
-            Fh = fh;
-            Version = version;
-            Projid = projid;
-            Serial = serial;
-            ATOBuild = atoBuild;
-            FlashMode = flashMode;
-            Cf = cf;
-            Supported_functions = supported_functions;
-        }
+        public string Fh { get; set; } = fh;
+        public string Projid { get; set; } = projid;
+        public int Version { get; set; } = version;
+        public int Serial { get; set; } = serial;
+        public int ATOBuild { get; set; } = atoBuild;
+        public int FlashMode { get; set; } = flashMode;
+        public int Cf { get; set; } = cf;
+        public string[] Supported_functions { get; set; } = supported_functions;
         public static Dictionary<string, DeviceConfig> DeviceConfig { get; } = new Dictionary<string, DeviceConfig>
         {
             { "16859", new DeviceConfig { Version = 1, Cm = null, ParamMode = 0 } },
@@ -84,9 +72,11 @@ namespace UotanToolbox.Common.QcomHelper.modules
         };
         public static Oneplus Init(string projid, int serial, int atoBuild = 0, int flashMode = 0, int cf = 0)
         {
-            Oneplus oneplus = new Oneplus("", "18825", 1, 123456, 0, 0, 0, null);
-            oneplus.Projid = projid;
-            oneplus.Serial = serial;
+            Oneplus oneplus = new Oneplus("", "18825", 1, 123456, 0, 0, 0, null)
+            {
+                Projid = projid,
+                Serial = serial
+            };
             DeviceConfig.TryGetValue(projid, out DeviceConfig deviceConfig);
             oneplus.Version = deviceConfig.Version;
             oneplus.Cf = cf;

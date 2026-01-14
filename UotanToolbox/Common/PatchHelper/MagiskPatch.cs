@@ -1,7 +1,9 @@
-﻿using System;
+﻿using MagiskPatcher;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace UotanToolbox.Common.PatchHelper
@@ -14,7 +16,86 @@ namespace UotanToolbox.Common.PatchHelper
             return FeaturesHelper.GetTranslation(key);
         }
 
-        public static async Task<string> Magisk_Patch(ZipInfo zipInfo, BootInfo bootInfo)
+        public static async Task<string> Magisk_Patch_Mouzei(PatchInfo zipInfo, BootInfo bootInfo)
+        {
+            ArgumentNullException.ThrowIfNull(zipInfo);
+            ArgumentNullException.ThrowIfNull(bootInfo);
+
+            if (!bootInfo.HaveRamdisk)
+            {
+                throw new Exception(GetTranslation("Basicflash_BootWrong"));
+            }
+
+            string allowedChars = "abcdef0123456789";
+            Random random = new Random();
+            string randomStr = new string([.. Enumerable.Repeat(allowedChars, 16).Select(s => s[random.Next(s.Length)])]);
+            string csvConfPath = Global.BootPatchPath;
+            string cpuType = "";
+            Dictionary<string, string> ArchMappings = new Dictionary<string, string>
+            {
+                {"aarch64", "arm_64"},
+                {"X86-64", "x86_64"},
+                {"armeabi", "arm_32"},
+                {"X86", "x86_32"}
+                //理论上说，可以兼容RV
+            };
+
+            foreach (KeyValuePair<string, string> entry in ArchMappings)
+            {
+                if (bootInfo.Arch.Contains(entry.Key))
+                {
+                    cpuType = entry.Value;
+                }
+            }
+
+            var config = new PatcherConfig
+            {
+                MagiskZipPath = zipInfo.Path,
+                OrigFilePath = bootInfo.Path,
+                WorkDir = bootInfo.TempPath,
+                ZipToolPath = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+                            ? Path.Combine(Global.bin_path, "7z", "7za.exe")
+                            : RuntimeInformation.IsOSPlatform(OSPlatform.Linux) | (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                            ? Path.Combine(Global.bin_path, "7zza")
+                            : throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux."),
+                MagiskbootPath = Path.Combine(Global.bin_path, "magiskboot"),
+                CsvConfPath = csvConfPath,
+                CpuType = cpuType,
+                Flag_KEEPVERITY = EnvironmentVariable.KEEPVERITY,
+                Flag_KEEPFORCEENCRYPT = EnvironmentVariable.KEEPFORCEENCRYPT,
+                Flag_RECOVERYMODE = EnvironmentVariable.RECOVERYMODE,
+                Flag_PATCHVBMETAFLAG = EnvironmentVariable.PATCHVBMETAFLAG,
+                Flag_LEGACYSAR = EnvironmentVariable.LEGACYSAR,
+                Flag_PREINITDEVICE = EnvironmentVariable.PREINITDEVICE,
+                NewFilePath = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "magisk_patched_" + randomStr + ".img"),
+                CleanupAfterComplete = true
+            };
+
+            ValidationResult validation = config.Validate();
+            if (!validation.IsValid)
+            {
+                throw new Exception(string.Join(Environment.NewLine, validation.Errors));
+            }
+
+            PatchResult patchResult = await Task.Run(() => new MagiskPatcherCore(config).Patch()).ConfigureAwait(false);
+
+            if (!patchResult.IsSuccess)
+            {
+                string fallbackMessage = $"{GetTranslation("Common_Error")}: Magisk patch failed.";
+                string message = string.IsNullOrWhiteSpace(patchResult.ErrorMessage) ? fallbackMessage : patchResult.ErrorMessage!;
+                if (patchResult.Exception != null)
+                {
+                    throw new Exception(message, patchResult.Exception);
+                }
+                throw new Exception(message);
+            }
+
+            return patchResult.Details?.NewFilePath;
+        }
+
+
+
+        public static async Task<string> Magisk_Patch(PatchInfo zipInfo, BootInfo bootInfo)
         {
             if (bootInfo.HaveRamdisk == false)
             {
@@ -68,7 +149,7 @@ namespace UotanToolbox.Common.PatchHelper
             File.Copy(Path.Combine(bootinfo.TempPath, "ramdisk.cpio"), Path.Combine(bootinfo.TempPath, "ramdisk.cpio.orig"), true);
             File.Delete(Path.Combine(bootinfo.TempPath, "stock_boot.img"));
         }
-        private static async Task comp_copy(ZipInfo zipInfo, BootInfo bootinfo)
+        private static async Task comp_copy(PatchInfo zipInfo, BootInfo bootinfo)
         {
             try
             {

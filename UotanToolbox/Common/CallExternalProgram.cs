@@ -288,6 +288,7 @@ namespace UotanToolbox.Common
             Environment.SetEnvironmentVariable("PATCHVBMETAFLAG", EnvironmentVariable.PATCHVBMETAFLAG.ToString().ToLower());
             Environment.SetEnvironmentVariable("RECOVERYMODE", EnvironmentVariable.RECOVERYMODE.ToString().ToLower());
             Environment.SetEnvironmentVariable("LEGACYSAR", EnvironmentVariable.LEGACYSAR.ToString().ToLower());
+            Environment.SetEnvironmentVariable("PREINITDEVICE", EnvironmentVariable.PREINITDEVICE.ToString().ToLower());
             string cmd = Path.Combine(Global.bin_path, "magiskboot");
             Directory.SetCurrentDirectory(workpath);
             ProcessStartInfo magiskboot = new ProcessStartInfo(cmd, shell)

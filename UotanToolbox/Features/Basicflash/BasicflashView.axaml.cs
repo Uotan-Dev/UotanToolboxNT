@@ -610,10 +610,10 @@ public partial class BasicflashView : UserControl
                 return;
             }
             MagiskFile.Text = files[0].TryGetLocalPath();
-            Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
+            Global.Zipinfo = await PatchDetect.Patch_Detect(MagiskFile.Text);
             Global.MainDialogManager.CreateDialog()
                                         .OfType(NotificationType.Information)
-                                        .WithContent($"{GetTranslation("Basicflash_DetectZIP")}\nUseful:{Global.Zipinfo.IsUseful}\nMode:{Global.Zipinfo.Mode}\nVersion:{Global.Zipinfo.Version}")
+                                        .WithContent($"{GetTranslation("Basicflash_DetectZIP")}\nUseful:{Global.Zipinfo.IsUseful}\nMode:{Global.Zipinfo.Mode}")
                                         .Dismiss().ByClickingBackground()
                                         .TryShow();
         }
@@ -653,7 +653,7 @@ public partial class BasicflashView : UserControl
                 return;
             }
             BootFile.Text = files[0].TryGetLocalPath();
-            Global.Bootinfo = await BootDetect.Boot_Detect(BootFile.Text);
+            Global.Bootinfo = await ImageDetect.Boot_Detect(BootFile.Text);
             ArchList.SelectedItem = Global.Bootinfo.Arch;
             Global.MainDialogManager.CreateDialog()
                                         .OfType(NotificationType.Information)
@@ -689,13 +689,13 @@ public partial class BasicflashView : UserControl
             }
             if ((Global.Zipinfo.Mode == PatchMode.None) | (Global.Zipinfo.IsUseful != true))
             {
-                Global.Zipinfo = await ZipDetect.Zip_Detect(MagiskFile.Text);
+                Global.Zipinfo = await PatchDetect.Patch_Detect(MagiskFile.Text);
             }
             string newboot = null;
             switch (Global.Zipinfo.Mode)
             {
                 case PatchMode.Magisk:
-                    newboot = await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
+                    newboot = await MagiskPatch.Magisk_Patch_Mouzei(Global.Zipinfo, Global.Bootinfo);
                     break;
                 case PatchMode.GKI:
                     newboot = await KernelSUPatch.GKI_Patch(Global.Zipinfo, Global.Bootinfo);
@@ -712,7 +712,7 @@ public partial class BasicflashView : UserControl
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await FlashBoot(newboot), true)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path)), true)
                                         .TryShow();
-            Global.Zipinfo = new ZipInfo("", "", "", "", "", false, PatchMode.None, "");
+            Global.Zipinfo = new PatchInfo("", "", false, PatchMode.None);
             Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
             SetDefaultMagisk();
             BootFile.Text = null;

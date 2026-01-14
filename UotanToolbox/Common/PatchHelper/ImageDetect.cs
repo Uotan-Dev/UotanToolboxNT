@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UotanToolbox.Common.PatchHelper
 {
-    internal class BootDetect
+    internal class ImageDetect
     {
         private static string GetTranslation(string key)
         {
@@ -81,13 +81,7 @@ namespace UotanToolbox.Common.PatchHelper
                 string workpath = tmp_path;
                 string cpio_file = Path.Combine(tmp_path, "ramdisk.cpio");
                 string ramdisk_path = Path.Combine(tmp_path, "ramdisk");
-                //适配Windows的抽象magiskboot（使用cygwin），其他平台都是原生编译的，可以直接用参数提取ramdisk
-                if (Global.System != "Windows")
-                {
-                    workpath = Path.Combine(tmp_path, "ramdisk");
-                    _ = Directory.CreateDirectory(workpath);
-                }
-
+                _ = Directory.CreateDirectory(ramdisk_path);
                 (_, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" test", workpath);
                 if (exitcode != 0)
                 {
@@ -98,7 +92,7 @@ namespace UotanToolbox.Common.PatchHelper
                 {
                     throw new Exception("Do not support kernelsu patched boot.img");
                 }
-                (_, _) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", workpath);
+                (_, _) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", ramdisk_path);
                 if (Global.System == "macOS")
                 {
                     ramdisk_path = Path.Join("/private", ramdisk_path);
@@ -131,7 +125,7 @@ namespace UotanToolbox.Common.PatchHelper
                     return entry.Value;
                 }
             }
-            throw new Exception(GetTranslation("Basicflash_ELFError"));
+            throw new Exception(GetTranslation("Basicflash_ELFError") + init_info);
         }
     }
 }

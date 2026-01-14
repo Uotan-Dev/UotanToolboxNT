@@ -12,15 +12,11 @@ namespace UotanToolbox.Common.PatchHelper
             return FeaturesHelper.GetTranslation(key);
         }
 
-        public static async Task<string> GKI_Patch(ZipInfo zipInfo, BootInfo bootInfo)
+        public static async Task<string> GKI_Patch(PatchInfo zipInfo, BootInfo bootInfo)
         {
             if (bootInfo.HaveKernel == false)
             {
                 throw new Exception(GetTranslation("Basicflash_BootWrong"));
-            }
-            if (zipInfo.KMI != bootInfo.KMI)
-            {
-                throw new Exception("Wrong zip kernel kmi");
             }
             File.Copy(Path.Combine(zipInfo.TempPath, "Image"), Path.Combine(bootInfo.TempPath, "kernel"), true);
             CleanBoot(bootInfo.TempPath);
@@ -36,18 +32,11 @@ namespace UotanToolbox.Common.PatchHelper
             File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
             return newboot;
         }
-        public static async Task<string> LKM_Patch(ZipInfo zipInfo, BootInfo bootInfo)
+        public static async Task<string> LKM_Patch(PatchInfo zipInfo, BootInfo bootInfo)
         {
             if (bootInfo.HaveRamdisk == false)
             {
                 throw new Exception(GetTranslation("Basicflash_BootWrong"));
-            }
-            if (bootInfo.HaveKernel == true)
-            {
-                if (zipInfo.KMI != bootInfo.KMI)
-                {
-                    throw new Exception("Wrong zip kernel kmi!");
-                }
             }
             if (bootInfo.Arch != "aarch64")
             {

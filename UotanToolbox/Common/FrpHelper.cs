@@ -6,20 +6,16 @@ using System.IO;
 namespace UotanToolbox.Common
 {
     //修补FRP文件的代码，工具箱暂未启用此功能！-zicai
-    public class FrpPatcher
+    public class FrpPatcher(string filePath, string function)
     {
         private static string GetTranslation(string key)
         {
             return FeaturesHelper.GetTranslation(key);
         }
-        private readonly string _filePath;
-        private readonly string _function;
+        private readonly string _filePath = filePath;
+        private readonly string _function = function.ToLower();
         private ISukiDialogManager dialogManager;
-        public FrpPatcher(string filePath, string function)
-        {
-            _filePath = filePath;
-            _function = function.ToLower();
-        }
+
         public bool Run()
         {
             byte target = 0x02;

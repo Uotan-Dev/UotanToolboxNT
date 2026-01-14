@@ -290,9 +290,9 @@ public partial class WiredflashView : UserControl
                                 if (fbflashparts[i] == "boot" && (bool)AddRoot.IsChecked)
                                 {
                                     WiredflashLog.Text += GetTranslation("Wiredflash_RepairBoot");
-                                    Global.Bootinfo = await BootDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");
-                                    Global.Zipinfo = await ZipDetect.Zip_Detect(Path.Combine(Global.runpath, "APK", "Magisk.apk"));
-                                    string newboot = await MagiskPatch.Magisk_Patch(Global.Zipinfo, Global.Bootinfo);
+                                    Global.Bootinfo = await ImageDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");
+                                    Global.Zipinfo = await PatchDetect.Patch_Detect(Path.Combine(Global.runpath, "APK", "Magisk.apk"));
+                                    string newboot = await MagiskPatch.Magisk_Patch_Mouzei(Global.Zipinfo, Global.Bootinfo);
                                     await Fastboot($"-s {Global.thisdevice} flash boot {newboot}");
                                 }
                                 else if (fbflashparts[i].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)

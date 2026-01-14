@@ -683,6 +683,7 @@ public partial class BasicflashView : UserControl
             EnvironmentVariable.PATCHVBMETAFLAG = (bool)PATCHVBMETAFLAG.IsChecked;
             EnvironmentVariable.RECOVERYMODE = (bool)RECOVERYMODE.IsChecked;
             EnvironmentVariable.LEGACYSAR = (bool)LEGACYSAR.IsChecked;
+            EnvironmentVariable.PREINITDEVICE = PREINITDEVICE.Text;
             if (Global.Bootinfo.IsUseful != true | string.IsNullOrEmpty(MagiskFile.Text))
             {
                 throw new Exception(GetTranslation("Basicflash_SelectBootMagisk"));

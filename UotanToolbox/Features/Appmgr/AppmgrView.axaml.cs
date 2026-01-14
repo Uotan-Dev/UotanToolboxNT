@@ -111,7 +111,7 @@ public partial class AppmgrView : UserControl
         {
             Title = "Open File",
             AllowMultiple = true,
-            FileTypeFilter = new[] { ApkPicker, FilePickerFileTypes.TextPlain }
+            FileTypeFilter = new[] { ApkPicker }
         });
         if (files.Count >= 1)
         {

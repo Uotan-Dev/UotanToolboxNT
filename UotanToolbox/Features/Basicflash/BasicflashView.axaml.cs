@@ -717,8 +717,15 @@ public partial class BasicflashView : UserControl
                                         .WithTitle(GetTranslation("Common_Succ"))
                                         .WithContent(GetTranslation("Basicflash_PatchDone"))
                                         .OfType(NotificationType.Success)
-                                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await FlashBoot(newboot), true)
-                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => FileHelper.OpenFolder(Path.GetDirectoryName(Global.Bootinfo.Path)), true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
+                                        { 
+                                            await FlashBoot(newboot);
+                                            FileHelper.OpenFolder(Path.Combine(Path.GetDirectoryName(newboot)));
+                                        }, true)
+                                        .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => 
+                                        {
+                                            FileHelper.OpenFolder(Path.Combine(Path.GetDirectoryName(newboot)));
+                                        }, true)
                                         .TryShow();
             Global.Zipinfo = new PatchInfo("", "", false, PatchMode.None);
             Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");

@@ -626,6 +626,7 @@ namespace MagiskPatcher
             {
                 CpuType = "arm_64";
             }
+            CpuBitSupport.Clear();
             if (CpuType == "arm_64")
             {
                 CpuArch = "arm";

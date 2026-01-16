@@ -307,9 +307,14 @@ public partial class WiredflashView : UserControl
                                             await Fastboot($"-s {Global.thisdevice} flash {fbflashparts[i]} {imgpath}/{fbflashparts[i]}.img");
                                         }
                                     }
-                                    catch
+                                    catch (Exception ex)
                                     {
-                                        //全部丢弃失败信息
+                                        Global.MainDialogManager.CreateDialog()
+                                                                .WithTitle(GetTranslation("Common_Error"))
+                                                                .OfType(NotificationType.Error)
+                                                                .WithContent(ex.Message)
+                                                                .Dismiss().ByClickingBackground()
+                                                                .TryShow();
                                     }
 
                                 }

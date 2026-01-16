@@ -216,6 +216,7 @@ public partial class WiredflashView : UserControl
     private async void StartTXTFlash(object sender, RoutedEventArgs args)
     {
         TXTFlashBusy(true);
+        int rooted = 0;
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
@@ -290,10 +291,22 @@ public partial class WiredflashView : UserControl
                                 if ((fbflashparts[i] == "boot" || fbflashparts[i] == "vendor_boot" || fbflashparts[i] == "init_boot") && (bool)AddRoot.IsChecked)
                                 {
                                     WiredflashLog.Text += GetTranslation("Wiredflash_RepairBoot");
-                                    Global.Bootinfo = await ImageDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");
-                                    Global.Zipinfo = await PatchDetect.Patch_Detect(Path.Combine(Global.runpath, "APK", "Magisk.apk"));
-                                    string newboot = await MagiskPatch.Magisk_Patch_Mouzei(Global.Zipinfo, Global.Bootinfo);
-                                    await Fastboot($"-s {Global.thisdevice} flash boot {newboot}");
+                                    try
+                                    {
+                                        Global.Bootinfo = await ImageDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");
+                                        Global.Zipinfo = await PatchDetect.Patch_Detect(Path.Combine(Global.runpath, "APK", "Magisk.apk"));
+                                        string newboot = await MagiskPatch.Magisk_Patch_Mouzei(Global.Zipinfo, Global.Bootinfo);
+                                        await Fastboot($"-s {Global.thisdevice} flash boot {newboot}");
+                                        if (File.Exists(newboot))
+                                        {
+                                            rooted = rooted +1; //预留变量用于检测是否有修补过root
+                                        }
+                                    }
+                                    catch
+                                    {
+                                        //全部丢弃失败信息
+                                    }
+
                                 }
                                 else if (fbflashparts[i].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)
                                 {

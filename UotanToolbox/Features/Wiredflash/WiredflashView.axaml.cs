@@ -287,7 +287,7 @@ public partial class WiredflashView : UserControl
                             }
                             else
                             {
-                                if (fbflashparts[i] == "boot" && (bool)AddRoot.IsChecked)
+                                if ((fbflashparts[i] == "boot" || fbflashparts[i] == "vendor_boot" || fbflashparts[i] == "init_boot") && (bool)AddRoot.IsChecked)
                                 {
                                     WiredflashLog.Text += GetTranslation("Wiredflash_RepairBoot");
                                     Global.Bootinfo = await ImageDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");

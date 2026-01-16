@@ -104,7 +104,7 @@
 											   FontWeight="DemiBold"
 											   Text="Boot修补配置文件" />
 									<StackPanel Orientation="Horizontal" Margin="-5 0 0 0" Spacing="4">
-										<TextBox Width="560" Name="CSVPath" Text="{Binding CSVPath}"/>
+										<TextBox Width="560" Name="CsvPath" Text="{Binding CsvPath, Mode=TwoWay}"/>
 										<Button Width="145" Height="35" Content="选择文件" Click="OpenCSVFile"/>
 									</StackPanel>
 								</StackPanel>

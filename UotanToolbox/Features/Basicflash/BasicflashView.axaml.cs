@@ -806,24 +806,21 @@ public partial class BasicflashView : UserControl
             {
                 BusyInstall.IsBusy = true;
                 InstallZIP.IsEnabled = false;
-                if (TWRPInstall.IsChecked == true)
+                if (sukiViewModel.Status == "Recovery" && TWRPInstall.IsChecked == true)
                 {
-                    if (sukiViewModel.Status == "Recovery")
-                    {
-                        _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /tmp/magisk.apk");
-                        _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/magisk.apk");
-                    }
-                    else
-                    {
-                        Global.MainDialogManager.CreateDialog()
-                                                    .WithTitle(GetTranslation("Common_Error"))
-                                                    .OfType(NotificationType.Error)
-                                                    .WithContent(GetTranslation("Common_EnterRecovery"))
-                                                    .Dismiss().ByClickingBackground()
-                                                    .TryShow();
-                    }
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /tmp/magisk.apk");
+                    _ = await CallExternalProgram.ADB($"-s {Global.thisdevice} shell twrp install /tmp/magisk.apk");
                 }
-                else if (ADBSideload.IsChecked == true)
+                else if (!(sukiViewModel.Status == "Recovery") && TWRPInstall.IsChecked == true && !(sukiViewModel.Status == GetTranslation("Home_Android")))
+                {
+                    Global.MainDialogManager.CreateDialog()
+                                                .WithTitle(GetTranslation("Common_Error"))
+                                                .OfType(NotificationType.Error)
+                                                .WithContent(GetTranslation("Common_EnterRecovery"))
+                                                .Dismiss().ByClickingBackground()
+                                                .TryShow();
+                }
+                if ((sukiViewModel.Status == "Recovery" || sukiViewModel.Status == "Sideload") && ADBSideload.IsChecked == true)
                 {
                     if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
                     {
@@ -849,6 +846,41 @@ public partial class BasicflashView : UserControl
                                                     .TryShow();
                     }
                 }
+                if (sukiViewModel.Status == GetTranslation("Home_Android"))
+                {
+                    if (MagiskFile.Text != null)
+                    {
+                        Global.MainDialogManager.CreateDialog()
+                                                    .WithTitle(GetTranslation("Common_Warn"))
+                                                    .WithContent(GetTranslation("Basicflash_PushMagisk"))
+                                                    .OfType(NotificationType.Warning)
+                                                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                                    {
+                                                        BusyInstall.IsBusy = true;
+                                                        InstallZIP.IsEnabled = false;
+                                                        await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /sdcard/magisk.apk");
+                                                        Global.MainDialogManager.CreateDialog()
+                                                                                    .WithTitle(GetTranslation("ConnectionDialog_Notice"))
+                                                                                    .OfType(NotificationType.Information)
+                                                                                    .WithContent(GetTranslation("Basicflash_InstallMagisk"))
+                                                                                    .Dismiss().ByClickingBackground()
+                                                                                    .TryShow();
+                                                        BusyInstall.IsBusy = false;
+                                                        InstallZIP.IsEnabled = true;
+                                                    }, true)
+                                                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
+                                                    .TryShow();
+                    }
+                    else
+                    {
+                        Global.MainDialogManager.CreateDialog()
+                                                    .WithTitle(GetTranslation("Common_Error"))
+                                                    .OfType(NotificationType.Error)
+                                                    .WithContent(GetTranslation("Basicflash_SelectMagiskRight"))
+                                                    .Dismiss().ByClickingBackground()
+                                                    .TryShow();
+                    }
+                }
                 Global.MainDialogManager.CreateDialog()
                                             .WithTitle(GetTranslation("Common_Execution"))
                                             .OfType(NotificationType.Information)
@@ -867,41 +899,7 @@ public partial class BasicflashView : UserControl
                                             .Dismiss().ByClickingBackground()
                                             .TryShow();
             }
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
-            {
-                if (MagiskFile.Text != null)
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .WithTitle(GetTranslation("Common_Warn"))
-                                                .WithContent(GetTranslation("Basicflash_PushMagisk"))
-                                                .OfType(NotificationType.Warning)
-                                                .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
-                                                {
-                                                    BusyInstall.IsBusy = true;
-                                                    InstallZIP.IsEnabled = false;
-                                                    await CallExternalProgram.ADB($"-s {Global.thisdevice} push \"{MagiskFile.Text}\" /sdcard/magisk.apk");
-                                                    Global.MainDialogManager.CreateDialog()
-                                                                                .WithTitle(GetTranslation("Common_Error"))
-                                                                                .OfType(NotificationType.Error)
-                                                                                .WithContent(GetTranslation("Basicflash_InstallMagisk"))
-                                                                                .Dismiss().ByClickingBackground()
-                                                                                .TryShow();
-                                                    BusyInstall.IsBusy = false;
-                                                    InstallZIP.IsEnabled = true;
-                                                }, true)
-                                                .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
-                                                .TryShow();
-                }
-                else
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .OfType(NotificationType.Error)
-                                                .WithContent(GetTranslation("Basicflash_SelectMagiskRight"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
-                }
-            }
+            
         }
         else
         {

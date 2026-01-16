@@ -14,11 +14,6 @@ public partial class SettingsView : UserControl
         InitializeComponent();
     }
 
-    private void InitializeComponent()
-    {
-        AvaloniaXamlLoader.Load(this);
-    }
-
     private static FilePickerFileType CsvPicker { get; } = new("CSV File")
     {
         Patterns = new[] { "*.csv" },
@@ -36,8 +31,8 @@ public partial class SettingsView : UserControl
         });
         if (files.Count >= 1)
         {
-            CSVPath.Text = files[0].TryGetLocalPath();
-            Global.BootPatchPath = CSVPath.Text;
+            CsvPath.Text = files[0].TryGetLocalPath();
+            Global.BootPatchPath = CsvPath.Text;
         }
     }
 }

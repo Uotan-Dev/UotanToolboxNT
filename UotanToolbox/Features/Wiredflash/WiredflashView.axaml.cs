@@ -3,7 +3,6 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
-using SharpCompress.Common;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using System;
@@ -297,14 +296,10 @@ public partial class WiredflashView : UserControl
                                         Global.Bootinfo = await ImageDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");
                                         Global.Zipinfo = await PatchDetect.Patch_Detect(Path.Combine(Global.runpath, "APK", "Magisk.apk"));
                                         string newboot = await MagiskPatch.Magisk_Patch_Mouzei(Global.Zipinfo, Global.Bootinfo);
+                                        await Fastboot($"-s {Global.thisdevice} flash boot {newboot}");
                                         if (File.Exists(newboot))
                                         {
-                                            await Fastboot($"-s {Global.thisdevice} flash {fbflashparts[i]} {newboot}");
                                             rooted = rooted +1; //预留变量用于检测是否有修补过root
-                                        }
-                                        else
-                                        {
-                                            await Fastboot($"-s {Global.thisdevice} flash {fbflashparts[i]} {imgpath}/{fbflashparts[i]}.img");
                                         }
                                     }
                                     catch

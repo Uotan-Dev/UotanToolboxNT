@@ -315,6 +315,7 @@ public partial class WiredflashView : UserControl
                                                                 .WithContent(ex.Message)
                                                                 .Dismiss().ByClickingBackground()
                                                                 .TryShow();
+                                        FileHelper.Write(fastboot_log_path, ex.Message);
                                     }
 
                                 }

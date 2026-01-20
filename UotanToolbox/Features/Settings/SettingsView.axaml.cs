@@ -1,8 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
-using SkiaSharp;
 using UotanToolbox.Common;
 
 namespace UotanToolbox.Features.Settings;

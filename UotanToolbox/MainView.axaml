@@ -1,4 +1,4 @@
-<suki:SukiWindow x:Class="UotanToolbox.MainView"
+﻿<suki:SukiWindow x:Class="UotanToolbox.MainView"
                  xmlns="https://github.com/avaloniaui"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"

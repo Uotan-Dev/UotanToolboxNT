@@ -189,11 +189,7 @@ public partial class WiredflashView : UserControl
     private async void CheckRoot(object sender, RoutedEventArgs args)
     {
         Global.MainDialogManager.CreateDialog()
-                            .WithTitle(GetTranslation("Home_Prompt"))
-                            .WithContent(GetTranslation("Wiredflash_AddRootTip"))
-                            .OfType(NotificationType.Information)
-                            .WithActionButton(GetTranslation("Wiredflash_OpenAPK"), _ => FileHelper.OpenFolder(Path.Combine(Global.runpath, "APK")), true)
-                            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), _ => { }, true)
+                            .WithViewModel( _ => new SetMagiskDialogViewModel())
                             .TryShow();
     }
 
@@ -287,11 +283,11 @@ public partial class WiredflashView : UserControl
                             }
                             else
                             {
-                                if ((fbflashparts[i] == "boot" || fbflashparts[i] == "vendor_boot" || fbflashparts[i] == "init_boot") && (bool)AddRoot.IsChecked)
+                                if ((fbflashparts[i] == Global.SetBoot) && (bool)AddRoot.IsChecked && !string.IsNullOrEmpty(Global.MagiskAPKPath))
                                 {
                                     WiredflashLog.Text += GetTranslation("Wiredflash_RepairBoot");
                                     Global.Bootinfo = await ImageDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");
-                                    Global.Zipinfo = await PatchDetect.Patch_Detect(Path.Combine(Global.runpath, "APK", "Magisk.apk"));
+                                    Global.Zipinfo = await PatchDetect.Patch_Detect(Global.MagiskAPKPath);
                                     string newboot = await MagiskPatch.Magisk_Patch_Mouzei(Global.Zipinfo, Global.Bootinfo);
                                     await Fastboot($"-s {Global.thisdevice} flash boot {newboot}");
                                 }

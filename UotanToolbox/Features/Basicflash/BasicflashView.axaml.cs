@@ -34,13 +34,7 @@ public partial class BasicflashView : UserControl
         RebootComm.ItemsSource = Command;
         UnlockBand.ItemsSource = Band;
         UnlockBand.SelectedIndex = 0;
-        SetDefaultMagisk();
-    }
-
-    public void SetDefaultMagisk()
-    {
-        string filepath = Path.Combine(Global.runpath, "APK", "Magisk-v27.0.apk");
-        MagiskFile.Text = File.Exists(filepath) ? filepath : null;
+        MagiskFile.Text = Global.MagiskAPKPath;
     }
 
     public void patch_busy(bool is_busy)
@@ -699,6 +693,7 @@ public partial class BasicflashView : UserControl
             {
                 Global.Zipinfo = await PatchDetect.Patch_Detect(MagiskFile.Text);
             }
+            string part = Global.Bootinfo.Path;
             string newboot = null;
             switch (Global.Zipinfo.Mode)
             {
@@ -718,8 +713,8 @@ public partial class BasicflashView : UserControl
                                         .WithContent(GetTranslation("Basicflash_PatchDone"))
                                         .OfType(NotificationType.Success)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => 
-                                        { 
-                                            await FlashBoot(newboot);
+                                        {
+                                            await FlashBoot(newboot, Path.GetFileNameWithoutExtension(part));
                                             FileHelper.OpenFolder(Path.Combine(Path.GetDirectoryName(newboot)));
                                         }, true)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => 
@@ -729,7 +724,7 @@ public partial class BasicflashView : UserControl
                                         .TryShow();
             Global.Zipinfo = new PatchInfo("", "", false, PatchMode.None);
             Global.Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
-            SetDefaultMagisk();
+            MagiskFile.Text = Global.MagiskAPKPath;
             BootFile.Text = null;
             ArchList.SelectedItem = null;
             PREINITDEVICE.Text = null;
@@ -746,7 +741,7 @@ public partial class BasicflashView : UserControl
         patch_busy(false);
     }
 
-    private async Task FlashBoot(string boot)
+    private async Task FlashBoot(string boot, string part)
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
@@ -754,7 +749,7 @@ public partial class BasicflashView : UserControl
             if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
             {
                 Global.checkdevice = false;
-                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash boot \"{boot}\"");
+                string output = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} flash {part} \"{boot}\"");
                 if (!output.Contains("FAILED") && !output.Contains("error"))
                 {
                     Global.MainDialogManager.CreateDialog()

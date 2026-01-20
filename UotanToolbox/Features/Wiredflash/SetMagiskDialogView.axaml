@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="UotanToolbox.Features.Wiredflash.SetMagiskDialogView"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:suki="https://github.com/kikipoulet/SukiUI"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:wiredflash="clr-namespace:UotanToolbox.Features.Wiredflash"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+             d:DesignHeight="450"
+             d:DesignWidth="540"
+             x:DataType="wiredflash:SetMagiskDialogViewModel"
+             mc:Ignorable="d">
+    <suki:GroupBox Header="修补设置">
+        <StackPanel Classes="HeaderContent">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"/>
+				<TextBox Name="MagiskFile" Width="380" />
+                <Button Width="100" Height="35" 
+                        Padding="10,0,10,0" 
+                        Content="{x:Static assets:Resources.Common_ChooseFile}" 
+                        Click="OpenMagiskFile"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"/>
+                <ComboBox Name="BootImagesList" SelectedIndex="0" Width="200" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">
+				<Button 
+                    Classes="Flat"
+                    Content="{x:Static assets:Resources.ConnectionDialog_Confirm}"
+                    Click="Confirm"
+                    />
+                <Button 
+                    Classes="Flat"
+                    Content="{x:Static assets:Resources.ConnectionDialog_Cancel}" 
+                    Click="Cancel"/>
+            </StackPanel>
+            
+        </StackPanel>
+    </suki:GroupBox>
+</UserControl>

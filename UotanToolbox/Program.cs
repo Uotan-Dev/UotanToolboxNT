@@ -74,6 +74,10 @@ internal static class Program
         {
             Global.BootPatchPath = Path.Combine(Global.bin_path, "MagiskPatcher.csv");
         }
+        if (File.Exists(Path.Combine(Global.runpath, "APK", "Magisk-v30.6.apk")))
+        {
+            Global.MagiskAPKPath = Path.Combine(Global.runpath, "APK", "Magisk-v30.6.apk");
+        }
         // No need to set default for Windows
         return AppBuilder.Configure<App>()
                          .UsePlatformDetect()

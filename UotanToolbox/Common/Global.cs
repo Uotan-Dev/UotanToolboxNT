@@ -21,6 +21,7 @@ namespace UotanToolbox.Common
         public static PatchInfo Zipinfo = new PatchInfo("", "", false, PatchMode.None);
         public static BootInfo Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
         public static int mb_exitcode, cpio_exitcode, load_times;
+        public static string SetBoot = null;
         //分区表储存
         public static string sdatable = "";
         public static string sdbtable = "";
@@ -39,6 +40,7 @@ namespace UotanToolbox.Common
         public static ISukiToastManager MainToastManager;
 
         public static string BootPatchPath { get; internal set; }
+        public static string MagiskAPKPath { get; internal set; }
     }
     public class BootInfo(string sha1, string path, string tempPath, bool isUseful, bool gki2, string version, string kmi, string osversion, string patchlevel, bool haveramdisk, bool havekernel, bool havedtb, string dtbname, string arch, string compress)
     {

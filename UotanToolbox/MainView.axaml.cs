@@ -19,7 +19,7 @@ namespace UotanToolbox;
 
 public partial class MainView : SukiWindow
 {
-    private const double AspectRatio = 1235.0 / 840.0; // �趨Ŀ����߱ȣ���16:9��
+    private const double AspectRatio = 1235.0 / 840.0;
     private Size _lastSize = new Size(1235, 840);
 
     public MainView()
@@ -30,7 +30,7 @@ public partial class MainView : SukiWindow
         SetSystemDecorationsBasedOnPlatform();
         this.GetObservable(ClientSizeProperty).Subscribe(OnClientSizeChanged);
     }
-    // ���ڳߴ�仯ʱ����
+    
     private void OnClientSizeChanged(Size newSize)
     {
         double deltaWidth = Math.Abs(newSize.Width - _lastSize.Width);
@@ -38,14 +38,12 @@ public partial class MainView : SukiWindow
 
         if (deltaWidth > deltaHeight)
         {
-            // �û���Ҫ���϶�����
             double expectedHeight = newSize.Width / AspectRatio;
             if (Math.Abs(newSize.Height - expectedHeight) > 1)
                 this.Height = expectedHeight;
         }
         else
         {
-            // �û���Ҫ���϶��߶�
             double expectedWidth = newSize.Height * AspectRatio;
             if (Math.Abs(newSize.Width - expectedWidth) > 1)
                 this.Width = expectedWidth;

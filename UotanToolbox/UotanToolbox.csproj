@@ -95,6 +95,9 @@
 		<Compile Update="Features\Settings\SettingsView.axaml.cs">
 			<DependentUpon>SettingsView.axaml</DependentUpon>
 		</Compile>
+		<Compile Update="Features\Wiredflash\SetMagiskDialogView.axaml.cs">
+		  <DependentUpon>SetMagiskDialogView.axaml</DependentUpon>
+		</Compile>
 		<Compile Update="MainView.axaml.cs">
 			<DependentUpon>MainView.axaml</DependentUpon>
 		</Compile>

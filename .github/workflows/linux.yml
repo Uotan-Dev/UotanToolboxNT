@@ -39,8 +39,8 @@ jobs:
 
     - name: Build
       run: |
-        dotnet publish -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./publish-x64
-        dotnet publish -r linux-arm64 --self-contained true -p:PublishSingleFile=true -o ./publish-arm64
+        dotnet publish -r linux-x64 --self-contained true -o ./publish-x64
+        dotnet publish -r linux-arm64 --self-contained true -o ./publish-arm64
 
     - name: Make deb-x64
       run: |

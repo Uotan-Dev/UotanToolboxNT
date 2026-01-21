@@ -1,10 +1,13 @@
+using Avalonia;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
+using ReactiveUI;
 using SukiUI.Controls;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using UotanToolbox.Common;
@@ -14,6 +17,8 @@ namespace UotanToolbox.Features.Home;
 
 public partial class WirelessADB : SukiWindow
 {
+    private const double AspectRatio = 850.0 / 455.0;
+    private Size _lastSize = new Size(850, 455);
     private readonly ISukiDialogManager _thisDialogManager = new SukiDialogManager();
     private readonly ISukiToastManager _thisToastManager = new SukiToastManager();
     private static IImage image;
@@ -33,6 +38,29 @@ public partial class WirelessADB : SukiWindow
         ToastHost.Manager = _thisToastManager;
         StartScanm();
         QRCode.Source = ConvertToBitmap(ADBPairHelper.QRCodeInit(Global.serviceID, Global.password));
+        this.GetObservable(ClientSizeProperty).Subscribe(OnClientSizeChanged);
+        this.CanResize = Global.SetResize;
+    }
+
+    private void OnClientSizeChanged(Size newSize)
+    {
+        double deltaWidth = Math.Abs(newSize.Width - _lastSize.Width);
+        double deltaHeight = Math.Abs(newSize.Height - _lastSize.Height);
+
+        if (deltaWidth > deltaHeight)
+        {
+            double expectedHeight = newSize.Width / AspectRatio;
+            if (Math.Abs(newSize.Height - expectedHeight) > 1)
+                this.Height = expectedHeight;
+        }
+        else
+        {
+            double expectedWidth = newSize.Height * AspectRatio;
+            if (Math.Abs(newSize.Width - expectedWidth) > 1)
+                this.Width = expectedWidth;
+        }
+
+        _lastSize = new Size(this.Width, this.Height);
     }
 
     private async void SetOH(object sender, RoutedEventArgs args)

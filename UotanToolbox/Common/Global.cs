@@ -22,6 +22,7 @@ namespace UotanToolbox.Common
         public static BootInfo Bootinfo = new BootInfo("", "", "", false, false, "", "", "", "", false, false, false, "", "", "");
         public static int mb_exitcode, cpio_exitcode, load_times;
         public static string SetBoot = null;
+        public static bool SetResize = false;
         //分区表储存
         public static string sdatable = "";
         public static string sdbtable = "";

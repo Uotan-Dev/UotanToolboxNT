@@ -193,7 +193,12 @@ public partial class HomeView : UserControl
 
     private void OpenWirelessADB(object sender, RoutedEventArgs args)
     {
-        _wirelessADB = new WirelessADB();
+        _wirelessADB = new WirelessADB
+        {
+            Width = 850,
+            Height = 455,
+            WindowStartupLocation = WindowStartupLocation.CenterOwner
+        };
         _wirelessADB.Show();
     }
 

@@ -63,6 +63,18 @@ public partial class MainView : SukiWindow
             this.SystemDecorations = SystemDecorations.Full;
         }
     }
+    
+    private void SetResize(object sender, RoutedEventArgs e)
+    {
+        if (this.CanResize)
+        {
+            Global.SetResize = true;
+        }
+        else
+        {
+            Global.SetResize = false;
+        }
+    }
 
     private void MenuItem_OnClick(object sender, RoutedEventArgs e)
     {

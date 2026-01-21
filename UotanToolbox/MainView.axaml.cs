@@ -66,14 +66,7 @@ public partial class MainView : SukiWindow
     
     private void SetResize(object sender, RoutedEventArgs e)
     {
-        if (this.CanResize)
-        {
-            Global.SetResize = true;
-        }
-        else
-        {
-            Global.SetResize = false;
-        }
+        Global.SetResize = this.CanResize;
     }
 
     private void MenuItem_OnClick(object sender, RoutedEventArgs e)

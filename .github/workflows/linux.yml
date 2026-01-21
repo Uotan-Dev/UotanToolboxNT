@@ -39,8 +39,8 @@ jobs:
 
     - name: Build
       run: |
-        dotnet publish -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-x64
-        dotnet publish -r linux-arm64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish-arm64
+        dotnet publish -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./publish-x64
+        dotnet publish -r linux-arm64 --self-contained true -p:PublishSingleFile=true -o ./publish-arm64
 
     - name: Make deb-x64
       run: |
@@ -53,10 +53,10 @@ jobs:
         chmod +x ./staging_folder/usr/bin/UotanToolbox
         mkdir ./staging_folder/usr/lib
         mkdir ./staging_folder/usr/lib/UotanToolbox
-        cp -r ./UotanToolboxNT.Binary/Linux_AMD64/* ./staging_folder/usr/lib/UotanToolbox/
         cp -r ./publish-x64/* ./staging_folder/usr/lib/UotanToolbox/
         chmod -R a+rX ./staging_folder/usr/lib/UotanToolbox/
         chmod +x ./staging_folder/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AMD64/* ./staging_folder/usr/lib/UotanToolbox/
         mkdir ./staging_folder/usr/share
         mkdir ./staging_folder/usr/share/applications
         cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop ./staging_folder/usr/share/applications/UotanToolbox.desktop
@@ -75,10 +75,10 @@ jobs:
         chmod +x ./staging_folder/usr/bin/UotanToolbox
         mkdir ./staging_folder/usr/lib
         mkdir ./staging_folder/usr/lib/UotanToolbox
-        cp -r ./UotanToolboxNT.Binary/Linux_AArch64/* ./staging_folder/usr/lib/UotanToolbox/
         cp -r ./publish-arm64/* ./staging_folder/usr/lib/UotanToolbox/
         chmod -R a+rX ./staging_folder/usr/lib/UotanToolbox/
         chmod +x ./staging_folder/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AArch64/* ./staging_folder/usr/lib/UotanToolbox/
         mkdir ./staging_folder/usr/share
         mkdir ./staging_folder/usr/share/applications
         cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop ./staging_folder/usr/share/applications/UotanToolbox.desktop

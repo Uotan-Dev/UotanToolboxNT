@@ -102,10 +102,10 @@
 								<StackPanel HorizontalAlignment="Left">
 									<TextBlock FontSize="16"
 											   FontWeight="DemiBold"
-											   Text="Boot修补配置文件" />
+											   Text="{x:Static assets:Resources.Settings_BootPatch}" />
 									<StackPanel Orientation="Horizontal" Margin="-5 0 0 0" Spacing="4">
 										<TextBox Width="560" Name="CsvPath" Text="{Binding CsvPath, Mode=TwoWay}"/>
-										<Button Width="145" Height="35" Content="选择文件" Click="OpenCSVFile"/>
+										<Button Width="145" Height="35" Content="{x:Static assets:Resources.Common_ChooseFile}" Click="OpenCSVFile"/>
 									</StackPanel>
 								</StackPanel>
 							</DockPanel>

@@ -514,7 +514,7 @@
     <value>Patch vbmeta</value>
   </data>
   <data name="Basicflash_Start" xml:space="preserve">
-    <value>Start patching</value>
+    <value>Start patch</value>
   </data>
   <data name="Basicflash_SyncABPart" xml:space="preserve">
     <value>Sync AB Partition</value>
@@ -1629,5 +1629,17 @@ If you wish to replace Magisk, please first select your Magisk on the Basic Flas
   </data>
   <data name="Wiredflash_DisVbmeta" xml:space="preserve">
     <value>Disable vbmeta</value>
+  </data>
+  <data name="Settings_BootPatch" xml:space="preserve">
+    <value>Boot patch config flie</value>
+  </data>
+  <data name="Wiredflash_PatchConfig" xml:space="preserve">
+    <value>Patch config</value>
+  </data>
+  <data name="Basicflash_NotSupportK" xml:space="preserve">
+    <value>Do not support KernelSU patched boot.img！</value>
+  </data>
+  <data name="Basicflash_NotSupportM" xml:space="preserve">
+    <value>Do not support Magisk patched boot.img!</value>
   </data>
 </root>

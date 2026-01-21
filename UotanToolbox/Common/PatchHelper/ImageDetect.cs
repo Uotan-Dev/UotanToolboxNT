@@ -85,12 +85,12 @@ namespace UotanToolbox.Common.PatchHelper
                 (_, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" test", workpath);
                 if (exitcode != 0)
                 {
-                    throw new Exception("Do not support magisk patched boot.img");
+                    throw new Exception(GetTranslation("Basicflash_NotSupportM"));
                 }
                 (_, exitcode) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" \"exists kernelsu.ko\"", workpath);
                 if (exitcode == 0)
                 {
-                    throw new Exception("Do not support kernelsu patched boot.img");
+                    throw new Exception(GetTranslation("Basicflash_NotSupportK"));
                 }
                 (_, _) = await CallExternalProgram.MagiskBoot($"cpio \"{cpio_file}\" extract", ramdisk_path);
                 if (Global.System == "macOS")

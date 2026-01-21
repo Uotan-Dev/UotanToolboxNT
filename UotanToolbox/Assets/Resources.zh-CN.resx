@@ -1630,4 +1630,16 @@ ADB下填写序号，一次一个！</value>
   <data name="Wiredflash_DisVbmeta" xml:space="preserve">
     <value>禁用  vbmeta</value>
   </data>
+  <data name="Settings_BootPatch" xml:space="preserve">
+    <value>Boot修补配置文件</value>
+  </data>
+  <data name="Wiredflash_PatchConfig" xml:space="preserve">
+    <value>修补配置</value>
+  </data>
+  <data name="Basicflash_NotSupportK" xml:space="preserve">
+    <value>不支持 KernelSU 修补过的 Boot 镜像！</value>
+  </data>
+  <data name="Basicflash_NotSupportM" xml:space="preserve">
+    <value>不支持 Magisk 修补过的 Boot 镜像！</value>
+  </data>
 </root>

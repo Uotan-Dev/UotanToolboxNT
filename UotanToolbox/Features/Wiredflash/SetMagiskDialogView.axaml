@@ -10,10 +10,10 @@
              d:DesignWidth="540"
              x:DataType="wiredflash:SetMagiskDialogViewModel"
              mc:Ignorable="d">
-    <suki:GroupBox Header="修补设置">
+    <suki:GroupBox Header="{x:Static assets:Resources.Wiredflash_PatchConfig}">
         <StackPanel Classes="HeaderContent">
             <StackPanel Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"/>
+                <TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseMagisk}"/>
 				<TextBox Name="MagiskFile" Width="380" />
                 <Button Width="100" Height="35" 
                         Padding="10,0,10,0" 
@@ -21,7 +21,7 @@
                         Click="OpenMagiskFile"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"/>
+                <TextBlock Width="60" VerticalAlignment="Center" Text="{x:Static assets:Resources.Basicflash_ChooseBoot}"/>
                 <ComboBox Name="BootImagesList" SelectedIndex="0" Width="200" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="5">

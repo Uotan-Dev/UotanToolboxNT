@@ -277,8 +277,8 @@
 								</TextBlock>
 							</Button>
 						</StackPanel>
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
-							<Button Width="140"
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="15">
+							<Button Width="180"
 									HorizontalAlignment="Left"
 									Padding="8"
 									Click="FullBackup">
@@ -287,7 +287,7 @@
 									<TextBlock Text="{x:Static assets:Resources.FormatExtract_FullBackup}"/>
 								</TextBlock>
 							</Button>
-							<Button Width="140"
+							<Button Width="180"
 									HorizontalAlignment="Left"
 									Padding="8"
 									Click="OpenExtractFile">

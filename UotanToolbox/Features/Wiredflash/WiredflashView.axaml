@@ -65,18 +65,21 @@
 										<CheckBox Name="AddRoot" IsChecked="False" Checked="CheckRoot"/>
 										<TextBlock VerticalAlignment="Center"
 												   FontSize="13"
+												   Width="90"
 												   Text="{x:Static assets:Resources.Wiredflash_AddMagisk}" />
 									</StackPanel>
 									<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
 										<CheckBox Name="DisVbmeta" IsChecked="True" />
 										<TextBlock VerticalAlignment="Center"
 												   FontSize="13"
+												   Width="90"
 												   Text="{x:Static assets:Resources.Wiredflash_DisVbmeta}" />
 									</StackPanel>
 									<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="10">
 										<CheckBox Name="ErasData" IsChecked="False" />
 										<TextBlock VerticalAlignment="Center"
 												   FontSize="13"
+												   Width="90"
 												   Text="{x:Static assets:Resources.Wiredflash_ClearAllData}" />
 									</StackPanel>
 									<Button Width="115"

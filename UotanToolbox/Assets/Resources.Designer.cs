@@ -880,6 +880,24 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Do not support KernelSU patched boot.img！ 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_NotSupportK {
+            get {
+                return ResourceManager.GetString("Basicflash_NotSupportK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Do not support Magisk patched boot.img! 的本地化字符串。
+        /// </summary>
+        public static string Basicflash_NotSupportM {
+            get {
+                return ResourceManager.GetString("Basicflash_NotSupportM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The current device does not require this operation! 的本地化字符串。
         /// </summary>
         public static string Basicflash_NotUsed {
@@ -1105,7 +1123,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Start patching 的本地化字符串。
+        ///   查找类似 Start patch 的本地化字符串。
         /// </summary>
         public static string Basicflash_Start {
             get {
@@ -4062,6 +4080,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Boot patch config flie 的本地化字符串。
+        /// </summary>
+        public static string Settings_BootPatch {
+            get {
+                return ResourceManager.GetString("Settings_BootPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Check Update 的本地化字符串。
         /// </summary>
         public static string Settings_CheckUpdate {
@@ -4483,6 +4510,15 @@ namespace UotanToolbox.Assets {
         public static string Wiredflash_OpenAPK {
             get {
                 return ResourceManager.GetString("Wiredflash_OpenAPK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Patch config 的本地化字符串。
+        /// </summary>
+        public static string Wiredflash_PatchConfig {
+            get {
+                return ResourceManager.GetString("Wiredflash_PatchConfig", resourceCulture);
             }
         }
         

@@ -44,7 +44,7 @@
 		<PackageReference Include="ShowMeTheXaml.Avalonia" Version="1.5.1" />
 		<PackageReference Include="ShowMeTheXaml.Avalonia.Generator" Version="1.5.1" />
 		<PackageReference Include="SkiaSharp" Version="3.119.1" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.1" />
 		<PackageReference Include="SukiUI" Version="6.0.1" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.2" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.7" />

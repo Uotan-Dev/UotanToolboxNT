@@ -215,7 +215,7 @@
 											<TextBlock Text="{x:Static assets:Resources.Settings_CurrentVersion}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 											<TextBlock Text="{Binding CurrentVersion}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
 										</StackPanel>
-										<TextBlock FontSize="12">© 2020-2025 UOTAN</TextBlock>
+										<TextBlock FontSize="12">© 2020-2026 UOTAN</TextBlock>
 									</StackPanel>
 
 									<StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">

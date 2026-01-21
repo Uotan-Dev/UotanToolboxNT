@@ -231,7 +231,7 @@ public partial class FormatExtractView : UserControl
                                             TopLevel topLevel = TopLevel.GetTopLevel(this);
                                             System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                                             {
-                                                Title = "Select Buckup Folder",
+                                                Title = "Select Backup Folder",
                                                 AllowMultiple = false
                                             });
                                             if (files.Count >= 1)
@@ -576,7 +576,7 @@ public partial class FormatExtractView : UserControl
                                             TopLevel topLevel = TopLevel.GetTopLevel(this);
                                             System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                                             {
-                                                Title = "Select Buckup Folder",
+                                                Title = "Select Backup Folder",
                                                 AllowMultiple = false
                                             });
                                             if (files.Count >= 1)
@@ -759,7 +759,7 @@ public partial class FormatExtractView : UserControl
                                             TopLevel topLevel = TopLevel.GetTopLevel(this);
                                             System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                                             {
-                                                Title = "Select Buckup Folder",
+                                                Title = "Select Backup Folder",
                                                 AllowMultiple = false
                                             });
                                             if (files.Count >= 1)
@@ -949,7 +949,7 @@ public partial class FormatExtractView : UserControl
                                             TopLevel topLevel = TopLevel.GetTopLevel(this);
                                             System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                                             {
-                                                Title = "Select Buckup Folder",
+                                                Title = "Select Backup Folder",
                                                 AllowMultiple = false
                                             });
                                             if (files.Count >= 1)
@@ -1464,7 +1464,7 @@ public partial class FormatExtractView : UserControl
                                             TopLevel topLevel = TopLevel.GetTopLevel(this);
                                             System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
                                             {
-                                                Title = "Select Buckup Folder",
+                                                Title = "Select Backup Folder",
                                                 AllowMultiple = false
                                             });
                                             if (files.Count >= 1)

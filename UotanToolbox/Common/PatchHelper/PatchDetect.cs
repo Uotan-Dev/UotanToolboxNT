@@ -54,7 +54,11 @@ namespace UotanToolbox.Common.PatchHelper
                     string[] imageFiles = Directory.GetFiles(Patchinfo.TempPath, "Image", SearchOption.AllDirectories);
                     isGki = imageFiles.Length > 0;
                 }
-                string[] ksuFiles = Directory.GetFiles(Patchinfo.TempPath, "libkernelsu.so", SearchOption.AllDirectories);
+                string[] ksuFiles = Directory.GetFiles(Patchinfo.TempPath, "libksud.so", SearchOption.AllDirectories);
+                if (ksuFiles.Length == 0)
+                {
+                    ksuFiles = Directory.GetFiles(Patchinfo.TempPath, "libksud.so", SearchOption.AllDirectories);
+                }
                 bool isksu_apk = ksuFiles.Length > 0;
                 if (isMagisk)
                 {
@@ -68,7 +72,8 @@ namespace UotanToolbox.Common.PatchHelper
                 }
                 else if (isksu_apk)
                 {
-                    throw new Exception(GetTranslation("Basicflash_CantKSU"));
+                    Patchinfo.Mode = PatchMode.LKM;
+                    Patchinfo.IsUseful = true;
                 }
                 else
                 {

@@ -42,11 +42,30 @@ namespace UotanToolbox.Common.PatchHelper
             {
                 throw new Exception("unsupported arch" + bootInfo.Arch);
             }
-            File.Copy(Path.Combine(zipInfo.TempPath, "kernelsu.ko"), Path.Combine(bootInfo.TempPath, "kernelsu.ko"), true);
+
+            string koPath = Path.Combine(zipInfo.TempPath, "kernelsu.ko");
+            if (!File.Exists(koPath))
+            {
+                if (zipInfo.Path.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
+                {
+                    string extractedKo = KsuAssetExtractor.ExtractKoFromApk(zipInfo.Path, zipInfo.TempPath, bootInfo.Arch, bootInfo.KMI);
+                    if (!string.IsNullOrEmpty(extractedKo))
+                    {
+                        koPath = extractedKo;
+                    }
+                }
+            }
+
+            if (!File.Exists(koPath))
+            {
+                throw new Exception("kernelsu.ko not found in patch source.");
+            }
+
+            File.Copy(koPath, Path.Combine(bootInfo.TempPath, "kernelsu.ko"), true);
             string archSubfolder = bootInfo.Arch switch
             {
                 "aarch64" => "arm64-v8a",
-                "X86-64" => "x86_64",
+                //"X86-64" => "x86_64",
                 _ => throw new ArgumentException($"{GetTranslation("Basicflash_UnknowArch")}{bootInfo.Arch}")
             };
             File.Copy(Path.Combine(Global.bin_path, "ksud", archSubfolder, "init"), Path.Combine(bootInfo.TempPath, "init"));

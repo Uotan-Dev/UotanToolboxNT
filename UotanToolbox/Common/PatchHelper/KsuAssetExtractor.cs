@@ -61,6 +61,31 @@ namespace UotanToolbox.Common.PatchHelper
             return null;
         }
 
+        public static string ExtractKoFromKsudFile(string ksudPath, string outputDir, string kernelVersion)
+        {
+            if (!File.Exists(ksudPath)) return null;
+            byte[] data = File.ReadAllBytes(ksudPath);
+            var extractedFiles = ProcessData(data, outputDir);
+
+            if (!string.IsNullOrEmpty(kernelVersion))
+            {
+                var match = extractedFiles.Keys.FirstOrDefault(k => k.EndsWith(".ko") && k.Contains(kernelVersion));
+                if (match != null)
+                {
+                    return Path.Combine(outputDir, match);
+                }
+
+                throw new Exception(string.Format(FeaturesHelper.GetTranslation("Patch_KSUKoNotFound"), kernelVersion));
+            }
+
+            var koFile = extractedFiles.Keys.FirstOrDefault(k => k.EndsWith(".ko"));
+            if (koFile != null)
+            {
+                return Path.Combine(outputDir, koFile);
+            }
+            return null;
+        }
+
         public static bool IsKsudHaveKo(string ksudPath)
         {
             try

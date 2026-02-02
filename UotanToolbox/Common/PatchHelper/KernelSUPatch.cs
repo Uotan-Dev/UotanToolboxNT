@@ -44,11 +44,20 @@ namespace UotanToolbox.Common.PatchHelper
             }
 
             string koPath = Path.Combine(zipInfo.TempPath, "kernelsu.ko");
-            if (!File.Exists(koPath))
+            if (zipInfo.Path.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
             {
-                if (zipInfo.Path.EndsWith(".apk", StringComparison.OrdinalIgnoreCase))
+                string extractedKo = KsuAssetExtractor.ExtractKoFromApk(zipInfo.Path, zipInfo.TempPath, bootInfo.Arch, bootInfo.KMI);
+                if (!string.IsNullOrEmpty(extractedKo))
                 {
-                    string extractedKo = KsuAssetExtractor.ExtractKoFromApk(zipInfo.Path, zipInfo.TempPath, bootInfo.Arch, bootInfo.KMI);
+                    koPath = extractedKo;
+                }
+            }
+            else
+            {
+                string[] ksuFiles = Directory.GetFiles(zipInfo.TempPath, "libksud.so", SearchOption.AllDirectories);
+                if (ksuFiles.Length > 0)
+                {
+                    string extractedKo = KsuAssetExtractor.ExtractKoFromKsudFile(ksuFiles[0], zipInfo.TempPath, bootInfo.KMI);
                     if (!string.IsNullOrEmpty(extractedKo))
                     {
                         koPath = extractedKo;

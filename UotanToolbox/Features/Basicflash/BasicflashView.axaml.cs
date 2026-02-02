@@ -706,7 +706,6 @@ public partial class BasicflashView : UserControl
                 case PatchMode.LKM:
                     newboot = await KernelSUPatch.LKM_Patch(Global.Zipinfo, Global.Bootinfo);
                     break;
-                    throw new Exception(GetTranslation("Basicflash_CantKSU"));
             }
             Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Succ"))

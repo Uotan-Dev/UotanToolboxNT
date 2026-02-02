@@ -685,15 +685,23 @@ namespace UotanToolbox.Common
         /// <returns>KMI版本号</returns>
         public static string ExtractKMI(string version)
         {
-            string pattern = @"(.* )?(\d+\.\d+)(\S+)?(android\d+)(.*)";
-            Match match = Regex.Match(version, pattern);
-            if (!match.Success)
+            if (string.IsNullOrEmpty(version)) return "";
+
+            var matchKmi = Regex.Match(version, @"android(\d+)-(\d+\.\d+)");
+            if (matchKmi.Success)
             {
-                return "";
+                return $"android{matchKmi.Groups[1].Value}-{matchKmi.Groups[2].Value}";
             }
-            string androidVersion = match.Groups[4].Value;
-            string kernelVersion = match.Groups[2].Value;
-            return $"{androidVersion}-{kernelVersion}";
+
+            var kernelMatch = Regex.Match(version, @"(\d+\.\d+)");
+            var androidMatch = Regex.Match(version, @"android(\d+)");
+
+            if (kernelMatch.Success && androidMatch.Success)
+            {
+                return $"android{androidMatch.Groups[1].Value}-{kernelMatch.Groups[1].Value}";
+            }
+
+            return "";
         }
 
         public static string ByteToHex(byte comByte)

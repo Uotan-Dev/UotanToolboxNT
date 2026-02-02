@@ -56,16 +56,28 @@ namespace UotanToolbox.Common.PatchHelper
         {
             string kmi = "", version = "", arch = "";
             bool have_kernel = false, gki2 = false;
-            if (File.Exists(Path.Combine(temp, "kernel")))
+            string kernelPath = Path.Combine(temp, "kernel");
+            if (File.Exists(kernelPath))
             {
                 have_kernel = true;
-                version = FileHelper.ReadKernelVersion(Path.Combine(temp, "kernel"));
+                version = FileHelper.ReadKernelVersion(kernelPath);
                 kmi = StringHelper.ExtractKMI(version);
+                if (string.IsNullOrEmpty(kmi))
+                {
+                    try
+                    {
+                        byte[] data = await File.ReadAllBytesAsync(kernelPath);
+                        string rawContent = System.Text.Encoding.ASCII.GetString(System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Select(data, b => (b >= 32 && b <= 126) ? b : (byte)'.')));
+                        kmi = StringHelper.ExtractKMI(rawContent);
+                    }
+                    catch { }
+                }
+
                 if (!string.IsNullOrEmpty(kmi))
                 {
                     gki2 = true;
                 }
-                string kernel_info = await CallExternalProgram.File($"\"{Path.Combine(temp, "kernel")}\"");
+                string kernel_info = await CallExternalProgram.File($"\"{kernelPath}\"");
                 arch = ArchDetect(kernel_info);
             }
             return (version, kmi, have_kernel, gki2, arch);

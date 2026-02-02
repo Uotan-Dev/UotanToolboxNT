@@ -349,44 +349,65 @@ namespace UotanToolbox.Common
         /// <returns>内核编译签名信息</returns>
         public static string ReadKernelVersion(string filePath)
         {
-            byte[] Signature = [0x69, 0x6e, 0x69, 0x74, 0x63, 0x61, 0x6c, 0x6c, 0x5f, 0x64, 0x65, 0x62, 0x75, 0x67, 0x00];
-            using FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            using BinaryReader br = new BinaryReader(fs);
-            long signaturePosition = FindSignaturePosition(br, Signature);
-            if (signaturePosition == -1)
+            if (!File.Exists(filePath)) return "";
+            try
             {
-                return "";
-            }
-            _ = fs.Seek(signaturePosition + Signature.Length, SeekOrigin.Begin);
-            return ReadUntilTerminator(br);
-        }
-        private static long FindSignaturePosition(BinaryReader reader, byte[] signature)
-        {
-            byte[] buffer = new byte[signature.Length];
-            long position = 0;
-            while (position + signature.Length <= reader.BaseStream.Length)
-            {
-                _ = reader.BaseStream.Seek(position, SeekOrigin.Begin);
-                _ = reader.Read(buffer, 0, signature.Length);
-                if (buffer.SequenceEqual(signature))
+
+                byte[] initcallSignature = [0x69, 0x6e, 0x69, 0x74, 0x63, 0x61, 0x6c, 0x6c, 0x5f, 0x64, 0x65, 0x62, 0x75, 0x67, 0x00];
+                byte[] linuxVersionSignature = Encoding.ASCII.GetBytes("Linux version ");
+
+                using FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                byte[] data = new byte[fs.Length];
+                fs.Read(data, 0, data.Length);
+
+                // initcall_debug
+                int index = IndexOf(data, initcallSignature);
+                if (index != -1)
                 {
-                    return position;
+                    return ReadNullTerminatedString(data, index + initcallSignature.Length);
                 }
-                position++;
+
+                // Linux version
+                index = IndexOf(data, linuxVersionSignature);
+                if (index != -1)
+                {
+                    return ReadNullTerminatedString(data, index);
+                }
+            }
+            catch { }
+            return "";
+        }
+
+        private static int IndexOf(byte[] data, byte[] pattern)
+        {
+            if (pattern.Length > data.Length) return -1;
+            for (int i = 0; i <= data.Length - pattern.Length; i++)
+            {
+                bool found = true;
+                for (int j = 0; j < pattern.Length; j++)
+                {
+                    if (data[i + j] != pattern[j])
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+                if (found) return i;
             }
             return -1;
         }
-        private static string ReadUntilTerminator(BinaryReader reader)
+
+        private static string ReadNullTerminatedString(byte[] data, int startIndex)
         {
             StringBuilder sb = new StringBuilder();
-            int b;
-            while ((b = reader.ReadByte()) != 0x00)
+            for (int i = startIndex; i < data.Length; i++)
             {
-                _ = sb.Append((char)b);
-            }
-            while ((b = reader.ReadByte()) != 0x00)
-            {
-                _ = sb.Append((char)b);
+                if (data[i] == 0)
+                {
+                    if (sb.Length == 0) continue;
+                    break;
+                }
+                sb.Append((char)data[i]);
             }
             return sb.ToString();
         }

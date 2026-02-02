@@ -2,6 +2,7 @@
 using SharpCompress.Common;
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Threading.Tasks;
 
 namespace UotanToolbox.Common.PatchHelper
@@ -32,14 +33,21 @@ namespace UotanToolbox.Common.PatchHelper
                 Patchinfo.Mode = PatchMode.LKM;
                 Patchinfo.IsUseful = true;
             }
-            if (file_magic.Contains("archive") || file_magic.Contains("APK"))
+            if (file_magic.Contains("archive") || file_magic.Contains("APK") || path.EndsWith(".apk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
             {
-                using IArchive archive = ArchiveFactory.Open(path);
-                foreach (IArchiveEntry entry in archive.Entries)
+                try
                 {
-                    if (!entry.IsDirectory)
+                    ZipFile.ExtractToDirectory(path, Patchinfo.TempPath, true);
+                }
+                catch
+                {
+                    using IArchive archive = ArchiveFactory.Open(path);
+                    foreach (IArchiveEntry entry in archive.Entries)
                     {
-                        entry.WriteToDirectory(Patchinfo.TempPath, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                        if (!entry.IsDirectory)
+                        {
+                            entry.WriteToDirectory(Patchinfo.TempPath, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                        }
                     }
                 }
                 bool isMagisk = Directory.Exists(Path.Combine(Patchinfo.TempPath, "assets")) && File.Exists(Path.Combine(Patchinfo.TempPath, "assets", "util_functions.sh"));
@@ -55,11 +63,8 @@ namespace UotanToolbox.Common.PatchHelper
                     isGki = imageFiles.Length > 0;
                 }
                 string[] ksuFiles = Directory.GetFiles(Patchinfo.TempPath, "libksud.so", SearchOption.AllDirectories);
-                if (ksuFiles.Length == 0)
-                {
-                    ksuFiles = Directory.GetFiles(Patchinfo.TempPath, "libksud.so", SearchOption.AllDirectories);
-                }
                 bool isksu_apk = ksuFiles.Length > 0;
+                
                 if (isMagisk)
                 {
                     Patchinfo.Mode = PatchMode.Magisk;

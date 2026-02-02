@@ -1289,6 +1289,42 @@ Fill ID in ADB, one at a time!</value>
   <data name="Basicflash_ZipError" xml:space="preserve">
     <value>An error occurred while parsing the zip format</value>
   </data>
+  <data name="Patch_KernelSUPackFailed" xml:space="preserve">
+    <value>KernelSU pack failed: </value>
+  </data>
+  <data name="Patch_KernelSUNotFound" xml:space="preserve">
+    <value>kernelsu.ko not found in patch source.</value>
+  </data>
+  <data name="Patch_KernelSUPatchFailed" xml:space="preserve">
+    <value>KernelSU patch failed: </value>
+  </data>
+  <data name="Patch_BootCleanFailed" xml:space="preserve">
+    <value>Boot clean failed: </value>
+  </data>
+  <data name="Patch_MagiskCopyFailed" xml:space="preserve">
+    <value>Magisk component copy failed: </value>
+  </data>
+  <data name="Patch_MagiskRamdiskPatchFailed" xml:space="preserve">
+    <value>Magisk ramdisk patch failed: </value>
+  </data>
+  <data name="Patch_MagiskPatchFailed" xml:space="preserve">
+    <value>Magisk patch failed.</value>
+  </data>
+  <data name="Patch_MagiskDTBPatchFailed" xml:space="preserve">
+    <value>Magisk DTB patch failed: </value>
+  </data>
+  <data name="Patch_KSUOnlyArm64" xml:space="preserve">
+    <value>KernelSU only supports ARM64 architecture.</value>
+  </data>
+  <data name="Patch_KSUKsudNotFound" xml:space="preserve">
+    <value>Could not find libksud.so for architecture {0} in APK.</value>
+  </data>
+  <data name="Patch_KSUKoNotFound" xml:space="preserve">
+    <value>Cannot find a matching kernelsu.ko for kernel version {0} in this APK.</value>
+  </data>
+  <data name="Common_PlatformNotSupported" xml:space="preserve">
+    <value>This function only supports Windows, macOS and Linux.</value>
+  </data>
   <data name="Common_ExeFailed" xml:space="preserve">
     <value>Execution failed!</value>
   </data>

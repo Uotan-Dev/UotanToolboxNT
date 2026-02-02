@@ -57,7 +57,7 @@ namespace UotanToolbox.Common.PatchHelper
                             ? Path.Combine(Global.bin_path, "7z", "7za.exe")
                             : RuntimeInformation.IsOSPlatform(OSPlatform.Linux) | (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                             ? Path.Combine(Global.bin_path, "7zza")
-                            : throw new PlatformNotSupportedException("This function only supports Windows,macOS and Linux."),
+                            : throw new PlatformNotSupportedException(GetTranslation("Common_PlatformNotSupported")),
                 MagiskbootPath = Path.Combine(Global.bin_path, "magiskboot"),
                 CsvConfPath = csvConfPath,
                 CpuType = cpuType,
@@ -81,7 +81,7 @@ namespace UotanToolbox.Common.PatchHelper
 
             if (!patchResult.IsSuccess)
             {
-                string fallbackMessage = $"{GetTranslation("Common_Error")}: Magisk patch failed.";
+                string fallbackMessage = GetTranslation("Patch_MagiskPatchFailed");
                 string message = string.IsNullOrWhiteSpace(patchResult.ErrorMessage) ? fallbackMessage : patchResult.ErrorMessage!;
                 if (patchResult.Exception != null)
                 {
@@ -177,7 +177,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             catch (Exception ex)
             {
-                throw new Exception("comp_copy failed: " + ex.Message);
+                throw new Exception(GetTranslation("Patch_MagiskCopyFailed") + ex.Message);
             }
 
         }
@@ -188,12 +188,12 @@ namespace UotanToolbox.Common.PatchHelper
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0750 init init\" \"mkdir 0750 overlay.d\" \"mkdir 0750 overlay.d/sbin\" \"add 0644 overlay.d/sbin/magisk32.xz magisk32.xz\" ", bootInfo.TempPath);
             if (exitcode != 0)
             {
-                throw new Exception("ramdisk_patch_1 failed: " + mb_output);
+                throw new Exception(GetTranslation("Patch_MagiskRamdiskPatchFailed") + mb_output);
             }
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/stub.xz stub.xz\" \"patch\" \"backup ramdisk.cpio.orig\" \"mkdir 000 .backup\" \"add 000 .backup/.magisk config\"", bootInfo.TempPath);
             if (exitcode != 0)
             {
-                throw new Exception("ramdisk_patch_2 failed: " + mb_output);
+                throw new Exception(GetTranslation("Patch_MagiskRamdiskPatchFailed") + mb_output);
             }
 
             if (File.Exists(Path.Combine(bootInfo.TempPath, "magisk64.xz")))
@@ -201,7 +201,7 @@ namespace UotanToolbox.Common.PatchHelper
                 (mb_output, exitcode) = await CallExternalProgram.MagiskBoot("cpio ramdisk.cpio \"add 0644 overlay.d/sbin/magisk64.xz magisk64.xz\"", bootInfo.TempPath);
                 if (exitcode != 0)
                 {
-                    throw new Exception("ramdisk_patch_3 failed: " + mb_output);
+                    throw new Exception(GetTranslation("Patch_MagiskRamdiskPatchFailed") + mb_output);
                 }
             }
         }
@@ -241,7 +241,7 @@ namespace UotanToolbox.Common.PatchHelper
                 (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"dtb {bootInfo.DTBName} test", bootInfo.TempPath);
                 if (exitcode != 0)
                 {
-                    throw new Exception("dtb_patch_1 failed: " + mb_output);
+                    throw new Exception(GetTranslation("Patch_MagiskDTBPatchFailed") + mb_output);
                 }
                 (_, _) = await CallExternalProgram.MagiskBoot($"dtb {bootInfo.DTBName} patch", bootInfo.TempPath);
             }
@@ -277,7 +277,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             catch (Exception ex)
             {
-                throw new Exception("bootclean failed: " + ex.Message);
+                throw new Exception(GetTranslation("Patch_BootCleanFailed") + ex.Message);
             }
         }
     }

@@ -1289,6 +1289,42 @@ ADB下填写序号，一次一个！</value>
   <data name="Basicflash_ZipError" xml:space="preserve">
     <value>解析zip格式时发生错误</value>
   </data>
+  <data name="Patch_KernelSUPackFailed" xml:space="preserve">
+    <value>KernelSU 打包失败：</value>
+  </data>
+  <data name="Patch_KernelSUNotFound" xml:space="preserve">
+    <value>补丁源中未找到 kernelsu.ko。</value>
+  </data>
+  <data name="Patch_KernelSUPatchFailed" xml:space="preserve">
+    <value>KernelSU 修补失败：</value>
+  </data>
+  <data name="Patch_BootCleanFailed" xml:space="preserve">
+    <value>引导清理失败：</value>
+  </data>
+  <data name="Patch_MagiskCopyFailed" xml:space="preserve">
+    <value>Magisk 组件复制失败：</value>
+  </data>
+  <data name="Patch_MagiskRamdiskPatchFailed" xml:space="preserve">
+    <value>Magisk RAMDISK 修补失败：</value>
+  </data>
+  <data name="Patch_MagiskPatchFailed" xml:space="preserve">
+    <value>Magisk 修补失败。</value>
+  </data>
+  <data name="Patch_MagiskDTBPatchFailed" xml:space="preserve">
+    <value>Magisk DTB 修补失败：</value>
+  </data>
+  <data name="Patch_KSUOnlyArm64" xml:space="preserve">
+    <value>KernelSU 仅支持 ARM64 架构。</value>
+  </data>
+  <data name="Patch_KSUKsudNotFound" xml:space="preserve">
+    <value>在 APK 中找不到架构为 {0} 的 libksud.so。</value>
+  </data>
+  <data name="Patch_KSUKoNotFound" xml:space="preserve">
+    <value>在此 APK 中找不到与内核版本 {0} 匹配的 kernelsu.ko。</value>
+  </data>
+  <data name="Common_PlatformNotSupported" xml:space="preserve">
+    <value>此功能仅支持 Windows、macOS 和 Linux。</value>
+  </data>
   <data name="Common_ExeFailed" xml:space="preserve">
     <value>执行失败！</value>
   </data>

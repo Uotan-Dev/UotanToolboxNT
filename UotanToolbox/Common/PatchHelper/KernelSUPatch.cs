@@ -23,7 +23,7 @@ namespace UotanToolbox.Common.PatchHelper
             (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{bootInfo.Path}\"", bootInfo.TempPath);
             if (exitcode != 0)
             {
-                throw new Exception("ksu_pack_1 failed: " + mb_output);
+                throw new Exception(GetTranslation("Patch_KernelSUPackFailed") + mb_output);
             }
             string allowedChars = "abcdef0123456789";
             Random random = new Random();
@@ -40,7 +40,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             if (bootInfo.Arch != "aarch64")
             {
-                throw new Exception("unsupported arch" + bootInfo.Arch);
+                throw new Exception(GetTranslation("Patch_KSUOnlyArm64"));
             }
 
             string koPath = Path.Combine(zipInfo.TempPath, "kernelsu.ko");
@@ -58,7 +58,7 @@ namespace UotanToolbox.Common.PatchHelper
 
             if (!File.Exists(koPath))
             {
-                throw new Exception("kernelsu.ko not found in patch source.");
+                throw new Exception(GetTranslation("Patch_KernelSUNotFound"));
             }
 
             File.Copy(koPath, Path.Combine(bootInfo.TempPath, "kernelsu.ko"), true);
@@ -72,13 +72,13 @@ namespace UotanToolbox.Common.PatchHelper
             (string mb_output, int exitcode) = await CallExternalProgram.MagiskBoot($"cpio ramdisk.cpio \"cp init init.real\" \"add 0755 ksuinit init\" \"add 0755 kernelsu.ko kernelsu.ko\"", bootInfo.TempPath);
             if (exitcode != 0)
             {
-                throw new Exception("lkm_patch failed: " + mb_output);
+                throw new Exception(GetTranslation("Patch_KernelSUPatchFailed") + mb_output);
             }
             CleanBoot(bootInfo.TempPath);
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{bootInfo.Path}\"", bootInfo.TempPath);
             if (exitcode != 0)
             {
-                throw new Exception("lkm_pack failed: " + mb_output);
+                throw new Exception(GetTranslation("Patch_KernelSUPackFailed") + mb_output);
             }
             string allowedChars = "abcdef0123456789";
             Random random = new Random();
@@ -118,7 +118,7 @@ namespace UotanToolbox.Common.PatchHelper
             }
             catch (Exception ex)
             {
-                throw new Exception("bootclean failed: " + ex.Message);
+                throw new Exception(GetTranslation("Patch_BootCleanFailed") + ex.Message);
             }
         }
     }

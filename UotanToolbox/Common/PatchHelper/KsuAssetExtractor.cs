@@ -16,7 +16,7 @@ namespace UotanToolbox.Common.PatchHelper
             {
                 "aarch64" => "arm64-v8a",
                 //"X86-64" => "x86_64",
-                _ => throw new ArgumentException($"Unsupported architecture: {arch}")
+                _ => throw new ArgumentException(FeaturesHelper.GetTranslation("Patch_KSUOnlyArm64"))
             };
 
             using (ZipArchive archive = ZipFile.OpenRead(apkPath))
@@ -29,7 +29,7 @@ namespace UotanToolbox.Common.PatchHelper
 
                 if (ksudEntry == null)
                 {
-                    throw new Exception($"Could not find libksud.so for architecture {archSubfolder} in APK.");
+                    throw new Exception(string.Format(FeaturesHelper.GetTranslation("Patch_KSUKsudNotFound"), archSubfolder));
                 }
 
                 using (Stream s = ksudEntry.Open())
@@ -47,7 +47,7 @@ namespace UotanToolbox.Common.PatchHelper
                             return Path.Combine(outputDir, match);
                         }
                         
-                        throw new Exception($"Cannot find a matching kernelsu.ko for kernel version {kernelVersion} in this APK.");
+                        throw new Exception(string.Format(FeaturesHelper.GetTranslation("Patch_KSUKoNotFound"), kernelVersion));
                     }
 
                     var koFile = extractedFiles.Keys.FirstOrDefault(k => k.EndsWith(".ko"));
@@ -61,7 +61,22 @@ namespace UotanToolbox.Common.PatchHelper
             return null;
         }
 
-        private static Dictionary<string, byte[]> ProcessData(byte[] data, string outputDir)
+        public static bool IsKsudHaveKo(string ksudPath)
+        {
+            try
+            {
+                if (!File.Exists(ksudPath)) return false;
+                byte[] data = File.ReadAllBytes(ksudPath);
+                var results = ProcessData(data, null);
+                return results.Keys.Any(k => k.EndsWith(".ko"));
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        internal static Dictionary<string, byte[]> ProcessData(byte[] data, string outputDir)
         {
             var results = new Dictionary<string, byte[]>();
 

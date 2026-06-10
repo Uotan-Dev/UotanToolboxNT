@@ -1799,4 +1799,67 @@ ADB下填写序号，一次一个！</value>
   <data name="Advancedflash_Waiting" xml:space="preserve">
     <value>执行中，解包可能时间较长请耐心等待</value>
   </data>
+  <data name="Filemgr_Pull" xml:space="preserve">
+    <value>拉取</value>
+  </data>
+  <data name="Filemgr_Rename" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Filemgr_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Filemgr_ConfirmDelete" xml:space="preserve">
+    <value>确定要删除 "{0}" 吗？</value>
+  </data>
+  <data name="Filemgr_EnterNewName" xml:space="preserve">
+    <value>请输入新名称：</value>
+  </data>
+  <data name="Filemgr_SelectSaveLocation" xml:space="preserve">
+    <value>选择保存位置</value>
+  </data>
+  <data name="Filemgr_PullSuccess" xml:space="preserve">
+    <value>文件拉取成功</value>
+  </data>
+  <data name="Filemgr_PullFailed" xml:space="preserve">
+    <value>文件拉取失败</value>
+  </data>
+  <data name="Filemgr_RenameSuccess" xml:space="preserve">
+    <value>重命名成功</value>
+  </data>
+  <data name="Filemgr_RenameFailed" xml:space="preserve">
+    <value>重命名失败</value>
+  </data>
+  <data name="Filemgr_DeleteSuccess" xml:space="preserve">
+    <value>删除成功</value>
+  </data>
+  <data name="Filemgr_DeleteFailed" xml:space="preserve">
+    <value>删除失败</value>
+  </data>
+  <data name="Filemgr_InvalidName" xml:space="preserve">
+    <value>名称无效，不能为空或包含 / \ : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="Filemgr_PathNotFound" xml:space="preserve">
+    <value>路径不存在或无法访问</value>
+  </data>
+  <data name="Filemgr_NoPermission" xml:space="preserve">
+    <value>权限不足</value>
+  </data>
+  <data name="Filemgr_Loading" xml:space="preserve">
+    <value>加载中...</value>
+  </data>
+  <data name="Filemgr_Open" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="Filemgr_ConfirmDeleteTitle" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="Filemgr_RenameTitle" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Filemgr_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Filemgr_Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
 </root>

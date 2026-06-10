@@ -1799,4 +1799,67 @@ If you don't understand the above, please ignore it. The selection command only 
   <data name="Advancedflash_Waiting" xml:space="preserve">
     <value>During the process, unpacking may take a long time, please be patient.</value>
   </data>
+  <data name="Filemgr_Pull" xml:space="preserve">
+    <value>Pull</value>
+  </data>
+  <data name="Filemgr_Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Filemgr_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Filemgr_ConfirmDelete" xml:space="preserve">
+    <value>Are you sure you want to delete "{0}"?</value>
+  </data>
+  <data name="Filemgr_EnterNewName" xml:space="preserve">
+    <value>Enter new name:</value>
+  </data>
+  <data name="Filemgr_SelectSaveLocation" xml:space="preserve">
+    <value>Select save location</value>
+  </data>
+  <data name="Filemgr_PullSuccess" xml:space="preserve">
+    <value>File pulled successfully</value>
+  </data>
+  <data name="Filemgr_PullFailed" xml:space="preserve">
+    <value>Failed to pull file</value>
+  </data>
+  <data name="Filemgr_RenameSuccess" xml:space="preserve">
+    <value>Renamed successfully</value>
+  </data>
+  <data name="Filemgr_RenameFailed" xml:space="preserve">
+    <value>Failed to rename</value>
+  </data>
+  <data name="Filemgr_DeleteSuccess" xml:space="preserve">
+    <value>Deleted successfully</value>
+  </data>
+  <data name="Filemgr_DeleteFailed" xml:space="preserve">
+    <value>Failed to delete</value>
+  </data>
+  <data name="Filemgr_InvalidName" xml:space="preserve">
+    <value>Invalid name. Name cannot be empty or contain / \ : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="Filemgr_PathNotFound" xml:space="preserve">
+    <value>Path not found or inaccessible</value>
+  </data>
+  <data name="Filemgr_NoPermission" xml:space="preserve">
+    <value>Permission denied</value>
+  </data>
+  <data name="Filemgr_Loading" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Filemgr_Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Filemgr_ConfirmDeleteTitle" xml:space="preserve">
+    <value>Confirm Delete</value>
+  </data>
+  <data name="Filemgr_RenameTitle" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="Filemgr_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Filemgr_Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
 </root>

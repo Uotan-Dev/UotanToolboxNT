@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -353,12 +354,14 @@ public partial class FilemgrViewModel : MainPageBase
             if (mainWindow == null)
                 return;
 
-            string localPath = await Dispatcher.UIThread.InvokeAsync(async () =>
+            System.Collections.Generic.IReadOnlyList<IStorageFolder> folders = await mainWindow.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
             {
-                var dialog = new OpenFolderDialog();
-                return await dialog.ShowAsync(mainWindow);
+                Title = "Open Folder",
+                AllowMultiple = false
             });
-
+            if (folders.Count < 1)
+                return;
+            string localPath = folders[0].TryGetLocalPath() ?? string.Empty;
             if (string.IsNullOrEmpty(localPath))
                 return;
 

@@ -1,4 +1,4 @@
-﻿using Avalonia.Collections;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
@@ -22,7 +22,7 @@ public partial class OthersView : UserControl
     {
         InitializeComponent();
         SetUnit.ItemsSource = Unit;
-        GetDisplayInfo();
+        _ = GetDisplayInfo();
     }
 
     public void SetNull()

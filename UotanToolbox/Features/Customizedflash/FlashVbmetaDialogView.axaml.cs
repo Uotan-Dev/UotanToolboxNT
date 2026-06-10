@@ -1,4 +1,4 @@
-﻿using Avalonia.Collections;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
@@ -12,11 +12,15 @@ public partial class FlashVbmetaDialogView : UserControl
     private CustomizedflashView? _owner;
     public AvaloniaList<string> Command = ["--disable-verity --disable-verification", "--disable-verity", "--disable-verification"];
 
-    public FlashVbmetaDialogView(CustomizedflashView owner)
+    public FlashVbmetaDialogView()
     {
-        _owner = owner;
         InitializeComponent();
         CommandList.ItemsSource = Command;
+    }
+
+    public FlashVbmetaDialogView(CustomizedflashView owner) : this()
+    {
+        _owner = owner;
     }
 
     private static FilePickerFileType VbmetaPicker { get; } = new("Vbmeta File")

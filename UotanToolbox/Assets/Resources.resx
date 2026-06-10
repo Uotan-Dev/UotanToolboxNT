@@ -813,6 +813,9 @@
   <data name="Sidebar_Appmgr" xml:space="preserve">
     <value>App Manager</value>
   </data>
+  <data name="Sidebar_Filemgr" xml:space="preserve">
+    <value>File Manager</value>
+  </data>
   <data name="Sidebar_Customizedflash" xml:space="preserve">
     <value>Customized Flash</value>
   </data>

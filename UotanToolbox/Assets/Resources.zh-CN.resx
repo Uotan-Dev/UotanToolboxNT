@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -812,6 +812,9 @@
   </data>
   <data name="Sidebar_Appmgr" xml:space="preserve">
     <value>应用管理</value>
+  </data>
+  <data name="Sidebar_Filemgr" xml:space="preserve">
+    <value>文件管理</value>
   </data>
   <data name="Sidebar_Customizedflash" xml:space="preserve">
     <value>自定义刷入</value>

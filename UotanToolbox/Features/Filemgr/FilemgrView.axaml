@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="UotanToolbox.Features.Filemgr.FilemgrView"
+<UserControl x:Class="UotanToolbox.Features.Filemgr.FilemgrView"
 			 xmlns="https://github.com/avaloniaui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
@@ -75,17 +75,17 @@
 										<MenuItem Header="刷新" Command="{Binding RefreshCommand}"/>
 									</ContextMenu>
 								</suki:GlassCard.ContextMenu>
-								<ScrollViewer VerticalScrollBarVisibility="Hidden">
+								<ScrollViewer VerticalScrollBarVisibility="Auto">
 									<ItemsControl Name="FileView" ItemsSource="{Binding Files}" x:CompileBindings="False">
 										<ItemsControl.ItemsPanel>
 											<ItemsPanelTemplate>
-												<WrapPanel />
+												<VirtualizingStackPanel Orientation="Vertical" />
 											</ItemsPanelTemplate>
 										</ItemsControl.ItemsPanel>
 										<ItemsControl.ItemTemplate>
 											<DataTemplate>
-												<suki:GlassCard Margin="5 10 5 0" IsInteractive="True">
-													<suki:GlassCard.ContextMenu>
+												<Border Padding="2,0" ContextMenu="{Binding $parent[UserControl].ContextMenu}">
+													<Border.ContextMenu>
 														<ContextMenu>
 															<MenuItem Header="打开" Command="{Binding $parent[UserControl].DataContext.OpenFileEntryCommand}" CommandParameter="{Binding}" IsEnabled="{Binding IsDirectory}"/>
 															<Separator/>
@@ -93,21 +93,20 @@
 															<MenuItem Header="重命名" Command="{Binding $parent[UserControl].DataContext.RenameFileCommand}" CommandParameter="{Binding}"/>
 															<MenuItem Header="删除" Command="{Binding $parent[UserControl].DataContext.DeleteFileCommand}" CommandParameter="{Binding}"/>
 														</ContextMenu>
-													</suki:GlassCard.ContextMenu>
-													<Button Theme="{StaticResource ToolboxButtonFile}"
+													</Border.ContextMenu>
+													<Button Theme="{StaticResource ToolboxButton}"
 															Command="{Binding $parent[UserControl].DataContext.OpenFileEntryCommand}"
-															CommandParameter="{Binding}">
-														<StackPanel Orientation="Vertical" Margin="0">
-															<Image Width="50"
-																	Height="50"
-																	Margin="0"
-																	Source="{Binding IconSource}" />
-															<TextBlock FontSize="15" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding DisplayName}"/>
-															<TextBlock FontSize="10" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding ModifiedTime}"/>
-															<TextBlock FontSize="10" HorizontalAlignment="Center" Text="{Binding DisplaySize}"/>
-														</StackPanel>
+															CommandParameter="{Binding}"
+															HorizontalAlignment="Stretch"
+															Padding="5,3">
+														<Grid ColumnDefinitions="24,*,Auto,Auto">
+															<Image Width="20" Height="20" Grid.Column="0" Source="{Binding IconSource}" VerticalAlignment="Center"/>
+															<TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" TextTrimming="CharacterEllipsis"/>
+															<TextBlock Grid.Column="2" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding DisplaySize}" Foreground="Gray" FontSize="12"/>
+															<TextBlock Grid.Column="3" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding ModifiedTime}" Foreground="Gray" FontSize="12"/>
+														</Grid>
 													</Button>
-												</suki:GlassCard>
+												</Border>
 											</DataTemplate>
 										</ItemsControl.ItemTemplate>
 									</ItemsControl>

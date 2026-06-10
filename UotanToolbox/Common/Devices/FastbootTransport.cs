@@ -1,10 +1,10 @@
+using Avalonia.Controls.Notifications;
+using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SukiUI.Dialogs;
-using Avalonia.Controls.Notifications;
 
 namespace UotanToolbox.Common.Devices
 {

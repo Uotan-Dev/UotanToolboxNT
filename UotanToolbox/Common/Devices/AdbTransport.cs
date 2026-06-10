@@ -1,9 +1,9 @@
+using Avalonia.Controls.Notifications;
+using SukiUI.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using SukiUI.Dialogs;
-using Avalonia.Controls.Notifications;
 
 namespace UotanToolbox.Common.Devices
 {
@@ -13,7 +13,7 @@ namespace UotanToolbox.Common.Devices
         {
             return FeaturesHelper.GetTranslation(key);
         }
-        
+
         public TransportType Type => TransportType.Adb;
 
         public async Task<IEnumerable<DeviceInfo>> ProbeAsync(CancellationToken cancel = default)
@@ -40,7 +40,7 @@ namespace UotanToolbox.Common.Devices
                         .TryShow();
                     Global.root = false;
                 }
-                
+
             }
 
             foreach (var line in lines)

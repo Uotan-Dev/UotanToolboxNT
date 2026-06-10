@@ -99,11 +99,9 @@
 									</ListBox.Styles>
 									<ListBox.ItemTemplate>
 										<DataTemplate>
-											<Border Padding="2,0" Tag="{Binding DataContext, ElementName=RootView}">
+											<Border Padding="2,0" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
 												<Border.ContextMenu>
 													<ContextMenu>
-														<MenuItem Header="打开" Command="{Binding PlacementTarget.Tag.OpenFileEntryCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}" IsEnabled="{Binding IsDirectory}"/>
-														<Separator/>
 														<MenuItem Header="拉取" Command="{Binding PlacementTarget.Tag.PullFileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}"/>
 														<MenuItem Header="重命名" Command="{Binding PlacementTarget.Tag.RenameFileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}"/>
 														<MenuItem Header="删除" Command="{Binding PlacementTarget.Tag.DeleteFileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}"/>
@@ -115,7 +113,7 @@
 														HorizontalAlignment="Stretch"
 														Padding="5,3">
 													<Grid ColumnDefinitions="24,*,Auto,Auto">
-														<Image Width="20" Height="20" Grid.Column="0" Source="{Binding IconSource}" VerticalAlignment="Center"/>
+														<avalonia:MaterialIcon Kind="{Binding IconKind}" Width="20" Height="20" Grid.Column="0" VerticalAlignment="Center"/>
 														<TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" TextTrimming="CharacterEllipsis"/>
 														<TextBlock Grid.Column="2" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding DisplaySize}" Foreground="Gray" FontSize="12"/>
 														<TextBlock Grid.Column="3" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding ModifiedTime}" Foreground="Gray" FontSize="12"/>

@@ -1,4 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using Material.Icons;
+using System.IO;
 
 namespace UotanToolbox.Features.Filemgr;
 
@@ -93,10 +95,34 @@ public partial class FileEntry : ObservableObject
     private string _displaySize = "0 B";
 
     /// <summary>
-    /// <para>图标资源路径，目录返回 "/Assets/folder.png"，文件返回 "/Assets/file.png"。</para>
-    /// Icon resource path; returns "/Assets/folder.png" for directories and "/Assets/file.png" for files.
+    /// <para>根据文件类型返回对应的 Material 图标种类。</para>
+    /// Returns the corresponding Material icon kind based on the file type.
     /// </summary>
-    public string IconSource => IsDirectory ? "/Assets/folder.png" : "/Assets/file.png";
+    public MaterialIconKind IconKind
+    {
+        get
+        {
+            if (IsDirectory)
+                return MaterialIconKind.Folder;
+
+            if (IsSymlink)
+                return MaterialIconKind.LinkVariant;
+
+            string ext = Path.GetExtension(Name).ToLowerInvariant();
+            return ext switch
+            {
+                ".apk" => MaterialIconKind.Android,
+                ".zip" or ".rar" or ".7z" or ".tar" or ".gz" or ".bz2" => MaterialIconKind.ZipBoxOutline,
+                ".jpg" or ".jpeg" or ".png" or ".gif" or ".bmp" or ".webp" or ".svg" => MaterialIconKind.ImageOutline,
+                ".mp3" or ".wav" or ".flac" or ".ogg" or ".aac" or ".m4a" => MaterialIconKind.MusicNote,
+                ".mp4" or ".avi" or ".mkv" or ".mov" or ".wmv" or ".flv" or ".webm" => MaterialIconKind.VideoOutline,
+                ".txt" or ".log" or ".md" or ".csv" or ".xml" or ".json" or ".ini" or ".cfg" or ".conf" => MaterialIconKind.FileDocumentOutline,
+                ".pdf" => MaterialIconKind.FilePdfBox,
+                ".sh" or ".bat" => MaterialIconKind.Console,
+                _ => MaterialIconKind.FileOutline
+            };
+        }
+    }
 
     /// <summary>
     /// <para>将字节数转换为人类可读的大小字符串。</para>
@@ -135,6 +161,11 @@ public partial class FileEntry : ObservableObject
 
     partial void OnIsDirectoryChanged(bool value)
     {
-        OnPropertyChanged(nameof(IconSource));
+        OnPropertyChanged(nameof(IconKind));
+    }
+
+    partial void OnNameChanged(string value)
+    {
+        OnPropertyChanged(nameof(IconKind));
     }
 }

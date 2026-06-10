@@ -89,11 +89,11 @@
 					</Setter>
 				</Style>
 			</Style>
-			<Style Selector="^:pressed /template/ Border">
-				<Setter Property="Background" Value="Transparent" />
-			</Style>
-		</ControlTheme>
-	</Application.Resources>
+				<Style Selector="^:pressed /template/ Border">
+						<Setter Property="Background" Value="Transparent" />
+					</Style>
+				</ControlTheme>
+			</Application.Resources>
     <Application.Styles>
         <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
         <sukiUi:SukiTheme ThemeColor="Red" />

@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="UotanToolbox.Features.Filemgr.FilemgrView"
+			 xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:filemgr="clr-namespace:UotanToolbox.Features.Filemgr"
+			 xmlns:suki="clr-namespace:SukiUI.Controls;assembly=SukiUI"
+			 xmlns:theme="clr-namespace:SukiUI.Theme;assembly=SukiUI"
+			 xmlns:assets="clr-namespace:UotanToolbox.Assets;assembly=UotanToolbox"
+			 d:DesignWidth="1024"
+			 d:DesignHeight="800"
+			 x:DataType="filemgr:FilemgrViewModel"
+			 mc:Ignorable="d">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<Grid>
+			<WrapPanel  Margin="10 10 5 10"
+						theme:WrapPanelExtensions.AnimatedScroll="True"
+						Orientation="Horizontal">
+				<suki:GlassCard Margin="10" Width="240" Height="760">
+					<StackPanel Orientation="Vertical" Spacing="0">
+						<TextBlock HorizontalAlignment="Left"
+								   VerticalAlignment="Top"
+								   FontWeight="DemiBold"
+								   Text="快捷目录" />
+						<Button Theme="{StaticResource ToolboxButton}" Padding="0 5" HorizontalAlignment="Left" Width="100">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="HomeOutline" />
+								<TextBlock Text="根目录"/>
+							</TextBlock>
+						</Button>
+						<Button Theme="{StaticResource ToolboxButton}" Padding="0 5" HorizontalAlignment="Left" Width="100">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="Harddisk" />
+								<TextBlock Text="内部存储"/>
+							</TextBlock>
+						</Button>
+						<Button Theme="{StaticResource ToolboxButton}" Padding="0 5" HorizontalAlignment="Left" Width="100">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="DownloadOutline" />
+								<TextBlock Text="下载"/>
+							</TextBlock>
+						</Button>
+						<Button Theme="{StaticResource ToolboxButton}" Padding="0 5" HorizontalAlignment="Left" Width="100">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="FileDocumentOutline" />
+								<TextBlock Text="文档"/>
+							</TextBlock>
+						</Button>
+						<Button Theme="{StaticResource ToolboxButton}" Padding="0 5" HorizontalAlignment="Left" Width="100">
+							<TextBlock>
+								<avalonia:MaterialIcon Kind="ImageOutline" />
+								<TextBlock Text="图片"/>
+							</TextBlock>
+						</Button>
+					</StackPanel>
+				</suki:GlassCard>
+
+				<suki:GlassCard Margin="5 10" Height="760" Width="730">
+					<suki:BusyArea BusyText="">
+						<StackPanel>
+							<StackPanel Orientation="Horizontal" Spacing="5">
+								<Button Margin="5 0 0 0" Theme="{StaticResource ToolboxButton}">
+									<avalonia:MaterialIcon Kind="ArrowUp" Padding="5"/>
+								</Button>
+								<Button Margin="5 0 0 0" Theme="{StaticResource ToolboxButton}">
+									<avalonia:MaterialIcon Kind="Refresh" Padding="5"/>
+								</Button>
+								<TextBox Width="530"/>
+								<Button Height="35" Width="100" Content="搜索"/>
+							</StackPanel>
+							<suki:GlassCard Height="675">
+								<suki:GlassCard.ContextMenu>
+									<ContextMenu>
+										<MenuItem Header="新建">
+											<MenuItem Header="文件"/>
+											<MenuItem Header="文件夹"/>
+										</MenuItem>
+										<MenuItem Header="发送">
+											<MenuItem Header="文件"/>
+											<MenuItem Header="文件夹"/>
+										</MenuItem>
+										<MenuItem Header="粘贴" IsEnabled="False"/>
+										<Separator/>
+										<MenuItem Header="刷新"/>
+									</ContextMenu>
+								</suki:GlassCard.ContextMenu>
+								<ScrollViewer VerticalScrollBarVisibility="Hidden">
+									<ItemsControl Name="FileView" ItemsSource="{Binding Files}">
+										<ItemsControl.ItemsPanel>
+											<ItemsPanelTemplate>
+												<WrapPanel />
+											</ItemsPanelTemplate>
+										</ItemsControl.ItemsPanel>
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<suki:GlassCard Margin="5 10 5 0" IsInteractive="True">
+													<suki:GlassCard.ContextMenu>
+														<ContextMenu>
+															<MenuItem Header="打开"/>
+															<MenuItem Header="复制"/>
+															<MenuItem Header="剪切"/>
+															<MenuItem Header="删除"/>
+															<MenuItem Header="重命名"/>
+															<Separator/>
+															<MenuItem Header="提取至">
+																<MenuItem Header="桌面"/>
+																<MenuItem Header="下载"/>
+																<MenuItem Header="指定目录"/>
+															</MenuItem>
+														</ContextMenu>
+													</suki:GlassCard.ContextMenu>
+													<Button Theme="{StaticResource ToolboxButtonFile}" Click="Open">
+														<StackPanel Orientation="Vertical" Margin="0">
+															<Image  Width="50"
+																	Height="50"
+																	Margin="0"
+																	Source="/Assets/folder.png" />
+															<TextBlock FontSize="15" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding FileName}"/>
+															<TextBlock FontSize="10" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding FileTime}"/>
+														</StackPanel>
+													</Button>
+												</suki:GlassCard>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+								</ScrollViewer>
+							</suki:GlassCard>
+						</StackPanel>
+					</suki:BusyArea>
+				</suki:GlassCard>
+			</WrapPanel>
+		</Grid>
+	</ScrollViewer>
+</UserControl>

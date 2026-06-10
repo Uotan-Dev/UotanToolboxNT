@@ -76,53 +76,46 @@
 										<MenuItem Header="刷新" Command="{Binding RefreshCommand}"/>
 									</ContextMenu>
 								</suki:GlassCard.ContextMenu>
-								<ListBox Name="FileView" ItemsSource="{Binding Files}" x:CompileBindings="False"
-										 SelectionMode="Single"
-										 Background="Transparent"
-										 BorderThickness="0"
-										 Padding="0">
-									<ListBox.Styles>
-										<Style Selector="ListBoxItem">
-											<Setter Property="Padding" Value="0"/>
-											<Setter Property="Margin" Value="0"/>
-											<Setter Property="Background" Value="Transparent"/>
-											<Setter Property="BorderThickness" Value="0"/>
-											<Setter Property="CornerRadius" Value="0"/>
-											<Setter Property="Focusable" Value="False"/>
-										</Style>
-										<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-											<Setter Property="Background" Value="Transparent"/>
-										</Style>
-										<Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
-											<Setter Property="Background" Value="Transparent"/>
-										</Style>
-									</ListBox.Styles>
-									<ListBox.ItemTemplate>
-										<DataTemplate>
-											<Border Padding="2,0">
-													<Border.ContextMenu>
+								<ScrollViewer VerticalScrollBarVisibility="Hidden">
+									<ItemsControl Name="FileView" ItemsSource="{Binding Files}">
+										<ItemsControl.ItemsPanel>
+											<ItemsPanelTemplate>
+												<WrapPanel />
+											</ItemsPanelTemplate>
+										</ItemsControl.ItemsPanel>
+										<ItemsControl.ItemTemplate>
+											<DataTemplate>
+												<suki:GlassCard Margin="5 10 5 0" IsInteractive="True">
+													<suki:GlassCard.ContextMenu>
 														<ContextMenu>
-															<MenuItem Header="拉取" Command="{Binding DataContext.PullFileCommand, ElementName=RootView}" CommandParameter="{Binding}"/>
-															<MenuItem Header="重命名" Command="{Binding DataContext.RenameFileCommand, ElementName=RootView}" CommandParameter="{Binding}"/>
-															<MenuItem Header="删除" Command="{Binding DataContext.DeleteFileCommand, ElementName=RootView}" CommandParameter="{Binding}"/>
+															<MenuItem Header="打开"/>
+															<MenuItem Header="复制"/>
+															<MenuItem Header="剪切"/>
+															<MenuItem Header="删除"/>
+															<MenuItem Header="重命名"/>
+															<Separator/>
+															<MenuItem Header="提取至">
+																<MenuItem Header="桌面"/>
+																<MenuItem Header="下载"/>
+																<MenuItem Header="指定目录"/>
+															</MenuItem>
 														</ContextMenu>
-													</Border.ContextMenu>
-												<Button Theme="{StaticResource ToolboxButton}"
-														Command="{Binding DataContext.OpenFileEntryCommand, ElementName=RootView}"
-														CommandParameter="{Binding}"
-														HorizontalAlignment="Stretch"
-														Padding="5,3">
-													<Grid ColumnDefinitions="24,*,Auto,Auto">
-														<avalonia:MaterialIcon Kind="{Binding IconKind}" Width="20" Height="20" Grid.Column="0" VerticalAlignment="Center"/>
-														<TextBlock Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" TextTrimming="CharacterEllipsis"/>
-														<TextBlock Grid.Column="2" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding DisplaySize}" Foreground="Gray" FontSize="12"/>
-														<TextBlock Grid.Column="3" Margin="12,0,0,0" VerticalAlignment="Center" Text="{Binding ModifiedTime}" Foreground="Gray" FontSize="12"/>
-													</Grid>
-												</Button>
-											</Border>
-										</DataTemplate>
-									</ListBox.ItemTemplate>
-								</ListBox>
+													</suki:GlassCard.ContextMenu>
+													<Button Theme="{StaticResource ToolboxButtonFile}">
+														<StackPanel Orientation="Vertical" Margin="0">
+															<Image  Width="50"
+																	Height="50"
+																	Margin="0"
+																	Source="/Assets/folder.png" />
+															<TextBlock FontSize="15" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding DisplayName}"/>
+															<TextBlock FontSize="10" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding ModifiedTime}"/>
+														</StackPanel>
+													</Button>
+												</suki:GlassCard>
+											</DataTemplate>
+										</ItemsControl.ItemTemplate>
+									</ItemsControl>
+								</ScrollViewer>
 							</suki:GlassCard>
 						</StackPanel>
 					</suki:BusyArea>

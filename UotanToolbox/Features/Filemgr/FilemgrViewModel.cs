@@ -1,4 +1,4 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Notifications;
 using Avalonia.Threading;
@@ -130,9 +130,17 @@ public partial class FilemgrViewModel : MainPageBase
 
         IsBusy = true;
 
+        // Clear existing items on UI thread first to avoid virtualization recycling conflicts
+        await Dispatcher.UIThread.InvokeAsync(() =>
+        {
+            Files.Clear();
+        });
+
         try
         {
-            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell ls -la \"{path}\"");
+            // Ensure trailing slash so symlinks like /sdcard are followed into the directory
+            string listPath = path.EndsWith("/") ? path : path + "/";
+            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell ls -la \"{listPath}\"");
 
             if (output.Contains("No such file", StringComparison.OrdinalIgnoreCase) ||
                 output.Contains("Permission denied", StringComparison.OrdinalIgnoreCase) ||
@@ -143,7 +151,7 @@ public partial class FilemgrViewModel : MainPageBase
                     Global.MainDialogManager.CreateDialog()
                         .OfType(NotificationType.Error)
                         .WithTitle(GetTranslation("Common_Error"))
-                        .WithContent(output.Trim())
+                        .WithContent($"[LoadDirectory] Path: {path}\n\n{output.Trim()}")
                         .Dismiss().ByClickingBackground()
                         .TryShow();
                 });
@@ -154,11 +162,26 @@ public partial class FilemgrViewModel : MainPageBase
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Files = new ObservableCollection<FileEntry>(parsedFiles);
+                foreach (var file in parsedFiles)
+                {
+                    Files.Add(file);
+                }
             });
 
             CurrentPath = path;
             PathInput = path;
+        }
+        catch (Exception ex)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[LoadDirectory] Path: {path}\n\n{ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
         }
         finally
         {
@@ -217,7 +240,22 @@ public partial class FilemgrViewModel : MainPageBase
 
         if (entry.IsDirectory)
         {
-            await LoadDirectoryAsync(entry.FullPath);
+            try
+            {
+                await LoadDirectoryAsync(entry.FullPath);
+            }
+            catch (Exception ex)
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Error)
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .WithContent($"[OpenFileEntry] Name: {entry.Name}, Path: {entry.FullPath}\n\n{ex.GetType().Name}: {ex.Message}")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                });
+            }
         }
     }
 
@@ -230,7 +268,22 @@ public partial class FilemgrViewModel : MainPageBase
     {
         if (!string.IsNullOrWhiteSpace(PathInput))
         {
-            await LoadDirectoryAsync(PathInput.Trim());
+            try
+            {
+                await LoadDirectoryAsync(PathInput.Trim());
+            }
+            catch (Exception ex)
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Error)
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .WithContent($"[NavigateToPath] Path: {PathInput.Trim()}\n\n{ex.GetType().Name}: {ex.Message}")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                });
+            }
         }
     }
 
@@ -247,7 +300,22 @@ public partial class FilemgrViewModel : MainPageBase
     {
         if (item is not null)
         {
-            await LoadDirectoryAsync(item.Path);
+            try
+            {
+                await LoadDirectoryAsync(item.Path);
+            }
+            catch (Exception ex)
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Error)
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .WithContent($"[NavigateToQuickAccess] Name: {item.Name}, Path: {item.Path}\n\n{ex.GetType().Name}: {ex.Message}")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                });
+            }
         }
     }
 
@@ -279,48 +347,62 @@ public partial class FilemgrViewModel : MainPageBase
             return;
         }
 
-        var mainWindow = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-        if (mainWindow == null)
-            return;
-
-        string localPath = await Dispatcher.UIThread.InvokeAsync(async () =>
+        try
         {
-            var dialog = new OpenFolderDialog();
-            return await dialog.ShowAsync(mainWindow);
-        });
+            var mainWindow = (Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow == null)
+                return;
 
-        if (string.IsNullOrEmpty(localPath))
-            return;
+            string localPath = await Dispatcher.UIThread.InvokeAsync(async () =>
+            {
+                var dialog = new OpenFolderDialog();
+                return await dialog.ShowAsync(mainWindow);
+            });
 
-        string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{entry.FullPath}\" \"{localPath}\"");
+            if (string.IsNullOrEmpty(localPath))
+                return;
 
-        await Dispatcher.UIThread.InvokeAsync(() =>
+            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{entry.FullPath}\" \"{localPath}\"");
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
+                    output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
+                    (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
+                     !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
+                     !output.Contains("No such file", StringComparison.OrdinalIgnoreCase)))
+                {
+                    Global.MainToastManager.CreateToast()
+                        .WithTitle(GetTranslation("Filemgr_PullSuccess"))
+                        .WithContent(entry.Name)
+                        .OfType(NotificationType.Success)
+                        .Dismiss().ByClicking()
+                        .Dismiss().After(TimeSpan.FromSeconds(3))
+                        .Queue();
+                }
+                else
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Error)
+                        .WithTitle(GetTranslation("Filemgr_PullFailed"))
+                        .WithContent($"[PullFile] Name: {entry.Name}, Path: {entry.FullPath}\n\n{output.Trim()}")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                }
+            });
+        }
+        catch (Exception ex)
         {
-            if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
-                output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
-                (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
-                 !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
-                 !output.Contains("No such file", StringComparison.OrdinalIgnoreCase)))
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Global.MainToastManager.CreateToast()
-                    .WithTitle(GetTranslation("Filemgr_PullSuccess"))
-                    .WithContent(entry.Name)
-                    .OfType(NotificationType.Success)
-                    .Dismiss().ByClicking()
-                    .Dismiss().After(TimeSpan.FromSeconds(3))
-                    .Queue();
-            }
-            else
-            {
-                Global.MainToastManager.CreateToast()
-                    .WithTitle(GetTranslation("Filemgr_PullFailed"))
-                    .WithContent(entry.Name)
+                Global.MainDialogManager.CreateDialog()
                     .OfType(NotificationType.Error)
-                    .Dismiss().ByClicking()
-                    .Dismiss().After(TimeSpan.FromSeconds(3))
-                    .Queue();
-            }
-        });
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[PullFile] Name: {entry.Name}, Path: {entry.FullPath}\n\n{ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
+        }
     }
 
     /// <summary>
@@ -351,72 +433,86 @@ public partial class FilemgrViewModel : MainPageBase
             return;
         }
 
-        var tcs = new TaskCompletionSource<string>();
-        var textBox = new TextBox { Text = entry.Name, Width = 300 };
-        var panel = new StackPanel();
-        panel.Children.Add(new TextBlock { Text = GetTranslation("Filemgr_EnterNewName") });
-        panel.Children.Add(textBox);
-
-        await Dispatcher.UIThread.InvokeAsync(() =>
+        try
         {
-            Global.MainDialogManager.CreateDialog()
-                .WithTitle(GetTranslation("Filemgr_RenameTitle"))
-                .WithContent(panel)
-                .WithActionButton(GetTranslation("Filemgr_Confirm"), _ => tcs.TrySetResult(textBox.Text ?? string.Empty), true)
-                .WithActionButton(GetTranslation("Filemgr_Cancel"), _ => tcs.TrySetResult(null), true)
-                .TryShow();
-        });
+            var tcs = new TaskCompletionSource<string>();
+            var textBox = new TextBox { Text = entry.Name, Width = 300 };
+            var panel = new StackPanel();
+            panel.Children.Add(new TextBlock { Text = GetTranslation("Filemgr_EnterNewName") });
+            panel.Children.Add(textBox);
 
-        string newName = await tcs.Task;
-        if (string.IsNullOrEmpty(newName))
-            return;
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Filemgr_RenameTitle"))
+                    .WithContent(panel)
+                    .WithActionButton(GetTranslation("Filemgr_Confirm"), _ => tcs.TrySetResult(textBox.Text ?? string.Empty), true)
+                    .WithActionButton(GetTranslation("Filemgr_Cancel"), _ => tcs.TrySetResult(null), true)
+                    .TryShow();
+            });
 
-        if (!IsValidFileName(newName))
+            string newName = await tcs.Task;
+            if (string.IsNullOrEmpty(newName))
+                return;
+
+            if (!IsValidFileName(newName))
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    Global.MainToastManager.CreateToast()
+                        .WithTitle(GetTranslation("Filemgr_InvalidName"))
+                        .WithContent(newName)
+                        .OfType(NotificationType.Error)
+                        .Dismiss().ByClicking()
+                        .Dismiss().After(TimeSpan.FromSeconds(3))
+                        .Queue();
+                });
+                return;
+            }
+
+            string parentPath = GetParentPath(entry.FullPath);
+            string newFullPath = parentPath == "/" ? $"/{newName}" : $"{parentPath}/{newName}";
+            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell mv \"{entry.FullPath}\" \"{newFullPath}\"");
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
+                    !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
+                    !output.Contains("No such file", StringComparison.OrdinalIgnoreCase) &&
+                    !output.Contains("Permission denied", StringComparison.OrdinalIgnoreCase))
+                {
+                    Global.MainToastManager.CreateToast()
+                        .WithTitle(GetTranslation("Filemgr_RenameSuccess"))
+                        .WithContent(newName)
+                        .OfType(NotificationType.Success)
+                        .Dismiss().ByClicking()
+                        .Dismiss().After(TimeSpan.FromSeconds(3))
+                        .Queue();
+                    _ = RefreshAsync();
+                }
+                else
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Error)
+                        .WithTitle(GetTranslation("Filemgr_RenameFailed"))
+                        .WithContent($"[Rename] Name: {entry.Name}, Path: {entry.FullPath}\n\n{output.Trim()}")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                }
+            });
+        }
+        catch (Exception ex)
         {
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Global.MainToastManager.CreateToast()
-                    .WithTitle(GetTranslation("Filemgr_InvalidName"))
-                    .WithContent(newName)
+                Global.MainDialogManager.CreateDialog()
                     .OfType(NotificationType.Error)
-                    .Dismiss().ByClicking()
-                    .Dismiss().After(TimeSpan.FromSeconds(3))
-                    .Queue();
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[Rename] Name: {entry.Name}, Path: {entry.FullPath}\n\n{ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
             });
-            return;
         }
-
-        string parentPath = GetParentPath(entry.FullPath);
-        string newFullPath = parentPath == "/" ? $"/{newName}" : $"{parentPath}/{newName}";
-        string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell mv \"{entry.FullPath}\" \"{newFullPath}\"");
-
-        await Dispatcher.UIThread.InvokeAsync(() =>
-        {
-            if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
-                !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
-                !output.Contains("No such file", StringComparison.OrdinalIgnoreCase) &&
-                !output.Contains("Permission denied", StringComparison.OrdinalIgnoreCase))
-            {
-                Global.MainToastManager.CreateToast()
-                    .WithTitle(GetTranslation("Filemgr_RenameSuccess"))
-                    .WithContent(newName)
-                    .OfType(NotificationType.Success)
-                    .Dismiss().ByClicking()
-                    .Dismiss().After(TimeSpan.FromSeconds(3))
-                    .Queue();
-                _ = RefreshAsync();
-            }
-            else
-            {
-                Global.MainToastManager.CreateToast()
-                    .WithTitle(GetTranslation("Filemgr_RenameFailed"))
-                    .WithContent(entry.Name)
-                    .OfType(NotificationType.Error)
-                    .Dismiss().ByClicking()
-                    .Dismiss().After(TimeSpan.FromSeconds(3))
-                    .Queue();
-            }
-        });
     }
 
     /// <summary>
@@ -447,54 +543,68 @@ public partial class FilemgrViewModel : MainPageBase
             return;
         }
 
-        var tcs = new TaskCompletionSource<bool>();
-
-        await Dispatcher.UIThread.InvokeAsync(() =>
+        try
         {
-            Global.MainDialogManager.CreateDialog()
-                .WithTitle(GetTranslation("Filemgr_ConfirmDeleteTitle"))
-                .WithContent(string.Format(GetTranslation("Filemgr_ConfirmDelete"), entry.Name))
-                .WithActionButton(GetTranslation("Filemgr_Confirm"), _ => tcs.TrySetResult(true), true)
-                .WithActionButton(GetTranslation("Filemgr_Cancel"), _ => tcs.TrySetResult(false), true)
-                .TryShow();
-        });
+            var tcs = new TaskCompletionSource<bool>();
 
-        bool confirmed = await tcs.Task;
-        if (!confirmed)
-            return;
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Filemgr_ConfirmDeleteTitle"))
+                    .WithContent(string.Format(GetTranslation("Filemgr_ConfirmDelete"), entry.Name))
+                    .WithActionButton(GetTranslation("Filemgr_Confirm"), _ => tcs.TrySetResult(true), true)
+                    .WithActionButton(GetTranslation("Filemgr_Cancel"), _ => tcs.TrySetResult(false), true)
+                    .TryShow();
+            });
 
-        string cmd = entry.IsDirectory
-            ? $"shell rm -rf \"{entry.FullPath}\""
-            : $"shell rm \"{entry.FullPath}\"";
-        string output = await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
+            bool confirmed = await tcs.Task;
+            if (!confirmed)
+                return;
 
-        await Dispatcher.UIThread.InvokeAsync(() =>
+            string cmd = entry.IsDirectory
+                ? $"shell rm -rf \"{entry.FullPath}\""
+                : $"shell rm \"{entry.FullPath}\"";
+            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
+                    !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
+                    !output.Contains("No such file", StringComparison.OrdinalIgnoreCase) &&
+                    !output.Contains("Permission denied", StringComparison.OrdinalIgnoreCase))
+                {
+                    Global.MainToastManager.CreateToast()
+                        .WithTitle(GetTranslation("Filemgr_DeleteSuccess"))
+                        .WithContent(entry.Name)
+                        .OfType(NotificationType.Success)
+                        .Dismiss().ByClicking()
+                        .Dismiss().After(TimeSpan.FromSeconds(3))
+                        .Queue();
+                    _ = RefreshAsync();
+                }
+                else
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Error)
+                        .WithTitle(GetTranslation("Filemgr_DeleteFailed"))
+                        .WithContent($"[Delete] Name: {entry.Name}, Path: {entry.FullPath}\n\n{output.Trim()}")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                }
+            });
+        }
+        catch (Exception ex)
         {
-            if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
-                !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
-                !output.Contains("No such file", StringComparison.OrdinalIgnoreCase) &&
-                !output.Contains("Permission denied", StringComparison.OrdinalIgnoreCase))
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
-                Global.MainToastManager.CreateToast()
-                    .WithTitle(GetTranslation("Filemgr_DeleteSuccess"))
-                    .WithContent(entry.Name)
-                    .OfType(NotificationType.Success)
-                    .Dismiss().ByClicking()
-                    .Dismiss().After(TimeSpan.FromSeconds(3))
-                    .Queue();
-                _ = RefreshAsync();
-            }
-            else
-            {
-                Global.MainToastManager.CreateToast()
-                    .WithTitle(GetTranslation("Filemgr_DeleteFailed"))
-                    .WithContent(entry.Name)
+                Global.MainDialogManager.CreateDialog()
                     .OfType(NotificationType.Error)
-                    .Dismiss().ByClicking()
-                    .Dismiss().After(TimeSpan.FromSeconds(3))
-                    .Queue();
-            }
-        });
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[Delete] Name: {entry.Name}, Path: {entry.FullPath}\n\n{ex.GetType().Name}: {ex.Message}\n{ex.StackTrace}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
+        }
     }
 
     /// <summary>

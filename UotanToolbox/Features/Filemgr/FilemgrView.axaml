@@ -99,14 +99,14 @@
 									</ListBox.Styles>
 									<ListBox.ItemTemplate>
 										<DataTemplate>
-											<Border Padding="2,0" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=UserControl}}">
-												<Border.ContextMenu>
-													<ContextMenu>
-														<MenuItem Header="拉取" Command="{Binding PlacementTarget.Tag.PullFileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}"/>
-														<MenuItem Header="重命名" Command="{Binding PlacementTarget.Tag.RenameFileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}"/>
-														<MenuItem Header="删除" Command="{Binding PlacementTarget.Tag.DeleteFileCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" CommandParameter="{Binding}"/>
-													</ContextMenu>
-												</Border.ContextMenu>
+											<Border Padding="2,0">
+													<Border.ContextMenu>
+														<ContextMenu>
+															<MenuItem Header="拉取" Command="{Binding DataContext.PullFileCommand, ElementName=RootView}" CommandParameter="{Binding}"/>
+															<MenuItem Header="重命名" Command="{Binding DataContext.RenameFileCommand, ElementName=RootView}" CommandParameter="{Binding}"/>
+															<MenuItem Header="删除" Command="{Binding DataContext.DeleteFileCommand, ElementName=RootView}" CommandParameter="{Binding}"/>
+														</ContextMenu>
+													</Border.ContextMenu>
 												<Button Theme="{StaticResource ToolboxButton}"
 														Command="{Binding DataContext.OpenFileEntryCommand, ElementName=RootView}"
 														CommandParameter="{Binding}"

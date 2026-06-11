@@ -1,6 +1,6 @@
+using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Material.Icons;
-using System.IO;
+using System;
 
 namespace UotanToolbox.Features.Filemgr;
 
@@ -95,32 +95,33 @@ public partial class FileEntry : ObservableObject
     private string _displaySize = "0 B";
 
     /// <summary>
-    /// <para>根据文件类型返回对应的 Material 图标种类。</para>
-    /// Returns the corresponding Material icon kind based on the file type.
+    /// <para>根据文件类型返回对应的图标 Bitmap。</para>
+    /// Returns the corresponding icon Bitmap based on the file type.
     /// </summary>
-    public MaterialIconKind IconKind
+    public Bitmap? IconSource
     {
         get
         {
             if (IsDirectory)
-                return MaterialIconKind.Folder;
+                return _folderIcon;
 
-            if (IsSymlink)
-                return MaterialIconKind.LinkVariant;
+            return _fileIcon;
+        }
+    }
 
-            string ext = Path.GetExtension(Name).ToLowerInvariant();
-            return ext switch
-            {
-                ".apk" => MaterialIconKind.Android,
-                ".zip" or ".rar" or ".7z" or ".tar" or ".gz" or ".bz2" => MaterialIconKind.ZipBoxOutline,
-                ".jpg" or ".jpeg" or ".png" or ".gif" or ".bmp" or ".webp" or ".svg" => MaterialIconKind.ImageOutline,
-                ".mp3" or ".wav" or ".flac" or ".ogg" or ".aac" or ".m4a" => MaterialIconKind.MusicNote,
-                ".mp4" or ".avi" or ".mkv" or ".mov" or ".wmv" or ".flv" or ".webm" => MaterialIconKind.VideoOutline,
-                ".txt" or ".log" or ".md" or ".csv" or ".xml" or ".json" or ".ini" or ".cfg" or ".conf" => MaterialIconKind.FileDocumentOutline,
-                ".pdf" => MaterialIconKind.FilePdfBox,
-                ".sh" or ".bat" => MaterialIconKind.Console,
-                _ => MaterialIconKind.FileOutline
-            };
+    private static readonly Bitmap? _folderIcon = LoadAsset("/Assets/folder.png");
+    private static readonly Bitmap? _fileIcon = LoadAsset("/Assets/file.png");
+
+    private static Bitmap? LoadAsset(string path)
+    {
+        try
+        {
+            var uri = new Uri($"avares://UotanToolbox{path}");
+            return new Bitmap(Avalonia.Platform.AssetLoader.Open(uri));
+        }
+        catch
+        {
+            return null;
         }
     }
 
@@ -161,11 +162,11 @@ public partial class FileEntry : ObservableObject
 
     partial void OnIsDirectoryChanged(bool value)
     {
-        OnPropertyChanged(nameof(IconKind));
+        OnPropertyChanged(nameof(IconSource));
     }
 
     partial void OnNameChanged(string value)
     {
-        OnPropertyChanged(nameof(IconKind));
+        OnPropertyChanged(nameof(IconSource));
     }
 }

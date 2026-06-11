@@ -234,7 +234,7 @@ public partial class FilemgrViewModel : MainPageBase
     /// </summary>
     private void OnScanCompleted(object? sender, EventArgs e)
     {
-        if (IsActivePage() && !_hasLoaded && HasConnectedAdbDevice())
+        if (IsActivePage() && !HasLoaded && HasConnectedAdbDevice())
         {
             _ = TryAutoLoadAsync();
         }
@@ -251,7 +251,7 @@ public partial class FilemgrViewModel : MainPageBase
         // If the removed device is the currently selected one, reset state and clear files
         if (e.Device.Id == Global.thisdevice)
         {
-            _hasLoaded = false;
+            HasLoaded = false;
             IsDeviceConnected = false;
             Dispatcher.UIThread.Post(() =>
             {
@@ -275,7 +275,7 @@ public partial class FilemgrViewModel : MainPageBase
         if (e.PropertyName == nameof(MainViewModel.ActivePage) && IsActivePage())
         {
             IsDeviceConnected = Global.DeviceManager?.Devices.Any() == true;
-            if (!_hasLoaded && HasConnectedAdbDevice())
+            if (!HasLoaded && HasConnectedAdbDevice())
             {
                 _ = TryAutoLoadAsync();
             }
@@ -288,10 +288,10 @@ public partial class FilemgrViewModel : MainPageBase
     /// </summary>
     private async Task TryAutoLoadAsync()
     {
-        if (_hasLoaded)
+        if (HasLoaded)
             return;
 
-        _hasLoaded = true;
+        HasLoaded = true;
         await LoadDirectoryAsync("/sdcard");
     }
 
@@ -396,7 +396,7 @@ public partial class FilemgrViewModel : MainPageBase
 
             CurrentPath = path;
             PathInput = path;
-            _hasLoaded = true;
+            HasLoaded = true;
         }
         catch (Exception ex)
         {

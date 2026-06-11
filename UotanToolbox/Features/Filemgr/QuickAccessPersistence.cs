@@ -1,6 +1,5 @@
 using Material.Icons;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

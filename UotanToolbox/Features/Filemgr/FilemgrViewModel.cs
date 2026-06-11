@@ -120,10 +120,10 @@ public partial class FilemgrViewModel : MainPageBase
     private bool _isDeviceConnected;
 
     /// <summary>
-    /// <para>剪贴板中存储的文件条目。</para>
-    /// The file entry stored in the clipboard.
+    /// <para>剪贴板中存储的文件条目列表，支持批量操作。</para>
+    /// The list of file entries stored in the clipboard, supporting batch operations.
     /// </summary>
-    private FileEntry? _clipboardEntry;
+    private List<FileEntry> _clipboardEntries = [];
 
     /// <summary>
     /// <para>剪贴板操作类型（复制、剪切或无）。</para>
@@ -830,15 +830,133 @@ public partial class FilemgrViewModel : MainPageBase
     }
 
     /// <summary>
-    /// <para>将设备上的文件或目录拉取到本地。弹出文件夹选择对话框让用户选择保存位置，然后执行 ADB pull 命令。</para>
-    /// Pulls a file or directory from the device to local. Shows a folder picker dialog for the save location, then executes the ADB pull command.
+    /// <para>将设备上的文件或目录拉取到本地。若有选中项则批量拉取，否则拉取单个条目。</para>
+    /// Pulls files or directories from the device to local. Batch pulls if items are selected, otherwise pulls a single entry.
     /// </summary>
     /// <param name="entry">
-    /// <para>要拉取的文件条目。</para>
-    /// The file entry to pull.
+    /// <para>要拉取的单个文件条目（无选中项时使用）。</para>
+    /// The single file entry to pull (used when no items are selected).
     /// </param>
     [RelayCommand]
-    private async Task PullFileAsync(FileEntry entry)
+    private async Task PullFileAsync(FileEntry? entry)
+    {
+        var selected = Files.Where(f => f.IsSelected).ToList();
+        if (selected.Count > 0)
+        {
+            await PullFilesBatchAsync(selected);
+            return;
+        }
+
+        if (entry is null)
+            return;
+
+        await PullSingleFileAsync(entry);
+    }
+
+    /// <summary>
+    /// <para>批量拉取选中的文件或目录到本地。</para>
+    /// Batch pulls selected files or directories to local.
+    /// </summary>
+    private async Task PullFilesBatchAsync(List<FileEntry> entries)
+    {
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            IsDeviceConnected = false;
+            await ShowNotConnectedDialogAsync();
+            return;
+        }
+
+        IsDeviceConnected = true;
+
+        try
+        {
+            var mainWindow = (Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is null)
+                return;
+
+            System.Collections.Generic.IReadOnlyList<IStorageFolder> folders = await mainWindow.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            {
+                Title = GetTranslation("Filemgr_SelectSaveLocation"),
+                AllowMultiple = false
+            });
+            if (folders.Count < 1)
+                return;
+            string localPath = folders[0].TryGetLocalPath() ?? string.Empty;
+            if (string.IsNullOrEmpty(localPath))
+                return;
+
+            IsBusy = true;
+            try
+            {
+                int successCount = 0;
+                int failCount = 0;
+
+                foreach (var e in entries)
+                {
+                    string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{e.FullPath}\" \"{localPath}\"");
+
+                    if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
+                        output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
+                        (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
+                         !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
+                         !output.Contains("No such file", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        successCount++;
+                    }
+                    else
+                    {
+                        failCount++;
+                    }
+                }
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    if (failCount == 0)
+                    {
+                        Global.MainToastManager.CreateToast()
+                            .WithTitle(GetTranslation("Filemgr_PullSuccess"))
+                            .WithContent($"{successCount}")
+                            .OfType(NotificationType.Success)
+                            .Dismiss().ByClicking()
+                            .Dismiss().After(TimeSpan.FromSeconds(3))
+                            .Queue();
+                    }
+                    else
+                    {
+                        Global.MainDialogManager.CreateDialog()
+                            .OfType(NotificationType.Warning)
+                            .WithTitle(GetTranslation("Filemgr_PullFailed"))
+                            .WithContent($"Success: {successCount}, Failed: {failCount}")
+                            .Dismiss().ByClickingBackground()
+                            .TryShow();
+                    }
+                });
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            IsBusy = false;
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[PullFilesBatch]\n\n{ex.GetType().Name}: {ex.Message}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
+        }
+    }
+
+    /// <summary>
+    /// <para>拉取单个文件或目录到本地。</para>
+    /// Pulls a single file or directory to local.
+    /// </summary>
+    private async Task PullSingleFileAsync(FileEntry entry)
     {
         if (entry is null)
             return;
@@ -922,96 +1040,78 @@ public partial class FilemgrViewModel : MainPageBase
     }
 
     /// <summary>
-    /// <para>将设备上的文件拉取到本地桌面目录。</para>
-    /// Pulls a file from the device to the local Desktop directory.
+    /// <para>将设备上的文件拉取到本地桌面目录。若有选中项则批量拉取，否则拉取单个条目。</para>
+    /// Pulls files from the device to the local Desktop directory. Batch pulls if items are selected, otherwise pulls a single entry.
     /// </summary>
     /// <param name="entry">
-    /// <para>要拉取的文件条目。</para>
-    /// The file entry to pull.
+    /// <para>要拉取的单个文件条目（无选中项时使用）。</para>
+    /// The single file entry to pull (used when no items are selected).
     /// </param>
     [RelayCommand]
-    private async Task ExtractToDesktopAsync(FileEntry entry)
+    private async Task ExtractToDesktopAsync(FileEntry? entry)
     {
+        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        var selected = Files.Where(f => f.IsSelected).ToList();
+        if (selected.Count > 0)
+        {
+            await ExtractEntriesToDirectoryAsync(selected, desktopPath);
+            return;
+        }
+
         if (entry is null)
             return;
-        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         await ExtractToDirectoryAsync(entry, desktopPath);
     }
 
     /// <summary>
-    /// <para>将设备上的文件拉取到本地下载目录。</para>
-    /// Pulls a file from the device to the local Downloads directory.
+    /// <para>将设备上的文件拉取到本地下载目录。若有选中项则批量拉取，否则拉取单个条目。</para>
+    /// Pulls files from the device to the local Downloads directory. Batch pulls if items are selected, otherwise pulls a single entry.
     /// </summary>
     /// <param name="entry">
-    /// <para>要拉取的文件条目。</para>
-    /// The file entry to pull.
+    /// <para>要拉取的单个文件条目（无选中项时使用）。</para>
+    /// The single file entry to pull (used when no items are selected).
     /// </param>
     [RelayCommand]
-    private async Task ExtractToDownloadsAsync(FileEntry entry)
+    private async Task ExtractToDownloadsAsync(FileEntry? entry)
     {
-        if (entry is null)
-            return;
         string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         string downloadsDir = Path.Combine(downloadsPath, "Downloads");
         if (!Directory.Exists(downloadsDir))
             Directory.CreateDirectory(downloadsDir);
+
+        var selected = Files.Where(f => f.IsSelected).ToList();
+        if (selected.Count > 0)
+        {
+            await ExtractEntriesToDirectoryAsync(selected, downloadsDir);
+            return;
+        }
+
+        if (entry is null)
+            return;
         await ExtractToDirectoryAsync(entry, downloadsDir);
     }
 
     /// <summary>
-    /// <para>将设备上的文件拉取到用户选择的自定义目录。</para>
-    /// Pulls a file from the device to a user-selected custom directory.
+    /// <para>将设备上的文件拉取到用户选择的自定义目录。若有选中项则批量拉取，否则拉取单个条目。</para>
+    /// Pulls files from the device to a user-selected custom directory. Batch pulls if items are selected, otherwise pulls a single entry.
     /// </summary>
     /// <param name="entry">
-    /// <para>要拉取的文件条目。</para>
-    /// The file entry to pull.
+    /// <para>要拉取的单个文件条目（无选中项时使用）。</para>
+    /// The single file entry to pull (used when no items are selected).
     /// </param>
     [RelayCommand]
-    private async Task ExtractToCustomDirAsync(FileEntry entry)
+    private async Task ExtractToCustomDirAsync(FileEntry? entry)
     {
+        var selected = Files.Where(f => f.IsSelected).ToList();
+        if (selected.Count > 0)
+        {
+            await ExtractEntriesToCustomDirAsync(selected);
+            return;
+        }
+
         if (entry is null)
             return;
-
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
-
-        try
-        {
-            var mainWindow = (Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
-            if (mainWindow is null)
-                return;
-
-            System.Collections.Generic.IReadOnlyList<IStorageFolder> folders = await mainWindow.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
-            {
-                Title = GetTranslation("Filemgr_SelectSaveLocation"),
-                AllowMultiple = false
-            });
-            if (folders.Count < 1)
-                return;
-            string localPath = folders[0].TryGetLocalPath() ?? string.Empty;
-            if (string.IsNullOrEmpty(localPath))
-                return;
-
-            await ExtractToDirectoryAsync(entry, localPath);
-        }
-        catch (Exception ex)
-        {
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
-                Global.MainDialogManager.CreateDialog()
-                    .OfType(NotificationType.Error)
-                    .WithTitle(GetTranslation("Common_Error"))
-                    .WithContent($"[ExtractToCustomDir] Name: {entry.Name}\n\n{ex.GetType().Name}: {ex.Message}")
-                    .Dismiss().ByClickingBackground()
-                    .TryShow();
-            });
-        }
+        await ExtractSingleToCustomDirAsync(entry);
     }
 
     /// <summary>
@@ -1083,6 +1183,181 @@ public partial class FilemgrViewModel : MainPageBase
         finally
         {
             IsBusy = false;
+        }
+    }
+
+    /// <summary>
+    /// <para>批量将选中的文件条目拉取到指定的本地目录。</para>
+    /// Batch pulls selected file entries to the specified local directory.
+    /// </summary>
+    private async Task ExtractEntriesToDirectoryAsync(List<FileEntry> entries, string localDir)
+    {
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            IsDeviceConnected = false;
+            await ShowNotConnectedDialogAsync();
+            return;
+        }
+
+        IsDeviceConnected = true;
+        IsBusy = true;
+        try
+        {
+            int successCount = 0;
+            int failCount = 0;
+
+            foreach (var e in entries)
+            {
+                string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{e.FullPath}\" \"{localDir}\"");
+
+                if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
+                    output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
+                    (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
+                     !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
+                     !output.Contains("No such file", StringComparison.OrdinalIgnoreCase)))
+                {
+                    successCount++;
+                }
+                else
+                {
+                    failCount++;
+                }
+            }
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                if (failCount == 0)
+                {
+                    Global.MainToastManager.CreateToast()
+                        .WithTitle(GetTranslation("Filemgr_PullSuccess"))
+                        .WithContent($"{successCount}")
+                        .OfType(NotificationType.Success)
+                        .Dismiss().ByClicking()
+                        .Dismiss().After(TimeSpan.FromSeconds(3))
+                        .Queue();
+                }
+                else
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Warning)
+                        .WithTitle(GetTranslation("Filemgr_PullFailed"))
+                        .WithContent($"Success: {successCount}, Failed: {failCount}")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[ExtractEntriesBatch]\n\n{ex.GetType().Name}: {ex.Message}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    /// <summary>
+    /// <para>将单个文件条目拉取到用户选择的自定义目录。</para>
+    /// Pulls a single file entry to a user-selected custom directory.
+    /// </summary>
+    private async Task ExtractSingleToCustomDirAsync(FileEntry entry)
+    {
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            IsDeviceConnected = false;
+            await ShowNotConnectedDialogAsync();
+            return;
+        }
+
+        IsDeviceConnected = true;
+
+        try
+        {
+            var mainWindow = (Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is null)
+                return;
+
+            System.Collections.Generic.IReadOnlyList<IStorageFolder> folders = await mainWindow.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            {
+                Title = GetTranslation("Filemgr_SelectSaveLocation"),
+                AllowMultiple = false
+            });
+            if (folders.Count < 1)
+                return;
+            string localPath = folders[0].TryGetLocalPath() ?? string.Empty;
+            if (string.IsNullOrEmpty(localPath))
+                return;
+
+            await ExtractToDirectoryAsync(entry, localPath);
+        }
+        catch (Exception ex)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[ExtractToCustomDir] Name: {entry.Name}\n\n{ex.GetType().Name}: {ex.Message}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
+        }
+    }
+
+    /// <summary>
+    /// <para>批量将选中的文件条目拉取到用户选择的自定义目录。</para>
+    /// Batch pulls selected file entries to a user-selected custom directory.
+    /// </summary>
+    private async Task ExtractEntriesToCustomDirAsync(List<FileEntry> entries)
+    {
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            IsDeviceConnected = false;
+            await ShowNotConnectedDialogAsync();
+            return;
+        }
+
+        IsDeviceConnected = true;
+
+        try
+        {
+            var mainWindow = (Avalonia.Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+            if (mainWindow is null)
+                return;
+
+            System.Collections.Generic.IReadOnlyList<IStorageFolder> folders = await mainWindow.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+            {
+                Title = GetTranslation("Filemgr_SelectSaveLocation"),
+                AllowMultiple = false
+            });
+            if (folders.Count < 1)
+                return;
+            string localPath = folders[0].TryGetLocalPath() ?? string.Empty;
+            if (string.IsNullOrEmpty(localPath))
+                return;
+
+            await ExtractEntriesToDirectoryAsync(entries, localPath);
+        }
+        catch (Exception ex)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[ExtractEntriesToCustomDir]\n\n{ex.GetType().Name}: {ex.Message}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
         }
     }
 
@@ -1247,53 +1522,73 @@ public partial class FilemgrViewModel : MainPageBase
     }
 
     /// <summary>
-    /// <para>将文件条目复制到剪贴板，标记为复制操作。</para>
-    /// Copies the file entry to the clipboard, marking it as a copy operation.
+    /// <para>将文件条目复制到剪贴板，标记为复制操作。若有选中项则批量复制，否则复制单个条目。</para>
+    /// Copies file entries to the clipboard, marking as a copy operation. Batch copies if items are selected, otherwise copies a single entry.
     /// </summary>
     /// <param name="entry">
-    /// <para>要复制的文件条目。</para>
-    /// The file entry to copy.
+    /// <para>要复制的单个文件条目（无选中项时使用）。</para>
+    /// The single file entry to copy (used when no items are selected).
     /// </param>
     [RelayCommand]
-    private void CopyFile(FileEntry entry)
+    private void CopyFile(FileEntry? entry)
     {
-        if (entry is null)
+        var selected = Files.Where(f => f.IsSelected).ToList();
+        if (selected.Count > 0)
+        {
+            _clipboardEntries = [.. selected];
+        }
+        else if (entry is not null)
+        {
+            SelectedFile = entry;
+            _clipboardEntries = [entry];
+        }
+        else
+        {
             return;
+        }
 
-        SelectedFile = entry;
-        _clipboardEntry = entry;
         _clipboardOperation = ClipboardOperation.Copy;
         CanPaste = true;
     }
 
     /// <summary>
-    /// <para>将文件条目剪切到剪贴板，标记为剪切操作。</para>
-    /// Cuts the file entry to the clipboard, marking it as a cut operation.
+    /// <para>将文件条目剪切到剪贴板，标记为剪切操作。若有选中项则批量剪切，否则剪切单个条目。</para>
+    /// Cuts file entries to the clipboard, marking as a cut operation. Batch cuts if items are selected, otherwise cuts a single entry.
     /// </summary>
     /// <param name="entry">
-    /// <para>要剪切的文件条目。</para>
-    /// The file entry to cut.
+    /// <para>要剪切的单个文件条目（无选中项时使用）。</para>
+    /// The single file entry to cut (used when no items are selected).
     /// </param>
     [RelayCommand]
-    private void CutFile(FileEntry entry)
+    private void CutFile(FileEntry? entry)
     {
-        if (entry is null)
+        var selected = Files.Where(f => f.IsSelected).ToList();
+        if (selected.Count > 0)
+        {
+            _clipboardEntries = [.. selected];
+        }
+        else if (entry is not null)
+        {
+            SelectedFile = entry;
+            _clipboardEntries = [entry];
+        }
+        else
+        {
             return;
+        }
 
-        SelectedFile = entry;
-        _clipboardEntry = entry;
         _clipboardOperation = ClipboardOperation.Cut;
         CanPaste = true;
     }
 
     /// <summary>
-    /// <para>将剪贴板中的文件条目粘贴到当前目录。根据剪贴板操作类型执行复制或移动命令。</para>
-    /// Pastes the file entry from the clipboard to the current directory. Executes copy or move command based on the clipboard operation type.
+    /// <para>将剪贴板中的文件条目粘贴到当前目录。支持批量粘贴，根据剪贴板操作类型执行复制或移动命令。</para>
+    /// Pastes file entries from the clipboard to the current directory. Supports batch paste, executing copy or move commands based on the clipboard operation type.
     /// </summary>
     [RelayCommand]
     private async Task PasteFileAsync()
     {
-        if (_clipboardEntry is null || _clipboardOperation == ClipboardOperation.None)
+        if (_clipboardEntries.Count == 0 || _clipboardOperation == ClipboardOperation.None)
             return;
 
         if (!await GetDevicesInfo.SetDevicesInfoLittle())
@@ -1304,61 +1599,77 @@ public partial class FilemgrViewModel : MainPageBase
         }
 
         IsDeviceConnected = true;
+        IsBusy = true;
 
         try
         {
-            string destPath = CurrentPath == "/"
-                ? $"/{_clipboardEntry.Name}"
-                : $"{CurrentPath}/{_clipboardEntry.Name}";
-            string output;
+            int successCount = 0;
+            int failCount = 0;
 
-            if (_clipboardOperation == ClipboardOperation.Copy)
+            foreach (var clipboardEntry in _clipboardEntries)
             {
-                string cmd = _clipboardEntry.IsDirectory
-                    ? $"shell cp -r \"{_clipboardEntry.FullPath}\" \"{destPath}\""
-                    : $"shell cp \"{_clipboardEntry.FullPath}\" \"{destPath}\"";
-                output = await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
-            }
-            else // Cut
-            {
-                output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell mv \"{_clipboardEntry.FullPath}\" \"{destPath}\"");
-            }
+                string destPath = CurrentPath == "/"
+                    ? $"/{clipboardEntry.Name}"
+                    : $"{CurrentPath}/{clipboardEntry.Name}";
+                string output;
 
-            await Dispatcher.UIThread.InvokeAsync(() =>
-            {
+                if (_clipboardOperation == ClipboardOperation.Copy)
+                {
+                    string cmd = clipboardEntry.IsDirectory
+                        ? $"shell cp -r \"{clipboardEntry.FullPath}\" \"{destPath}\""
+                        : $"shell cp \"{clipboardEntry.FullPath}\" \"{destPath}\"";
+                    output = await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
+                }
+                else // Cut
+                {
+                    output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell mv \"{clipboardEntry.FullPath}\" \"{destPath}\"");
+                }
+
                 if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
                     !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
                     !output.Contains("Permission denied", StringComparison.OrdinalIgnoreCase) &&
                     !output.Contains("No such file", StringComparison.OrdinalIgnoreCase))
                 {
+                    successCount++;
+                }
+                else
+                {
+                    failCount++;
+                }
+            }
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                if (failCount == 0)
+                {
                     Global.MainToastManager.CreateToast()
                         .WithTitle(GetTranslation("Filemgr_PasteSuccess"))
-                        .WithContent(_clipboardEntry.Name)
+                        .WithContent($"{successCount}")
                         .OfType(NotificationType.Success)
                         .Dismiss().ByClicking()
                         .Dismiss().After(TimeSpan.FromSeconds(3))
                         .Queue();
-
-                    // If cut operation, clear clipboard after successful move
-                    if (_clipboardOperation == ClipboardOperation.Cut)
-                    {
-                        _clipboardEntry = null;
-                        _clipboardOperation = ClipboardOperation.None;
-                        CanPaste = false;
-                    }
-
-                    _ = RefreshAsync();
                 }
                 else
                 {
                     Global.MainDialogManager.CreateDialog()
-                        .OfType(NotificationType.Error)
+                        .OfType(NotificationType.Warning)
                         .WithTitle(GetTranslation("Filemgr_PasteFailed"))
-                        .WithContent($"[Paste] Source: {_clipboardEntry.FullPath}, Dest: {destPath}\n\n{output.Trim()}")
+                        .WithContent($"Success: {successCount}, Failed: {failCount}")
                         .Dismiss().ByClickingBackground()
                         .TryShow();
                 }
             });
+
+            // If cut operation, clear clipboard after successful move
+            if (_clipboardOperation == ClipboardOperation.Cut)
+            {
+                _clipboardEntries = [];
+                _clipboardOperation = ClipboardOperation.None;
+                CanPaste = false;
+            }
+
+            _ = RefreshAsync();
         }
         catch (Exception ex)
         {
@@ -1371,6 +1682,10 @@ public partial class FilemgrViewModel : MainPageBase
                     .Dismiss().ByClickingBackground()
                     .TryShow();
             });
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 

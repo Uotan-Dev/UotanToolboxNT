@@ -2064,6 +2064,402 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Add to Quick Access 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_AddToQuickAccess {
+            get {
+                return ResourceManager.GetString("Filemgr_AddToQuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Loading... 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_BusyText {
+            get {
+                return ResourceManager.GetString("Filemgr_BusyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cancel 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Cancel {
+            get {
+                return ResourceManager.GetString("Filemgr_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Confirm 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Confirm {
+            get {
+                return ResourceManager.GetString("Filemgr_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Are you sure you want to delete? 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_ConfirmDelete {
+            get {
+                return ResourceManager.GetString("Filemgr_ConfirmDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Confirm Delete 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_ConfirmDeleteTitle {
+            get {
+                return ResourceManager.GetString("Filemgr_ConfirmDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Copy 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Copy {
+            get {
+                return ResourceManager.GetString("Filemgr_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Custom directory 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_CustomDir {
+            get {
+                return ResourceManager.GetString("Filemgr_CustomDir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cut 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Cut {
+            get {
+                return ResourceManager.GetString("Filemgr_Cut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Delete 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Delete {
+            get {
+                return ResourceManager.GetString("Filemgr_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to delete 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_DeleteFailed {
+            get {
+                return ResourceManager.GetString("Filemgr_DeleteFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Deleted successfully 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_DeleteSuccess {
+            get {
+                return ResourceManager.GetString("Filemgr_DeleteSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Desktop 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Desktop {
+            get {
+                return ResourceManager.GetString("Filemgr_Desktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Downloads 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Downloads {
+            get {
+                return ResourceManager.GetString("Filemgr_Downloads", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No files loaded yet 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_EmptyList {
+            get {
+                return ResourceManager.GetString("Filemgr_EmptyList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Enter new name: 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_EnterNewName {
+            get {
+                return ResourceManager.GetString("Filemgr_EnterNewName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Export {
+            get {
+                return ResourceManager.GetString("Filemgr_Export", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Extract to 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_ExtractTo {
+            get {
+                return ResourceManager.GetString("Filemgr_ExtractTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_File {
+            get {
+                return ResourceManager.GetString("Filemgr_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Folder 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Folder {
+            get {
+                return ResourceManager.GetString("Filemgr_Folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Upload 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Import {
+            get {
+                return ResourceManager.GetString("Filemgr_Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Invalid name. Name cannot be empty or contain / \ : * ? &quot; &lt; &gt; | 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_InvalidName {
+            get {
+                return ResourceManager.GetString("Filemgr_InvalidName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Loading... 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Loading {
+            get {
+                return ResourceManager.GetString("Filemgr_Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Up 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_NavigateUp {
+            get {
+                return ResourceManager.GetString("Filemgr_NavigateUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 New 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_New {
+            get {
+                return ResourceManager.GetString("Filemgr_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Permission denied 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_NoPermission {
+            get {
+                return ResourceManager.GetString("Filemgr_NoPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Open 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Open {
+            get {
+                return ResourceManager.GetString("Filemgr_Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Paste 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Paste {
+            get {
+                return ResourceManager.GetString("Filemgr_Paste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Path not found or inaccessible 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_PathNotFound {
+            get {
+                return ResourceManager.GetString("Filemgr_PathNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pull 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Pull {
+            get {
+                return ResourceManager.GetString("Filemgr_Pull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to pull file 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_PullFailed {
+            get {
+                return ResourceManager.GetString("Filemgr_PullFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File pulled successfully 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_PullSuccess {
+            get {
+                return ResourceManager.GetString("Filemgr_PullSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Documents 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_QA_Documents {
+            get {
+                return ResourceManager.GetString("Filemgr_QA_Documents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Downloads 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_QA_Download {
+            get {
+                return ResourceManager.GetString("Filemgr_QA_Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Internal 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_QA_Internal {
+            get {
+                return ResourceManager.GetString("Filemgr_QA_Internal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pictures 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_QA_Pictures {
+            get {
+                return ResourceManager.GetString("Filemgr_QA_Pictures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Root 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_QA_Root {
+            get {
+                return ResourceManager.GetString("Filemgr_QA_Root", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Quick Access 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_QuickAccess {
+            get {
+                return ResourceManager.GetString("Filemgr_QuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Rename 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Rename {
+            get {
+                return ResourceManager.GetString("Filemgr_Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to rename 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_RenameFailed {
+            get {
+                return ResourceManager.GetString("Filemgr_RenameFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Renamed successfully 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_RenameSuccess {
+            get {
+                return ResourceManager.GetString("Filemgr_RenameSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Rename 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_RenameTitle {
+            get {
+                return ResourceManager.GetString("Filemgr_RenameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select save location 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_SelectSaveLocation {
+            get {
+                return ResourceManager.GetString("Filemgr_SelectSaveLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Send 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_Send {
+            get {
+                return ResourceManager.GetString("Filemgr_Send", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 ADB Format 的本地化字符串。
         /// </summary>
         public static string FormatExtract_ADBFormat {
@@ -4809,6 +5205,15 @@ namespace UotanToolbox.Assets {
         public static string Sidebar_Customizedflash {
             get {
                 return ResourceManager.GetString("Sidebar_Customizedflash", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 File Manager 的本地化字符串。
+        /// </summary>
+        public static string Sidebar_Filemgr {
+            get {
+                return ResourceManager.GetString("Sidebar_Filemgr", resourceCulture);
             }
         }
         

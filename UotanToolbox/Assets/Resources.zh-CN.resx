@@ -1812,7 +1812,7 @@ ADB下填写序号，一次一个！</value>
     <value>删除</value>
   </data>
   <data name="Filemgr_ConfirmDelete" xml:space="preserve">
-    <value>确定要删除 "{0}" 吗？</value>
+    <value>确定要删除吗？</value>
   </data>
   <data name="Filemgr_EnterNewName" xml:space="preserve">
     <value>请输入新名称：</value>
@@ -1864,5 +1864,74 @@ ADB下填写序号，一次一个！</value>
   </data>
   <data name="Filemgr_Confirm" xml:space="preserve">
     <value>确认</value>
+  </data>
+  <data name="Filemgr_QuickAccess" xml:space="preserve">
+    <value>快捷目录</value>
+  </data>
+  <data name="Filemgr_NavigateUp" xml:space="preserve">
+    <value>上一级</value>
+  </data>
+  <data name="Filemgr_Import" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="Filemgr_Export" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="Filemgr_New" xml:space="preserve">
+    <value>新建</value>
+  </data>
+  <data name="Filemgr_File" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="Filemgr_Folder" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
+  <data name="Filemgr_Send" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="Filemgr_Paste" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="Filemgr_Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Filemgr_Cut" xml:space="preserve">
+    <value>剪切</value>
+  </data>
+  <data name="Filemgr_EmptyList" xml:space="preserve">
+    <value>暂未获取文件列表</value>
+  </data>
+  <data name="Filemgr_AddToQuickAccess" xml:space="preserve">
+    <value>添加至快捷目录</value>
+  </data>
+  <data name="Filemgr_ExtractTo" xml:space="preserve">
+    <value>提取至</value>
+  </data>
+  <data name="Filemgr_Desktop" xml:space="preserve">
+    <value>桌面</value>
+  </data>
+  <data name="Filemgr_Downloads" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="Filemgr_CustomDir" xml:space="preserve">
+    <value>指定目录</value>
+  </data>
+  <data name="Filemgr_QA_Root" xml:space="preserve">
+    <value>根目录</value>
+  </data>
+  <data name="Filemgr_QA_Internal" xml:space="preserve">
+    <value>内部存储</value>
+  </data>
+  <data name="Filemgr_QA_Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="Filemgr_QA_Documents" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="Filemgr_QA_Pictures" xml:space="preserve">
+    <value>图片</value>
+  </data>
+  <data name="Filemgr_BusyText" xml:space="preserve">
+    <value>加载中...</value>
   </data>
 </root>

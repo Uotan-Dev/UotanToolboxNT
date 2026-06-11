@@ -99,11 +99,11 @@ public partial class FilemgrViewModel : MainPageBase
     {
         QuickAccessItems =
         [
-            new QuickAccessItem { Name = "根目录", Path = "/", Icon = MaterialIconKind.HomeOutline },
-            new QuickAccessItem { Name = "内部存储", Path = "/sdcard", Icon = MaterialIconKind.Harddisk },
-            new QuickAccessItem { Name = "下载", Path = "/sdcard/Download", Icon = MaterialIconKind.DownloadOutline },
-            new QuickAccessItem { Name = "文档", Path = "/sdcard/Documents", Icon = MaterialIconKind.FileDocumentOutline },
-            new QuickAccessItem { Name = "图片", Path = "/sdcard/Pictures", Icon = MaterialIconKind.ImageOutline },
+            new QuickAccessItem { Name = GetTranslation("Filemgr_QA_Root"), Path = "/", Icon = MaterialIconKind.HomeOutline },
+            new QuickAccessItem { Name = GetTranslation("Filemgr_QA_Internal"), Path = "/sdcard", Icon = MaterialIconKind.Harddisk },
+            new QuickAccessItem { Name = GetTranslation("Filemgr_QA_Download"), Path = "/sdcard/Download", Icon = MaterialIconKind.DownloadOutline },
+            new QuickAccessItem { Name = GetTranslation("Filemgr_QA_Documents"), Path = "/sdcard/Documents", Icon = MaterialIconKind.FileDocumentOutline },
+            new QuickAccessItem { Name = GetTranslation("Filemgr_QA_Pictures"), Path = "/sdcard/Pictures", Icon = MaterialIconKind.ImageOutline },
         ];
     }
 

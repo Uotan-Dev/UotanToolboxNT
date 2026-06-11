@@ -23,15 +23,15 @@
 						<TextBlock HorizontalAlignment="Left"
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
-								   Text="快捷目录" />
+								   Text="{x:Static assets:Resources.Filemgr_QuickAccess}" />
 						<ItemsControl Margin="-5 0 -5 0" ItemsSource="{Binding QuickAccessItems}" x:CompileBindings="False">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
 									<Button Classes="Outlined" Height="30" Padding="0" BorderThickness="0"
 											Command="{Binding DataContext.NavigateToQuickAccessCommand, ElementName=RootView}"
-											CommandParameter="{Binding}"
+											CommandParameter="{Binding}" HorizontalContentAlignment="Left"
 											FontWeight="{Binding IsActive, Converter={x:Static filemgr:BoolToFontWeightConverter.Instance}}">
-										<TextBlock Margin="-95 0 0 0">
+										<TextBlock Margin="10 0 0 0">
 											<avalonia:MaterialIcon Kind="{Binding Icon}" />
 											<TextBlock Text="{Binding Name}"/>
 										</TextBlock>
@@ -42,16 +42,16 @@
 					</StackPanel>
 				</suki:GlassCard>
 
-				<suki:GlassCard Margin="5 10" Height="760" Width="730">
-					<suki:BusyArea BusyText="加载中..." IsBusy="{Binding IsBusy}">
+				<suki:GlassCard Margin="5 10" Width="730" Height="760">
+					<suki:BusyArea BusyText="{x:Static assets:Resources.Filemgr_BusyText}" IsBusy="{Binding IsBusy}">
 						<StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="5">
 								<Button Margin="5 0 0 0" Classes="Outlined" Height="30" Width="30" Padding="0" BorderThickness="0"
-										Command="{Binding NavigateUpCommand}" IsEnabled="{Binding CanNavigateUp}" ToolTip.Tip="上一级">
+										Command="{Binding NavigateUpCommand}" IsEnabled="{Binding CanNavigateUp}" ToolTip.Tip="{x:Static assets:Resources.Filemgr_NavigateUp}">
 									<avalonia:MaterialIcon Kind="ArrowUp" Padding="5"/>
 								</Button>
 								<Button Margin="5 0 0 0" Classes="Outlined" Height="30" Width="30" Padding="0" BorderThickness="0"
-										Command="{Binding RefreshCommand}" ToolTip.Tip="刷新">
+										Command="{Binding RefreshCommand}" ToolTip.Tip="{x:Static assets:Resources.Home_Refresh}">
 									<avalonia:MaterialIcon Kind="Refresh" Padding="5"/>
 								</Button>
 								<TextBox Width="520" Text="{Binding PathInput, Mode=TwoWay}">
@@ -60,33 +60,34 @@
 									</TextBox.KeyBindings>
 								</TextBox>
 								<Button Margin="5 0 0 0" Classes="Outlined" Height="30" Width="30" Padding="0" BorderThickness="0"
-										ToolTip.Tip="导入">
+										ToolTip.Tip="{x:Static assets:Resources.Filemgr_Import}">
 									<avalonia:MaterialIcon Kind="UploadOutline" Padding="5"/>
 								</Button>
 								<Button Margin="5 0 0 0" Classes="Outlined" Height="30" Width="30" Padding="0" BorderThickness="0"
-										ToolTip.Tip="导出">
+										ToolTip.Tip="{x:Static assets:Resources.Filemgr_Export}">
 									<avalonia:MaterialIcon Kind="DownloadOutline" Padding="5"/>
 								</Button>
 							</StackPanel>
 							<suki:GlassCard Height="675">
 								<suki:GlassCard.ContextMenu>
 									<ContextMenu>
-										<MenuItem Header="新建">
-											<MenuItem Header="文件"/>
-											<MenuItem Header="文件夹"/>
+										<MenuItem Header="{x:Static assets:Resources.Filemgr_New}">
+											<MenuItem Header="{x:Static assets:Resources.Filemgr_File}"/>
+											<MenuItem Header="{x:Static assets:Resources.Filemgr_Folder}"/>
 										</MenuItem>
-										<MenuItem Header="发送">
-											<MenuItem Header="文件"/>
-											<MenuItem Header="文件夹"/>
+										<MenuItem Header="{x:Static assets:Resources.Filemgr_Send}">
+											<MenuItem Header="{x:Static assets:Resources.Filemgr_File}"/>
+											<MenuItem Header="{x:Static assets:Resources.Filemgr_Folder}"/>
 										</MenuItem>
-										<MenuItem Header="粘贴" IsEnabled="False"/>
+										<MenuItem Header="{x:Static assets:Resources.Filemgr_Paste}"
+												  IsEnabled="False"/>
 										<Separator/>
-										<MenuItem Header="刷新" Command="{Binding RefreshCommand}"/>
+										<MenuItem Header="{x:Static assets:Resources.Home_Refresh}" Command="{Binding RefreshCommand}"/>
 									</ContextMenu>
 								</suki:GlassCard.ContextMenu>
 								<ScrollViewer>
 									<WrapPanel>
-										<TextBlock Text="暂未获取文件列表" Classes="h4" Margin="15,15,15,15"
+										<TextBlock Text="{x:Static assets:Resources.Filemgr_EmptyList}" Classes="h4" Margin="15,15,15,15"
 												   IsVisible="{Binding !HasItems}" HorizontalAlignment="Left"/>
 										<ItemsControl Name="FileView" ItemsSource="{Binding Files}">
 											<ItemsControl.ItemsPanel>
@@ -99,19 +100,19 @@
 													<suki:GlassCard Margin="5 10 5 0" Padding="0" CornerRadius="10" IsInteractive="True">
 														<suki:GlassCard.ContextMenu>
 															<ContextMenu>
-																<MenuItem Header="打开"/>
-																<MenuItem Header="复制"/>
-																<MenuItem Header="剪切"/>
-																<MenuItem Header="删除"/>
-																<MenuItem Header="重命名"/>
-																<Separator/>
-																<MenuItem Header="添加至快捷目录"/>
-																<MenuItem Header="提取至">
-																	<MenuItem Header="桌面"/>
-																	<MenuItem Header="下载"/>
-																	<MenuItem Header="指定目录"/>
-																</MenuItem>
-															</ContextMenu>
+																	<MenuItem Header="{x:Static assets:Resources.Filemgr_Open}"/>
+																	<MenuItem Header="{x:Static assets:Resources.Filemgr_Copy}"/>
+																	<MenuItem Header="{x:Static assets:Resources.Filemgr_Cut}"/>
+																	<MenuItem Header="{x:Static assets:Resources.Filemgr_Delete}"/>
+																	<MenuItem Header="{x:Static assets:Resources.Filemgr_Rename}"/>
+																	<Separator/>
+																	<MenuItem Header="{x:Static assets:Resources.Filemgr_AddToQuickAccess}"/>
+																	<MenuItem Header="{x:Static assets:Resources.Filemgr_ExtractTo}">
+																		<MenuItem Header="{x:Static assets:Resources.Filemgr_Desktop}"/>
+																		<MenuItem Header="{x:Static assets:Resources.Filemgr_Downloads}"/>
+																		<MenuItem Header="{x:Static assets:Resources.Filemgr_CustomDir}"/>
+																	</MenuItem>
+																</ContextMenu>
 														</suki:GlassCard.ContextMenu>
 														<CheckBox Margin="10 0 0 0">
 															<Border Padding="0 5" Background="Transparent">
@@ -121,9 +122,9 @@
 																			Margin="0"
 																			Source="/Assets/folder.png" />
 																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="205" Text="{Binding DisplayName}"/>
-																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="100" Text="{Binding DisplaySize}"/>
-																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="100" Text="drwxrws--x"/>
-																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="100" Text="{Binding ModifiedTime}"/>
+																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="60" Text="{Binding DisplaySize}"/>
+																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="90" Text="drwxrws--x"/>
+																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="150" Text="{Binding ModifiedTime}"/>
 																</StackPanel>
 															</Border>
 														</CheckBox>

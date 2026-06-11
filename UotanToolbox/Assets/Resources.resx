@@ -1812,7 +1812,7 @@ If you don't understand the above, please ignore it. The selection command only 
     <value>Delete</value>
   </data>
   <data name="Filemgr_ConfirmDelete" xml:space="preserve">
-    <value>Are you sure you want to delete "{0}"?</value>
+    <value>Are you sure you want to delete?</value>
   </data>
   <data name="Filemgr_EnterNewName" xml:space="preserve">
     <value>Enter new name:</value>
@@ -1864,5 +1864,74 @@ If you don't understand the above, please ignore it. The selection command only 
   </data>
   <data name="Filemgr_Confirm" xml:space="preserve">
     <value>Confirm</value>
+  </data>
+  <data name="Filemgr_QuickAccess" xml:space="preserve">
+    <value>Quick Access</value>
+  </data>
+  <data name="Filemgr_NavigateUp" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="Filemgr_Import" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="Filemgr_Export" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Filemgr_New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="Filemgr_File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="Filemgr_Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Filemgr_Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="Filemgr_Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="Filemgr_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Filemgr_Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="Filemgr_EmptyList" xml:space="preserve">
+    <value>No files loaded yet</value>
+  </data>
+  <data name="Filemgr_AddToQuickAccess" xml:space="preserve">
+    <value>Add to Quick Access</value>
+  </data>
+  <data name="Filemgr_ExtractTo" xml:space="preserve">
+    <value>Extract to</value>
+  </data>
+  <data name="Filemgr_Desktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="Filemgr_Downloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="Filemgr_CustomDir" xml:space="preserve">
+    <value>Custom directory</value>
+  </data>
+  <data name="Filemgr_QA_Root" xml:space="preserve">
+    <value>Root</value>
+  </data>
+  <data name="Filemgr_QA_Internal" xml:space="preserve">
+    <value>Internal Storage</value>
+  </data>
+  <data name="Filemgr_QA_Download" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="Filemgr_QA_Documents" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="Filemgr_QA_Pictures" xml:space="preserve">
+    <value>Pictures</value>
+  </data>
+  <data name="Filemgr_BusyText" xml:space="preserve">
+    <value>Loading...</value>
   </data>
 </root>

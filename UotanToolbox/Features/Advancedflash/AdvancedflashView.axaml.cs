@@ -8,6 +8,12 @@ using Avalonia.Threading;
 using FirmwareKit.Lp;
 using FirmwareKit.Nb0;
 using FirmwareKit.NTPi;
+using FirmwareKit.Oppo;
+using FirmwareKit.Oppo.Crypto;
+using FirmwareKit.Oppo.Models;
+using FirmwareKit.OzipReader;
+using FirmwareKit.OpsReader;
+using FirmwareKit.OfpReader;
 using FirmwareKit.Sparse.Core;
 using FirmwareKit.Sparse.Models;
 using FirmwareKit.Sparse.Streams;
@@ -58,6 +64,7 @@ public partial class AdvancedflashView : UserControl
     private string output = "";
     private readonly StringBuilder _logBuffer = new();
     private readonly object _logBufferLock = new();
+    private OppCryptoProvider? _oppCryptoProvider;
     private readonly DispatcherTimer _logFlushTimer;
 
     public AdvancedflashView()
@@ -426,22 +433,28 @@ public partial class AdvancedflashView : UserControl
                     break;
                 case ".ozip":
                     _parsedFileType = ParsedFileType.Ozip;
-                    AdvancedflashLog.Text += $"\nOZIP format detected. Extraction not supported yet.";
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("OZIP format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
-                    BusyFlash.IsBusy = false;
-                    return;
+                    if (await TryParseOppoAsync(path))
+                    {
+                        BusyFlash.IsBusy = false;
+                        return;
+                    }
+                    break;
                 case ".ops":
                     _parsedFileType = ParsedFileType.Ops;
-                    AdvancedflashLog.Text += $"\nOPS format detected. Extraction not supported yet.";
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("OPS format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
-                    BusyFlash.IsBusy = false;
-                    return;
+                    if (await TryParseOppoAsync(path))
+                    {
+                        BusyFlash.IsBusy = false;
+                        return;
+                    }
+                    break;
                 case ".ofp":
                     _parsedFileType = ParsedFileType.Ofp;
-                    AdvancedflashLog.Text += $"\nOFP format detected. Extraction not supported yet.";
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("OFP format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
-                    BusyFlash.IsBusy = false;
-                    return;
+                    if (await TryParseOppoAsync(path))
+                    {
+                        BusyFlash.IsBusy = false;
+                        return;
+                    }
+                    break;
             }
 
             try
@@ -691,6 +704,117 @@ public partial class AdvancedflashView : UserControl
         }
     }
 
+    /// <summary>
+    /// <para>获取或创建 Oppo 加密提供者实例，并注册所有格式特定的加密提供者。</para>
+    /// Gets or creates an Oppo crypto provider instance with all format-specific providers registered.
+    /// </summary>
+    private OppCryptoProvider GetOrCreateOppCryptoProvider()
+    {
+        if (_oppCryptoProvider != null)
+            return _oppCryptoProvider;
+
+        _oppCryptoProvider = new OppCryptoProvider(null);
+        OzipPackageInitializer.Initialize(_oppCryptoProvider);
+        OpsPackageInitializer.Register(_oppCryptoProvider);
+        OfpPackageInitializer.Initialize(_oppCryptoProvider, null);
+        return _oppCryptoProvider;
+    }
+
+    /// <summary>
+    /// <para>尝试将文件解析为 Oppo 固件格式（OZIP/OPS/OFP）并推送分区列表到 UI。</para>
+    /// Attempts to parse the file as an Oppo firmware format (OZIP/OPS/OFP) and push partition list to UI.
+    /// </summary>
+    private async Task<bool> TryParseOppoAsync(string path)
+    {
+        try
+        {
+            var cryptoProvider = GetOrCreateOppCryptoProvider();
+            var archive = await Task.Run(() =>
+            {
+                var reader = new OppReader(cryptoProvider);
+                return reader.Parse(path);
+            });
+
+            if (archive == null || archive.Entries == null || archive.Entries.Count == 0)
+                return false;
+
+            var vm = GetViewModel();
+            vm.FalshPartModel.Clear();
+            await Task.Delay(100);
+            foreach (var entry in archive.Entries)
+            {
+                vm.FalshPartModel.Add(new FalshPartModel
+                {
+                    Select = false,
+                    Name = entry.Name ?? "",
+                    Size = entry.Size > 0 ? StringHelper.byte2AUnit((ulong)entry.Size) : "",
+                    Command = "",
+                    FileName = ""
+                });
+            }
+
+            var formatName = archive.Metadata?.FormatName ?? "OPPO";
+            AdvancedflashLog.Text += $"\n{formatName} Detected - {archive.Entries.Count} entries";
+
+            if (archive.Metadata?.Format == OppFormat.Ozip)
+                _parsedFileType = ParsedFileType.Ozip;
+            else if (archive.Metadata?.Format == OppFormat.Ops)
+                _parsedFileType = ParsedFileType.Ops;
+            else if (archive.Metadata?.Format == OppFormat.OfpQc || archive.Metadata?.Format == OppFormat.OfpMtk)
+                _parsedFileType = ParsedFileType.Ofp;
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// <para>从 Oppo 固件文件（OZIP/OPS/OFP）中提取选中的分区镜像。</para>
+    /// Extracts selected partition images from an Oppo firmware file (OZIP/OPS/OFP).
+    /// </summary>
+    private async Task ExtractOppoSelectedAsync(string sourcePath, string outputDir, List<FalshPartModel> selectedParts)
+    {
+        var selectedNames = selectedParts
+            .Select(x => x.Name)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        var cryptoProvider = GetOrCreateOppCryptoProvider();
+        await Task.Run(() =>
+        {
+            var reader = new OppReader(cryptoProvider);
+            reader.Extract(sourcePath, outputDir);
+        });
+
+        // Match extracted files to partition names and remove unselected files
+        if (Directory.Exists(outputDir))
+        {
+            foreach (var file in Directory.GetFiles(outputDir, "*", SearchOption.TopDirectoryOnly))
+            {
+                var fileName = Path.GetFileName(file);
+                var nameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
+
+                var matchedPart = selectedParts.FirstOrDefault(p =>
+                    string.Equals(p.Name, nameWithoutExt, StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(p.Name, fileName, StringComparison.OrdinalIgnoreCase));
+
+                if (matchedPart != null)
+                {
+                    matchedPart.FileName = fileName;
+                    matchedPart.FullFilePath = file;
+                }
+                else if (selectedNames.Count > 0)
+                {
+                    try { System.IO.File.Delete(file); } catch { }
+                }
+            }
+        }
+    }
+
     private async void OpenFolder(object sender, RoutedEventArgs args)
     {
         TopLevel? topLevel = TopLevel.GetTopLevel(this);
@@ -868,9 +992,8 @@ public partial class AdvancedflashView : UserControl
                 case ParsedFileType.Ozip:
                 case ParsedFileType.Ops:
                 case ParsedFileType.Ofp:
-                    AdvancedflashLog.Text += "\nThis format does not support auto-extraction yet.";
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("This format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
-                    return;
+                    await ExtractOppoSelectedAsync(sourcePath, outputDir, selectedParts);
+                    break;
                 default:
                     AdvancedflashLog.Text += "\nUnknown image type. Please re-open image file first.";
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Advancedflash_Unsupport")).Dismiss().ByClickingBackground().TryShow();
@@ -1388,6 +1511,15 @@ public partial class AdvancedflashView : UserControl
             return;
         }
 
+        // OZIP/OPS/OFP/NB0/NTPI formats only support extraction, not direct flashing
+        if (_parsedFileType is ParsedFileType.Ozip or ParsedFileType.Ops or ParsedFileType.Ofp
+            or ParsedFileType.Nb0 or ParsedFileType.Ntpi)
+        {
+            AdvancedflashLog.Text += "\nThis format does not support direct flashing. Please extract first.";
+            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("This format only supports extraction, not direct flashing.").Dismiss().ByClickingBackground().TryShow();
+            return;
+        }
+
         MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
         if (sukiViewModel.Status == "Fastboot" || sukiViewModel.Status == "Fastbootd")
         {
@@ -1584,11 +1716,8 @@ public partial class AdvancedflashView : UserControl
                         case ParsedFileType.Ozip:
                         case ParsedFileType.Ops:
                         case ParsedFileType.Ofp:
-                            AdvancedflashLog.Text += "\nThis format does not support auto-extraction yet.";
-                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("This format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
-                            SetEnabled(false);
-                            Global.checkdevice = true;
-                            return;
+                            await ExtractOppoSelectedAsync(sourcePath, outputDir, extractParts);
+                            break;
                         default:
                             AdvancedflashLog.Text += "\nUnknown image type. Please re-open image file first.";
                             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Advancedflash_Unsupport")).Dismiss().ByClickingBackground().TryShow();

@@ -39,6 +39,9 @@
 		<PackageReference Include="FirmwareKit.Lp" Version="1.0.0" />
 		<PackageReference Include="FirmwareKit.Nb0" Version="1.0.0" />
 		<PackageReference Include="FirmwareKit.NTPi" Version="1.0.0" />
+		<PackageReference Include="FirmwareKit.OfpReader" Version="0.1.0" />
+		<PackageReference Include="FirmwareKit.OpsReader" Version="0.1.0" />
+		<PackageReference Include="FirmwareKit.OzipReader" Version="0.1.0" />
 		<PackageReference Include="FirmwareKit.Sparse" Version="1.1.0" />
 		<PackageReference Include="FirmwareKit.Comm.Fastboot" Version="1.0.1" />
 		<PackageReference Include="Google.Protobuf" Version="3.33.5" />

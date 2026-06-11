@@ -252,12 +252,11 @@ public partial class AppmgrViewModel : MainPageBase
                     string[] fileArray = ApkFile.Split("|||");
                     for (int i = 0; i < fileArray.Length; i++)
                     {
-                        if (!string.IsNullOrEmpty(fileArray[i]) && File.Exists(fileArray[i]))
+                        if (!string.IsNullOrEmpty(fileArray[i]))
                         {
                             try
                             {
-                                File.Copy(fileArray[i], Path.Combine(Global.runpath, "APK", Path.GetFileName(fileArray[i])));
-                                string output = await FeaturesHelper.HdcCmd(Global.thisdevice, $"app install \"{Path.Combine("APK", Path.GetFileName(fileArray[i]))}\"");
+                                string output = await FeaturesHelper.HdcCmd(Global.thisdevice, $"app install \"{fileArray[i]}\"");
                                 _ = output.Contains("successfully")
                                     ? Global.MainToastManager.CreateToast()
                                                              .WithTitle(GetTranslation("Common_Succ"))

@@ -1934,4 +1934,49 @@ If you don't understand the above, please ignore it. The selection command only 
   <data name="Filemgr_BusyText" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="Filemgr_PushSuccess" xml:space="preserve">
+    <value>File pushed successfully</value>
+  </data>
+  <data name="Filemgr_PushFailed" xml:space="preserve">
+    <value>Failed to push file</value>
+  </data>
+  <data name="Filemgr_NewFileTitle" xml:space="preserve">
+    <value>New File</value>
+  </data>
+  <data name="Filemgr_NewFolderTitle" xml:space="preserve">
+    <value>New Folder</value>
+  </data>
+  <data name="Filemgr_EnterFileName" xml:space="preserve">
+    <value>Enter file name:</value>
+  </data>
+  <data name="Filemgr_EnterFolderName" xml:space="preserve">
+    <value>Enter folder name:</value>
+  </data>
+  <data name="Filemgr_NewFileSuccess" xml:space="preserve">
+    <value>File created successfully</value>
+  </data>
+  <data name="Filemgr_NewFileFailed" xml:space="preserve">
+    <value>Failed to create file</value>
+  </data>
+  <data name="Filemgr_NewFolderSuccess" xml:space="preserve">
+    <value>Folder created successfully</value>
+  </data>
+  <data name="Filemgr_NewFolderFailed" xml:space="preserve">
+    <value>Failed to create folder</value>
+  </data>
+  <data name="Filemgr_PasteSuccess" xml:space="preserve">
+    <value>Pasted successfully</value>
+  </data>
+  <data name="Filemgr_PasteFailed" xml:space="preserve">
+    <value>Failed to paste</value>
+  </data>
+  <data name="Filemgr_QuickAccessAdded" xml:space="preserve">
+    <value>Added to Quick Access</value>
+  </data>
+  <data name="Filemgr_QuickAccessRemoved" xml:space="preserve">
+    <value>Removed from Quick Access</value>
+  </data>
+  <data name="Filemgr_QuickAccessAlreadyExists" xml:space="preserve">
+    <value>Already in Quick Access</value>
+  </data>
 </root>

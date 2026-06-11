@@ -1934,4 +1934,49 @@ ADB下填写序号，一次一个！</value>
   <data name="Filemgr_BusyText" xml:space="preserve">
     <value>加载中...</value>
   </data>
+  <data name="Filemgr_PushSuccess" xml:space="preserve">
+    <value>文件推送成功</value>
+  </data>
+  <data name="Filemgr_PushFailed" xml:space="preserve">
+    <value>文件推送失败</value>
+  </data>
+  <data name="Filemgr_NewFileTitle" xml:space="preserve">
+    <value>新建文件</value>
+  </data>
+  <data name="Filemgr_NewFolderTitle" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
+  <data name="Filemgr_EnterFileName" xml:space="preserve">
+    <value>请输入文件名：</value>
+  </data>
+  <data name="Filemgr_EnterFolderName" xml:space="preserve">
+    <value>请输入文件夹名：</value>
+  </data>
+  <data name="Filemgr_NewFileSuccess" xml:space="preserve">
+    <value>文件创建成功</value>
+  </data>
+  <data name="Filemgr_NewFileFailed" xml:space="preserve">
+    <value>文件创建失败</value>
+  </data>
+  <data name="Filemgr_NewFolderSuccess" xml:space="preserve">
+    <value>文件夹创建成功</value>
+  </data>
+  <data name="Filemgr_NewFolderFailed" xml:space="preserve">
+    <value>文件夹创建失败</value>
+  </data>
+  <data name="Filemgr_PasteSuccess" xml:space="preserve">
+    <value>粘贴成功</value>
+  </data>
+  <data name="Filemgr_PasteFailed" xml:space="preserve">
+    <value>粘贴失败</value>
+  </data>
+  <data name="Filemgr_QuickAccessAdded" xml:space="preserve">
+    <value>已添加至快捷目录</value>
+  </data>
+  <data name="Filemgr_QuickAccessRemoved" xml:space="preserve">
+    <value>已从快捷目录移除</value>
+  </data>
+  <data name="Filemgr_QuickAccessAlreadyExists" xml:space="preserve">
+    <value>该目录已在快捷目录中</value>
+  </data>
 </root>

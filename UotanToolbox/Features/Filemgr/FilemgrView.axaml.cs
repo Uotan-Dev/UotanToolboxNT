@@ -16,6 +16,7 @@ public partial class FilemgrView : UserControl
     public FilemgrView()
     {
         InitializeComponent();
+        FileView.ItemsSource = new FileEntry[10];
     }
 
     private async void Open(object sender, RoutedEventArgs args)

@@ -1,14 +1,14 @@
 <Application x:Class="UotanToolbox.App"
 			 Name="UotanToolbox"
-             xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-             xmlns:common="clr-namespace:UotanToolbox.Common"
-             xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
-             RequestedThemeVariant="Default">
-    <Application.DataTemplates>
-        <common:ViewLocator />
-    </Application.DataTemplates>
+			 xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:common="clr-namespace:UotanToolbox.Common"
+			 xmlns:sukiUi="clr-namespace:SukiUI;assembly=SukiUI"
+			 RequestedThemeVariant="Default">
+	<Application.DataTemplates>
+		<common:ViewLocator />
+	</Application.DataTemplates>
 	<Application.Resources>
 		<ResourceDictionary>
 			<FontFamily x:Key="DefaultFontFamily">avares://UotanToolbox/Assets#MiSans</FontFamily>
@@ -89,20 +89,20 @@
 					</Setter>
 				</Style>
 			</Style>
-				<Style Selector="^:pressed /template/ Border">
-						<Setter Property="Background" Value="Transparent" />
-					</Style>
-				</ControlTheme>
-			</Application.Resources>
-    <Application.Styles>
-        <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
-        <sukiUi:SukiTheme ThemeColor="Red" />
-        <StyleInclude Source="avares://UotanToolbox/Styles/ShowMeTheXamlStyles.axaml" />
-        <StyleInclude Source="avares://UotanToolbox/Styles/WrapPanelStyles.axaml" />
-        <StyleInclude Source="avares://UotanToolbox/Styles/TextStyles.axaml" />
-        <StyleInclude Source="avares://UotanToolbox/Styles/GlassCardStyles.axaml" />
-        <avalonia:MaterialIconStyles />
-    </Application.Styles>
+			<Style Selector="^:pressed /template/ Border">
+				<Setter Property="Background" Value="Transparent" />
+			</Style>
+		</ControlTheme>
+	</Application.Resources>
+	<Application.Styles>
+		<StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+		<sukiUi:SukiTheme ThemeColor="Red" />
+		<StyleInclude Source="avares://UotanToolbox/Styles/ShowMeTheXamlStyles.axaml" />
+		<StyleInclude Source="avares://UotanToolbox/Styles/WrapPanelStyles.axaml" />
+		<StyleInclude Source="avares://UotanToolbox/Styles/TextStyles.axaml" />
+		<StyleInclude Source="avares://UotanToolbox/Styles/GlassCardStyles.axaml" />
+		<avalonia:MaterialIconStyles />
+	</Application.Styles>
 	<NativeMenu.Menu>
 		<NativeMenu>
 			<NativeMenuItem Header="UotanToolbox" />

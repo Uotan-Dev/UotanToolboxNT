@@ -24,14 +24,14 @@
 								   VerticalAlignment="Top"
 								   FontWeight="DemiBold"
 								   Text="快捷目录" />
-						<ItemsControl ItemsSource="{Binding QuickAccessItems}" x:CompileBindings="False">
+						<ItemsControl Margin="-5 0 -5 0" ItemsSource="{Binding QuickAccessItems}" x:CompileBindings="False">
 							<ItemsControl.ItemTemplate>
 								<DataTemplate>
-									<Button Theme="{StaticResource ToolboxButton}" Padding="0 5" HorizontalAlignment="Left" Width="160"
+									<Button Classes="Outlined" Height="30" Padding="0" BorderThickness="0"
 											Command="{Binding DataContext.NavigateToQuickAccessCommand, ElementName=RootView}"
 											CommandParameter="{Binding}"
 											FontWeight="{Binding IsActive, Converter={x:Static filemgr:BoolToFontWeightConverter.Instance}}">
-										<TextBlock>
+										<TextBlock Margin="-95 0 0 0">
 											<avalonia:MaterialIcon Kind="{Binding Icon}" />
 											<TextBlock Text="{Binding Name}"/>
 										</TextBlock>
@@ -46,19 +46,27 @@
 					<suki:BusyArea BusyText="加载中..." IsBusy="{Binding IsBusy}">
 						<StackPanel>
 							<StackPanel Orientation="Horizontal" Spacing="5">
-								<Button Margin="5 0 0 0" Theme="{StaticResource ToolboxButton}"
-										Command="{Binding NavigateUpCommand}" IsEnabled="{Binding CanNavigateUp}">
+								<Button Margin="5 0 0 0" Classes="Outlined" Height="30" Width="30" Padding="0" BorderThickness="0"
+										Command="{Binding NavigateUpCommand}" IsEnabled="{Binding CanNavigateUp}" ToolTip.Tip="上一级">
 									<avalonia:MaterialIcon Kind="ArrowUp" Padding="5"/>
 								</Button>
-								<Button Margin="5 0 0 0" Theme="{StaticResource ToolboxButton}"
-										Command="{Binding RefreshCommand}">
+								<Button Margin="5 0 0 0" Classes="Outlined" Height="30" Width="30" Padding="0" BorderThickness="0"
+										Command="{Binding RefreshCommand}" ToolTip.Tip="刷新">
 									<avalonia:MaterialIcon Kind="Refresh" Padding="5"/>
 								</Button>
-								<TextBox Width="530" Text="{Binding PathInput, Mode=TwoWay}">
+								<TextBox Width="520" Text="{Binding PathInput, Mode=TwoWay}">
 									<TextBox.KeyBindings>
 										<KeyBinding Gesture="Enter" Command="{Binding NavigateToPathCommand}"/>
 									</TextBox.KeyBindings>
 								</TextBox>
+								<Button Margin="5 0 0 0" Classes="Outlined" Height="30" Width="30" Padding="0" BorderThickness="0"
+										ToolTip.Tip="导入">
+									<avalonia:MaterialIcon Kind="UploadOutline" Padding="5"/>
+								</Button>
+								<Button Margin="5 0 0 0" Classes="Outlined" Height="30" Width="30" Padding="0" BorderThickness="0"
+										ToolTip.Tip="导出">
+									<avalonia:MaterialIcon Kind="DownloadOutline" Padding="5"/>
+								</Button>
 							</StackPanel>
 							<suki:GlassCard Height="675">
 								<suki:GlassCard.ContextMenu>
@@ -76,45 +84,54 @@
 										<MenuItem Header="刷新" Command="{Binding RefreshCommand}"/>
 									</ContextMenu>
 								</suki:GlassCard.ContextMenu>
-								<ScrollViewer VerticalScrollBarVisibility="Hidden">
-									<ItemsControl Name="FileView" ItemsSource="{Binding Files}">
-										<ItemsControl.ItemsPanel>
-											<ItemsPanelTemplate>
-												<WrapPanel />
-											</ItemsPanelTemplate>
-										</ItemsControl.ItemsPanel>
-										<ItemsControl.ItemTemplate>
-											<DataTemplate>
-												<suki:GlassCard Margin="5 10 5 0" IsInteractive="True">
-													<suki:GlassCard.ContextMenu>
-														<ContextMenu>
-															<MenuItem Header="打开"/>
-															<MenuItem Header="复制"/>
-															<MenuItem Header="剪切"/>
-															<MenuItem Header="删除"/>
-															<MenuItem Header="重命名"/>
-															<Separator/>
-															<MenuItem Header="提取至">
-																<MenuItem Header="桌面"/>
-																<MenuItem Header="下载"/>
-																<MenuItem Header="指定目录"/>
-															</MenuItem>
-														</ContextMenu>
-													</suki:GlassCard.ContextMenu>
-													<Button Theme="{StaticResource ToolboxButtonFile}">
-														<StackPanel Orientation="Vertical" Margin="0">
-															<Image  Width="50"
-																	Height="50"
-																	Margin="0"
-																	Source="/Assets/folder.png" />
-															<TextBlock FontSize="15" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding DisplayName}"/>
-															<TextBlock FontSize="10" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding ModifiedTime}"/>
-														</StackPanel>
-													</Button>
-												</suki:GlassCard>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
+								<ScrollViewer>
+									<WrapPanel>
+										<TextBlock Text="暂未获取文件列表" Classes="h4" Margin="15,15,15,15"
+												   IsVisible="{Binding !HasItems}" HorizontalAlignment="Left"/>
+										<ItemsControl Name="FileView" ItemsSource="{Binding Files}">
+											<ItemsControl.ItemsPanel>
+												<ItemsPanelTemplate>
+													<VirtualizingStackPanel Orientation="Vertical" />
+												</ItemsPanelTemplate>
+											</ItemsControl.ItemsPanel>
+											<ItemsControl.ItemTemplate>
+												<DataTemplate>
+													<suki:GlassCard Margin="5 10 5 0" Padding="0" CornerRadius="10" IsInteractive="True">
+														<suki:GlassCard.ContextMenu>
+															<ContextMenu>
+																<MenuItem Header="打开"/>
+																<MenuItem Header="复制"/>
+																<MenuItem Header="剪切"/>
+																<MenuItem Header="删除"/>
+																<MenuItem Header="重命名"/>
+																<Separator/>
+																<MenuItem Header="添加至快捷目录"/>
+																<MenuItem Header="提取至">
+																	<MenuItem Header="桌面"/>
+																	<MenuItem Header="下载"/>
+																	<MenuItem Header="指定目录"/>
+																</MenuItem>
+															</ContextMenu>
+														</suki:GlassCard.ContextMenu>
+														<CheckBox Margin="10 0 0 0">
+															<Border Padding="0 5" Background="Transparent">
+																<StackPanel Orientation="Horizontal">
+																	<Image  Width="40"
+																			Height="40"
+																			Margin="0"
+																			Source="/Assets/folder.png" />
+																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="205" Text="{Binding DisplayName}"/>
+																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="100" Text="{Binding DisplaySize}"/>
+																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="100" Text="drwxrws--x"/>
+																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="100" Text="{Binding ModifiedTime}"/>
+																</StackPanel>
+															</Border>
+														</CheckBox>
+													</suki:GlassCard>
+												</DataTemplate>
+											</ItemsControl.ItemTemplate>
+										</ItemsControl>
+									</WrapPanel>
 								</ScrollViewer>
 							</suki:GlassCard>
 						</StackPanel>

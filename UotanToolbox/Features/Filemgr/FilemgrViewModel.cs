@@ -64,6 +64,9 @@ public partial class FilemgrViewModel : MainPageBase
     [ObservableProperty]
     private ObservableCollection<QuickAccessItem> _quickAccessItems = [];
 
+    [ObservableProperty]
+    private bool hasItems = false;
+
     /// <summary>
     /// <para>获取是否可以向上导航到父目录。</para>
     /// Gets whether navigation to the parent directory is possible.

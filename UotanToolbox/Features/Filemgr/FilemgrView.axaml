@@ -94,7 +94,7 @@
 								<ScrollViewer>
 									<WrapPanel>
 										<TextBlock Text="{x:Static assets:Resources.Filemgr_EmptyList}" Classes="h4" Margin="15,15,15,15"
-												   IsVisible="{Binding !HasItems}" HorizontalAlignment="Left"/>
+												   IsVisible="{Binding !HasLoaded}" HorizontalAlignment="Left"/>
 										<ItemsControl Name="FileView" ItemsSource="{Binding Files}">
 											<ItemsControl.ItemsPanel>
 												<ItemsPanelTemplate>
@@ -141,10 +141,7 @@
 														<CheckBox Margin="10 0 0 0">
 															<Border Padding="0 5" Background="Transparent">
 																<StackPanel Orientation="Horizontal">
-																	<Image  Width="40"
-																			Height="40"
-																			Margin="0"
-																			Source="/Assets/folder.png" />
+																	<avalonia:MaterialIcon Kind="{Binding IconKind}" Width="40" Height="40" Margin="0" />
 																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="205" Text="{Binding DisplayName}"/>
 																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="60" Text="{Binding DisplaySize}"/>
 																	<TextBlock FontSize="15" Margin="10 10 0 0" FontWeight="DemiBold" HorizontalAlignment="Center" Width="90" Text="{Binding Permission}"/>

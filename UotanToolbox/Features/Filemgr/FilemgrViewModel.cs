@@ -125,10 +125,11 @@ public partial class FilemgrViewModel : MainPageBase
     private ClipboardOperation _clipboardOperation = ClipboardOperation.None;
 
     /// <summary>
-    /// <para>指示是否已自动加载过文件列表，避免重复触发。</para>
-    /// Indicates whether the file list has been auto-loaded, preventing duplicate triggers.
+    /// <para>指示是否已加载过目录（自动或手动），避免重复触发自动加载。</para>
+    /// Indicates whether a directory has been loaded (auto or manual), preventing duplicate auto-load triggers.
     /// </summary>
-    private bool _hasAutoLoaded;
+    [ObservableProperty]
+    private bool _hasLoaded;
 
     /// <summary>
     /// <para>获取是否可以向上导航到父目录。</para>
@@ -197,31 +198,14 @@ public partial class FilemgrViewModel : MainPageBase
         // Subscribe to device manager events for auto-loading when device connects
         if (Global.DeviceManager != null)
         {
-            Global.DeviceManager.DeviceAdded += OnDeviceAdded;
+            Global.DeviceManager.ScanCompleted += OnScanCompleted;
+            Global.DeviceManager.DeviceRemoved += OnDeviceRemoved;
         }
 
         // Subscribe to active page changes for auto-loading when switching to this page
         if (GlobalData.MainViewModelInstance != null)
         {
             GlobalData.MainViewModelInstance.PropertyChanged += OnMainViewModelPropertyChanged;
-        }
-
-        // Check initial device connection state and auto-load if already on this page
-        _ = InitializeAsync();
-    }
-
-    /// <summary>
-    /// <para>异步初始化，检查设备连接状态并在已连接时自动加载内部存储目录。</para>
-    /// Async initialization, checks device connection state and auto-loads the internal storage directory if connected.
-    /// </summary>
-    private async Task InitializeAsync()
-    {
-        await CheckDeviceConnectionAsync();
-
-        // If device is already connected and this is the active page, auto-load
-        if (IsDeviceConnected && IsActivePage())
-        {
-            await TryAutoLoadAsync();
         }
     }
 
@@ -235,6 +219,54 @@ public partial class FilemgrViewModel : MainPageBase
     }
 
     /// <summary>
+    /// <para>检查是否有支持 shell 命令的已连接设备（ADB 或 HDC）。</para>
+    /// Checks whether there is a connected device that supports shell commands (ADB or HDC).
+    /// </summary>
+    private bool HasConnectedAdbDevice()
+    {
+        return Global.DeviceManager?.Devices.Any(d =>
+            d.Transport == TransportType.Adb || d.Transport == TransportType.Hdc) == true;
+    }
+
+    /// <summary>
+    /// <para>当设备扫描完成时，如果当前页面为活动页面且有可用设备则自动加载内部存储目录。</para>
+    /// When a device scan completes, auto-loads the internal storage directory if this page is active and a device is available.
+    /// </summary>
+    private void OnScanCompleted(object? sender, EventArgs e)
+    {
+        if (IsActivePage() && !_hasLoaded && HasConnectedAdbDevice())
+        {
+            _ = TryAutoLoadAsync();
+        }
+
+        IsDeviceConnected = Global.DeviceManager?.Devices.Any() == true;
+    }
+
+    /// <summary>
+    /// <para>当设备移除时，如果移除的是当前设备则重置加载状态并清空文件列表。</para>
+    /// When a device is removed, resets the loaded state and clears the file list if the removed device is the current one.
+    /// </summary>
+    private void OnDeviceRemoved(object? sender, DeviceEventArgs e)
+    {
+        // If the removed device is the currently selected one, reset state and clear files
+        if (e.Device.Id == Global.thisdevice)
+        {
+            _hasLoaded = false;
+            IsDeviceConnected = false;
+            Dispatcher.UIThread.Post(() =>
+            {
+                Files.Clear();
+                CurrentPath = "/";
+                PathInput = "/";
+            });
+        }
+        else
+        {
+            IsDeviceConnected = Global.DeviceManager?.Devices.Any() == true;
+        }
+    }
+
+    /// <summary>
     /// <para>当 MainViewModel 的属性变化时，检测页面切换并自动加载。</para>
     /// When MainViewModel properties change, detects page switching and auto-loads.
     /// </summary>
@@ -242,39 +274,25 @@ public partial class FilemgrViewModel : MainPageBase
     {
         if (e.PropertyName == nameof(MainViewModel.ActivePage) && IsActivePage())
         {
-            _ = TryAutoLoadAsync();
+            IsDeviceConnected = Global.DeviceManager?.Devices.Any() == true;
+            if (!_hasLoaded && HasConnectedAdbDevice())
+            {
+                _ = TryAutoLoadAsync();
+            }
         }
     }
 
     /// <summary>
-    /// <para>当设备添加时，如果当前页面为活动页面则自动加载内部存储目录。</para>
-    /// When a device is added, auto-loads the internal storage directory if this page is active.
-    /// </summary>
-    private void OnDeviceAdded(object? sender, DeviceEventArgs e)
-    {
-        if (IsActivePage())
-        {
-            _ = TryAutoLoadAsync();
-        }
-    }
-
-    /// <summary>
-    /// <para>尝试自动加载内部存储目录。仅在尚未加载过且设备已连接时执行。</para>
-    /// Attempts to auto-load the internal storage directory. Only executes when not yet loaded and device is connected.
+    /// <para>尝试自动加载内部存储目录。仅在尚未加载过时执行。</para>
+    /// Attempts to auto-load the internal storage directory. Only executes when not yet loaded.
     /// </summary>
     private async Task TryAutoLoadAsync()
     {
-        if (_hasAutoLoaded)
+        if (_hasLoaded)
             return;
 
-        // Re-check device connection
-        await CheckDeviceConnectionAsync();
-
-        if (IsDeviceConnected)
-        {
-            _hasAutoLoaded = true;
-            await LoadDirectoryAsync("/sdcard");
-        }
+        _hasLoaded = true;
+        await LoadDirectoryAsync("/sdcard");
     }
 
     /// <summary>
@@ -293,22 +311,6 @@ public partial class FilemgrViewModel : MainPageBase
     private void UpdateHasItems(ObservableCollection<FileEntry>? files)
     {
         HasItems = files is not null && files.Count > 0;
-    }
-
-    /// <summary>
-    /// <para>异步检查设备连接状态并更新 IsDeviceConnected 属性。</para>
-    /// Asynchronously checks the device connection state and updates the IsDeviceConnected property.
-    /// </summary>
-    private async Task CheckDeviceConnectionAsync()
-    {
-        try
-        {
-            IsDeviceConnected = await GetDevicesInfo.SetDevicesInfoLittle();
-        }
-        catch
-        {
-            IsDeviceConnected = false;
-        }
     }
 
     /// <summary>
@@ -394,6 +396,7 @@ public partial class FilemgrViewModel : MainPageBase
 
             CurrentPath = path;
             PathInput = path;
+            _hasLoaded = true;
         }
         catch (Exception ex)
         {

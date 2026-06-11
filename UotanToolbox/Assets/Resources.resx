@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -1855,6 +1855,12 @@ If you don't understand the above, please ignore it. The selection command only 
   </data>
   <data name="Filemgr_ConfirmDeleteTitle" xml:space="preserve">
     <value>Confirm Delete</value>
+  </data>
+  <data name="Filemgr_ConfirmDeleteCount" xml:space="preserve">
+    <value>Are you sure you want to delete {0} selected item(s)?</value>
+  </data>
+  <data name="Filemgr_NoSelection" xml:space="preserve">
+    <value>No items selected</value>
   </data>
   <data name="Filemgr_RenameTitle" xml:space="preserve">
     <value>Rename</value>

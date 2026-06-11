@@ -95,6 +95,13 @@ public partial class FileEntry : ObservableObject
     private string _displaySize = "0 B";
 
     /// <summary>
+    /// <para>指示该条目是否被选中，用于批量操作。</para>
+    /// Indicates whether this entry is selected, used for batch operations.
+    /// </summary>
+    [ObservableProperty]
+    private bool _isSelected;
+
+    /// <summary>
     /// <para>根据文件类型返回对应的图标 Bitmap。</para>
     /// Returns the corresponding icon Bitmap based on the file type.
     /// </summary>

@@ -99,6 +99,13 @@ public partial class FilemgrViewModel : MainPageBase
     private bool _hasItems;
 
     /// <summary>
+    /// <para>当前选中的文件条目数量，用于批量操作提示。</para>
+    /// The count of currently selected file entries, used for batch operation hints.
+    /// </summary>
+    [ObservableProperty]
+    private int _selectedCount;
+
+    /// <summary>
     /// <para>指示是否可以执行粘贴操作（剪贴板中有内容时为 true）。</para>
     /// Indicates whether a paste operation can be performed (true when the clipboard has content).
     /// </summary>
@@ -302,6 +309,7 @@ public partial class FilemgrViewModel : MainPageBase
     private void OnFilesCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
         UpdateHasItems(Files);
+        UpdateSelectedCount();
     }
 
     /// <summary>
@@ -311,6 +319,15 @@ public partial class FilemgrViewModel : MainPageBase
     private void UpdateHasItems(ObservableCollection<FileEntry>? files)
     {
         HasItems = files is not null && files.Count > 0;
+    }
+
+    /// <summary>
+    /// <para>更新选中条目计数。</para>
+    /// Updates the selected entry count.
+    /// </summary>
+    private void UpdateSelectedCount()
+    {
+        SelectedCount = Files.Count(f => f.IsSelected);
     }
 
     /// <summary>
@@ -360,6 +377,7 @@ public partial class FilemgrViewModel : MainPageBase
         await Dispatcher.UIThread.InvokeAsync(() =>
         {
             Files.Clear();
+            SelectedCount = 0;
         });
 
         try
@@ -484,6 +502,80 @@ public partial class FilemgrViewModel : MainPageBase
                         .Dismiss().ByClickingBackground()
                         .TryShow();
                 });
+            }
+        }
+        else
+        {
+            // Double-click on a file: pull to temp directory and open with system default program
+            if (!await GetDevicesInfo.SetDevicesInfoLittle())
+            {
+                IsDeviceConnected = false;
+                await ShowNotConnectedDialogAsync();
+                return;
+            }
+
+            IsDeviceConnected = true;
+            IsBusy = true;
+            try
+            {
+                var tempDir = Path.Combine(Path.GetTempPath(), "UotanToolbox_FileOpen");
+                Directory.CreateDirectory(tempDir);
+                var localPath = Path.Combine(tempDir, entry.Name);
+
+                string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{entry.FullPath}\" \"{localPath}\"");
+
+                if (System.IO.File.Exists(localPath))
+                {
+                    try
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = localPath,
+                            UseShellExecute = true,
+                            Verb = "open"
+                        });
+                    }
+                    catch (Exception openEx)
+                    {
+                        await Dispatcher.UIThread.InvokeAsync(() =>
+                        {
+                            Global.MainDialogManager.CreateDialog()
+                                .OfType(NotificationType.Error)
+                                .WithTitle(GetTranslation("Common_Error"))
+                                .WithContent($"[OpenFile] Name: {entry.Name}\n\n{openEx.GetType().Name}: {openEx.Message}")
+                                .Dismiss().ByClickingBackground()
+                                .TryShow();
+                        });
+                    }
+                }
+                else
+                {
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        Global.MainDialogManager.CreateDialog()
+                            .OfType(NotificationType.Error)
+                            .WithTitle(GetTranslation("Filemgr_PullFailed"))
+                            .WithContent($"[OpenFile] Name: {entry.Name}, Path: {entry.FullPath}\n\n{output.Trim()}")
+                            .Dismiss().ByClickingBackground()
+                            .TryShow();
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Error)
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .WithContent($"[OpenFile] Name: {entry.Name}, Path: {entry.FullPath}\n\n{ex.GetType().Name}: {ex.Message}")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                });
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }
@@ -1459,6 +1551,123 @@ public partial class FilemgrViewModel : MainPageBase
                     .Dismiss().ByClickingBackground()
                     .TryShow();
             });
+        }
+    }
+
+    /// <summary>
+    /// <para>批量删除选中的文件或目录。弹出确认对话框后逐个执行 ADB shell rm 命令。</para>
+    /// Batch deletes selected files or directories. Shows a confirmation dialog, then executes ADB shell rm commands one by one.
+    /// </summary>
+    [RelayCommand]
+    private async Task DeleteSelectedAsync()
+    {
+        var selected = Files.Where(f => f.IsSelected).ToList();
+        if (selected.Count == 0)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainToastManager.CreateToast()
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent(GetTranslation("Filemgr_NoSelection"))
+                    .OfType(NotificationType.Information)
+                    .Dismiss().ByClicking()
+                    .Dismiss().After(TimeSpan.FromSeconds(3))
+                    .Queue();
+            });
+            return;
+        }
+
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            IsDeviceConnected = false;
+            await ShowNotConnectedDialogAsync();
+            return;
+        }
+
+        IsDeviceConnected = true;
+
+        try
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .WithTitle(GetTranslation("Filemgr_ConfirmDeleteTitle"))
+                    .WithContent(string.Format(GetTranslation("Filemgr_ConfirmDeleteCount"), selected.Count))
+                    .WithActionButton(GetTranslation("Filemgr_Confirm"), _ => tcs.TrySetResult(true), true)
+                    .WithActionButton(GetTranslation("Filemgr_Cancel"), _ => tcs.TrySetResult(false), true)
+                    .TryShow();
+            });
+
+            bool confirmed = await tcs.Task;
+            if (!confirmed)
+                return;
+
+            IsBusy = true;
+            int successCount = 0;
+            int failCount = 0;
+
+            foreach (var entry in selected)
+            {
+                string cmd = entry.IsDirectory
+                    ? $"shell rm -rf \"{entry.FullPath}\""
+                    : $"shell rm \"{entry.FullPath}\"";
+                string output = await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
+
+                if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
+                    !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
+                    !output.Contains("No such file", StringComparison.OrdinalIgnoreCase) &&
+                    !output.Contains("Permission denied", StringComparison.OrdinalIgnoreCase))
+                {
+                    successCount++;
+                }
+                else
+                {
+                    failCount++;
+                }
+            }
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                if (failCount == 0)
+                {
+                    Global.MainToastManager.CreateToast()
+                        .WithTitle(GetTranslation("Filemgr_DeleteSuccess"))
+                        .WithContent($"{successCount}")
+                        .OfType(NotificationType.Success)
+                        .Dismiss().ByClicking()
+                        .Dismiss().After(TimeSpan.FromSeconds(3))
+                        .Queue();
+                }
+                else
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Warning)
+                        .WithTitle(GetTranslation("Filemgr_DeleteFailed"))
+                        .WithContent($"Success: {successCount}, Failed: {failCount}")
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                }
+            });
+
+            _ = RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[DeleteSelected]\n\n{ex.GetType().Name}: {ex.Message}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
+        }
+        finally
+        {
+            IsBusy = false;
         }
     }
 

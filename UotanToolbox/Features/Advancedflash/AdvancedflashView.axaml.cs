@@ -1,4 +1,4 @@
-﻿using Avalonia.Collections;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
@@ -6,6 +6,8 @@ using Avalonia.Platform.Storage;
 using Avalonia.Styling;
 using Avalonia.Threading;
 using FirmwareKit.Lp;
+using FirmwareKit.Nb0;
+using FirmwareKit.NTPi;
 using FirmwareKit.Sparse.Core;
 using FirmwareKit.Sparse.Models;
 using FirmwareKit.Sparse.Streams;
@@ -36,7 +38,12 @@ public partial class AdvancedflashView : UserControl
         Script,
         Payload,
         Super,
-        PayloadUrl
+        PayloadUrl,
+        Ntpi,
+        Nb0,
+        Ozip,
+        Ops,
+        Ofp
     }
 
     private static string GetTranslation(string key)
@@ -173,8 +180,8 @@ public partial class AdvancedflashView : UserControl
 
     private static FilePickerFileType FlashPicker { get; } = new("File")
     {
-        Patterns = new[] { "*.img", "*.bin", "*.zip", "*.txt", "*.bat", ".sh" },
-        AppleUniformTypeIdentifiers = new[] { "*.img", "*.bin", "*.zip", "*.txt", "*.bat", ".sh" }
+        Patterns = new[] { "*.img", "*.bin", "*.zip", "*.txt", "*.bat", ".sh", "*.ntpi", "*.nb0", "*.ozip", "*.ops", "*.ofp" },
+        AppleUniformTypeIdentifiers = new[] { "*.img", "*.bin", "*.zip", "*.txt", "*.bat", ".sh", "*.ntpi", "*.nb0", "*.ozip", "*.ops", "*.ofp" }
     };
 
     private async void OpenFile(object sender, RoutedEventArgs args)
@@ -398,6 +405,45 @@ public partial class AdvancedflashView : UserControl
                 return;
             }
 
+            var fmtExtension = Path.GetExtension(path).ToLowerInvariant();
+            switch (fmtExtension)
+            {
+                case ".ntpi":
+                    _parsedFileType = ParsedFileType.Ntpi;
+                    if (await TryParseNtpiAsync(path))
+                    {
+                        BusyFlash.IsBusy = false;
+                        return;
+                    }
+                    break;
+                case ".nb0":
+                    _parsedFileType = ParsedFileType.Nb0;
+                    if (await TryParseNb0Async(path))
+                    {
+                        BusyFlash.IsBusy = false;
+                        return;
+                    }
+                    break;
+                case ".ozip":
+                    _parsedFileType = ParsedFileType.Ozip;
+                    AdvancedflashLog.Text += $"\nOZIP format detected. Extraction not supported yet.";
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("OZIP format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
+                    BusyFlash.IsBusy = false;
+                    return;
+                case ".ops":
+                    _parsedFileType = ParsedFileType.Ops;
+                    AdvancedflashLog.Text += $"\nOPS format detected. Extraction not supported yet.";
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("OPS format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
+                    BusyFlash.IsBusy = false;
+                    return;
+                case ".ofp":
+                    _parsedFileType = ParsedFileType.Ofp;
+                    AdvancedflashLog.Text += $"\nOFP format detected. Extraction not supported yet.";
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("OFP format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
+                    BusyFlash.IsBusy = false;
+                    return;
+            }
+
             try
             {
                 var parsed = await TryParseAndPushToUiAsync(path);
@@ -552,6 +598,91 @@ public partial class AdvancedflashView : UserControl
 
             _parsedFileType = ParsedFileType.Super;
             AdvancedflashLog.Text += $"Super Detected";
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// <para>尝试将文件解析为 NTPI 格式并推送分区列表到 UI。</para>
+    /// Attempts to parse the file as NTPI format and push partition list to UI.
+    /// </summary>
+    private async Task<bool> TryParseNtpiAsync(string path)
+    {
+        try
+        {
+            var fileInfo = await Task.Run(() =>
+            {
+                var reader = new NtpiReader(new FirmwareKit.NTPi.Crypto.AesCbcCryptoProvider(), new FirmwareKit.NTPi.Compression.Lzma2Compressor());
+                return reader.ReadInfo(path);
+            });
+
+            if (fileInfo == null || fileInfo.FileEntries == null || fileInfo.FileEntries.Count == 0)
+            {
+                return false;
+            }
+
+            var vm = GetViewModel();
+            vm.FalshPartModel.Clear();
+            await Task.Delay(100);
+            foreach (var entry in fileInfo.FileEntries)
+            {
+                vm.FalshPartModel.Add(new FalshPartModel
+                {
+                    Select = false,
+                    Name = entry.Name ?? "",
+                    Size = entry.OriginalLength > 0 ? StringHelper.byte2AUnit((ulong)entry.OriginalLength) : "",
+                    Command = "",
+                    FileName = ""
+                });
+            }
+            AdvancedflashLog.Text += $"\nNTPI Detected - {fileInfo.FileEntries.Count} entries";
+            _parsedFileType = ParsedFileType.Ntpi;
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// <para>尝试将文件解析为 NB0 格式并推送镜像列表到 UI。</para>
+    /// Attempts to parse the file as NB0 format and push image list to UI.
+    /// </summary>
+    private async Task<bool> TryParseNb0Async(string path)
+    {
+        try
+        {
+            var nb0Info = await Task.Run(() =>
+            {
+                return Nb0Parser.Parse(path);
+            });
+
+            if (nb0Info == null || nb0Info.Entries == null || nb0Info.EntryCount == 0)
+            {
+                return false;
+            }
+
+            var vm = GetViewModel();
+            vm.FalshPartModel.Clear();
+            await Task.Delay(100);
+            foreach (var entry in nb0Info.Entries)
+            {
+                vm.FalshPartModel.Add(new FalshPartModel
+                {
+                    Select = false,
+                    Name = entry.Name ?? "",
+                    Size = entry.Size > 0 ? StringHelper.byte2AUnit((ulong)entry.Size) : "",
+                    Command = "",
+                    FileName = ""
+                });
+            }
+            AdvancedflashLog.Text += $"\nNB0 Detected - {nb0Info.EntryCount} entries";
+            _parsedFileType = ParsedFileType.Nb0;
             return true;
         }
         catch
@@ -728,6 +859,18 @@ public partial class AdvancedflashView : UserControl
                 case ParsedFileType.PayloadUrl:
                     await ExtractPayloadUrlSelectedAsync(sourcePath, outputDir, selectedParts.Select(x => x.Name).ToArray());
                     break;
+                case ParsedFileType.Ntpi:
+                    await ExtractNtpiSelectedAsync(sourcePath, outputDir, selectedParts);
+                    break;
+                case ParsedFileType.Nb0:
+                    await ExtractNb0SelectedAsync(sourcePath, outputDir, selectedParts);
+                    break;
+                case ParsedFileType.Ozip:
+                case ParsedFileType.Ops:
+                case ParsedFileType.Ofp:
+                    AdvancedflashLog.Text += "\nThis format does not support auto-extraction yet.";
+                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("This format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
+                    return;
                 default:
                     AdvancedflashLog.Text += "\nUnknown image type. Please re-open image file first.";
                     Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Advancedflash_Unsupport")).Dismiss().ByClickingBackground().TryShow();
@@ -892,6 +1035,70 @@ public partial class AdvancedflashView : UserControl
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .ToArray();
         return ExtractPayloadUrlSelectedAsync(sourceUrl, outputDir, names);
+    }
+
+    /// <summary>
+    /// <para>从 NTPI 文件中提取选中的分区镜像。</para>
+    /// Extracts selected partition images from the NTPI file.
+    /// </summary>
+    private static async Task ExtractNtpiSelectedAsync(string sourcePath, string outputDir, List<FalshPartModel> selectedParts)
+    {
+        var names = selectedParts
+            .Select(x => x.Name)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        await Task.Run(() =>
+        {
+            var reader = new NtpiReader(new FirmwareKit.NTPi.Crypto.AesCbcCryptoProvider(), new FirmwareKit.NTPi.Compression.Lzma2Compressor());
+            reader.Unpack(sourcePath, outputDir);
+        });
+
+        // If specific partitions were selected, remove unselected .img files
+        if (names.Count > 0)
+        {
+            foreach (var file in Directory.GetFiles(outputDir, "*.img"))
+            {
+                var fileName = Path.GetFileNameWithoutExtension(file);
+                if (!names.Contains(fileName))
+                {
+                    try { System.IO.File.Delete(file); } catch { }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>从 NB0 文件中提取选中的分区镜像。</para>
+    /// Extracts selected partition images from the NB0 file.
+    /// </summary>
+    private static async Task ExtractNb0SelectedAsync(string sourcePath, string outputDir, List<FalshPartModel> selectedParts)
+    {
+        var names = selectedParts
+            .Select(x => x.Name)
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        await Task.Run(() =>
+        {
+            var extractor = new Nb0Extractor();
+            extractor.Extract(sourcePath, outputDir);
+        });
+
+        // If specific partitions were selected, remove unselected files
+        if (names.Count > 0)
+        {
+            foreach (var file in Directory.GetFiles(outputDir))
+            {
+                var fileName = Path.GetFileNameWithoutExtension(file);
+                if (!names.Contains(fileName))
+                {
+                    try { System.IO.File.Delete(file); } catch { }
+                }
+            }
+        }
     }
 
     private static string GetUnpackOutputDir(string sourcePath, bool isUrl)
@@ -1368,6 +1575,20 @@ public partial class AdvancedflashView : UserControl
                         case ParsedFileType.PayloadUrl:
                             await ExtractPayloadUrlSelectedAsync(sourcePath, outputDir, extractParts.Select(x => x.Name).ToArray());
                             break;
+                        case ParsedFileType.Ntpi:
+                            await ExtractNtpiSelectedAsync(sourcePath, outputDir, extractParts);
+                            break;
+                        case ParsedFileType.Nb0:
+                            await ExtractNb0SelectedAsync(sourcePath, outputDir, extractParts);
+                            break;
+                        case ParsedFileType.Ozip:
+                        case ParsedFileType.Ops:
+                        case ParsedFileType.Ofp:
+                            AdvancedflashLog.Text += "\nThis format does not support auto-extraction yet.";
+                            Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Warn")).OfType(NotificationType.Warning).WithContent("This format is not supported for auto-extraction yet.").Dismiss().ByClickingBackground().TryShow();
+                            SetEnabled(false);
+                            Global.checkdevice = true;
+                            return;
                         default:
                             AdvancedflashLog.Text += "\nUnknown image type. Please re-open image file first.";
                             Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Advancedflash_Unsupport")).Dismiss().ByClickingBackground().TryShow();

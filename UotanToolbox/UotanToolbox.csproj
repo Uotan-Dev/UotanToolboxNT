@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net10.0</TargetFramework>
@@ -35,8 +35,11 @@
 		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.8" />
 		<PackageReference Include="Avalonia.Markup.Xaml.Loader" Version="11.2.8" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+		<PackageReference Include="FirmwareKit.AVB" Version="1.1.0" />
 		<PackageReference Include="FirmwareKit.Lp" Version="1.0.0" />
-		<PackageReference Include="FirmwareKit.Sparse" Version="1.0.1" />
+		<PackageReference Include="FirmwareKit.Nb0" Version="1.0.0" />
+		<PackageReference Include="FirmwareKit.NTPi" Version="1.0.0" />
+		<PackageReference Include="FirmwareKit.Sparse" Version="1.1.0" />
 		<PackageReference Include="FirmwareKit.Comm.Fastboot" Version="1.0.1" />
 		<PackageReference Include="Google.Protobuf" Version="3.33.5" />
 		<PackageReference Include="HarfBuzzSharp" Version="8.3.1.2" />

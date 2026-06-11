@@ -30,7 +30,9 @@
 										FontWeight="{Binding IsActive, Converter={x:Static filemgr:BoolToFontWeightConverter.Instance}}">
 									<Button.ContextMenu>
 										<ContextMenu>
-											<MenuItem Header="{x:Static assets:Resources.Filemgr_Delete}"/>
+											<MenuItem Header="{x:Static assets:Resources.Filemgr_Delete}"
+													  Command="{Binding DataContext.RemoveFromQuickAccessCommand, ElementName=RootView}"
+													  CommandParameter="{Binding}"/>
 										</ContextMenu>
 									</Button.ContextMenu>
 									<ToolTip.Tip>
@@ -74,6 +76,11 @@
 									ToolTip.Tip="{x:Static assets:Resources.Filemgr_Export}">
 								<avalonia:MaterialIcon Kind="DownloadOutline" Padding="5"/>
 							</Button>
+							<Button Margin="5 0 0 0" Classes="Outlined" Height="30" Width="30" Padding="0" BorderThickness="0"
+									Command="{Binding DeleteSelectedCommand}"
+									ToolTip.Tip="{x:Static assets:Resources.Filemgr_Delete}">
+								<avalonia:MaterialIcon Kind="DeleteOutline" Padding="5"/>
+							</Button>
 						</StackPanel>
 						<suki:GlassCard Height="675">
 							<suki:GlassCard.ContextMenu>
@@ -105,7 +112,7 @@
 										</ItemsControl.ItemsPanel>
 										<ItemsControl.ItemTemplate>
 											<DataTemplate>
-												<suki:GlassCard Margin="5 10 5 0" Padding="0" CornerRadius="10" IsInteractive="True">
+												<suki:GlassCard Margin="5 10 5 0" Padding="0" CornerRadius="10" IsInteractive="True" DoubleTapped="OnFileEntryDoubleTapped">
 													<suki:GlassCard.ContextMenu>
 														<ContextMenu x:CompileBindings="False">
 															<MenuItem Header="{x:Static assets:Resources.Filemgr_Open}"
@@ -140,7 +147,7 @@
 															</MenuItem>
 														</ContextMenu>
 													</suki:GlassCard.ContextMenu>
-													<CheckBox Margin="10 0 0 0">
+													<CheckBox Margin="10 0 0 0" IsChecked="{Binding IsSelected}">
 														<Border Padding="0 5" Background="Transparent">
 															<StackPanel Orientation="Horizontal">
 																<Image Width="40"

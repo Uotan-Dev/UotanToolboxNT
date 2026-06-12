@@ -49,6 +49,8 @@ internal enum ClipboardOperation
 /// </summary>
 public partial class FilemgrViewModel : MainPageBase
 {
+    [ObservableProperty]
+    private bool _useROOT;
     /// <summary>
     /// <para>用于显示的文件条目列表。</para>
     /// The file entry list for display.
@@ -118,6 +120,8 @@ public partial class FilemgrViewModel : MainPageBase
     /// </summary>
     [ObservableProperty]
     private bool _isDeviceConnected;
+
+    string RootMode { get; set; }
 
     /// <summary>
     /// <para>剪贴板中存储的文件条目列表，支持批量操作。</para>
@@ -340,15 +344,68 @@ public partial class FilemgrViewModel : MainPageBase
         QuickAccessPersistence.Save(customData);
     }
 
-    /// <summary>
-    /// <para>加载指定路径的目录内容。检查设备连接、执行 ADB 命令、解析输出并更新文件列表。</para>
-    /// Loads the directory contents at the specified path. Checks device connection, executes ADB command, parses output, and updates the file list.
-    /// </summary>
-    /// <param name="path">
-    /// <para>要加载的设备目录路径。</para>
-    /// The device directory path to load.
-    /// </param>
     [RelayCommand]
+    public async Task SetRootMode()
+    {
+        if (UseROOT)
+        {
+            Global.MainDialogManager.CreateDialog()
+                            .WithTitle(GetTranslation("Common_Warn"))
+                            .WithContent(GetTranslation("Common_NeedRoot"))
+                            .OfType(NotificationType.Warning)
+                            .WithActionButton(GetTranslation("Common_DebugMode"), async _ =>
+                            {
+                                RootMode = "debug";
+                            }, true)
+                            .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                            {
+                                RootMode = "root";
+                            }, true)
+                            .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ =>
+                            {
+                                RootMode = "no";
+                                UseROOT = false;
+                            }, true)
+                            .TryShow();
+        }
+        else
+        {
+            RootMode = "no";
+        }
+    }
+
+    public async Task<string> RunADB(string cmd, bool isShell = true)
+    {
+        if (!isShell)
+        {
+            return await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
+        }
+
+        if (RootMode == "debug")
+        {
+            await FeaturesHelper.AdbCmd(Global.thisdevice, "root");
+            return await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell {cmd}");
+        }
+        else if (RootMode == "root")
+        {
+            string escapedCmd = cmd.Replace("\"", "\\\"");
+            return await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell su -c \"{escapedCmd}\"");
+        }
+        else
+        {
+            return await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell {cmd}");
+        }
+    }
+
+        /// <summary>
+        /// <para>加载指定路径的目录内容。检查设备连接、执行 ADB 命令、解析输出并更新文件列表。</para>
+        /// Loads the directory contents at the specified path. Checks device connection, executes ADB command, parses output, and updates the file list.
+        /// </summary>
+        /// <param name="path">
+        /// <para>要加载的设备目录路径。</para>
+        /// The device directory path to load.
+        /// </param>
+        [RelayCommand]
     public async Task LoadDirectoryAsync(string path)
     {
         // Set busy state immediately for responsive UI feedback
@@ -384,7 +441,7 @@ public partial class FilemgrViewModel : MainPageBase
         {
             // Ensure trailing slash so symlinks like /sdcard are followed into the directory
             string listPath = path.EndsWith("/") ? path : path + "/";
-            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell ls -la \"{listPath}\"");
+            string output = await RunADB($"ls -la \"{listPath}\"");
 
             if (output.Contains("No such file", StringComparison.OrdinalIgnoreCase) ||
                 output.Contains("Permission denied", StringComparison.OrdinalIgnoreCase) ||
@@ -522,7 +579,7 @@ public partial class FilemgrViewModel : MainPageBase
                 Directory.CreateDirectory(tempDir);
                 var localPath = Path.Combine(tempDir, entry.Name);
 
-                string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{entry.FullPath}\" \"{localPath}\"");
+                string output = await RunADB($"pull \"{entry.FullPath}\" \"{localPath}\"", false);
 
                 if (System.IO.File.Exists(localPath))
                 {
@@ -684,7 +741,7 @@ public partial class FilemgrViewModel : MainPageBase
                         ? $"/{Path.GetFileName(localPath)}"
                         : $"{CurrentPath}/{Path.GetFileName(localPath)}";
 
-                    string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"push \"{localPath}\" \"{remotePath}\"");
+                    string output = await RunADB($"push \"{localPath}\" \"{remotePath}\"", false);
 
                     await Dispatcher.UIThread.InvokeAsync(() =>
                     {
@@ -778,7 +835,7 @@ public partial class FilemgrViewModel : MainPageBase
             IsBusy = true;
             try
             {
-                string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"push \"{localPath}\" \"{remotePath}\"");
+                string output = await RunADB($"push \"{localPath}\" \"{remotePath}\"", false);
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
@@ -893,7 +950,7 @@ public partial class FilemgrViewModel : MainPageBase
 
                 foreach (var e in entries)
                 {
-                    string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{e.FullPath}\" \"{localPath}\"");
+                    string output = await RunADB($"pull \"{e.FullPath}\" \"{localPath}\"", false);
 
                     if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
                         output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
@@ -990,7 +1047,7 @@ public partial class FilemgrViewModel : MainPageBase
             IsBusy = true;
             try
             {
-                string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{entry.FullPath}\" \"{localPath}\"");
+                string output = await RunADB($"pull \"{entry.FullPath}\" \"{localPath}\"", false);
 
                 await Dispatcher.UIThread.InvokeAsync(() =>
                 {
@@ -1139,7 +1196,7 @@ public partial class FilemgrViewModel : MainPageBase
         IsBusy = true;
         try
         {
-            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{entry.FullPath}\" \"{localDir}\"");
+            string output = await RunADB($"pull \"{entry.FullPath}\" \"{localDir}\"", false);
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -1208,7 +1265,7 @@ public partial class FilemgrViewModel : MainPageBase
 
             foreach (var e in entries)
             {
-                string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{e.FullPath}\" \"{localDir}\"");
+                string output = await RunADB($"pull \"{e.FullPath}\" \"{localDir}\"", false);
 
                 if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
                     output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
@@ -1399,7 +1456,7 @@ public partial class FilemgrViewModel : MainPageBase
             }
 
             string remotePath = CurrentPath == "/" ? $"/{fileName}" : $"{CurrentPath}/{fileName}";
-            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell touch \"{remotePath}\"");
+            string output = await RunADB($"touch \"{remotePath}\"");
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -1479,7 +1536,7 @@ public partial class FilemgrViewModel : MainPageBase
             }
 
             string remotePath = CurrentPath == "/" ? $"/{folderName}" : $"{CurrentPath}/{folderName}";
-            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell mkdir \"{remotePath}\"");
+            string output = await RunADB($"mkdir \"{remotePath}\"");
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -1616,13 +1673,13 @@ public partial class FilemgrViewModel : MainPageBase
                 if (_clipboardOperation == ClipboardOperation.Copy)
                 {
                     string cmd = clipboardEntry.IsDirectory
-                        ? $"shell cp -r \"{clipboardEntry.FullPath}\" \"{destPath}\""
-                        : $"shell cp \"{clipboardEntry.FullPath}\" \"{destPath}\"";
-                    output = await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
+                        ? $"cp -r \"{clipboardEntry.FullPath}\" \"{destPath}\""
+                        : $"cp \"{clipboardEntry.FullPath}\" \"{destPath}\"";
+                    output = await RunADB(cmd);
                 }
                 else // Cut
                 {
-                    output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell mv \"{clipboardEntry.FullPath}\" \"{destPath}\"");
+                    output = await RunADB($"mv \"{clipboardEntry.FullPath}\" \"{destPath}\"");
                 }
 
                 if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
@@ -1737,7 +1794,7 @@ public partial class FilemgrViewModel : MainPageBase
 
             string parentPath = GetParentPath(entry.FullPath);
             string newFullPath = parentPath == "/" ? $"/{newName}" : $"{parentPath}/{newName}";
-            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell mv \"{entry.FullPath}\" \"{newFullPath}\"");
+            string output = await RunADB($"mv \"{entry.FullPath}\" \"{newFullPath}\"");
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -1824,9 +1881,9 @@ public partial class FilemgrViewModel : MainPageBase
                 return;
 
             string cmd = entry.IsDirectory
-                ? $"shell rm -rf \"{entry.FullPath}\""
-                : $"shell rm \"{entry.FullPath}\"";
-            string output = await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
+                ? $"rm -rf \"{entry.FullPath}\""
+                : $"rm \"{entry.FullPath}\"";
+            string output = await RunADB(cmd);
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -1926,9 +1983,9 @@ public partial class FilemgrViewModel : MainPageBase
             foreach (var entry in selected)
             {
                 string cmd = entry.IsDirectory
-                    ? $"shell rm -rf \"{entry.FullPath}\""
-                    : $"shell rm \"{entry.FullPath}\"";
-                string output = await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
+                    ? $"rm -rf \"{entry.FullPath}\""
+                    : $"rm \"{entry.FullPath}\"";
+                string output = await RunADB(cmd);
 
                 if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
                     !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&

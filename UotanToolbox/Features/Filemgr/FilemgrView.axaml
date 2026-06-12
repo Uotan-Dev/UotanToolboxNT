@@ -1,4 +1,4 @@
-<UserControl x:Class="UotanToolbox.Features.Filemgr.FilemgrView"
+﻿<UserControl x:Class="UotanToolbox.Features.Filemgr.FilemgrView"
 			 xmlns="https://github.com/avaloniaui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
@@ -21,7 +21,7 @@
 							   VerticalAlignment="Top"
 							   FontWeight="DemiBold"
 							   Text="{x:Static assets:Resources.Filemgr_QuickAccess}" />
-					<ItemsControl Margin="-5 0 -5 0" ItemsSource="{Binding QuickAccessItems}" x:CompileBindings="False">
+					<ItemsControl Margin="0 10 0 0" Height="670" ItemsSource="{Binding QuickAccessItems}" x:CompileBindings="False">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<Button Classes="Outlined" Height="30" Padding="0" BorderThickness="0"
@@ -46,6 +46,7 @@
 							</DataTemplate>
 						</ItemsControl.ItemTemplate>
 					</ItemsControl>
+					<CheckBox HorizontalAlignment="Center" IsChecked="{Binding UseROOT}" Command="{Binding SetRootModeCommand}" Content="{x:Static assets:Resources.Filemgr_RootMode}"/>
 				</StackPanel>
 			</suki:GlassCard>
 
@@ -82,7 +83,7 @@
 								<avalonia:MaterialIcon Kind="DeleteOutline" Padding="5"/>
 							</Button>
 						</StackPanel>
-						<suki:GlassCard Height="675">
+						<suki:GlassCard Height="672">
 							<suki:GlassCard.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="{x:Static assets:Resources.Filemgr_New}">

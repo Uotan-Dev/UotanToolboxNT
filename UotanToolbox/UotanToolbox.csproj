@@ -88,9 +88,9 @@
 
 	<ItemGroup>
 		<Compile Update="Assets\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Features\Advancedflash\AdvancedflashView.axaml.cs">
 		  <DependentUpon>AdvancedflashView.axaml</DependentUpon>

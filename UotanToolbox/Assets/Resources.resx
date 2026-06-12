@@ -1881,7 +1881,7 @@ If you don't understand the above, please ignore it. The selection command only 
     <value>Upload</value>
   </data>
   <data name="Filemgr_Export" xml:space="preserve">
-    <value>Download</value>
+    <value>Export current directory or selected content</value>
   </data>
   <data name="Filemgr_New" xml:space="preserve">
     <value>New</value>
@@ -1984,5 +1984,8 @@ If you don't understand the above, please ignore it. The selection command only 
   </data>
   <data name="Filemgr_QuickAccessAlreadyExists" xml:space="preserve">
     <value>Already in Quick Access</value>
+  </data>
+  <data name="Filemgr_RootMode" xml:space="preserve">
+    <value>Use ROOT mode</value>
   </data>
 </root>

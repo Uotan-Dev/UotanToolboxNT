@@ -1856,6 +1856,12 @@ ADB下填写序号，一次一个！</value>
   <data name="Filemgr_ConfirmDeleteTitle" xml:space="preserve">
     <value>确认删除</value>
   </data>
+  <data name="Filemgr_ConfirmDeleteCount" xml:space="preserve">
+    <value>确定要删除{0}吗？</value>
+  </data>
+  <data name="Filemgr_NoSelection" xml:space="preserve">
+    <value>未选择内容</value>
+  </data>
   <data name="Filemgr_RenameTitle" xml:space="preserve">
     <value>重命名</value>
   </data>
@@ -1875,7 +1881,7 @@ ADB下填写序号，一次一个！</value>
     <value>导入</value>
   </data>
   <data name="Filemgr_Export" xml:space="preserve">
-    <value>导出</value>
+    <value>导出当前目录或选中内容</value>
   </data>
   <data name="Filemgr_New" xml:space="preserve">
     <value>新建</value>
@@ -1978,5 +1984,8 @@ ADB下填写序号，一次一个！</value>
   </data>
   <data name="Filemgr_QuickAccessAlreadyExists" xml:space="preserve">
     <value>该目录已在快捷目录中</value>
+  </data>
+  <data name="Filemgr_RootMode" xml:space="preserve">
+    <value>使用ROOT模式</value>
   </data>
 </root>

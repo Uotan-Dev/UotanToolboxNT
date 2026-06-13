@@ -1997,4 +1997,7 @@ If you don't understand the above, please ignore it. The selection command only 
   <data name="Filemgr_NoChmod" xml:space="preserve">
     <value>No need to add "chmod"   example: 644</value>
   </data>
+  <data name="Wiredflash_PlanTwo" xml:space="preserve">
+    <value>Sideload plan 2</value>
+  </data>
 </root>

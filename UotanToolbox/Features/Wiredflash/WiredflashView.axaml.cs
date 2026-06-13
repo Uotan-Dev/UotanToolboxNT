@@ -3,6 +3,7 @@ using Avalonia.Controls.Notifications;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using LibUsbDotNet;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
 using System;
@@ -765,29 +766,45 @@ public partial class WiredflashView : UserControl
             MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
             if (!string.IsNullOrEmpty(AdbSideloadFile.Text) && string.IsNullOrEmpty(FastbootUpdatedFile.Text) && string.IsNullOrEmpty(BatFile.Text))
             {
-                if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
+                if (SoluTwo.IsChecked == true)
                 {
-                    string precheckOutput = await Adb($"-s {Global.thisdevice} shell twrp sideload");
-                    if (precheckOutput.Contains("not found", StringComparison.OrdinalIgnoreCase))
+                    if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
                     {
-                        await Adb($"-s {Global.thisdevice} reboot sideload");
+                        MoreFlashBusy(true);
+                        output = "";
+                        WiredflashLog.Text = "";
+                        await Adb($"-s {Global.thisdevice} push \"{AdbSideloadFile.Text}\" /data/media/0/update.zip");
+                        await Adb($"-s {Global.thisdevice} push \"{Path.Combine(Global.runpath, "Push", "testScript.txt")}\" /cache/recovery/openrecoveryscript");
+                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                        MoreFlashBusy(false);
                     }
-                    await Task.Delay(2000);
-                    await GetDevicesInfo.SetDevicesInfoLittle();
-                }
-                if (sukiViewModel.Status == GetTranslation("Home_Sideload"))
-                {
-                    MoreFlashBusy(true);
-                    output = "";
-                    WiredflashLog.Text = "";
-                    string shell = string.Format($"-s {Global.thisdevice} sideload \"{AdbSideloadFile.Text}\"");
-                    await Adb(shell);
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
-                    MoreFlashBusy(false);
                 }
                 else
                 {
-                    Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterSideload")).Dismiss().ByClickingBackground().TryShow();
+                    if (sukiViewModel.Status == GetTranslation("Home_Recovery"))
+                    {
+                        string precheckOutput = await Adb($"-s {Global.thisdevice} shell twrp sideload");
+                        if (precheckOutput.Contains("not found", StringComparison.OrdinalIgnoreCase))
+                        {
+                            await Adb($"-s {Global.thisdevice} reboot sideload");
+                        }
+                        await Task.Delay(2000);
+                        await GetDevicesInfo.SetDevicesInfoLittle();
+                    }
+                    if (sukiViewModel.Status == GetTranslation("Home_Sideload"))
+                    {
+                        MoreFlashBusy(true);
+                        output = "";
+                        WiredflashLog.Text = "";
+                        string shell = string.Format($"-s {Global.thisdevice} sideload \"{AdbSideloadFile.Text}\"");
+                        await Adb(shell);
+                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
+                        MoreFlashBusy(false);
+                    }
+                    else
+                    {
+                        Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Common_EnterSideload")).Dismiss().ByClickingBackground().TryShow();
+                    }
                 }
             }
             else if (string.IsNullOrEmpty(AdbSideloadFile.Text) && !string.IsNullOrEmpty(FastbootUpdatedFile.Text) && string.IsNullOrEmpty(BatFile.Text))

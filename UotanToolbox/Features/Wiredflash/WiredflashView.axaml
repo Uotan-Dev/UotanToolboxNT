@@ -157,7 +157,8 @@
 										</Button>
 									</StackPanel>
 								</StackPanel>
-								<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+								<StackPanel Margin="0 -15 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+									<CheckBox Name="SoluTwo" FontSize="12" Content="{x:Static assets:Resources.Wiredflash_PlanTwo}"/>
 									<Button Width="115"
 											Height="35"
 											HorizontalAlignment="Left"

@@ -1997,4 +1997,7 @@ ADB下填写序号，一次一个！</value>
   <data name="Filemgr_NoChmod" xml:space="preserve">
     <value>无需添加“chmod”  示例：644</value>
   </data>
+  <data name="Wiredflash_PlanTwo" xml:space="preserve">
+    <value>Sideload 方案2</value>
+  </data>
 </root>

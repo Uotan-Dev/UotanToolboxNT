@@ -1988,4 +1988,13 @@ If you don't understand the above, please ignore it. The selection command only 
   <data name="Filemgr_RootMode" xml:space="preserve">
     <value>Use ROOT mode</value>
   </data>
+  <data name="Filemgr_ModifyPermissions" xml:space="preserve">
+    <value>Modify permissions</value>
+  </data>
+  <data name="Filemgr_CustomPermissions" xml:space="preserve">
+    <value>Custom permissions</value>
+  </data>
+  <data name="Filemgr_NoChmod" xml:space="preserve">
+    <value>No need to add "chmod"   example: 644</value>
+  </data>
 </root>

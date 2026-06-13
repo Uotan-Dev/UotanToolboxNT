@@ -2145,6 +2145,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Custom permissions 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_CustomPermissions {
+            get {
+                return ResourceManager.GetString("Filemgr_CustomPermissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Cut 的本地化字符串。
         /// </summary>
         public static string Filemgr_Cut {
@@ -2298,6 +2307,15 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
+        ///   查找类似 Modify permissions 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_ModifyPermissions {
+            get {
+                return ResourceManager.GetString("Filemgr_ModifyPermissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Up 的本地化字符串。
         /// </summary>
         public static string Filemgr_NavigateUp {
@@ -2366,6 +2384,15 @@ namespace UotanToolbox.Assets {
         public static string Filemgr_NewFolderTitle {
             get {
                 return ResourceManager.GetString("Filemgr_NewFolderTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No need to add &quot;chmod&quot;   example: 644 的本地化字符串。
+        /// </summary>
+        public static string Filemgr_NoChmod {
+            get {
+                return ResourceManager.GetString("Filemgr_NoChmod", resourceCulture);
             }
         }
         

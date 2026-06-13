@@ -388,8 +388,7 @@ public partial class FilemgrViewModel : MainPageBase
         }
         else if (RootMode == "root")
         {
-            string escapedCmd = cmd.Replace("\"", "\\\"");
-            return await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell su -c \"{escapedCmd}\"");
+            return await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell su -c \"{cmd}\"");
         }
         else
         {
@@ -1093,6 +1092,90 @@ public partial class FilemgrViewModel : MainPageBase
                     .Dismiss().ByClickingBackground()
                     .TryShow();
             });
+        }
+    }
+
+    private async Task ModifyPermissionsInternalAsync(FileEntry? entry, string mode)
+    {
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            IsDeviceConnected = false;
+            await ShowNotConnectedDialogAsync();
+            return;
+        }
+
+        IsDeviceConnected = true;
+
+        var selected = Files.Where(f => f.IsSelected).ToList();
+        var targetEntries = selected.Count > 0 ? selected : (entry != null ? new List<FileEntry> { entry } : new List<FileEntry>());
+
+        if (targetEntries.Count == 0) return;
+
+        try
+        {
+            foreach (var target in targetEntries)
+            {
+                await RunADB($"chmod {mode} \"{target.FullPath}\"");
+            }
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainToastManager.CreateToast()
+                    .WithTitle(GetTranslation("Filemgr_ModifyPermissions"))
+                    .WithContent(mode)
+                    .OfType(NotificationType.Information)
+                    .Dismiss().ByClicking()
+                    .Dismiss().After(TimeSpan.FromSeconds(3))
+                    .Queue();
+            });
+
+            _ = RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[ModifyPermissions]\n\n{ex.GetType().Name}: {ex.Message}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
+        }
+    }
+
+    [RelayCommand]
+    private async Task ModifyPermissionsToX(FileEntry? entry)
+    {
+        await ModifyPermissionsInternalAsync(entry, "+x");
+    }
+
+    [RelayCommand]
+    private async Task ModifyPermissionsTo644(FileEntry? entry)
+    {
+        await ModifyPermissionsInternalAsync(entry, "644");
+    }
+
+    [RelayCommand]
+    private async Task ModifyPermissionsTo755(FileEntry? entry)
+    {
+        await ModifyPermissionsInternalAsync(entry, "755");
+    }
+
+    [RelayCommand]
+    private async Task ModifyPermissionsTo777(FileEntry? entry)
+    {
+        await ModifyPermissionsInternalAsync(entry, "777");
+    }
+
+    [RelayCommand]
+    private async Task ModifyPermissionsToCustom(FileEntry? entry)
+    {
+        string? mode = await ShowInputDialogAsync(GetTranslation("Filemgr_CustomPermissions"), GetTranslation("Filemgr_NoChmod"), "");
+        if (!string.IsNullOrEmpty(mode))
+        {
+            await ModifyPermissionsInternalAsync(entry, mode);
         }
     }
 
@@ -1925,7 +2008,7 @@ public partial class FilemgrViewModel : MainPageBase
             });
         }
     }
-
+    
     /// <summary>
     /// <para>批量删除选中的文件或目录。弹出确认对话框后逐个执行 ADB shell rm 命令。</para>
     /// Batch deletes selected files or directories. Shows a confirmation dialog, then executes ADB shell rm commands one by one.

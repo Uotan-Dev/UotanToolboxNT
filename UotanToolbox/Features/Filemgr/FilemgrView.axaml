@@ -132,6 +132,24 @@
 																	  Command="{Binding DataContext.RenameFileCommand, ElementName=RootView}"
 																	  CommandParameter="{Binding}"/>
 															<Separator/>
+															<MenuItem Header="{x:Static assets:Resources.Filemgr_ModifyPermissions}">
+																<MenuItem Header="+ x"
+																		  Command="{Binding DataContext.ModifyPermissionsToXCommand, ElementName=RootView}"
+																		  CommandParameter="{Binding}"/>
+																<MenuItem Header="644"
+																		  Command="{Binding DataContext.ModifyPermissionsTo644Command, ElementName=RootView}"
+																		  CommandParameter="{Binding}"/>
+																<MenuItem Header="755"
+																		  Command="{Binding DataContext.ModifyPermissionsTo755Command, ElementName=RootView}"
+																		  CommandParameter="{Binding}"/>
+																<MenuItem Header="777"
+																		  Command="{Binding DataContext.ModifyPermissionsTo777Command, ElementName=RootView}"
+																		  CommandParameter="{Binding}"/>
+																<MenuItem Header="{x:Static assets:Resources.Filemgr_CustomPermissions}"
+																		  Command="{Binding DataContext.ModifyPermissionsToCustomCommand, ElementName=RootView}"
+																		  CommandParameter="{Binding}"/>
+															</MenuItem>
+															<Separator/>
 															<MenuItem Header="{x:Static assets:Resources.Filemgr_AddToQuickAccess}"
 																	  Command="{Binding DataContext.AddToQuickAccessCommand, ElementName=RootView}"
 																	  CommandParameter="{Binding}"/>

@@ -1988,4 +1988,13 @@ ADB下填写序号，一次一个！</value>
   <data name="Filemgr_RootMode" xml:space="preserve">
     <value>使用ROOT模式</value>
   </data>
+  <data name="Filemgr_ModifyPermissions" xml:space="preserve">
+    <value>修改权限</value>
+  </data>
+  <data name="Filemgr_CustomPermissions" xml:space="preserve">
+    <value>自定义权限</value>
+  </data>
+  <data name="Filemgr_NoChmod" xml:space="preserve">
+    <value>无需添加“chmod”  示例：644</value>
+  </data>
 </root>

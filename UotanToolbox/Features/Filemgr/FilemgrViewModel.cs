@@ -235,8 +235,8 @@ public partial class FilemgrViewModel : MainPageBase
     /// </summary>
     private bool HasConnectedAdbDevice()
     {
-        return Global.DeviceManager?.Devices.Any(d =>
-            d.Transport == TransportType.Adb || d.Transport == TransportType.Hdc) == true;
+        var device = Global.DeviceManager?.Devices.FirstOrDefault(d => d.Id == Global.thisdevice);
+        return device != null && (device.Transport == TransportType.Adb || device.Transport == TransportType.Hdc);
     }
 
     /// <summary>
@@ -266,6 +266,17 @@ public partial class FilemgrViewModel : MainPageBase
             IsDeviceConnected = false;
             Dispatcher.UIThread.Post(() =>
             {
+                foreach (var item in QuickAccessItems)
+                {
+                    if (item.Path.StartsWith("/storage/media/100/local/files/Docs"))
+                    {
+                        item.Path = item.Path.Replace("/storage/media/100/local/files/Docs", "/sdcard");
+                        if (item.Name == GetTranslation("Filemgr_QA_Pictures"))
+                        {
+                            item.Path = item.Path.Replace("/Images", "/Pictures");
+                        }
+                    }
+                }
                 Files.Clear();
                 CurrentPath = "/";
                 PathInput = "/";
@@ -286,9 +297,13 @@ public partial class FilemgrViewModel : MainPageBase
         if (e.PropertyName == nameof(MainViewModel.ActivePage) && IsActivePage())
         {
             IsDeviceConnected = Global.DeviceManager?.Devices.Any() == true;
-            if (!HasLoaded && HasConnectedAdbDevice())
+            if (!HasLoaded)
             {
-                _ = TryAutoLoadAsync();
+                var device = Global.DeviceManager?.Devices.FirstOrDefault(d => d.Id == Global.thisdevice);
+                if (device != null && (device.Transport == TransportType.Adb || device.Transport == TransportType.Hdc))
+                {
+                    _ = TryAutoLoadAsync();
+                }
             }
         }
     }
@@ -303,7 +318,31 @@ public partial class FilemgrViewModel : MainPageBase
             return;
 
         HasLoaded = true;
-        await LoadDirectoryAsync("/sdcard");
+
+        bool isHdc = Global.DeviceManager?.Devices.Any(d => d.Id == Global.thisdevice && d.Transport == TransportType.Hdc) == true;
+        string defaultPath = isHdc ? "/storage/media/100/local/files/Docs" : "/sdcard";
+
+        foreach (var item in QuickAccessItems)
+        {
+            if (isHdc && item.Path.StartsWith("/sdcard"))
+            {
+                item.Path = item.Path.Replace("/sdcard", "/storage/media/100/local/files/Docs");
+                if (item.Name == GetTranslation("Filemgr_QA_Pictures"))
+                {
+                    item.Path = item.Path.Replace("/Pictures", "/Images");
+                }
+            }
+            else if (!isHdc && item.Path.StartsWith("/storage/media/100/local/files/Docs"))
+            {
+                item.Path = item.Path.Replace("/storage/media/100/local/files/Docs", "/sdcard");
+                if (item.Name == GetTranslation("Filemgr_QA_Pictures"))
+                {
+                    item.Path = item.Path.Replace("/Images", "/Pictures");
+                }
+            }
+        }
+
+        await LoadDirectoryAsync(defaultPath);
     }
 
     /// <summary>
@@ -376,9 +415,36 @@ public partial class FilemgrViewModel : MainPageBase
 
     public async Task<string> RunADB(string cmd, bool isShell = true)
     {
+        bool isHdc = false;
+        if (Global.DeviceManager != null && !string.IsNullOrEmpty(Global.thisdevice))
+        {
+            var dev = Global.DeviceManager.Devices.FirstOrDefault(d => d.Id == Global.thisdevice);
+            if (dev != null && dev.Transport == TransportType.Hdc)
+            {
+                isHdc = true;
+            }
+        }
+
         if (!isShell)
         {
+            if (isHdc)
+            {
+                if (cmd.StartsWith("push "))
+                {
+                    cmd = "file send" + cmd.Substring(4);
+                }
+                else if (cmd.StartsWith("pull "))
+                {
+                    cmd = "file recv" + cmd.Substring(4);
+                }
+                return await FeaturesHelper.HdcCmd(Global.thisdevice, cmd);
+            }
             return await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
+        }
+
+        if (isHdc)
+        {
+            return await FeaturesHelper.HdcCmd(Global.thisdevice, $"shell {cmd}");
         }
 
         if (RootMode == "debug")
@@ -428,6 +494,22 @@ public partial class FilemgrViewModel : MainPageBase
         }
 
         IsDeviceConnected = true;
+
+        var device = Global.DeviceManager?.Devices.FirstOrDefault(d => d.Id == Global.thisdevice);
+        if (device == null || (device.Transport != TransportType.Adb && device.Transport != TransportType.Hdc))
+        {
+            IsBusy = false;
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent(GetTranslation("Common_ModeError"))
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
+            return;
+        }
 
         // Clear existing items on UI thread first to avoid virtualization recycling conflicts
         await Dispatcher.UIThread.InvokeAsync(() =>
@@ -746,6 +828,8 @@ public partial class FilemgrViewModel : MainPageBase
                     {
                         if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
                             output.Contains("file pushed", StringComparison.OrdinalIgnoreCase) ||
+                            output.Contains("TransferSummary success", StringComparison.OrdinalIgnoreCase) ||
+                            output.Contains("FileTransfer finish", StringComparison.OrdinalIgnoreCase) ||
                             (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
                              !output.Contains("failed", StringComparison.OrdinalIgnoreCase)))
                         {
@@ -841,6 +925,8 @@ public partial class FilemgrViewModel : MainPageBase
                     if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
                         output.Contains("file pushed", StringComparison.OrdinalIgnoreCase) ||
                         output.Contains("files pushed", StringComparison.OrdinalIgnoreCase) ||
+                        output.Contains("TransferSummary success", StringComparison.OrdinalIgnoreCase) ||
+                        output.Contains("FileTransfer finish", StringComparison.OrdinalIgnoreCase) ||
                         (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
                          !output.Contains("failed", StringComparison.OrdinalIgnoreCase)))
                     {
@@ -953,6 +1039,8 @@ public partial class FilemgrViewModel : MainPageBase
 
                     if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
                         output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
+                        output.Contains("TransferSummary success", StringComparison.OrdinalIgnoreCase) ||
+                        output.Contains("FileTransfer finish", StringComparison.OrdinalIgnoreCase) ||
                         (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
                          !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
                          !output.Contains("No such file", StringComparison.OrdinalIgnoreCase)))
@@ -1052,6 +1140,8 @@ public partial class FilemgrViewModel : MainPageBase
                 {
                     if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
                         output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
+                        output.Contains("TransferSummary success", StringComparison.OrdinalIgnoreCase) ||
+                        output.Contains("FileTransfer finish", StringComparison.OrdinalIgnoreCase) ||
                         (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
                          !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
                          !output.Contains("No such file", StringComparison.OrdinalIgnoreCase)))
@@ -1285,6 +1375,8 @@ public partial class FilemgrViewModel : MainPageBase
             {
                 if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
                     output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
+                    output.Contains("TransferSummary success", StringComparison.OrdinalIgnoreCase) ||
+                    output.Contains("FileTransfer finish", StringComparison.OrdinalIgnoreCase) ||
                     (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
                      !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
                      !output.Contains("No such file", StringComparison.OrdinalIgnoreCase)))
@@ -1352,6 +1444,8 @@ public partial class FilemgrViewModel : MainPageBase
 
                 if (output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
                     output.Contains("file pulled", StringComparison.OrdinalIgnoreCase) ||
+                    output.Contains("TransferSummary success", StringComparison.OrdinalIgnoreCase) ||
+                    output.Contains("FileTransfer finish", StringComparison.OrdinalIgnoreCase) ||
                     (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
                      !output.Contains("failed", StringComparison.OrdinalIgnoreCase) &&
                      !output.Contains("No such file", StringComparison.OrdinalIgnoreCase)))
@@ -2324,7 +2418,7 @@ public partial class QuickAccessItem : CommunityToolkit.Mvvm.ComponentModel.Obse
     /// <para>快捷访问项对应的设备目录路径。</para>
     /// The device directory path of the quick access item.
     /// </summary>
-    public string Path { get; init; } = string.Empty;
+    public string Path { get; set; } = string.Empty;
 
     /// <summary>
     /// <para>快捷访问项的图标。</para>

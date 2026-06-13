@@ -530,15 +530,15 @@ public partial class FilemgrViewModel : MainPageBase
         }
     }
 
-        /// <summary>
-        /// <para>加载指定路径的目录内容。检查设备连接、执行 ADB 命令、解析输出并更新文件列表。</para>
-        /// Loads the directory contents at the specified path. Checks device connection, executes ADB command, parses output, and updates the file list.
-        /// </summary>
-        /// <param name="path">
-        /// <para>要加载的设备目录路径。</para>
-        /// The device directory path to load.
-        /// </param>
-        [RelayCommand]
+    /// <summary>
+    /// <para>加载指定路径的目录内容。检查设备连接、执行 ADB 命令、解析输出并更新文件列表。</para>
+    /// Loads the directory contents at the specified path. Checks device connection, executes ADB command, parses output, and updates the file list.
+    /// </summary>
+    /// <param name="path">
+    /// <para>要加载的设备目录路径。</para>
+    /// The device directory path to load.
+    /// </param>
+    [RelayCommand]
     public async Task LoadDirectoryAsync(string path)
     {
         // Set busy state immediately for responsive UI feedback
@@ -562,7 +562,55 @@ public partial class FilemgrViewModel : MainPageBase
         }
 
         IsDeviceConnected = true;
+
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        if (sukiViewModel != null)
+        {
+            string currentStatus = sukiViewModel.Status;
+
+            bool isValidMode = currentStatus == GetTranslation("Home_Android") ||
+                               currentStatus == GetTranslation("Home_OpenHOS") ||
+                               currentStatus == "Recovery";
+
+            if (!isValidMode)
+            {
+                IsBusy = false;
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    Files.Clear();
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Error)
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .WithContent(GetTranslation("Common_ModeError"))
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                });
+                return;
+            }
+        }
+
         UpdateQuickAccessPathsByDeviceState();
+
+        //在执行命令前，根据当前的设备形态，实时强制重写传入的 path 变量
+        bool isHdc = _currentDeviceState == "OpenHOS";
+        if (isHdc)
+        {
+            // 如果切到了鸿蒙设备，但传进来的路径还是安卓的 /sdcard，进行精确重写
+            if (path.StartsWith("/sdcard"))
+            {
+                path = path.Replace("/sdcard", "/storage/media/100/local/files/Docs");
+                path = path.Replace("/storage/media/100/local/files/Docs/Pictures", "/storage/media/100/local/files/Docs/Images");
+            }
+        }
+        else
+        {
+            // 如果切到了安卓设备，但传进来的路径还是鸿蒙的路径，进行逆向重写
+            if (path.StartsWith("/storage/media/100/local/files/Docs"))
+            {
+                path = path.Replace("/storage/media/100/local/files/Docs", "/sdcard");
+                path = path.Replace("/sdcard/Images", "/sdcard/Pictures");
+            }
+        }
 
         var device = Global.DeviceManager?.Devices.FirstOrDefault(d => d.Id == Global.thisdevice);
         if (device == null || (device.Transport != TransportType.Adb && device.Transport != TransportType.Hdc))

@@ -149,6 +149,76 @@ public partial class FilemgrViewModel : MainPageBase
     public bool CanNavigateUp => !string.IsNullOrEmpty(CurrentPath) && CurrentPath != "/";
 
     /// <summary>
+    /// <para>当前页面的全局变量，记录上一次检测到的设备形态 (Android 或 OpenHOS)。</para>
+    /// </summary>
+    private string _currentDeviceState = string.Empty;
+
+    /// <summary>
+    /// <para>根据 MainViewModel 的 Status 判断设备形态，发生变化时实时切换快捷访问目录路径。</para>
+    /// </summary>
+    private void UpdateQuickAccessPathsByDeviceState()
+    {
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        if (sukiViewModel == null) return;
+
+        // 获取最新状态，判断是 Android 还是 鸿蒙 (OpenHOS)
+        string newDeviceState = "Android"; // 默认为 Android
+        if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
+        {
+            newDeviceState = "OpenHOS";
+        }
+        else if (sukiViewModel.Status == GetTranslation("Home_Android") || sukiViewModel.Status.Contains("Android"))
+        {
+            newDeviceState = "Android";
+        }
+
+        // 仅当设备形态发生变化时，才触发路径修改操作
+        if (_currentDeviceState != newDeviceState)
+        {
+            _currentDeviceState = newDeviceState;
+            bool isHdc = _currentDeviceState == "OpenHOS";
+
+            foreach (var item in QuickAccessItems)
+            {
+                if (isHdc && item.Path.StartsWith("/sdcard"))
+                {
+                    item.Path = item.Path.Replace("/sdcard", "/storage/media/100/local/files/Docs");
+                    if (item.Name == GetTranslation("Filemgr_QA_Pictures"))
+                    {
+                        item.Path = item.Path.Replace("/Pictures", "/Images");
+                    }
+                }
+                else if (!isHdc && item.Path.StartsWith("/storage/media/100/local/files/Docs"))
+                {
+                    item.Path = item.Path.Replace("/storage/media/100/local/files/Docs", "/sdcard");
+                    if (item.Name == GetTranslation("Filemgr_QA_Pictures"))
+                    {
+                        item.Path = item.Path.Replace("/Images", "/Pictures");
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>检查设备连接，并同步更新快捷访问路径形态。</para>
+    /// </summary>
+    private async Task<bool> EnsureDeviceConnectedAndRefreshStateAsync()
+    {
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
+        {
+            IsDeviceConnected = false;
+            await ShowNotConnectedDialogAsync();
+            return false;
+        }
+
+        IsDeviceConnected = true;
+        // 成功获取设备信息后，触发路径状态检测和修改
+        UpdateQuickAccessPathsByDeviceState();
+        return true;
+    }
+
+    /// <summary>
     /// <para>当 CurrentPath 属性变化时，更新快捷访问项的高亮状态。</para>
     /// Updates the active state of quick access items when CurrentPath changes.
     /// </summary>
@@ -193,6 +263,7 @@ public partial class FilemgrViewModel : MainPageBase
             new() { Name = GetTranslation("Filemgr_QA_Download"), Path = "/sdcard/Download", Icon = MaterialIconKind.DownloadOutline },
             new() { Name = GetTranslation("Filemgr_QA_Documents"), Path = "/sdcard/Documents", Icon = MaterialIconKind.FileDocumentOutline },
             new() { Name = GetTranslation("Filemgr_QA_Pictures"), Path = "/sdcard/Pictures", Icon = MaterialIconKind.ImageOutline },
+            new() { Name = "TMP", Path = "/data/local/tmp", Icon = MaterialIconKind.FolderClockOutline },
         };
 
         // Load custom quick access items from persistence
@@ -266,17 +337,6 @@ public partial class FilemgrViewModel : MainPageBase
             IsDeviceConnected = false;
             Dispatcher.UIThread.Post(() =>
             {
-                foreach (var item in QuickAccessItems)
-                {
-                    if (item.Path.StartsWith("/storage/media/100/local/files/Docs"))
-                    {
-                        item.Path = item.Path.Replace("/storage/media/100/local/files/Docs", "/sdcard");
-                        if (item.Name == GetTranslation("Filemgr_QA_Pictures"))
-                        {
-                            item.Path = item.Path.Replace("/Images", "/Pictures");
-                        }
-                    }
-                }
                 Files.Clear();
                 CurrentPath = "/";
                 PathInput = "/";
@@ -319,28 +379,12 @@ public partial class FilemgrViewModel : MainPageBase
 
         HasLoaded = true;
 
-        bool isHdc = Global.DeviceManager?.Devices.Any(d => d.Id == Global.thisdevice && d.Transport == TransportType.Hdc) == true;
-        string defaultPath = isHdc ? "/storage/media/100/local/files/Docs" : "/sdcard";
+        // 确保获取一次最新状态并更新路径
+        await GetDevicesInfo.SetDevicesInfoLittle();
+        UpdateQuickAccessPathsByDeviceState();
 
-        foreach (var item in QuickAccessItems)
-        {
-            if (isHdc && item.Path.StartsWith("/sdcard"))
-            {
-                item.Path = item.Path.Replace("/sdcard", "/storage/media/100/local/files/Docs");
-                if (item.Name == GetTranslation("Filemgr_QA_Pictures"))
-                {
-                    item.Path = item.Path.Replace("/Pictures", "/Images");
-                }
-            }
-            else if (!isHdc && item.Path.StartsWith("/storage/media/100/local/files/Docs"))
-            {
-                item.Path = item.Path.Replace("/storage/media/100/local/files/Docs", "/sdcard");
-                if (item.Name == GetTranslation("Filemgr_QA_Pictures"))
-                {
-                    item.Path = item.Path.Replace("/Images", "/Pictures");
-                }
-            }
-        }
+        bool isHdc = _currentDeviceState == "OpenHOS";
+        string defaultPath = isHdc ? "/storage/media/100/local/files/Docs" : "/sdcard";
 
         await LoadDirectoryAsync(defaultPath);
     }
@@ -494,6 +538,7 @@ public partial class FilemgrViewModel : MainPageBase
         }
 
         IsDeviceConnected = true;
+        UpdateQuickAccessPathsByDeviceState();
 
         var device = Global.DeviceManager?.Devices.FirstOrDefault(d => d.Id == Global.thisdevice);
         if (device == null || (device.Transport != TransportType.Adb && device.Transport != TransportType.Hdc))
@@ -645,14 +690,7 @@ public partial class FilemgrViewModel : MainPageBase
         else
         {
             // Double-click on a file: pull to temp directory and open with system default program
-            if (!await GetDevicesInfo.SetDevicesInfoLittle())
-            {
-                IsDeviceConnected = false;
-                await ShowNotConnectedDialogAsync();
-                return;
-            }
-
-            IsDeviceConnected = true;
+            if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
             IsBusy = true;
             try
             {
@@ -785,14 +823,7 @@ public partial class FilemgrViewModel : MainPageBase
     [RelayCommand]
     private async Task PushFileAsync()
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -882,14 +913,7 @@ public partial class FilemgrViewModel : MainPageBase
     [RelayCommand]
     private async Task PushFolderAsync()
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -1001,14 +1025,7 @@ public partial class FilemgrViewModel : MainPageBase
     /// </summary>
     private async Task PullFilesBatchAsync(List<FileEntry> entries)
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -1105,14 +1122,7 @@ public partial class FilemgrViewModel : MainPageBase
         if (entry is null)
             return;
 
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -1187,14 +1197,7 @@ public partial class FilemgrViewModel : MainPageBase
 
     private async Task ModifyPermissionsInternalAsync(FileEntry? entry, string mode)
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         var selected = Files.Where(f => f.IsSelected).ToList();
         var targetEntries = selected.Count > 0 ? selected : (entry != null ? new List<FileEntry> { entry } : new List<FileEntry>());
@@ -1358,14 +1361,7 @@ public partial class FilemgrViewModel : MainPageBase
     /// </param>
     private async Task ExtractToDirectoryAsync(FileEntry entry, string localDir)
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
         IsBusy = true;
         try
         {
@@ -1424,14 +1420,7 @@ public partial class FilemgrViewModel : MainPageBase
     /// </summary>
     private async Task ExtractEntriesToDirectoryAsync(List<FileEntry> entries, string localDir)
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
         IsBusy = true;
         try
         {
@@ -1505,14 +1494,7 @@ public partial class FilemgrViewModel : MainPageBase
     /// </summary>
     private async Task ExtractSingleToCustomDirAsync(FileEntry entry)
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -1553,14 +1535,7 @@ public partial class FilemgrViewModel : MainPageBase
     /// </summary>
     private async Task ExtractEntriesToCustomDirAsync(List<FileEntry> entries)
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -1602,14 +1577,7 @@ public partial class FilemgrViewModel : MainPageBase
     [RelayCommand]
     private async Task NewFileAsync()
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -1682,14 +1650,7 @@ public partial class FilemgrViewModel : MainPageBase
     [RelayCommand]
     private async Task NewFolderAsync()
     {
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -1825,14 +1786,7 @@ public partial class FilemgrViewModel : MainPageBase
         if (_clipboardEntries.Count == 0 || _clipboardOperation == ClipboardOperation.None)
             return;
 
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
         IsBusy = true;
 
         try
@@ -1939,14 +1893,7 @@ public partial class FilemgrViewModel : MainPageBase
 
         SelectedFile = entry;
 
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -2030,14 +1977,7 @@ public partial class FilemgrViewModel : MainPageBase
 
         SelectedFile = entry;
 
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {
@@ -2126,14 +2066,7 @@ public partial class FilemgrViewModel : MainPageBase
             return;
         }
 
-        if (!await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            IsDeviceConnected = false;
-            await ShowNotConnectedDialogAsync();
-            return;
-        }
-
-        IsDeviceConnected = true;
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
 
         try
         {

@@ -1798,7 +1798,7 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 The current state cannot be executed 的本地化字符串。
+        ///   查找类似 The current mode cannot be executed 的本地化字符串。
         /// </summary>
         public static string Common_ModeError {
             get {

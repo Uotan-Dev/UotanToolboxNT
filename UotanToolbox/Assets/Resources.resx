@@ -1408,7 +1408,7 @@ Fill ID in ADB, one at a time!</value>
     <value>Restart the application to fresh the language</value>
   </data>
   <data name="Common_ModeError" xml:space="preserve">
-    <value>The current state cannot be executed</value>
+    <value>The current mode cannot be executed</value>
   </data>
   <data name="Basicflash_ReXiaomiUSB" xml:space="preserve">
     <value>Revoke USB 3.0 patch</value>

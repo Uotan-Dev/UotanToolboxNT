@@ -167,7 +167,7 @@ public partial class FilemgrViewModel : MainPageBase
         {
             newDeviceState = "OpenHOS";
         }
-        else if (sukiViewModel.Status == GetTranslation("Home_Android") || sukiViewModel.Status.Contains("Android"))
+        else if (sukiViewModel.Status == GetTranslation("Home_Android") || sukiViewModel.Status == "Recovery")
         {
             newDeviceState = "Android";
         }
@@ -213,6 +213,30 @@ public partial class FilemgrViewModel : MainPageBase
         }
 
         IsDeviceConnected = true;
+
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        if (sukiViewModel != null)
+        {
+            string currentStatus = sukiViewModel.Status;
+            bool isValidMode = currentStatus == GetTranslation("Home_Android") ||
+                               currentStatus == GetTranslation("Home_OpenHOS") ||
+                               currentStatus == "Recovery";
+
+            if (!isValidMode)
+            {
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    Global.MainDialogManager.CreateDialog()
+                        .OfType(NotificationType.Error)
+                        .WithTitle(GetTranslation("Common_Error"))
+                        .WithContent(GetTranslation("Common_ModeError")) // 弹出模式错误提示
+                        .Dismiss().ByClickingBackground()
+                        .TryShow();
+                });
+                return false; // 返回 false，拦截后续按钮的具体业务指令
+            }
+        }
+
         // 成功获取设备信息后，触发路径状态检测和修改
         UpdateQuickAccessPathsByDeviceState();
         return true;

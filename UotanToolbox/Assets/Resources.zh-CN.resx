@@ -1408,7 +1408,7 @@ ADB下填写序号，一次一个！</value>
     <value>重启应用以刷新语言</value>
   </data>
   <data name="Common_ModeError" xml:space="preserve">
-    <value>当前状态无法执行！</value>
+    <value>当前模式无法执行！</value>
   </data>
   <data name="Basicflash_ReXiaomiUSB" xml:space="preserve">
     <value>撤销USB3.0补丁</value>

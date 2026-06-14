@@ -1,17 +1,16 @@
-﻿using Avalonia.Controls;
-using Avalonia.Controls.Notifications;
-using Avalonia.Interactivity;
-using Avalonia.Platform.Storage;
-using Avalonia.Threading;
-using LibUsbDotNet;
-using SukiUI.Dialogs;
-using SukiUI.Toasts;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
+using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
+using Avalonia.Threading;
+using SukiUI.Dialogs;
+using SukiUI.Toasts;
 using UotanToolbox.Common;
 using UotanToolbox.Common.Devices;
 using UotanToolbox.Common.PatchHelper;
@@ -772,9 +771,11 @@ public partial class WiredflashView : UserControl
                     {
                         MoreFlashBusy(true);
                         output = "";
-                        WiredflashLog.Text = "";
-                        await Adb($"-s {Global.thisdevice} push \"{AdbSideloadFile.Text}\" /data/media/0/update.zip");
+                        WiredflashLog.Text = "推送 Rom 中可能需要一些时间，请稍候... \r\nPushing Rom may take some time, please wait...\r\n";
+                        await Adb($"-s {Global.thisdevice} push -p \"{AdbSideloadFile.Text}\" /data/media/0/update.zip");
                         await Adb($"-s {Global.thisdevice} push \"{Path.Combine(Global.runpath, "Push", "testScript.txt")}\" /cache/recovery/openrecoveryscript");
+                        await Adb($"-s {Global.thisdevice} reboot recovery");
+                        WiredflashLog.Text += "自动重启后将自动进行安装！ \r\nAfter automatic reboot, the installation will start automatically！\r\n";
                         Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Execution")).OfType(NotificationType.Information).WithContent(GetTranslation("Common_Execution")).Dismiss().ByClickingBackground().TryShow();
                         MoreFlashBusy(false);
                     }

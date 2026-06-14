@@ -1,0 +1,261 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build Linux_all
+
+on:
+  workflow_dispatch:
+    inputs:
+      VERSION:
+        description: 'Version'
+        required: true
+      BINARY_BRANCH:
+        description: 'Binary branch'
+        required: true
+      NEED_NUPKG:
+        description: 'Use self nupkg'
+        type: boolean
+        required: true
+        default: false
+
+jobs:
+  linux-all:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Download NuGet package
+      if: ${{ inputs.NEED_NUPKG }}
+      run: | 
+        wget https://github.com/Uotan-Dev/SukiUI-Uotan/releases/download/v6.0.0/SukiUI.6.0.0.nupkg
+        dotnet nuget add source "/home/runner/work/UotanToolboxNT"
+
+    - name: Clone Binary
+      run: git clone https://github.com/Uotan-Dev/UotanToolboxNT.Binary.git -b ${{ inputs.BINARY_BRANCH }}
+
+    - name: Build
+      run: |
+        dotnet publish -r linux-x64 --self-contained true -o ./publish-x64
+        dotnet publish -r linux-arm64 --self-contained true -o ./publish-arm64
+
+    - name: Make all-x64
+      run: |
+        mkdir staging_folder
+        mkdir ./staging_folder/DEBIAN
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/control-x64 ./staging_folder/DEBIAN/control
+        mkdir ./staging_folder/usr
+        mkdir ./staging_folder/usr/bin
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox ./staging_folder/usr/bin/UotanToolbox
+        chmod +x ./staging_folder/usr/bin/UotanToolbox
+        mkdir ./staging_folder/usr/lib
+        mkdir ./staging_folder/usr/lib/UotanToolbox
+        cp -r ./publish-x64/* ./staging_folder/usr/lib/UotanToolbox/
+        chmod -R a+rX ./staging_folder/usr/lib/UotanToolbox/
+        chmod +x ./staging_folder/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AMD64/* ./staging_folder/usr/lib/UotanToolbox/
+        mkdir ./staging_folder/usr/share
+        mkdir ./staging_folder/usr/share/applications
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop ./staging_folder/usr/share/applications/UotanToolbox.desktop
+        mkdir ./staging_folder/usr/share/pixmaps
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png ./staging_folder/usr/share/pixmaps/UotanToolbox.png
+        dpkg-deb --root-owner-group --build ./staging_folder/ ./UotanToolbox_Linux_x64_${{ inputs.VERSION }}.deb
+        rm -rf ./staging_folder/*
+
+    - name: Make all-arm64
+      run: |
+        mkdir ./staging_folder/DEBIAN
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/control-arm64 ./staging_folder/DEBIAN/control
+        mkdir ./staging_folder/usr
+        mkdir ./staging_folder/usr/bin
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox ./staging_folder/usr/bin/UotanToolbox
+        chmod +x ./staging_folder/usr/bin/UotanToolbox
+        mkdir ./staging_folder/usr/lib
+        mkdir ./staging_folder/usr/lib/UotanToolbox
+        cp -r ./publish-arm64/* ./staging_folder/usr/lib/UotanToolbox/
+        chmod -R a+rX ./staging_folder/usr/lib/UotanToolbox/
+        chmod +x ./staging_folder/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AArch64/* ./staging_folder/usr/lib/UotanToolbox/
+        mkdir ./staging_folder/usr/share
+        mkdir ./staging_folder/usr/share/applications
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop ./staging_folder/usr/share/applications/UotanToolbox.desktop
+        mkdir ./staging_folder/usr/share/pixmaps
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png ./staging_folder/usr/share/pixmaps/UotanToolbox.png
+        dpkg-deb --root-owner-group --build ./staging_folder/ ./UotanToolbox_Linux_arm64_${{ inputs.VERSION }}.deb
+        rm -rf ./staging_folder/*
+
+    - name: Install packaging tools
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y rpm libarchive-tools zstd fakeroot libfuse2
+        sudo gem install fpm
+        wget -q https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
+        chmod +x ./appimagetool
+        ./appimagetool --appimage-extract > /dev/null 2>&1
+        mv squashfs-root appimagetool-extracted
+        wget -q https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-aarch64
+
+    - name: Make arch-x64
+      run: |
+        mkdir -p archpkg/usr/bin archpkg/usr/lib/UotanToolbox archpkg/usr/share/applications archpkg/usr/share/pixmaps
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox archpkg/usr/bin/UotanToolbox
+        chmod +x archpkg/usr/bin/UotanToolbox
+        cp -r ./publish-x64/* archpkg/usr/lib/UotanToolbox/
+        chmod -R a+rX archpkg/usr/lib/UotanToolbox/
+        chmod +x archpkg/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AMD64/* archpkg/usr/lib/UotanToolbox/
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop archpkg/usr/share/applications/UotanToolbox.desktop
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png archpkg/usr/share/pixmaps/UotanToolbox.png
+        cd archpkg
+        cat > .PKGINFO << PKGEOF
+        pkgname = uotantoolbox
+        pkgver = ${{ inputs.VERSION }}-1
+        pkgdesc = Advanced, Modern Toolbox for Geeks.
+        url = https://github.com/Uotan-Dev/UotanToolboxNT
+        builddate = $(date +%s)
+        packager = mujianwu <lrh15563910083@163.com>
+        size = $(du -sb usr | cut -f1)
+        arch = x86_64
+        license = custom
+        depend = usbutils
+        depend = android-tools
+        PKGEOF
+        sed -i 's/^        //' .PKGINFO
+        env LANG=C bsdtar -czf .MTREE --format=mtree \
+          --options='!all,use-set,type,uid,gid,mode,time,size,sha256,link' \
+          .PKGINFO usr
+        env LANG=C fakeroot -- bsdtar -cf - .MTREE .PKGINFO usr | zstd -c -T0 > \
+          ../UotanToolbox_Linux_x64_${{ inputs.VERSION }}.pkg.tar.zst
+        cd ..
+        rm -rf archpkg
+
+    - name: Make arch-arm64
+      run: |
+        mkdir -p archpkg/usr/bin archpkg/usr/lib/UotanToolbox archpkg/usr/share/applications archpkg/usr/share/pixmaps
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox archpkg/usr/bin/UotanToolbox
+        chmod +x archpkg/usr/bin/UotanToolbox
+        cp -r ./publish-arm64/* archpkg/usr/lib/UotanToolbox/
+        chmod -R a+rX archpkg/usr/lib/UotanToolbox/
+        chmod +x archpkg/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AArch64/* archpkg/usr/lib/UotanToolbox/
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop archpkg/usr/share/applications/UotanToolbox.desktop
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png archpkg/usr/share/pixmaps/UotanToolbox.png
+        cd archpkg
+        cat > .PKGINFO << PKGEOF
+        pkgname = uotantoolbox
+        pkgver = ${{ inputs.VERSION }}-1
+        pkgdesc = Advanced, Modern Toolbox for Geeks.
+        url = https://github.com/Uotan-Dev/UotanToolboxNT
+        builddate = $(date +%s)
+        packager = mujianwu <lrh15563910083@163.com>
+        size = $(du -sb usr | cut -f1)
+        arch = aarch64
+        license = custom
+        depend = usbutils
+        depend = android-tools
+        PKGEOF
+        sed -i 's/^        //' .PKGINFO
+        env LANG=C bsdtar -czf .MTREE --format=mtree \
+          --options='!all,use-set,type,uid,gid,mode,time,size,sha256,link' \
+          .PKGINFO usr
+        env LANG=C fakeroot -- bsdtar -cf - .MTREE .PKGINFO usr | zstd -c -T0 > \
+          ../UotanToolbox_Linux_arm64_${{ inputs.VERSION }}.pkg.tar.zst
+        cd ..
+        rm -rf archpkg
+
+    - name: Make rpm-x64
+      run: |
+        mkdir -p rpmpkg/usr/bin rpmpkg/usr/lib/UotanToolbox rpmpkg/usr/share/applications rpmpkg/usr/share/pixmaps
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox rpmpkg/usr/bin/UotanToolbox
+        chmod +x rpmpkg/usr/bin/UotanToolbox
+        cp -r ./publish-x64/* rpmpkg/usr/lib/UotanToolbox/
+        chmod -R a+rX rpmpkg/usr/lib/UotanToolbox/
+        chmod +x rpmpkg/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AMD64/* rpmpkg/usr/lib/UotanToolbox/
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop rpmpkg/usr/share/applications/UotanToolbox.desktop
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png rpmpkg/usr/share/pixmaps/UotanToolbox.png
+        fpm -s dir -t rpm -n uotantoolbox -v ${{ inputs.VERSION }} \
+          -a x86_64 \
+          --maintainer "mujianwu <lrh15563910083@163.com>" \
+          --description "Advanced, Modern Toolbox for Geeks." \
+          --url "https://github.com/Uotan-Dev/UotanToolboxNT" \
+          --license "custom" \
+          -d "usbutils" \
+          -d "android-tools" \
+          -C ./rpmpkg \
+          -p ./UotanToolbox_Linux_x64_${{ inputs.VERSION }}.rpm
+        rm -rf rpmpkg
+
+    - name: Make rpm-arm64
+      run: |
+        mkdir -p rpmpkg/usr/bin rpmpkg/usr/lib/UotanToolbox rpmpkg/usr/share/applications rpmpkg/usr/share/pixmaps
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox rpmpkg/usr/bin/UotanToolbox
+        chmod +x rpmpkg/usr/bin/UotanToolbox
+        cp -r ./publish-arm64/* rpmpkg/usr/lib/UotanToolbox/
+        chmod -R a+rX rpmpkg/usr/lib/UotanToolbox/
+        chmod +x rpmpkg/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AArch64/* rpmpkg/usr/lib/UotanToolbox/
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop rpmpkg/usr/share/applications/UotanToolbox.desktop
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png rpmpkg/usr/share/pixmaps/UotanToolbox.png
+        fpm -s dir -t rpm -n uotantoolbox -v ${{ inputs.VERSION }} \
+          -a aarch64 \
+          --maintainer "mujianwu <lrh15563910083@163.com>" \
+          --description "Advanced, Modern Toolbox for Geeks." \
+          --url "https://github.com/Uotan-Dev/UotanToolboxNT" \
+          --license "custom" \
+          -d "usbutils" \
+          -d "android-tools" \
+          -C ./rpmpkg \
+          -p ./UotanToolbox_Linux_arm64_${{ inputs.VERSION }}.rpm
+        rm -rf rpmpkg
+
+    - name: Make AppImage-x64
+      run: |
+        mkdir -p AppDir/usr/bin AppDir/usr/lib/UotanToolbox AppDir/usr/share/applications AppDir/usr/share/pixmaps
+        cp -r ./publish-x64/* AppDir/usr/lib/UotanToolbox/
+        chmod -R a+rX AppDir/usr/lib/UotanToolbox/
+        chmod +x AppDir/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AMD64/* AppDir/usr/lib/UotanToolbox/
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop AppDir/UotanToolbox.desktop
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png AppDir/UotanToolbox.png
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop AppDir/usr/share/applications/UotanToolbox.desktop
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png AppDir/usr/share/pixmaps/UotanToolbox.png
+        cat > AppDir/AppRun << 'APPEOF'
+        #!/bin/bash
+        HERE="$(dirname "$(readlink -f "${0}")")"
+        exec "$HERE/usr/lib/UotanToolbox/UotanToolbox" "$@"
+        APPEOF
+        sed -i 's/^        //' AppDir/AppRun
+        chmod +x AppDir/AppRun
+        ARCH=x86_64 ./appimagetool-extracted/AppRun AppDir ./UotanToolbox_Linux_x64_${{ inputs.VERSION }}.AppImage
+        rm -rf AppDir
+
+    - name: Make AppImage-arm64
+      run: |
+        mkdir -p AppDir/usr/bin AppDir/usr/lib/UotanToolbox AppDir/usr/share/applications AppDir/usr/share/pixmaps
+        cp -r ./publish-arm64/* AppDir/usr/lib/UotanToolbox/
+        chmod -R a+rX AppDir/usr/lib/UotanToolbox/
+        chmod +x AppDir/usr/lib/UotanToolbox/UotanToolbox
+        cp -r ./UotanToolboxNT.Binary/Linux_AArch64/* AppDir/usr/lib/UotanToolbox/
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop AppDir/UotanToolbox.desktop
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png AppDir/UotanToolbox.png
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.desktop AppDir/usr/share/applications/UotanToolbox.desktop
+        cp /home/runner/work/UotanToolboxNT/UotanToolboxNT/UotanToolbox/Assets/Linux/UotanToolbox.png AppDir/usr/share/pixmaps/UotanToolbox.png
+        cat > AppDir/AppRun << 'APPEOF'
+        #!/bin/bash
+        HERE="$(dirname "$(readlink -f "${0}")")"
+        exec "$HERE/usr/lib/UotanToolbox/UotanToolbox" "$@"
+        APPEOF
+        sed -i 's/^        //' AppDir/AppRun
+        chmod +x AppDir/AppRun
+        ARCH=aarch64 ./appimagetool-extracted/AppRun --runtime-file runtime-aarch64 AppDir ./UotanToolbox_Linux_arm64_${{ inputs.VERSION }}.AppImage
+        rm -rf AppDir
+
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: Linux-Package
+        path: ./UotanToolbox_Linux*

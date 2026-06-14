@@ -35,7 +35,7 @@ namespace UotanToolbox.Common
         public static string sdhtable = "";
         public static string emmcrom = "";
         //工具箱版本
-        public static string currentVersion = "3.6.1";
+        public static string currentVersion = "3.7.0";
         public static bool isLightThemeChanged = false;
         //主页的Dialog
         public static ISukiDialogManager MainDialogManager = null!;

@@ -21,10 +21,10 @@
 		<string>MacOSX</string>
 	</array>
 	<key>CFBundleShortVersionString</key>
-	<string>3.6.1</string>
+	<string>3.7.0</string>
 	<key>CFBundleVersion</key>
-	<string>3.6.1</string>
+	<string>3.7.0</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2020-2025 UOTAN All rights reserved.</string>
+	<string>Copyright © 2020-2026 UOTAN All rights reserved.</string>
 </dict>
 </plist>

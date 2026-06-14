@@ -61,7 +61,7 @@
 		<PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" Version="3.119.1" />
 		<PackageReference Include="SukiUI" Version="6.0.1" />
 		<PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.2" />
-		<PackageReference Include="Tmds.DBus.Protocol" Version="0.94.1" />
+		<PackageReference Include="Tmds.DBus.Protocol" Version="0.20.0" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.7" />
 	</ItemGroup>
 

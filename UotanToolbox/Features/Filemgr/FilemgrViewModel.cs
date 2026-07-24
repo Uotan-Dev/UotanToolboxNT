@@ -2114,7 +2114,7 @@ public partial class FilemgrViewModel : MainPageBase
             });
         }
     }
-    
+
     /// <summary>
     /// <para>批量删除选中的文件或目录。弹出确认对话框后逐个执行 ADB shell rm 命令。</para>
     /// Batch deletes selected files or directories. Shows a confirmation dialog, then executes ADB shell rm commands one by one.

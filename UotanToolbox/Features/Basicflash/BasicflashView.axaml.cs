@@ -123,7 +123,7 @@ public partial class BasicflashView : UserControl
                 }
                 else if (string.IsNullOrEmpty(UnlockFile.Text) && !string.IsNullOrEmpty(UnlockCode.Text))
                 {
-                    if (UnlockBand.SelectedItem.ToString() == GetTranslation("Band_Common"))
+                    if (UnlockBand.SelectedItem!.ToString() == GetTranslation("Band_Common"))
                     {
                         string output = await Fastboot(Global.thisdevice, $"oem unlock {UnlockCode.Text}");
                         FileHelper.Write(unlock_log_path, output);
@@ -333,7 +333,7 @@ public partial class BasicflashView : UserControl
                                                 {
                                                     BusyBaseUnlock.IsBusy = true;
                                                     BaseUnlockPanel.IsEnabled = false;
-                                                    await Fastboot(Global.thisdevice, SimpleContent.SelectedItem.ToString());
+                                                    await Fastboot(Global.thisdevice, SimpleContent.SelectedItem!.ToString()!);
                                                     Global.MainDialogManager.CreateDialog()
                                                     .WithTitle(GetTranslation("Common_Execution"))
                                                     .OfType(NotificationType.Information)
@@ -379,8 +379,8 @@ public partial class BasicflashView : UserControl
 
     private async void OpenRecFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
-        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        TopLevel? topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel!.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open File",
             AllowMultiple = false
@@ -567,7 +567,7 @@ public partial class BasicflashView : UserControl
                 RebootPanel.IsEnabled = false;
                 if (RebootComm.SelectedItem != null)
                 {
-                    await FeaturesHelper.AdbCmd(Global.thisdevice, RebootComm.SelectedItem.ToString());
+                    await FeaturesHelper.AdbCmd(Global.thisdevice, RebootComm.SelectedItem!.ToString()!);
                     Global.MainDialogManager.CreateDialog()
                                         .WithTitle(GetTranslation("Common_Execution"))
                                         .OfType(NotificationType.Information)
@@ -610,8 +610,8 @@ public partial class BasicflashView : UserControl
         patch_busy(true);
         try
         {
-            TopLevel topLevel = TopLevel.GetTopLevel(this);
-            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            TopLevel? topLevel = TopLevel.GetTopLevel(this);
+            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel!.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 FileTypeFilter = new[] { Zip },
                 Title = "Open File",
@@ -623,7 +623,7 @@ public partial class BasicflashView : UserControl
                 return;
             }
             MagiskFile.Text = files[0].TryGetLocalPath();
-            Global.Zipinfo = await PatchDetect.Patch_Detect(MagiskFile.Text);
+            Global.Zipinfo = await PatchDetect.Patch_Detect(MagiskFile.Text!);
             Global.MainDialogManager.CreateDialog()
                                         .OfType(NotificationType.Information)
                                         .WithContent($"{GetTranslation("Basicflash_DetectZIP")}\nUseful:{Global.Zipinfo.IsUseful}\nMode:{Global.Zipinfo.Mode}")
@@ -653,8 +653,8 @@ public partial class BasicflashView : UserControl
         patch_busy(true);
         try
         {
-            TopLevel topLevel = TopLevel.GetTopLevel(this);
-            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            TopLevel? topLevel = TopLevel.GetTopLevel(this);
+            System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel!.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 FileTypeFilter = new[] { Image },
                 Title = "Open File",
@@ -666,7 +666,7 @@ public partial class BasicflashView : UserControl
                 return;
             }
             BootFile.Text = files[0].TryGetLocalPath();
-            Global.Bootinfo = await ImageDetect.Boot_Detect(BootFile.Text);
+            Global.Bootinfo = await ImageDetect.Boot_Detect(BootFile.Text!);
             ArchList.SelectedItem = Global.Bootinfo.Arch;
             Global.MainDialogManager.CreateDialog()
                                         .OfType(NotificationType.Information)
@@ -691,11 +691,11 @@ public partial class BasicflashView : UserControl
         patch_busy(true);
         try
         {
-            EnvironmentVariable.KEEPVERITY = (bool)KEEPVERITY.IsChecked;
-            EnvironmentVariable.KEEPFORCEENCRYPT = (bool)KEEPFORCEENCRYPT.IsChecked;
-            EnvironmentVariable.PATCHVBMETAFLAG = (bool)PATCHVBMETAFLAG.IsChecked;
-            EnvironmentVariable.RECOVERYMODE = (bool)RECOVERYMODE.IsChecked;
-            EnvironmentVariable.LEGACYSAR = (bool)LEGACYSAR.IsChecked;
+            EnvironmentVariable.KEEPVERITY = (bool)KEEPVERITY.IsChecked!;
+            EnvironmentVariable.KEEPFORCEENCRYPT = (bool)KEEPFORCEENCRYPT.IsChecked!;
+            EnvironmentVariable.PATCHVBMETAFLAG = (bool)PATCHVBMETAFLAG.IsChecked!;
+            EnvironmentVariable.RECOVERYMODE = (bool)RECOVERYMODE.IsChecked!;
+            EnvironmentVariable.LEGACYSAR = (bool)LEGACYSAR.IsChecked!;
             if (string.IsNullOrEmpty(PREINITDEVICE.Text))
             {
                 EnvironmentVariable.PREINITDEVICE = "";
@@ -710,10 +710,10 @@ public partial class BasicflashView : UserControl
             }
             if ((Global.Zipinfo.Mode == PatchMode.None) | (Global.Zipinfo.IsUseful != true))
             {
-                Global.Zipinfo = await PatchDetect.Patch_Detect(MagiskFile.Text);
+                Global.Zipinfo = await PatchDetect.Patch_Detect(MagiskFile.Text!);
             }
             string part = Global.Bootinfo.Path;
-            string newboot = null;
+            string? newboot = null;
             switch (Global.Zipinfo.Mode)
             {
                 case PatchMode.Magisk:
@@ -733,12 +733,12 @@ public partial class BasicflashView : UserControl
                                         .OfType(NotificationType.Success)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
                                         {
-                                            await FlashBoot(newboot, Path.GetFileNameWithoutExtension(part));
-                                            FileHelper.OpenFolder(Path.Combine(Path.GetDirectoryName(newboot)));
+                                            await FlashBoot(newboot!, Path.GetFileNameWithoutExtension(part));
+                                            FileHelper.OpenFolder(Path.Combine(Path.GetDirectoryName(newboot)!));
                                         }, true)
                                         .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ =>
                                         {
-                                            FileHelper.OpenFolder(Path.Combine(Path.GetDirectoryName(newboot)));
+                                            FileHelper.OpenFolder(Path.Combine(Path.GetDirectoryName(newboot)!));
                                         }, true)
                                         .TryShow();
             Global.Zipinfo = new PatchInfo("", "", false, PatchMode.None);

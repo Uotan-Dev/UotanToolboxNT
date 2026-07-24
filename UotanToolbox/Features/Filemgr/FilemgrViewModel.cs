@@ -84,7 +84,7 @@ public partial class FilemgrViewModel : MainPageBase
     /// The currently selected file entry for context menu operations.
     /// </summary>
     [ObservableProperty]
-    private FileEntry _selectedFile;
+    private FileEntry? _selectedFile;
 
     /// <summary>
     /// <para>快捷访问目录列表。</para>
@@ -121,7 +121,7 @@ public partial class FilemgrViewModel : MainPageBase
     [ObservableProperty]
     private bool _isDeviceConnected;
 
-    string RootMode { get; set; }
+    string RootMode { get; set; } = string.Empty;
 
     /// <summary>
     /// <para>剪贴板中存储的文件条目列表，支持批量操作。</para>

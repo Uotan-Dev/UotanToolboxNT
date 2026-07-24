@@ -67,7 +67,7 @@ namespace UotanToolbox.Common.PatchHelper
                 Flag_PATCHVBMETAFLAG = EnvironmentVariable.PATCHVBMETAFLAG,
                 Flag_LEGACYSAR = EnvironmentVariable.LEGACYSAR,
                 Flag_PREINITDEVICE = EnvironmentVariable.PREINITDEVICE,
-                NewFilePath = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "magisk_patched_" + randomStr + ".img"),
+                NewFilePath = Path.Combine(Path.GetDirectoryName(bootInfo.Path) ?? bootInfo.Path, "magisk_patched_" + randomStr + ".img"),
                 CleanupAfterComplete = true
             };
 
@@ -90,7 +90,7 @@ namespace UotanToolbox.Common.PatchHelper
                 throw new Exception(message);
             }
 
-            return patchResult.Details.NewFilePath;
+            return patchResult.Details!.NewFilePath ?? throw new Exception("Magisk patch succeeded but NewFilePath was null.");
         }
 
 
@@ -133,7 +133,7 @@ namespace UotanToolbox.Common.PatchHelper
             await kernel_patch(bootInfo, EnvironmentVariable.LEGACYSAR);
             CleanBoot(bootInfo.TempPath);
             (mb_output, exitcode) = await CallExternalProgram.MagiskBoot($"repack \"{bootInfo.Path}\"", bootInfo.TempPath);
-            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "magisk_patched_" + randomStr + ".img");
+            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path) ?? bootInfo.Path, "magisk_patched_" + randomStr + ".img");
             File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
             return newboot;
         }

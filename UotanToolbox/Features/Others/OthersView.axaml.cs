@@ -574,7 +574,7 @@ public partial class OthersView : UserControl
         {
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                string? text = button.Content.ToString();
                 if (text != null)
                 {
                     int zoom = StringHelper.Onlynum(text);
@@ -621,7 +621,7 @@ public partial class OthersView : UserControl
         {
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                string? text = button.Content.ToString();
                 if (text != null)
                 {
                     int zoom = StringHelper.Onlynum(text);
@@ -667,7 +667,7 @@ public partial class OthersView : UserControl
         {
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                string? text = button.Content.ToString();
                 if (text != null)
                 {
                     int zoom = StringHelper.Onlynum(text);
@@ -713,7 +713,7 @@ public partial class OthersView : UserControl
         {
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                string? text = button.Content.ToString();
                 if (text != null)
                 {
                     int zoom = StringHelper.Onlynum(text);

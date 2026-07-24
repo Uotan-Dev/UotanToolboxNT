@@ -456,7 +456,7 @@ public partial class FormatExtractView : UserControl
                         {
                             Thread.Sleep(1000);
                         });
-                        string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
+                        string? partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname)!, partname);
                         string shell = string.Format($"-s {Global.thisdevice} shell {formatsystem} /dev/block/{sdxx}{partnum}");
                         await ADB(shell);
                     }
@@ -625,7 +625,7 @@ public partial class FormatExtractView : UserControl
                     string sdxx = FeaturesHelper.FindDisk(partname);
                     if (sdxx != "")
                     {
-                        string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
+                        string? partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname)!, partname);
                         string shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of={partname}.img");
                         await ADB(shell);
                         FileHelper.Write(adb_log_path, output);
@@ -680,7 +680,7 @@ public partial class FormatExtractView : UserControl
                                                     string sdxx = FeaturesHelper.FindDisk(partname);
                                                     if (sdxx != "")
                                                     {
-                                                        string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
+                                                        string? partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname)!, partname);
                                                         string shell = string.Format($"-s {Global.thisdevice} shell dd if=/dev/block/{sdxx}{partnum} of=/tmp/{partname}.img");
                                                         await ADB(shell);
                                                         FileHelper.Write(adb_log_path, output);
@@ -714,7 +714,7 @@ public partial class FormatExtractView : UserControl
                                                     string sdxx = FeaturesHelper.FindDisk(partname);
                                                     if (sdxx != "")
                                                     {
-                                                        string partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname), partname);
+                                                        string? partnum = StringHelper.Partno(FeaturesHelper.FindPart(partname)!, partname);
                                                         string shell = string.Format($"-s {Global.thisdevice} shell su -c \"dd if=/dev/block/{sdxx}{partnum} of=/sdcard/{partname}.img\"");
                                                         await ADB(shell);
                                                         FileHelper.Write(adb_log_path, output);

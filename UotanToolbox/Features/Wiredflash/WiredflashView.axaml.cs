@@ -187,7 +187,7 @@ public partial class WiredflashView : UserControl
 
     private async void OpenFastbootFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             FileTypeFilter = new[] { FastbootTXT },
@@ -202,7 +202,7 @@ public partial class WiredflashView : UserControl
 
     private async void OpenFastbootdFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             FileTypeFilter = new[] { FastbootdTXT },
@@ -256,8 +256,8 @@ public partial class WiredflashView : UserControl
                 if (!string.IsNullOrEmpty(FastbootFile.Text) || !string.IsNullOrEmpty(FastbootdFile.Text))
                 {
                     bool succ = true;
-                    string fbtxt = FastbootFile.Text;
-                    string fbdtxt = FastbootdFile.Text;
+                    string? fbtxt = FastbootFile.Text;
+                    string? fbdtxt = FastbootdFile.Text;
                     WiredflashLog.Text = "";
                     output = "";
                     string imgpath;
@@ -299,7 +299,7 @@ public partial class WiredflashView : UserControl
                                     {
                                         zstname = zstname + ".img";
                                     }
-                                    string outfile = Path.Combine(Path.GetDirectoryName(filepath), zstname);
+                                    string outfile = Path.Combine(Path.GetDirectoryName(filepath)!, zstname);
                                     var zstout = File.OpenWrite(outfile);
                                     var decompress = new DecompressionStream(zstfile);
                                     await decompress.CopyToAsync(zstout);
@@ -308,7 +308,7 @@ public partial class WiredflashView : UserControl
                                     zstfile.Close();
                                     filepath = outfile;
                                 }
-                                if (partandpath[0].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)
+                                if (partandpath[0].Contains("vbmeta") && DisVbmeta.IsChecked.GetValueOrDefault())
                                 {
                                     await Fastboot($"-s {Global.thisdevice} {Global.VbmetaCommand} flash {partandpath[0]} \"{filepath}\"");
                                 }
@@ -319,12 +319,12 @@ public partial class WiredflashView : UserControl
                             }
                             else
                             {
-                                if ((fbflashparts[i] == Global.SetBoot) && (bool)AddRoot.IsChecked && !string.IsNullOrEmpty(Global.MagiskAPKPath))
+                                if ((fbflashparts[i] == Global.SetBoot) && AddRoot.IsChecked.GetValueOrDefault() && !string.IsNullOrEmpty(Global.MagiskAPKPath))
                                 {
                                     WiredflashLog.Text += GetTranslation("Wiredflash_RepairBoot");
                                     Global.Bootinfo = await ImageDetect.Boot_Detect($"{imgpath}/{fbflashparts[i]}.img");
                                     Global.Zipinfo = await PatchDetect.Patch_Detect(Global.MagiskAPKPath);
-                                    string newboot = null;
+                                    string? newboot = null;
                                     switch (Global.Zipinfo.Mode)
                                     {
                                         case PatchMode.Magisk:
@@ -339,7 +339,7 @@ public partial class WiredflashView : UserControl
                                     }
                                     await Fastboot($"-s {Global.thisdevice} flash {Global.SetBoot} \"{newboot}\"");
                                 }
-                                else if (fbflashparts[i].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)
+                                else if (fbflashparts[i].Contains("vbmeta") && DisVbmeta.IsChecked.GetValueOrDefault())
                                 {
                                     await Fastboot($"-s {Global.thisdevice} {Global.VbmetaCommand} flash {fbflashparts[i]} \"{imgpath}/{fbflashparts[i]}.img\"");
                                 }
@@ -423,7 +423,7 @@ public partial class WiredflashView : UserControl
                                 }
                             }
                         }
-                        string slot = "";
+                        string? slot = "";
                         FileHelper.Write(update_status, await Fastboot($"-s {Global.thisdevice} getvar snapshot-update-status"));
                         string active = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar current-slot");
                         if (active.Contains("current-slot: a"))
@@ -527,7 +527,7 @@ public partial class WiredflashView : UserControl
                                     {
                                         if (!partandpath[0].Contains("super_empty"))
                                         {
-                                            if (partandpath[0].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)
+                                            if (partandpath[0].Contains("vbmeta") && DisVbmeta.IsChecked.GetValueOrDefault())
                                             {
                                                 await Fastboot($"-s {Global.thisdevice} {Global.VbmetaCommand} flash {partandpath[0]} \"{fbdtxt[..fbdtxt.LastIndexOf('/')]}{partandpath[1]}\"");
                                             }
@@ -542,7 +542,7 @@ public partial class WiredflashView : UserControl
                                 {
                                     if (!fbdflashparts[i].Contains("super_empty"))
                                     {
-                                        if (fbdflashparts[i].Contains("vbmeta") && (bool)DisVbmeta.IsChecked)
+                                        if (fbdflashparts[i].Contains("vbmeta") && DisVbmeta.IsChecked.GetValueOrDefault())
                                         {
                                             await Fastboot($"-s {Global.thisdevice} {Global.VbmetaCommand} flash {fbdflashparts[i]} \"{imgpath}/{fbdflashparts[i]}.img\"");
                                         }
@@ -621,7 +621,7 @@ public partial class WiredflashView : UserControl
 
     private async void OpenSideloadFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             FileTypeFilter = new[] { ZIP },
@@ -636,7 +636,7 @@ public partial class WiredflashView : UserControl
 
     private async void OpenUpdatedFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             FileTypeFilter = new[] { ZIP },
@@ -652,7 +652,7 @@ public partial class WiredflashView : UserControl
     {
         if (Global.System == "Windows")
         {
-            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            TopLevel topLevel = TopLevel.GetTopLevel(this)!;
             System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 FileTypeFilter = new[] { Bat },
@@ -662,7 +662,7 @@ public partial class WiredflashView : UserControl
             if (files.Count >= 1)
             {
                 BatFile.Text = files[0].TryGetLocalPath();
-                string batfile = FileHelper.Readtxt(BatFile.Text);
+                string batfile = FileHelper.Readtxt(BatFile.Text!);
                 if (batfile.Contains("oem lock"))
                 {
                     Global.MainDialogManager.CreateDialog()
@@ -677,7 +677,7 @@ public partial class WiredflashView : UserControl
         }
         else
         {
-            TopLevel topLevel = TopLevel.GetTopLevel(this);
+            TopLevel topLevel = TopLevel.GetTopLevel(this)!;
             System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
                 FileTypeFilter = new[] { Sh },
@@ -687,7 +687,7 @@ public partial class WiredflashView : UserControl
             if (files.Count >= 1)
             {
                 BatFile.Text = files[0].TryGetLocalPath();
-                string batfile = FileHelper.Readtxt(BatFile.Text);
+                string batfile = FileHelper.Readtxt(BatFile.Text!);
                 if (batfile.Contains("oem lock"))
                 {
                     Global.MainDialogManager.CreateDialog()

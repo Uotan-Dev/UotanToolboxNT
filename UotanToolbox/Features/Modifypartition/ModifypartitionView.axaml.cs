@@ -231,7 +231,7 @@ public partial class ModifypartitionView : UserControl
                     {
                         string[] partinfos = parts[i].Split([':', ' '], StringSplitOptions.RemoveEmptyEntries);
                         string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
-                        part[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
+                        part[i] = new PartModel(i.ToString(), null!, null!, size, null!, partinfos[2], null!);
                     }
                     Parts = new ObservableCollection<PartModel>(part);
                     PartList.ItemsSource = Parts;
@@ -249,7 +249,7 @@ public partial class ModifypartitionView : UserControl
                     string allinfo = await FeaturesHelper.FastbootCmd(Global.thisdevice, "getvar all");
                     string[] parts = new string[1000];
                     string[] allinfos = allinfo.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-                    if ((bool)ShowAllPart.IsChecked)
+                    if (ShowAllPart.IsChecked == true)
                     {
                         for (int i = 0; i < allinfos.Length; i++)
                         {
@@ -264,7 +264,7 @@ public partial class ModifypartitionView : UserControl
                         {
                             string[] partinfos = parts[i].Split([':', ' '], StringSplitOptions.RemoveEmptyEntries);
                             string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
-                            part[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
+                            part[i] = new PartModel(i.ToString(), null!, null!, size, null!, partinfos[2], null!);
                         }
                         Parts = new ObservableCollection<PartModel>(part);
                     }
@@ -290,7 +290,7 @@ public partial class ModifypartitionView : UserControl
                                     if (partinfos[2] == parts[i])
                                     {
                                         string size = StringHelper.byte2AUnit((ulong)Convert.ToInt64(partinfos[3].Replace("0x", ""), 16));
-                                        vpart[i] = new PartModel(i.ToString(), null, null, size, null, partinfos[2], null);
+                                        vpart[i] = new PartModel(i.ToString(), null!, null!, size, null!, partinfos[2], null!);
                                     }
                                 }
                             }

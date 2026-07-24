@@ -68,7 +68,7 @@ namespace UotanToolbox.Common
         {
             if (Global.DeviceManager == null)
             {
-                Global.deviceslist = null;
+                Global.deviceslist.Clear();
                 return false;
             }
 
@@ -96,7 +96,7 @@ namespace UotanToolbox.Common
             }
             else
             {
-                Global.deviceslist = null;
+                Global.deviceslist.Clear();
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
                 sukiViewModel.Status = "--";
                 sukiViewModel.BLStatus = "--";

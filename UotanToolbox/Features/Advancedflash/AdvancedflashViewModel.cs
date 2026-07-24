@@ -30,17 +30,17 @@ public partial class FalshPartModel : ObservableObject
     private bool selectDis = true;
 
     [ObservableProperty]
-    private string command;
+    private string command = string.Empty;
 
     [ObservableProperty]
-    private string size;
+    private string size = string.Empty;
 
     [ObservableProperty]
-    private string name;
+    private string name = string.Empty;
 
     [ObservableProperty]
-    private string fileName;
+    private string fileName = string.Empty;
 
     [ObservableProperty]
-    private string fullFilePath;
+    private string fullFilePath = string.Empty;
 }

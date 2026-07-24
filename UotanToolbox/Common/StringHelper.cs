@@ -38,7 +38,7 @@ namespace UotanToolbox.Common
             return devices;
         }
 
-        private ISukiDialogManager dialogManager;
+        private ISukiDialogManager? dialogManager;
         public static string[] FastbootDevices(string FastbootInfo)
         {
             string[] devices = new string[20];
@@ -365,7 +365,7 @@ namespace UotanToolbox.Common
             }
             string[] columns = new string[20];
             string[] lines = info.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
-            string targetLine = lines.FirstOrDefault(line => line.Contains(find));
+            string? targetLine = lines.FirstOrDefault(line => line.Contains(find));
             if (targetLine != null)
             {
                 columns = targetLine.Split([' '], StringSplitOptions.RemoveEmptyEntries);
@@ -378,7 +378,7 @@ namespace UotanToolbox.Common
         {
             string[] infos = new string[2];
             string[] lines = info.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
-            string targetLine = lines.FirstOrDefault(line => line.Contains(""));
+            string? targetLine = lines.FirstOrDefault(line => line.Contains(""));
             int j = 0;
             for (int i = 0; i < lines.Length; i++)
             {
@@ -434,7 +434,7 @@ namespace UotanToolbox.Common
         public static string FastbootVar(string info, string find)
         {
             string[] infos = info.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
-            string targetInfo = infos.FirstOrDefault(info => info.Contains(find));
+            string? targetInfo = infos.FirstOrDefault(info => info.Contains(find));
             return targetInfo != null ? ColonSplit(RemoveLineFeed(targetInfo)) : "--";
         }
 
@@ -499,7 +499,7 @@ namespace UotanToolbox.Common
 
         public static async Task<string> GetBinVersion()
         {
-            string sevenzip_version, adb_info, fb_info, file_info;
+            string? sevenzip_version, adb_info, fb_info, file_info;
             try
             {
                 string sevenzip_info = await CallExternalProgram.SevenZip("i");
@@ -541,7 +541,7 @@ namespace UotanToolbox.Common
             return "7za: " + sevenzip_version + "ADB" + adb_info + "Fastboot: " + fb_info + "File: " + file_info;
         }
 
-        public static string Partno(string parttable, string findpart)//分区号
+        public static string? Partno(string parttable, string findpart)//分区号
         {
             string[] parts = parttable.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
             for (int i = 6; i < parts.Length; i++)
@@ -614,7 +614,7 @@ namespace UotanToolbox.Common
         /// <returns>匹配到的字符串信息</returns>
         /// <exception cref="FileNotFoundException">当指定的文件路径不存在时抛出。</exception>
         /// <exception cref="Exception">读取文件出错时抛出</exception>
-        public string FileRegex(string filePath, string regex, int i)
+        public string? FileRegex(string filePath, string regex, int i)
         {
             try
             {
@@ -627,18 +627,18 @@ namespace UotanToolbox.Common
                 }
                 else
                 {
-                    dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"Unable to find {regex} in the file: {filePath}").TryShow();
+                    dialogManager?.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"Unable to find {regex} in the file: {filePath}").TryShow();
                     return null;
                 }
             }
             catch (FileNotFoundException)
             {
-                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"File not found: {filePath}").TryShow();
+                dialogManager?.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"File not found: {filePath}").TryShow();
                 return null;
             }
             catch (Exception ex)
             {
-                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"An error occurred while reading the file: {ex.Message}").TryShow();
+                dialogManager?.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"An error occurred while reading the file: {ex.Message}").TryShow();
                 return null;
             }
         }
@@ -742,7 +742,7 @@ namespace UotanToolbox.Common
             {
                 _ = result.Append(((int)data[i]).ToString("X2") + " ");
             }
-            return Convert.ToString(result);
+            return result.ToString();
         }
     }
 }

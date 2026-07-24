@@ -32,7 +32,7 @@ public partial class HomeViewModel : MainPageBase, IDisposable
     [ObservableProperty] private bool _IsConnecting;
     [ObservableProperty] private bool _commonDevicesList;
     [ObservableProperty] private static AvaloniaList<string> _simpleContent = [];
-    public IAvaloniaReadOnlyList<MainPageBase> DemoPages { get; }
+    public IAvaloniaReadOnlyList<MainPageBase>? DemoPages { get; }
 
     [ObservableProperty] private bool _animationsEnabled;
     [ObservableProperty] private MainPageBase _activePage = null!;
@@ -88,7 +88,7 @@ public partial class HomeViewModel : MainPageBase, IDisposable
             _ = response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
 
-            dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
+            dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody)!;
             SettingsViewModel vm = new SettingsViewModel();
             string version = convertedBody.release_version;
 
@@ -392,7 +392,7 @@ public partial class HomeViewModel : MainPageBase, IDisposable
             }
 
             // compute new sets after scanning
-            var newSets = Global.DeviceManager.Devices
+            var newSets = Global.DeviceManager!.Devices
                 .GroupBy(d => d.Transport)
                 .ToDictionary(g => g.Key, g => new HashSet<string>(g.Select(d => d.Id)));
 

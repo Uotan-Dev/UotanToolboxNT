@@ -185,7 +185,7 @@ public partial class SettingsViewModel : MainPageBase
             _ = response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
 
-            dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody);
+            dynamic convertedBody = JsonConvert.DeserializeObject<dynamic>(responseBody)!;
             SettingsViewModel vm = new SettingsViewModel();
             string version = convertedBody.release_version;
             if (version.Contains("beta"))

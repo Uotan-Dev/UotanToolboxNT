@@ -13,7 +13,7 @@ public class ViewLocator : IDataTemplate
 
     public Control? Build(object? data)
     {
-        string fullName = data?.GetType().FullName;
+        string? fullName = data?.GetType().FullName;
         if (fullName is null)
             return new TextBlock { Text = "Data is null or has no name." };
 
@@ -36,7 +36,10 @@ public class ViewLocator : IDataTemplate
         if (!typeof(Control).IsAssignableFrom(type))
             return new TextBlock { Text = $"Found type {type.FullName} is not a Control." };
 
-        if (!_controlCache.TryGetValue(data!, out Control res))
+        if (data is null)
+            return new TextBlock { Text = "Data is null." };
+
+        if (!_controlCache.TryGetValue(data!, out Control? res))
         {
             res = (Control)Activator.CreateInstance(type)!;
             _controlCache[data!] = res;

@@ -60,7 +60,7 @@ public partial class CustomizedflashView : UserControl
 
     private async void OpenSystemFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
@@ -124,7 +124,7 @@ public partial class CustomizedflashView : UserControl
 
     private async void OpenProductFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
@@ -186,7 +186,7 @@ public partial class CustomizedflashView : UserControl
     }
     private async void OpenVendorFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
@@ -248,7 +248,7 @@ public partial class CustomizedflashView : UserControl
     }
     private async void OpenBootFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
@@ -310,7 +310,7 @@ public partial class CustomizedflashView : UserControl
     }
     private async void OpenSystemextFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
@@ -372,7 +372,7 @@ public partial class CustomizedflashView : UserControl
     }
     private async void OpenOdmFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
@@ -434,7 +434,7 @@ public partial class CustomizedflashView : UserControl
     }
     private async void OpenVendorbootFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
@@ -496,7 +496,7 @@ public partial class CustomizedflashView : UserControl
     }
     private async void OpenInitbootFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",
@@ -558,7 +558,7 @@ public partial class CustomizedflashView : UserControl
     }
     private async void OpenImageFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open Image File",

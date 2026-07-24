@@ -811,7 +811,7 @@ namespace MagiskPatcher
         //调用magiskboot
         static int MagiskBoot(string arguments)
         {
-            (string output, int returnCode) = CallExternalProgram.MagiskBoot(arguments, WorkDir).GetAwaiter().GetResult();
+            (string output, int returnCode) = CallExternalProgram.MagiskBoot(arguments, WorkDir!).GetAwaiter().GetResult();
             return returnCode;
         }
 

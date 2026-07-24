@@ -60,11 +60,11 @@ public partial class HomeView : UserControl
     {
         if (sender is Button button)
         {
-            Avalonia.Input.Platform.IClipboard clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
+            Avalonia.Input.Platform.IClipboard? clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
             DataObject dataObject = new DataObject();
             if (button.Content != null)
             {
-                string text = button.Content.ToString();
+                string? text = button.Content.ToString();
                 if (text != null)
                 {
                     dataObject.Set(DataFormats.Text, text);

@@ -1559,7 +1559,7 @@ public partial class AdvancedflashView : UserControl
                 {
                     if (item.Select == true)
                     {
-                        string slot = "";
+                        string? slot = "";
                         string active = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar current-slot");
                         if (active.Contains("current-slot: a"))
                         {
@@ -1598,7 +1598,7 @@ public partial class AdvancedflashView : UserControl
                             {
                                 zstname = zstname + ".img";
                             }
-                            string outfile = Path.Combine(Path.GetDirectoryName(item.FullFilePath), zstname);
+                            string outfile = Path.Combine(Path.GetDirectoryName(item.FullFilePath)!, zstname);
                             var zstout = System.IO.File.OpenWrite(outfile);
                             var decompress = new DecompressionStream(zstfile);
                             await decompress.CopyToAsync(zstout);
@@ -1616,7 +1616,7 @@ public partial class AdvancedflashView : UserControl
                             AdvancedflashLog.Text += GetTranslation("Wiredflash_RepairBoot");
                             Global.Bootinfo = await ImageDetect.Boot_Detect(item.FullFilePath);
                             Global.Zipinfo = await PatchDetect.Patch_Detect(Global.MagiskAPKPath);
-                            string newboot = null;
+                            string? newboot = null;
                             switch (Global.Zipinfo.Mode)
                             {
                                 case PatchMode.Magisk:
@@ -1774,7 +1774,7 @@ public partial class AdvancedflashView : UserControl
                             AdvancedflashLog.Text += GetTranslation("Wiredflash_RepairBoot");
                             Global.Bootinfo = await ImageDetect.Boot_Detect(item.FullFilePath);
                             Global.Zipinfo = await PatchDetect.Patch_Detect(Global.MagiskAPKPath);
-                            string newboot = null;
+                            string? newboot = null;
                             switch (Global.Zipinfo.Mode)
                             {
                                 case PatchMode.Magisk:

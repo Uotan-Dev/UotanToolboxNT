@@ -31,8 +31,8 @@ public partial class FlashVbmetaDialogView : UserControl
 
     private async void SelectVbmeta(object sender, RoutedEventArgs args)
     {
-        string command = CommandList.SelectedItem.ToString();
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        string command = CommandList.SelectedItem!.ToString()!;
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             Title = "Open File",
@@ -46,7 +46,7 @@ public partial class FlashVbmetaDialogView : UserControl
             {
                 for (int i = 0; i < files.Count; i++)
                 {
-                    await _owner.Fastboot($"-s {Global.thisdevice} {command} flash {Path.GetFileNameWithoutExtension(files[i].Name)} \"{files[i].TryGetLocalPath()}\"");
+                    await _owner!.Fastboot($"-s {Global.thisdevice} {command} flash {Path.GetFileNameWithoutExtension(files[i].Name)} \"{files[i].TryGetLocalPath()}\"");
                 }
             }
             finally
@@ -59,7 +59,7 @@ public partial class FlashVbmetaDialogView : UserControl
 
     private async void Continue(object sender, RoutedEventArgs args)
     {
-        _owner.CustomizedflashLog.Text = "";
+        _owner!.CustomizedflashLog.Text = "";
         Global.checkdevice = false;
         try
         {

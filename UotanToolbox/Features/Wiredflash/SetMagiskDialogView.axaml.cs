@@ -24,7 +24,7 @@ public partial class SetMagiskDialogView : UserControl
 
     private async void OpenMagiskFile(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
+        TopLevel topLevel = TopLevel.GetTopLevel(this)!;
         System.Collections.Generic.IReadOnlyList<IStorageFile> files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
             FileTypeFilter = new[] { Zip },
@@ -39,8 +39,8 @@ public partial class SetMagiskDialogView : UserControl
 
     private async void Confirm(object sender, RoutedEventArgs args)
     {
-        Global.MagiskAPKPath = MagiskFile.Text;
-        Global.SetBoot = BootImagesList.SelectedItem.ToString();
+        Global.MagiskAPKPath = MagiskFile.Text!;
+        Global.SetBoot = BootImagesList.SelectedItem!.ToString()!;
         Global.MainDialogManager.DismissDialog();
     }
 

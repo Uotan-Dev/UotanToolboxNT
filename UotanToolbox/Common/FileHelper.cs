@@ -19,7 +19,7 @@ namespace UotanToolbox.Common
         {
             return FeaturesHelper.GetTranslation(key);
         }
-        private ISukiDialogManager dialogManager;
+        private static ISukiDialogManager? dialogManager;
         public static void CopyDirectory(string srcPath, string aimPath)
         {
             try
@@ -95,7 +95,7 @@ namespace UotanToolbox.Common
         /// </summary>
         /// <param name="filePath">要计算哈希值的文件路径。</param>
         /// <returns>文件的SHA1哈希值，表示为32位小写字母和数字的字符串。</returns>
-        public string SHA1Hash(string filePath)
+        public string? SHA1Hash(string filePath)
         {
             try
             {
@@ -106,17 +106,17 @@ namespace UotanToolbox.Common
             }
             catch (FileNotFoundException)
             {
-                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"The file '{filePath}' was not found.").TryShow();
+                dialogManager?.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"The file '{filePath}' was not found.").TryShow();
                 throw;
             }
             catch (UnauthorizedAccessException)
             {
-                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"Access to the file '{filePath}' is denied.").TryShow();
+                dialogManager?.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"Access to the file '{filePath}' is denied.").TryShow();
                 throw;
             }
             catch (Exception ex)
             {
-                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}").TryShow();
+                dialogManager?.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent($"An unexpected error occurred while computing the SHA1 hash of '{filePath}': {ex.Message}").TryShow();
                 return null;
             }
         }
@@ -269,8 +269,8 @@ namespace UotanToolbox.Common
                 FileInfo fileInfo = new FileInfo(path);
                 return fileInfo.Length is >= (10 * 1024) and <= (200 * 1024);
             });
-            string[] fileNames = [.. filteredFiles.Select(Path.GetFileName)];
-            return fileNames;
+            string?[] fileNames = [.. filteredFiles.Select(Path.GetFileName)];
+            return fileNames.Where(n => n != null).Cast<string>().ToArray();
         }
         /*
         /// <summary>

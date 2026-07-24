@@ -22,15 +22,15 @@ public partial class ScrcpyView : UserControl
 
     private async void OpenFolderButton_Clicked(object sender, RoutedEventArgs args)
     {
-        TopLevel topLevel = TopLevel.GetTopLevel(this);
-        System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        TopLevel? topLevel = TopLevel.GetTopLevel(this);
+        System.Collections.Generic.IReadOnlyList<IStorageFolder> files = await topLevel!.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
             Title = "Open Folder",
             AllowMultiple = false
         });
         if (files.Count >= 1)
         {
-            if (FileHelper.TestPermission(files[0].TryGetLocalPath()))
+            if (FileHelper.TestPermission(files[0].TryGetLocalPath()!))
             {
                 RecordFolder.Text = files[0].TryGetLocalPath();
             }

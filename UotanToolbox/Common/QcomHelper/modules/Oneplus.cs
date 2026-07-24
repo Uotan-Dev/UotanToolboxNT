@@ -135,7 +135,7 @@ namespace UotanToolbox.Common.QcomHelper.modules
                     }
                     else
                     {
-                        return Encoding.UTF8.GetString(result).Split(',').ToString();
+                        return string.Join(',', Encoding.UTF8.GetString(result).Split(','));
                     }
                 }
                 else
@@ -192,7 +192,7 @@ namespace UotanToolbox.Common.QcomHelper.modules
                     }
                     else
                     {
-                        return Encoding.UTF8.GetString(result).Split(',').ToString();
+                        return string.Join(',', Encoding.UTF8.GetString(result).Split(','));
                     }
                 }
                 else

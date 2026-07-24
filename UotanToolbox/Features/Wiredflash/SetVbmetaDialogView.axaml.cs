@@ -17,7 +17,7 @@ public partial class SetVbmetaDialogView : UserControl
 
     private async void Confirm(object sender, RoutedEventArgs args)
     {
-        Global.VbmetaCommand = CommandList.SelectedItem.ToString();
+        Global.VbmetaCommand = CommandList.SelectedItem!.ToString()!;
         Global.MainDialogManager.DismissDialog();
     }
 

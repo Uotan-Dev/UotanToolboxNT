@@ -39,7 +39,7 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty] private bool _animationsEnabled;
     [ObservableProperty] private MainPageBase _activePage = null!;
     [ObservableProperty] private SukiBackgroundStyle _backgroundStyle = SukiBackgroundStyle.Gradient;
-    [ObservableProperty] private string _customShaderFile;
+    [ObservableProperty] private string _customShaderFile = string.Empty;
     [ObservableProperty] private bool _transitionsEnabled;
     [ObservableProperty] private double _transitionTime;
 
@@ -61,7 +61,7 @@ public partial class MainViewModel : ObservableObject
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);
         _theming.BackgroundStyleChanged += style => BackgroundStyle = style;
         _theming.BackgroundAnimationsChanged += enabled => AnimationsEnabled = enabled;
-        _theming.CustomBackgroundStyleChanged += shader => CustomShaderFile = shader;
+        _theming.CustomBackgroundStyleChanged += shader => CustomShaderFile = shader!;
         _theming.BackgroundTransitionsChanged += enabled => TransitionsEnabled = enabled;
         BackgroundStyles = new AvaloniaList<SukiBackgroundStyle>(Enum.GetValues<SukiBackgroundStyle>());
         _theme = SukiTheme.GetInstance();

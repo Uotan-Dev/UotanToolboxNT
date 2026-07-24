@@ -14,7 +14,7 @@ namespace UotanToolbox.Common
         }
         private readonly string _filePath = filePath;
         private readonly string _function = function.ToLower();
-        private ISukiDialogManager dialogManager;
+        private ISukiDialogManager? dialogManager;
 
         public bool Run()
         {
@@ -29,19 +29,19 @@ namespace UotanToolbox.Common
             }
             if (_function is not "oemunlockon" and not "oemunlockoff")
             {
-                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent("{%c_e%}参数错误{%c_i%}{\n}").TryShow();
+                dialogManager?.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent("{%c_e%}参数错误{%c_i%}{\n}").TryShow();
                 return false;
             }
             if (!File.Exists(_filePath))
             {
-                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent("{%c_e%}找不到{_filePath}{%c_i%}{\n}").TryShow();
+                dialogManager?.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent("{%c_e%}找不到{_filePath}{%c_i%}{\n}").TryShow();
                 return false;
             }
             byte[] fileBytes = File.ReadAllBytes(_filePath);
             byte lastByte = fileBytes[^1];
             if (lastByte is not 0x00 and not 0x01)
             {
-                dialogManager.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent("frp文件末尾1字节16进制数值不是00或01").TryShow();
+                dialogManager?.CreateDialog().OfType(NotificationType.Error).WithTitle(GetTranslation("Common_Error")).WithActionButton(GetTranslation("Common_Know"), _ => { }, true).WithContent("frp文件末尾1字节16进制数值不是00或01").TryShow();
                 return false;
             }
             if (lastByte == target)
@@ -53,7 +53,7 @@ namespace UotanToolbox.Common
                 byte[] bytes = File.ReadAllBytes(_filePath);
                 bytes[^1] = target;
                 File.WriteAllBytes(_filePath, bytes);
-                dialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent("frp文件修补成功").Dismiss().ByClickingBackground().TryShow();
+                dialogManager?.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent("frp文件修补成功").Dismiss().ByClickingBackground().TryShow();
                 return true;
             }
             catch

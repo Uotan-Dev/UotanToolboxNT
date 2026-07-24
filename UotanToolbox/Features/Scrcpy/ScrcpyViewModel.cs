@@ -25,7 +25,7 @@ public partial class ScrcpyViewModel : MainPageBase
                         _forwardAudio = true;
     [ObservableProperty] private int _angle = 0;
     [ObservableProperty] private bool _IsConnecting;
-    [ObservableProperty] private string _windowTitle, _recordFolder, _virtualScreenPackage, _virtualScreenDisplaySize;
+    [ObservableProperty] private string? _windowTitle, _recordFolder, _virtualScreenPackage, _virtualScreenDisplaySize;
 
     [ObservableProperty][Range(0d, 50d)] private double _bitRate = 8;
     [ObservableProperty][Range(0d, 144d)] private double _frameRate = 60;

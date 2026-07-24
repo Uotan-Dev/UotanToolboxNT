@@ -28,7 +28,7 @@ namespace UotanToolbox.Common.PatchHelper
             string allowedChars = "abcdef0123456789";
             Random random = new Random();
             string randomStr = new string([.. Enumerable.Repeat(allowedChars, 16).Select(s => s[random.Next(s.Length)])]);
-            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "lkm_patched_" + randomStr + ".img");
+            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path) ?? bootInfo.Path, "lkm_patched_" + randomStr + ".img");
             File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
             return newboot;
         }
@@ -64,7 +64,7 @@ namespace UotanToolbox.Common.PatchHelper
             string allowedChars = "abcdef0123456789";
             Random random = new Random();
             string randomStr = new string([.. Enumerable.Repeat(allowedChars, 16).Select(s => s[random.Next(s.Length)])]);
-            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path), "lkm_patched_" + randomStr + ".img");
+            string newboot = Path.Combine(Path.GetDirectoryName(bootInfo.Path) ?? bootInfo.Path, "lkm_patched_" + randomStr + ".img");
             File.Copy(Path.Combine(bootInfo.TempPath, "new-boot.img"), newboot, true);
             return newboot;
         }

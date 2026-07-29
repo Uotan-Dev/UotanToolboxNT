@@ -1636,17 +1636,6 @@ public partial class AdvancedflashView : UserControl
                             await Fastboot($"-s {Global.thisdevice} {item.Command} {item.Name} {item.FullFilePath}");
                         }
                         FileHelper.Write(fastboot_log_path, output);
-                        if (output.Contains("FAILED") || output.Contains("error"))
-                        {
-                            if (!Directory.Exists(path))
-                            {
-                                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Wiredflash_FlashError")).Dismiss().ByClickingBackground().TryShow();
-                                SetEnabled(false);
-                                Global.checkdevice = true;
-                                return;
-                            }
-                            AdvancedflashLog.Text += "\n注意！出现错误 Attention! An error occurred\n";
-                        }
                     }
                 }
                 if (ErasData.IsChecked == true)
@@ -1654,10 +1643,14 @@ public partial class AdvancedflashView : UserControl
                     await Fastboot($"-s {Global.thisdevice} erase metadata");
                     await Fastboot($"-s {Global.thisdevice} erase userdata");
                 }
+                if (output.Contains("FAILED") || output.Contains("error"))
+                {
+                    AdvancedflashLog.Text += "\n注意！过程中出现错误请自行检查 Attention! Please check for errors yourself during the process.\n";
+                }
                 Global.MainDialogManager.CreateDialog()
-                                .WithTitle(GetTranslation("Common_Succ"))
+                                .WithTitle(GetTranslation("Common_Execution"))
                                 .WithContent(GetTranslation("Wiredflash_ROMFlash"))
-                                .OfType(NotificationType.Success)
+                                .OfType(NotificationType.Information)
                                 .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await Fastboot($"-s {Global.thisdevice} reboot"), true)
                                 .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                 .TryShow();

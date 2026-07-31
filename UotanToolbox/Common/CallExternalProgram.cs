@@ -126,16 +126,6 @@ namespace UotanToolbox.Common
         public static async Task<string> HDC(string hdcshell, Action<string>? outputCallback = null)
         {
             string cmd = Path.Combine(Global.bin_path, "toolchains", "hdc");
-            // Launch hdc.exe directly. We must NOT wrap it in "cmd /C chcp 65001":
-            // chcp 65001 flips the child CRT's argv code page to UTF-8, but the argv
-            // bytes .NET hands to CreateProcessW are decoded by hdc's CRT using the
-            // system OEM code page (936/GBK on zh-CN Windows). With chcp 65001 the CRT
-            // re-interprets those GBK bytes as UTF-8 and mangles non-ASCII filenames
-            // (e.g. "IT之家.hap" → "IT???.hap"), producing spurious "no such file"
-            // errors. Running hdc.exe directly lets its CRT use the default OEM(936)
-            // code page, which matches the bytes we pass and round-trips the filename
-            // correctly to the Windows ANSI file API. hdc 3.x already emits UTF-8 on
-            // stdout/stderr, so StandardOutputEncoding stays UTF-8.
             ProcessStartInfo hdcexe = new ProcessStartInfo(cmd, hdcshell)
             {
                 CreateNoWindow = true,

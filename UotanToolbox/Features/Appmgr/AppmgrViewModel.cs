@@ -273,7 +273,7 @@ public partial class AppmgrViewModel : MainPageBase
                         {
                             try
                             {
-                                string output = await FeaturesHelper.HdcCmd(Global.thisdevice, $"app install \"{fileArray[i]}\"");
+                                string output = await FeaturesHelper.HdcCmd(Global.thisdevice, $"install \"{fileArray[i]}\"");
                                 _ = output.Contains("successfully")
                                     ? Global.MainToastManager.CreateToast()
                                                              .WithTitle(GetTranslation("Common_Succ"))

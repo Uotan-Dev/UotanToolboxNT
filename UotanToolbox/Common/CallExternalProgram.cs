@@ -126,15 +126,35 @@ namespace UotanToolbox.Common
         public static async Task<string> HDC(string hdcshell, Action<string>? outputCallback = null)
         {
             string cmd = Path.Combine(Global.bin_path, "toolchains", "hdc");
-            ProcessStartInfo hdcexe = new ProcessStartInfo(cmd, hdcshell)
+            ProcessStartInfo hdcexe;
+            // On Windows, hdc.exe's C runtime decodes argv using the system OEM code page
+            // (936/GBK in zh-CN locales), which mangles non-ASCII filenames before they
+            // ever reach the device. Launch hdc via "cmd.exe /K chcp 65001" so the child
+            // process environment uses UTF-8 (65001), matching our StandardOutputEncoding.
+            if (Global.System == "Windows")
             {
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                StandardOutputEncoding = System.Text.Encoding.UTF8,
-                StandardErrorEncoding = System.Text.Encoding.UTF8
-            };
+                hdcexe = new ProcessStartInfo("cmd.exe", $"/C chcp 65001 >nul && \"{cmd}\" {hdcshell}")
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    StandardOutputEncoding = System.Text.Encoding.UTF8,
+                    StandardErrorEncoding = System.Text.Encoding.UTF8
+                };
+            }
+            else
+            {
+                hdcexe = new ProcessStartInfo(cmd, hdcshell)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    StandardOutputEncoding = System.Text.Encoding.UTF8,
+                    StandardErrorEncoding = System.Text.Encoding.UTF8
+                };
+            }
             return outputCallback == null
                 ? await RunProcessAsync(hdcexe)
                 : await RunProcessStreamingAsync(hdcexe, outputCallback);

@@ -271,35 +271,36 @@ public partial class AppmgrViewModel : MainPageBase
                     {
                         if (!string.IsNullOrEmpty(fileArray[i]))
                         {
+                            string hdcCommand = $"install \"{fileArray[i]}\"";
                             try
                             {
-                                string output = await FeaturesHelper.HdcCmd(Global.thisdevice, $"install \"{fileArray[i]}\"");
-                                _ = output.Contains("successfully")
-                                    ? Global.MainToastManager.CreateToast()
-                                                             .WithTitle(GetTranslation("Common_Succ"))
-                                                             .WithContent(GetTranslation("Common_InstallSuccess"))
-                                                             .OfType(NotificationType.Success)
-                                                             .Dismiss().ByClicking()
-                                                             .Dismiss().After(TimeSpan.FromSeconds(3))
-                                                             .Queue()
-                                    : Global.MainToastManager.CreateToast()
-                                                             .WithTitle(GetTranslation("Common_Error"))
-                                                             .WithContent(GetTranslation("Common_InstallFailed") + "\r\n" + StringHelper.OHApp(output))
-                                                             .OfType(NotificationType.Error)
-                                                             .Dismiss().ByClicking()
-                                                             .Dismiss().After(TimeSpan.FromSeconds(5))
-                                                             .Queue();
+                                string output = await FeaturesHelper.HdcCmd(Global.thisdevice, hdcCommand);
+                                if (output.Contains("successfully"))
+                                {
+                                    Global.MainToastManager.CreateToast()
+                                                         .WithTitle(GetTranslation("Common_Succ"))
+                                                         .WithContent(GetTranslation("Common_InstallSuccess"))
+                                                         .OfType(NotificationType.Success)
+                                                         .Dismiss().ByClicking()
+                                                         .Dismiss().After(TimeSpan.FromSeconds(3))
+                                                         .Queue();
+                                }
+                                else
+                                {
+                                    // Keep the original hdc call and its raw output in the
+                                    // error dialog so installation failures can be diagnosed
+                                    // (hdc prints error reason to stdout/stderr).
+                                    ShowErrorDialog(
+                                        GetTranslation("Common_InstallFailed"),
+                                        BuildHdcInstallDetails(hdcCommand, output));
+                                }
                                 File.Delete(Path.Combine(Global.runpath, "APK", Path.GetFileName(fileArray[i])));
                             }
-                            catch
+                            catch (Exception ex)
                             {
-                                Global.MainToastManager.CreateToast()
-                                                             .WithTitle(GetTranslation("Common_Error"))
-                                                             .WithContent(GetTranslation("Common_InstallFailed"))
-                                                             .OfType(NotificationType.Error)
-                                                             .Dismiss().ByClicking()
-                                                             .Dismiss().After(TimeSpan.FromSeconds(5))
-                                                             .Queue();
+                                ShowErrorDialog(
+                                    GetTranslation("Common_InstallFailed"),
+                                    BuildHdcInstallDetails(hdcCommand, ex.Message));
                             }
                         }
                     }
@@ -711,14 +712,26 @@ public partial class AppmgrViewModel : MainPageBase
         return cleaned;
     }
 
-    private static void ShowErrorDialog(string content)
+    private static void ShowErrorDialog(string content, string? details = null)
     {
+        string fullContent = details == null
+            ? content
+            : $"{content}\r\n\r\n{details}";
         Global.MainDialogManager.CreateDialog()
                     .OfType(NotificationType.Error)
                     .WithTitle(GetTranslation("Common_Error"))
-                    .WithContent(content)
+                    .WithContent(fullContent)
                     .Dismiss().ByClickingBackground()
                     .TryShow();
+    }
+
+    // Build a diagnostic details block preserving the exact hdc command invoked
+    // and its raw stdout/stderr, so installation failures can be debugged from
+    // the error dialog instead of a disappearing toast.
+    private static string BuildHdcInstallDetails(string hdcCommand, string rawOutput)
+    {
+        string trimmedOutput = string.IsNullOrWhiteSpace(rawOutput) ? "(empty)" : rawOutput.TrimEnd();
+        return $"hdc {hdcCommand}\r\n---\r\n{trimmedOutput}";
     }
 
     [RelayCommand]

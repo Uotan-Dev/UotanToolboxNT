@@ -271,9 +271,21 @@ public partial class AppmgrViewModel : MainPageBase
                     {
                         if (!string.IsNullOrEmpty(fileArray[i]))
                         {
-                            string hdcCommand = $"install \"{fileArray[i]}\"";
                             try
                             {
+                                if (!File.Exists(fileArray[i]))
+                                {
+                                    ShowErrorDialog(
+                                        $"{GetTranslation("Advancedflash_FileNotFound")}: {fileArray[i]}");
+                                    continue;
+                                }
+                                string stagingDir = Path.Combine(Global.runpath, "APK");
+                                _ = Directory.CreateDirectory(stagingDir);
+                                stagedPath = Path.Combine(stagingDir,
+                                    $"install_{Guid.NewGuid():N}{Path.GetExtension(fileArray[i])}");
+                                File.Copy(fileArray[i], stagedPath);
+
+                                string hdcCommand = $"install \"{stagedPath}\"";
                                 string output = await FeaturesHelper.HdcCmd(Global.thisdevice, hdcCommand);
                                 if (output.Contains("successfully"))
                                 {
@@ -287,20 +299,28 @@ public partial class AppmgrViewModel : MainPageBase
                                 }
                                 else
                                 {
-                                    // Keep the original hdc call and its raw output in the
-                                    // error dialog so installation failures can be diagnosed
-                                    // (hdc prints error reason to stdout/stderr).
+                                    // Keep the hdc call and its raw output in the error dialog
+                                    // so installation failures can be diagnosed (hdc prints
+                                    // error reason to stdout/stderr).
                                     ShowErrorDialog(
                                         GetTranslation("Common_InstallFailed"),
                                         BuildHdcInstallDetails(hdcCommand, output));
                                 }
-                                File.Delete(Path.Combine(Global.runpath, "APK", Path.GetFileName(fileArray[i])));
                             }
                             catch (Exception ex)
                             {
                                 ShowErrorDialog(
                                     GetTranslation("Common_InstallFailed"),
-                                    BuildHdcInstallDetails(hdcCommand, ex.Message));
+                                    BuildHdcInstallDetails(
+                                        $"install \"{(stagedPath.Length > 0 ? stagedPath : fileArray[i])}\"",
+                                        ex.Message));
+                            }
+                            finally
+                            {
+                                if (stagedPath.Length > 0)
+                                {
+                                    try { File.Delete(stagedPath); } catch { /* best effort */ }
+                                }
                             }
                         }
                     }

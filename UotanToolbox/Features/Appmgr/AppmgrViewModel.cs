@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls.Notifications;
+using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -90,6 +91,11 @@ public partial class AppmgrViewModel : MainPageBase
         IsBusy = true;
         SBoxEnabled = false;
         SBoxWater = GetTranslation("Appmgr_SearchWait");
+        // Reset stale state from any previous fetch.
+        allApplicationInfos = [];
+        applicationInfos = [];
+        Applications.Clear();
+        HasItems = false;
         await Task.Run(async () =>
         {
             if (await GetDevicesInfo.SetDevicesInfoLittle())
@@ -104,6 +110,15 @@ public partial class AppmgrViewModel : MainPageBase
                     string fullApplicationsList = !IsSystemAppDisplayed
                         ? await FeaturesHelper.AdbCmd(Global.thisdevice, "shell pm list packages -3")
                         : await FeaturesHelper.AdbCmd(Global.thisdevice, "shell pm list packages");
+                    // Always clean up the helper binary, even if parsing fails below.
+                    try
+                    {
+                        await FeaturesHelper.AdbCmd(Global.thisdevice, "shell rm /data/local/tmp/list_apps");
+                    }
+                    catch
+                    {
+                        // cleanup is best-effort; don't mask the real error
+                    }
                     if (fullApplicationsList.Contains("cannot connect to daemon"))
                     {
                         await Dispatcher.UIThread.InvokeAsync(() =>
@@ -115,9 +130,10 @@ public partial class AppmgrViewModel : MainPageBase
                                         .Dismiss().ByClickingBackground()
                                         .TryShow();
                         });
+                        return;
                     }
                     string[] lines = fullApplicationsList.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
-                    HasItems = lines.Length > 0;
+                    await Dispatcher.UIThread.InvokeAsync(() => HasItems = lines.Length > 0);
                     IEnumerable<Task<ApplicationInfo?>> applicationInfosTasks = lines.Select(async line =>
                     {
                         string? displayName = null;
@@ -137,49 +153,50 @@ public partial class AppmgrViewModel : MainPageBase
                         string combinedOutput = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell dumpsys package {packageName}");
                         string[] splitOutput = combinedOutput.Split('\n', ' ');
                         string otherInfo = GetVersionName(splitOutput) + " | " + GetInstalledDate(splitOutput) + " | " + GetSdkVersion(splitOutput);
-                        return new ApplicationInfo { Name = packageName, DisplayName = StringHelper.RemoveLineFeed(displayName ?? string.Empty), OtherInfo = otherInfo };
+                        string enabledState = ParseEnabledState(combinedOutput);
+                        return new ApplicationInfo { Name = packageName, DisplayName = StringHelper.RemoveLineFeed(displayName ?? string.Empty), OtherInfo = otherInfo, EnabledState = enabledState };
                     });
                     allApplicationInfos = [.. (await Task.WhenAll(applicationInfosTasks)).Where(info => info != null).Select(info => info!)];
                     applicationInfos = [.. allApplicationInfos.Where(info => info != null)
                                                              .OrderByDescending(app => app.Size)
                                                              .ThenBy(app => app.Name)];
-                    Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
-                    await FeaturesHelper.AdbCmd(Global.thisdevice, "shell rm /data/local/tmp/list_apps");
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+                    });
                 }
                 else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
                 {
                     string[] applist = StringHelper.OHAppList(await FeaturesHelper.HdcCmd(Global.thisdevice, "shell bm dump -a"));
-                    HasItems = applist.Length > 2;
-                    ApplicationInfo[] applicationInfo = new ApplicationInfo[applist.Length - 2];
-                    ApplicationInfo[] OHApplicationInfos;
-                    List<ApplicationInfo> OHApplicationList = [];
+                    await Dispatcher.UIThread.InvokeAsync(() => HasItems = applist.Length > 2);
+                    // applist[0] is a header line, applist[1] may be blank/total — real package names start at index 2.
+                    List<ApplicationInfo> ohApplicationList = [];
                     for (int i = 2; i < applist.Length; i++)
                     {
-                        string[] appinfo = StringHelper.OHAppInfo(await FeaturesHelper.HdcCmd(Global.thisdevice, $"shell bm dump -n {applist[i]}"));
-                        applicationInfo[i - 2] = new ApplicationInfo { Name = applist[i], DisplayName = appinfo[1], OtherInfo = appinfo[2] + "|API:" + appinfo[0] };
-                        if (i == applicationInfo.Length % 10)
+                        string rawAppInfo = await FeaturesHelper.HdcCmd(Global.thisdevice, $"shell bm dump -n {applist[i]}");
+                        string[] appinfo = StringHelper.OHAppInfo(rawAppInfo);
+                        ohApplicationList.Add(new ApplicationInfo { Name = applist[i], DisplayName = appinfo[1], OtherInfo = appinfo[2] + "|API:" + appinfo[0], EnabledState = ParseOHEnabledState(rawAppInfo) });
+                        // Refresh the visible list every 10 apps so the UI populates progressively.
+                        if (ohApplicationList.Count % 10 == 0)
                         {
-                            OHApplicationInfos = applicationInfo;
-                            OHApplicationList = [.. OHApplicationInfos.Where(info => info != null)
-                                                              .OrderByDescending(app => app.Size)
-                                                              .ThenBy(app => app.Name)];
-                            Applications = new ObservableCollection<ApplicationInfo>(OHApplicationList);
-                            IsBusy = false;
-                        }
-                        if (i % (applicationInfo.Length % 10) == 0 && i != applicationInfo.Length % 10)
-                        {
-                            OHApplicationInfos = [.. applicationInfo.Skip(i - (applicationInfo.Length % 10)).Take(i)];
-                            OHApplicationList.AddRange(OHApplicationInfos.Where(info => info != null)
-                                                              .OrderByDescending(app => app.Size)
-                                                              .ThenBy(app => app.Name)
-                                                              .ToList());
-                            Applications = new ObservableCollection<ApplicationInfo>(OHApplicationList);
+                            var snapshot = ohApplicationList
+                                .OrderByDescending(app => app.Size)
+                                .ThenBy(app => app.Name)
+                                .ToList();
+                            await Dispatcher.UIThread.InvokeAsync(() =>
+                            {
+                                Applications = new ObservableCollection<ApplicationInfo>(snapshot);
+                            });
                         }
                     }
-                    allApplicationInfos = applicationInfo;
+                    allApplicationInfos = [.. ohApplicationList];
                     applicationInfos = [.. allApplicationInfos.Where(info => info != null)
                                                       .OrderByDescending(app => app.Size)
                                                       .ThenBy(app => app.Name)];
+                    await Dispatcher.UIThread.InvokeAsync(() =>
+                    {
+                        Applications = new ObservableCollection<ApplicationInfo>(applicationInfos);
+                    });
                 }
                 else
                 {
@@ -328,246 +345,200 @@ public partial class AppmgrViewModel : MainPageBase
     public async Task RunApp()
     {
         IsBusy = true;
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
-            {
-                if (!string.IsNullOrEmpty(SelectedApplication()))
-                {
-                    _ = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell monkey -p {SelectedApplication()} 1");
-                }
-                else
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .OfType(NotificationType.Error)
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
-                }
-            }
-            else
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            }
+            ShowErrorDialog(GetTranslation("Common_NotConnected"));
+            IsBusy = false;
+            return;
         }
-        else
+
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        if (sukiViewModel.Status != GetTranslation("Home_Android"))
         {
-            Global.MainDialogManager.CreateDialog()
-                                        .OfType(NotificationType.Error)
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .WithContent(GetTranslation("Common_NotConnected"))
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
+            ShowErrorDialog(GetTranslation("Common_OpenADB"));
+            IsBusy = false;
+            return;
         }
+
+        string selectedApp = SelectedApplication();
+        if (string.IsNullOrEmpty(selectedApp))
+        {
+            ShowErrorDialog(GetTranslation("Appmgr_AppIsNotSelected"));
+            IsBusy = false;
+            return;
+        }
+
+        string output = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell monkey -p {selectedApp} 1");
+        // monkey prints "Events injected" on success; bail out messages start with "//" or "No activities found".
+        bool started = output.Contains("Events injected", StringComparison.OrdinalIgnoreCase) ||
+                       output.Contains("monkey abort", StringComparison.OrdinalIgnoreCase) == false;
+        Global.MainToastManager.CreateToast()
+                               .OfType(started ? NotificationType.Success : NotificationType.Error)
+                               .WithTitle(started ? GetTranslation("Common_Succ") : GetTranslation("Common_Error"))
+                               .WithContent(started ? GetTranslation("Appmgr_RunSucc") : GetTranslation("Appmgr_RunFail"))
+                               .Dismiss().ByClicking()
+                               .Dismiss().After(TimeSpan.FromSeconds(3))
+                               .Queue();
         IsBusy = false;
     }
 
     [RelayCommand]
     public async Task DisableApp()
     {
-        IsBusy = true;
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
-            {
-                if (!string.IsNullOrEmpty(SelectedApplication()))
-                {
-                    _ = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm disable {SelectedApplication()}");
-                }
-                else
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .OfType(NotificationType.Error)
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
-                }
-            }
-            else
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            }
-        }
-        else
-        {
-            Global.MainDialogManager.CreateDialog()
-                                        .OfType(NotificationType.Error)
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .WithContent(GetTranslation("Common_NotConnected"))
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
-        }
-        IsBusy = false;
+        await ToggleAppEnabledAsync(enable: false);
     }
 
     [RelayCommand]
     public async Task EnableApp()
     {
+        await ToggleAppEnabledAsync(enable: true);
+    }
+
+    private async Task ToggleAppEnabledAsync(bool enable)
+    {
         IsBusy = true;
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        try
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
+            if (!await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                string selectedApp = SelectedApplication();
-                if (!string.IsNullOrEmpty(selectedApp))
-                {
-                    _ = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm enable {selectedApp}");
-                }
-                else
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .OfType(NotificationType.Error)
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
-                }
+                ShowErrorDialog(GetTranslation("Common_NotConnected"));
+                return;
+            }
+
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            string status = sukiViewModel.Status;
+            bool isAndroid = status == GetTranslation("Home_Android");
+            bool isOH = status == GetTranslation("Home_OpenHOS");
+            if (!isAndroid && !isOH)
+            {
+                ShowErrorDialog(GetTranslation("Common_OpenADBOrHDC"));
+                return;
+            }
+
+            string selectedApp = SelectedApplication();
+            if (string.IsNullOrEmpty(selectedApp))
+            {
+                ShowErrorDialog(GetTranslation("Appmgr_AppIsNotSelected"));
+                return;
+            }
+
+            string output;
+            if (isAndroid)
+            {
+                // disable-user keeps the change scoped to the current user and is reversible;
+                // pm enable re-enables a user-disabled package. There is no "enable-user" command.
+                output = enable
+                    ? await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm enable {selectedApp}")
+                    : await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm disable-user --user 0 {selectedApp}");
+            }
+            else
+            {
+                // OpenHarmony: bm enable -n / bm disable -n (per awesome-hdc bm tool docs).
+                output = enable
+                    ? await FeaturesHelper.HdcCmd(Global.thisdevice, $"shell bm enable -n {selectedApp}")
+                    : await FeaturesHelper.HdcCmd(Global.thisdevice, $"shell bm disable -n {selectedApp}");
+            }
+
+            // pm enable/disable-user print a literal "Success" line on success and surface
+            // an exception/usage message on failure. bm enable-app/disable-app report the
+            // resulting enabled state ("app is enabled" / "app is disabled") or an error.
+            string trimmedOutput = output.Trim();
+            bool ok = trimmedOutput.Contains("Success", StringComparison.OrdinalIgnoreCase) ||
+                      trimmedOutput.Contains("enabled", StringComparison.OrdinalIgnoreCase) ||
+                      trimmedOutput.Contains("disabled", StringComparison.OrdinalIgnoreCase) ||
+                      trimmedOutput.Contains("changed", StringComparison.OrdinalIgnoreCase);
+            // An empty/whitespace-only output is not a success signal — treat it as a failure.
+            if (string.IsNullOrWhiteSpace(trimmedOutput))
+            {
+                ok = false;
+            }
+            if (ok)
+            {
+                Global.MainToastManager.CreateToast()
+                                       .WithTitle(GetTranslation("Common_Succ"))
+                                       .WithContent(enable ? GetTranslation("Appmgr_EnableSucc") : GetTranslation("Appmgr_DisableSucc"))
+                                       .OfType(NotificationType.Success)
+                                       .Dismiss().ByClicking()
+                                       .Dismiss().After(TimeSpan.FromSeconds(3))
+                                       .Queue();
             }
             else
             {
                 Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            }
-        }
-        else
-        {
-            Global.MainDialogManager.CreateDialog()
-                                        .OfType(NotificationType.Error)
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .WithContent(GetTranslation("Common_NotConnected"))
+                                        .OfType(NotificationType.Warning)
+                                        .WithTitle(GetTranslation("Common_Warn"))
+                                        .WithContent(enable ? GetTranslation("Appmgr_EnableFail") : GetTranslation("Appmgr_DisableFail"))
                                         .Dismiss().ByClickingBackground()
                                         .TryShow();
+            }
         }
-        IsBusy = false;
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand]
     public async Task UninstallApp()
     {
-        IsBusy = true;
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
-        {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
-            {
-                string selectedApp = SelectedApplication();
-                if (!string.IsNullOrEmpty(selectedApp))
-                {
-                    _ = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm uninstall {selectedApp}");
-                }
-                else
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .OfType(NotificationType.Error)
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
-                }
-            }
-            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
-            {
-                string selectedApp = SelectedApplication();
-                if (!string.IsNullOrEmpty(selectedApp))
-                {
-                    _ = await FeaturesHelper.HdcCmd(Global.thisdevice, $"app uninstall {selectedApp}");
-                }
-                else
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .OfType(NotificationType.Error)
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
-                }
-            }
-            else
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADBOrHDC"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            }
-        }
-        else
-        {
-            Global.MainDialogManager.CreateDialog()
-                                        .OfType(NotificationType.Error)
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .WithContent(GetTranslation("Common_NotConnected"))
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
-        }
-        IsBusy = false;
+        await UninstallApplicationAsync(keepData: false);
     }
 
     [RelayCommand]
     public async Task UninstallAppWithData()
     {
+        await UninstallApplicationAsync(keepData: true);
+    }
+
+    private async Task UninstallApplicationAsync(bool keepData)
+    {
         IsBusy = true;
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
-            {
-                string selectedApp = SelectedApplication();
-                if (!string.IsNullOrEmpty(selectedApp))
-                {
-                    // Note: This command may vary depending on the requirements and platform specifics.
-                    // The following is a general example and may not work as is.
-                    _ = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm uninstall -k {selectedApp}");
-                }
-                else
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .OfType(NotificationType.Error)
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
-                }
-            }
-            else
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            }
+            ShowErrorDialog(GetTranslation("Common_NotConnected"));
+            IsBusy = false;
+            return;
+        }
+
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        bool isAndroid = sukiViewModel.Status == GetTranslation("Home_Android");
+        bool isOH = sukiViewModel.Status == GetTranslation("Home_OpenHOS");
+        if (!isAndroid && !isOH)
+        {
+            ShowErrorDialog(GetTranslation("Common_OpenADBOrHDC"));
+            IsBusy = false;
+            return;
+        }
+
+        string selectedApp = SelectedApplication();
+        if (string.IsNullOrEmpty(selectedApp))
+        {
+            ShowErrorDialog(GetTranslation("Appmgr_AppIsNotSelected"));
+            IsBusy = false;
+            return;
+        }
+
+        string output;
+        if (isAndroid)
+        {
+            string cmd = keepData ? $"shell pm uninstall -k {selectedApp}" : $"shell pm uninstall {selectedApp}";
+            output = await FeaturesHelper.AdbCmd(Global.thisdevice, cmd);
         }
         else
         {
-            Global.MainDialogManager.CreateDialog()
-                                        .OfType(NotificationType.Error)
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .WithContent(GetTranslation("Common_NotConnected"))
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
+            output = await FeaturesHelper.HdcCmd(Global.thisdevice, $"app uninstall {selectedApp}");
         }
+
+        bool uninstalled = output.Contains("Success", StringComparison.OrdinalIgnoreCase) ||
+                           output.Contains("successfully", StringComparison.OrdinalIgnoreCase) ||
+                           output.Contains("Deleted", StringComparison.OrdinalIgnoreCase);
+        Global.MainToastManager.CreateToast()
+                               .OfType(uninstalled ? NotificationType.Success : NotificationType.Error)
+                               .WithTitle(uninstalled ? GetTranslation("Common_Succ") : GetTranslation("Common_Error"))
+                               .WithContent(uninstalled ? GetTranslation("Appmgr_UninstallSucc") : GetTranslation("Appmgr_UninstallFail"))
+                               .Dismiss().ByClicking()
+                               .Dismiss().After(TimeSpan.FromSeconds(3))
+                               .Queue();
         IsBusy = false;
     }
 
@@ -575,112 +546,224 @@ public partial class AppmgrViewModel : MainPageBase
     public async Task ExtractInstaller()
     {
         IsBusy = true;
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        try
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
+            if (!await GetDevicesInfo.SetDevicesInfoLittle())
             {
-                string selectedApp = SelectedApplication();
-                if (!string.IsNullOrEmpty(selectedApp))
+                ShowErrorDialog(GetTranslation("Common_NotConnected"));
+                return;
+            }
+
+            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+            if (sukiViewModel.Status != GetTranslation("Home_Android"))
+            {
+                ShowErrorDialog(GetTranslation("Common_OpenADB"));
+                return;
+            }
+
+            string selectedApp = SelectedApplication();
+            if (string.IsNullOrEmpty(selectedApp))
+            {
+                ShowErrorDialog(GetTranslation("Appmgr_AppIsNotSelected"));
+                return;
+            }
+
+            // Resolve the on-device apk path(s). Some apps are split (base + splits).
+            string pathOutput = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm path {selectedApp}");
+            if (string.IsNullOrWhiteSpace(pathOutput) ||
+                pathOutput.Contains("Package not found", StringComparison.OrdinalIgnoreCase) ||
+                pathOutput.Contains("Unknown package", StringComparison.OrdinalIgnoreCase))
+            {
+                ShowErrorDialog(GetTranslation("Appmgr_ExtractFailed"));
+                return;
+            }
+
+            // Look up a friendly display name for renaming the extracted apk.
+            ApplicationInfo? appInfo = Applications.FirstOrDefault(a => a.Name == selectedApp);
+            string friendlyName = SanitizeFileName(appInfo?.DisplayName);
+            if (string.IsNullOrWhiteSpace(friendlyName) || string.Equals(friendlyName, "package", StringComparison.OrdinalIgnoreCase))
+            {
+                friendlyName = SanitizeFileName(selectedApp);
+            }
+            if (string.IsNullOrWhiteSpace(friendlyName))
+            {
+                friendlyName = "app";
+            }
+
+            // Let the user choose where to extract the installer(s).
+            string? targetDir = await PickExtractFolderAsync();
+            if (string.IsNullOrEmpty(targetDir))
+            {
+                return; // user cancelled
+            }
+
+            string[] apkPaths = pathOutput.Split(separatorArray, StringSplitOptions.RemoveEmptyEntries);
+            bool anySuccess = false;
+            bool anyFailure = false;
+            int index = 0;
+            foreach (string rawPath in apkPaths)
+            {
+                string trimmed = rawPath.Trim();
+                if (string.IsNullOrWhiteSpace(trimmed))
                 {
-                    // Get the apk file of the selected app, and save it to the user's desktop.
-                    string apkFile = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm path {selectedApp}");
-                    apkFile = apkFile[(apkFile.IndexOf(':') + 1)..].Trim();
-                    string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                    _ = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull {apkFile} {desktopPath}");
+                    continue;
+                }
+                // pm path lines look like "package:/data/app/.../base.apk"
+                string onDevicePath = trimmed[(trimmed.IndexOf(':') + 1)..].Trim();
+                if (string.IsNullOrWhiteSpace(onDevicePath))
+                {
+                    continue;
+                }
+
+                string originalName = Path.GetFileName(onDevicePath);
+                string extension = Path.GetExtension(originalName);
+                if (string.IsNullOrEmpty(extension))
+                {
+                    extension = ".apk";
+                }
+                string newName;
+                if (apkPaths.Length == 1)
+                {
+                    newName = $"{friendlyName}{extension}";
                 }
                 else
                 {
-                    Global.MainDialogManager.CreateDialog()
-                                                .OfType(NotificationType.Error)
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
+                    // For split apks keep the original base/split qualifier for clarity.
+                    string stem = Path.GetFileNameWithoutExtension(originalName);
+                    newName = $"{friendlyName}_{stem}{extension}";
                 }
+                string destPath = Path.Combine(targetDir, newName);
+
+                string pullOutput = await FeaturesHelper.AdbCmd(Global.thisdevice, $"pull \"{onDevicePath}\" \"{destPath}\"");
+                bool ok = pullOutput.Contains("1 file pulled", StringComparison.OrdinalIgnoreCase) ||
+                          pullOutput.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
+                          pullOutput.Contains("file pulled", StringComparison.OrdinalIgnoreCase);
+                if (ok && File.Exists(destPath))
+                {
+                    anySuccess = true;
+                }
+                else
+                {
+                    anyFailure = true;
+                }
+                index++;
+            }
+
+            if (anySuccess && !anyFailure)
+            {
+                Global.MainToastManager.CreateToast()
+                                       .WithTitle(GetTranslation("Common_Succ"))
+                                       .WithContent(GetTranslation("Appmgr_ExtractSuccess"))
+                                       .OfType(NotificationType.Success)
+                                       .Dismiss().ByClicking()
+                                       .Dismiss().After(TimeSpan.FromSeconds(4))
+                                       .Queue();
+            }
+            else if (anySuccess && anyFailure)
+            {
+                Global.MainToastManager.CreateToast()
+                                       .WithTitle(GetTranslation("Common_Warn"))
+                                       .WithContent(GetTranslation("Appmgr_ExtractPartial"))
+                                       .OfType(NotificationType.Warning)
+                                       .Dismiss().ByClicking()
+                                       .Dismiss().After(TimeSpan.FromSeconds(5))
+                                       .Queue();
             }
             else
             {
-                Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
+                ShowErrorDialog(GetTranslation("Appmgr_ExtractFailed"));
             }
         }
-        else
+        finally
         {
-            Global.MainDialogManager.CreateDialog()
-                                        .OfType(NotificationType.Error)
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .WithContent(GetTranslation("Common_NotConnected"))
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
+            IsBusy = false;
         }
-        IsBusy = false;
+    }
+
+    private async Task<string?> PickExtractFolderAsync()
+    {
+        var mainWindow = (Avalonia.Application.Current?.ApplicationLifetime
+            as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+        if (mainWindow is null)
+        {
+            return null;
+        }
+        IReadOnlyList<IStorageFolder> folders = await mainWindow.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+        {
+            Title = GetTranslation("Appmgr_SelectExtractFolder"),
+            AllowMultiple = false
+        });
+        if (folders.Count < 1)
+        {
+            return null;
+        }
+        return folders[0].TryGetLocalPath();
+    }
+
+    private static string SanitizeFileName(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return string.Empty;
+        }
+        char[] invalid = Path.GetInvalidFileNameChars();
+        string cleaned = string.Join("_", name.Split(invalid)).Trim();
+        return cleaned;
+    }
+
+    private static void ShowErrorDialog(string content)
+    {
+        Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent(content)
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
     }
 
     [RelayCommand]
     public async Task ClearApp()
     {
         IsBusy = true;
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
-            {
-                string selectedApp = SelectedApplication();
-                if (!string.IsNullOrEmpty(selectedApp))
-                {
-                    _ = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm clear {selectedApp}");
-                }
-                else
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .OfType(NotificationType.Error)
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
-                }
-            }
-            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
-            {
-                string selectedApp = SelectedApplication();
-                if (!string.IsNullOrEmpty(selectedApp))
-                {
-                    _ = await FeaturesHelper.HdcCmd(Global.thisdevice, $"shell bm clean -n {selectedApp} -d");
-                }
-                else
-                {
-                    Global.MainDialogManager.CreateDialog()
-                                                .OfType(NotificationType.Error)
-                                                .WithTitle(GetTranslation("Common_Error"))
-                                                .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                .Dismiss().ByClickingBackground()
-                                                .TryShow();
-                }
-            }
-            else
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADBOrHDC"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            }
+            ShowErrorDialog(GetTranslation("Common_NotConnected"));
+            IsBusy = false;
+            return;
         }
-        else
+
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        bool isAndroid = sukiViewModel.Status == GetTranslation("Home_Android");
+        bool isOH = sukiViewModel.Status == GetTranslation("Home_OpenHOS");
+        if (!isAndroid && !isOH)
         {
-            Global.MainDialogManager.CreateDialog()
-                                        .OfType(NotificationType.Error)
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .WithContent(GetTranslation("Common_NotConnected"))
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
+            ShowErrorDialog(GetTranslation("Common_OpenADBOrHDC"));
+            IsBusy = false;
+            return;
         }
+
+        string selectedApp = SelectedApplication();
+        if (string.IsNullOrEmpty(selectedApp))
+        {
+            ShowErrorDialog(GetTranslation("Appmgr_AppIsNotSelected"));
+            IsBusy = false;
+            return;
+        }
+
+        string output = isAndroid
+            ? await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell pm clear {selectedApp}")
+            : await FeaturesHelper.HdcCmd(Global.thisdevice, $"shell bm clean -n {selectedApp} -d");
+
+        bool cleared = output.Contains("Success", StringComparison.OrdinalIgnoreCase) ||
+                       output.Contains("cleared", StringComparison.OrdinalIgnoreCase) ||
+                       output.Contains("clean", StringComparison.OrdinalIgnoreCase);
+        Global.MainToastManager.CreateToast()
+                               .OfType(cleared ? NotificationType.Success : NotificationType.Error)
+                               .WithTitle(cleared ? GetTranslation("Common_Succ") : GetTranslation("Common_Error"))
+                               .WithContent(cleared ? GetTranslation("Appmgr_ClearSucc") : GetTranslation("Appmgr_ClearFail"))
+                               .Dismiss().ByClicking()
+                               .Dismiss().After(TimeSpan.FromSeconds(3))
+                               .Queue();
         IsBusy = false;
     }
 
@@ -688,110 +771,78 @@ public partial class AppmgrViewModel : MainPageBase
     public async Task ForceStopApp()
     {
         IsBusy = true;
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
-            {
-                string selectedApp = SelectedApplication();
-                if (!string.IsNullOrEmpty(selectedApp))
-                {
-                    _ = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell am force-stop {selectedApp}");
-                }
-                else
-                {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        Global.MainDialogManager.CreateDialog()
-                                                    .OfType(NotificationType.Error)
-                                                    .WithTitle(GetTranslation("Common_Error"))
-                                                    .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                    .Dismiss().ByClickingBackground()
-                                                    .TryShow();
-                    });
-                }
-            }
-            else if (sukiViewModel.Status == GetTranslation("Home_OpenHOS"))
-            {
-                string selectedApp = SelectedApplication();
-                if (!string.IsNullOrEmpty(selectedApp))
-                {
-                    _ = await FeaturesHelper.HdcCmd(Global.thisdevice, $"shell aa force-stop {selectedApp}");
-                }
-                else
-                {
-                    await Dispatcher.UIThread.InvokeAsync(() =>
-                    {
-                        Global.MainDialogManager.CreateDialog()
-                                                    .OfType(NotificationType.Error)
-                                                    .WithTitle(GetTranslation("Common_Error"))
-                                                    .WithContent(GetTranslation("Appmgr_AppIsNotSelected"))
-                                                    .Dismiss().ByClickingBackground()
-                                                    .TryShow();
-                    });
-                }
-            }
-            else
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADBOrHDC"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            }
+            ShowErrorDialog(GetTranslation("Common_NotConnected"));
+            IsBusy = false;
+            return;
         }
-        else
+
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        bool isAndroid = sukiViewModel.Status == GetTranslation("Home_Android");
+        bool isOH = sukiViewModel.Status == GetTranslation("Home_OpenHOS");
+        if (!isAndroid && !isOH)
         {
-            Global.MainDialogManager.CreateDialog()
-                                        .OfType(NotificationType.Error)
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .WithContent(GetTranslation("Common_NotConnected"))
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
+            ShowErrorDialog(GetTranslation("Common_OpenADBOrHDC"));
+            IsBusy = false;
+            return;
         }
+
+        string selectedApp = SelectedApplication();
+        if (string.IsNullOrEmpty(selectedApp))
+        {
+            ShowErrorDialog(GetTranslation("Appmgr_AppIsNotSelected"));
+            IsBusy = false;
+            return;
+        }
+
+        string output = isAndroid
+            ? await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell am force-stop {selectedApp}")
+            : await FeaturesHelper.HdcCmd(Global.thisdevice, $"shell aa force-stop {selectedApp}");
+
+        // am force-stop is silent on success. Treat any explicit failure marker as error.
+        bool stopped = !output.Contains("Error", StringComparison.OrdinalIgnoreCase) &&
+                       !output.Contains("Exception", StringComparison.OrdinalIgnoreCase);
+        Global.MainToastManager.CreateToast()
+                               .OfType(stopped ? NotificationType.Success : NotificationType.Error)
+                               .WithTitle(stopped ? GetTranslation("Common_Succ") : GetTranslation("Common_Error"))
+                               .WithContent(stopped ? GetTranslation("Appmgr_ForceStopSucc") : GetTranslation("Appmgr_ForceStopFail"))
+                               .Dismiss().ByClicking()
+                               .Dismiss().After(TimeSpan.FromSeconds(3))
+                               .Queue();
         IsBusy = false;
     }
 
     [RelayCommand]
     public async Task ActivateApp()
     {
-        IsBusy = true; // Assuming this sets a flag that indicates the operation is in progress.
-        if (await GetDevicesInfo.SetDevicesInfoLittle())
+        IsBusy = true;
+        if (!await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-            if (sukiViewModel.Status == GetTranslation("Home_Android"))
-            {
-                string focus_name, package_name;
-                string dumpsys = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell \"dumpsys window | grep mCurrentFocus\"");
-                string text = await FeaturesHelper.ActiveApp(dumpsys);
-                Global.MainToastManager.CreateToast()
-                                           .OfType(NotificationType.Information)
-                                           .WithTitle(GetTranslation("Appmgr_AppActivactor"))
-                                           .WithContent($"{text}")
-                                           .Dismiss().ByClicking()
-                                           .Dismiss().After(TimeSpan.FromSeconds(3))
-                                           .Queue();
-            }
-            else
-            {
-                Global.MainDialogManager.CreateDialog()
-                            .OfType(NotificationType.Error)
-                            .WithTitle(GetTranslation("Common_Error"))
-                            .WithContent(GetTranslation("Common_OpenADB"))
-                            .Dismiss().ByClickingBackground()
-                            .TryShow();
-            }
+            ShowErrorDialog(GetTranslation("Common_NotConnected"));
+            IsBusy = false;
+            return;
         }
-        else
+
+        MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
+        bool isAndroid = sukiViewModel.Status == GetTranslation("Home_Android");
+        bool isOH = sukiViewModel.Status == GetTranslation("Home_OpenHOS");
+        if (!isAndroid && !isOH)
         {
-            Global.MainDialogManager.CreateDialog()
-                                        .OfType(NotificationType.Error)
-                                        .WithTitle(GetTranslation("Common_Error"))
-                                        .WithContent(GetTranslation("Common_NotConnected"))
-                                        .Dismiss().ByClickingBackground()
-                                        .TryShow();
+            ShowErrorDialog(GetTranslation("Common_OpenADBOrHDC"));
+            IsBusy = false;
+            return;
         }
+
+        string dumpsys = await FeaturesHelper.AdbCmd(Global.thisdevice, $"shell \"dumpsys window | grep mCurrentFocus\"");
+        string text = await FeaturesHelper.ActiveApp(dumpsys);
+        Global.MainToastManager.CreateToast()
+                               .OfType(NotificationType.Information)
+                               .WithTitle(GetTranslation("Appmgr_AppActivactor"))
+                               .WithContent($"{text}")
+                               .Dismiss().ByClicking()
+                               .Dismiss().After(TimeSpan.FromSeconds(3))
+                               .Queue();
         IsBusy = false;
     }
 
@@ -827,6 +878,111 @@ public partial class AppmgrViewModel : MainPageBase
         }
         return GetTranslation("Appmgr_UnknownAppVersion");
     }
+
+    /// <summary>
+    /// Parses the enabled state of a package from its <c>dumpsys package</c> output.
+    /// <c>dumpsys package</c> emits a <c>User 0: ... enabled=...</c> (or
+    /// <c>enabledComponents</c> / <c>disabledComponents</c> blocks) that reflects whether
+    /// the package is enabled, disabled, disabled-user, etc.
+    /// </summary>
+    private static string ParseEnabledState(string dumpsysOutput)
+    {
+        if (string.IsNullOrWhiteSpace(dumpsysOutput))
+        {
+            return GetTranslation("Appmgr_StateUnknown");
+        }
+
+        // Look for the per-user enabled flag, e.g. "User 0: ceUserId=0 installed=true hidden=false suspended=false stopped=false notLaunched=false enabled=0"
+        string[] lines = dumpsysOutput.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
+        foreach (string line in lines)
+        {
+            string trimmed = line.Trim();
+            if (!trimmed.Contains("enabled=", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+            // Skip the COMPONENT-enabling summary lines; we want the package-level user line.
+            if (trimmed.StartsWith("enabledComponents", StringComparison.OrdinalIgnoreCase) ||
+                trimmed.StartsWith("disabledComponents", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            int eqIdx = trimmed.IndexOf("enabled=", StringComparison.OrdinalIgnoreCase);
+            int valueStart = eqIdx + "enabled=".Length;
+            if (valueStart >= trimmed.Length)
+            {
+                continue;
+            }
+            // The value is the numeric constant immediately after "enabled=".
+            int end = valueStart;
+            while (end < trimmed.Length && (char.IsDigit(trimmed[end]) || trimmed[end] == '-'))
+            {
+                end++;
+            }
+            string rawValue = trimmed.AsSpan(valueStart, end - valueStart).ToString();
+            if (int.TryParse(rawValue, out int enabledState))
+            {
+                return enabledState switch
+                {
+                    0 or 1 => GetTranslation("Appmgr_StateEnabled"),     // DEFAULT(0)/ENABLED(1)
+                    2 => GetTranslation("Appmgr_StateDisabled"),         // DISABLED
+                    3 => GetTranslation("Appmgr_StateDisabledUser"),     // DISABLED_USER
+                    4 => GetTranslation("Appmgr_StateDisabledUntilUsed"),// DISABLED_UNTIL_USED
+                    _ => GetTranslation("Appmgr_StateUnknown"),
+                };
+            }
+        }
+
+        // Fallback: some Android versions surface a "stopType" / "firstInstallTime" section
+        // but not the per-user enabled flag. Treat absence as unknown rather than guessing.
+        return GetTranslation("Appmgr_StateUnknown");
+    }
+
+    /// <summary>
+    /// Parses the enabled state of a HarmonyOS/OpenHarmony app from its
+    /// <c>bm dump -n</c> output, which contains an <c>"enabled": true/false</c> JSON field.
+    /// </summary>
+    private static string ParseOHEnabledState(string bmDumpOutput)
+    {
+        if (string.IsNullOrWhiteSpace(bmDumpOutput))
+        {
+            return GetTranslation("Appmgr_StateUnknown");
+        }
+
+        int idx = bmDumpOutput.IndexOf("\"enabled\"", StringComparison.OrdinalIgnoreCase);
+        if (idx < 0)
+        {
+            return GetTranslation("Appmgr_StateUnknown");
+        }
+
+        // Capture the token after the colon, tolerating whitespace.
+        int colon = bmDumpOutput.IndexOf(':', idx);
+        if (colon < 0)
+        {
+            return GetTranslation("Appmgr_StateUnknown");
+        }
+        int scan = colon + 1;
+        while (scan < bmDumpOutput.Length && char.IsWhiteSpace(bmDumpOutput[scan]))
+        {
+            scan++;
+        }
+        if (scan >= bmDumpOutput.Length)
+        {
+            return GetTranslation("Appmgr_StateUnknown");
+        }
+
+        // Match true/false (possibly quoted), else fall back to unknown.
+        if (bmDumpOutput.AsSpan(scan).StartsWith("true", StringComparison.OrdinalIgnoreCase))
+        {
+            return GetTranslation("Appmgr_StateEnabled");
+        }
+        if (bmDumpOutput.AsSpan(scan).StartsWith("false", StringComparison.OrdinalIgnoreCase))
+        {
+            return GetTranslation("Appmgr_StateDisabled");
+        }
+        return GetTranslation("Appmgr_StateUnknown");
+    }
 }
 
 public partial class ApplicationInfo : ObservableObject
@@ -845,4 +1001,11 @@ public partial class ApplicationInfo : ObservableObject
 
     [ObservableProperty]
     private string otherInfo = string.Empty;
+
+    /// <summary>
+    /// Human-readable enabled state label (Enabled/Disabled/Disabled-User/...),
+    /// populated during <see cref="AppmgrViewModel.Connect"/>. Empty until known.
+    /// </summary>
+    [ObservableProperty]
+    private string enabledState = string.Empty;
 }

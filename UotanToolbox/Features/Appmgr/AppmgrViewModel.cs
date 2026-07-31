@@ -271,6 +271,7 @@ public partial class AppmgrViewModel : MainPageBase
                     {
                         if (!string.IsNullOrEmpty(fileArray[i]))
                         {
+                            string stagedPath = string.Empty;
                             try
                             {
                                 if (!File.Exists(fileArray[i]))
@@ -279,9 +280,7 @@ public partial class AppmgrViewModel : MainPageBase
                                         $"{GetTranslation("Advancedflash_FileNotFound")}: {fileArray[i]}");
                                     continue;
                                 }
-                                string stagingDir = Path.Combine(Global.runpath, "APK");
-                                _ = Directory.CreateDirectory(stagingDir);
-                                stagedPath = Path.Combine(stagingDir,
+                                stagedPath = Path.Combine(Path.GetTempPath(),
                                     $"install_{Guid.NewGuid():N}{Path.GetExtension(fileArray[i])}");
                                 File.Copy(fileArray[i], stagedPath);
 

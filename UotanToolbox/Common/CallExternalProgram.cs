@@ -126,35 +126,25 @@ namespace UotanToolbox.Common
         public static async Task<string> HDC(string hdcshell, Action<string>? outputCallback = null)
         {
             string cmd = Path.Combine(Global.bin_path, "toolchains", "hdc");
-            ProcessStartInfo hdcexe;
-            // On Windows, hdc.exe's C runtime decodes argv using the system OEM code page
-            // (936/GBK in zh-CN locales), which mangles non-ASCII filenames before they
-            // ever reach the device. Launch hdc via "cmd.exe /K chcp 65001" so the child
-            // process environment uses UTF-8 (65001), matching our StandardOutputEncoding.
-            if (Global.System == "Windows")
+            // Launch hdc.exe directly. We must NOT wrap it in "cmd /C chcp 65001":
+            // chcp 65001 flips the child CRT's argv code page to UTF-8, but the argv
+            // bytes .NET hands to CreateProcessW are decoded by hdc's CRT using the
+            // system OEM code page (936/GBK on zh-CN Windows). With chcp 65001 the CRT
+            // re-interprets those GBK bytes as UTF-8 and mangles non-ASCII filenames
+            // (e.g. "IT之家.hap" → "IT???.hap"), producing spurious "no such file"
+            // errors. Running hdc.exe directly lets its CRT use the default OEM(936)
+            // code page, which matches the bytes we pass and round-trips the filename
+            // correctly to the Windows ANSI file API. hdc 3.x already emits UTF-8 on
+            // stdout/stderr, so StandardOutputEncoding stays UTF-8.
+            ProcessStartInfo hdcexe = new ProcessStartInfo(cmd, hdcshell)
             {
-                hdcexe = new ProcessStartInfo("cmd.exe", $"/C chcp 65001 >nul && \"{cmd}\" {hdcshell}")
-                {
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    StandardOutputEncoding = System.Text.Encoding.UTF8,
-                    StandardErrorEncoding = System.Text.Encoding.UTF8
-                };
-            }
-            else
-            {
-                hdcexe = new ProcessStartInfo(cmd, hdcshell)
-                {
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    StandardOutputEncoding = System.Text.Encoding.UTF8,
-                    StandardErrorEncoding = System.Text.Encoding.UTF8
-                };
-            }
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                StandardErrorEncoding = System.Text.Encoding.UTF8
+            };
             return outputCallback == null
                 ? await RunProcessAsync(hdcexe)
                 : await RunProcessStreamingAsync(hdcexe, outputCallback);

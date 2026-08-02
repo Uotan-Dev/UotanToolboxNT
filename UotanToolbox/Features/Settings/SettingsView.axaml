@@ -381,6 +381,7 @@
 								<TextBlock>File (cross compiled from Github repo https://github.com/file/file)</TextBlock>
 								<TextBlock>MagiskBoot(from Github repo https://github.com/wuxign/magiskboot_build_new)</TextBlock>
 								<TextBlock>MiSans (from https://hyperos.mi.com/font)</TextBlock>
+								<TextBlock>Microsoft YaHei (system font of Windows, used on ≤1080P displays)</TextBlock>
 								<TextBlock>MagiskBoot of win (from Github repo https://github.com/affggh/Magisk_patcher)</TextBlock>
 								<TextBlock>QCNTool (from Github repo https://github.com/MindowsToolBox/QCNTool)</TextBlock>
 								<TextBlock>QMSL_MSVC10R.dll (from QPST)</TextBlock>

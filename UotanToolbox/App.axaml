@@ -102,6 +102,10 @@
 		<StyleInclude Source="avares://UotanToolbox/Styles/TextStyles.axaml" />
 		<StyleInclude Source="avares://UotanToolbox/Styles/GlassCardStyles.axaml" />
 		<avalonia:MaterialIconStyles />
+		<!-- 全局默认字体：默认 MiSans；低分辨率（≤1080P）时由代码切换为系统微软雅黑 -->
+		<Style Selector="Window">
+			<Setter Property="TextElement.FontFamily" Value="{DynamicResource DefaultFontFamily}" />
+		</Style>
 	</Application.Styles>
 	<NativeMenu.Menu>
 		<NativeMenu>

@@ -66,4 +66,4 @@ To debug the project, you need to put the files above into `UotanToolboxNT\Uotan
 
 ## Star History
 
-[![Uotan Toolbox NT](https://api.star-history.com/svg?repos=Uotan-Dev/UotanToolboxNT&type=Date)](https://star-history.com/#Uotan-Dev/UotanToolboxNT&Date)
+[![Uotan Toolbox NT](https://star-history.dera.page/svg?repos=Uotan-Dev/UotanToolboxNT&type=Date)](https://star-history.dera.page/#Uotan-Dev/UotanToolboxNT&Date)

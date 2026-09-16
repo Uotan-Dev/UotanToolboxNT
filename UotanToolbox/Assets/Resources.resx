@@ -681,6 +681,12 @@
   <data name="Customizedflash_CustomizedPartFlash" xml:space="preserve">
     <value>Customized Partition Flash</value>
   </data>
+  <data name="Customizedflash_UseAdb" xml:space="preserve">
+    <value>Flash with ADB</value>
+  </data>
+  <data name="Customizedflash_InvalidPartition" xml:space="preserve">
+    <value>The partition name contains invalid characters.</value>
+  </data>
   <data name="Customizedflash_DisableVbmeta" xml:space="preserve">
     <value>Disable vbmeta</value>
   </data>

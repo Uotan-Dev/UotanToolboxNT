@@ -5,6 +5,8 @@ using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using SukiUI.Dialogs;
 using SukiUI.Toasts;
+using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using UotanToolbox.Common;
@@ -58,6 +60,48 @@ public partial class CustomizedflashView : UserControl
         _ = await CallExternalProgram.Fastboot(fbshell, chunk => _ = AppendFastbootOutputAsync(chunk));
     }
 
+    private async Task DeleteCowPartitionsAsync(string partition)
+    {
+        string normalizedPartition = partition;
+        if (normalizedPartition.EndsWith("_a", StringComparison.OrdinalIgnoreCase)
+            || normalizedPartition.EndsWith("_b", StringComparison.OrdinalIgnoreCase))
+        {
+            normalizedPartition = normalizedPartition[..^2];
+        }
+
+        if (DelCow.IsChecked != true
+            || normalizedPartition.Equals("vendor_boot", StringComparison.OrdinalIgnoreCase)
+            || normalizedPartition.Equals("boot", StringComparison.OrdinalIgnoreCase)
+            || normalizedPartition.Equals("init_boot", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        string cow = await CallExternalProgram.Fastboot($"-s {Global.thisdevice} getvar all");
+        string[] cowparts = FeaturesHelper.GetVPartList(cow);
+        foreach (string cowpart in cowparts)
+        {
+            if (cowpart.Contains("-cow"))
+            {
+                await Fastboot($"-s {Global.thisdevice} delete-logical-partition {cowpart}");
+            }
+        }
+    }
+
+    private async Task<string> Adb(string command)
+    {
+        if (Global.DeviceManager != null)
+        {
+            var dev = Global.DeviceManager.Devices.FirstOrDefault(d => d.Id == Global.thisdevice && d.Transport == TransportType.Adb);
+            if (dev != null)
+            {
+                return await Global.DeviceManager.ExecuteStreamingAsync(dev, command, chunk => _ = AppendFastbootOutputAsync(chunk));
+            }
+        }
+
+        return await CallExternalProgram.ADB($"-s {Global.thisdevice} {command}", chunk => _ = AppendFastbootOutputAsync(chunk));
+    }
+
     private async void OpenSystemFile(object sender, RoutedEventArgs args)
     {
         TopLevel topLevel = TopLevel.GetTopLevel(this);
@@ -85,6 +129,7 @@ public partial class CustomizedflashView : UserControl
                     OpenSystemFileBut.IsEnabled = false;
                     FlashSystemFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
+                    await DeleteCowPartitionsAsync("system");
                     string shell = string.Format($"-s {Global.thisdevice} flash system \"{SystemFile.Text}\"");
                     await Fastboot(shell);
                     OpenSystemFileBut.IsEnabled = true;
@@ -148,6 +193,7 @@ public partial class CustomizedflashView : UserControl
                     OpenProductFileBut.IsEnabled = false;
                     FlashProductFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
+                    await DeleteCowPartitionsAsync("product");
                     string shell = string.Format($"-s {Global.thisdevice} flash product \"{ProductFile.Text}\"");
                     await Fastboot(shell);
                     OpenProductFileBut.IsEnabled = true;
@@ -210,6 +256,7 @@ public partial class CustomizedflashView : UserControl
                     OpenVendorFileBut.IsEnabled = false;
                     FlashVendorFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
+                    await DeleteCowPartitionsAsync("vendor");
                     string shell = string.Format($"-s {Global.thisdevice} flash vendor \"{VendorFile.Text}\"");
                     await Fastboot(shell);
                     OpenVendorFileBut.IsEnabled = true;
@@ -334,6 +381,7 @@ public partial class CustomizedflashView : UserControl
                     OpenSystemextFileBut.IsEnabled = false;
                     FlashSystemextFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
+                    await DeleteCowPartitionsAsync("system_ext");
                     string shell = string.Format($"-s {Global.thisdevice} flash system_ext \"{SystemextFile.Text}\"");
                     await Fastboot(shell);
                     OpenSystemextFileBut.IsEnabled = true;
@@ -396,6 +444,7 @@ public partial class CustomizedflashView : UserControl
                     OpenOdmFileBut.IsEnabled = false;
                     FlashOdmFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
+                    await DeleteCowPartitionsAsync("odm");
                     string shell = string.Format($"-s {Global.thisdevice} flash odm \"{OdmFile.Text}\"");
                     await Fastboot(shell);
                     OpenOdmFileBut.IsEnabled = true;
@@ -573,15 +622,60 @@ public partial class CustomizedflashView : UserControl
     {
         if (await GetDevicesInfo.SetDevicesInfoLittle())
         {
-            if (ImageFile.Text != null)
+            if (!string.IsNullOrWhiteSpace(ImageFile.Text) && !string.IsNullOrWhiteSpace(Part.Text))
             {
                 MainViewModel sukiViewModel = GlobalData.MainViewModelInstance;
-                if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
+                if (UseADB.IsChecked == true)
+                {
+                    if (sukiViewModel.Status == GetTranslation("Home_Android") || sukiViewModel.Status == GetTranslation("Home_Recovery"))
+                    {
+                        if (!Part.Text.All(c => char.IsLetterOrDigit(c) || c is '_' or '-' or '.'))
+                        {
+                            Global.MainDialogManager.CreateDialog()
+                                                        .WithTitle(GetTranslation("Common_Error"))
+                                                        .OfType(NotificationType.Error)
+                                                        .WithContent(GetTranslation("Customizedflash_InvalidPartition"))
+                                                        .Dismiss().ByClickingBackground()
+                                                        .TryShow();
+                            return;
+                        }
+
+                        Global.MainDialogManager.CreateDialog()
+                                                    .WithTitle(GetTranslation("Common_Warn"))
+                                                    .WithContent(GetTranslation("Common_NeedRoot"))
+                                                    .OfType(NotificationType.Warning)
+                                                    .WithActionButton(GetTranslation("Common_DebugMode"), async _ =>
+                                                    {
+                                                        await FlashAdbImage(true);
+                                                    }, true)
+                                                    .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ =>
+                                                    {
+                                                        await FlashAdbImage(false);
+                                                    }, true)
+                                                    .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ =>
+                                                    {
+                                                        ResetAdbFlashState();
+                                                    }, true)
+                                                    .TryShow();
+                    }
+
+                    else
+                    {
+                        Global.MainDialogManager.CreateDialog()
+                                                    .WithTitle(GetTranslation("Common_Error"))
+                                                    .OfType(NotificationType.Error)
+                                                    .WithContent(GetTranslation("Home_Android"))
+                                                    .Dismiss().ByClickingBackground()
+                                                    .TryShow();
+                    }
+                }
+                else if (sukiViewModel.Status == GetTranslation("Home_Fastboot") || sukiViewModel.Status == GetTranslation("Home_Fastbootd"))
                 {
                     Global.checkdevice = false;
                     OpenImageFileBut.IsEnabled = false;
                     FlashImageFileBut.IsEnabled = false;
                     CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
+                    await DeleteCowPartitionsAsync(Part.Text);
                     string shell = string.Format($"-s {Global.thisdevice} flash {Part.Text} \"{ImageFile.Text}\"");
                     await Fastboot(shell);
                     OpenImageFileBut.IsEnabled = true;
@@ -616,6 +710,41 @@ public partial class CustomizedflashView : UserControl
                                         .WithContent(GetTranslation("Common_NotConnected"))
                                         .Dismiss().ByClickingBackground()
                                         .TryShow();
+        }
+    }
+
+    private void ResetAdbFlashState()
+    {
+        OpenImageFileBut.IsEnabled = true;
+        FlashImageFileBut.IsEnabled = true;
+        Global.checkdevice = true;
+    }
+
+    private async Task FlashAdbImage(bool useAdbRoot)
+    {
+        string remoteImage = $"/data/local/tmp/uotan_flash_{System.Guid.NewGuid():N}.img";
+        try
+        {
+            Global.checkdevice = false;
+            OpenImageFileBut.IsEnabled = false;
+            FlashImageFileBut.IsEnabled = false;
+            CustomizedflashLog.Text = GetTranslation("Customizedflash_Flashing") + "\n";
+            if (useAdbRoot)
+            {
+                await Adb("root");
+                await Adb($"push \"{ImageFile.Text}\" {remoteImage}");
+                await Adb($"shell dd if={remoteImage} of=/dev/block/by-name/{Part.Text} bs=4M conv=fsync");
+            }
+            else
+            {
+                await Adb($"push \"{ImageFile.Text}\" {remoteImage}");
+                await Adb($"shell su -c \"dd if={remoteImage} of=/dev/block/by-name/{Part.Text} bs=4M conv=fsync\"");
+            }
+        }
+        finally
+        {
+            await Adb($"shell rm -f {remoteImage}");
+            ResetAdbFlashState();
         }
     }
 

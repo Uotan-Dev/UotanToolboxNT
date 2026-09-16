@@ -681,6 +681,12 @@
   <data name="Customizedflash_CustomizedPartFlash" xml:space="preserve">
     <value>自定义分区刷入</value>
   </data>
+  <data name="Customizedflash_UseAdb" xml:space="preserve">
+    <value>使用ADB刷入</value>
+  </data>
+  <data name="Customizedflash_InvalidPartition" xml:space="preserve">
+    <value>分区名称包含无效字符。</value>
+  </data>
   <data name="Customizedflash_DisableVbmeta" xml:space="preserve">
     <value>禁用vbmeta</value>
   </data>

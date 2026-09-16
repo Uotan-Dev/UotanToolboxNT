@@ -1954,6 +1954,18 @@ namespace UotanToolbox.Assets {
                 return ResourceManager.GetString("Customizedflash_CustomizedPartFlash", resourceCulture);
             }
         }
+
+        public static string Customizedflash_UseAdb {
+            get {
+                return ResourceManager.GetString("Customizedflash_UseAdb", resourceCulture);
+            }
+        }
+
+        public static string Customizedflash_InvalidPartition {
+            get {
+                return ResourceManager.GetString("Customizedflash_InvalidPartition", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   查找类似 Disable vbmeta 的本地化字符串。

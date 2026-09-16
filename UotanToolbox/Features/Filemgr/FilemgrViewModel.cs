@@ -481,6 +481,12 @@ public partial class FilemgrViewModel : MainPageBase
         }
     }
 
+    /// <summary>
+    /// <para>为设备端 shell 单引号包裹路径，保证含空格等特殊字符的路径作为一个参数传递。</para>
+    /// Wraps a remote path in single quotes for the on-device shell so paths containing spaces stay a single argument.
+    /// </summary>
+    private static string Sh(string path) => "'" + path.Replace("'", "'\\''") + "'";
+
     public async Task<string> RunADB(string cmd, bool isShell = true)
     {
         bool isHdc = false;
@@ -639,7 +645,7 @@ public partial class FilemgrViewModel : MainPageBase
         {
             // Ensure trailing slash so symlinks like /sdcard are followed into the directory
             string listPath = path.EndsWith("/") ? path : path + "/";
-            string output = await RunADB($"ls -la \"{listPath}\"");
+            string output = await RunADB($"ls -la {Sh(listPath)}");
 
             if (output.Contains("No such file", StringComparison.OrdinalIgnoreCase) ||
                 output.Contains("Permission denied", StringComparison.OrdinalIgnoreCase) ||
@@ -1280,7 +1286,7 @@ public partial class FilemgrViewModel : MainPageBase
         {
             foreach (var target in targetEntries)
             {
-                await RunADB($"chmod {mode} \"{target.FullPath}\"");
+                await RunADB($"chmod {mode} {Sh(target.FullPath)}");
             }
 
             await Dispatcher.UIThread.InvokeAsync(() =>
@@ -1673,7 +1679,7 @@ public partial class FilemgrViewModel : MainPageBase
             }
 
             string remotePath = CurrentPath == "/" ? $"/{fileName}" : $"{CurrentPath}/{fileName}";
-            string output = await RunADB($"touch \"{remotePath}\"");
+            string output = await RunADB($"touch {Sh(remotePath)}");
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -1746,7 +1752,7 @@ public partial class FilemgrViewModel : MainPageBase
             }
 
             string remotePath = CurrentPath == "/" ? $"/{folderName}" : $"{CurrentPath}/{folderName}";
-            string output = await RunADB($"mkdir \"{remotePath}\"");
+            string output = await RunADB($"mkdir {Sh(remotePath)}");
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -1876,13 +1882,13 @@ public partial class FilemgrViewModel : MainPageBase
                 if (_clipboardOperation == ClipboardOperation.Copy)
                 {
                     string cmd = clipboardEntry.IsDirectory
-                        ? $"cp -r \"{clipboardEntry.FullPath}\" \"{destPath}\""
-                        : $"cp \"{clipboardEntry.FullPath}\" \"{destPath}\"";
+                        ? $"cp -r {Sh(clipboardEntry.FullPath)} {Sh(destPath)}"
+                        : $"cp {Sh(clipboardEntry.FullPath)} {Sh(destPath)}";
                     output = await RunADB(cmd);
                 }
                 else // Cut
                 {
-                    output = await RunADB($"mv \"{clipboardEntry.FullPath}\" \"{destPath}\"");
+                    output = await RunADB($"mv {Sh(clipboardEntry.FullPath)} {Sh(destPath)}");
                 }
 
                 if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
@@ -1990,7 +1996,7 @@ public partial class FilemgrViewModel : MainPageBase
 
             string parentPath = GetParentPath(entry.FullPath);
             string newFullPath = parentPath == "/" ? $"/{newName}" : $"{parentPath}/{newName}";
-            string output = await RunADB($"mv \"{entry.FullPath}\" \"{newFullPath}\"");
+            string output = await RunADB($"mv {Sh(entry.FullPath)} {Sh(newFullPath)}");
 
             await Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -2070,8 +2076,8 @@ public partial class FilemgrViewModel : MainPageBase
                 return;
 
             string cmd = entry.IsDirectory
-                ? $"rm -rf \"{entry.FullPath}\""
-                : $"rm \"{entry.FullPath}\"";
+                ? $"rm -rf {Sh(entry.FullPath)}"
+                : $"rm {Sh(entry.FullPath)}";
             string output = await RunADB(cmd);
 
             await Dispatcher.UIThread.InvokeAsync(() =>
@@ -2165,8 +2171,8 @@ public partial class FilemgrViewModel : MainPageBase
             foreach (var entry in selected)
             {
                 string cmd = entry.IsDirectory
-                    ? $"rm -rf \"{entry.FullPath}\""
-                    : $"rm \"{entry.FullPath}\"";
+                    ? $"rm -rf {Sh(entry.FullPath)}"
+                    : $"rm {Sh(entry.FullPath)}";
                 string output = await RunADB(cmd);
 
                 if (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&

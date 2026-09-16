@@ -53,8 +53,22 @@ public partial class App : Application
                 throw new InvalidOperationException("Failed to build main window");
             desktop.MainWindow = window;
             // MainWindow is guaranteed non-null because we just assigned it from 'window'
-            desktop.MainWindow!.Width = 1235;
-            desktop.MainWindow!.Height = 840;
+            // Restore persisted window size (aspect ratio is enforced by MainView); fall back to defaults
+            double restoreWidth = 1235, restoreHeight = 840;
+            string? savedScale = Settings.Default.WindowScale;
+            if (!string.IsNullOrWhiteSpace(savedScale))
+            {
+                string[] parts = savedScale.Split('x');
+                if (parts.Length == 2 &&
+                    double.TryParse(parts[0], out double w) && double.TryParse(parts[1], out double h) &&
+                    w >= 400 && h >= 300)
+                {
+                    restoreWidth = w;
+                    restoreHeight = h;
+                }
+            }
+            desktop.MainWindow!.Width = restoreWidth;
+            desktop.MainWindow!.Height = restoreHeight;
             // 屏幕分辨率 ≤1080P（1920×1080）时切换为系统微软雅黑，保证低分辨率下文本清晰。
             // 合规说明：微软雅黑为微软专有字体，不随应用分发字体文件，仅按名称引用系统自带字体。
             ApplyResolutionBasedFont(desktop.MainWindow);

@@ -67,6 +67,8 @@ public partial class MainView : SukiWindow
     private void SetResize(object sender, RoutedEventArgs e)
     {
         Global.SetResize = this.CanResize;
+        Settings.Default.WindowUnlockResize = this.CanResize;
+        Settings.Default.Save();
     }
 
     private void MenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -154,6 +156,7 @@ public partial class MainView : SukiWindow
         {
             SettingsViewModel settingsViewModel = new SettingsViewModel();
             Settings.Default.IsLightTheme = settingsViewModel.IsLightTheme;
+            Settings.Default.WindowScale = $"{Math.Round(Width, 0)}x{Math.Round(Height, 0)}";
             Settings.Default.Save();
             KillProcess("adb");
             KillProcess("hdc");

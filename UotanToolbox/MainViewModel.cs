@@ -56,6 +56,9 @@ public partial class MainViewModel : ObservableObject
     {
         Global.MainToastManager = ToastManager = toastManager;
         Global.MainDialogManager = DialogManager = dialogManager;
+        // Restore persisted window resize unlock state
+        WindowLocked = Settings.Default.WindowUnlockResize;
+        Global.SetResize = WindowLocked;
         Status = "--"; CodeName = "--"; BLStatus = "--"; VABStatus = "--";
         DemoPages = new AvaloniaList<MainPageBase>(demoPages.OrderBy(x => x.Index).ThenBy(x => x.DisplayName));
         _theming = (SettingsViewModel)DemoPages.First(x => x is SettingsViewModel);

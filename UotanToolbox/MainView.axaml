@@ -18,6 +18,7 @@
 				 BackgroundStyle="{Binding BackgroundStyle}"
 				 BackgroundTransitionsEnabled="{Binding TransitionsEnabled}"
                  CanResize="{Binding WindowLocked}"
+                 WindowStartupLocation="CenterScreen"
 				 CanMaximize="False"
                  Icon="Assets/OIG.N5o-removebg-preview.png"
                  IsMenuVisible="False"

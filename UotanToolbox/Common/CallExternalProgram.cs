@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -156,30 +156,6 @@ namespace UotanToolbox.Common
             return outputCallback == null
                 ? await RunProcessAsync(fastboot)
                 : await RunProcessStreamingAsync(fastboot, outputCallback);
-        }
-
-        public static async Task<string> Devcon(string shell)
-        {
-            string cmd = Path.Combine(Global.bin_path, "devcon");
-            ProcessStartInfo fastboot = new ProcessStartInfo(cmd, shell)
-            {
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                StandardOutputEncoding = System.Text.Encoding.UTF8,
-                StandardErrorEncoding = System.Text.Encoding.UTF8
-            };
-            using Process devcon = new Process();
-            devcon.StartInfo = fastboot;
-            _ = devcon.Start();
-            string output = await devcon.StandardError.ReadToEndAsync();
-            if (output == "")
-            {
-                output = await devcon.StandardOutput.ReadToEndAsync();
-            }
-            devcon.WaitForExit();
-            return output;
         }
 
         public static async Task<string> Sudo(string shell)

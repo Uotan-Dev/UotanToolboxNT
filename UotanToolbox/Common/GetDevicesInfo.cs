@@ -1,4 +1,4 @@
-﻿using Avalonia.Collections;
+using Avalonia.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -135,7 +135,7 @@ namespace UotanToolbox.Common
             string progressdisk = "0";
             string adb = await FeaturesHelper.AdbCmd("", "devices");
             string fastboot = await FeaturesHelper.FastbootCmd("", "devices");
-            string devcon = Global.System == "Windows" ? await CallExternalProgram.Devcon("find usb*") : await CallExternalProgram.LsUSB();
+            string usbdevs = Global.System == "Windows" ? await UsbEnumerator.FindUsbDevicesAsync() : await CallExternalProgram.LsUSB();
             string hdc = await FeaturesHelper.HdcCmd("", "list targets");
             if (fastboot.Contains(devicename))
             {
@@ -409,8 +409,8 @@ namespace UotanToolbox.Common
                     diskinfo = "--";
                 }
             }
-            string[] deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            if (devcon.Contains(devicename))
+            string[] deviceLines = usbdevs.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            if (usbdevs.Contains(devicename))
             {
                 string? thisdevice = deviceLines.FirstOrDefault(line => line.Contains(devicename));
                 if (thisdevice != null)
@@ -494,7 +494,7 @@ namespace UotanToolbox.Common
             string vabstatus = "--";
             string adb = await FeaturesHelper.AdbCmd("", "devices");
             string fastboot = await FeaturesHelper.FastbootCmd("", "devices");
-            string devcon = Global.System == "Windows" ? await CallExternalProgram.Devcon("find usb*") : await CallExternalProgram.LsUSB();
+            string usbdevs = Global.System == "Windows" ? await UsbEnumerator.FindUsbDevicesAsync() : await CallExternalProgram.LsUSB();
             string hdc = await FeaturesHelper.HdcCmd("", "list targets");
             if (fastboot.Contains(devicename))
             {
@@ -587,8 +587,8 @@ namespace UotanToolbox.Common
                 }
                 codename = StringHelper.RemoveLineFeed(await RunHdc(devicename, "shell param get const.product.model"));
             }
-            string[] deviceLines = devcon.Split(separator, StringSplitOptions.RemoveEmptyEntries);
-            if (devcon.Contains(devicename))
+            string[] deviceLines = usbdevs.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+            if (usbdevs.Contains(devicename))
             {
                 string? thisdevice = deviceLines.FirstOrDefault(line => line.Contains(devicename));
                 if (thisdevice != null)

@@ -2157,15 +2157,6 @@ namespace UotanToolbox.Assets {
         }
         
         /// <summary>
-        ///   查找类似 Local targets 的本地化字符串。
-        /// </summary>
-        public static string Filemgr_LocalTargets {
-            get {
-                return ResourceManager.GetString("Filemgr_LocalTargets", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 Custom permissions 的本地化字符串。
         /// </summary>
         public static string Filemgr_CustomPermissions {

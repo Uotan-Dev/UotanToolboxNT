@@ -294,6 +294,7 @@ public partial class FilemgrViewModel : MainPageBase
         var customData = QuickAccessPersistence.Load();
         var customItems = QuickAccessPersistence.ToQuickAccessItems(customData);
 
+
         var allItems = new ObservableCollection<QuickAccessItem>(builtInItems.Concat(customItems));
         QuickAccessItems = allItems;
 
@@ -894,6 +895,95 @@ public partial class FilemgrViewModel : MainPageBase
         }
     }
 
+
+    /// <summary>
+    /// <para>判定 adb/hdc 推送输出是否表示成功。</para>
+    /// Determines whether the adb/hdc push output indicates success.
+    /// </summary>
+    private static bool IsPushOutputSuccess(string output) =>
+        output.Contains("bytes in", StringComparison.OrdinalIgnoreCase) ||
+        output.Contains("file pushed", StringComparison.OrdinalIgnoreCase) ||
+        output.Contains("files pushed", StringComparison.OrdinalIgnoreCase) ||
+        output.Contains("TransferSummary success", StringComparison.OrdinalIgnoreCase) ||
+        output.Contains("FileTransfer finish", StringComparison.OrdinalIgnoreCase) ||
+        (!output.Contains("error", StringComparison.OrdinalIgnoreCase) &&
+         !output.Contains("failed", StringComparison.OrdinalIgnoreCase));
+
+    /// <summary>
+    /// <para>推送本地路径列表（文件或目录）到设备当前目录，逐项执行 push 并提示结果，完成后刷新列表。供按钮入口与拖放入口共用。</para>
+    /// Pushes local paths (files or directories) to the current device directory, runs push per item, reports results, then refreshes. Shared by the button entry and the drag-drop entry.
+    /// </summary>
+    public async Task PushLocalPathsAsync(System.Collections.Generic.IEnumerable<string> localPaths)
+    {
+        if (!await EnsureDeviceConnectedAndRefreshStateAsync()) return;
+
+        var paths = localPaths.Where(p => !string.IsNullOrEmpty(p)).Distinct().ToList();
+        if (paths.Count == 0)
+            return;
+
+        IsBusy = true;
+        try
+        {
+            int successCount = 0;
+            int failCount = 0;
+
+            foreach (var localPath in paths)
+            {
+                string fileName = Path.GetFileName(localPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
+                if (string.IsNullOrEmpty(fileName))
+                    fileName = localPath;
+
+                string remotePath = CurrentPath == "/"
+                    ? $"/{fileName}"
+                    : $"{CurrentPath}/{fileName}";
+
+                string output = await RunADB($"push \"{localPath}\" \"{remotePath}\"", false);
+
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    if (IsPushOutputSuccess(output))
+                    {
+                        successCount++;
+                        Global.MainToastManager.CreateToast()
+                            .WithTitle(GetTranslation("Filemgr_PushSuccess"))
+                            .WithContent(fileName)
+                            .OfType(NotificationType.Success)
+                            .Dismiss().ByClicking()
+                            .Dismiss().After(TimeSpan.FromSeconds(3))
+                            .Queue();
+                    }
+                    else
+                    {
+                        failCount++;
+                        Global.MainDialogManager.CreateDialog()
+                            .OfType(NotificationType.Error)
+                            .WithTitle(GetTranslation("Filemgr_PushFailed"))
+                            .WithContent($"[PushLocalPaths] Local: {localPath}, Remote: {remotePath}\n\n{output.Trim()}")
+                            .Dismiss().ByClickingBackground()
+                            .TryShow();
+                    }
+                });
+            }
+
+            await RefreshAsync();
+        }
+        catch (Exception ex)
+        {
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                Global.MainDialogManager.CreateDialog()
+                    .OfType(NotificationType.Error)
+                    .WithTitle(GetTranslation("Common_Error"))
+                    .WithContent($"[PushLocalPaths]\n\n{ex.GetType().Name}: {ex.Message}")
+                    .Dismiss().ByClickingBackground()
+                    .TryShow();
+            });
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
     /// <summary>
     /// <para>将本地文件推送到设备当前目录。弹出文件选择对话框让用户选择文件，然后执行 ADB push 命令。</para>
     /// Pushes a local file to the current device directory. Shows a file picker dialog, then executes the ADB push command.

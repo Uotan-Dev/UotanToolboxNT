@@ -83,7 +83,7 @@
 								<avalonia:MaterialIcon Kind="DeleteOutline" Padding="5"/>
 							</Button>
 						</StackPanel>
-						<suki:GlassCard Height="672">
+						<suki:GlassCard Name="FileListCard" Height="672">
 							<suki:GlassCard.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="{x:Static assets:Resources.Filemgr_New}">

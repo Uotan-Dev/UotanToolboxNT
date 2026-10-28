@@ -196,21 +196,21 @@
 						</suki:GlassCard>
 						<suki:GlassCard Classes="Card" Margin="15 10 0 10" Width="265" Height="132">
 							<!--<StackPanel Orientation="Vertical">
-								<TextBlock HorizontalAlignment="Left"
-										   VerticalAlignment="Top"
-										   FontWeight="DemiBold"
-										   Text="{x:Static assets:Resources.Advancedflash_ExportScript}" />
-								<StackPanel Margin="0 0 0 0" HorizontalAlignment="Center" Spacing="10">
-									<ComboBox Name="ExportScr" Width="210"/>
-									<Button Width="200"
-											Name="ToScr"
-											Margin="5 -5 0 0"
-											Click="Export"
-											HorizontalAlignment="Left"
-											Padding="8">
-										<TextBlock FontSize="15" Text="{x:Static assets:Resources.Advancedflash_ExportScript}" />
-									</Button>
-								</StackPanel>
+							<TextBlock HorizontalAlignment="Left"
+							VerticalAlignment="Top"
+							FontWeight="DemiBold"
+							Text="{x:Static assets:Resources.Advancedflash_ExportScript}" />
+							<StackPanel Margin="0 0 0 0" HorizontalAlignment="Center" Spacing="10">
+							<ComboBox Name="ExportScr" Width="210"/>
+							<Button Width="200"
+							Name="ToScr"
+							Margin="5 -5 0 0"
+							Click="Export"
+							HorizontalAlignment="Left"
+							Padding="8">
+							<TextBlock FontSize="15" Text="{x:Static assets:Resources.Advancedflash_ExportScript}" />
+							</Button>
+							</StackPanel>
 							</StackPanel>-->
 							<StackPanel Orientation="Vertical">
 								<TextBlock HorizontalAlignment="Center"
@@ -224,8 +224,8 @@
 			</StackPanel>
 			<suki:GlassCard Width="960"
 							Height="340"
-			                Margin="10"
-			                VerticalAlignment="Top">
+							Margin="10"
+							VerticalAlignment="Top">
 				<Grid VerticalAlignment="Top">
 					<TextBox Name="AdvancedflashLog" Watermark="{x:Static assets:Resources.Common_Log}" Margin="0,0,0,0" Height="300" AcceptsReturn="True" IsReadOnly="True"
 							 VerticalContentAlignment="Top" TextWrapping="Wrap" BorderThickness="1" CornerRadius="10" />

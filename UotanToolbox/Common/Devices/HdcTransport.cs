@@ -24,8 +24,8 @@ namespace UotanToolbox.Common.Devices
             var hids = ids.Select(id => new DeviceInfo(id, TransportType.Hdc));
             if (Global.System.Contains("Linux") && Global.root)
             {
-                string devcon = await CallExternalProgram.LsUSB();
-                if (devcon.Contains("HDC Device") && ids.Length == 0)
+                string lsusb = await CallExternalProgram.LsUSB();
+                if (lsusb.Contains("HDC Device") && ids.Length == 0)
                 {
                     Global.MainDialogManager.CreateDialog()
                         .WithTitle(GetTranslation("Common_Warn"))

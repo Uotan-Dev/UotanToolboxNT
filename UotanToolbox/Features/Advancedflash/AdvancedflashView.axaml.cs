@@ -8,12 +8,12 @@ using Avalonia.Threading;
 using FirmwareKit.Lp;
 using FirmwareKit.Nb0;
 using FirmwareKit.NTPi;
+using FirmwareKit.OfpReader;
 using FirmwareKit.Oppo;
 using FirmwareKit.Oppo.Crypto;
 using FirmwareKit.Oppo.Models;
-using FirmwareKit.OzipReader;
 using FirmwareKit.OpsReader;
-using FirmwareKit.OfpReader;
+using FirmwareKit.OzipReader;
 using FirmwareKit.Sparse.Core;
 using FirmwareKit.Sparse.Models;
 using FirmwareKit.Sparse.Streams;
@@ -1636,17 +1636,6 @@ public partial class AdvancedflashView : UserControl
                             await Fastboot($"-s {Global.thisdevice} {item.Command} {item.Name} {item.FullFilePath}");
                         }
                         FileHelper.Write(fastboot_log_path, output);
-                        if (output.Contains("FAILED") || output.Contains("error"))
-                        {
-                            if (!Directory.Exists(path))
-                            {
-                                Global.MainDialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(GetTranslation("Wiredflash_FlashError")).Dismiss().ByClickingBackground().TryShow();
-                                SetEnabled(false);
-                                Global.checkdevice = true;
-                                return;
-                            }
-                            AdvancedflashLog.Text += "\n注意！出现错误 Attention! An error occurred\n";
-                        }
                     }
                 }
                 if (ErasData.IsChecked == true)
@@ -1654,10 +1643,14 @@ public partial class AdvancedflashView : UserControl
                     await Fastboot($"-s {Global.thisdevice} erase metadata");
                     await Fastboot($"-s {Global.thisdevice} erase userdata");
                 }
+                if (output.Contains("FAILED") || output.Contains("error"))
+                {
+                    AdvancedflashLog.Text += "\n注意！过程中出现错误请自行检查 Attention! Please check for errors yourself during the process.\n";
+                }
                 Global.MainDialogManager.CreateDialog()
-                                .WithTitle(GetTranslation("Common_Succ"))
+                                .WithTitle(GetTranslation("Common_Execution"))
                                 .WithContent(GetTranslation("Wiredflash_ROMFlash"))
-                                .OfType(NotificationType.Success)
+                                .OfType(NotificationType.Information)
                                 .WithActionButton(GetTranslation("ConnectionDialog_Confirm"), async _ => await Fastboot($"-s {Global.thisdevice} reboot"), true)
                                 .WithActionButton(GetTranslation("ConnectionDialog_Cancel"), _ => { }, true)
                                 .TryShow();
@@ -1938,7 +1931,7 @@ public partial class AdvancedflashView : UserControl
             var outtxtDir = Path.Combine(parentDir, $"UotanToolbox_{Path.GetFileName(sourcePath)}", "flash_fastbootd.txt");
             var outputDir = Path.Combine(parentDir, $"UotanToolbox_{Path.GetFileName(sourcePath)}", "images");
             Directory.CreateDirectory(outputDir);
-            //await ExtractPayloadSelectedAsync(sourcePath, outputDir, selectedParts);
+            await ExtractPayloadSelectedAsync(sourcePath, outputDir, selectedParts);
 
             var partlist = string.Join("\r\n", selectedParts.Select(x => x.Name).OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToArray());
             FileHelper.Write(outtxtDir, partlist);

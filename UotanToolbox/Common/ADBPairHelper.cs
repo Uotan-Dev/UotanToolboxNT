@@ -1,8 +1,10 @@
 ﻿using Avalonia.Controls.Notifications;
 using QRCoder;
 using SukiUI.Dialogs;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using UotanToolbox.Common.Devices;
 
@@ -38,27 +40,75 @@ namespace UotanToolbox.Common
 
 
         //Todo:使用原生Zeroconf做网络mdns扫描
-        public static async Task ScanmDNS(string serviceID, string password, ISukiDialogManager dialogManager)
+        public static async Task ScanmDNS(string serviceID, string password, ISukiDialogManager dialogManager, CancellationToken cancellationToken)
         {
-            while (true)
+            while (!cancellationToken.IsCancellationRequested)
             {
-                string result = await Adb("mdns services");
-                if (result.Contains("List of discovered mdns services"))
+                try
                 {
-                    var lineRegex = "([^\\t]+)\\t*_adb-tls-pairing._tcp.\\t*([^:]+):([0-9]+)";
-                    var match = Regex.Match(result, lineRegex);
-                    string deviceIP = match.Groups[2].Value;
-                    if (match.Success)
+                    string result = await Adb("mdns services");
+                    if (result.Contains("List of discovered mdns services"))
                     {
-                        result = await Adb($"pair {match.Groups[2].Value}:{match.Groups[3].Value} {password}");
-                        if (result.Contains("Successfully paired to "))
+                        var lineRegex = "([^\\t]+)\\t*_adb-tls-pairing._tcp.\\t*([^:]+):([0-9]+)";
+                        var match = Regex.Match(result, lineRegex);
+                        if (match.Success)
                         {
-                            dialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                            string pairAddr = $"{match.Groups[2].Value}:{match.Groups[3].Value}";
+                            result = await Adb($"pair {pairAddr} {password}");
+                            if (result.Contains("Successfully paired to "))
+                            {
+                                // 配对成功后从 mdns services 解析出 connect 端口并主动连接
+                                string connectResult = await TryConnectFromMdns(cancellationToken);
+                                if (string.IsNullOrEmpty(connectResult))
+                                {
+                                    dialogManager.CreateDialog().WithTitle(GetTranslation("Common_Succ")).OfType(NotificationType.Success).WithContent(GetTranslation("WirelessADB_Connect")).Dismiss().ByClickingBackground().TryShow();
+                                }
+                                else
+                                {
+                                    dialogManager.CreateDialog().WithTitle(GetTranslation("Common_Error")).OfType(NotificationType.Error).WithContent(connectResult).Dismiss().ByClickingBackground().TryShow();
+                                }
+                                return;
+                            }
                         }
                     }
                 }
-                await Task.Delay(1000);
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+                try
+                {
+                    await Task.Delay(1000, cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
             }
+        }
+
+        private static async Task<string> TryConnectFromMdns(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            string result = await Adb("mdns services");
+            if (!result.Contains("List of discovered mdns services"))
+            {
+                return result;
+            }
+            var connectRegex = "([^\\t]+)\\t*_adb-tls-connect._tcp.\\t*([^:]+):([0-9]+)";
+            var connectMatch = Regex.Match(result, connectRegex);
+            if (!connectMatch.Success)
+            {
+                // 回退：直接尝试在配对端口的 host 上 connect（端口通常是 mdns 解析的 service port）
+                return string.Empty;
+            }
+            string connectAddr = $"{connectMatch.Groups[2].Value}:{connectMatch.Groups[3].Value}";
+            string connectResult = await Adb($"connect {connectAddr}");
+            if (connectResult.Contains("connected to") || connectResult.Contains("already connected"))
+            {
+                return string.Empty;
+            }
+            return connectResult;
         }
         public static async Task<bool> Pair(string input, string password)
         {

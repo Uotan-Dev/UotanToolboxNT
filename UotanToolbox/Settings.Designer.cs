@@ -82,5 +82,29 @@ namespace UotanToolbox {
                 this["BackupPath"] = value;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WindowUnlockResize {
+            get {
+                return ((bool)(this["WindowUnlockResize"]));
+            }
+            set {
+                this["WindowUnlockResize"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string WindowScale {
+            get {
+                return ((string)(this["WindowScale"]));
+            }
+            set {
+                this["WindowScale"] = value;
+            }
+        }
     }
 }

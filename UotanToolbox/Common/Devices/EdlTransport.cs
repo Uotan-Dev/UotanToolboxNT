@@ -12,10 +12,10 @@ namespace UotanToolbox.Common.Devices
 
         public async Task<IEnumerable<DeviceInfo>> ProbeAsync(CancellationToken cancel = default)
         {
-            string devcon = Global.System == "Windows"
-                ? await CallExternalProgram.Devcon("find usb*")
+            string usbdevs = Global.System == "Windows"
+                ? await UsbEnumerator.FindUsbDevicesAsync()
                 : await CallExternalProgram.LsUSB();
-            var ids = StringHelper.COMDevices(devcon);
+            var ids = StringHelper.COMDevices(usbdevs);
             return ids.Select(id => new DeviceInfo(id, TransportType.Edl));
         }
 

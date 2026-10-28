@@ -23,8 +23,8 @@ namespace UotanToolbox.Common.Devices
             var fids = ids.Select(id => new DeviceInfo(id, TransportType.Fastboot));
             if (Global.System.Contains("Linux") && Global.root)
             {
-                string devcon = await CallExternalProgram.LsUSB();
-                if (output.Contains("no permissions") || (UotanToolbox.Settings.Default.UseNative && devcon.Contains("(fastboot)") && ids.Length == 0))
+                string lsusb = await CallExternalProgram.LsUSB();
+                if (output.Contains("no permissions") || (UotanToolbox.Settings.Default.UseNative && lsusb.Contains("(fastboot)") && ids.Length == 0))
                 {
                     Global.MainDialogManager.CreateDialog()
                         .WithTitle(GetTranslation("Common_Warn"))

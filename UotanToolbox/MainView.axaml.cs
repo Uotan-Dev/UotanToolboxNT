@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -8,19 +9,27 @@ using Avalonia.Platform;
 using SukiUI.Controls;
 using SukiUI.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using UotanToolbox.Common;
 using UotanToolbox.Features.Settings;
+using UotanToolbox.Utilities;
 
 namespace UotanToolbox;
 
 public partial class MainView : SukiWindow
 {
-    private const double AspectRatio = 1235.0 / 840.0;
+    internal const double AspectRatio = 1235.0 / 840.0;
     private Size _lastSize = new Size(1235, 840);
+    private bool _isAdjustingSize;
+    private IDisposable? _windowsResizerHook;
+
+    // Linux 上 Avalonia 11.x 没有系统边框，缩放热区需要自己挂。
+    // Avalonia 11.x has no system border on Linux, so resize grips must be added manually.
+    private readonly List<Border> _resizeGrips = new();
 
     public MainView()
     {
@@ -28,28 +37,91 @@ public partial class MainView : SukiWindow
         Bitmap bitmap = new Bitmap(AssetLoader.Open(new Uri("avares://UotanToolbox/Assets/OIG.N5o-removebg-preview.png")));
         Icon = new WindowIcon(bitmap);
         SetSystemDecorationsBasedOnPlatform();
+        _windowsResizerHook = WindowsAspectRatioResizer.Attach(this, AspectRatio);
         this.GetObservable(ClientSizeProperty).Subscribe(OnClientSizeChanged);
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        _windowsResizerHook?.Dispose();
+        _windowsResizerHook = null;
+        base.OnClosed(e);
+    }
+
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+
+        // 模板重新应用时先清掉旧热区，避免重复叠加。
+        // Drop previous grips before adding new ones when the template is re-applied.
+        LinuxResizeGrips.Detach(_resizeGrips);
+
+        if (e.NameScope.Find<Panel>("PART_Root") is not { } rootPanel)
+        {
+            return;
+        }
+
+        LinuxResizeGrips.Attach(rootPanel, _resizeGrips, AspectRatio);
     }
 
     private void OnClientSizeChanged(Size newSize)
     {
+        // Windows 上由 WM_SIZING 钩子在系统缩放阶段直接锁定宽高比，
+        // 这里不能再改 Width/Height，否则会与系统拖拽循环互相拉扯导致剧烈闪烁。
+        if (WindowsAspectRatioResizer.IsSupported)
+        {
+            _lastSize = newSize;
+            return;
+        }
+
+        // 自绘热区拖拽时已经按比例算好尺寸，这里不要再插手，
+        // 否则两套逻辑会互相拉扯，长宽变成各自独立变化。
+        // The grip drag already applies the ratio; stay out of its way here or the two
+        // implementations will fight and the axes drift apart.
+        if (LinuxResizeGrips.IsDragging)
+        {
+            _lastSize = newSize;
+            return;
+        }
+
+        if (_isAdjustingSize || newSize.Width <= 0 || newSize.Height <= 0)
+        {
+            return;
+        }
+
         double deltaWidth = Math.Abs(newSize.Width - _lastSize.Width);
         double deltaHeight = Math.Abs(newSize.Height - _lastSize.Height);
 
-        if (deltaWidth > deltaHeight)
+        _isAdjustingSize = true;
+        try
         {
-            double expectedHeight = newSize.Width / AspectRatio;
-            if (Math.Abs(newSize.Height - expectedHeight) > 1)
-                this.Height = expectedHeight;
-        }
-        else
-        {
-            double expectedWidth = newSize.Height * AspectRatio;
-            if (Math.Abs(newSize.Width - expectedWidth) > 1)
-                this.Width = expectedWidth;
-        }
+            if (deltaWidth > deltaHeight)
+            {
+                double expectedHeight = newSize.Width / AspectRatio;
+                if (Math.Abs(newSize.Height - expectedHeight) > 1)
+                {
+                    this.Height = expectedHeight;
+                    _lastSize = new Size(newSize.Width, expectedHeight);
+                    return;
+                }
+            }
+            else
+            {
+                double expectedWidth = newSize.Height * AspectRatio;
+                if (Math.Abs(newSize.Width - expectedWidth) > 1)
+                {
+                    this.Width = expectedWidth;
+                    _lastSize = new Size(expectedWidth, newSize.Height);
+                    return;
+                }
+            }
 
-        _lastSize = new Size(this.Width, this.Height);
+            _lastSize = newSize;
+        }
+        finally
+        {
+            _isAdjustingSize = false;
+        }
     }
 
     private void SetSystemDecorationsBasedOnPlatform()
@@ -156,7 +228,9 @@ public partial class MainView : SukiWindow
         {
             SettingsViewModel settingsViewModel = new SettingsViewModel();
             Settings.Default.IsLightTheme = settingsViewModel.IsLightTheme;
-            Settings.Default.WindowScale = $"{Math.Round(Width, 0)}x{Math.Round(Height, 0)}";
+            double saveWidth = ClientSize.Width > 0 ? ClientSize.Width : Width;
+            double saveHeight = ClientSize.Height > 0 ? ClientSize.Height : Height;
+            Settings.Default.WindowScale = $"{Math.Round(saveWidth, 0)}x{Math.Round(saveHeight, 0)}";
             Settings.Default.Save();
             KillProcess("adb");
             KillProcess("hdc");

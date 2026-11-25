@@ -64,7 +64,7 @@ public partial class App : Application
                     w >= 400 && h >= 300)
                 {
                     restoreWidth = w;
-                    restoreHeight = h;
+                    restoreHeight = Math.Round(w / MainView.AspectRatio);
                 }
             }
             desktop.MainWindow!.Width = restoreWidth;

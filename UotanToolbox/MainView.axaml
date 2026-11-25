@@ -152,12 +152,15 @@
 		</Button>
 	</suki:SukiWindow.RightWindowTitleBarControls>
 
-	<Viewbox HorizontalAlignment="Left" VerticalAlignment="Top">
-		<suki:SukiSideMenu ItemsSource="{Binding DemoPages}"
-						   SelectedItem="{Binding ActivePage}"
-						   SidebarToggleEnabled="False"
-						   Height="795"
-						   HorizontalAlignment="Left">
+	<Panel x:Name="MainContentHost" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<suki:SukiSideMenu x:Name="MainSideMenu"
+							   ItemsSource="{Binding DemoPages}"
+							   SelectedItem="{Binding ActivePage}"
+							   SidebarToggleEnabled="False"
+							   Width="1235"
+							   Height="795"
+							   HorizontalAlignment="Left">
 			<suki:SukiSideMenu.ItemTemplate>
 					<DataTemplate>
 						<suki:SukiSideMenuItem Classes="Compact" Header="{Binding DisplayName}">
@@ -261,6 +264,7 @@
 					</Button>
 				</StackPanel>
 			</suki:SukiSideMenu.FooterContent>
-		</suki:SukiSideMenu>
-	</Viewbox>
+			</suki:SukiSideMenu>
+		</Viewbox>
+	</Panel>
 </suki:SukiWindow>

@@ -23,6 +23,7 @@ namespace UotanToolbox;
 public partial class MainView : SukiWindow
 {
     internal const double AspectRatio = 1235.0 / 840.0;
+    private const double DesignContentWidth = 1235.0;
     private Size _lastSize = new Size(1235, 840);
     private bool _isAdjustingSize;
     private IDisposable? _windowsResizerHook;
@@ -39,6 +40,40 @@ public partial class MainView : SukiWindow
         SetSystemDecorationsBasedOnPlatform();
         _windowsResizerHook = WindowsAspectRatioResizer.Attach(this, AspectRatio);
         this.GetObservable(ClientSizeProperty).Subscribe(OnClientSizeChanged);
+        AttachViewboxHeightSync();
+    }
+
+    /// <summary>
+    /// 标题栏位于 Viewbox 之外且高度固定，窗口放大/缩小时内容区宽高比会轻微变化；
+    /// 同时不同子页面的内容宽度不一致，若 SukiSideMenu 只写死 Height="795"，
+    /// Viewbox 等比缩放后会在左侧菜单栏下方露出缝隙。
+    /// 这里固定设计宽度 1235，并根据 Viewbox 实际可用区域动态同步 SukiSideMenu.Height，
+    /// 使 Viewbox 缩放后的高度始终严丝合缝贴齐窗口底部。
+    /// </summary>
+    private void AttachViewboxHeightSync()
+    {
+        // 注意：不能监听 Viewbox 自身的 Bounds，因为 Avalonia 的 Viewbox.ArrangeOverride
+        // 返回的是按子元素宽高比缩放后的矩形，其宽高比永远等于子元素自身比例。
+        // 必须监听外层拉伸填充的 Panel（MainContentHost）的 Bounds，才能拿到标题栏下方的真实可用尺寸。
+        if (this.FindControl<Panel>("MainContentHost") is not { } contentHost ||
+            this.FindControl<SukiSideMenu>("MainSideMenu") is not { } mainSideMenu)
+        {
+            return;
+        }
+
+        contentHost.GetObservable(BoundsProperty).Subscribe(bounds =>
+        {
+            if (bounds.Width <= 0 || bounds.Height <= 0)
+            {
+                return;
+            }
+
+            double targetHeight = bounds.Height * (DesignContentWidth / bounds.Width);
+            if (Math.Abs(mainSideMenu.Height - targetHeight) > 0.5)
+            {
+                mainSideMenu.Height = targetHeight;
+            }
+        });
     }
 
     protected override void OnClosed(EventArgs e)

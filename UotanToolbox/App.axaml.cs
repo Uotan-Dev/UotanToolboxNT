@@ -31,10 +31,7 @@ public partial class App : Application
     public override void OnFrameworkInitializationCompleted()
     {
         // Load Language settings
-        CultureInfo CurCulture = Settings.Default.Language is not null and not ""
-            ? new CultureInfo(Settings.Default.Language, false)
-            : CultureInfo.CurrentCulture;
-        Assets.Resources.Culture = CurCulture;
+        Assets.Resources.Culture = FeaturesHelper.GetActiveCulture();
 
         // set up global device manager reference
         if (_provider is null)

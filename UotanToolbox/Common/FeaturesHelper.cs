@@ -11,6 +11,7 @@ namespace UotanToolbox.Common
     internal class FeaturesHelper
     {
         private static readonly ResourceManager resMgr = new ResourceManager("UotanToolbox.Assets.Resources", typeof(App).Assembly);
+        private static readonly CultureInfo SimplifiedChineseCulture = new("zh-CN", false);
 
         private static string BuildAdbArgs(string deviceId, string cmd)
         {
@@ -42,12 +43,49 @@ namespace UotanToolbox.Common
             return $"-t {deviceId} {cmd}";
         }
 
+        /// <summary>
+        /// 获取当前生效的区域性设置；未手动指定语言时，若系统为繁体中文则自动选择简体中文。
+        /// </summary>
+        public static CultureInfo GetActiveCulture()
+        {
+            if (!string.IsNullOrEmpty(Settings.Default.Language))
+            {
+                return new CultureInfo(Settings.Default.Language, false);
+            }
+
+            return ResolveSystemCulture(CultureInfo.CurrentCulture);
+        }
+
+        internal static CultureInfo ResolveSystemCulture(CultureInfo systemCulture)
+        {
+            return IsTraditionalChinese(systemCulture)
+                ? SimplifiedChineseCulture
+                : systemCulture;
+        }
+
+        private static bool IsTraditionalChinese(CultureInfo culture)
+        {
+            for (CultureInfo current = culture;
+                 current != null && !current.Equals(CultureInfo.InvariantCulture);
+                 current = current.Parent)
+            {
+                string name = current.Name;
+                if (name.Equals("zh-Hant", StringComparison.OrdinalIgnoreCase) ||
+                    name.Equals("zh-TW", StringComparison.OrdinalIgnoreCase) ||
+                    name.Equals("zh-HK", StringComparison.OrdinalIgnoreCase) ||
+                    name.Equals("zh-MO", StringComparison.OrdinalIgnoreCase) ||
+                    name.Equals("zh-CHT", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public static string GetTranslation(string key)
         {
-            CultureInfo CurCulture = Settings.Default.Language is not null and not ""
-                ? new CultureInfo(Settings.Default.Language, false)
-                : CultureInfo.CurrentCulture;
-            string? res = resMgr.GetString(key, CurCulture);
+            string? res = resMgr.GetString(key, GetActiveCulture());
             if (res == null)
             {
                 // missing translation, return key itself so UI shows something identifiable
